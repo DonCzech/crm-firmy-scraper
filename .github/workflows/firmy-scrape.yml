@@ -2,8 +2,8 @@ name: Firmy.cz Scrape
 
 on:
   schedule:
-    # Každých 45 minut — ~32 runs/den × ~1200 firem = ~38 000 firem/den
-    - cron: '*/45 * * * *'
+    # Každých 30 minut — ~48 runs/den × ~550 firem = ~26 000 firem/den → 1M za ~38 dní
+    - cron: '*/30 * * * *'
   workflow_dispatch:
     inputs:
       budget:
