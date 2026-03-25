@@ -1,0 +1,32 @@
+name: Firmy.cz Scrape
+
+on:
+  schedule:
+    # Každých 45 minut — ~32 runs/den × ~1200 firem = ~38 000 firem/den
+    - cron: '*/45 * * * *'
+  workflow_dispatch:
+    inputs:
+      budget:
+        description: 'Budget in seconds (max 290)'
+        required: false
+        default: '290'
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Call firmy-scrape cron
+        run: |
+          BUDGET="${{ github.event.inputs.budget || '290' }}"
+          RESPONSE=$(curl -s -w "\n%{http_code}" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "https://www.core.ceskypartner.cz/api/cron/firmy-scrape?budget=${BUDGET}")
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n-1)
+          echo "HTTP $HTTP_CODE"
+          echo "$BODY" | python3 -m json.tool 2>/dev/null || echo "$BODY"
+          if [ "$HTTP_CODE" != "200" ] && [ "$HTTP_CODE" != "201" ]; then
+            echo "ERROR: Unexpected HTTP status $HTTP_CODE"
+            exit 1
+          fi
