@@ -21,7 +21,7 @@ jobs:
           BUDGET="${{ github.event.inputs.budget || '290' }}"
           RESPONSE=$(curl -s -w "\n%{http_code}" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
-            "https://www.core.ceskypartner.cz/api/cron/firmy-scrape?budget=${BUDGET}")
+            "https://crm-api-dons-projects-c78c9c27.vercel.app/api/cron/firmy-scrape?budget=${BUDGET}")
           HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
           BODY=$(echo "$RESPONSE" | head -n-1)
           echo "HTTP $HTTP_CODE"
