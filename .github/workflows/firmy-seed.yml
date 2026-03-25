@@ -1,0 +1,19 @@
+name: Firmy.cz Seed Sitemap (one-time)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Seed URL queue from sitemaps
+        run: |
+          RESPONSE=$(curl -s -w "\n%{http_code}" --max-time 600 \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            "https://www.core.ceskypartner.cz/api/cron/firmy-seed-sitemap")
+          HTTP_CODE=$(echo "$RESPONSE" | tail -n1)
+          BODY=$(echo "$RESPONSE" | head -n-1)
+          echo "HTTP $HTTP_CODE"
+          echo "$BODY" | python3 -m json.tool 2>/dev/null || echo "$BODY"
