@@ -197,7 +197,9 @@ export function ProjectsPage() {
 
   useEffect(() => {
     function loadRealtime() {
-      fetchGaRealtime().then(setRealtime).catch(() => {});
+      fetchGaRealtime()
+        .then(d => { setRealtime(d); console.log('[realtime]', d); })
+        .catch(e => { console.error('[realtime error]', e); });
     }
     loadRealtime();
     const interval = setInterval(loadRealtime, 30_000);
