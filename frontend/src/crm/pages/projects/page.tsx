@@ -7,7 +7,7 @@ import {
 import { toast } from 'sonner';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { fetchGaDashboard } from '@/crm/services/backend';
+import { fetchGaDashboard, fetchGaRealtime, type GaRealtimeEntry } from '@/crm/services/backend';
 import { logFrontendError } from '@/crm/services/frontend-logger';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -80,7 +80,7 @@ function fmtDur(secs: number): string {
 
 // ─── Project card ─────────────────────────────────────────────────────────────
 
-function ProjectCard({ p }: { p: GaProperty }) {
+function ProjectCard({ p, liveUsers }: { p: GaProperty; liveUsers: number }) {
   const sparkData = p.chart.map(c => c.pageviews);
   const half = Math.floor(sparkData.length / 2);
   const prev = sparkData.slice(0, half).reduce((a, b) => a + b, 0);
@@ -112,6 +112,15 @@ function ProjectCard({ p }: { p: GaProperty }) {
             </div>
           </div>
           <div className="flex items-center gap-2 shrink-0">
+            {liveUsers > 0 && (
+              <span className="flex items-center gap-1 text-xs font-semibold text-emerald-600">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                </span>
+                {liveUsers} živě
+              </span>
+            )}
             {trend !== null && (
               <span className={`text-xs font-medium flex items-center gap-0.5 ${trend >= 0 ? 'text-emerald-500' : 'text-red-500'}`}>
                 {trend >= 0 ? <ArrowUpRight size={12} /> : <ArrowDownRight size={12} />}
@@ -184,6 +193,16 @@ export function ProjectsPage() {
   const [data, setData] = useState<GaProperty[]>([]);
   const [loading, setLoading] = useState(true);
   const [range, setRange] = useState('30d');
+  const [realtime, setRealtime] = useState<GaRealtimeEntry[]>([]);
+
+  useEffect(() => {
+    function loadRealtime() {
+      fetchGaRealtime().then(setRealtime).catch(() => {});
+    }
+    loadRealtime();
+    const interval = setInterval(loadRealtime, 30_000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const id = ++reqRef.current;
@@ -220,6 +239,19 @@ export function ProjectsPage() {
               {totalViews.toLocaleString('cs-CZ')} zobrazení · {totalVisitors.toLocaleString('cs-CZ')} uživatelů
             </span>
           )}
+          {realtime.length > 0 && (() => {
+            const total = realtime.reduce((s, r) => s + r.activeUsers, 0);
+            if (total === 0) return null;
+            return (
+              <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                </span>
+                {total} živě
+              </span>
+            );
+          })()}
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1">
@@ -255,7 +287,7 @@ export function ProjectsPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {data.map(p => (
-              <ProjectCard key={p.slug} p={p} />
+              <ProjectCard key={p.slug} p={p} liveUsers={realtime.find(r => r.slug === p.slug)?.activeUsers ?? 0} />
             ))}
           </div>
         )}
