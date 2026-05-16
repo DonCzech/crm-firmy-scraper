@@ -31,7 +31,7 @@ let ACTIVE_API_BASE_URL = API_BASE_CANDIDATES[0] ?? LOCAL_API_URL;
 
 const TOKEN_KEYS = ['crm_access_token', 'accessToken', 'token', 'auth_token'];
 
-type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
+type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 export interface ListResponse<T> {
   data: T[];
@@ -5381,6 +5381,51 @@ export interface GoogleAdsActiveAd {
   imageUrls: string[];
 }
 
+export interface GoogleAdsCompetitorAd {
+  adId: string;
+  advertiserName: string;
+  adType: 'IMAGE' | 'VIDEO' | 'TEXT' | 'UNKNOWN';
+  headlines: string[];
+  descriptions: string[];
+  imageUrls: string[];
+  videoUrls: string[];
+  landingPageUrls: string[];
+  placements: string[];
+  regions: string[];
+  firstSeen: string | null;
+  lastSeen: string | null;
+  sourceUrl: string;
+  isActive?: boolean;
+  sourceRegion?: string;
+}
+
+export interface GoogleAdsCompetitorAdsResult {
+  domain: string;
+  region: string;
+  fetchedAt: string;
+  source: 'google-ads-transparency';
+  cached: boolean;
+  total: number;
+  limitations: string[];
+  ads: GoogleAdsCompetitorAd[];
+  scannedRegions?: string[];
+  refreshStatus?: {
+    running: boolean;
+    startedAt: string | null;
+    finishedAt: string | null;
+    lastError: string | null;
+    processedRegions: number;
+    totalRegions: number;
+  };
+  sync?: {
+    inserted: number;
+    updated: number;
+    unchanged: number;
+    deactivated: number;
+    source: 'scrape' | 'database-fallback' | 'database-cache' | 'background-started' | 'manual-import';
+  };
+}
+
 export interface BackendProjectListItem {
   id: string;
   key: string;
@@ -5419,6 +5464,31 @@ export async function fetchGoogleAdsActiveAds(customerId: string, domainUrl: str
   );
 }
 
+export async function fetchGoogleAdsCompetitorAds(payload: {
+  domain: string;
+  region?: string;
+  limit?: number;
+  refresh?: boolean;
+}) {
+  const query = new URLSearchParams({ domain: payload.domain || '' });
+  if (payload.region && payload.region.trim().length > 0) query.set('region', payload.region.trim());
+  if (typeof payload.limit === 'number' && Number.isFinite(payload.limit)) {
+    query.set('limit', String(Math.max(1, Math.floor(payload.limit))));
+  }
+  if (payload.refresh === true) query.set('refresh', 'true');
+  return requestLocalPreferred<GoogleAdsCompetitorAdsResult>(`/google-ads/competitor-ads?${query.toString()}`);
+}
+
+export async function importGoogleAdsCompetitorUrls(payload: {
+  domain: string;
+  region?: string;
+  urls?: string[];
+  rawText?: string;
+  limit?: number;
+}) {
+  return requestLocalPreferred<GoogleAdsCompetitorAdsResult>('/google-ads/competitor-ads/import-urls', 'POST', payload);
+}
+
 export async function publishGoogleAdsCreative(payload: PublishGoogleAdsPayload) {
   return requestLocalPreferred<{ ok: boolean; type: string; resourceName: string; imageAsset?: string | null }>(
     '/google-ads/publish',
@@ -5433,4 +5503,154 @@ export async function generateGoogleAdsCopy(payload: GoogleAdsGenerateCopyPayloa
     'POST',
     payload,
   );
+}
+
+// ── Administration ────────────────────────────────────────────────────────────
+
+export interface AdminProjectConfig {
+  id: string;
+  name: string;
+  domain: string;
+  color: string;
+  icon: string;
+  category: 'saas' | 'tool' | 'platform';
+}
+
+export interface AdminProjectStats {
+  projectId: string;
+  name: string;
+  domain: string;
+  color: string;
+  icon: string;
+  category: string;
+  online: boolean;
+  stats: {
+    totalUsers?: number;
+    activeSubscriptions?: number;
+    mrr?: number;
+    lastSignup?: string | null;
+    totalTenants?: number;
+    activeTenants?: number;
+    paidTenants?: number;
+    totalResumes?: number;
+    totalTests?: number;
+    newUsersMonth?: number;
+    [key: string]: unknown;
+  } | null;
+}
+
+export interface AdminUser {
+  id: string;
+  email: string;
+  name?: string | null;
+  role: string;
+  status: string;
+  plan: string;
+  createdAt: string;
+  emailVerified?: string | null;
+  subscription?: { plan: string; status: string; stripeCurrentPeriodEnd?: string } | null;
+  testCount?: number;
+  resumeCount?: number;
+  feedCount?: number;
+  tenantCount?: number;
+  projectId?: string;
+  projectName?: string;
+  projectIcon?: string;
+  projectColor?: string;
+}
+
+export interface AdminUsersResponse {
+  users: AdminUser[];
+  total: number;
+  page: number;
+  limit: number;
+}
+
+export async function fetchAdminProjects(): Promise<AdminProjectConfig[]> {
+  return request<AdminProjectConfig[]>('/administration/projects');
+}
+
+export async function fetchAdminAllStats(): Promise<AdminProjectStats[]> {
+  return request<AdminProjectStats[]>('/administration/stats');
+}
+
+export async function fetchAdminProjectStats(projectId: string): Promise<AdminProjectStats> {
+  return request<AdminProjectStats>(`/administration/projects/${projectId}/stats`);
+}
+
+export async function fetchAdminProjectUsers(
+  projectId: string,
+  params: { page?: number; limit?: number; search?: string; role?: string }
+): Promise<AdminUsersResponse> {
+  const q = new URLSearchParams();
+  if (params.page) q.set('page', String(params.page));
+  if (params.limit) q.set('limit', String(params.limit));
+  if (params.search) q.set('search', params.search);
+  if (params.role) q.set('role', params.role);
+  return request<AdminUsersResponse>(`/administration/projects/${projectId}/users?${q}`);
+}
+
+export async function fetchAdminUser(projectId: string, userId: string): Promise<AdminUser> {
+  return request<AdminUser>(`/administration/projects/${projectId}/users/${userId}`);
+}
+
+export async function adminSearchAllUsers(q: string): Promise<AdminUser[]> {
+  return request<AdminUser[]>(`/administration/search?q=${encodeURIComponent(q)}`);
+}
+
+export async function adminBlockUser(projectId: string, userId: string): Promise<{ success: boolean }> {
+  return request(`/administration/projects/${projectId}/users/${userId}/block`, 'POST');
+}
+
+export async function adminUnblockUser(projectId: string, userId: string): Promise<{ success: boolean }> {
+  return request(`/administration/projects/${projectId}/users/${userId}/unblock`, 'POST');
+}
+
+export async function adminUpdateUser(
+  projectId: string,
+  userId: string,
+  data: Record<string, unknown>
+): Promise<{ success: boolean }> {
+  return request(`/administration/projects/${projectId}/users/${userId}`, 'PUT', { data });
+}
+
+export async function adminSetSubscription(
+  projectId: string,
+  userId: string,
+  data: { plan: string; status: string }
+): Promise<{ success: boolean }> {
+  return request(`/administration/projects/${projectId}/users/${userId}/subscription`, 'POST', data);
+}
+
+export async function adminCancelSubscription(projectId: string, userId: string): Promise<{ success: boolean }> {
+  return request(`/administration/projects/${projectId}/users/${userId}/subscription`, 'DELETE');
+}
+
+export async function adminDeleteUser(projectId: string, userId: string): Promise<{ success: boolean }> {
+  return request(`/administration/projects/${projectId}/users/${userId}`, 'DELETE');
+}
+
+export async function fetchVenomTenants(
+  params: { page?: number; limit?: number; search?: string }
+): Promise<{ tenants: Record<string, unknown>[]; total: number; page: number; limit: number }> {
+  const q = new URLSearchParams();
+  if (params.page) q.set('page', String(params.page));
+  if (params.limit) q.set('limit', String(params.limit));
+  if (params.search) q.set('search', params.search);
+  return request(`/administration/venom/tenants?${q}`);
+}
+
+export async function updateVenomTenant(
+  tenantId: string,
+  data: Record<string, unknown>
+): Promise<{ success: boolean }> {
+  return request(`/administration/venom/tenants/${tenantId}`, 'PUT', data);
+}
+
+export async function blockVenomTenant(tenantId: string): Promise<{ success: boolean }> {
+  return request(`/administration/venom/tenants/${tenantId}/block`, 'POST');
+}
+
+export async function activateVenomTenant(tenantId: string): Promise<{ success: boolean }> {
+  return request(`/administration/venom/tenants/${tenantId}/activate`, 'POST');
 }
