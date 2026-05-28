@@ -100,6 +100,28 @@ async function discoverTemplates(): Promise<PreviewItem[]> {
       const previewFsPath = path.join(process.cwd(), "public", "templates", key, "preview.png");
       const hasScreenshot = existsSync(previewFsPath);
 
+      const variants: PreviewItem["variants"] = [
+        {
+          kind: "core",
+          label: "Core",
+          demoSlug,
+          tenantStatus: tenant?.status ?? "missing",
+          accessToken: tenant?.access_token ?? null,
+        },
+      ];
+      if (tenant?.id) {
+        const showcases = showcasesByParent.get(tenant.id) ?? [];
+        for (const sc of showcases) {
+          variants.push({
+            kind: "showcase",
+            label: "Ukázková",
+            demoSlug: sc.slug,
+            tenantStatus: sc.status,
+            accessToken: sc.access_token,
+          });
+        }
+      }
+
       items.push({
         key: manifest.key,
         name: manifest.name,
@@ -115,30 +137,8 @@ async function discoverTemplates(): Promise<PreviewItem[]> {
         tenantStatus: tenant?.status ?? "missing",
         accessToken: tenant?.access_token ?? null,
         showcaseKind: null,
+        variants,
       });
-
-      // Showcase children of this master tenant
-      if (tenant?.id) {
-        const showcases = showcasesByParent.get(tenant.id) ?? [];
-        for (const sc of showcases) {
-          items.push({
-            key: `${manifest.key}-showcase`,
-            name: `${manifest.name} — Showcase`,
-            industry: manifest.industry,
-            category: INDUSTRY_LABELS[manifest.industry] ?? INDUSTRY_LABELS.default,
-            version: manifest.version,
-            description: `Showcase verze (${sc.showcase_kind ?? "filled"}) — vyplněná demo data. Strukturální změny sync z master přes \`pnpm sync:showcase ${manifest.key}\`.`,
-            baseTemplate: manifest.key,
-            primaryColor: theme?.colors?.primary ?? "#1f1f1f",
-            accentColor: theme?.colors?.accent ?? theme?.colors?.secondary ?? "#9ca3af",
-            screenshot: hasScreenshot ? previewPath : null,
-            demoSlug: sc.slug,
-            tenantStatus: sc.status,
-            accessToken: sc.access_token,
-            showcaseKind: sc.showcase_kind ?? "filled",
-          });
-        }
-      }
     } catch {
       // ignore broken manifest
     }

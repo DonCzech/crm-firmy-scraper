@@ -17,6 +17,13 @@ export interface PreviewItem {
   tenantStatus: string;
   accessToken: string | null;
   showcaseKind: string | null;
+  variants?: Array<{
+    kind: "core" | "showcase";
+    label: string;
+    demoSlug: string;
+    tenantStatus: string;
+    accessToken: string | null;
+  }>;
 }
 
 interface Props {
@@ -131,7 +138,12 @@ function CategoryPill({ active, onClick, children }: { active: boolean; onClick:
 }
 
 function TemplateCard({ item }: { item: PreviewItem }) {
-  const isLive = item.tenantStatus !== "missing" && item.tenantStatus !== "suspended";
+  const variants = item.variants && item.variants.length > 0
+    ? item.variants
+    : [{ kind: "core" as const, label: "Core", demoSlug: item.demoSlug, tenantStatus: item.tenantStatus, accessToken: item.accessToken }];
+  const [activeKind, setActiveKind] = useState<"core" | "showcase">(variants[0].kind);
+  const active = variants.find((v) => v.kind === activeKind) ?? variants[0];
+  const isLive = active.tenantStatus !== "missing" && active.tenantStatus !== "suspended";
   return (
     <div className="bg-[#111114] border border-[#1f1f23] rounded-xl overflow-hidden flex flex-col hover:border-[#2d2d31] transition-colors">
       {/* Preview */}
@@ -166,13 +178,31 @@ function TemplateCard({ item }: { item: PreviewItem }) {
           <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-black/60 backdrop-blur text-white border border-white/10">
             engine v2
           </span>
-          {item.showcaseKind && (
-            <span className="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-500/90 text-black backdrop-blur uppercase tracking-wider">
-              Showcase
-            </span>
-          )}
         </div>
       </div>
+
+      {/* Variant tabs */}
+      {variants.length > 1 && (
+        <div className="flex border-b border-[#1f1f23] bg-[#0a0a0b]">
+          {variants.map((v) => {
+            const isActive = v.kind === activeKind;
+            return (
+              <button
+                key={v.kind}
+                onClick={() => setActiveKind(v.kind)}
+                className={
+                  "flex-1 text-[11px] font-semibold uppercase tracking-wider py-2.5 transition-colors " +
+                  (isActive
+                    ? (v.kind === "core" ? "text-emerald-400 border-b-2 border-emerald-400 -mb-px" : "text-amber-400 border-b-2 border-amber-400 -mb-px")
+                    : "text-zinc-500 hover:text-zinc-300")
+                }
+              >
+                {v.label}
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {/* Info */}
       <div className="p-5 flex-1 flex flex-col gap-2">
@@ -196,15 +226,17 @@ function TemplateCard({ item }: { item: PreviewItem }) {
 
       {/* Actions */}
       <div className="px-5 pb-5 flex flex-col gap-2">
-        {isLive && item.accessToken ? (
+        {isLive && active.accessToken ? (
           <>
             <div className="bg-[#0a0a0b] border border-[#1f1f23] rounded-lg px-3 py-2">
-              <div className="text-[9px] text-zinc-500 uppercase tracking-wider mb-0.5">Admin heslo</div>
-              <code className="text-[12px] font-mono break-all" style={{ color: item.accentColor }}>{item.accessToken}</code>
+              <div className="text-[9px] text-zinc-500 uppercase tracking-wider mb-0.5">
+                Admin heslo {variants.length > 1 && <span className="text-zinc-600">· {active.label}</span>}
+              </div>
+              <code className="text-[12px] font-mono break-all" style={{ color: item.accentColor }}>{active.accessToken}</code>
             </div>
             <div className="flex gap-2">
               <a
-                href={`/demo/${item.demoSlug}`}
+                href={`/demo/${active.demoSlug}`}
                 target="_blank"
                 rel="noopener"
                 className="flex-1 text-center text-[12px] font-semibold py-2.5 rounded-lg bg-[#1e1e21] hover:bg-[#27272a] border border-[#2a2a2e] text-zinc-200 transition-colors"
@@ -212,7 +244,7 @@ function TemplateCard({ item }: { item: PreviewItem }) {
                 Náhled
               </a>
               <a
-                href={`/demo/${item.demoSlug}/login`}
+                href={`/demo/${active.demoSlug}/login`}
                 target="_blank"
                 rel="noopener"
                 className="flex-1 text-center text-[12px] font-semibold py-2.5 rounded-lg bg-zinc-200 hover:bg-white text-black transition-colors"
@@ -220,7 +252,7 @@ function TemplateCard({ item }: { item: PreviewItem }) {
                 Editor
               </a>
               <a
-                href={`/demo/${item.demoSlug}/studio`}
+                href={`/demo/${active.demoSlug}/studio`}
                 target="_blank"
                 rel="noopener"
                 className="flex-1 text-center text-[12px] font-semibold py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition-colors"
