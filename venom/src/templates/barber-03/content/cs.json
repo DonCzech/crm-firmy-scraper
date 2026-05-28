@@ -44,6 +44,8 @@
     "address": "Ukázková 123\n110 00 Praha 1",
     "phone": "+420 704 123 456",
     "email": "info@demo.cz",
+    "kontaktyTitle": "Kontakty",
+    "mapEmbedUrl": "https://maps.google.com/maps?q=Ukazkova+123+Praha+1&t=&z=15&ie=UTF8&iwloc=&output=embed",
     "hoursTitle": "Otevírací doba",
     "hours": [
       { "day": "Po–Pá", "value": "9:00 – 18:00" },

@@ -90,6 +90,7 @@ export const SECTION_VARIANTS: Record<string, VariantMeta[]> = {
     { key: "6col",        label: "Patička – 6 sloupců",   description: "6-sloupcová patička (cafe-01)", industries: ["cafe"] },
     { key: "barber-dark", label: "Patička – tmavá",       description: "Tmavá patička pro barber",     industries: ["barber"] },
     { key: "barber-luxury", label: "Patička – luxusní 2-col (barber-02)", description: "2-sloupcová patička, kontakt+social vlevo, hodiny vpravo", industries: ["barber"] },
+    { key: "footer-map-contact", label: "Patička – mapa + kontakty (barber-03)", description: "Velká mapa vlevo (75%) + kontakt widget vpravo (25%) s hodinami a sociálními ikonkami", industries: ["barber", "wellness"] },
   ],
   "rezora-cta": [
     { key: "default",     label: "Rezervace CTA",         description: "Tlačítko pro online rezervaci", industries: ["barber", "wellness"] },

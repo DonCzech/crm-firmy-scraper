@@ -47,6 +47,7 @@ export function GallerySection({ content, variant, sectionId }: Props) {
 
   if (variant === "four-col" || variant === "four-col-contained") {
     const contained = variant === "four-col-contained";
+    const tileRadius = contained ? 0 : 0;
     return (
       <section
         style={{
@@ -90,12 +91,12 @@ export function GallerySection({ content, variant, sectionId }: Props) {
               src={img.url!}
               alt={img.alt || ""}
               className="relative w-full"
-              style={{ overflow: "hidden" }}
+              style={{ overflow: "hidden", borderRadius: 0 }}
             >
               <button
                 type="button"
                 className="relative block w-full overflow-hidden border-0 bg-transparent p-0"
-                style={{ aspectRatio: "1 / 1", cursor: "zoom-in" }}
+                style={{ aspectRatio: "1 / 1", cursor: "zoom-in", borderRadius: 0 }}
                 onClick={() => setActiveImage(img)}
                 aria-label="Zobrazit větší obrázek"
               >
