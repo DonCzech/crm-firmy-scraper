@@ -25,5 +25,16 @@
         { "icon": "instagram", "label": "Instagram", "href": "https://instagram.com/demo" }
       ]
     }
+  },
+
+  "hero": {
+    "title": "Pánský střih jako tradiční řemeslo",
+    "subtitle": "",
+    "ctaText": "",
+    "ctaHref": "",
+    "backgroundImage": { "__placeholder": [1920, 1280, "Hero — warm dark holičství"] },
+    "hoursLines": [],
+    "address": "",
+    "scrollIndicator": false
   }
 }

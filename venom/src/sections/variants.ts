@@ -12,6 +12,7 @@ export const SECTION_VARIANTS: Record<string, VariantMeta[]> = {
     { key: "hero-split", label: "Hero – split", description: "Split: text vlevo + obrázek vpravo, svislá coral linka", industries: ["barber"] },
     { key: "hero-luxury-dark", label: "Hero – tmavý luxusní", description: "Tmavý hero pro barber/luxus", industries: ["barber", "lawyer"] },
     { key: "hero-barber-luxury", label: "Hero – luxusní centrovaný (barber-02)", description: "Centrovaný serif title, ghost CTA, info blok pod CTA, scroll indicator", industries: ["barber"] },
+    { key: "hero-barber-titleonly", label: "Hero – luxusní title-only (barber-03)", description: "Centrovaný serif title bez CTA/info/subtitle, fluid font pro delší titulky", industries: ["barber"] },
     { key: "hero-split-image", label: "Hero – split obrázek", description: "Hero s obrázkem napravo", industries: ["*"] },
     { key: "hero-cafe-wave", label: "Hero – kavárna vlna", description: "Full-bleed hero s wave-mask (cafe-01)", industries: ["cafe"] },
     { key: "hero-centered", label: "Hero – centrovaný", description: "Centrovaný nadpis pro podstránky", industries: ["*"] },

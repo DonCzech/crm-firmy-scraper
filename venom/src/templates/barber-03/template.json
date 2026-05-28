@@ -27,7 +27,8 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar", "variant": "barber-overlay-promo", "contentRef": "navbar" }
+        { "type": "navbar", "variant": "barber-overlay-promo", "contentRef": "navbar" },
+        { "type": "hero",   "variant": "hero-barber-titleonly",  "contentRef": "hero" }
       ]
     }
   ],

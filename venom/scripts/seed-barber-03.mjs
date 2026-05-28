@@ -10,7 +10,7 @@ const del = await pool.query(`DELETE FROM tenants WHERE slug=$1 RETURNING id`, [
 console.log(`cleanup removed ${del.rowCount}`);
 const res = await fetch(`${baseUrl}/api/onboarding`, {
   method: 'POST',
-  headers: { 'Content-Type': 'application/json', Origin: baseUrl, Referer: baseUrl + '/' },
+  headers: { 'Content-Type': 'application/json', Origin: baseUrl, Referer: baseUrl + '/', 'X-Forwarded-For': '10.0.0.' + Math.floor(Math.random()*250) },
   body: JSON.stringify({ email: EMAIL, templateKey: TEMPLATE_KEY, industry: INDUSTRY, slug: SLUG })
 });
 const body = await res.json().catch(() => ({}));
