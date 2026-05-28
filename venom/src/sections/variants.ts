@@ -47,6 +47,7 @@ export const SECTION_VARIANTS: Record<string, VariantMeta[]> = {
   gallery: [
     { key: "default",   label: "Galerie – výchozí",   description: "Mřížka 2–3 sloupce s lightboxem",         industries: ["*"] },
     { key: "four-col",  label: "Galerie – 4 sloupce", description: "4-sloupcová čtvercová galerie, tmavé bg",  industries: ["barber", "tattoo"] },
+    { key: "four-col-contained", label: "Galerie – 4 sloupce (kontejner)", description: "4-sloupcová galerie s max-width, gap 16px a title (barber-03)", industries: ["barber", "tattoo"] },
     { key: "masonry",   label: "Galerie – masonry",   description: "Nepravidelná mřížka",                      industries: ["*"] },
     { key: "grid",      label: "Galerie – mřížka",    description: "Pravidelná mřížka",                        industries: ["*"] },
   ],

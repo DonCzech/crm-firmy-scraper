@@ -85,6 +85,10 @@
     "notes": [
       "Ke každé službě podáváme čerstvou kávu, vodu nebo drink.",
       "Ceny jsou orientační — finální cena záleží na délce vlasů a zvoleném ošetření."
+    ],
+    "ctas": [
+      { "label": "Kompletní ceník",  "href": "#cenik",      "primary": true  },
+      { "label": "Online rezervace", "href": "#rezervace",  "primary": false }
     ]
   },
 

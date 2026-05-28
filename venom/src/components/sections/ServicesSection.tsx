@@ -317,6 +317,7 @@ export function ServicesSection({ content, variant, sectionId }: Props) {
     const columns = (content.columns as string[]) ?? [];
     const rows = (content.rows as Array<{ service: string; prices: string[] }>) ?? [];
     const notes = (content.notes as string[]) ?? [];
+    const ctas = (content.ctas as Array<{ label: string; href: string; primary?: boolean }>) ?? [];
     return (
       <section style={{ backgroundColor: "#0f0a07", padding: "100px 0" }} data-template="barber-03">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-10 grid gap-12 lg:gap-16" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(420px, 100%), 1fr))" }}>
@@ -382,6 +383,33 @@ export function ServicesSection({ content, variant, sectionId }: Props) {
                     <GenericEditableText sectionId={sectionId} field={`notes.${ni}`} value={n} tag="span" />
                   </p>
                 ))}
+              </div>
+            )}
+            {ctas.length > 0 && (
+              <div className="mt-8 flex flex-wrap gap-4">
+                {ctas.map((cta, ci) => {
+                  const isPrimary = cta.primary !== false;
+                  return (
+                    <a
+                      key={ci}
+                      href={cta.href}
+                      className="inline-block uppercase no-underline transition-colors"
+                      style={{
+                        border: isPrimary ? "1.5px solid #c8a96e" : "1.5px solid rgba(255,255,255,0.8)",
+                        backgroundColor: isPrimary ? "#c8a96e" : "transparent",
+                        color: isPrimary ? "#1c1410" : "#fff",
+                        fontFamily: "var(--font-body)",
+                        fontSize: 12,
+                        fontWeight: 600,
+                        letterSpacing: "0.18em",
+                        padding: "14px 28px",
+                        borderRadius: 2,
+                      }}
+                    >
+                      <GenericEditableText sectionId={sectionId} field={`ctas.${ci}.label`} value={cta.label} tag="span" />
+                    </a>
+                  );
+                })}
               </div>
             )}
           </div>
