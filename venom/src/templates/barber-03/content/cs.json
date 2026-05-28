@@ -38,6 +38,20 @@
     "scrollIndicator": false
   },
 
+  "gallery": {
+    "title": "Galerie",
+    "images": [
+      { "url": { "__placeholder": [1000, 1000, "Galerie 1"] }, "alt": "Demo galerie 1" },
+      { "url": { "__placeholder": [1000, 1000, "Galerie 2"] }, "alt": "Demo galerie 2" },
+      { "url": { "__placeholder": [1000, 1000, "Galerie 3"] }, "alt": "Demo galerie 3" },
+      { "url": { "__placeholder": [1000, 1000, "Galerie 4"] }, "alt": "Demo galerie 4" },
+      { "url": { "__placeholder": [1000, 1000, "Galerie 5"] }, "alt": "Demo galerie 5" },
+      { "url": { "__placeholder": [1000, 1000, "Galerie 6"] }, "alt": "Demo galerie 6" },
+      { "url": { "__placeholder": [1000, 1000, "Galerie 7"] }, "alt": "Demo galerie 7" },
+      { "url": { "__placeholder": [1000, 1000, "Galerie 8"] }, "alt": "Demo galerie 8" }
+    ]
+  },
+
   "pricing": {
     "leftTitle": "O salónu Břitva",
     "rightTitle": "Holičské služby",
