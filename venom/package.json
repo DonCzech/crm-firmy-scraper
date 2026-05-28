@@ -15,6 +15,7 @@
     "diff:section": "node scripts/diff-section.mjs",
     "test:studio": "node scripts/test-studio-section.mjs",
     "sync:showcase": "node scripts/sync-showcase.mjs",
+    "seed:showcase": "node scripts/seed-showcase.mjs",
     "seed:showcase:barber-03": "node scripts/seed-barber-03-showcase.mjs"
   },
   "dependencies": {

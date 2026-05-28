@@ -84,6 +84,24 @@ Po průchodu validátorem musí proběhnout **grep audit**:
 
 Pokud je v grep auditu nalezen jakýkoliv reálný kontakt → šablona **NENÍ** `DONE`.
 
+### 3c. SHOWCASE CHILD — POVINNÁ BRÁNA (DONE-blocker)
+Po průchodu validátorem + grep auditem **MUSÍ** být vytvořen showcase child tenant:
+
+```bash
+pnpm seed:showcase <engine-slug>
+# Pokud master master má slug `<engine-slug>-v2`, showcase se vytvoří jako
+# `<engine-slug>-showcase` (parent_tenant_id = master.id, showcase_kind="filled").
+```
+
+Showcase se objeví v `/preview-2` jako **tab "Ukázková"** vedle Core verze (master).
+Slouží jako prostor pro vyplněnou verzi šablony s reálnými demo obrázky/texty —
+**uživatel ji manuálně vyplní přes Studio**, NIKDY Sonnet automaticky.
+
+Strukturální změny master → showcase: `pnpm sync:showcase <engine-slug>` (manuální).
+Content overrides v showcase se zachovají (detekce přes `last_master_baseline` snapshot).
+
+**Pokud showcase tenant neexistuje, šablona NENÍ `DONE`.** Žádné výjimky.
+
 ### 4. KONTINUITA — NAVAZOVÁNÍ NA PŘEDCHOZÍ ŠABLONU
 - Sonnet vždy čte **stav předchozí dokončené šablony** (poslední `DONE` v tabulce níže) a její `README.md` v `src/templates/<predchozi-slug>/`.
 - Reuse: pokud předchozí šablona zavedla novou variantu sdílené sekce (např. `hero:cafe-wave`), nová šablona ji **smí použít**, ne kopírovat.
