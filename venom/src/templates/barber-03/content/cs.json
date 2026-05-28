@@ -38,6 +38,17 @@
     "scrollIndicator": false
   },
 
+  "testimonials": {
+    "title": "Recenze",
+    "testimonials": [
+      { "name": "Jan Novák", "rating": 5, "text": "Profesionální přístup od první návštěvy. Holení horkým ručníkem je rituál sám o sobě. Doporučuji každému." },
+      { "name": "Petra Svobodová", "rating": 5, "text": "Manželovi tady stříhají vlasy už druhý rok a vždy odchází spokojený. Atmosféra je výborná." },
+      { "name": "Tomáš Dvořák", "rating": 5, "text": "Klasický střih a úprava vousů — přesně to, co jsem hledal. Tým rozumí řemeslu." },
+      { "name": "Eva Procházková", "rating": 5, "text": "Brala jsem syna na první dětský střih. Trpěliví, přátelští, profesionální. Hned jsme se objednali zpátky." },
+      { "name": "Martin Černý", "rating": 5, "text": "Konečně místo, kde se vyznají v dlouhých vlasech. Předtím to byla loterie." }
+    ]
+  },
+
   "promo": {
     "cards": [
       {

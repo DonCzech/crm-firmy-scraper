@@ -52,6 +52,7 @@ export const SECTION_VARIANTS: Record<string, VariantMeta[]> = {
     { key: "default", label: "Reference – výchozí", description: "Statické kartičky (3 sloupce)", industries: ["*"] },
     { key: "slider", label: "Reference – slider", description: "Posuvné reference", industries: ["*"] },
     { key: "static", label: "Reference – karty", description: "Statické kartičky", industries: ["*"] },
+    { key: "barber-dark-3col", label: "Reference – tmavé 3-col (barber-03)", description: "3-sloupcové karty na warm dark s gold accent", industries: ["barber"] },
   ],
   contact: [
     { key: "default", label: "Kontakt – výchozí", description: "Kontaktní údaje", industries: ["*"] },
