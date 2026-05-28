@@ -70,6 +70,9 @@ export const SECTION_VARIANTS: Record<string, VariantMeta[]> = {
   map: [
     { key: "default", label: "Mapa", description: "Google Maps", industries: ["*"] },
   ],
+  promo: [
+    { key: "promo-2cards", label: "Promo – 2 karty (barber-03)", description: "Dvojice akčních karet s bg image, bullety v gold a popiskem", industries: ["barber", "wellness"] },
+  ],
   navbar: [
     { key: "default",          label: "Navigace",                description: "Hlavní navigace",                          industries: ["*"] },
     { key: "barber-overlay",   label: "Navigace – průhledná",    description: "Fixní průhledná navigace přes hero (the-barber)", industries: ["barber"] },

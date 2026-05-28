@@ -36,5 +36,20 @@
     "hoursLines": [],
     "address": "",
     "scrollIndicator": false
+  },
+
+  "promo": {
+    "cards": [
+      {
+        "bgImage": { "__placeholder": [800, 600, "Promo karta 1"] },
+        "bullets": ["Káva", "Voda", "Drink"],
+        "desc": "Ke každé objednané službě v našem studiu."
+      },
+      {
+        "bgImage": { "__placeholder": [800, 600, "Promo karta 2"] },
+        "bullets": ["Dárek"],
+        "desc": "Každá 5. návštěva — věrnostní dárek od Studia Břitva."
+      }
+    ]
   }
 }
