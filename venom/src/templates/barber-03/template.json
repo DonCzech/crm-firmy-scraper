@@ -31,7 +31,8 @@
         { "type": "hero",   "variant": "hero-barber-titleonly",  "contentRef": "hero" },
         { "type": "promo",         "variant": "promo-2cards",        "contentRef": "promo" },
         { "type": "testimonials",  "variant": "barber-dark-3col",    "contentRef": "testimonials" },
-        { "type": "about",         "variant": "about-barber-luxury", "contentRef": "about" }
+        { "type": "about",         "variant": "about-barber-luxury", "contentRef": "about" },
+        { "type": "pricing",       "variant": "pricing-table-video", "contentRef": "pricing" }
       ]
     }
   ],

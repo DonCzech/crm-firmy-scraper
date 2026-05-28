@@ -38,6 +38,25 @@
     "scrollIndicator": false
   },
 
+  "pricing": {
+    "leftTitle": "O salónu Břitva",
+    "rightTitle": "Holičské služby",
+    "videoPoster": { "__placeholder": [1200, 675, "Video — holičské studio"] },
+    "columns": ["Junior", "Barber / Pro", "Senior / Top"],
+    "rows": [
+      { "service": "Klasický střih",                "prices": ["400 Kč", "550 Kč", "700 Kč"] },
+      { "service": "Střih a úprava vousů",          "prices": ["500 Kč", "750 Kč", "900 Kč"] },
+      { "service": "Střih dlouhých vlasů",          "prices": ["400 Kč", "650 Kč", "800 Kč"] },
+      { "service": "Holení horkým ručníkem",        "prices": ["—",      "450 Kč", "550 Kč"] },
+      { "service": "Úprava vousů",                  "prices": ["250 Kč", "350 Kč", "450 Kč"] },
+      { "service": "Dětský střih (5–12 let)",       "prices": ["350 Kč", "400 Kč", "450 Kč"] }
+    ],
+    "notes": [
+      "Ke každé službě podáváme čerstvou kávu, vodu nebo drink.",
+      "Ceny jsou orientační — finální cena záleží na délce vlasů a zvoleném ošetření."
+    ]
+  },
+
   "about": {
     "title": "O nás",
     "lead": "Pánská péče je řemeslo. Ve Studiu Břitva věnujeme každému zákazníkovi tolik času, kolik si zaslouží — bez spěchu, s důrazem na detail a tradiční techniky.",

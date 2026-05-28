@@ -37,10 +37,12 @@ export const SECTION_VARIANTS: Record<string, VariantMeta[]> = {
     { key: "pricing-rows", label: "Ceník – řádky",   description: "Řádkový ceník s cenou a délkou",           industries: ["barber", "wellness"] },
     { key: "pricing-cols", label: "Ceník – sloupce", description: "3-sloupcový ceník s kategoriemi, tmavé bg", industries: ["barber", "wellness"] },
     { key: "pricing-urban", label: "Ceník – urban", description: "Číslovaný ceník s large čísly, dark urban styl", industries: ["barber"] },
+    { key: "pricing-table-video", label: "Ceník – tabulka + video (barber-03)", description: "Video vlevo + 4-col tabulka služeb vpravo na warm dark", industries: ["barber"] },
     { key: "icon-grid", label: "Služby – ikony", description: "Ikony s popisky", industries: ["*"] },
   ],
   pricing: [
     { key: "pricing-list", label: "Ceník – seznam", description: "Seznam s cenami", industries: ["*"] },
+    { key: "pricing-table-video", label: "Ceník – tabulka + video (barber-03)", description: "Video vlevo + 4-col tabulka služeb vpravo na warm dark", industries: ["barber"] },
   ],
   gallery: [
     { key: "default",   label: "Galerie – výchozí",   description: "Mřížka 2–3 sloupce s lightboxem",         industries: ["*"] },
