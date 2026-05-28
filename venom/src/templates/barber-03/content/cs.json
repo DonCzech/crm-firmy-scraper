@@ -38,6 +38,23 @@
     "scrollIndicator": false
   },
 
+  "footer": {
+    "logoUrl": "/templates/barber-03/logo.svg",
+    "siteName": "Studio Břitva",
+    "address": "Ukázková 123\n110 00 Praha 1",
+    "phone": "+420 704 123 456",
+    "email": "info@demo.cz",
+    "hoursTitle": "Otevírací doba",
+    "hours": [
+      { "day": "Po–Pá", "value": "9:00 – 18:00" },
+      { "day": "So",    "value": "9:00 – 14:00" }
+    ],
+    "socials": [
+      { "label": "Instagram", "href": "https://instagram.com/demo" }
+    ],
+    "legal": "Studio Břitva s.r.o. · IČO 12345678 · DIČ CZ12345678 · Ukázková 123, 110 00 Praha 1"
+  },
+
   "gallery": {
     "title": "Galerie",
     "images": [
