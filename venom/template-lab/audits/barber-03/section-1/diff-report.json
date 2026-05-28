@@ -1,0 +1,43 @@
+{
+  "origSlug": "fade-room",
+  "engineSlug": "barber-03",
+  "section": 1,
+  "thresholds": {
+    "layout": 0.95,
+    "heightTol": 0.1,
+    "pixelTol": 16
+  },
+  "viewports": [
+    {
+      "viewport": 1440,
+      "status": "ok",
+      "cloneSize": {
+        "w": 1440,
+        "h": 2036
+      },
+      "engineSize": {
+        "w": 1440,
+        "h": 123
+      },
+      "layoutScore": 0.1148,
+      "heightRatio": 0.06,
+      "pass": false
+    },
+    {
+      "viewport": 375,
+      "status": "ok",
+      "cloneSize": {
+        "w": 375,
+        "h": 1168
+      },
+      "engineSize": {
+        "w": 375,
+        "h": 123
+      },
+      "layoutScore": 0.1202,
+      "heightRatio": 0.105,
+      "pass": false
+    }
+  ],
+  "pass": false
+}

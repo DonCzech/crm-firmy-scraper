@@ -1,0 +1,37 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "barber-03",
+  "name": "Studio Břitva",
+  "industry": "barber",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Warm luxusní pánský barbershop — golden lighting, kožené tóny, gold accent na warm dark.",
+  "sectionOrderNote": "Originál fade-room (barbershopurban.cz) má pořadí header → hero → promo → reviews → about → services+pricing → gallery → footer. Liší se od skeletonu service-personal (about → services → pricing → gallery → testimonials). Pro 1:1 vizuální paritu s /preview priorita > skeleton order — viz the-barber/barber-02 precedent.",
+  "extraSections": [
+    { "pos": 3, "name": "Promo (Akce)", "type": "promo", "variant": "promo-2cards", "reason": "originál má dvojici akčních karet hned za hero" }
+  ],
+  "skippedSections": [
+    { "pos": 7,  "name": "Team",         "reason": "originál nemá team sekci" },
+    { "pos": 9,  "name": "Booking/CTA",  "reason": "phone callto v headeru je primární CTA, samostatná booking sekce neexistuje" },
+    { "pos": 10, "name": "Locations",    "reason": "jediná pobočka — mapa + adresa ve footeru" },
+    { "pos": 11, "name": "FAQ",          "reason": "/faq/ je samostatná podstránka, na homepage chybí; defer v1.1" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar", "variant": "barber-overlay-promo", "contentRef": "navbar" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

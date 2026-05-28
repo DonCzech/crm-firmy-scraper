@@ -1,0 +1,12 @@
+/* barber-03 — Studio Břitva
+ * Warm luxusní barbershop skin overrides
+ * Tokens: primary #c8a96e (gold), dark1 #1c1410, dark2 #0f0a07
+ */
+
+[data-template="barber-03"] {
+  --bb-gold: #c8a96e;
+  --bb-gold-dark: #a98a55;
+  --bb-dark-1: #1c1410;
+  --bb-dark-2: #0f0a07;
+  --bb-cream: #f7f3ec;
+}

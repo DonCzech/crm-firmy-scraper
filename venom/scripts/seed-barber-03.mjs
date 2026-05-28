@@ -1,0 +1,18 @@
+import pg from 'pg';
+const DB_URL = 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
+const baseUrl = 'http://localhost:3015';
+const SLUG = 'barber-03-v2';
+const EMAIL = 'demo@barber-03.test';
+const TEMPLATE_KEY = 'barber-03';
+const INDUSTRY = 'barber';
+const pool = new pg.Pool({ connectionString: DB_URL });
+const del = await pool.query(`DELETE FROM tenants WHERE slug=$1 RETURNING id`, [SLUG]);
+console.log(`cleanup removed ${del.rowCount}`);
+const res = await fetch(`${baseUrl}/api/onboarding`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', Origin: baseUrl, Referer: baseUrl + '/' },
+  body: JSON.stringify({ email: EMAIL, templateKey: TEMPLATE_KEY, industry: INDUSTRY, slug: SLUG })
+});
+const body = await res.json().catch(() => ({}));
+console.log('status', res.status, JSON.stringify(body, null, 2).slice(0, 500));
+await pool.end();

@@ -1,0 +1,29 @@
+{
+  "siteName": "Studio Břitva",
+  "tagline": "Pánský barbershop v centru Prahy — řemeslný střih a tradiční holení.",
+
+  "navbar": {
+    "logoUrl": "/templates/barber-03/logo.svg",
+    "siteName": "Studio Břitva",
+    "links": [
+      { "label": "Služby",   "href": "#sluzby" },
+      { "label": "O nás",    "href": "#onas" },
+      { "label": "Akce",     "href": "#akce" },
+      { "label": "Ceník",    "href": "#cenik" },
+      { "label": "FAQ",      "href": "#faq" },
+      { "label": "Galerie",  "href": "#galerie" },
+      { "label": "Kontakty", "href": "#kontakt" }
+    ],
+    "ctaText": "",
+    "ctaHref": "",
+    "sticky": true,
+    "transparent": true,
+    "hamburgerBreakpoint": 992,
+    "topbar": {
+      "phone": { "label": "+420 704 123 456", "href": "tel:+420704123456" },
+      "social": [
+        { "icon": "instagram", "label": "Instagram", "href": "https://instagram.com/demo" }
+      ]
+    }
+  }
+}
