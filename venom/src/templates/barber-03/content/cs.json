@@ -38,6 +38,13 @@
     "scrollIndicator": false
   },
 
+  "about": {
+    "title": "O nás",
+    "lead": "Pánská péče je řemeslo. Ve Studiu Břitva věnujeme každému zákazníkovi tolik času, kolik si zaslouží — bez spěchu, s důrazem na detail a tradiční techniky.",
+    "body": "Tým holičů, kteří chápou, že střih není jen účes, ale součást vašeho stylu. Pracujeme s klasickými břitvami, horkým ručníkem a kvalitní kosmetikou. Atmosféra teplých tónů, dřeva a kůže vám dovolí na chvíli vypnout.",
+    "image": { "__placeholder": [1200, 900, "About — interiér holičství"] }
+  },
+
   "testimonials": {
     "title": "Recenze",
     "testimonials": [
