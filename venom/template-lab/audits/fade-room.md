@@ -327,4 +327,10 @@ grep -rE '\+?420 ?[0-9]{3} ?[0-9]{3} ?[0-9]{3}' src/templates/barber-03/ public/
 
 ## Status
 
-`READY_FOR_PHASE_C`
+`DONE` — 2026-05-28
+- Engine slug: `barber-03` (Studio Břitva)
+- Tenant: `barber-03-v2` → http://localhost:3015/demo/barber-03-v2
+- Validator: PASS s 2 warnings (sectionOrderNote akceptován; pricing missing "services" key — combo)
+- Demo audit: 0 originálních hodnot; 9 výskytů "Studio Břitva", 4× "704 123 456", 3× "info@demo.cz"
+- 8 sekcí committed atomicky (sections 1–8)
+- Clone tenant `fade-room-demo` nezměněn (READ-ONLY ✅)
