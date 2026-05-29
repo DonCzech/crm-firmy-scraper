@@ -1,0 +1,150 @@
+{
+  "siteName": "Salon Aria",
+  "tagline": "Luxusní kadeřnický salon v centru Prahy.",
+
+  "navbar": {
+    "logoUrl": "/templates/hair-01/logo.svg",
+    "siteName": "Salon Aria",
+    "links": [
+      { "label": "Úvod",     "href": "#uvod" },
+      { "label": "O nás",    "href": "#onas" },
+      { "label": "Náš tým",  "href": "#tym" },
+      { "label": "Služby",   "href": "#sluzby" },
+      { "label": "Kontakty", "href": "#kontakt" }
+    ],
+    "phone": "+420 704 123 456",
+    "email": "info@demo.cz",
+    "socials": [
+      { "label": "Facebook",  "href": "https://facebook.com/demo" },
+      { "label": "Instagram", "href": "https://instagram.com/demo" }
+    ],
+    "sticky": true,
+    "transparent": false
+  },
+
+  "hero": {
+    "backgroundImage": "/templates/hair-01/images/hero.jpg",
+    "scrollLabel": "SCROLL",
+    "scrollIndicator": true
+  },
+
+  "about": {
+    "title": "O společnosti",
+    "lead": "Salon s důrazem na kvalitu, zkušenosti a individuální přístup ke každému klientovi.",
+    "body": "Salon Aria působí v centru Prahy. Za naší prací stojí zkušený tým specialistů, kteří se věnují péči o vlasy s precizností a citem pro detail. Každá návštěva je pro nás příležitostí vytvořit výsledek, na který budete hrdí.",
+    "stats": [
+      { "value": "12",  "label": "let nepřetržité praxe" },
+      { "value": "20+", "label": "let zkušeností našich specialistů" },
+      { "value": "8",   "label": "nominací v Hair Awards" }
+    ],
+    "portraitImage": "/templates/hair-01/images/about-portrait.jpg",
+    "ctaText": "Objednat se",
+    "ctaHref": "#rezervace"
+  },
+
+  "services": {
+    "title": "Naše služby",
+    "items": [
+      {
+        "number": "01.",
+        "name": "Střihy na míru",
+        "description": "Střih navržený s ohledem na tvar obličeje, typ vlasů i váš osobní styl.",
+        "ctaText": "Objednat se",
+        "ctaHref": "#rezervace"
+      },
+      {
+        "number": "02.",
+        "name": "Barvení a tónování",
+        "description": "Profesionálně zvolený odstín pro přirozený, elegantní a harmonický výsledek.",
+        "ctaText": "Objednat se",
+        "ctaHref": "#rezervace"
+      },
+      {
+        "number": "03.",
+        "name": "Balayage a zesvětlení",
+        "description": "Jemné přechody a prosvětlení, které dodají vlasům hloubku, lehkost a rozměr.",
+        "ctaText": "Objednat se",
+        "ctaHref": "#rezervace"
+      },
+      {
+        "number": "04.",
+        "name": "Péče a ošetření vlasů",
+        "description": "Hloubková výživa a regenerace pro zdravé, silné a zářivé vlasy.",
+        "ctaText": "Objednat se",
+        "ctaHref": "#rezervace"
+      }
+    ]
+  },
+
+  "cta": {
+    "title": "Zobrazit všechny služby",
+    "subtitle": "Prohlédněte si kompletní nabídku péče a vyberte si službu, která vám vyhovuje.",
+    "ctaText": "Zobrazit",
+    "ctaHref": "#sluzby"
+  },
+
+  "values": {
+    "title": "Víme, jak důležité jsou vaše vlasy",
+    "body": "Právě proto stavíme naši práci na konzultaci, odborném přístupu a řešeních, která respektují kvalitu vašich vlasů i vaši představu o výsledku.",
+    "image": "/templates/hair-01/images/values.jpg"
+  },
+
+  "team": {
+    "title": "Tým profesionálů",
+    "subtitle": "Za každou návštěvou stojí zkušenosti, cit pro detail a individuální přístup.",
+    "members": [
+      { "name": "Andrea Kovářová",    "role": "Kadeřnice Top Stylist",  "image": "/templates/hair-01/images/team-01.jpg" },
+      { "name": "Simona Blahová",     "role": "Top Stylist / Make-up",  "image": "/templates/hair-01/images/team-02.jpg" },
+      { "name": "Tereza Marková",     "role": "Top Stylist",            "image": "/templates/hair-01/images/team-03.jpg" },
+      { "name": "Lucie Horáková",     "role": "Barvířka",               "image": "/templates/hair-01/images/team-04.jpg" },
+      { "name": "Kateřina Dvořáčková","role": "Kadeřnice",              "image": "/templates/hair-01/images/team-05.jpg" },
+      { "name": "Martina Šimánková",  "role": "Kadeřnice",              "image": "/templates/hair-01/images/team-06.jpg" },
+      { "name": "Věra Procházková",   "role": "Kadeřnice Junior",       "image": "/templates/hair-01/images/team-07.jpg" }
+    ],
+    "ctaText": "Seznamte se s celým týmem",
+    "ctaHref": "#tym"
+  },
+
+  "testimonials": {
+    "title": "Recenze našich klientů",
+    "ratingLine": "4,8 · 390 recenzí",
+    "items": [
+      {
+        "name": "Jana Nováková",
+        "rating": 5,
+        "text": "Skvělý salon, příjemný personál a výsledek byl přesně to, co jsem si přála. Určitě se vrátím."
+      },
+      {
+        "name": "Petra Svobodová",
+        "rating": 5,
+        "text": "Konečně salon, kde opravdu naslouchají. Balayage vypadá naprosto přirozeně a drží se skvěle."
+      },
+      {
+        "name": "Eva Procházková",
+        "rating": 5,
+        "text": "Atmosféra salonu je úžasná a výsledek předčil moje očekávání. Nejlepší salon v Praze."
+      }
+    ]
+  },
+
+  "footer": {
+    "siteName": "Salon Aria",
+    "logoUrl": "/templates/hair-01/logo.svg",
+    "heading": "Těšíme se na vás!",
+    "phone": "+420 704 123 456",
+    "email": "info@demo.cz",
+    "address": "Ukázková 123\n110 00 Praha 1",
+    "web": "https://demo.cz",
+    "socials": [
+      { "label": "Facebook",  "href": "https://facebook.com/demo" },
+      { "label": "Instagram", "href": "https://instagram.com/demo" }
+    ],
+    "hours": [
+      { "day": "Pondělí – Pátek", "value": "9:00 – 18:00" },
+      { "day": "Sobota",          "value": "9:00 – 14:00" },
+      { "day": "Neděle",          "value": "Zavřeno" }
+    ],
+    "hoursLabel": "Otevírací doba:",
+    "legal": "Salon Aria s.r.o. · IČO 12345678 · DIČ CZ12345678 · Ukázková 123, 110 00 Praha 1"
+  }
+}

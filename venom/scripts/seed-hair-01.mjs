@@ -1,0 +1,31 @@
+#!/usr/bin/env node
+import pg from 'pg';
+
+const DB_URL = process.env.DATABASE_URL
+  || 'postgresql://neondb_owner:npg_RG6Q7owUlpXr@ep-still-recipe-alrqcrzd-pooler.c-3.eu-central-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
+const baseUrl = process.env.VENOM_BASE_URL || 'http://localhost:3015';
+const SLUG = 'hair-01-v2';
+const EMAIL = 'demo@hair-01.test';
+const TEMPLATE_KEY = 'hair-01';
+const INDUSTRY = 'hair';
+
+const pool = new pg.Pool({ connectionString: DB_URL });
+
+async function main() {
+  const del = await pool.query(`DELETE FROM tenants WHERE slug=$1 RETURNING id, slug`, [SLUG]);
+  console.log(`✓ cleanup: removed ${del.rowCount} previous tenants with slug=${SLUG}`);
+
+  const res = await fetch(`${baseUrl}/api/onboarding`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Origin: baseUrl, Referer: baseUrl + '/' },
+    body: JSON.stringify({ email: EMAIL, templateKey: TEMPLATE_KEY, industry: INDUSTRY, slug: SLUG }),
+  });
+  const body = await res.json().catch(() => ({}));
+  if (!res.ok) { console.error(`✗ onboarding ${res.status}:`, JSON.stringify(body)); process.exit(1); }
+  console.log(`✓ ${TEMPLATE_KEY} tenant created`);
+  console.log(`  preview: ${baseUrl}${body.previewUrl ?? '/demo/' + SLUG}`);
+  console.log(`  editor:  ${baseUrl}${body.editorUrl ?? '/demo/' + SLUG + '/admin'}`);
+  await pool.end();
+}
+
+main().catch((e) => { console.error('✗', e); process.exit(1); });

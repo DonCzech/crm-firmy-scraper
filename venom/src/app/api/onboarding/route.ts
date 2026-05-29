@@ -5,7 +5,7 @@ import { createDemoTenantFromTemplate } from "@/lib/tenant-factory";
 
 const BodySchema = z.object({
   email: z.string().email("Neplatný e-mail"),
-  templateKey: z.enum(["barber-01", "barber-02", "barber-03", "barber", "wellness", "lawyer", "astera", "cafe-01", "the-barber", "peak-cut", "fade-room"]),
+  templateKey: z.enum(["barber-01", "barber-02", "barber-03", "barber-04", "barber", "wellness", "lawyer", "astera", "cafe-01", "the-barber", "peak-cut", "fade-room", "hair-01"]),
   industry: z.string().max(100).optional(),
   slug: z.string().regex(/^[a-z0-9-]+$/).min(3).max(60).optional(),
 });

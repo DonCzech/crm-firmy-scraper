@@ -13,8 +13,9 @@ interface Props {
   sectionId: number;
 }
 
-export function NavbarSection({ content, variant, isAdmin, tenantSlug, sectionId }: Props) {
+function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }: Props) {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   // §11.2 Esc closes mobile menu
   useEffect(() => {
@@ -23,12 +24,160 @@ export function NavbarSection({ content, variant, isAdmin, tenantSlug, sectionId
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
   }, [open]);
+
+  // scroll state for overlay navbars
+  useEffect(() => {
+    if (variant !== "peak-cut-minimal") return;
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [variant]);
   const siteName = String(content.siteName ?? "Web");
   const logoUrl = String(content.logoUrl ?? "");
   const logoSrc = logoUrl || demoLogoDataUrl(siteName);
   const links = (content.links as Array<{ label: string; href: string }>) ?? [];
   const ctaText = String(content.ctaText ?? "");
   const ctaHref = String(content.ctaHref ?? "#");
+
+  if (variant === "peak-cut-minimal") {
+    // peak-cut (Peak Cut — Minimal White) — pevný hlavičkový pruh, kompaktní logo SVG ikonka vlevo,
+    // 4 nav linky uprostřed/vpravo, social ikonky úplně vpravo. Žádné Rezervovat CTA.
+    const socials = (content.socials as Array<{ icon?: string; label?: string; href?: string }>) ?? [];
+    const SocialIcon = ({ name }: { name?: string }) => {
+      const p = { width: 14, height: 14, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true as const };
+      switch (name) {
+        case "instagram":
+          return (<svg {...p}><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>);
+        case "facebook":
+          return (<svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>);
+        default:
+          return (<span style={{ fontSize: 11 }}>{name}</span>);
+      }
+    };
+    const navBg = scrolled ? "#ffffff" : "transparent";
+    const navShadow = scrolled ? "0 2px 24px rgba(0,0,0,0.08)" : "none";
+    const navTextColor = scrolled ? "#1a1a1a" : "#ffffff";
+    const navBorderColor = scrolled ? "#d0ccc6" : "rgba(255,255,255,0.55)";
+    const logoFilter = scrolled ? "none" : "brightness(10)";
+    return (
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 w-full"
+        style={{
+          backgroundColor: navBg,
+          boxShadow: navShadow,
+          transition: "background-color 0.3s ease, box-shadow 0.3s ease",
+        }}
+        data-template="peak-cut"
+      >
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-4 flex items-center justify-between">
+          {/* Logo — jen SVG ikonka */}
+          <a
+            href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"}
+            className="flex items-center shrink-0"
+            title={siteName}
+            aria-label={siteName}
+          >
+            <GenericEditableImage
+              sectionId={sectionId}
+              field="logoUrl"
+              src={logoSrc}
+              alt={siteName}
+              className="relative overflow-hidden shrink-0 w-9 h-9 md:w-12 md:h-12"
+            >
+              <OptimizedPicture src={logoSrc} alt={siteName} imgStyle={{ width: "100%", height: "100%", objectFit: "contain", filter: logoFilter }} />
+            </GenericEditableImage>
+          </a>
+
+          {/* Nav linky po logu */}
+          <div className="hidden md:flex items-center gap-7 ml-10 mr-auto">
+            {links.map((l, i) => (
+              <a
+                key={`${l.href}-${i}`}
+                href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+                className="text-[14px] transition-opacity hover:opacity-70"
+                style={{ color: navTextColor, fontWeight: 400, letterSpacing: "0.02em" }}
+              >
+                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+              </a>
+            ))}
+          </div>
+
+          {/* Social ikonky vpravo */}
+          {socials.length > 0 && (
+            <div className="hidden md:flex items-center gap-2">
+              {socials.map((s, i) => (
+                <a
+                  key={`pc-soc-${i}`}
+                  href={s.href ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label ?? s.icon ?? "social"}
+                  className="flex items-center justify-center rounded-full transition-colors duration-300"
+                  style={{ width: 32, height: 32, border: `1px solid ${navBorderColor}`, color: navTextColor }}
+                >
+                  <SocialIcon name={s.icon} />
+                </a>
+              ))}
+            </div>
+          )}
+
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden flex flex-col justify-between w-7 h-5 bg-transparent border-0 cursor-pointer p-0"
+            onClick={() => setOpen(!open)}
+            aria-label="Menu"
+            aria-expanded={open}
+          >
+            <span className="block h-[1.5px] w-full" style={{ backgroundColor: navTextColor }} />
+            <span className="block h-[1.5px] w-full" style={{ backgroundColor: navTextColor }} />
+            <span className="block h-[1.5px] w-full" style={{ backgroundColor: navTextColor }} />
+          </button>
+        </div>
+
+        {open && (
+          <div
+            className="md:hidden fixed inset-0 z-40 flex flex-col items-center justify-center gap-6"
+            style={{ backgroundColor: "#ffffff" }}
+          >
+            <button
+              className="absolute top-5 right-5 text-2xl bg-transparent border-0 cursor-pointer"
+              style={{ color: "#1a1a1a" }}
+              onClick={() => setOpen(false)}
+              aria-label="Zavřít menu"
+            >✕</button>
+            {links.map((l, i) => (
+              <a
+                key={`pc-mob-${i}`}
+                href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+                className="text-lg"
+                style={{ color: "#1a1a1a", fontWeight: 500 }}
+                onClick={() => setOpen(false)}
+              >
+                {l.label}
+              </a>
+            ))}
+            {socials.length > 0 && (
+              <div className="flex items-center gap-4 mt-4">
+                {socials.map((s, i) => (
+                  <a
+                    key={`pc-mob-soc-${i}`}
+                    href={s.href ?? "#"}
+                    aria-label={s.label ?? s.icon ?? "social"}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center justify-center rounded-full"
+                    style={{ width: 36, height: 36, border: "1px solid #cbc7be", color: "#3a3a3a" }}
+                  >
+                    <SocialIcon name={s.icon} />
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </nav>
+    );
+  }
 
   if (variant === "barber-overlay") {
     return (
@@ -230,6 +379,163 @@ export function NavbarSection({ content, variant, isAdmin, tenantSlug, sectionId
                 {phone.label}
               </a>
             )}
+          </div>
+        )}
+      </nav>
+    );
+  }
+
+  if (variant === "barber-04-overlay") {
+    // barber-04 (Černý Fade) — top-bar hidden < 768px, SVG icons pro FB/IG/YT/TikTok,
+    // gold accent #d5b981, hamburger < 1024px (Bebas Neue navbar styl).
+    const topbar = (content.topbar ?? {}) as {
+      phone?: { label?: string; href?: string };
+      social?: Array<{ icon?: string; label?: string; href?: string }>;
+    };
+    const phone = topbar.phone;
+    const social = topbar.social ?? [];
+    const hamburgerBp = Number(content.hamburgerBreakpoint ?? 1024);
+    const SocialIcon = ({ name }: { name?: string }) => {
+      const p = { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true as const };
+      switch (name) {
+        case "instagram":
+          return (<svg {...p}><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>);
+        case "facebook":
+          return (<svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>);
+        case "youtube":
+          return (<svg {...p}><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.94 2C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor"/></svg>);
+        case "tiktok":
+          return (<svg {...p}><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>);
+        default:
+          return (<span className="text-[12px] uppercase">{name}</span>);
+      }
+    };
+    return (
+      <nav
+        className="fixed top-0 left-0 right-0 z-50 w-full"
+        style={{ background: "linear-gradient(to bottom,rgba(0,0,0,.65) 0%,rgba(0,0,0,.15) 75%,transparent 100%)" }}
+        data-template="barber-04"
+        data-hamburger-bp={hamburgerBp}
+      >
+        {/* top-bar viditelný pouze ≥ 768px (md:flex) */}
+        <div
+          className="hidden md:flex max-w-[1280px] mx-auto px-6 lg:px-10 py-2 items-center justify-between text-[12px]"
+          style={{ borderBottom: "1px solid rgba(255,255,255,.08)", letterSpacing: "0.10em" }}
+        >
+          {phone?.href ? (
+            <a
+              href={phone.href}
+              className="text-white/90 hover:text-white uppercase transition-colors"
+              style={{ fontWeight: 500 }}
+            >
+              <GenericEditableText sectionId={sectionId} field="topbar.phone.label" value={phone.label ?? ""} tag="span" />
+            </a>
+          ) : <span />}
+          <div className="flex items-center gap-4">
+            {social.map((s, i) => (
+              <a
+                key={`${s.href}-${i}`}
+                href={s.href ?? "#"}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label ?? s.icon ?? "social"}
+                className="text-white/90 hover:text-white"
+                style={{ color: "#d5b981" }}
+              >
+                <SocialIcon name={s.icon} />
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-3 md:py-4 flex items-center justify-between">
+          <a
+            href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "#"}
+            className="flex items-center shrink-0"
+            title={siteName}
+          >
+            <GenericEditableImage
+              sectionId={sectionId}
+              field="logoUrl"
+              src={logoSrc}
+              alt={siteName}
+              className="relative overflow-hidden shrink-0 w-[140px] h-[36px] md:w-[200px] md:h-[56px]"
+            >
+              <OptimizedPicture src={logoSrc} alt={siteName} imgStyle={{ width: "100%", height: "100%", objectFit: "contain" }} />
+            </GenericEditableImage>
+          </a>
+
+          <div className="hidden xl:flex items-center gap-6">
+            {links.map((l, i) => (
+              <a
+                key={`${l.href}-${i}`}
+                href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+                className="text-[12.5px] uppercase transition-opacity hover:opacity-70"
+                style={{ color: "#fff", letterSpacing: "0.16em", fontWeight: 500 }}
+              >
+                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+              </a>
+            ))}
+          </div>
+
+          <button
+            className="xl:hidden flex flex-col justify-between w-7 h-5 bg-transparent border-0 cursor-pointer p-0"
+            onClick={() => setOpen(!open)}
+            aria-label="Menu"
+            aria-expanded={open}
+          >
+            <span className="block h-[1.5px] w-full bg-white" />
+            <span className="block h-[1.5px] w-full bg-white" />
+            <span className="block h-[1.5px] w-full bg-white" />
+          </button>
+        </div>
+
+        {open && (
+          <div
+            className="xl:hidden fixed inset-0 z-40 flex flex-col items-center justify-center gap-6 overflow-y-auto py-12"
+            style={{ background: "rgba(10,8,6,.97)" }}
+          >
+            <button
+              className="absolute top-5 right-5 text-white text-2xl bg-transparent border-0 cursor-pointer"
+              onClick={() => setOpen(false)}
+              aria-label="Zavřít menu"
+            >✕</button>
+            {links.map((l, i) => (
+              <a
+                key={`${l.href}-${i}`}
+                href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+                className="text-base font-normal uppercase"
+                style={{ color: "#fff", letterSpacing: "0.16em" }}
+                onClick={() => setOpen(false)}
+              >
+                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+              </a>
+            ))}
+            {phone?.href && (
+              <a
+                href={phone.href}
+                className="text-[13px] uppercase mt-2"
+                style={{ color: "#d5b981", letterSpacing: "0.16em" }}
+                onClick={() => setOpen(false)}
+              >
+                {phone.label}
+              </a>
+            )}
+            <div className="flex items-center gap-5 mt-2">
+              {social.map((s, i) => (
+                <a
+                  key={`${s.href}-mob-${i}`}
+                  href={s.href ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label ?? s.icon ?? "social"}
+                  style={{ color: "#d5b981" }}
+                  onClick={() => setOpen(false)}
+                >
+                  <SocialIcon name={s.icon} />
+                </a>
+              ))}
+            </div>
           </div>
         )}
       </nav>
@@ -638,6 +944,138 @@ export function NavbarSection({ content, variant, isAdmin, tenantSlug, sectionId
       )}
     </nav>
   );
+}
+
+// ---------------------------------------------------------------------------
+// hair-01-topbar — Salon Aria
+// Dark single-bar: logo vlevo, nav linky uprostřed, phone+email+social vpravo
+// ---------------------------------------------------------------------------
+function NavbarHair01Topbar({ content, variant: _v, isAdmin, tenantSlug, sectionId }: Props) {
+  const [open, setOpen] = useState(false);
+  const siteName = String(content.siteName ?? "Salon");
+  const logoUrl = String(content.logoUrl ?? "");
+  const logoSrc = logoUrl || demoLogoDataUrl(siteName);
+  const links = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const phone = String(content.phone ?? "");
+  const email = String(content.email ?? "");
+  const socials = (content.socials as Array<{ label: string; href: string }>) ?? [];
+
+  const BG = "#1e1e1e";
+  const GOLD = "#8a6f28";
+  const TEXT = "rgba(255,255,255,0.82)";
+  const TEXT_HOVER = "#ffffff";
+  const MONO = "'Montserrat',sans-serif";
+
+  return (
+    <nav
+      className="fixed top-0 left-0 right-0 z-50"
+      style={{ backgroundColor: BG, fontFamily: MONO }}
+      data-template="hair-01"
+    >
+      <div
+        className="max-w-[1440px] mx-auto flex items-center"
+        style={{ padding: "0 32px", height: 56 }}
+      >
+        {/* Logo */}
+        <a
+          href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"}
+          className="shrink-0 flex items-center mr-10"
+          aria-label={siteName}
+        >
+          <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoSrc} alt={siteName} className="relative w-16 h-8 overflow-hidden">
+            <img src={logoSrc} alt={siteName} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+          </GenericEditableImage>
+        </a>
+
+        {/* Nav linky — desktop center */}
+        <div className="hidden md:flex items-center gap-7 flex-1">
+          {links.map((l, i) => (
+            <a
+              key={`h1-nav-${i}`}
+              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+              style={{ color: TEXT, fontSize: 11, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase", transition: "color 0.2s" }}
+              onMouseEnter={e => (e.currentTarget.style.color = TEXT_HOVER)}
+              onMouseLeave={e => (e.currentTarget.style.color = TEXT)}
+            >
+              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+            </a>
+          ))}
+        </div>
+
+        {/* Phone + Email + Social — desktop vpravo */}
+        <div className="hidden md:flex items-center gap-5 ml-auto">
+          {phone && (
+            <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ color: TEXT, fontSize: 11, fontWeight: 400, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+          )}
+          {email && (
+            <a href={`mailto:${email}`} style={{ color: TEXT, fontSize: 11, fontWeight: 400, letterSpacing: "0.06em" }}>
+              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+            </a>
+          )}
+          {socials.map((s, i) => (
+            <a
+              key={`h1-soc-${i}`}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.label}
+              style={{ color: TEXT, fontSize: 11, fontWeight: 500, letterSpacing: "0.08em", transition: "color 0.2s" }}
+              onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
+              onMouseLeave={e => (e.currentTarget.style.color = TEXT)}
+            >
+              {s.label === "Facebook" ? "FB" : s.label === "Instagram" ? "IG" : s.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Mobile hamburger */}
+        <button
+          className="md:hidden ml-auto flex flex-col justify-between w-6 h-4 bg-transparent border-0 cursor-pointer p-0"
+          onClick={() => setOpen(!open)}
+          aria-label="Menu"
+          aria-expanded={open}
+        >
+          <span className="block h-[1.5px] w-full" style={{ backgroundColor: "#fff" }} />
+          <span className="block h-[1.5px] w-full" style={{ backgroundColor: "#fff" }} />
+          <span className="block h-[1.5px] w-full" style={{ backgroundColor: "#fff" }} />
+        </button>
+      </div>
+
+      {/* Mobile overlay */}
+      {open && (
+        <div
+          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-7"
+          style={{ backgroundColor: BG }}
+        >
+          <button
+            className="absolute top-5 right-6 text-xl bg-transparent border-0 cursor-pointer"
+            style={{ color: TEXT }}
+            onClick={() => setOpen(false)}
+            aria-label="Zavřít menu"
+          >✕</button>
+          {links.map((l, i) => (
+            <a
+              key={`h1-mob-${i}`}
+              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+              style={{ color: TEXT, fontSize: 13, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase" }}
+              onClick={() => setOpen(false)}
+            >
+              {l.label}
+            </a>
+          ))}
+          {phone && <a href={`tel:${phone.replace(/\s/g,"")}`} style={{ color: GOLD, fontSize: 13 }}>{phone}</a>}
+        </div>
+      )}
+    </nav>
+  );
+}
+
+// Main exported dispatch — must be after all variant functions
+export function NavbarSection(props: Props) {
+  if (props.variant === "hair-01-topbar") return <NavbarHair01Topbar {...props} />;
+  return <NavbarSectionInner {...props} />;
 }
 
 function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {

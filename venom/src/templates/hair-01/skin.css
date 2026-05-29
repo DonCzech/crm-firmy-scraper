@@ -1,0 +1,62 @@
+/* hair-01 — Salon Aria skin overrides */
+:root {
+  --color-primary:      #8a6f28;
+  --color-primary-light:#9c813b;
+  --color-accent:       #8a6f28;
+  --color-dark:         #1e1e1e;
+  --color-dark-2:       #322912;
+  --color-cream:        #f5f1f0;
+  --color-cream-2:      #f0ebe3;
+  --color-text:         #494848;
+  --color-text-muted:   #605f5f;
+  --font-heading:       'Montserrat', sans-serif;
+  --font-body:          'Montserrat', sans-serif;
+  --radius:             0px;
+  --section-gap:        100px;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/clones/studio-jarka/fonts/montserrat-400.woff2') format('woff2');
+  font-weight: 400; font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/clones/studio-jarka/fonts/montserrat-300.woff2') format('woff2');
+  font-weight: 300; font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/clones/studio-jarka/fonts/montserrat-500.woff2') format('woff2');
+  font-weight: 500; font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/clones/studio-jarka/fonts/montserrat-600.woff2') format('woff2');
+  font-weight: 600; font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/clones/studio-jarka/fonts/montserrat-700.woff2') format('woff2');
+  font-weight: 700; font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/clones/studio-jarka/fonts/montserrat-100.woff2') format('woff2');
+  font-weight: 100; font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/clones/studio-jarka/fonts/montserrat-200.woff2') format('woff2');
+  font-weight: 200; font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/clones/studio-jarka/fonts/montserrat-800.woff2') format('woff2');
+  font-weight: 800; font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/clones/studio-jarka/fonts/montserrat-900.woff2') format('woff2');
+  font-weight: 900; font-display: swap;
+}

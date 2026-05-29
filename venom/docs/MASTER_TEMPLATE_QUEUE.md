@@ -4,8 +4,8 @@
 **Zdroj fronty (vstup):** [http://localhost:3015/preview](http://localhost:3015/preview) → [src/app/preview/page.tsx](../src/app/preview/page.tsx)
 **Cíl převodu (výstup):** [http://localhost:3015/preview-2](http://localhost:3015/preview-2) → [src/templates/&lt;slug&gt;/](../src/templates/) (auto-discovery podle `template.json`)
 **Celkem šablon ve frontě:** 91
-**Hotovo (převedeno na MASTER ENGINE):** 5 (`cafe-01`, `barber-01`, `peak-cut`, `barber-02`, `barber-03`)
-**Zbývá:** 86
+**Hotovo (převedeno na MASTER ENGINE):** 8 (`cafe-01`, `barber-01`, `peak-cut`, `barber-02`, `barber-03`, `barber-04`, `the-barber`, `hair-01`)
+**Zbývá:** 83
 **Rolled back (2026-05-27):** `the-barber`, `fade-room` — engine verze nesplňovaly 1:1 parity s `/preview`; clone tenanty (`the-barber-demo`, `fade-room-demo`) navíc mají vymazanou `full-page-clone` sekci → vyžadují recovery přes `scripts/recover-clone-tenant.mjs`.
 **Druhý průchod (2026-05-28):** `the-barber` → engine `barber-02` (Holičství Atelier) DONE; `fade-room` → engine `barber-03` (Studio Břitva) DONE — section-by-section per FÁZE C.
 
@@ -117,10 +117,10 @@ Při výběru další šablony pro FÁZI A: vezmi **první `TODO`** v tabulce.
 | # | Slug (demo) | Demo název | Originál (origin) | Kategorie | Status | Datum DONE |
 |---|-------------|------------|-------------------|-----------|--------|------------|
 | 1 | peak-cut | Peak Cut | barbershop-buddy.cz | Barbershop | **DONE** | 2026-05-26 |
-| 2 | the-barber | The Barber | thebarber.cz | Barbershop | TODO (rolled back 2026-05-27) | — |
+| 2 | the-barber | The Barber | thebarber.cz | Barbershop | **DONE** (barber-02 Holičství Atelier) | 2026-05-29 |
 | 3 | fade-room | Barber Urban | barbershopurban.cz | Barbershop | **DONE** (barber-03 Studio Břitva) | 2026-05-28 |
-| 4 | barber-praha | Barber Praha | barberpraha.cz | Barbershop | TODO | — |
-| 5 | studio-jarka | Studio Jarka | studio-jarka.cz | Kadeřnictví | TODO | — |
+| 4 | barber-praha | Barber Praha | barberpraha.online | Barbershop | **DONE** (barber-04 Černý Fade) | 2026-05-29 |
+| 5 | studio-jarka | Studio Jarka | studio-jarka.cz | Kadeřnictví | **DONE** (hair-01 Salon Aria) | 2026-05-29 |
 | 6 | hairsalon-no1 | Hair Studio No.1 | hairsalon-no1.cz | Kadeřnictví | TODO | — |
 | 7 | petramechurova | Petra Studio | petramechurova.cz | Kadeřnictví | TODO | — |
 | 8 | selfbeauty | Demo Beauty Studio | selfbeauty.cz | Beauty & Wellness | TODO | — |

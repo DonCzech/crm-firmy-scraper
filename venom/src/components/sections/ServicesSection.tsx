@@ -20,6 +20,66 @@ interface Props {
 }
 
 export function ServicesSection({ content, variant, sectionId }: Props) {
+
+  // hair-01: 4 numbered cards (01–04), gold číslo, Montserrat, cream bg
+  if (variant === "hair-numbered-cards") {
+    interface HairItem { number?: string; name: string; description: string; ctaText?: string; ctaHref?: string; }
+    const items = (content.items as HairItem[]) ?? (content.services as HairItem[]) ?? [];
+    const MONO = "'Montserrat',sans-serif";
+    const GOLD = "#8a6f28";
+    const CREAM = "#f5f1f0";
+    return (
+      <section id="sluzby" data-template="hair-01" style={{ backgroundColor: CREAM, padding: "clamp(60px,8vw,100px) clamp(20px,5vw,60px)", fontFamily: MONO }}>
+        <div
+          className="max-w-[1280px] mx-auto grid gap-8"
+          style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(260px,100%), 1fr))" }}
+        >
+          {items.map((it, i) => (
+            <div
+              key={i}
+              style={{ backgroundColor: "#fff", padding: "40px 32px 36px", display: "flex", flexDirection: "column", gap: 16 }}
+            >
+              <span style={{ color: GOLD, fontSize: 28, fontWeight: 200, letterSpacing: "0.04em", lineHeight: 1 }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.number`} value={it.number ?? `0${i+1}.`} tag="span" />
+              </span>
+              <p style={{ color: "#1e1e1e", fontSize: "clamp(15px,1.3vw,18px)", fontWeight: 600, lineHeight: 1.3, margin: 0 }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={it.name} tag="span" />
+              </p>
+              <p style={{ color: "#605f5f", fontSize: 14, fontWeight: 300, lineHeight: 1.7, flex: 1, margin: 0 }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={it.description} tag="span" />
+              </p>
+              {it.ctaText && (
+                <a
+                  href={it.ctaHref ?? "#rezervace"}
+                  style={{
+                    display: "inline-block",
+                    marginTop: 8,
+                    border: `1.5px solid ${GOLD}`,
+                    color: GOLD,
+                    backgroundColor: "transparent",
+                    fontFamily: MONO,
+                    fontSize: 10,
+                    fontWeight: 600,
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                    padding: "12px 24px",
+                    textDecoration: "none",
+                    alignSelf: "flex-start",
+                    transition: "background 0.2s, color 0.2s",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = GOLD; e.currentTarget.style.color = "#fff"; }}
+                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = GOLD; }}
+                >
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={it.ctaText} tag="span" />
+                </a>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
   // Support both field name conventions: services[] and items[] (generator/pricing section)
   const services = (
     (content as { services?: Service[] }).services ??
@@ -27,6 +87,173 @@ export function ServicesSection({ content, variant, sectionId }: Props) {
     []
   );
   const title = String(content.title ?? (variant === "pricing-list" ? "Ceník služeb" : "Naše služby"));
+
+  if (variant === "barber-04-pricing-flat") {
+    // barber-04 (Černý Fade) — plochý seznam ceníku s podporou kategorií.
+    // Items: [{ category?, name, description?, price, duration? }]
+    type PricingItem = Service & { category?: string };
+    const items = services as PricingItem[];
+    const grouped: { category: string; items: PricingItem[] }[] = [];
+    items.forEach((it) => {
+      const cat = it.category ?? "default";
+      let g = grouped.find((x) => x.category === cat);
+      if (!g) {
+        g = { category: cat, items: [] };
+        grouped.push(g);
+      }
+      g.items.push(it);
+    });
+    let itemIdx = 0;
+    return (
+      <section
+        className="relative"
+        style={{ padding: "72px 24px", backgroundColor: "#ffffff" }}
+        data-template="barber-04"
+      >
+        <div className="max-w-[860px] mx-auto">
+          {grouped.map((g, gi) => (
+            <div key={`grp-${gi}`} className={gi > 0 ? "mt-16" : ""}>
+              {g.category !== "default" && (
+                <>
+                  <h3
+                    className="uppercase text-center"
+                    style={{
+                      fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif",
+                      fontWeight: 300,
+                      fontSize: "clamp(20px, 2vw, 28px)",
+                      letterSpacing: 0,
+                      color: "#d5b981",
+                      margin: "0 auto 12px",
+                      lineHeight: 1.2,
+                    }}
+                  >
+                    {g.category}
+                  </h3>
+                  <div
+                    aria-hidden
+                    className="mx-auto"
+                    style={{ width: 50, height: 2, backgroundColor: "#d5b981", opacity: 0.7, margin: "0 auto 28px" }}
+                  />
+                </>
+              )}
+              {g.items.map((it) => {
+                const idx = itemIdx++;
+                return (
+                  <div
+                    key={`pi-${idx}`}
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      justifyContent: "space-between",
+                      gap: 24,
+                      padding: "14px 0",
+                      borderBottom: "1px solid rgba(0,0,0,0.08)",
+                    }}
+                  >
+                    <div style={{ flex: 1 }}>
+                      <p
+                        style={{
+                          fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif",
+                          fontSize: "clamp(15px, 1.2vw, 18px)",
+                          fontWeight: 300,
+                          letterSpacing: 1,
+                          color: "#1a1a1a",
+                          textTransform: "uppercase",
+                          margin: 0,
+                        }}
+                      >
+                        <GenericEditableText sectionId={sectionId} field={`services.${idx}.name`} value={it.name} tag="span" />
+                      </p>
+                      {it.description && (
+                        <p
+                          style={{
+                            fontFamily: "'Lato',Helvetica,Arial,sans-serif",
+                            fontSize: 13,
+                            color: "#666",
+                            lineHeight: 1.6,
+                            margin: "4px 0 0",
+                          }}
+                        >
+                          <GenericEditableText sectionId={sectionId} field={`services.${idx}.description`} value={it.description} tag="span" />
+                        </p>
+                      )}
+                    </div>
+                    {it.price && (
+                      <span
+                        style={{
+                          fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif",
+                          fontSize: "clamp(16px, 1.3vw, 20px)",
+                          fontWeight: 400,
+                          letterSpacing: 1,
+                          color: "#d5b981",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <GenericEditableText sectionId={sectionId} field={`services.${idx}.price`} value={it.price} tag="span" />
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (variant === "barber-04-services-cards") {
+    // barber-04 — 4-cards grid s tmavým pozadím a velkými H4 Bebas Neue
+    return (
+      <section
+        className="relative"
+        style={{ padding: "72px 24px", backgroundColor: "#1a1a1a" }}
+        data-template="barber-04"
+      >
+        <div className="max-w-[1180px] mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
+            {services.map((sv, i) => (
+              <div
+                key={`svc-${i}`}
+                style={{
+                  backgroundColor: "#0f0f0f",
+                  padding: "40px 28px",
+                  textAlign: "center",
+                  minHeight: 220,
+                }}
+              >
+                <h4
+                  className="uppercase"
+                  style={{
+                    fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif",
+                    fontWeight: 300,
+                    fontSize: "clamp(18px, 1.5vw, 22px)",
+                    letterSpacing: 2,
+                    color: "#d5b981",
+                    margin: "0 auto 16px",
+                    lineHeight: 1.2,
+                  }}
+                >
+                  <GenericEditableText sectionId={sectionId} field={`services.${i}.name`} value={sv.name} tag="span" />
+                </h4>
+                <p
+                  style={{
+                    fontFamily: "'Lato',Helvetica,Arial,sans-serif",
+                    fontSize: 14,
+                    lineHeight: 1.7,
+                    color: "rgba(255,255,255,0.78)",
+                    margin: 0,
+                  }}
+                >
+                  <GenericEditableText sectionId={sectionId} field={`services.${i}.description`} value={sv.description} tag="span" />
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (variant === "pricing-list") {
     return (
@@ -222,6 +449,86 @@ export function ServicesSection({ content, variant, sectionId }: Props) {
         <style>{`
           @media(max-width:900px){[data-pricing-cols]{grid-template-columns:1fr !important;gap:3rem !important;}}
         `}</style>
+      </section>
+    );
+  }
+
+  if (variant === "peak-cut-pricing") {
+    // peak-cut Minimal — bezserif kapitálky, tenké linky mezi položkami, černé ceny vpravo.
+    return (
+      <section className="py-16 px-6" style={{ backgroundColor: "#ffffff" }} data-template="peak-cut">
+        <div className="max-w-[1180px] mx-auto">
+          <h2
+            className="uppercase"
+            style={{
+              fontFamily: "'Oswald','Arial Narrow',Arial,sans-serif",
+              fontWeight: 500,
+              fontSize: "clamp(28px, 3.4vw, 48px)",
+              letterSpacing: "0.02em",
+              color: "#1a1a1a",
+              margin: "0 0 36px",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          <div>
+            {services.map((s, i) => (
+              <div
+                key={`pc-pr-${i}`}
+                className="flex items-start justify-between gap-8"
+                style={{
+                  padding: "18px 0",
+                  borderTop: i === 0 ? "1px solid #cfcbc3" : "none",
+                  borderBottom: "1px solid #cfcbc3",
+                }}
+              >
+                <div className="flex-1">
+                  <p
+                    className="uppercase"
+                    style={{
+                      fontFamily: "'Oswald','Arial Narrow',Arial,sans-serif",
+                      fontWeight: 500,
+                      fontSize: "clamp(15px, 1.2vw, 18px)",
+                      letterSpacing: "0.04em",
+                      color: "#1a1a1a",
+                      margin: 0,
+                    }}
+                  >
+                    <GenericEditableText sectionId={sectionId} field={`services.${i}.name`} value={s.name} tag="span" />
+                  </p>
+                  {s.description && (
+                    <p
+                      style={{
+                        fontFamily: "'Overpass',Arial,sans-serif",
+                        fontWeight: 400,
+                        fontSize: 14,
+                        color: "#5a5651",
+                        lineHeight: 1.6,
+                        margin: "6px 0 0",
+                      }}
+                    >
+                      <GenericEditableText sectionId={sectionId} field={`services.${i}.description`} value={s.description} tag="span" />
+                    </p>
+                  )}
+                </div>
+                {s.price && (
+                  <span
+                    style={{
+                      fontFamily: "'Oswald','Arial Narrow',Arial,sans-serif",
+                      fontWeight: 500,
+                      fontSize: "clamp(15px, 1.2vw, 18px)",
+                      letterSpacing: "0.04em",
+                      color: "#1a1a1a",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    <GenericEditableText sectionId={sectionId} field={`services.${i}.price`} value={s.price} tag="span" />
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
     );
   }

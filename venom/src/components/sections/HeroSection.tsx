@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
@@ -23,6 +24,39 @@ interface Props {
 
 export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }: Props) {
   const c = content as HeroContent;
+
+  // hair-01: full-bleed tmavá foto, bez textu, SCROLL indikátor dole
+  if (variant === "hero-hair-fullbleed") {
+    const bg = String((content as Record<string,unknown>).backgroundImage ?? "");
+    return (
+      <section
+        id="uvod"
+        className="relative w-full overflow-hidden"
+        style={{ minHeight: "100svh", backgroundColor: "#1e1e1e" }}
+        data-template="hair-01"
+      >
+        {bg && (
+          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="Salon Aria hero" className="absolute inset-0 w-full h-full">
+            <Image src={bg} alt="Salon Aria hero" fill className="object-cover" priority sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} />
+          </GenericEditableImage>
+        )}
+        {/* subtle dark overlay at bottom */}
+        <div aria-hidden className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 50%)" }} />
+        {/* SCROLL indicator */}
+        <div
+          aria-hidden
+          className="absolute bottom-8 left-1/2 flex flex-col items-center gap-2"
+          style={{ transform: "translateX(-50%)", color: "rgba(255,255,255,0.75)", fontFamily: "'Montserrat',sans-serif", fontSize: 10, fontWeight: 500, letterSpacing: "0.18em" }}
+        >
+          <span>SCROLL</span>
+          <svg width="14" height="22" viewBox="0 0 14 22" fill="none" style={{ animation: "hair01scroll 1.5s ease-in-out infinite" }}>
+            <path d="M7 1v20M1 14l6 7 6-7" stroke="rgba(255,255,255,0.75)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </div>
+        <style>{`@keyframes hair01scroll{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}`}</style>
+      </section>
+    );
+  }
 
   if (variant === "hero-luxury-dark") {
     return (
@@ -212,6 +246,75 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           )}
         </div>
       </section>
+    );
+  }
+
+  if (variant === "hero-barber-04-page-title") {
+    // Mini-hero pro podstránky — centrovaný uppercase title + decorative separator,
+    // padding nad header (offset header transparent fixed).
+    return (
+      <section
+        className="relative"
+        style={{ padding: "180px 24px 80px", backgroundColor: "#0f0f0f" }}
+        data-template="barber-04"
+      >
+        <div className="max-w-[860px] mx-auto text-center">
+          <h1
+            className="uppercase"
+            style={{
+              fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif",
+              fontWeight: 300,
+              fontSize: "clamp(28px, 3vw, 52px)",
+              letterSpacing: 0,
+              color: "#ffffff",
+              lineHeight: 1.15,
+              margin: "0 auto 16px",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="title" value={String(c.title ?? "")} tag="span" />
+          </h1>
+          <div
+            aria-hidden
+            className="mx-auto"
+            style={{ width: 60, height: 2, backgroundColor: "#d5b981", opacity: 0.85, margin: "0 auto 18px" }}
+          />
+          {c.subtitle && (
+            <p
+              style={{
+                fontFamily: "'Lato',Helvetica,Arial,sans-serif",
+                fontWeight: 400,
+                fontStyle: "italic",
+                fontSize: "clamp(13px, 1.05vw, 16px)",
+                color: "rgba(255,255,255,0.78)",
+                maxWidth: 640,
+                margin: "0 auto",
+                lineHeight: 1.7,
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={String(c.subtitle ?? "")} tag="span" />
+            </p>
+          )}
+        </div>
+      </section>
+    );
+  }
+
+  if (variant === "hero-barber-04-slider") {
+    // barber-04 (Černý Fade) — full-bleed 2-slide slider, gradient overlay,
+    // Bebas Neue title gold, autoplay 6s, fade transition.
+    type Slide = { title?: string; subtitle?: string; backgroundImage?: string };
+    const slides = (c as unknown as { slides?: Slide[] }).slides ?? [];
+    const interval = Number((c as unknown as { autoPlayInterval?: number }).autoPlayInterval ?? 6000);
+    const ctaText = String(c.ctaText ?? "vytvořit rezervaci");
+    const ctaHref = String(c.ctaHref ?? "#rezervace");
+    return (
+      <HeroBarber04Slider
+        slides={slides}
+        interval={interval}
+        ctaText={ctaText}
+        ctaHref={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+        sectionId={sectionId}
+      />
     );
   }
 
@@ -527,6 +630,223 @@ function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
   if (!tenantSlug || !href.startsWith("/")) return href;
   if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
   return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
+}
+
+function HeroBarber04Slider({
+  slides,
+  interval,
+  ctaText,
+  ctaHref,
+  sectionId,
+}: {
+  slides: Array<{ title?: string; subtitle?: string; backgroundImage?: string }>;
+  interval: number;
+  ctaText: string;
+  ctaHref: string;
+  sectionId: number;
+}) {
+  const [idx, setIdx] = useState(0);
+  const count = Math.max(slides.length, 1);
+  useEffect(() => {
+    if (count < 2) return;
+    const t = setInterval(() => setIdx((i) => (i + 1) % count), Math.max(2000, interval));
+    return () => clearInterval(t);
+  }, [count, interval]);
+
+  return (
+    <section
+      className="relative overflow-hidden"
+      style={{ minHeight: "100svh", backgroundColor: "#000" }}
+      data-template="barber-04"
+    >
+      {/* Slides — stacked, opacity-cross-fade */}
+      {slides.map((s, i) => (
+        <div
+          key={`slide-${i}`}
+          className="absolute inset-0 transition-opacity duration-700"
+          style={{ opacity: i === idx ? 1 : 0, zIndex: 0 }}
+          aria-hidden={i !== idx}
+        >
+          {s.backgroundImage ? (
+            <Image
+              src={String(s.backgroundImage)}
+              alt=""
+              fill
+              priority={i === 0}
+              sizes="100vw"
+              className="object-cover"
+              unoptimized={shouldSkipNextImageOptimization(String(s.backgroundImage))}
+            />
+          ) : (
+            <div className="absolute inset-0" style={{ backgroundColor: "#1a1a1a" }} />
+          )}
+        </div>
+      ))}
+
+      {/* Gradient overlay */}
+      <div
+        aria-hidden
+        className="absolute inset-0 z-[1] pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to bottom,rgba(0,0,0,.45) 0%,rgba(0,0,0,.65) 70%,rgba(0,0,0,.85) 100%)",
+        }}
+      />
+
+      {/* Content — keyed by idx so each slide re-mounts and replays slide-up animation */}
+      <style>{`
+        @keyframes barber04SlideUp {
+          0%   { opacity: 0; transform: translateY(40px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        [data-template="barber-04"] .b04-anim-1 { animation: barber04SlideUp .9s cubic-bezier(.22,.61,.36,1) .15s both; }
+        [data-template="barber-04"] .b04-anim-2 { animation: barber04SlideUp .9s cubic-bezier(.22,.61,.36,1) .35s both; }
+        [data-template="barber-04"] .b04-anim-3 { animation: barber04SlideUp .9s cubic-bezier(.22,.61,.36,1) .55s both; }
+        @media (prefers-reduced-motion: reduce) {
+          [data-template="barber-04"] .b04-anim-1,
+          [data-template="barber-04"] .b04-anim-2,
+          [data-template="barber-04"] .b04-anim-3 { animation: none; opacity: 1; transform: none; }
+        }
+      `}</style>
+      <div className="relative z-10 flex items-center justify-center text-center text-white px-6" style={{ minHeight: "100svh" }}>
+        <div key={`slide-content-${idx}`} className="max-w-[960px] pt-24">
+          <h1
+            className="uppercase b04-anim-1"
+            style={{
+              fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif",
+              fontWeight: 300,
+              fontSize: "clamp(24px, 3vw, 48px)",
+              letterSpacing: "0",
+              lineHeight: 1.15,
+              color: "#fff",
+              marginBottom: 16,
+            }}
+          >
+            <GenericEditableText
+              sectionId={sectionId}
+              field={`slides.${idx}.title`}
+              value={slides[idx]?.title ?? ""}
+              tag="span"
+            />
+          </h1>
+          <p
+            className="b04-anim-2"
+            style={{
+              fontFamily: "'Lato',Helvetica,Arial,sans-serif",
+              fontWeight: 400,
+              fontStyle: "italic",
+              fontSize: "clamp(13px, 1.3vw, 18px)",
+              letterSpacing: "0.01em",
+              color: "rgba(255,255,255,0.92)",
+              maxWidth: 600,
+              margin: "0 auto 32px",
+              lineHeight: 1.6,
+            }}
+          >
+            <GenericEditableText
+              sectionId={sectionId}
+              field={`slides.${idx}.subtitle`}
+              value={slides[idx]?.subtitle ?? ""}
+              tag="span"
+            />
+          </p>
+          {ctaText && (
+            <a
+              href={ctaHref}
+              className="inline-block uppercase no-underline transition-colors hover:bg-white hover:text-black b04-anim-3"
+              style={{
+                backgroundColor: "#d5b981",
+                color: "#fff",
+                fontFamily: "'Lato',Helvetica,Arial,sans-serif",
+                fontSize: 14,
+                fontWeight: 700,
+                letterSpacing: "2px",
+                padding: "10px 28px",
+                borderRadius: 0,
+                fontWeight: 400,
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </a>
+          )}
+        </div>
+      </div>
+
+      {/* Prev / Next arrows — Divi-style large chevrons, hidden on hover-less mobile */}
+      {count > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={() => setIdx((i) => (i - 1 + count) % count)}
+            aria-label="Předchozí slide"
+            className="absolute top-1/2 z-20 hidden md:flex items-center justify-center bg-transparent border-0 cursor-pointer transition-opacity"
+            style={{
+              left: 22,
+              transform: "translateY(-50%)",
+              color: "#fff",
+              width: 56,
+              height: 56,
+              opacity: 0.55,
+              padding: 0,
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.55")}
+          >
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <polyline points="15 6 9 12 15 18" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={() => setIdx((i) => (i + 1) % count)}
+            aria-label="Další slide"
+            className="absolute top-1/2 z-20 hidden md:flex items-center justify-center bg-transparent border-0 cursor-pointer transition-opacity"
+            style={{
+              right: 22,
+              transform: "translateY(-50%)",
+              color: "#fff",
+              width: 56,
+              height: 56,
+              opacity: 0.55,
+              padding: 0,
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.55")}
+          >
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <polyline points="9 6 15 12 9 18" />
+            </svg>
+          </button>
+        </>
+      )}
+
+      {/* Dots indikátor */}
+      {count > 1 && (
+        <div
+          className="absolute left-1/2 z-10 flex items-center gap-3"
+          style={{ bottom: 32, transform: "translateX(-50%)" }}
+          aria-hidden
+        >
+          {slides.map((_, i) => (
+            <button
+              key={`dot-${i}`}
+              type="button"
+              onClick={() => setIdx(i)}
+              aria-label={`Slide ${i + 1}`}
+              className="border-0 cursor-pointer"
+              style={{
+                width: i === idx ? 36 : 16,
+                height: 2,
+                backgroundColor: i === idx ? "#d5b981" : "rgba(255,255,255,0.4)",
+                padding: 0,
+                transition: "width .25s, background-color .25s",
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </section>
+  );
 }
 
 function BackgroundEditableImage({ sectionId, src, overlayColor, priority }: { sectionId: number; src: string; overlayColor?: string; priority?: boolean }) {

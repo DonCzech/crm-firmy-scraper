@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="40" viewBox="0 0 160 40">
+  <text x="0" y="28" font-family="Montserrat,Arial,sans-serif" font-size="22" font-weight="700" letter-spacing="6" fill="#8a6f28" text-anchor="start">ARIA</text>
+  <line x1="0" y1="33" x2="86" y2="33" stroke="#8a6f28" stroke-width="1.5"/>
+  <text x="0" y="40" font-family="Montserrat,Arial,sans-serif" font-size="8" font-weight="400" letter-spacing="4" fill="#8a6f28" text-anchor="start">SALON</text>
+</svg>
