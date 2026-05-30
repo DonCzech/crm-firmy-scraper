@@ -1,0 +1,510 @@
+"use client";
+
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import type { Tenant, Page, Section, TenantOverride } from "@/lib/db";
+import type { SiteContent } from "@/lib/content-types";
+import {
+  GenericInlineEditorProvider,
+  type GenericHighlightChange,
+  type GenericTextStyle,
+} from "@/components/tenant/GenericInlineEditorContext";
+import { StudioProvider, useStudio } from "./StudioContext";
+import { StudioShell } from "./StudioShell";
+
+interface Props {
+  tenant: Tenant;
+  page: Page;
+  sections: Section[];
+  overrides?: TenantOverride[];
+}
+
+const MAX_HISTORY = 30;
+const AUTOSAVE_DELAY = 1500;
+const HIGHLIGHT_DELAY = 2400;
+
+type HistoryEntry = { sections: Section[]; changed: GenericHighlightChange[] };
+type MutablePathContainer = Record<string, unknown> | unknown[];
+
+function cloneSections(s: Section[]) {
+  return JSON.parse(JSON.stringify(s)) as Section[];
+}
+function getPathValue(obj: unknown, path: string): string {
+  let current = obj;
+  for (const key of path.split(".")) {
+    if (current == null) return "";
+    if (Array.isArray(current)) { current = current[Number(key)]; continue; }
+    if (typeof current !== "object") return "";
+    current = (current as Record<string, unknown>)[key];
+  }
+  return String(current ?? "");
+}
+function clonePathContainer(value: unknown): MutablePathContainer {
+  return Array.isArray(value) ? [...value] : { ...((value ?? {}) as Record<string, unknown>) };
+}
+function getContainerValue(c: MutablePathContainer, k: string) {
+  return Array.isArray(c) ? c[Number(k)] : c[k];
+}
+function setContainerValue(c: MutablePathContainer, k: string, v: unknown) {
+  if (Array.isArray(c)) { c[Number(k)] = v; return; }
+  c[k] = v;
+}
+function setPathValue(obj: Record<string, unknown>, path: string, value: unknown): Record<string, unknown> {
+  const parts = path.split(".");
+  const root = clonePathContainer(obj);
+  let current = root;
+  parts.forEach((part, idx) => {
+    if (idx === parts.length - 1) { setContainerValue(current, part, value); return; }
+    const next = clonePathContainer(getContainerValue(current, part));
+    setContainerValue(current, part, next);
+    current = next;
+  });
+  return root as Record<string, unknown>;
+}
+function textSnippets(before: string, after: string) {
+  const oldWords = before.match(/\S+/g) ?? [];
+  const afterWords = after.match(/\S+/g) ?? [];
+  const newWords = new Set(afterWords);
+  const oldSet = new Set(oldWords);
+  return Array.from(new Set([
+    ...oldWords.filter(w => !newWords.has(w)),
+    ...afterWords.filter(w => !oldSet.has(w)),
+  ]))
+    .map(w => w.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, ""))
+    .filter(w => w.length > 1)
+    .slice(0, 8);
+}
+function getSectionStyle(sections: Section[], sectionId: number, field: string): GenericTextStyle {
+  const section = sections.find(s => s.id === sectionId);
+  const content = (section?.settings?.content ?? {}) as { __styles?: Record<string, GenericTextStyle> };
+  return content.__styles?.[field] ?? {};
+}
+
+export type SaveStatus = "idle" | "saving" | "saved" | "error";
+
+export interface StudioState {
+  tenant: Tenant;
+  page: Page;
+  sections: Section[];
+  overrides: TenantOverride[];
+  saveStatus: SaveStatus;
+  saveError: string | null;
+  dismissSaveError: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  undo: () => void;
+  redo: () => void;
+  flushSave: () => Promise<void>;
+  saveSectionsBatch: (next: Section[]) => Promise<void>;
+  saveAsteraContent: (section: Section, content: SiteContent) => Promise<void>;
+  patchSection: (id: number, patch: Partial<Pick<Section, "settings" | "is_visible">>) => Promise<void>;
+  reorderSections: (ids: number[]) => Promise<void>;
+  duplicateSection: (id: number) => Promise<void>;
+  deleteSection: (id: number) => Promise<void>;
+  addSection: (type: string, variant: string, insertAtIndex?: number) => Promise<void>;
+  updateSectionLocal: (id: number, patch: Partial<Section>) => void;
+}
+
+export function TenantStudioView({ tenant, page, sections: initialSections, overrides = [] }: Props) {
+  return (
+    <StudioProvider>
+      <InnerStudio tenant={tenant} page={page} initialSections={initialSections} overrides={overrides} />
+    </StudioProvider>
+  );
+}
+
+function InnerStudio({
+  tenant,
+  page,
+  initialSections,
+  overrides,
+}: {
+  tenant: Tenant;
+  page: Page;
+  initialSections: Section[];
+  overrides: TenantOverride[];
+}) {
+  const studio = useStudio();
+  const [sections, setSections] = useState<Section[]>(initialSections);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [highlighted, setHighlighted] = useState<GenericHighlightChange[]>([]);
+  const historyRef = useRef<HistoryEntry[]>([]);
+  const redoRef = useRef<HistoryEntry[]>([]);
+  const sectionsRef = useRef<Section[]>(initialSections);
+  const pendingIdsRef = useRef<Set<number>>(new Set());
+  const autosaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const highlightTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [historyTick, setHistoryTick] = useState(0);
+  sectionsRef.current = sections;
+
+  const markStatus = useCallback((s: SaveStatus, error?: string) => {
+    setSaveStatus(s);
+    if (s === "error") {
+      setSaveError(error ?? "Ukládání selhalo. Změny nebyly zapsány do databáze.");
+    } else if (s === "saving" || s === "saved") {
+      setSaveError(null);
+    }
+    if (s === "saved") {
+      setTimeout(() => setSaveStatus(prev => (prev === "saved" ? "idle" : prev)), 1800);
+    }
+  }, []);
+  const dismissSaveError = useCallback(() => setSaveError(null), []);
+
+  async function extractError(res: Response): Promise<string> {
+    try {
+      const body = (await res.clone().json()) as { error?: string };
+      if (body.error) return `${res.status}: ${body.error}`;
+    } catch { /* not JSON */ }
+    return `HTTP ${res.status} ${res.statusText}`.trim();
+  }
+
+  const flushGenericSave = useCallback(async () => {
+    const ids = Array.from(pendingIdsRef.current);
+    if (!ids.length) return;
+    pendingIdsRef.current.clear();
+    markStatus("saving");
+    try {
+      await Promise.all(ids.map(async (id) => {
+        const section = sectionsRef.current.find(s => s.id === id);
+        if (!section) return;
+        const res = await fetch(`/api/demo/${tenant.slug}/sections/${id}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ settings: section.settings ?? {} }),
+        });
+        if (!res.ok) throw new Error(await extractError(res));
+      }));
+      markStatus("saved");
+    } catch (e) {
+      markStatus("error", e instanceof Error ? e.message : "Síťová chyba");
+    }
+  }, [tenant.slug, markStatus]);
+
+  const queueGenericSave = useCallback((sectionId: number) => {
+    pendingIdsRef.current.add(sectionId);
+    if (autosaveTimerRef.current) clearTimeout(autosaveTimerRef.current);
+    autosaveTimerRef.current = setTimeout(flushGenericSave, AUTOSAVE_DELAY);
+  }, [flushGenericSave]);
+
+  const showHighlight = useCallback((changed: GenericHighlightChange[]) => {
+    setHighlighted(changed);
+    if (highlightTimerRef.current) clearTimeout(highlightTimerRef.current);
+    highlightTimerRef.current = setTimeout(() => setHighlighted([]), HIGHLIGHT_DELAY);
+  }, []);
+
+  const updateField = useCallback((sectionId: number, field: string, value: string, options?: { recordHistory?: boolean }) => {
+    setSections(prev => {
+      const before = cloneSections(prev);
+      let changed: GenericHighlightChange[] = [];
+      const next = prev.map(section => {
+        if (section.id !== sectionId) return section;
+        const content = (section.settings?.content ?? {}) as Record<string, unknown>;
+        const nextContent = setPathValue(content, field, value);
+        changed = [{
+          sectionId,
+          field,
+          snippets: textSnippets(getPathValue(content, field), getPathValue(nextContent, field)),
+        }];
+        return { ...section, settings: { ...(section.settings ?? {}), content: nextContent } };
+      });
+      if (options?.recordHistory !== false) {
+        historyRef.current = [...historyRef.current.slice(-(MAX_HISTORY - 1)), { sections: before, changed }];
+        redoRef.current = [];
+        setHistoryTick(t => t + 1);
+      } else {
+        const last = historyRef.current[historyRef.current.length - 1];
+        if (last?.changed.some(c => c.sectionId === sectionId && c.field === field)) {
+          historyRef.current = [...historyRef.current.slice(0, -1), { ...last, changed }];
+        }
+      }
+      sectionsRef.current = next;
+      return next;
+    });
+    queueGenericSave(sectionId);
+  }, [queueGenericSave]);
+
+  const updateStyle = useCallback((sectionId: number, field: string, style: GenericTextStyle) => {
+    setSections(prev => {
+      const before = cloneSections(prev);
+      const next = prev.map(section => {
+        if (section.id !== sectionId) return section;
+        const content = (section.settings?.content ?? {}) as Record<string, unknown>;
+        const styles = { ...((content.__styles as Record<string, GenericTextStyle> | undefined) ?? {}) };
+        styles[field] = Object.fromEntries(Object.entries(style).filter(([, v]) => v !== undefined)) as GenericTextStyle;
+        const nextContent = { ...content, __styles: styles };
+        return { ...section, settings: { ...(section.settings ?? {}), content: nextContent } };
+      });
+      historyRef.current = [...historyRef.current.slice(-(MAX_HISTORY - 1)), {
+        sections: before,
+        changed: [{ sectionId, field, snippets: [] }],
+      }];
+      redoRef.current = [];
+      setHistoryTick(t => t + 1);
+      sectionsRef.current = next;
+      return next;
+    });
+    queueGenericSave(sectionId);
+  }, [queueGenericSave]);
+
+  const undo = useCallback(() => {
+    const entry = historyRef.current[historyRef.current.length - 1];
+    if (!entry) return;
+    historyRef.current = historyRef.current.slice(0, -1);
+    redoRef.current = [...redoRef.current.slice(-(MAX_HISTORY - 1)), { sections: cloneSections(sectionsRef.current), changed: entry.changed }];
+    const next = cloneSections(entry.sections);
+    sectionsRef.current = next;
+    setSections(next);
+    setHistoryTick(t => t + 1);
+    showHighlight(entry.changed);
+    entry.changed.forEach(c => queueGenericSave(c.sectionId));
+  }, [queueGenericSave, showHighlight]);
+
+  const redo = useCallback(() => {
+    const entry = redoRef.current[redoRef.current.length - 1];
+    if (!entry) return;
+    redoRef.current = redoRef.current.slice(0, -1);
+    historyRef.current = [...historyRef.current.slice(-(MAX_HISTORY - 1)), { sections: cloneSections(sectionsRef.current), changed: entry.changed }];
+    const next = cloneSections(entry.sections);
+    sectionsRef.current = next;
+    setSections(next);
+    setHistoryTick(t => t + 1);
+    showHighlight(entry.changed);
+    entry.changed.forEach(c => queueGenericSave(c.sectionId));
+  }, [queueGenericSave, showHighlight]);
+
+  const saveSectionsBatch = useCallback(async (next: Section[]) => {
+    markStatus("saving");
+    try {
+      const res = await fetch(`/api/demo/${tenant.slug}/sections`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sections: next }),
+      });
+      if (!res.ok) throw new Error(await extractError(res));
+      const body = (await res.json().catch(() => ({}))) as { idMap?: Record<string, number> };
+      if (body.idMap && Object.keys(body.idMap).length > 0) {
+        const map = body.idMap;
+        setSections(prev => {
+          const remapped = prev.map(s => map[String(s.id)] ? { ...s, id: map[String(s.id)] } : s);
+          sectionsRef.current = remapped;
+          return remapped;
+        });
+      }
+      markStatus("saved");
+    } catch (e) {
+      markStatus("error", e instanceof Error ? e.message : "Síťová chyba");
+    }
+  }, [tenant.slug, markStatus]);
+
+  const saveAsteraContent = useCallback(async (section: Section, content: SiteContent) => {
+    markStatus("saving");
+    try {
+      const settings = { ...(section.settings ?? {}), content };
+      const res = await fetch(`/api/demo/${tenant.slug}/sections/${section.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ settings }),
+      });
+      if (!res.ok) throw new Error(await extractError(res));
+      setSections(prev => prev.map(s => s.id === section.id ? { ...s, settings } : s));
+      markStatus("saved");
+    } catch (e) {
+      markStatus("error", e instanceof Error ? e.message : "Síťová chyba");
+    }
+  }, [tenant.slug, markStatus]);
+
+  const patchSection = useCallback(async (id: number, patch: Partial<Pick<Section, "settings" | "is_visible">>) => {
+    setSections(prev => prev.map(s => s.id === id ? { ...s, ...patch } : s));
+    markStatus("saving");
+    try {
+      const res = await fetch(`/api/demo/${tenant.slug}/sections/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(patch),
+      });
+      if (!res.ok) throw new Error(await extractError(res));
+      markStatus("saved");
+    } catch (e) {
+      markStatus("error", e instanceof Error ? e.message : "Síťová chyba");
+    }
+  }, [tenant.slug, markStatus]);
+
+  const reorderSections = useCallback(async (ids: number[]) => {
+    const map = new Map(sectionsRef.current.map(s => [s.id, s]));
+    const next = ids
+      .map((id, idx) => {
+        const s = map.get(id);
+        if (!s) return null;
+        return { ...s, order_index: idx };
+      })
+      .filter((s): s is Section => s !== null);
+    setSections(next);
+    sectionsRef.current = next;
+    await saveSectionsBatch(next);
+  }, [saveSectionsBatch]);
+
+  const duplicateSection = useCallback(async (id: number) => {
+    const source = sectionsRef.current.find(s => s.id === id);
+    if (!source) return;
+    const tempId = -(Date.now() & 0x7fffffff);
+    const dup: Section = { ...source, id: tempId, order_index: source.order_index + 1 };
+    const next = [...sectionsRef.current];
+    const insertAt = next.findIndex(s => s.id === id) + 1;
+    next.splice(insertAt, 0, dup);
+    const reindexed = next.map((s, idx) => ({ ...s, order_index: idx }));
+    setSections(reindexed);
+    sectionsRef.current = reindexed;
+    await saveSectionsBatch(reindexed);
+  }, [saveSectionsBatch]);
+
+  const deleteSection = useCallback(async (id: number) => {
+    const next = sectionsRef.current.filter(s => s.id !== id).map((s, idx) => ({ ...s, order_index: idx }));
+    setSections(next);
+    sectionsRef.current = next;
+    if (studio.selectedSectionId === id) studio.setSelection(null);
+    markStatus("saving");
+    try {
+      // For never-saved temp sections (id <= 0) there is no DB row to delete.
+      if (id > 0) {
+        const res = await fetch(`/api/demo/${tenant.slug}/sections/${id}`, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        });
+        if (!res.ok) throw new Error(await extractError(res));
+      }
+      // Re-save remaining sections so the new order_index values land in DB.
+      await saveSectionsBatch(next);
+    } catch (e) {
+      markStatus("error", e instanceof Error ? e.message : "Síťová chyba");
+    }
+  }, [tenant.slug, saveSectionsBatch, studio, markStatus]);
+
+  const addSection = useCallback(async (type: string, variant: string, insertAtIndex?: number) => {
+    // Negative temp id signals "new section" to the API (which assigns a real
+    // serial id and returns it in idMap). Must fit in 32-bit signed INTEGER.
+    const tempId = -(Date.now() & 0x7fffffff);
+    const newSection: Section = {
+      id: tempId,
+      tenant_id: tenant.id,
+      page_id: page.id,
+      section_type: type,
+      section_variant: variant,
+      order_index: 0,
+      is_visible: true,
+      settings: { content: {} },
+    };
+    const current = [...sectionsRef.current].sort((a, b) => a.order_index - b.order_index);
+    let insertAt: number;
+    if (typeof insertAtIndex === "number") {
+      insertAt = Math.max(0, Math.min(insertAtIndex, current.length));
+    } else {
+      const footerIdx = current.findIndex(s => s.section_type === "footer");
+      insertAt = footerIdx >= 0 ? footerIdx : current.length;
+    }
+    current.splice(insertAt, 0, newSection);
+    const reindexed = current.map((s, idx) => ({ ...s, order_index: idx }));
+    setSections(reindexed);
+    sectionsRef.current = reindexed;
+    await saveSectionsBatch(reindexed);
+  }, [tenant.id, page.id, saveSectionsBatch]);
+
+  const updateSectionLocal = useCallback((id: number, patch: Partial<Section>) => {
+    setSections(prev => prev.map(s => s.id === id ? { ...s, ...patch } : s));
+  }, []);
+
+  const reorderArrayField = useCallback((sectionId: number, field: string, newArray: unknown[]) => {
+    setSections(prev => {
+      const before = cloneSections(prev);
+      const next = prev.map(section => {
+        if (section.id !== sectionId) return section;
+        const content = (section.settings?.content ?? {}) as Record<string, unknown>;
+        const nextContent = setPathValue(content, field, newArray);
+        return { ...section, settings: { ...(section.settings ?? {}), content: nextContent } };
+      });
+      historyRef.current = [...historyRef.current.slice(-(MAX_HISTORY - 1)), {
+        sections: before,
+        changed: [{ sectionId, field, snippets: [] }],
+      }];
+      redoRef.current = [];
+      setHistoryTick(t => t + 1);
+      sectionsRef.current = next;
+      return next;
+    });
+    queueGenericSave(sectionId);
+  }, [queueGenericSave]);
+
+  const visibleSections = sections.filter(s => s.is_visible);
+  const hasAsteraHome = visibleSections.some(s => s.section_type === "astera-home");
+  const hasClonePage = visibleSections.some(s => s.section_type === "full-page-clone");
+  const genericEditorEnabled = !hasAsteraHome && !hasClonePage;
+
+  const genericEditorValue = useMemo(() => ({
+    isAdmin: genericEditorEnabled,
+    highlighted,
+    updateField,
+    updateStyle,
+    reorderField: reorderArrayField,
+    getStyle: (sectionId: number, field: string) => getSectionStyle(sections, sectionId, field),
+  }), [genericEditorEnabled, highlighted, sections, updateField, updateStyle, reorderArrayField]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      const target = e.target as HTMLElement | null;
+      const inEditable = target && (
+        target.tagName === "INPUT" ||
+        target.tagName === "TEXTAREA" ||
+        target.isContentEditable
+      );
+      const mod = e.metaKey || e.ctrlKey;
+      if (mod && e.key.toLowerCase() === "z" && !e.shiftKey) {
+        e.preventDefault(); undo(); return;
+      }
+      if (mod && (e.key.toLowerCase() === "z" && e.shiftKey || e.key.toLowerCase() === "y")) {
+        e.preventDefault(); redo(); return;
+      }
+      if (mod && e.key.toLowerCase() === "s") {
+        e.preventDefault(); void flushGenericSave(); return;
+      }
+      if (!inEditable && !mod) {
+        if (e.key === "1") { studio.setBreakpoint("desktop"); return; }
+        if (e.key === "2") { studio.setBreakpoint("tablet"); return; }
+        if (e.key === "3") { studio.setBreakpoint("mobile"); return; }
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [undo, redo, flushGenericSave, studio]);
+
+  // Suppress unused historyTick warning while still triggering rerenders
+  void historyTick;
+
+  const studioState: StudioState = {
+    tenant,
+    page,
+    sections,
+    overrides,
+    saveStatus,
+    saveError,
+    dismissSaveError,
+    canUndo: historyRef.current.length > 0,
+    canRedo: redoRef.current.length > 0,
+    undo,
+    redo,
+    flushSave: flushGenericSave,
+    saveSectionsBatch,
+    saveAsteraContent,
+    patchSection,
+    reorderSections,
+    duplicateSection,
+    deleteSection,
+    addSection,
+    updateSectionLocal,
+  };
+
+  return (
+    <GenericInlineEditorProvider value={genericEditorValue}>
+      <StudioShell state={studioState} />
+    </GenericInlineEditorProvider>
+  );
+}

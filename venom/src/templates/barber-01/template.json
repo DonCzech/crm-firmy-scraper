@@ -1,0 +1,69 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "barber-01",
+  "name": "Barber — Dark Luxury",
+  "industry": "barber",
+  "version": "1.0.0",
+  "baseTemplate": null,
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs", "en"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "titleKey": "pages.home.title",
+      "sections": [
+        { "type": "navbar",        "variant": "barber-dark",    "contentRef": "navbar" },
+        { "type": "hero",          "variant": "hero-luxury-dark", "contentRef": "home.hero" },
+        { "type": "services",      "variant": "pricing-list",   "contentRef": "home.services" },
+        { "type": "gallery",       "variant": "masonry",        "contentRef": "home.gallery" },
+        { "type": "testimonials",  "variant": "slider",         "contentRef": "home.testimonials" },
+        { "type": "team",          "variant": "cards-grid",     "contentRef": "home.team" },
+        { "type": "rezora-cta",    "variant": "barber-dark",    "contentRef": "home.cta" },
+        { "type": "opening-hours", "variant": "default",        "contentRef": "home.hours" },
+        { "type": "faq",           "variant": "default",        "contentRef": "home.faq" },
+        { "type": "contact",       "variant": "default",        "contentRef": "home.contact" },
+        { "type": "footer",        "variant": "barber-dark",    "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "titleKey": "pages.about.title",
+      "sections": [
+        { "type": "navbar",  "variant": "barber-dark",    "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",  "contentRef": "about.hero" },
+        { "type": "about",   "variant": "two-col",        "contentRef": "about.body" },
+        { "type": "team",    "variant": "cards-grid",     "contentRef": "home.team" },
+        { "type": "footer",  "variant": "barber-dark",    "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "galerie",
+      "titleKey": "pages.gallery.title",
+      "sections": [
+        { "type": "navbar",   "variant": "barber-dark",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",  "contentRef": "gallery.hero" },
+        { "type": "gallery",  "variant": "masonry",        "contentRef": "home.gallery" },
+        { "type": "footer",   "variant": "barber-dark",    "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "titleKey": "pages.contact.title",
+      "sections": [
+        { "type": "navbar",           "variant": "barber-dark",  "contentRef": "navbar" },
+        { "type": "contact",          "variant": "default",      "contentRef": "home.contact" },
+        { "type": "opening-hours",    "variant": "default",      "contentRef": "home.hours" },
+        { "type": "footer",           "variant": "barber-dark",  "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "images": {
+    "manifest": "./images/manifest.json"
+  }
+}

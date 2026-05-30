@@ -1,0 +1,16 @@
+/* barber-04 / Černý Fade — premium urban barbershop
+ * Gold #d5b981 + black + slate, Bebas Neue display + Open Sans body.
+ * Variant-specific overrides go here; theme tokens are in theme.json.
+ */
+
+[data-template="barber-04"] {
+  --bp-primary: #d5b981;
+  --bp-primary-dim: #c59d5f;
+  --bp-bg-dark: #1a1a1a;
+  --bp-bg-deep: #000000;
+  --bp-bg-slate: #2c3d49;
+  --bp-bg-cream: #f4f6f7;
+  --bp-text-light: #ffffff;
+  --bp-text-muted: rgba(255,255,255,.65);
+  --bp-text-body: #666666;
+}

@@ -1,0 +1,121 @@
+/* barber-02 — Holičství Atelier skin
+ * Variant-specific overrides for the-barber-style luxury barber layout.
+ * Section 1: Header (navbar variant "barber-overlay").
+ */
+
+.tpl-barber-02 {
+  --tpl-primary: #d4a96e;
+  --tpl-secondary: #9a7a50;
+  --tpl-surface: #f9f7f5;
+  --tpl-surface-dark: #1a1a1a;
+  --tpl-footer-bg: #111111;
+  --tpl-font-display: 'Libre Baskerville', Georgia, serif;
+  --tpl-font-body: 'Source Sans Pro', system-ui, sans-serif;
+}
+
+/* ── Header (navbar, variant barber-overlay) ─────────────────────────────── */
+.tpl-barber-02 .navbar-barber-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 18px 40px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, transparent 100%);
+  transition: background 0.3s;
+}
+
+.tpl-barber-02 .navbar-barber-overlay .navbar-inner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tpl-barber-02 .navbar-barber-overlay .navbar-logo img {
+  width: 90px;
+  height: auto;
+  filter: brightness(1);
+}
+
+.tpl-barber-02 .navbar-barber-overlay .navbar-links {
+  display: flex;
+  gap: 32px;
+}
+
+.tpl-barber-02 .navbar-barber-overlay .navbar-link {
+  font-family: var(--tpl-font-body);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 400;
+  transition: opacity 0.2s;
+}
+
+.tpl-barber-02 .navbar-barber-overlay .navbar-link:hover {
+  opacity: 0.7;
+}
+
+.tpl-barber-02 .navbar-barber-overlay .navbar-cta {
+  display: none; /* the-barber clone nemá nav CTA tlačítko; CTA je v hero */
+}
+
+/* Hamburger (mobile < 600px) */
+.tpl-barber-02 .navbar-barber-overlay .navbar-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 28px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.tpl-barber-02 .navbar-barber-overlay .navbar-hamburger span {
+  display: block;
+  height: 1.5px;
+  background: #fff;
+  transition: all 0.3s;
+  transform-origin: center;
+}
+
+@media (max-width: 600px) {
+  .tpl-barber-02 .navbar-barber-overlay {
+    padding: 14px 20px;
+  }
+  .tpl-barber-02 .navbar-barber-overlay .navbar-links {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 8, 6, 0.97);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    z-index: 90;
+  }
+  .tpl-barber-02 .navbar-barber-overlay .navbar-links.is-open {
+    display: flex;
+  }
+  .tpl-barber-02 .navbar-barber-overlay .navbar-link {
+    font-size: 1.1rem;
+  }
+  .tpl-barber-02 .navbar-barber-overlay .navbar-hamburger {
+    display: flex;
+  }
+  .tpl-barber-02 .navbar-barber-overlay .navbar-hamburger.is-open span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+  .tpl-barber-02 .navbar-barber-overlay .navbar-hamburger.is-open span:nth-child(2) {
+    opacity: 0;
+  }
+  .tpl-barber-02 .navbar-barber-overlay .navbar-hamburger.is-open span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+}

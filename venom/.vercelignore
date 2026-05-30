@@ -1,0 +1,13 @@
+.next
+node_modules
+.git
+.runtime-*.log
+*.log
+.DS_Store
+tsconfig.tsbuildinfo
+astera-content.db-wal
+astera-content.db-shm
+template-lab
+zadání
+docs
+scripts/test-*

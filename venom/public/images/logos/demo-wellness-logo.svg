@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="176" height="44" viewBox="0 0 176 44" role="img" aria-labelledby="title">
+  <title id="title">Klára Wellness Studio</title>
+  <rect width="176" height="44" rx="8" fill="#FAFAF7"/>
+  <path d="M18 27c8-1 14-8 15-16 7 5 8 16 0 22-6 5-17 3-22-3 2-1 4-2 7-3Z" fill="#7B9E87"/>
+  <path d="M24 29c7-4 12-9 16-17" stroke="#C4956A" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+  <text x="48" y="21" fill="#2C2C2C" font-family="Georgia, 'Times New Roman', serif" font-size="14" font-weight="700" letter-spacing=".8">KLARA</text>
+  <text x="48" y="32" fill="#7B9E87" font-family="Arial, sans-serif" font-size="8" font-weight="700" letter-spacing="1.8">WELLNESS STUDIO</text>
+  <path d="M132 14h24M132 30h24" stroke="#C4956A" stroke-width="1" opacity=".65"/>
+</svg>

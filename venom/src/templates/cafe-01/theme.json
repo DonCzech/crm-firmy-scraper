@@ -1,0 +1,37 @@
+{
+  "colors": {
+    "primary": "#6d1f37",
+    "secondary": "#b51144",
+    "background": "#ffffff",
+    "surface": "#f4f3ef",
+    "text": "#222322",
+    "textMuted": "#747474",
+    "accent": "#b51144",
+    "border": "#e5e5e5"
+  },
+  "typography": {
+    "fontHeading": "'CostaDisplayWave', Georgia, serif",
+    "fontBody": "'CostaText', system-ui, sans-serif",
+    "scale": "comfortable"
+  },
+  "radius": {
+    "sm": "4px",
+    "md": "8px",
+    "lg": "16px",
+    "pill": "9999px"
+  },
+  "spacing": {
+    "personality": "normal",
+    "section": "comfortable"
+  },
+  "shadows": {
+    "sm": "0 1px 2px rgba(0,0,0,.06)",
+    "md": "0 4px 12px rgba(0,0,0,.08)",
+    "lg": "0 12px 32px rgba(0,0,0,.12)"
+  },
+  "animation": {
+    "ease": "cubic-bezier(.4,0,.2,1)",
+    "duration": "200ms",
+    "intensity": "subtle"
+  }
+}

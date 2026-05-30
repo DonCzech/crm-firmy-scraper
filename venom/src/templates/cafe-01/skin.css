@@ -1,0 +1,63 @@
+/* cafe-01 skin — scoped to [data-industry="cafe"] */
+
+/* ── Desktop tokens ─────────────────────────────────────────────────────── */
+[data-industry="cafe"] {
+  --color-primary:     #6d1f37;
+  --color-secondary:   #b51144;
+  --color-bg:          #fafaf7;
+  --color-surface:     #ffffff;
+  --color-text:        #1a1a1a;
+  --color-text-muted:  #5a5a5a;
+  --color-accent:      #f4f3ef;
+  --color-border:      #e5e5e5;
+  --font-heading:      'CostaDisplayWave', Georgia, serif;
+  --font-body:         'CostaText', sans-serif;
+  --radius:            8px;
+}
+
+/* ── Mobile rules (SEO_PERFORMANCE_CHECKLIST §11) ───────────────────────── */
+
+/* §11.2 cafe-wave navbar: sticky + opaque on mobile (overrides inline style) */
+@media (max-width: 1023px) {
+  [data-industry="cafe"] nav[data-layout="cafe-wave"] {
+    background-color: var(--color-primary, #6d1f37) !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 640px) {
+  /* §11.6 Section padding — no content at viewport edge */
+  [data-industry="cafe"] section {
+    padding-inline: clamp(16px, 5vw, 24px);
+  }
+
+  /* §11.3 Body text ≥ 16px */
+  [data-industry="cafe"] p,
+  [data-industry="cafe"] li {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  /* §11.5 Hero wave: reduce height on small screens (≤ 60vh @ 844px = ~506px) */
+  [data-industry="cafe"] .hero-wave-mask {
+    height: 340px !important;
+  }
+
+  /* §11.6 Blog/service cards: single column */
+  [data-industry="cafe"] [class*="grid-cols-2"],
+  [data-industry="cafe"] [class*="grid-cols-3"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* §11.4 Footer links: adequate tap height */
+  [data-industry="cafe"] footer a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  /* §11.5 Background images: cover + center */
+  [data-industry="cafe"] img[class*="object-cover"] {
+    object-position: center;
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "colors": {
+    "primary":    "#E0BE9A",
+    "secondary":  "#EBCFAA",
+    "background": "#FFF8F1",
+    "surface":    "#F5EDE4",
+    "text":       "#1F1F1F",
+    "textMuted":  "#5B4D43",
+    "accent":     "#5B4D43",
+    "border":     "rgba(224,190,154,0.35)"
+  },
+  "typography": {
+    "fontHeading": "'Fahkwang', serif",
+    "fontBody":    "'Fahkwang', serif",
+    "scale": "comfortable"
+  },
+  "radius": {
+    "sm":   "0px",
+    "md":   "0px",
+    "lg":   "0px",
+    "pill": "0px"
+  },
+  "spacing": {
+    "personality": "spacious",
+    "section": "comfortable"
+  },
+  "shadows": {
+    "sm": "0 1px 2px rgba(0,0,0,0.06)",
+    "md": "0 8px 24px rgba(0,0,0,0.12)",
+    "lg": "0 16px 48px rgba(0,0,0,0.20)"
+  },
+  "animation": {
+    "ease": "cubic-bezier(0.4,0,0.2,1)",
+    "duration": "250ms",
+    "intensity": "subtle"
+  }
+}

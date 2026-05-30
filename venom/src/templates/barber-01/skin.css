@@ -1,0 +1,128 @@
+/* barber-01 skin — scoped to [data-industry="barber"] */
+/* Loads Montserrat for headings via Google Fonts preconnect */
+
+[data-industry="barber"] {
+  --color-primary:     #C9A84C;
+  --color-secondary:   #1A1A1A;
+  --color-bg:          #111111;
+  --color-surface:     #1E1E1E;
+  --color-text:        #F5F5F5;
+  --color-text-muted:  #A0A0A0;
+  --color-accent:      #C9A84C;
+  --color-border:      #2A2A2A;
+  --font-heading:      'Montserrat', sans-serif;
+  --font-body:         'Inter', sans-serif;
+  --radius:            4px;
+}
+
+/* Section dividers — subtle gold rule between sections */
+[data-industry="barber"] section + section {
+  border-top: 1px solid var(--color-border);
+}
+
+/* Navbar: opaque dark on scroll */
+[data-industry="barber"] nav {
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Buttons use gold fill, dark text */
+[data-industry="barber"] .btn-primary,
+[data-industry="barber"] a[style*="background-color"] {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Gold underline accent on headings */
+[data-industry="barber"] h2::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 2px;
+  background: var(--color-accent);
+  margin: 0.75rem auto 0;
+}
+
+/* Pricing list rows */
+[data-industry="barber"] [class*="border-b"] {
+  border-color: var(--color-border) !important;
+}
+
+/* Gallery lightbox overlay */
+[data-industry="barber"] .gallery-overlay {
+  background: rgba(0, 0, 0, 0.92);
+}
+
+/* Star rating — gold */
+[data-industry="barber"] .star-gold {
+  color: var(--color-accent);
+}
+
+/* FAQ accordion — dark surface */
+[data-industry="barber"] [class*="accordion"],
+[data-industry="barber"] [class*="border rounded"] {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+/* Contact form inputs */
+[data-industry="barber"] input,
+[data-industry="barber"] textarea {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+[data-industry="barber"] input:focus,
+[data-industry="barber"] textarea:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
+/* Team cards */
+[data-industry="barber"] [class*="rounded-full"] {
+  border: 2px solid var(--color-border);
+}
+
+/* Opening hours alternating rows */
+[data-industry="barber"] [class*="space-y"] > div:nth-child(even) {
+  background: rgba(255,255,255,0.03);
+}
+
+/* Footer dark */
+[data-industry="barber"] footer {
+  background: #0a0a0a;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ── Mobile rules (SEO_PERFORMANCE_CHECKLIST §11) ───────────────────────── */
+@media (max-width: 640px) {
+  /* §11.6 Section padding — no content at viewport edge */
+  [data-industry="barber"] section {
+    padding-inline: clamp(16px, 5vw, 24px);
+  }
+
+  /* §11.3 Body text ≥ 16px */
+  [data-industry="barber"] p,
+  [data-industry="barber"] li {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  /* §11.3 H2 decorative line — left-align with text on mobile */
+  [data-industry="barber"] h2::after {
+    margin: 0.5rem 0 0;
+  }
+
+  /* §11.4 Opening-hours rows min 44px tap height */
+  [data-industry="barber"] [class*="space-y"] > div {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* §11.5 Hero background: cover + center */
+  [data-industry="barber"] section img[class*="object-cover"] {
+    object-position: center;
+  }
+}

@@ -1,0 +1,34 @@
+/* hair-02 — Hair Studio No.1 skin overrides */
+:root {
+  --color-primary:      #459696;
+  --color-primary-light:#5aafaf;
+  --color-accent:       #459696;
+  --color-dark:         #4a4a4a;
+  --color-dark-2:       #2a2a2a;
+  --color-cream:        #ebe8e2;
+  --color-cream-2:      #f5f3ef;
+  --color-bg:           #ffffff;
+  --color-surface:      #f5f3ef;
+  --color-text:         #4a4a4a;
+  --color-text-muted:   #888888;
+  --font-heading:       'Montserrat', sans-serif;
+  --font-body:          'Montserrat', sans-serif;
+  --radius:             8px;
+  --section-gap:        80px;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/clones/hairsalon-no1/css/montserrat-v29-latin-regular.woff2') format('woff2');
+  font-weight: 400; font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/clones/hairsalon-no1/css/montserrat-v29-latin-500.woff2') format('woff2');
+  font-weight: 500; font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/clones/hairsalon-no1/css/montserrat-v29-latin-700.woff2') format('woff2');
+  font-weight: 700; font-display: swap;
+}

@@ -1,0 +1,23 @@
+/* hair-03 — Petra Studio skin overrides */
+:root {
+  --color-primary:      #2f201a;
+  --color-primary-dark: #4a3428;
+  --color-accent:       #c8a97e;
+  --color-gold:         #e9d415;
+  --color-dark:         #2f201a;
+  --color-text:         #2f201a;
+  --color-text-muted:   #636363;
+  --color-surface:      #f8f8f8;
+  --color-footer-bg:    #c1c1c1;
+  --font-heading:       'Lato', sans-serif;
+  --font-body:          'Lato', sans-serif;
+  --radius:             0px;
+  --section-gap:        80px;
+}
+
+@font-face {
+  font-family: 'Lato';
+  src: url('/clones/petramechurova/assets/css/lato-fonts.css');
+  font-weight: 300 900;
+  font-display: swap;
+}

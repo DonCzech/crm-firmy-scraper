@@ -1,0 +1,198 @@
+{
+  "siteName": "Demo Beauty Studio",
+  "tagline": "Prémiové beauty & wellness studio v centru Prahy.",
+
+  "navbar": {
+    "logoUrl": "/templates/beauty-01/logo.svg",
+    "siteName": "Demo Beauty Studio",
+    "links": [
+      { "label": "Domů",     "href": "/" },
+      { "label": "Ceník",    "href": "#cenik" },
+      { "label": "Rezervace","href": "#rezervace" },
+      { "label": "Galerie",  "href": "#galerie" },
+      { "label": "Kontakt",  "href": "#kontakt" }
+    ],
+    "phone": "704 123 456",
+    "ctaText": "REZERVACE",
+    "ctaHref": "#rezervace"
+  },
+
+  "hero": {
+    "backgroundImage": "/clones/selfbeauty/img/25d2c3_5fab4401087b41f29620a69a18371d2e_mv2.jpg",
+    "tag": "Praha 1 · Prémiové beauty studio",
+    "titleH1": "Holičství, nehty\na péče o pleť",
+    "titleItalic": "na jednom místě.",
+    "subtitle": "Vaše péče o sebe začíná tady.",
+    "ctaText": "Rezervovat",
+    "ctaHref": "#rezervace"
+  },
+
+  "brands": {
+    "label": "POUŽÍVÁME PRÉMIOVÉ, CELOSVĚTOVĚ DŮVĚRYHODNÉ ZNAČKY",
+    "items": [
+      { "name": "SPARITUAL" },
+      { "name": "Dermalogica" },
+      { "name": "LUMORE Paris" },
+      { "name": "Wella Professionals" },
+      { "name": "L'Oréal Professionnel" }
+    ]
+  },
+
+  "services": {
+    "title": "SLUŽBY",
+    "subtitle": "Vše, co potřebujete, pod jednou střechou.",
+    "description": "Od fresh střihu po dokonalé nehty i pleť. Váš čas pro sebe začíná tady.",
+    "items": [
+      {
+        "name": "Barber",
+        "price": "od 490 Kč",
+        "description": "Precizní střihy, modelování vousů a péče o vlasy šitá na míru vašemu stylu v klidném, moderním prostředí.",
+        "image": "/clones/selfbeauty/img/25d2c3_13082b7e0aa0425ea57cd610ecf9fcac_mv2.jpg",
+        "ctaReservation": "CHCI REZERVACI",
+        "ctaReservationHref": "#rezervace",
+        "ctaPricing": "CENÍK",
+        "ctaPricingHref": "#cenik"
+      },
+      {
+        "name": "Manikúra a pedikúra",
+        "price": "od 529 Kč",
+        "description": "Dlouhotrvající, zdravě vypadající nehty vytvořené s prémiovou péčí značek LUMORE a SPARITUAL a s pečlivým smyslem pro detail.",
+        "image": "/clones/selfbeauty/img/25d2c3_7edb5e4fb8e848b98f1e557901e8a74e_mv2.jpg",
+        "ctaReservation": "CHCI REZERVACI",
+        "ctaReservationHref": "#rezervace",
+        "ctaPricing": "CENÍK",
+        "ctaPricingHref": "#cenik"
+      },
+      {
+        "name": "Péče o pleť, obočí a řasy",
+        "price": "od 650 Kč",
+        "description": "Pokročilá ošetření obličeje od proslulé značky Dermalogica. Zvýrazněte svůj look laminací řas a obočí.",
+        "image": "/clones/selfbeauty/img/25d2c3_34d83b42d6234a288e476f0481edd7d3_mv2.jpg",
+        "ctaReservation": "CHCI REZERVACI",
+        "ctaReservationHref": "#rezervace",
+        "ctaPricing": "CENÍK",
+        "ctaPricingHref": "#cenik"
+      }
+    ]
+  },
+
+  "features": {
+    "title": "PROČ NÁS?",
+    "subtitle": "Studio postavené na tom, jak se chcete cítit.",
+    "items": [
+      {
+        "title": "Všechny služby na jednom místě",
+        "description": "Holičství, nehty a péče o pleť v jedné bezproblémové návštěvě."
+      },
+      {
+        "title": "Zkušení specialisté",
+        "description": "Malý, pečlivě vybraný tým zaměřený výhradně na to, co dělá nejlépe."
+      },
+      {
+        "title": "Prémiové produkty",
+        "description": "Spolupracujeme pouze se značkami SPARITUAL, Dermalogica, LUMORE Paris a dalšími ověřenými profesionálními značkami."
+      },
+      {
+        "title": "Klid a příjemná atmosféra",
+        "description": "Pohodový prostor navržený tak, aby vám pomohl zpomalit a cítit se jako doma."
+      }
+    ]
+  },
+
+  "team": {
+    "title": "Tým",
+    "subtitle": "Lidé, kteří se zajímají o detaily.",
+    "members": [
+      { "name": "Minh",  "role": "Vedoucí / Nehtář",     "image": "/clones/selfbeauty/img/25d2c3_06e713a5198f4638a638da953ce7b5d1_mv2.jpg" },
+      { "name": "Linhi", "role": "Pleťová terapeutka",   "image": "/clones/selfbeauty/img/25d2c3_652b56ffc4a24f3386e12934a2457997_mv2.jpg" },
+      { "name": "Dan",   "role": "Barber",                "image": "/clones/selfbeauty/img/25d2c3_ce733d90a74643febecbef1410d2bcdd_mv2.jpg" },
+      { "name": "Adam",  "role": "Barber",                "image": "/clones/selfbeauty/img/25d2c3_f287d4ee5b254c6286de56d57f03a9a8_mv2.jpg" },
+      { "name": "Cheky", "role": "Nehtář",                "image": "/clones/selfbeauty/img/25d2c3_d8439966c7be4b68bca7aba3602d44fa_mv2.jpg" },
+      { "name": "Mia",   "role": "Nehtářka",              "image": "/clones/selfbeauty/img/25d2c3_1ea900ab27e8428791ac2c7e78b5f00a_mv2.jpg" }
+    ]
+  },
+
+  "gallery": {
+    "title": "Studio",
+    "subtitle": "Prostor navržený pro pohodlí.",
+    "description": "Moderní, klidné a příjemné, navržené tak, abyste si mohli odpočinout už od okamžiku, kdy vstoupíte dovnitř.",
+    "images": [
+      { "url": "/clones/selfbeauty/img/25d2c3_188cf45b59be485dbec404bb0f776561_mv2.jpg", "alt": "Studio interiér" },
+      { "url": "/clones/selfbeauty/img/25d2c3_6b7baccf784b45bab36205c5d3426fb7_mv2.jpg", "alt": "Barber stanice" },
+      { "url": "/clones/selfbeauty/img/25d2c3_77951b9f262d4da9a4264b706ff448a9_mv2.jpg", "alt": "Nehtové studio" },
+      { "url": "/clones/selfbeauty/img/25d2c3_0b5cdb5642444c788cc116a4ef9db3ec_mv2.jpg", "alt": "Kosmetický salon" },
+      { "url": "/clones/selfbeauty/img/25d2c3_56a44ea189fb446589e88bfe426c780d_mv2.jpg", "alt": "Čekárna" },
+      { "url": "/clones/selfbeauty/img/25d2c3_a622681d722f4b379c6a2f95f754edaf_mv2.jpg", "alt": "Detail produktů" }
+    ]
+  },
+
+  "testimonials": {
+    "title": "MILÁČEK V SRDCI PRAHY",
+    "subtitle": "Co říkají naši klienti:",
+    "ratingLine": "Hodnocení 5★ od našich klientů",
+    "items": [
+      {
+        "name": "Jakub H.",
+        "role": "Zákazník barbershopu",
+        "rating": 5,
+        "text": "Upřímně řečeno, nejvíc uvolněný pocit, jaký jsem kdy cítil v jakémkoli salonu v Praze. Střih byl perfektní a prostor je nádherný."
+      },
+      {
+        "name": "Karolína M.",
+        "role": "Stálá zákaznice manikúry",
+        "rating": 5,
+        "text": "Jejich pozornost k detailu je neuvěřitelná. Moje manikúra vydržela týdny a vypadala bezchybně."
+      },
+      {
+        "name": "Anna P.",
+        "role": "Klientka kosmetiky",
+        "rating": 5,
+        "text": "Ošetření pleti mi úplně změnilo vzhled pleti. Klidný prostor, skutečná odbornost."
+      }
+    ]
+  },
+
+  "cta": {
+    "title": "Víc než střih. Zážitek.",
+    "subtitle": "Od precizního střihu a úpravy vousů po barvení, trvalou a regeneraci vlasů — zažijte prémiovou péči v srdci Prahy.",
+    "ctaText": "NAVŠTIVTE NÁS",
+    "ctaHref": "#kontakt",
+    "backgroundImage": "/clones/selfbeauty/img/25d2c3_e72421d45591439da3f8808f772478ad_mv2.jpg"
+  },
+
+  "contact": {
+    "title": "Najdete nás v srdci Prahy.",
+    "address": "Ukázková 123\n110 00 Praha 1",
+    "mapsLabel": "Otevřít v Google Maps",
+    "mapsHref": "https://maps.google.com",
+    "phone": "704 123 456",
+    "phoneLabel": "Zavolat",
+    "email": "email@demo.cz",
+    "hours": [
+      { "day": "Pondělí – Pátek", "value": "9:00 – 19:00" },
+      { "day": "Sobota a neděle", "value": "10:00 – 18:00" }
+    ]
+  },
+
+  "footer": {
+    "siteName": "Demo Beauty Studio",
+    "logoUrl": "/templates/beauty-01/logo.svg",
+    "heading": "Jste připraveni vypadat a cítit se co nejlépe?",
+    "subheading": "Rezervujte si svůj čas. Holičství, nehty a péče o pleť s klidnou a profesionální péčí v centru Prahy.",
+    "ctaText": "REZERVOVAT",
+    "ctaHref": "#rezervace",
+    "phone": "+420 704 123 456",
+    "email": "email@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "web": "https://demo.cz",
+    "socials": [
+      { "label": "Facebook",  "href": "https://facebook.com/demo" },
+      { "label": "Instagram", "href": "https://instagram.com/demo" }
+    ],
+    "hours": [
+      { "day": "Pondělí – Pátek", "value": "9:00 – 19:00" },
+      { "day": "Sobota a neděle", "value": "10:00 – 18:00" }
+    ],
+    "legal": "Demo Beauty Studio s.r.o. · IČO 12345678 · Ukázková 123, 110 00 Praha 1"
+  }
+}

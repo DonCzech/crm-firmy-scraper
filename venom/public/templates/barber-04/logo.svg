@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-label="Černý Fade">
+  <defs>
+    <style>
+      .wordmark { font-family: 'Bebas Neue', 'Oswald', Impact, sans-serif; font-weight: 400; letter-spacing: 0.18em; }
+      .sub { font-family: 'Open Sans', system-ui, sans-serif; font-weight: 600; letter-spacing: 0.42em; }
+    </style>
+  </defs>
+  <line x1="40" y1="20" x2="280" y2="20" stroke="#d5b981" stroke-width="1"/>
+  <text x="160" y="52" text-anchor="middle" class="wordmark" fill="#d5b981" font-size="30">ČERNÝ FADE</text>
+  <text x="160" y="70" text-anchor="middle" class="sub" fill="#d5b981" font-size="9" opacity="0.85">BARBERSHOP &#8226; PRAHA</text>
+  <line x1="40" y1="78" x2="280" y2="78" stroke="#d5b981" stroke-width="1"/>
+</svg>

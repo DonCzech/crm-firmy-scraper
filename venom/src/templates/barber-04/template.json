@@ -1,0 +1,117 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "barber-04",
+  "name": "Černý Fade",
+  "industry": "barber",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Premium urban pánský barbershop — gold + black + slate, Bebas Neue display, full-width 2-slide hero, animovaný counter.",
+  "sectionOrderNote": "Originál barberpraha.online (Barber shop Smíchov) má homepage úmyslně minimalistickou (hero → about → team-stats → testimonial → CTA → footer). Services/Pricing/Gallery jsou na samostatných podstránkách. Pro 1:1 vizuální paritu s originálem se Services(4)/Pricing(5)/Gallery(6) skipují na homepage — viz precedent barber-02/barber-03.",
+  "extraSections": [
+    { "pos": 7, "name": "Team-Stats", "type": "stats", "variant": "barber-stats-counter-4col", "reason": "originál má dipi_counter 4-col sekci (spokojení zákazníci / barbeři / styly / barbershop) místo klasického team gridu na homepage" }
+  ],
+  "skippedSections": [
+    { "pos": 4,  "name": "Services",      "reason": "obsah na /sluzby/ podstránce, ne homepage" },
+    { "pos": 5,  "name": "Pricing",       "reason": "obsah na /cenik/ podstránce" },
+    { "pos": 6,  "name": "Gallery",       "reason": "samostatná galerie na /galerie/; homepage má pouze 8-strip integrovaný v about sekci" },
+    { "pos": 7,  "name": "Team",          "reason": "originál nemá samostatnou team sekci na homepage — nahrazena 4-col stats counter (extraSections.team-stats)" },
+    { "pos": 10, "name": "Locations",     "reason": "jediná pobočka, adresa + mapa v contact blurbs ve footeru" },
+    { "pos": 11, "name": "FAQ",           "reason": "originál nemá FAQ" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar", "variant": "barber-04-overlay", "contentRef": "navbar" },
+        { "type": "hero",   "variant": "hero-barber-04-slider", "contentRef": "hero" },
+        { "type": "about",  "variant": "about-barber-04-strip", "contentRef": "about" },
+        { "type": "stats",  "variant": "barber-stats-counter-4col", "contentRef": "stats" },
+        { "type": "testimonials", "variant": "barber-04-single-stars", "contentRef": "testimonials" },
+        { "type": "cta", "variant": "barber-04-reservation-dark", "contentRef": "cta" },
+        { "type": "footer", "variant": "barber-04-multi-blurb-legal", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Služby",
+      "sections": [
+        { "type": "navbar", "variant": "barber-04-overlay", "contentRef": "navbar" },
+        { "type": "hero",   "variant": "hero-barber-04-page-title", "contentRef": "pages.sluzby.hero" },
+        { "type": "services", "variant": "barber-04-services-cards", "contentRef": "pages.sluzby.services" },
+        { "type": "cta", "variant": "barber-04-reservation-dark", "contentRef": "cta" },
+        { "type": "footer", "variant": "barber-04-multi-blurb-legal", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "cenik",
+      "title": "Ceník",
+      "sections": [
+        { "type": "navbar", "variant": "barber-04-overlay", "contentRef": "navbar" },
+        { "type": "hero",   "variant": "hero-barber-04-page-title", "contentRef": "pages.cenik.hero" },
+        { "type": "pricing", "variant": "barber-04-pricing-flat", "contentRef": "pages.cenik.pricing" },
+        { "type": "cta", "variant": "barber-04-reservation-dark", "contentRef": "cta" },
+        { "type": "footer", "variant": "barber-04-multi-blurb-legal", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "galerie",
+      "title": "Galerie",
+      "sections": [
+        { "type": "navbar", "variant": "barber-04-overlay", "contentRef": "navbar" },
+        { "type": "hero",   "variant": "hero-barber-04-page-title", "contentRef": "pages.galerie.hero" },
+        { "type": "gallery", "variant": "four-col-contained", "contentRef": "pages.galerie.gallery" },
+        { "type": "footer", "variant": "barber-04-multi-blurb-legal", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "sections": [
+        { "type": "navbar", "variant": "barber-04-overlay", "contentRef": "navbar" },
+        { "type": "hero",   "variant": "hero-barber-04-page-title", "contentRef": "pages.o-nas.hero" },
+        { "type": "about",  "variant": "about-barber-04-strip", "contentRef": "pages.o-nas.about" },
+        { "type": "stats",  "variant": "barber-stats-counter-4col", "contentRef": "stats" },
+        { "type": "footer", "variant": "barber-04-multi-blurb-legal", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakty",
+      "title": "Kontakty",
+      "sections": [
+        { "type": "navbar", "variant": "barber-04-overlay", "contentRef": "navbar" },
+        { "type": "hero",   "variant": "hero-barber-04-page-title", "contentRef": "pages.kontakty.hero" },
+        { "type": "footer", "variant": "barber-04-multi-blurb-legal", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "prijmu-barbera",
+      "title": "Přijmu barbera",
+      "sections": [
+        { "type": "navbar", "variant": "barber-04-overlay", "contentRef": "navbar" },
+        { "type": "hero",   "variant": "hero-barber-04-page-title", "contentRef": "pages.prijmu-barbera.hero" },
+        { "type": "cta", "variant": "barber-04-reservation-dark", "contentRef": "pages.prijmu-barbera.cta" },
+        { "type": "footer", "variant": "barber-04-multi-blurb-legal", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "aktuality",
+      "title": "Aktuality",
+      "sections": [
+        { "type": "navbar", "variant": "barber-04-overlay", "contentRef": "navbar" },
+        { "type": "hero",   "variant": "hero-barber-04-page-title", "contentRef": "pages.aktuality.hero" },
+        { "type": "cta", "variant": "barber-04-reservation-dark", "contentRef": "pages.aktuality.cta" },
+        { "type": "footer", "variant": "barber-04-multi-blurb-legal", "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

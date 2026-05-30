@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="176" height="44" viewBox="0 0 176 44" role="img" aria-labelledby="title">
+  <title id="title">Novák Advokátní Kancelář</title>
+  <rect width="176" height="44" rx="4" fill="#FFFFFF"/>
+  <rect x="1" y="1" width="174" height="42" rx="3" fill="none" stroke="#DDE1E7" stroke-width="1.2"/>
+  <path d="M24 10l13 8v2H11v-2l13-8Z" fill="#1B3A6B"/>
+  <path d="M15 22h18M17 22v10M24 22v10M31 22v10M13 33h22" stroke="#C8A96E" stroke-width="1.7" stroke-linecap="round"/>
+  <text x="47" y="21" fill="#1B3A6B" font-family="Georgia, 'Times New Roman', serif" font-size="13" font-weight="700" letter-spacing=".7">NOVAK LAW</text>
+  <text x="47" y="32" fill="#5A5A5A" font-family="Arial, sans-serif" font-size="7.5" font-weight="700" letter-spacing="1.2">ADVOKATNI KANCELAR</text>
+  <path d="M136 13v18" stroke="#C8A96E" stroke-width="1"/>
+</svg>

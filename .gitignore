@@ -12,3 +12,4 @@ coverage/
 venom/.next/
 venom/template-lab/clones/
 venom/scripts/seed-*.mjs
+venom/public/clones/

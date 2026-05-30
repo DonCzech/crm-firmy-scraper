@@ -1,0 +1,354 @@
+@import "tailwindcss";
+
+/* ── Costa template wave mask (cafe-01 master template) ───────────────────── */
+.hero-wave-mask {
+  -webkit-mask-image: url("/clones/costa/src/themes/template/build/bg-wave-mask.svg");
+  mask-image: url("/clones/costa/src/themes/template/build/bg-wave-mask.svg");
+  -webkit-mask-position: bottom;
+  mask-position: bottom;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+}
+.wave-mask-small {
+  -webkit-mask-image: url("/clones/costa/src/themes/template/build/bg-wave-mask-small.svg");
+  mask-image: url("/clones/costa/src/themes/template/build/bg-wave-mask-small.svg");
+  -webkit-mask-position: bottom;
+  mask-position: bottom;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: cover;
+  mask-size: cover;
+}
+
+/* ── Costa template fonts (cafe-01 master template) ───────────────────────── */
+@font-face {
+  font-family: "CostaDisplayWave";
+  src: url("/clones/costa/src/themes/template/build/CostaDisplayWave-Bold.woff2") format("woff2"),
+       url("/clones/costa/src/themes/template/build/CostaDisplayWave-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "CostaText";
+  src: url("/clones/costa/src/themes/template/build/CostaText-Light.woff2") format("woff2"),
+       url("/clones/costa/src/themes/template/build/CostaText-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "CostaText";
+  src: url("/clones/costa/src/themes/template/build/CostaText-Regular.woff2") format("woff2"),
+       url("/clones/costa/src/themes/template/build/CostaText-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "CostaText";
+  src: url("/clones/costa/src/themes/template/build/CostaText-Bold.woff2") format("woff2"),
+       url("/clones/costa/src/themes/template/build/CostaText-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  --color-accent: #7c3bb2;
+  --color-accent-hover: #5f2a8d;
+  --color-text-dark: #1f1f1f;
+  --color-bg-gray: #f9f7f7;
+  --color-bg-blue: #f2f6fc;
+  --color-footer-bg: #f1f6fc;
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Poppins', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #1f1f1f;
+  background: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  color: #1f1f1f;
+}
+
+h1 { font-size: 38px; line-height: 45px; letter-spacing: 1px; font-weight: 700; }
+h2 { font-size: 32px; line-height: 40px; font-weight: 700; }
+h3 { font-size: 20px; line-height: 26px; font-weight: 600; }
+h4 { font-size: 20px; line-height: 30px; font-weight: 500; }
+
+.btn-primary {
+  display: inline-block;
+  background-color: #7c3bb2;
+  color: #ffffff !important;
+  border-radius: 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 10px 50px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn-primary:hover { background-color: #5f2a8d; }
+
+.input-round {
+  background-color: #f1f6fc;
+  border: 1px solid #dde5f0;
+  border-radius: 20px;
+  padding: 10px 18px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #1f1f1f;
+  outline: none;
+}
+.input-round:focus { border-color: #7c3bb2; }
+
+.roundit { border-radius: 12px; overflow: hidden; }
+
+.container-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+@media (max-width: 992px) {
+  h1 { font-size: 30px; line-height: 1.25; }
+  h2 { font-size: 26px; line-height: 1.3; }
+}
+
+/* ── Mobile standards (SEO_PERFORMANCE_CHECKLIST §11) ──────────────────── */
+@media (max-width: 640px) {
+  /* §11.3 Typography — body ≥ 16px, headings via clamp, line-height */
+  body  { font-size: 16px; line-height: 1.5; }
+  h1    { font-size: clamp(24px, 7vw, 30px); line-height: 1.2; }
+  h2    { font-size: clamp(20px, 6vw, 24px); line-height: 1.25; }
+  h3    { font-size: 18px; line-height: 1.3; }
+
+  /* §11.4 CTA full width on mobile */
+  .btn-primary {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 14px 20px;
+    white-space: normal;
+    box-sizing: border-box;
+  }
+
+  /* §11.6 Container padding — no content at viewport edge */
+  .container-main { padding-inline: clamp(16px, 5vw, 24px); }
+}
+
+/* ── barber-01 skin ──────────────────────────────────────────────────────── */
+[data-industry="barber"] h1,
+[data-industry="barber"] h2,
+[data-industry="barber"] h3,
+[data-industry="barber"] h4,
+[data-industry="barber"] h5,
+[data-industry="barber"] h6 {
+  color: var(--color-text, #F5F5F5);
+}
+[data-industry="barber"] {
+  --color-primary:    #C9A84C;
+  --color-on-primary: #111111;
+  --color-secondary:  #1A1A1A;
+  --color-bg:         #111111;
+  --color-surface:    #1E1E1E;
+  --color-text:       #F5F5F5;
+  --color-text-muted: #A0A0A0;
+  --color-accent:     #C9A84C;
+  --color-border:     #2A2A2A;
+  --font-heading:     'Montserrat', sans-serif;
+  --font-body:        'Inter', sans-serif;
+  --radius:           4px;
+}
+[data-industry="barber"] input,
+[data-industry="barber"] textarea {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+[data-industry="barber"] input:focus,
+[data-industry="barber"] textarea:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+[data-industry="barber"] h2::after {
+  content: '';
+  display: block;
+  width: 2.5rem;
+  height: 2px;
+  background: var(--color-accent);
+  margin: 0.6rem auto 0;
+}
+
+/* barber-01 mobile (§11) */
+@media (max-width: 640px) {
+  [data-industry="barber"] section {
+    padding-inline: clamp(16px, 5vw, 24px);
+  }
+  [data-industry="barber"] p,
+  [data-industry="barber"] li {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  [data-industry="barber"] h2::after {
+    margin: 0.5rem 0 0;
+  }
+}
+
+/* ── cafe-01 skin ────────────────────────────────────────────────────────── */
+[data-industry="cafe"] {
+  --color-primary:    #6d1f37;
+  --color-secondary:  #b51144;
+  --color-bg:         #fafaf7;
+  --color-surface:    #ffffff;
+  --color-text:       #1a1a1a;
+  --color-text-muted: #5a5a5a;
+  --color-accent:     #f4f3ef;
+  --color-border:     #e5e5e5;
+  --font-heading:     'CostaDisplayWave', Georgia, serif;
+  --font-body:        'CostaText', sans-serif;
+  --radius:           8px;
+}
+
+/* cafe-01 mobile (§11) */
+
+/* §11.2 cafe-wave navbar: sticky + primary bg on mobile, overrides inline style */
+@media (max-width: 1023px) {
+  [data-industry="cafe"] nav[data-layout="cafe-wave"] {
+    background-color: var(--color-primary, #6d1f37) !important;
+    margin-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 640px) {
+  [data-industry="cafe"] section {
+    padding-inline: clamp(16px, 5vw, 24px);
+  }
+  [data-industry="cafe"] p,
+  [data-industry="cafe"] li {
+    font-size: 16px;
+    line-height: 1.55;
+  }
+  /* Hero wave: reduce height (§11.5 ≤ 60vh) */
+  [data-industry="cafe"] .hero-wave-mask {
+    height: 340px !important;
+  }
+}
+
+/* ── Studio canvas breakpoint simulation ────────────────────────────────────
+   Media queries respond to actual window width, not canvas width.
+   These overrides force mobile/tablet layout inside the studio preview.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* Mobile preview (390px) — force sm: and md: breakpoint OFF */
+[data-breakpoint="mobile"] .sm\:hidden,
+[data-breakpoint="mobile"] .md\:hidden,
+[data-breakpoint="mobile"] .lg\:hidden {
+  display: block !important;
+}
+[data-breakpoint="mobile"] .sm\:flex,
+[data-breakpoint="mobile"] .md\:flex,
+[data-breakpoint="mobile"] .lg\:flex {
+  display: none !important;
+}
+[data-breakpoint="mobile"] .sm\:inline-flex,
+[data-breakpoint="mobile"] .md\:inline-flex,
+[data-breakpoint="mobile"] .lg\:inline-flex {
+  display: none !important;
+}
+[data-breakpoint="mobile"] .sm\:inline-block,
+[data-breakpoint="mobile"] .md\:inline-block,
+[data-breakpoint="mobile"] .lg\:inline-block {
+  display: none !important;
+}
+[data-breakpoint="mobile"] .sm\:inline,
+[data-breakpoint="mobile"] .md\:inline,
+[data-breakpoint="mobile"] .lg\:inline {
+  display: none !important;
+}
+[data-breakpoint="mobile"] .sm\:grid,
+[data-breakpoint="mobile"] .md\:grid,
+[data-breakpoint="mobile"] .lg\:grid {
+  display: none !important;
+}
+/* Relative/sticky for responsive navbar variants */
+[data-breakpoint="mobile"] .lg\:relative {
+  position: sticky !important;
+  top: 0 !important;
+}
+/* Grid columns: collapse to 1 on mobile */
+[data-breakpoint="mobile"] .sm\:grid-cols-2,
+[data-breakpoint="mobile"] .md\:grid-cols-2,
+[data-breakpoint="mobile"] .lg\:grid-cols-2,
+[data-breakpoint="mobile"] .md\:grid-cols-3,
+[data-breakpoint="mobile"] .lg\:grid-cols-3,
+[data-breakpoint="mobile"] .lg\:grid-cols-4,
+[data-breakpoint="mobile"] .lg\:grid-cols-6 {
+  grid-template-columns: 1fr !important;
+}
+/* Flex-row to column on mobile */
+[data-breakpoint="mobile"] .md\:flex-row {
+  flex-direction: column !important;
+}
+/* Width overrides: md:w-1/2 stays full on mobile */
+[data-breakpoint="mobile"] .md\:w-1\/2,
+[data-breakpoint="mobile"] .md\:w-1\/3,
+[data-breakpoint="mobile"] .md\:w-2\/3 {
+  width: 100% !important;
+}
+/* Typography: use clamp values */
+[data-breakpoint="mobile"] body,
+[data-breakpoint="mobile"] p,
+[data-breakpoint="mobile"] li { font-size: 16px; line-height: 1.5; }
+[data-breakpoint="mobile"] h1 { font-size: clamp(24px, 7vw, 30px); line-height: 1.2; }
+[data-breakpoint="mobile"] h2 { font-size: clamp(20px, 6vw, 24px); line-height: 1.25; }
+/* cafe-wave sticky navbar */
+[data-breakpoint="mobile"] nav[data-layout="cafe-wave"] {
+  background-color: var(--color-primary, #6d1f37) !important;
+  margin-bottom: 0 !important;
+}
+/* Hero wave height */
+[data-breakpoint="mobile"] .hero-wave-mask {
+  height: 340px !important;
+}
+/* data-nav-row: responsive control without relying on Tailwind lg: class overrides */
+@media (min-width: 1024px) { [data-nav-row="mobile"] { display: none; } }
+@media (max-width: 1023px) { [data-nav-row="desktop"] { display: none; } }
+/* Studio simulation: explicit display type per row */
+[data-breakpoint="mobile"] [data-nav-row="mobile"] { display: flex !important; }
+[data-breakpoint="mobile"] [data-nav-row="desktop"] { display: none !important; }
+[data-breakpoint="tablet"] [data-nav-row="mobile"] { display: none !important; }
+[data-breakpoint="tablet"] [data-nav-row="desktop"] { display: flex !important; }
+
+/* Tablet preview (768px) — force lg: breakpoint OFF, allow md: */
+[data-breakpoint="tablet"] .lg\:hidden {
+  display: block !important;
+}
+[data-breakpoint="tablet"] .lg\:flex,
+[data-breakpoint="tablet"] .lg\:inline-flex,
+[data-breakpoint="tablet"] .lg\:inline-block,
+[data-breakpoint="tablet"] .lg\:grid {
+  display: none !important;
+}
+[data-breakpoint="tablet"] .lg\:relative {
+  position: sticky !important;
+  top: 0 !important;
+}

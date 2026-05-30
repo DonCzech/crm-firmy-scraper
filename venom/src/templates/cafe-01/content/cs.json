@@ -1,0 +1,202 @@
+{
+  "siteName": "Název podniku",
+  "tagline": "Slogan podniku",
+  "description": "Krátký popis vašeho podniku.",
+
+  "navbar": {
+    "siteName": "Název podniku",
+    "logoUrl": "/images/logos/demo-cafe-logo.svg",
+    "layout": "cafe-wave",
+    "links": [
+      { "label": "Domů", "href": "/" },
+      { "label": "Provozovny", "href": "/kavarny" },
+      { "label": "Nabídka", "href": "/nabidka" },
+      { "label": "O nás", "href": "/o-nas" },
+      { "label": "Kontakt", "href": "/kontakt" }
+    ],
+    "pinIcon": "/clones/costa/src/themes/template/build/icon-pin.svg",
+    "userIcon": "/clones/costa/src/themes/template/build/icon-user.svg",
+    "loginLabel": "Přihlásit",
+    "loginHref": "/prihlaseni",
+    "locationsHref": "/kavarny"
+  },
+
+  "hero": {
+    "title": "Ledové drinky\nv cherry stylu",
+    "subtitle": "Objevte novinky v naší kavárně",
+    "ctaText": "Zjistit více",
+    "ctaHref": "/nabidka",
+    "backgroundImage": "/clones/costa/src/themes/template/build/COSTA_banner_2026_05_1600x640_06.webp"
+  },
+
+  "about": {
+    "title": "Nadpis sekce o produktu nebo programu",
+    "body": "Dvouřádkový popisek, který doplňuje hlavní nadpis a vysvětluje, co tato sekce zákazníkovi nabízí.",
+    "image": { "__placeholder": [360, 225, "Obrázek"] },
+    "highlight": "Tlačítko"
+  },
+
+  "blog-preview": {
+    "title": "Nadpis sekce s novinkami",
+    "items": [
+      { "title": "Název článku 1", "excerpt": "Perex článku — krátký úryvek, který zákazníka navnadí na přečtení celého textu.", "image": { "__placeholder": [640, 484, "Obrázek novinky 1"] }, "date": "1. 1. 2026", "href": "#" },
+      { "title": "Název článku 2", "excerpt": "Perex článku — krátký úryvek, který zákazníka navnadí na přečtení celého textu.", "image": { "__placeholder": [640, 484, "Obrázek novinky 2"] }, "date": "1. 1. 2026", "href": "#" },
+      { "title": "Název článku 3", "excerpt": "Perex článku — krátký úryvek, který zákazníka navnadí na přečtení celého textu.", "image": { "__placeholder": [640, 484, "Obrázek novinky 3"] }, "date": "1. 1. 2026", "href": "#" }
+    ]
+  },
+
+  "cta": {
+    "title": "Nadpis CTA sekce",
+    "subtitle": "",
+    "body": "Delší popis — co zákazník po kliknutí dostane, proč to chtít, kdy to využije. Dvě až tři věty stačí.",
+    "ctaText": "Hlavní akce",
+    "ctaHref": "#",
+    "image": { "__placeholder": [220, 300, "Obrázek"] }
+  },
+
+  "footer": {
+    "siteName": "Název podniku",
+    "layout": "6col",
+    "columns": [
+      { "title": "Sloupec 1", "links": [
+        { "label": "Položka 1", "href": "/nabidka" },
+        { "label": "Položka 2", "href": "/kavarny" },
+        { "label": "Položka 3", "href": "/o-nas" }
+      ] },
+      { "title": "Sloupec 2", "links": [
+        { "label": "Položka 1", "href": "/" },
+        { "label": "Položka 2", "href": "/" }
+      ] },
+      { "title": "Sloupec 3", "links": [
+        { "label": "Položka 1", "href": "/o-nas" },
+        { "label": "Položka 2", "href": "/o-nas" },
+        { "label": "Položka 3", "href": "/o-nas" }
+      ] },
+      { "title": "Sloupec 4", "links": [
+        { "label": "Položka 1", "href": "/kavarny" },
+        { "label": "Položka 2", "href": "/" },
+        { "label": "Položka 3", "href": "/kontakt" }
+      ] },
+      { "title": "Sloupec 5", "links": [
+        { "label": "Položka 1", "href": "/" },
+        { "label": "Položka 2", "href": "/" }
+      ] },
+      { "title": "Sloupec 6", "links": [
+        { "label": "Položka 1", "href": "#" },
+        { "label": "Položka 2", "href": "#" }
+      ] }
+    ],
+    "legalLinks": [
+      { "label": "Ochrana osobních údajů", "href": "#" },
+      { "label": "Zásady cookies", "href": "#" }
+    ],
+    "socials": [
+      { "label": "Facebook", "href": "#" },
+      { "label": "Instagram", "href": "#" },
+      { "label": "TikTok", "href": "#" }
+    ]
+  },
+
+  "services": {
+    "services": [
+      { "name": "Název služby 1", "description": "Popis služby 1", "price": "0 Kč" },
+      { "name": "Název služby 2", "description": "Popis služby 2", "price": "0 Kč" },
+      { "name": "Název služby 3", "description": "Popis služby 3", "price": "0 Kč" },
+      { "name": "Název služby 4", "description": "Popis služby 4", "price": "0 Kč" },
+      { "name": "Název služby 5", "description": "Popis služby 5", "price": "0 Kč" },
+      { "name": "Název služby 6", "description": "Popis služby 6", "price": "0 Kč" }
+    ]
+  },
+
+  "contact": {
+    "title": "Kontaktujte nás",
+    "address": "Ulice 1, 110 00 město",
+    "phone": "+420 000 000 000",
+    "email": "info@vase-domena.cz",
+    "nameLabel": "Jméno",
+    "emailLabel": "E-mail",
+    "messageLabel": "Zpráva",
+    "submitText": "Odeslat"
+  },
+
+  "pages": {
+    "kavarny": {
+      "seoTitle": "Provozovny | Název podniku",
+      "seoDescription": "Krátký popis této podstránky pro vyhledávače.",
+      "hero": {
+        "title": "Nadpis podstránky\n(druhý řádek)",
+        "subtitle": "Krátký podtitulek pod nadpisem",
+        "ctaText": "Hlavní akce",
+        "ctaHref": "#mapa"
+      },
+      "contact": {
+        "title": "Kontaktní sekce",
+        "address": "Ulice 1, město, PSČ",
+        "phone": "+420 000 000 000",
+        "email": "info@vase-domena.cz"
+      }
+    },
+    "nabidka": {
+      "seoTitle": "Nabídka | Název podniku",
+      "seoDescription": "Krátký popis této podstránky pro vyhledávače.",
+      "hero": {
+        "title": "Naše nabídka",
+        "subtitle": "Krátký podtitulek pod nadpisem",
+        "ctaText": "",
+        "ctaHref": ""
+      },
+      "services": {
+        "services": [
+          { "name": "Název služby 1", "description": "Popis služby — co zákazník dostane.", "price": "0 Kč", "duration": "" },
+          { "name": "Název služby 2", "description": "Popis služby — co zákazník dostane.", "price": "0 Kč", "duration": "" },
+          { "name": "Název služby 3", "description": "Popis služby — co zákazník dostane.", "price": "0 Kč", "duration": "" },
+          { "name": "Název služby 4", "description": "Popis služby — co zákazník dostane.", "price": "0 Kč", "duration": "" },
+          { "name": "Název služby 5", "description": "Popis služby — co zákazník dostane.", "price": "0 Kč", "duration": "" },
+          { "name": "Název služby 6", "description": "Popis služby — co zákazník dostane.", "price": "0 Kč", "duration": "" }
+        ]
+      },
+      "cta": {
+        "title": "Nadpis CTA sekce",
+        "body": "Doplňující text k tlačítku — co zákazník po kliknutí dostane.",
+        "ctaText": "Hlavní akce",
+        "ctaHref": "#",
+        "image": { "__placeholder": [220, 300, "Obrázek"] }
+      }
+    },
+    "o-nas": {
+      "seoTitle": "O nás | Název podniku",
+      "seoDescription": "Krátký popis této podstránky pro vyhledávače.",
+      "hero": {
+        "title": "Náš příběh",
+        "subtitle": "Krátký podtitulek pod nadpisem"
+      },
+      "about": {
+        "title": "Jak jsme začali",
+        "body": "Příběh podniku — jak vznikl, kdo ho založil, co je vaše hodnota. Tento odstavec je placeholder, který nahradíte vlastním textem o vás. Pište jednoduše a osobně, ať vám čtenáři uvěří.",
+        "image": { "__placeholder": [600, 400, "Obrázek příběhu"] },
+        "highlight": "Citát nebo motto"
+      },
+      "cta": {
+        "title": "Nadpis CTA sekce",
+        "body": "Doplňující text k tlačítku — co zákazník po kliknutí dostane.",
+        "ctaText": "Hlavní akce",
+        "ctaHref": "#",
+        "image": { "__placeholder": [220, 300, "Obrázek"] }
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt | Název podniku",
+      "seoDescription": "Krátký popis této podstránky pro vyhledávače.",
+      "contact": {
+        "title": "Kontaktujte nás",
+        "address": "Ulice 1, 110 00 město",
+        "phone": "+420 000 000 000",
+        "email": "info@vase-domena.cz",
+        "nameLabel": "Jméno",
+        "emailLabel": "E-mail",
+        "messageLabel": "Zpráva",
+        "submitText": "Odeslat"
+      }
+    }
+  }
+}

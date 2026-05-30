@@ -1,0 +1,56 @@
+/* beauty-01 — Demo Beauty Studio skin overrides */
+/* Cormorant Garamond — hero H1 (totožný s originálem selfbeauty.cz) */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+:root {
+  --color-primary:      #E0BE9A;
+  --color-primary-dark: #C4A07E;
+  --color-accent:       #5B4D43;
+  --color-dark:         #1F1F1F;
+  --color-dark-2:       #3A3028;
+  --color-cream:        #FFF8F1;
+  --color-cream-2:      #F5EDE4;
+  --color-sand:         #E0BE9A;
+  --color-text:         #1F1F1F;
+  --color-text-muted:   #5B4D43;
+  --font-heading:       'Fahkwang', serif;
+  --font-body:          'Fahkwang', serif;
+  --radius:             0px;
+  --section-gap:        100px;
+}
+
+/* Fahkwang — ze selfbeauty klonu (latin weights 300/400/500/600/700) */
+@font-face {
+  font-family: 'Fahkwang';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/clones/selfbeauty/fonts/Noa26Uj3zpmBOgbNpOIjmqlWHCtTkBjw.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fahkwang';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/clones/selfbeauty/fonts/Noax6Uj3zpmBOgbNpOqIuLx7PiZ5.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fahkwang';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/clones/selfbeauty/fonts/Noa26Uj3zpmBOgbNpOJ7m6lWHCtTkBjw.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fahkwang';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/clones/selfbeauty/fonts/Noa26Uj3zpmBOgbNpOJXnKlWHCtTkBjw.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Fahkwang';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/clones/selfbeauty/fonts/Noa26Uj3zpmBOgbNpOIznalWHCtTkBjw.woff2') format('woff2');
+}

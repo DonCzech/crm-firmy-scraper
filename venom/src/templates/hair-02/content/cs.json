@@ -1,0 +1,147 @@
+{
+  "navbar": {
+    "siteName": "Demo Hair Salon",
+    "logoUrl": "",
+    "phone": "+420 704 123 456",
+    "email": "email@demo.cz",
+    "links": [
+      { "label": "O salonu",  "href": "/o-nas" },
+      { "label": "Produkty",  "href": "/kontakt" },
+      { "label": "Ceník",     "href": "/o-nas#cenik" },
+      { "label": "Náš tým",   "href": "/o-nas#tym" },
+      { "label": "Galerie",   "href": "/galerie" },
+      { "label": "Kariéra",   "href": "/kontakt" },
+      { "label": "Kontakt",   "href": "/kontakt" },
+      { "label": "Recenze",   "href": "/#recenze" }
+    ],
+    "socials": [
+      { "label": "Instagram", "href": "https://instagram.com/demo" },
+      { "label": "Facebook",  "href": "https://facebook.com/demo" }
+    ]
+  },
+  "hero": {
+    "title": "Demo Hair Salon",
+    "slides": [
+      { "image": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC0914.jpg",      "alt": "Recepce Demo Hair Salon" },
+      { "image": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC1087-1024x683.jpg", "alt": "Interiér salonu" }
+    ],
+    "ctaText": "On-line rezervace",
+    "ctaHref": "#kontakt"
+  },
+  "about": {
+    "tagline": "Demo ulice 12, Praha",
+    "title": "Demo Hair Salon",
+    "ctaText": "Rezervace",
+    "ctaHref": "#kontakt",
+    "body": "Jsme tým zkušených kadeřníků s dlouholetou praxí v oboru, kteří se neustále školí a vzdělávají, abychom vám mohli nabídnout nejnovější trendy a techniky z kadeřnického světa.",
+    "paragraphs": [
+      "Příběh Demo Hair Salonu začal před více než deseti lety, kdy jsme otevřeli náš první salon v centru města. O několik let poté jsme rozšířili naše působení a otevřeli druhý salon – tentokrát přímo na Demo ulici v samém srdci čtvrti.",
+      "Kvalita našich služeb a spokojenost zákazníků pro nás vždy byly na prvním místě. Udržujeme vysoký standard a skvělý tým na každém místě – neustále se školíme a vzděláváme, abychom vám mohli nabídnout nejnovější trendy z kadeřnického světa.",
+      "Pracujeme s prémiovými vlasovými značkami a nabízíme kompletní portfolio včetně moderních technik zesvětlení a barvení. Fotky naší práce sledujte na Instagramu a Facebooku."
+    ],
+    "brands": [
+      { "name": "Demo Brand A", "logo": "" },
+      { "name": "Demo Brand B", "logo": "" },
+      { "name": "Demo Brand C", "logo": "" },
+      { "name": "Demo Brand D", "logo": "" }
+    ]
+  },
+  "promo": {
+    "tag": "péče o vlasy",
+    "title": "INOVATIVNÍ PÉČE O VAŠE VLASY",
+    "body": "Pokud hledáte řešení pro zdravější, silnější a krásnější vlasy, máme pro vás to pravé. Využíváme prémiové produkty a nejnovější techniky.",
+    "ctaText": "zjistit více",
+    "ctaHref": "#kontakt",
+    "image": "/clones/hairsalon-no1/wp-content/uploads/2025/03/IMG_0924.webp"
+  },
+  "contact-location": {
+    "tag": "Demo Hair Salon",
+    "title": "Ukázková 123",
+    "body": "Salon se nachází přímo v centru města, výborně dostupný MHD. Metrem i tramvají se k nám dostanete snadno — zastávka je jen pár kroků od nás.",
+    "ctaText": "On-line rezervace",
+    "ctaHref": "#kontakt",
+    "phone": "+420 704 123 456",
+    "email": "email@demo.cz",
+    "image": "/clones/hairsalon-no1/wp-content/uploads/2025/06/DSC1150-kopiya-e1750182526444.jpg"
+  },
+  "gallery": {
+    "title": "Naše práce",
+    "images": [
+      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC0914.jpg",       "alt": "Interiér demo salonu" },
+      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC1072.jpg",        "alt": "Kadeřnické křeslo" },
+      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC1106.jpg",        "alt": "Mytí vlasů" },
+      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC0929.jpg",        "alt": "Barvení vlasů" },
+      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC1300.webp",       "alt": "Střih a styling" },
+      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC1210.webp",       "alt": "Práce stylistky" },
+      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/04/DSC1598-3.webp",     "alt": "Balayage technika" },
+      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/03/IMG_0924.webp",      "alt": "Péče o vlasy" }
+    ]
+  },
+  "services": {
+    "title": "Naše služby",
+    "services": [
+      { "name": "Dámský střih",       "description": "Kompletní dámský střih s foukanou a finálním stylováním." },
+      { "name": "Pánský střih",       "description": "Precizní pánský střih přizpůsobený vašemu stylu." },
+      { "name": "Barvení",            "description": "Profesionální barvení vlasů prémiovými produkty — trvalý a zářivý výsledek." },
+      { "name": "Melír & balayage",   "description": "Přirozené rozjasnění, sun-kissed efekt nebo dramatický kontrast." },
+      { "name": "Keratinové ošetření","description": "Prohloubené ošetření pro zdravé, lesklé a snadno zvladatelné vlasy." },
+      { "name": "Dětský střih",       "description": "Příjemné střihání pro nejmenší zákazníky." }
+    ]
+  },
+  "testimonials": {
+    "title": "Co říkají zákazníci",
+    "rating": 4.9,
+    "testimonials": [
+      {
+        "author": "Petra M.",
+        "rating": 5,
+        "text": "Úžasný salon! Přišla jsem bez rezervace, obsloužili mě okamžitě a výsledek předčil moje očekávání. Vrátím se určitě."
+      },
+      {
+        "author": "Jana K.",
+        "rating": 5,
+        "text": "Skvělý tým, profesionální přístup a příjemná atmosféra. Balayage dopadl přesně jak jsem si představovala."
+      },
+      {
+        "author": "Monika T.",
+        "rating": 5,
+        "text": "Navštěvuji salon přes rok a vždy odcházím spokojená. Doporučuji všem, kdo hledají kvalitní kadeřnictví v Praze."
+      }
+    ]
+  },
+  "footer": {
+    "siteName": "Demo Hair Salon",
+    "heading": "Těšíme se na vás!",
+    "tagline": "Těšíme se na vás!",
+    "phone": "+420 704 123 456",
+    "email": "email@demo.cz",
+    "address": "Demo ulice 12\n110 00 Praha 1",
+    "hoursLabel": "Otevírací doba",
+    "hours": [
+      { "day": "Pondělí – Pátek", "value": "9:00 – 20:00" },
+      { "day": "Sobota",          "value": "10:00 – 15:00" },
+      { "day": "Neděle",          "value": "Zavřeno" }
+    ],
+    "socials": [
+      { "label": "Instagram", "href": "https://instagram.com/demo" },
+      { "label": "Facebook",  "href": "https://facebook.com/demo" }
+    ],
+    "legal": "Demo Studio s.r.o. | IČ: 00000000 | DIČ: CZ00000000"
+  },
+  "pages": {
+    "o-nas": {
+      "hero": {
+        "title": "O nás",
+        "subtitle": "Náš příběh a tým",
+        "backgroundImage": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC0914.jpg"
+      }
+    },
+    "galerie": {
+      "hero": {
+        "title": "Galerie",
+        "subtitle": "Nabízíme kompletní kadeřnické služby pro dámy, pány i děti. Pracujeme s prémiovými vlasovými produkty a ovládáme nejmodernější techniky barvení a zesvětlení.",
+        "backgroundImage": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC1087-1024x683.jpg"
+      }
+    }
+  }
+}

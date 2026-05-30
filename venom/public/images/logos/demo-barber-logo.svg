@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="176" height="44" viewBox="0 0 176 44" role="img" aria-labelledby="title">
+  <title id="title">Vaše demo</title>
+  <rect width="176" height="44" rx="4" fill="#111111"/>
+  <rect x="1" y="1" width="174" height="42" rx="3" fill="none" stroke="#C9A84C" stroke-width="1.4"/>
+  <circle cx="24" cy="22" r="12" fill="#C9A84C"/>
+  <path d="M18 22.2l4.1 4.2 8.1-10" fill="none" stroke="#111111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M42 13h72" stroke="#C9A84C" stroke-width="1" opacity=".55"/>
+  <text x="42" y="27" fill="#F7F0DE" font-family="Georgia, 'Times New Roman', serif" font-size="14" font-weight="700" letter-spacing="1.35">VAŠE DEMO</text>
+  <text x="126" y="27" fill="#C9A84C" font-family="Arial, sans-serif" font-size="6.6" font-weight="700" letter-spacing=".9">WEB</text>
+</svg>

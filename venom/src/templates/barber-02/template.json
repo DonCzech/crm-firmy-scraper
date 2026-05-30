@@ -1,0 +1,41 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "barber-02",
+  "name": "Holičství Atelier",
+  "industry": "barber",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Luxusní pánské holičství v centru s důrazem na řemeslné provedení — gold accent, serif display.",
+  "sectionOrderNote": "Originál the-barber má pořadí About → Gallery → Pricing (gallery PŘED pricing). Pro 1:1 parity s /preview odchylka od skeletonu service-personal.",
+  "skippedSections": [
+    { "pos": 4, "name": "Services", "reason": "originál nemá samostatnou services sekci — služby v pricing" },
+    { "pos": 7, "name": "Team", "reason": "originál nemá team sekci" },
+    { "pos": 8, "name": "Testimonials", "reason": "originál nemá recenze" },
+    { "pos": 9, "name": "Booking/CTA", "reason": "CTA Rezervace je v hero, samostatná booking sekce neexistuje" },
+    { "pos": 10, "name": "Locations", "reason": "jediná pobočka, adresa v hero info + footer" },
+    { "pos": 11, "name": "FAQ", "reason": "originál nemá FAQ" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar", "variant": "barber-overlay", "contentRef": "navbar" },
+        { "type": "hero", "variant": "hero-barber-luxury", "contentRef": "hero" },
+        { "type": "about", "variant": "about-barber-luxury", "contentRef": "about" },
+        { "type": "gallery", "variant": "four-col", "contentRef": "gallery" },
+        { "type": "pricing", "variant": "pricing-cols", "contentRef": "pricing" },
+        { "type": "footer", "variant": "barber-luxury", "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

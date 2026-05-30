@@ -1,0 +1,89 @@
+/* Peak Cut — Minimal White skin */
+/* Scoped overrides on top of the master engine CSS variables */
+
+/* Smooth scroll pro anchor nav linky (one-page šablona) */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+/* peak-cut — globální barva accent: černá místo defaultní modré */
+:root, [data-template="peak-cut"] {
+  --color-primary: #1a1a1a;
+  --color-accent:  #1a1a1a;
+  --color-secondary: #4a4a4a;
+  --color-bg: #ffffff;
+  --color-surface: #f5f3ef;
+  --color-text: #1a1a1a;
+  --color-text-muted: #5a5651;
+  --color-border: #e0dcd5;
+}
+
+@font-face {
+  font-family: 'Oswald';
+  src: url('/clones/peak-cut/fonts/oswald-v53-latin-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Oswald';
+  src: url('/clones/peak-cut/fonts/oswald-v53-latin-500.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Oswald';
+  src: url('/clones/peak-cut/fonts/oswald-v53-latin-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Oswald';
+  src: url('/clones/peak-cut/fonts/oswald-v53-latin-700.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Overpass';
+  src: url('/clones/peak-cut/fonts/overpass-v13-latin-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Overpass';
+  src: url('/clones/peak-cut/fonts/overpass-v13-latin-200.woff2') format('woff2');
+  font-weight: 200;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Overpass';
+  src: url('/clones/peak-cut/fonts/overpass-v13-latin-700.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+[data-template="peak-cut"] {
+  --color-primary:     #004679;
+  --color-secondary:   #000000;
+  --color-bg:          #ffffff;
+  --color-surface:     #f5f5f5;
+  --color-text:        #000000;
+  --color-text-muted:  #666666;
+  --color-accent:      #004679;
+  --color-border:      rgba(0, 0, 0, 0.1);
+
+  --font-heading: 'Oswald', sans-serif;
+  --font-body:    'Overpass', sans-serif;
+
+  --radius: 5px;
+  --radius-md: 5px;
+  --radius-lg: 15px;
+  --radius-pill: 9999px;
+}
+
+/* Gradient rule — Peak Cut visual signature (used under headings) */
+[data-template="peak-cut"] .pc-rule {
+  height: 1px;
+  background: linear-gradient(90deg, #000 0%, transparent 100%);
+  width: 100%;
+}

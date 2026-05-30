@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 160" width="240" height="160" role="img" aria-label="Holičství Atelier">
+  <g fill="#1a1a1a" font-family="'Libre Baskerville', Georgia, serif">
+    <text x="120" y="62" text-anchor="middle" font-size="20" letter-spacing="6" font-weight="400">HOLIČSTVÍ</text>
+    <line x1="40" y1="80" x2="200" y2="80" stroke="#d4a96e" stroke-width="1.5"/>
+    <text x="120" y="118" text-anchor="middle" font-size="34" letter-spacing="8" font-weight="700">ATELIER</text>
+  </g>
+</svg>
