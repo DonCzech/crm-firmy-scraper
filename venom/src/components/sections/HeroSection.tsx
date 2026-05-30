@@ -13,6 +13,8 @@ interface HeroContent {
   ctaHref?: string;
   backgroundImage?: string;
   hoursLines?: Array<{ label: string; value: string }>;
+  address?: string;
+  scrollIndicator?: boolean;
 }
 
 interface Props {
@@ -1229,11 +1231,10 @@ function HeroBarber04Slider({
                 color: "#fff",
                 fontFamily: "'Lato',Helvetica,Arial,sans-serif",
                 fontSize: 14,
-                fontWeight: 700,
+                fontWeight: 400,
                 letterSpacing: "2px",
                 padding: "10px 28px",
                 borderRadius: 0,
-                fontWeight: 400,
               }}
             >
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />

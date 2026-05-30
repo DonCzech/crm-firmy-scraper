@@ -7,6 +7,7 @@ interface Testimonial {
   name: string;
   text: string;
   rating: number;
+  role?: string;
 }
 
 interface Props {
@@ -21,8 +22,8 @@ export function TestimonialsSection({ content, variant, sectionId }: Props) {
   const testimonials = (
     (content as { testimonials?: Testimonial[] }).testimonials ??
     (content as { items?: Testimonial[] }).items ??
-    ((content as { reviews?: Array<{ author?: string; name?: string; text: string; rating: number }> }).reviews ?? []).map(
-      (r) => ({ name: r.author ?? r.name ?? "", text: r.text, rating: r.rating })
+    ((content as { reviews?: Array<{ author?: string; name?: string; text: string; rating: number; role?: string }> }).reviews ?? []).map(
+      (r): Testimonial => ({ name: r.author ?? r.name ?? "", text: r.text, rating: r.rating, role: r.role })
     )
   );
   const title = String(content.title ?? (variant === "slider" ? "Co říkají klienti" : "Reference"));
