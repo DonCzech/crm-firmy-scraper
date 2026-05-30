@@ -12,6 +12,7 @@ interface HeroContent {
   ctaText?: string;
   ctaHref?: string;
   backgroundImage?: string;
+  hoursLines?: Array<{ label: string; value: string }>;
 }
 
 interface Props {
