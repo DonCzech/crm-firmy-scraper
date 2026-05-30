@@ -548,7 +548,6 @@ function Hair04Carousel({
   const GOLD = "#FFDF25";
   const DARK = "#0d0d0d";
   const LATO = "'Lato', sans-serif";
-  const VISIBLE = 4;
   const GAP = 20;
   const PLACEHOLDERS: GalleryImage[] = [
     { url: "https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800&h=600&fit=crop&fm=webp", alt: "Interiér salonu" },
@@ -561,20 +560,47 @@ function Hair04Carousel({
   const title = String((content as Record<string, unknown>).title ?? "Galerie");
   const imgs = imgs0.length > 0 ? imgs0 : PLACEHOLDERS;
 
-  // Infinity clone technique: prepend last VISIBLE + append first VISIBLE
-  const ext = [...imgs.slice(-VISIBLE), ...imgs, ...imgs.slice(0, VISIBLE)];
-  const START = VISIBLE; // real first item index in ext
+  // Responsive VISIBLE: 1 mobile / 2 tablet / 4 desktop
+  const getVisible = () => {
+    if (typeof window === "undefined") return 4;
+    if (window.innerWidth <= 640) return 1;
+    if (window.innerWidth <= 1024) return 2;
+    return 4;
+  };
+  const [visible, setVisible] = useState(4);
+  useEffect(() => {
+    const update = () => setVisible(getVisible());
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Rebuild extended array when visible changes — reset to start
+  const ext = [...imgs.slice(-visible), ...imgs, ...imgs.slice(0, visible)];
+  const START = visible;
 
   const [pos, setPos] = useState(START);
   const posRef = useRef(START);
   const trackRef = useRef<HTMLDivElement>(null);
   const [dotIndex, setDotIndex] = useState(0);
+  // Touch support
+  const touchStartX = useRef<number | null>(null);
 
-  // step size in % of viewport: each cell = (100% - GAP*(VISIBLE-1)) / VISIBLE
-  // step = cell + GAP = 100%/VISIBLE + GAP*(1/VISIBLE*(VISIBLE-1) gone...
-  // simpler: translateX = -pos * (100%/VISIBLE) accounting for gaps via CSS
-  const stepPct = 100 / VISIBLE;
-  const stepGap = GAP / VISIBLE; // extra px per step
+  // When visible changes, reset position instantly
+  useEffect(() => {
+    posRef.current = visible;
+    setPos(visible);
+    setDotIndex(0);
+    const el = trackRef.current;
+    if (el) el.style.transition = "none";
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (trackRef.current) trackRef.current.style.transition = "";
+    }));
+  }, [visible]);
+
+  const stepPct = 100 / visible;
+  const stepGap = GAP / visible;
 
   const slideTo = useCallback((newPos: number, animate: boolean) => {
     const el = trackRef.current;
@@ -583,36 +609,35 @@ function Hair04Carousel({
     else el.style.transition = "";
     posRef.current = newPos;
     setPos(newPos);
-    const realIdx = ((newPos - START) % imgs.length + imgs.length) % imgs.length;
+    const realIdx = ((newPos - visible) % imgs.length + imgs.length) % imgs.length;
     setDotIndex(realIdx);
-  }, [imgs.length]);
+  }, [imgs.length, visible]);
 
   const handleTransitionEnd = useCallback(() => {
     const p = posRef.current;
-    if (p >= imgs.length + START) {
+    const s = visible;
+    if (p >= imgs.length + s) {
       const target = p - imgs.length;
       const el = trackRef.current;
       if (el) el.style.transition = "none";
       posRef.current = target;
       setPos(target);
-      const realIdx = ((target - START) % imgs.length + imgs.length) % imgs.length;
-      setDotIndex(realIdx);
+      setDotIndex(((target - s) % imgs.length + imgs.length) % imgs.length);
       requestAnimationFrame(() => requestAnimationFrame(() => {
         if (trackRef.current) trackRef.current.style.transition = "";
       }));
-    } else if (p < START) {
+    } else if (p < s) {
       const target = p + imgs.length;
       const el = trackRef.current;
       if (el) el.style.transition = "none";
       posRef.current = target;
       setPos(target);
-      const realIdx = ((target - START) % imgs.length + imgs.length) % imgs.length;
-      setDotIndex(realIdx);
+      setDotIndex(((target - s) % imgs.length + imgs.length) % imgs.length);
       requestAnimationFrame(() => requestAnimationFrame(() => {
         if (trackRef.current) trackRef.current.style.transition = "";
       }));
     }
-  }, [imgs.length]);
+  }, [imgs.length, visible]);
 
   useEffect(() => {
     const el = trackRef.current;
@@ -626,6 +651,9 @@ function Hair04Carousel({
 
   const translate = `calc(${-pos * stepPct}% - ${pos * stepGap}px)`;
 
+  const cellSize = `calc(${100 / visible}% - ${GAP * (visible - 1) / visible}px)`;
+  const imgSizes = visible === 1 ? "100vw" : visible === 2 ? "50vw" : "25vw";
+
   return (
     <section id="galerie" data-template="hair-04" style={{ backgroundColor: DARK, padding: "80px 0 90px" }}>
       <style>{`
@@ -636,11 +664,8 @@ function Hair04Carousel({
         [data-template="hair-04"] .h04g-btn:hover { background: ${GOLD} !important; color: #000 !important; border-color: ${GOLD} !important; }
         [data-template="hair-04"] .h04g-dot { transition: width 0.3s ease, background 0.3s ease; border: none; padding: 0; cursor: pointer; border-radius: 4px; height: 8px; }
         @media (max-width: 640px) {
-          [data-template="hair-04"] .h04g-cell { flex: 0 0 calc(100% - 0px) !important; }
           [data-template="hair-04"] #galerie { padding: 48px 0 56px; }
-        }
-        @media (min-width: 641px) and (max-width: 1024px) {
-          [data-template="hair-04"] .h04g-cell { flex: 0 0 calc(50% - 10px) !important; }
+          [data-template="hair-04"] .h04g-wrap { padding: 0 12px !important; }
         }
       `}</style>
 
@@ -648,15 +673,24 @@ function Hair04Carousel({
         <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
       </h2>
 
-      {/* Slider — full viewport width, šipky překrývají okraje */}
-      <div style={{ position: "relative", width: "100%", padding: "0 64px", boxSizing: "border-box" }}>
+      {/* Slider */}
+      <div className="h04g-wrap" style={{ position: "relative", width: "100%", padding: "0 64px", boxSizing: "border-box" }}>
 
         <button type="button" className="h04g-btn" onClick={prev} aria-label="Předchozí"
-          style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", zIndex: 10, width: 48, height: 48, borderRadius: "50%", border: `1.5px solid ${GOLD}`, background: "rgba(0,0,0,0.7)", color: GOLD, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+          style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", zIndex: 10, width: 44, height: 44, borderRadius: "50%", border: `1.5px solid ${GOLD}`, background: "rgba(0,0,0,0.7)", color: GOLD, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 6 9 12 15 18"/></svg>
         </button>
 
-        <div style={{ overflow: "hidden" }}>
+        <div
+          style={{ overflow: "hidden" }}
+          onTouchStart={e => { touchStartX.current = e.touches[0].clientX; }}
+          onTouchEnd={e => {
+            if (touchStartX.current === null) return;
+            const dx = touchStartX.current - e.changedTouches[0].clientX;
+            if (Math.abs(dx) > 40) dx > 0 ? next() : prev();
+            touchStartX.current = null;
+          }}
+        >
           <div
             ref={trackRef}
             className="h04g-track"
@@ -667,7 +701,7 @@ function Hair04Carousel({
                 key={i}
                 className="h04g-cell"
                 onClick={() => setActiveImage(img)}
-                style={{ flex: `0 0 calc(${100 / VISIBLE}% - ${GAP * (VISIBLE - 1) / VISIBLE}px)`, aspectRatio: "4/3", position: "relative", borderRadius: 6, backgroundColor: "#1a1a1a" }}
+                style={{ flex: `0 0 ${cellSize}`, aspectRatio: "4/3", position: "relative", borderRadius: 6, backgroundColor: "#1a1a1a" }}
               >
                 <GenericEditableImage
                   sectionId={sectionId}
@@ -677,7 +711,7 @@ function Hair04Carousel({
                   className="absolute inset-0 w-full h-full"
                   style={{ position: "absolute" }}
                 >
-                  <Image src={img.url ?? ""} alt={img.alt ?? ""} fill className="object-cover" sizes="25vw" unoptimized={shouldSkipNextImageOptimization(img.url ?? "")} />
+                  <Image src={img.url ?? ""} alt={img.alt ?? ""} fill className="object-cover" sizes={imgSizes} unoptimized={shouldSkipNextImageOptimization(img.url ?? "")} />
                 </GenericEditableImage>
               </div>
             ))}
@@ -685,7 +719,7 @@ function Hair04Carousel({
         </div>
 
         <button type="button" className="h04g-btn" onClick={next} aria-label="Další"
-          style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", zIndex: 10, width: 48, height: 48, borderRadius: "50%", border: `1.5px solid ${GOLD}`, background: "rgba(0,0,0,0.7)", color: GOLD, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+          style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", zIndex: 10, width: 44, height: 44, borderRadius: "50%", border: `1.5px solid ${GOLD}`, background: "rgba(0,0,0,0.7)", color: GOLD, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
         </button>
       </div>
@@ -705,7 +739,7 @@ function Hair04Carousel({
         <div onClick={() => setActiveImage(null)}
           style={{ position: "fixed", inset: 0, zIndex: 9999, backgroundColor: "rgba(0,0,0,0.94)", display: "flex", alignItems: "center", justifyContent: "center", cursor: "zoom-out" }}>
           <div style={{ position: "relative", maxWidth: "90vw", maxHeight: "90vh", width: 1000, height: 750 }}>
-            <Image src={activeImage.url ?? ""} alt={activeImage.alt ?? ""} fill className="object-contain" sizes="92vw" unoptimized={shouldSkipNextImageOptimization(activeImage.url ?? "")} />
+            <Image src={activeImage.url ?? ""} alt={activeImage.url ?? ""} fill className="object-contain" sizes="92vw" unoptimized={shouldSkipNextImageOptimization(activeImage.url ?? "")} />
           </div>
           <button onClick={() => setActiveImage(null)} aria-label="Zavřít"
             style={{ position: "absolute", top: 20, right: 28, background: "none", border: "none", color: "#fff", fontSize: 38, cursor: "pointer", lineHeight: 1, opacity: 0.75 }}>×</button>

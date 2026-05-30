@@ -32,18 +32,35 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
     const LATO      = "'Lato', sans-serif";
 
     return (
+      <>
+      <style>{`
+        @media (max-width: 640px) {
+          [data-template="hair-04"] .h04-cta-phone-wrap {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+            padding: 28px 24px !important;
+            gap: 20px !important;
+          }
+          [data-template="hair-04"] .h04-cta-phone-btn {
+            width: 100% !important;
+            text-align: center !important;
+            padding: 18px 24px !important;
+          }
+        }
+      `}</style>
       <section
         data-template="hair-04"
-        style={{ backgroundColor: GOLD, padding: "0 clamp(40px, 8vw, 140px)" }}
+        style={{ backgroundColor: GOLD, padding: "0 clamp(20px, 8vw, 140px)" }}
       >
         <div
+          className="h04-cta-phone-wrap"
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             minHeight: 110,
             gap: 32,
-            flexWrap: "wrap",
           }}
         >
           <GenericEditableText
@@ -62,6 +79,7 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
           />
           <a
             href={phoneHref}
+            className="h04-cta-phone-btn"
             style={{
               fontFamily: LATO,
               fontSize: "clamp(16px, 1.5vw, 20px)",
@@ -74,6 +92,7 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
               whiteSpace: "nowrap",
               flexShrink: 0,
               transition: "background 0.2s, color 0.2s",
+              display: "block",
             }}
             onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#222"; }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = DARK; }}
@@ -82,6 +101,7 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
           </a>
         </div>
       </section>
+      </>
     );
   }
 

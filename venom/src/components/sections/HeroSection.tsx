@@ -196,6 +196,9 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     const LATO  = "'Lato', sans-serif";
     const NAV_H = 113; // px — výška sticky navbaru
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [menuOpen, setMenuOpen] = useState(false);
+
     /* Logo — HTML elementy (SVG text nefunguje bez načteného fontu v browseru) */
     const LogoEl = () => (
       <div style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
@@ -295,14 +298,14 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
             </nav>
           </div>
 
-          {/* Mobile nav */}
-          <div className="flex lg:hidden items-center justify-between" style={{ padding: "0 16px", height: 64 }}>
-            <a href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"} style={{ display: "flex", alignItems: "center" }}>
+          {/* Mobile nav — hamburger row */}
+          <div className="flex lg:hidden items-center justify-between" style={{ padding: "0 20px", height: 64 }}>
+            <a href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"} style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
               {logoUrl
                 ? <img src={logoUrl} alt={siteName} style={{ maxWidth: 100, maxHeight: 50, objectFit: "contain" }} />
                 : (
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontFamily: LATO, fontSize: 40, fontWeight: 900, color: WHITE, lineHeight: 1 }}>K</span>
+                    <span style={{ fontFamily: LATO, fontSize: 38, fontWeight: 900, color: WHITE, lineHeight: 1 }}>K</span>
                     <span style={{ display: "flex", flexDirection: "column" }}>
                       <span style={{ fontFamily: LATO, fontSize: 13, fontWeight: 700, color: WHITE }}>Kim Impressive</span>
                       <span style={{ fontFamily: LATO, fontSize: 9, fontWeight: 300, color: "rgba(255,255,255,0.7)", letterSpacing: "0.2em" }}>HAIR SALON</span>
@@ -311,11 +314,51 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
                 )
               }
             </a>
-            <button style={{ background: "none", border: "none", cursor: "pointer", padding: 8, display: "flex", flexDirection: "column", gap: 5 }} aria-label="Menu">
-              <span style={{ display: "block", width: 26, height: 2, backgroundColor: WHITE }} />
-              <span style={{ display: "block", width: 26, height: 2, backgroundColor: WHITE }} />
-              <span style={{ display: "block", width: 26, height: 2, backgroundColor: WHITE }} />
+            {/* Hamburger button — 3 pruhy → X */}
+            <button
+              onClick={() => setMenuOpen(o => !o)}
+              style={{ background: "none", border: "none", cursor: "pointer", padding: 10, display: "flex", flexDirection: "column", gap: 5, alignItems: "center", justifyContent: "center" }}
+              aria-label={menuOpen ? "Zavřít menu" : "Otevřít menu"}
+              aria-expanded={menuOpen}
+            >
+              <span style={{ display: "block", width: 26, height: 2, backgroundColor: WHITE, borderRadius: 2, transition: "transform 0.25s, opacity 0.25s", transform: menuOpen ? "translateY(7px) rotate(45deg)" : "none" }} />
+              <span style={{ display: "block", width: 26, height: 2, backgroundColor: WHITE, borderRadius: 2, transition: "opacity 0.25s", opacity: menuOpen ? 0 : 1 }} />
+              <span style={{ display: "block", width: 26, height: 2, backgroundColor: WHITE, borderRadius: 2, transition: "transform 0.25s, opacity 0.25s", transform: menuOpen ? "translateY(-7px) rotate(-45deg)" : "none" }} />
             </button>
+          </div>
+
+          {/* Mobile dropdown menu */}
+          <div
+            className="lg:hidden"
+            style={{
+              overflow: "hidden",
+              maxHeight: menuOpen ? `${links.length * 56 + 16}px` : "0px",
+              transition: "max-height 0.35s cubic-bezier(.4,0,.2,1)",
+              borderTop: menuOpen ? "1px solid rgba(255,255,255,0.1)" : "none",
+            }}
+          >
+            <nav style={{ display: "flex", flexDirection: "column", padding: "8px 0" }}>
+              {links.map((l, i) => (
+                <a
+                  key={`h4-mob-${i}`}
+                  href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    fontFamily: LATO,
+                    fontSize: 16,
+                    fontWeight: i === 0 ? 500 : 300,
+                    color: i === 0 ? GOLD : WHITE,
+                    textDecoration: "none",
+                    padding: "14px 24px",
+                    display: "block",
+                    borderBottom: "1px solid rgba(255,255,255,0.06)",
+                    letterSpacing: "0.03em",
+                  }}
+                >
+                  {l.label}
+                </a>
+              ))}
+            </nav>
           </div>
         </div>
 
