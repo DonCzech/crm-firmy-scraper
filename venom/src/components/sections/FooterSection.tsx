@@ -16,6 +16,102 @@ function demoLogoDataUrl(name: string): string {
 }
 
 export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId }: Props) {
+
+  // hair-04: tmavý footer, logo vlevo, info uprostřed, soc. sítě vpravo, copyright bar dole
+  if (variant === "hair-04-footer") {
+    const siteName  = String(content.siteName  ?? "Impresiv Studio");
+    const address   = String(content.address   ?? "");
+    const phone     = String(content.phone     ?? "");
+    const email     = String(content.email     ?? "");
+    const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
+    const gdprHref  = String(content.gdprHref  ?? "/gdpr");
+    const facebook  = String(content.facebook  ?? "");
+    const instagram = String(content.instagram ?? "");
+    const GOLD  = "#FFDF25";
+    const DARK  = "#0a0a0a";
+    const LATO  = "'Lato', sans-serif";
+
+    return (
+      <footer data-template="hair-04" style={{ backgroundColor: DARK, borderTop: "1px solid rgba(255,223,37,0.2)" }}>
+        {/* Hlavní řádek */}
+        <div style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 32,
+          padding: "52px clamp(32px,6vw,100px)",
+        }}>
+          {/* Logo vlevo */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+            <span style={{ fontFamily: LATO, fontSize: 22, fontWeight: 700, color: "#fff", letterSpacing: "0.04em" }}>
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+            </span>
+            <span style={{ fontFamily: LATO, fontSize: 11, fontWeight: 300, color: GOLD, letterSpacing: "0.25em", textTransform: "uppercase" }}>Hair Salon</span>
+          </div>
+
+          {/* Kontaktní info uprostřed */}
+          <div style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "center", textAlign: "center" }}>
+            {address && (
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="p"
+                style={{ fontFamily: LATO, fontSize: 14, fontWeight: 300, color: "rgba(255,255,255,0.65)", margin: 0, lineHeight: 1.5 }} />
+            )}
+            <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center" }}>
+              {phone && (
+                <a href={`tel:+420${phone.replace(/\s/g,"")}`}
+                  style={{ fontFamily: LATO, fontSize: 14, fontWeight: 400, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
+                  onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.75)"; }}>
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                </a>
+              )}
+              {email && (
+                <a href={`mailto:${email}`}
+                  style={{ fontFamily: LATO, fontSize: 14, fontWeight: 400, color: "rgba(255,255,255,0.75)", textDecoration: "none" }}
+                  onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.75)"; }}>
+                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                </a>
+              )}
+            </div>
+          </div>
+
+          {/* Sociální sítě vpravo */}
+          <div style={{ display: "flex", gap: 20, alignItems: "center" }}>
+            {facebook && (
+              <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
+                style={{ color: "rgba(255,255,255,0.5)", transition: "color 0.2s" }}
+                onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
+                onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.5)"; }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+            )}
+            {instagram && (
+              <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+                style={{ color: "rgba(255,255,255,0.5)", transition: "color 0.2s" }}
+                onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
+                onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.5)"; }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Copyright bar */}
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", padding: "18px clamp(32px,6vw,100px)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12, alignItems: "center" }}>
+          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="p"
+            style={{ fontFamily: LATO, fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.4)", margin: 0 }} />
+          <a href={gdprHref}
+            style={{ fontFamily: LATO, fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.4)", textDecoration: "none" }}
+            onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
+            onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.4)"; }}>
+            Ochrana osobních údajů
+          </a>
+        </div>
+      </footer>
+    );
+  }
+
   const siteName = String(content.siteName ?? "Web");
   const tagline = String(content.tagline ?? "");
   const links = (content.links as Array<{ label: string; href: string }>) ?? [];
@@ -28,6 +124,150 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   const logoUrl = String(content.logoUrl ?? "");
   const logoSrc = logoUrl || demoLogoDataUrl(siteName);
   const legalLinks = (content.legalLinks as Array<{ label: string; href: string }>) ?? [];
+
+  // beauty-01 — Demo Beauty Studio footer
+  // Dark #1F1F1F bg, logo + CTA heading vlevo, 3 info sloupce vpravo, legal bar dole
+  if (variant === "beauty-01-footer") {
+    const heading    = String(content.heading    ?? "Jste připraveni vypadat a cítit se co nejlépe?");
+    const subheading = String(content.subheading ?? "");
+    const ctaText    = String(content.ctaText    ?? "REZERVOVAT");
+    const ctaHref    = String(content.ctaHref    ?? "#rezervace");
+    const hours      = (content.hours as Array<{ day: string; value: string }>) ?? [];
+    const legal      = String(content.legal ?? "");
+    const web        = String(content.web ?? "");
+
+    const BG     = "#1F1F1F";
+    const BORDER = "rgba(224,190,154,0.15)";
+    const SAND   = "#E0BE9A";
+    const WHITE  = "#ffffff";
+    const MUTED  = "rgba(255,255,255,0.55)";
+    const FONT_H = "'Cormorant Garamond', 'Fahkwang', Georgia, serif";
+    const FONT_B = "'Fahkwang', sans-serif";
+
+    return (
+      <footer style={{ backgroundColor: BG, fontFamily: FONT_B }} data-template="beauty-01">
+        {/* Main grid */}
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "72px 24px 48px" }}>
+          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "48px 64px" }}>
+            {/* Levý sloupec — logo + heading + CTA */}
+            <div>
+              {logoSrc && (
+                <div style={{ marginBottom: 28 }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={logoSrc} alt={siteName} style={{ height: 36, objectFit: "contain", filter: "brightness(0) invert(1)" }} />
+                </div>
+              )}
+              <h2 style={{ fontFamily: FONT_H, fontSize: "clamp(22px, 2.5vw, 32px)", fontWeight: 400, color: WHITE, lineHeight: 1.3, marginBottom: 16 }}>
+                <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+              </h2>
+              {subheading && (
+                <p style={{ fontFamily: FONT_B, fontSize: 14, fontWeight: 200, color: MUTED, lineHeight: 1.7, marginBottom: 28, maxWidth: 400 }}>
+                  <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
+                </p>
+              )}
+              <a
+                href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+                style={{
+                  display: "inline-flex", alignItems: "center", justifyContent: "center",
+                  backgroundColor: SAND, color: BG,
+                  fontFamily: FONT_B, fontSize: 11, fontWeight: 500,
+                  letterSpacing: "0.18em", textTransform: "uppercase", textDecoration: "none",
+                  padding: "12px 32px", transition: "background 0.2s",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#C4A07E"; }}
+                onMouseLeave={e => { e.currentTarget.style.backgroundColor = SAND; }}
+              >
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              </a>
+            </div>
+
+            {/* Pravý sloupec — kontakt + hodiny + social */}
+            <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: "32px 32px" }}>
+              {/* Kontakt */}
+              <div>
+                <p style={{ fontFamily: FONT_B, fontSize: 10, fontWeight: 300, letterSpacing: "0.2em", color: SAND, textTransform: "uppercase", marginBottom: 14 }}>
+                  Kontakt
+                </p>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {phone && (
+                    <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ fontFamily: FONT_B, fontSize: 14, fontWeight: 200, color: WHITE, textDecoration: "none" }}>
+                      <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                    </a>
+                  )}
+                  {email && (
+                    <a href={`mailto:${email}`} style={{ fontFamily: FONT_B, fontSize: 14, fontWeight: 200, color: WHITE, textDecoration: "none" }}>
+                      <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                    </a>
+                  )}
+                  {address && (
+                    <p style={{ fontFamily: FONT_B, fontSize: 14, fontWeight: 200, color: MUTED, lineHeight: 1.6, margin: 0 }}>
+                      <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                    </p>
+                  )}
+                </div>
+                {/* Social */}
+                {socials.length > 0 && (
+                  <div style={{ display: "flex", gap: 16, marginTop: 20 }}>
+                    {socials.map((s, i) => (
+                      <a
+                        key={i}
+                        href={s.href ?? "#"}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 300, color: MUTED, letterSpacing: "0.1em", textDecoration: "none", textTransform: "uppercase", transition: "color 0.2s" }}
+                        onMouseEnter={e => { e.currentTarget.style.color = SAND; }}
+                        onMouseLeave={e => { e.currentTarget.style.color = MUTED as string; }}
+                      >
+                        <GenericEditableText sectionId={sectionId} field={`socials.${i}.label`} value={s.label ?? ""} tag="span" />
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Hodiny */}
+              {hours.length > 0 && (
+                <div>
+                  <p style={{ fontFamily: FONT_B, fontSize: 10, fontWeight: 300, letterSpacing: "0.2em", color: SAND, textTransform: "uppercase", marginBottom: 14 }}>
+                    Otevírací doba
+                  </p>
+                  {hours.map((h, i) => (
+                    <div key={i} style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, paddingBottom: 8, borderBottom: `1px solid ${BORDER}` }}>
+                      <span style={{ fontFamily: FONT_B, fontSize: 13, fontWeight: 200, color: MUTED }}>
+                        <GenericEditableText sectionId={sectionId} field={`hours.${i}.day`} value={h.day} tag="span" />
+                      </span>
+                      <span style={{ fontFamily: FONT_B, fontSize: 13, fontWeight: 300, color: WHITE }}>
+                        <GenericEditableText sectionId={sectionId} field={`hours.${i}.value`} value={h.value} tag="span" />
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Legal bar */}
+        <div style={{ borderTop: `1px solid ${BORDER}`, padding: "18px 24px" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+            <p style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 200, color: MUTED, margin: 0 }}>
+              <GenericEditableText sectionId={sectionId} field="legal" value={legal} tag="span" />
+            </p>
+            {web && (
+              <a href={web} target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 200, color: MUTED, textDecoration: "none" }}>
+                {web.replace(/^https?:\/\//, "")}
+              </a>
+            )}
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
+  // hair-03 — Petra Studio — minimální šedá patička
+  if (variant === "hair-03-footer") {
+    return <FooterHair03 content={content} sectionId={sectionId} />;
+  }
 
   // hair-01 — Salon Aria — dark footer: heading + 3-col (phone/hours/address+social) + legal
   if (variant === "hair-01-footer") {
@@ -833,6 +1073,45 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
 
         <div className="border-t border-white/10 pt-6 text-center text-xs opacity-50">
           © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. Všechna práva vyhrazena.
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// hair-03-footer — šedá (#c1c1c1) minimální patička s centrovaným logem a copyrightem
+function FooterHair03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const siteName = String(content.siteName ?? "Petra Studio");
+  const logoUrl  = String(content.logoUrl ?? "");
+  const copyright = String(content.copyright ?? `Copyright © ${new Date().getFullYear()} Demo Studio s.r.o. – Všechna práva vyhrazena.`);
+  const SANS = "Helvetica, Arial, sans-serif";
+  const GOLD = "#c8a97e";
+  const DARK = "#2f201a";
+
+  const LogoSvg = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 62" width="180" height="40" aria-label={siteName}>
+      <text x="4" y="16" fontFamily={SANS} fontSize="10" fill={GOLD} letterSpacing="4">HAIR MAKING</text>
+      <text x="4" y="44" fontFamily={SANS} fontSize="26" fontWeight="400" fill={DARK} letterSpacing="2">petra</text>
+      <text x="98" y="44" fontFamily={SANS} fontSize="26" fill={GOLD} letterSpacing="2"> studio</text>
+      <line x1="4" y1="50" x2="276" y2="50" stroke={GOLD} strokeWidth="0.8" />
+    </svg>
+  );
+
+  return (
+    <footer style={{ backgroundColor: "#c1c1c1", padding: "16px 12px" }} data-template="hair-03">
+      <div style={{ maxWidth: 900, margin: "0 auto", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+        {logoUrl ? (
+          <img src={logoUrl} alt={siteName} style={{ height: 60, objectFit: "contain" }} />
+        ) : (
+          <LogoSvg />
+        )}
+        <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="p"
+          style={{ fontFamily: SANS, fontSize: 16, fontWeight: 500, color: "#525252", margin: 0, textAlign: "center" }}
+        />
+        <div style={{ display: "flex", gap: 24 }}>
+          <a href="#" style={{ fontFamily: SANS, fontSize: 16, fontWeight: 500, color: "#050505", textDecoration: "none" }}>
+            Ochrana osobních údajů
+          </a>
         </div>
       </div>
     </footer>

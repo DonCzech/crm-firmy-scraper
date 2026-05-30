@@ -15,6 +15,314 @@ interface Props {
 
 export function AboutSection({ content, variant, sectionId }: Props) {
 
+  // hair-04: 2-col split — text vlevo (tmavé bg), foto vpravo edge-to-edge — 1:1 kim-impressive.cz
+  if (variant === "about-hair-04-split") {
+    const title  = String(content.title  ?? "Impresivní střihy. Už 10 let.");
+    const body   = String(content.body   ?? "");
+    const body2  = String(content.body2  ?? "");
+    const image  = String(content.image  ?? "");
+    const GOLD   = "#FFDF25";
+    const DARK   = "#0d0d0d";
+    const LATO   = "'Lato', sans-serif";
+    const PLACEHOLDER = "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&h=900&fit=crop&fm=webp";
+
+    return (
+      <section
+        id="o-nas"
+        data-template="hair-04"
+        style={{ backgroundColor: DARK, display: "flex", minHeight: 520, flexWrap: "wrap" }}
+      >
+        <style>{`
+          @media (max-width: 768px) {
+            [data-template="hair-04"] #o-nas { flex-direction: column; }
+            [data-template="hair-04"] #o-nas > div:last-child { min-height: 300px; flex: 1 1 100%; }
+          }
+        `}</style>
+        {/* Levý sloupec — text */}
+        <div
+          style={{
+            flex: "1 1 50%",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "72px clamp(40px, 6vw, 120px)",
+          }}
+        >
+          {/* Gold dekorační linka */}
+          <div style={{ width: 48, height: 3, backgroundColor: GOLD, marginBottom: 28 }} aria-hidden />
+
+          <h2 style={{
+            fontFamily: LATO,
+            fontSize: "clamp(26px, 2.8vw, 40px)",
+            fontWeight: 700,
+            color: "#ffffff",
+            lineHeight: 1.25,
+            margin: "0 0 28px",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+
+          <p style={{
+            fontFamily: LATO,
+            fontSize: 16,
+            fontWeight: 300,
+            color: "rgba(255,255,255,0.8)",
+            lineHeight: 1.85,
+            margin: "0 0 20px",
+            maxWidth: 480,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+          </p>
+
+          {body2 && (
+            <p style={{
+              fontFamily: LATO,
+              fontSize: 16,
+              fontWeight: 300,
+              color: "rgba(255,255,255,0.8)",
+              lineHeight: 1.85,
+              margin: 0,
+              maxWidth: 480,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
+            </p>
+          )}
+        </div>
+
+        {/* Pravý sloupec — foto edge-to-edge */}
+        <div style={{ flex: "1 1 50%", position: "relative", minHeight: 420 }}>
+          <GenericEditableImage
+            sectionId={sectionId}
+            field="image"
+            src={image || PLACEHOLDER}
+            alt={title}
+            className="absolute inset-0 w-full h-full"
+            style={{ position: "absolute" }}
+          >
+            <Image
+              src={image || PLACEHOLDER}
+              alt={title}
+              fill
+              className="object-cover object-center"
+              sizes="50vw"
+              unoptimized={shouldSkipNextImageOptimization(image || PLACEHOLDER)}
+            />
+          </GenericEditableImage>
+        </div>
+      </section>
+    );
+  }
+
+  // hair-02: white bg, centered col-10, teal h6 tagline + big H1 + body paragraphs + CTA + brands bar
+  if (variant === "about-hair-02-story") {
+    const tagline    = String(content.tagline ?? "");
+    const title      = String(content.title   ?? "Hair Studio No.1");
+    const body       = String(content.body    ?? "");
+    const paragraphs = (content.paragraphs as string[]) ?? [];
+    const ctaText    = String(content.ctaText ?? "Rezervace");
+    const ctaHref    = String(content.ctaHref ?? "#kontakt");
+    const brands     = (content.brands as Array<{ name: string; logo: string }>) ?? [];
+    const TEAL       = "#8ab2ab";
+    const FONT       = "'Montserrat', sans-serif";
+    return (
+      <section
+        id="o-nas"
+        style={{ backgroundColor: "#ffffff", padding: "60px 0", fontFamily: FONT }}
+        data-template="hair-02"
+      >
+        {/* Main text block — centered, 10/12 wide */}
+        <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px" }}>
+          {/* Tagline + mobile CTA row */}
+          <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: -24, position: "relative" }}>
+            {tagline && (
+              <h6
+                style={{ color: TEAL, fontFamily: FONT, fontSize: 14, fontWeight: 500,
+                  letterSpacing: "0.04em", margin: 0, textTransform: "none" }}
+              >
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+              </h6>
+            )}
+            {/* Mobile-only CTA */}
+            <a
+              href={ctaHref}
+              className="md:hidden"
+              style={{
+                display: "inline-block",
+                backgroundColor: TEAL,
+                color: "#fff",
+                fontFamily: FONT,
+                fontSize: 13,
+                fontWeight: 600,
+                letterSpacing: "0.1em",
+                padding: "9px 22px",
+                borderRadius: 4,
+                textDecoration: "none",
+                textTransform: "uppercase",
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </a>
+          </div>
+
+          {/* H1 title */}
+          <h1
+            style={{ color: "#000000", fontFamily: FONT, fontSize: "clamp(2rem, 4vw, 2.55rem)",
+              fontWeight: 700, lineHeight: 1.15, margin: "28px 0 10px" }}
+          >
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+
+          {/* Body paragraphs */}
+          {(paragraphs.length > 0 ? paragraphs : body ? [body] : []).map((p, i) => (
+            <p
+              key={i}
+              style={{ color: "rgb(0,0,0)", fontFamily: FONT, fontSize: 15, lineHeight: 1.75,
+                textAlign: "justify", margin: "0 0 16px" }}
+            >
+              {p}
+            </p>
+          ))}
+
+          {/* Desktop CTA */}
+          <a
+            href={ctaHref}
+            className="hidden md:inline-block"
+            style={{
+              marginTop: 8,
+              display: "inline-block",
+              backgroundColor: TEAL,
+              color: "#fff",
+              fontFamily: FONT,
+              fontSize: 13,
+              fontWeight: 600,
+              letterSpacing: "0.1em",
+              padding: "11px 30px",
+              borderRadius: 4,
+              textDecoration: "none",
+              textTransform: "uppercase",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+        </div>
+
+        {/* Brands bar — dark strip #575757 */}
+        {brands.length > 0 && (
+          <div
+            style={{
+              marginTop: 60,
+              backgroundColor: "rgb(87,87,87)",
+              padding: "30px 24px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 48,
+              flexWrap: "wrap",
+            }}
+          >
+            {brands.map((b, i) => (
+              b.logo ? (
+                <Image
+                  key={i}
+                  src={b.logo}
+                  alt={b.name}
+                  width={120}
+                  height={40}
+                  className="object-contain"
+                  style={{ opacity: 0.9, filter: "brightness(0) invert(1)", maxHeight: 40 }}
+                  unoptimized={shouldSkipNextImageOptimization(b.logo)}
+                />
+              ) : (
+                <span
+                  key={i}
+                  style={{
+                    color: "rgba(255,255,255,0.85)",
+                    fontFamily: FONT,
+                    fontSize: 13,
+                    fontWeight: 600,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  {b.name}
+                </span>
+              )
+            ))}
+          </div>
+        )}
+      </section>
+    );
+  }
+
+  // hair-03: white bg, 2-col — portrait foto vlevo (rounded 28px + shadow) / founder story vpravo
+  // about-hair-03-founder — Petra Studio
+  // Reference: foto vlevo 421×530px, žádný border-radius, žádný shadow.
+  // H2: 40px Helvetica weight 400 color #2f201a. Text: 16px weight 500 color #2b2b2b.
+  // Žádný gold label.
+  if (variant === "about-hair-03-founder") {
+    const title      = String(content.title ?? "Petra Studio");
+    const body       = String(content.body ?? "");
+    const paragraphs = (content.paragraphs as string[]) ?? [];
+    const image      = String(content.image ?? "");
+    const DARK       = "#2f201a";
+    const TEXT       = "#2b2b2b";
+    const SANS       = "Helvetica, Arial, sans-serif";
+
+    return (
+      <section id="o-nas" style={{ backgroundColor: "#ffffff", padding: "88px 0" }} data-template="hair-03">
+        <div style={{ maxWidth: 1300, margin: "0 auto", padding: "0 75px", display: "flex", alignItems: "flex-start", gap: 66 }}>
+          {/* Foto vlevo — +10%: 463×583px, ostré rohy, žádný shadow */}
+          {image && (
+            <div style={{ flex: "0 0 auto", width: 463, height: 583, position: "relative", flexShrink: 0 }}>
+              <GenericEditableImage
+                sectionId={sectionId}
+                field="image"
+                src={image}
+                alt={title}
+                className="absolute inset-0 w-full h-full"
+                style={{ position: "absolute" }}
+              >
+                <Image
+                  src={image}
+                  alt={title}
+                  fill
+                  className="object-cover object-top"
+                  sizes="463px"
+                  unoptimized={shouldSkipNextImageOptimization(image)}
+                />
+              </GenericEditableImage>
+            </div>
+          )}
+
+          {/* Text vpravo */}
+          <div style={{ flex: 1, minWidth: 0, paddingTop: 18 }}>
+            <GenericEditableText
+              sectionId={sectionId}
+              field="title"
+              value={title}
+              tag="h2"
+              style={{ fontFamily: SANS, fontSize: 44, fontWeight: 400, color: DARK, lineHeight: 1.2, margin: "0 0 26px 0" }}
+            />
+            {body && (
+              <GenericEditableText
+                sectionId={sectionId}
+                field="body"
+                value={body}
+                tag="p"
+                style={{ fontFamily: SANS, fontSize: 18, fontWeight: 500, color: TEXT, lineHeight: 1.75, margin: "0 0 22px 0" }}
+              />
+            )}
+            {paragraphs.map((p, i) => (
+              <p key={`h3-ab-p-${i}`} style={{ fontFamily: SANS, fontSize: 18, fontWeight: 500, color: TEXT, lineHeight: 1.75, margin: "0 0 18px 0" }}>
+                <GenericEditableText sectionId={sectionId} field={`paragraphs.${i}`} value={p} tag="span" />
+              </p>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   // hair-01: 2-col dark left (label+lead+body+3 stats) / gold right (#8a6f28, portrait+CTA)
   if (variant === "about-hair-split-stats") {
     const title     = String(content.title ?? "O společnosti");
@@ -204,6 +512,161 @@ export function AboutSection({ content, variant, sectionId }: Props) {
         images={images}
         sectionId={sectionId}
       />
+    );
+  }
+
+  // beauty-01: brands strip — cream bg, centered label + brand names in a row
+  // Reference: selfbeauty.cz — Inter 200 uppercase label, brands horizontally
+  if (variant === "about-beauty-01-brands") {
+    const label = String(content.label ?? "POUŽÍVÁME PRÉMIOVÉ, CELOSVĚTOVĚ DŮVĚRYHODNÉ ZNAČKY");
+    const items = (content.items as Array<{ name: string }>) ?? [];
+    const CREAM  = "#FFF8F1";
+    const ACCENT = "#E0BE9A";
+    const DARK   = "#1F1F1F";
+    const MUTED  = "#5B4D43";
+    const FONT   = "'Fahkwang', serif";
+    return (
+      <section
+        style={{
+          backgroundColor: CREAM,
+          padding: "44px 24px",
+          borderTop: "1px solid rgba(224,190,154,0.3)",
+          borderBottom: "1px solid rgba(224,190,154,0.3)",
+        }}
+        data-template="beauty-01"
+      >
+        <div style={{ maxWidth: 1040, margin: "0 auto", textAlign: "center" }}>
+          {/* Label */}
+          <p
+            style={{
+              fontFamily: FONT,
+              fontSize: 11,
+              fontWeight: 200,
+              letterSpacing: "0.16em",
+              color: MUTED,
+              textTransform: "uppercase",
+              marginBottom: 24,
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="label" value={label} tag="span" />
+          </p>
+          {/* Brand names — horizontal row, separated by sand dot */}
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: "12px 0",
+            }}
+          >
+            {items.map((b, i) => (
+              <div key={`brand-${i}`} style={{ display: "flex", alignItems: "center" }}>
+                <span
+                  style={{
+                    fontFamily: FONT,
+                    fontSize: 15,
+                    fontWeight: 300,
+                    color: DARK,
+                    letterSpacing: "0.08em",
+                    whiteSpace: "nowrap",
+                    padding: "0 20px",
+                  }}
+                >
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={b.name} tag="span" />
+                </span>
+                {i < items.length - 1 && (
+                  <span
+                    aria-hidden
+                    style={{ display: "inline-block", width: 4, height: 4, borderRadius: "50%", backgroundColor: ACCENT, flexShrink: 0 }}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // beauty-01: features / "Proč nás?" — 4 karty v řadě, dekorativní SVG ikona, Cormorant title, Inter desc
+  // Reference: selfbeauty.cz — krémové pozadí, centrovaný header, 4-col grid
+  if (variant === "about-beauty-01-features") {
+    const title    = String(content.title    ?? "PROČ NÁS?");
+    const subtitle = String(content.subtitle ?? "Studio postavené na tom, jak se chcete cítit.");
+    const items    = (content.items as Array<{ title: string; description: string }>) ?? [];
+    const CREAM    = "#FFF8F1";
+    const CREAM2   = "#F5EDE4";
+    const DARK     = "#1F1F1F";
+    const MUTED    = "#5B4D43";
+    const SAND     = "#E0BE9A";
+    const FONT_H   = "'Cormorant Garamond', 'Fahkwang', Georgia, serif";
+    const FONT_B   = "'Fahkwang', sans-serif";
+
+    // Jednoduché SVG ikonky (4 různé — lidé, hvězda, list, hodinky)
+    const icons = [
+      // All in one place
+      <svg key="i0" width="44" height="44" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+        <circle cx="27" cy="24" r="12" stroke={SAND} strokeWidth="2.5" fill="none"/>
+        <path d="M8 68c0-10.5 8.6-19 19-19h0c10.5 0 19 8.5 19 19" stroke={SAND} strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+        <circle cx="53" cy="24" r="12" stroke={SAND} strokeWidth="2.5" fill="none"/>
+        <path d="M34 68c0-10.5 8.6-19 19-19h0c10.5 0 19 8.5 19 19" stroke={SAND} strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+      </svg>,
+      // Expert
+      <svg key="i1" width="44" height="44" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+        <circle cx="40" cy="28" r="16" stroke={SAND} strokeWidth="2.5" fill="none"/>
+        <path d="M24 52c0-8.8 7.2-16 16-16s16 7.2 16 16v4H24v-4z" stroke={SAND} strokeWidth="2.5" fill="none"/>
+        <path d="M30 68l5-8h10l5 8" stroke={SAND} strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+      </svg>,
+      // Premium products
+      <svg key="i2" width="44" height="44" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+        <rect x="16" y="28" width="48" height="36" rx="3" stroke={SAND} strokeWidth="2.5" fill="none"/>
+        <path d="M28 28V20a12 12 0 0 1 24 0v8" stroke={SAND} strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+        <circle cx="40" cy="46" r="5" stroke={SAND} strokeWidth="2" fill="none"/>
+      </svg>,
+      // Atmosphere
+      <svg key="i3" width="44" height="44" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+        <circle cx="40" cy="40" r="24" stroke={SAND} strokeWidth="2.5" fill="none"/>
+        <path d="M40 20v20l12 8" stroke={SAND} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+      </svg>,
+    ];
+
+    return (
+      <section id="proc-nas" style={{ backgroundColor: CREAM2, padding: "80px 24px" }} data-template="beauty-01">
+        {/* Header */}
+        <div style={{ maxWidth: 1040, margin: "0 auto", textAlign: "center", marginBottom: 60 }}>
+          <p style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 300, letterSpacing: "0.22em", color: MUTED, textTransform: "uppercase", marginBottom: 12 }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </p>
+          {subtitle && (
+            <h2 style={{ fontFamily: FONT_H, fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 400, color: DARK, lineHeight: 1.25 }}>
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </h2>
+          )}
+        </div>
+
+        {/* 4-col grid */}
+        <div style={{ maxWidth: 1040, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 40 }}>
+          {items.map((item, i) => (
+            <div key={`feat-${i}`} style={{ textAlign: "center", padding: "0 8px" }}>
+              {/* Ikona */}
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: 20 }}>
+                {icons[i % icons.length]}
+              </div>
+              {/* Dekorativní čára */}
+              <div style={{ width: 32, height: 1, backgroundColor: SAND, margin: "0 auto 16px" }} aria-hidden />
+              {/* Title */}
+              <h3 style={{ fontFamily: FONT_H, fontSize: 22, fontWeight: 400, color: DARK, marginBottom: 10, lineHeight: 1.25 }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title} tag="span" />
+              </h3>
+              {/* Description */}
+              <p style={{ fontFamily: FONT_B, fontSize: 14, fontWeight: 300, color: MUTED, lineHeight: 1.7 }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
     );
   }
 

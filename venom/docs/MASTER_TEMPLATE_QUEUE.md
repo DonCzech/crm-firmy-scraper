@@ -6,6 +6,7 @@
 **Celkem šablon ve frontě:** 91
 **Hotovo (převedeno na MASTER ENGINE):** 8 (`cafe-01`, `barber-01`, `peak-cut`, `barber-02`, `barber-03`, `barber-04`, `the-barber`, `hair-01`)
 **Zbývá:** 83
+**⚡ DALŠÍ V POŘADÍ:** `hairsalon-no1` → nový slug `hair-02`
 **Rolled back (2026-05-27):** `the-barber`, `fade-room` — engine verze nesplňovaly 1:1 parity s `/preview`; clone tenanty (`the-barber-demo`, `fade-room-demo`) navíc mají vymazanou `full-page-clone` sekci → vyžadují recovery přes `scripts/recover-clone-tenant.mjs`.
 **Druhý průchod (2026-05-28):** `the-barber` → engine `barber-02` (Holičství Atelier) DONE; `fade-room` → engine `barber-03` (Studio Břitva) DONE — section-by-section per FÁZE C.
 
@@ -16,6 +17,13 @@
 > Sonnet ho čte ve FÁZI A (analýza) i ve FÁZI B (implementace).
 > Po dokončení šablony se zde aktualizuje status `TODO → DONE` a doplní datum.
 > Pořadí převodu = pořadí v tabulce (id 1 → 91). Vždy se bere první `TODO` v pořadí.
+
+> ⛔ **KRITICKÉ PRAVIDLO — POŘADÍ ŠABLON:**
+> Při výběru "další šablony" VŽDY čti tuto tabulku a vezmi **první řádek se `TODO`**.
+> NIKDY nevybírej šablonu z `template-lab/_STATE.md` (ten sleduje jiný stav).
+> NIKDY nevybírej šablonu podle abecedního pořadí složek v `/public/clones/`.
+> Pokud šablona ze skupiny (např. Kadeřnictví) dostala slug `hair-01`, další ze STEJNÉ skupiny dostane `hair-02` — ne nový slug.
+> Nový slug přichází jen když jde o NOVOU kategorii (první šablona z dané skupiny).
 
 ---
 
@@ -121,9 +129,9 @@ Při výběru další šablony pro FÁZI A: vezmi **první `TODO`** v tabulce.
 | 3 | fade-room | Barber Urban | barbershopurban.cz | Barbershop | **DONE** (barber-03 Studio Břitva) | 2026-05-28 |
 | 4 | barber-praha | Barber Praha | barberpraha.online | Barbershop | **DONE** (barber-04 Černý Fade) | 2026-05-29 |
 | 5 | studio-jarka | Studio Jarka | studio-jarka.cz | Kadeřnictví | **DONE** (hair-01 Salon Aria) | 2026-05-29 |
-| 6 | hairsalon-no1 | Hair Studio No.1 | hairsalon-no1.cz | Kadeřnictví | TODO | — |
-| 7 | petramechurova | Petra Studio | petramechurova.cz | Kadeřnictví | TODO | — |
-| 8 | selfbeauty | Demo Beauty Studio | selfbeauty.cz | Beauty & Wellness | TODO | — |
+| 6 | hairsalon-no1 | Hair Studio No.1 | hairsalon-no1.cz | Kadeřnictví | **DONE** (hair-02 Demo Hair Salon) | 2026-05-30 |
+| 7 | petramechurova | Petra Studio | petramechurova.cz | Kadeřnictví | **DONE** (hair-03 Petra Studio) | 2026-05-30 |
+| 8 | selfbeauty | Demo Beauty Studio | selfbeauty.cz | Beauty & Wellness | **DONE** (beauty-01 Demo Beauty Studio) | 2026-05-30 |
 | 9 | praha-masaze | Demo Masáže | praha-masaze.cz | Masáže & Wellness | TODO | — |
 | 10 | ananda | Demo Ananda SPA | ananda.cz | Ayurvéda & Wellness | TODO | — |
 | 11 | tawan | Demo TAWAN Masáže | tawan.cz | Thajské masáže | TODO | — |
@@ -207,6 +215,7 @@ Při výběru další šablony pro FÁZI A: vezmi **první `TODO`** v tabulce.
 | 89 | vasdj | Demo DJ | vasdj.cz | DJ & Events | TODO | — |
 | 90 | amdenevents | Demo Events | amdenevents.cz | Event Agency | TODO | — |
 | 91 | corleone | Demo Pizzeria | corleone.cz | Restaurace & Pizzerie | TODO | — |
+| 92 | kim-impressive | Impresiv Studio | kim-impressive.cz | Kadeřnictví | ✅ DONE | 2026-05-30 |
 
 ---
 

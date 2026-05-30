@@ -58,6 +58,346 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     );
   }
 
+  // hair-02: full-bleed photo slider, height 687px, white overlay, teal CTA pill
+  if (variant === "hero-hair-02-slider") {
+    return <HeroHair02Slider content={content} sectionId={sectionId} />;
+  }
+
+  // hair-03: 2-col split — levý sloupec 50% s paddingem, pravý sloupec 50% foto edge-to-edge.
+  // BG #ebebeb sjednocený s navbarem. H1: 96px Helvetica dark. CTA: solid dark square.
+  if (variant === "hero-hair-03-split") {
+    const image    = String((content as Record<string,unknown>).image ?? "");
+    const title    = String((content as Record<string,unknown>).title ?? "S LÁSKOU K VLASŮM");
+    const subtitle = String((content as Record<string,unknown>).subtitle ?? "Jsme profesionální kadeřnický salon v samém srdci Prahy.");
+    const ctaText  = String((content as Record<string,unknown>).ctaText ?? "Chci se objednat");
+    const ctaHref  = String((content as Record<string,unknown>).ctaHref ?? "#kontakt");
+    const DARK     = "#2f201a";
+    const BG       = "#ebebeb";
+    const SANS     = "Helvetica, Arial, sans-serif";
+
+    return (
+      <section
+        id="uvod"
+        className="w-full"
+        style={{ backgroundColor: BG }}
+        data-template="hair-03"
+      >
+        <div style={{ display: "flex", flexDirection: "row", minHeight: 779 }}>
+          {/* Levý sloupec — text */}
+          <div
+            style={{
+              flex: "0 0 50%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              padding: "64px 60px 64px 90px",
+            }}
+          >
+            <GenericEditableText
+              sectionId={sectionId}
+              field="title"
+              value={title}
+              tag="h1"
+              style={{
+                fontFamily: SANS,
+                fontSize: 96,
+                fontWeight: 400,
+                color: DARK,
+                lineHeight: 1.05,
+                letterSpacing: "1px",
+                margin: "0 0 28px 0",
+              }}
+            />
+            <GenericEditableText
+              sectionId={sectionId}
+              field="subtitle"
+              value={subtitle}
+              tag="p"
+              style={{
+                fontFamily: SANS,
+                fontSize: 16,
+                fontWeight: 400,
+                color: DARK,
+                lineHeight: 1.6,
+                maxWidth: 380,
+                margin: "0 0 36px 0",
+              }}
+            />
+            <a
+              href={ctaHref}
+              style={{
+                display: "inline-block",
+                alignSelf: "flex-start",
+                fontFamily: SANS,
+                fontSize: 16,
+                fontWeight: 400,
+                color: "#ffffff",
+                backgroundColor: DARK,
+                padding: "14px 32px",
+                borderRadius: 0,
+                textDecoration: "none",
+                letterSpacing: "0.01em",
+                transition: "background 0.15s",
+              }}
+              onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#4a3428"; }}
+              onMouseLeave={e => { e.currentTarget.style.backgroundColor = DARK; }}
+            >
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </a>
+          </div>
+
+          {/* Pravý sloupec — foto vyplňuje celou pravou půlku */}
+          {image && (
+            <div style={{ flex: "0 0 50%", position: "relative", minHeight: 651 }}>
+              <GenericEditableImage
+                sectionId={sectionId}
+                field="image"
+                src={image}
+                alt={title}
+                className="absolute inset-0 w-full h-full"
+                style={{ position: "absolute" }}
+              >
+                <Image
+                  src={image}
+                  alt={title}
+                  fill
+                  className="object-cover object-top"
+                  priority
+                  sizes="50vw"
+                  unoptimized={shouldSkipNextImageOptimization(image)}
+                />
+              </GenericEditableImage>
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  }
+
+  // hair-04: navbar embedded v hero — 1:1 kim-impressive.cz
+  // Fixed sticky navbar: dark semi-transparent strip (rgba(0,0,0,0.55)), logo vlevo, nav vpravo.
+  // bg foto 100vh, overlay rgba(0,0,0,0.24), H1 bílý v tmavém boxu, 2× pill CTA gold border.
+  if (variant === "hero-hair-04-with-navbar") {
+    const bg          = String(content.backgroundImage ?? "");
+    const siteName    = String(content.siteName ?? "Impresiv Studio");
+    const logoUrl     = String(content.logoUrl ?? "");
+    const links       = (content.links as Array<{ label: string; href: string }>) ?? [];
+    const title       = String(content.title ?? "Je čas se ostříhat? Posaďte se k nám.");
+    const ctaPrimText = String(content.ctaPrimaryText ?? "Ceník a rezervace");
+    const ctaPrimHref = String(content.ctaPrimaryHref ?? "/#cenik");
+    const ctaSecText  = String(content.ctaSecondaryText ?? "Chci se ostříhat hned");
+    const ctaSecHref  = String(content.ctaSecondaryHref ?? "/#kontakt");
+
+    const WHITE = "#ffffff";
+    const GOLD  = "#FFDF25";
+    const LATO  = "'Lato', sans-serif";
+    const NAV_H = 113; // px — výška sticky navbaru
+
+    /* Logo — HTML elementy (SVG text nefunguje bez načteného fontu v browseru) */
+    const LogoEl = () => (
+      <div style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
+        {/* K lettermark */}
+        <span style={{ fontFamily: LATO, fontSize: 64, fontWeight: 900, color: WHITE, lineHeight: 1, letterSpacing: "-2px", userSelect: "none" }}>K</span>
+        {/* Svislý oddělovač */}
+        <span aria-hidden style={{ display: "block", width: 1, height: 64, backgroundColor: "rgba(255,255,255,0.3)", flexShrink: 0 }} />
+        {/* Text vpravo */}
+        <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          <span style={{ fontFamily: LATO, fontSize: 17, fontWeight: 700, color: WHITE, letterSpacing: "0.04em", lineHeight: 1.2 }}>Kim</span>
+          <span style={{ fontFamily: LATO, fontSize: 17, fontWeight: 700, color: WHITE, letterSpacing: "0.04em", lineHeight: 1.2 }}>Impressive</span>
+          <span style={{ fontFamily: LATO, fontSize: 10, fontWeight: 300, color: "rgba(255,255,255,0.7)", letterSpacing: "0.25em", lineHeight: 1.4, textTransform: "uppercase" }}>Hair Salon</span>
+        </span>
+      </div>
+    );
+
+    return (
+      <>
+      <style>{`
+        html { scroll-behavior: smooth; }
+        @media (max-width: 768px) {
+          [data-template="hair-04"] .h04-hero-content { padding-top: 80px !important; }
+          [data-template="hair-04"] .h04-title-box { max-width: 90% !important; padding: 4% 5% !important; }
+          [data-template="hair-04"] .h04-cta-row { flex-direction: column; align-items: center; gap: 14px !important; }
+          [data-template="hair-04"] .h04-cta-row a { padding: 14px 32px !important; font-size: 16px !important; }
+        }
+      `}</style>
+      <section
+        id="uvod"
+        style={{ position: "relative", height: 600, overflow: "hidden", backgroundColor: "#1a1a1a" }}
+        data-template="hair-04"
+      >
+        {/* Fotografie na pozadí */}
+        {bg ? (
+          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="hero" className="absolute inset-0 w-full h-full" style={{ position: "absolute" }}>
+            <Image src={bg} alt="hero" fill className="object-cover object-center" priority sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} />
+          </GenericEditableImage>
+        ) : (
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #4a6080 0%, #92a8d1 50%, #2c3e50 100%)" }} />
+        )}
+
+        {/* Tmavý overlay přes celé hero */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.24)" }} />
+
+        {/* ═══ STICKY NAVBAR — position: fixed, tmavý pruh ═══ */}
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 1000,
+            backgroundColor: "rgba(0,0,0,0.55)",
+            backdropFilter: "blur(3px)",
+          }}
+        >
+          {/* Desktop nav */}
+          <div
+            className="hidden lg:flex"
+            style={{ width: "100%", alignItems: "center", minHeight: NAV_H, paddingLeft: 137, paddingRight: 137 }}
+          >
+            {/* Logo — vlevo */}
+            <a
+              href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"}
+              style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0 }}
+              aria-label={siteName}
+            >
+              {logoUrl
+                ? <img src={logoUrl} alt={siteName} style={{ maxHeight: 80, display: "block" }} />
+                : <LogoEl />
+              }
+            </a>
+
+            {/* Nav links — úplně vpravo, těsně u okraje */}
+            <nav style={{ marginLeft: "auto", display: "flex", alignItems: "center" }} aria-label="Hlavní menu">
+              {links.map((l, i) => (
+                <a
+                  key={`h4-nav-${i}`}
+                  href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+                  style={{
+                    fontFamily: LATO,
+                    fontSize: 18,
+                    fontWeight: i === 0 ? 400 : 100,
+                    color: i === 0 ? GOLD : WHITE,
+                    textDecoration: "none",
+                    padding: "0.7em 1.15em",
+                    display: "inline-block",
+                    whiteSpace: "nowrap",
+                    letterSpacing: "0.01em",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = i === 0 ? GOLD : WHITE; }}
+                >
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          {/* Mobile nav */}
+          <div className="flex lg:hidden items-center justify-between" style={{ padding: "0 16px", height: 64 }}>
+            <a href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"} style={{ display: "flex", alignItems: "center" }}>
+              {logoUrl
+                ? <img src={logoUrl} alt={siteName} style={{ maxWidth: 100, maxHeight: 50, objectFit: "contain" }} />
+                : (
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontFamily: LATO, fontSize: 40, fontWeight: 900, color: WHITE, lineHeight: 1 }}>K</span>
+                    <span style={{ display: "flex", flexDirection: "column" }}>
+                      <span style={{ fontFamily: LATO, fontSize: 13, fontWeight: 700, color: WHITE }}>Kim Impressive</span>
+                      <span style={{ fontFamily: LATO, fontSize: 9, fontWeight: 300, color: "rgba(255,255,255,0.7)", letterSpacing: "0.2em" }}>HAIR SALON</span>
+                    </span>
+                  </div>
+                )
+              }
+            </a>
+            <button style={{ background: "none", border: "none", cursor: "pointer", padding: 8, display: "flex", flexDirection: "column", gap: 5 }} aria-label="Menu">
+              <span style={{ display: "block", width: 26, height: 2, backgroundColor: WHITE }} />
+              <span style={{ display: "block", width: 26, height: 2, backgroundColor: WHITE }} />
+              <span style={{ display: "block", width: 26, height: 2, backgroundColor: WHITE }} />
+            </button>
+          </div>
+        </div>
+
+        {/* ═══ HERO CONTENT — posunutý pod fixed navbar ═══ */}
+        <div
+          className="h04-hero-content"
+          style={{
+            position: "relative",
+            zIndex: 5,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            height: 600,
+            flexDirection: "column",
+            paddingTop: NAV_H + 20,
+            paddingBottom: 20,
+            paddingLeft: "2%",
+            paddingRight: "2%",
+            boxSizing: "border-box",
+          }}
+        >
+          {/* H1 v tmavém boxu */}
+          <div
+            style={{
+              backgroundColor: "#00000085",
+              borderRadius: 20,
+              padding: "3% 4%",
+              maxWidth: "44%",
+              textAlign: "center",
+              marginBottom: "2.5%",
+            }}
+          >
+            <GenericEditableText
+              sectionId={sectionId}
+              field="title"
+              value={title}
+              tag="h1"
+              style={{
+                fontFamily: LATO,
+                fontSize: "clamp(22px, 2.8vw, 46px)",
+                fontWeight: 700,
+                color: WHITE,
+                lineHeight: 1.35,
+                margin: 0,
+              }}
+            />
+          </div>
+
+          {/* 2× CTA buttony — pill, gold border, +20% oproti originálu */}
+          <div className="h04-cta-row" style={{ display: "flex", gap: 28, flexWrap: "wrap", justifyContent: "center" }}>
+            {[
+              { text: ctaPrimText, field: "ctaPrimaryText",   href: ctaPrimHref },
+              { text: ctaSecText,  field: "ctaSecondaryText", href: ctaSecHref  },
+            ].map(({ text, field, href }) => (
+              <a
+                key={field}
+                href={resolveDemoHref(href, tenantSlug, isAdmin)}
+                style={{
+                  fontFamily: LATO,
+                  fontSize: 22,
+                  fontWeight: 600,
+                  color: GOLD,
+                  backgroundColor: "rgba(0,0,0,0.55)",
+                  border: `2px solid ${GOLD}`,
+                  borderRadius: 60,
+                  padding: "18px 52px",
+                  textDecoration: "none",
+                  display: "inline-block",
+                  transition: "color 0.2s, border-color 0.2s",
+                  whiteSpace: "nowrap",
+                  textAlign: "center",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = WHITE; e.currentTarget.style.borderColor = WHITE; }}
+                onMouseLeave={e => { e.currentTarget.style.color = GOLD; e.currentTarget.style.borderColor = GOLD; }}
+              >
+                <GenericEditableText sectionId={sectionId} field={field} value={text} tag="span" />
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+      </>
+    );
+  }
+
   if (variant === "hero-luxury-dark") {
     return (
       <section
@@ -589,27 +929,154 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     );
   }
 
-  // Default: hero-centered
+  // beauty-01: full-bleed hero foto, výška 615px (přesně dle selfbeauty-demo)
+  // Originál selfbeauty.cz — žádný overlay (data-bg-effect-name="")
+  // H1: Cormorant Garamond 100px → Fahkwang light, "na jednom místě." 70px italic
+  if (variant === "hero-beauty-01-fullbleed") {
+    const bg       = String(content.backgroundImage ?? "");
+    const tag      = String(content.tag ?? "Praha 1 · Prémiové beauty studio");
+    const titleH1  = String(content.titleH1 ?? "Holičství, nehty\na péče o pleť");
+    const titleIta = String(content.titleItalic ?? "na jednom místě.");
+    const sub      = String(content.subtitle ?? "Vaše péče o sebe začíná tady.");
+    const cta      = String(content.ctaText ?? "Rezervovat");
+    const href     = String(content.ctaHref ?? "#rezervace");
+    const SERIF    = "'Cormorant Garamond', 'Fahkwang', Georgia, serif";
+    const SERIF_IT = "'Adobe Caslon Pro', 'Cormorant Garamond', 'Fahkwang', Georgia, serif";
+    const SANS     = "Inter, 'Fahkwang', sans-serif";
+    const SAND     = "#E0BE9A";
+    return (
+      <section
+        id="uvod"
+        className="relative w-full flex items-center justify-center overflow-hidden"
+        style={{ minHeight: 615, backgroundColor: "#2a2520" }}
+      >
+        {/* Bg foto */}
+        {bg && (
+          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="" className="absolute inset-0 z-0" style={{ position: "absolute" }} priority>
+            <Image src={bg} alt="" fill className="object-cover object-center" sizes="100vw" priority unoptimized={shouldSkipNextImageOptimization(bg)} />
+          </GenericEditableImage>
+        )}
+        {/* Subtle dark overlay */}
+        <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{ backgroundColor: "rgba(0,0,0,0.22)" }} />
+
+        {/* Text content — zarovnáno na střed sekce */}
+        <div
+          className="relative z-[2] flex flex-col items-center text-center"
+          style={{ padding: "60px clamp(20px, 6vw, 80px)", width: "100%", maxWidth: 1040 }}
+        >
+          {/* Tag — Inter 14px bold, bílá */}
+          <p
+            style={{
+              fontFamily: SANS,
+              fontSize: 14,
+              fontWeight: 600,
+              color: "#ffffff",
+              letterSpacing: "0.06em",
+              marginBottom: 28,
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="tag" value={tag} tag="span" />
+          </p>
+
+          {/* H1 — Cormorant Garamond, 100px → responsive */}
+          <h1
+            style={{
+              fontFamily: SERIF,
+              fontSize: "clamp(42px, 7vw, 100px)",
+              fontWeight: 400,
+              color: "#ffffff",
+              lineHeight: 1.05,
+              marginBottom: 0,
+              whiteSpace: "pre-line",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="titleH1" value={titleH1} tag="span" />
+          </h1>
+
+          {/* Italic část — Adobe Caslon / Cormorant, 70px sand, italic */}
+          <p
+            style={{
+              fontFamily: SERIF_IT,
+              fontSize: "clamp(30px, 5vw, 70px)",
+              fontWeight: 400,
+              fontStyle: "italic",
+              color: SAND,
+              lineHeight: 1.1,
+              marginTop: 4,
+              marginBottom: 24,
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="titleItalic" value={titleIta} tag="span" />
+          </p>
+
+          {/* Subtitle — Inter 18px bílá */}
+          <p
+            style={{
+              fontFamily: SANS,
+              fontSize: 18,
+              fontWeight: 400,
+              color: "#ffffff",
+              marginBottom: 36,
+              lineHeight: 1.5,
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={sub} tag="span" />
+          </p>
+
+          {/* CTA tlačítko — sand bg */}
+          <a
+            href={resolveDemoHref(href, tenantSlug, isAdmin)}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: SAND,
+              color: "#1F1F1F",
+              fontFamily: SANS,
+              fontSize: 13,
+              fontWeight: 600,
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              padding: "12px 36px",
+              transition: "background 0.25s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#C4A07E"; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = SAND; }}
+          >
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={cta} tag="span" />
+          </a>
+        </div>
+      </section>
+    );
+  }
+
+  // Default: hero-centered (s bg fotkou = bílý text + overlay; bez = tmavý text)
+  const hasBg = !!c.backgroundImage;
   return (
     <section
-      className="relative min-h-dvh flex items-center justify-center text-center overflow-hidden"
+      className="relative flex items-center justify-center text-center overflow-hidden"
       style={{
-        backgroundColor: "var(--color-surface, #f4f6f9)",
+        backgroundColor: hasBg ? "#1a1a1a" : "var(--color-surface, #f4f6f9)",
         paddingInline: "clamp(16px, 5vw, 32px)",
-        paddingBlock: "6rem",
+        paddingBlock: hasBg ? "0" : "6rem",
+        minHeight: hasBg ? 480 : undefined,
       }}
     >
-      {c.backgroundImage && (
-        <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage} priority={true} />
+      {hasBg && (
+        <>
+          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage!} priority={true} />
+          <div className="absolute inset-0 z-10" style={{ backgroundColor: "rgba(0,0,0,0.45)" }} aria-hidden />
+        </>
       )}
-      <div className="relative z-10 max-w-3xl mx-auto w-full">
+      <div className="relative z-20 max-w-3xl mx-auto w-full" style={{ padding: hasBg ? "120px 0 100px" : undefined }}>
         <h1
           className="text-3xl md:text-6xl font-bold mb-6 whitespace-pre-line leading-tight"
-          style={{ fontFamily: "var(--font-heading)", color: "var(--color-text, #111)" }}
+          style={{ fontFamily: "var(--font-heading)", color: hasBg ? "#ffffff" : "var(--color-text, #111)" }}
         >
           <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? "Vítejte"} tag="span" />
         </h1>
-        <p className="text-base md:text-lg mb-10" style={{ color: "var(--color-text-muted, #666)" }}>
+        <p className="text-base md:text-lg mb-10 max-w-2xl mx-auto" style={{ color: hasBg ? "rgba(255,255,255,0.85)" : "var(--color-text-muted, #666)" }}>
           <GenericEditableText sectionId={sectionId} field="subtitle" value={c.subtitle ?? "Váš profesionální web."} tag="span" />
         </p>
         {c.ctaHref && (
@@ -629,6 +1096,8 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
 function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
   if (!tenantSlug || !href.startsWith("/")) return href;
   if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
+  // Hash-only anchor — vrátit jen #hash, jinak browser naviguje na novou URL a způsobuje reload
+  if (href.startsWith("/#")) return href.slice(1);
   return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
 }
 
@@ -840,6 +1309,137 @@ function HeroBarber04Slider({
                 backgroundColor: i === idx ? "#d5b981" : "rgba(255,255,255,0.4)",
                 padding: 0,
                 transition: "width .25s, background-color .25s",
+              }}
+            />
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function HeroHair02Slider({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  type Slide = { image: string; alt?: string };
+  const slides = ((content.slides as Slide[]) ?? []);
+  const ctaText = String(content.ctaText ?? "On-line rezervace");
+  const ctaHref = String(content.ctaHref ?? "#kontakt");
+  const [idx, setIdx] = useState(0);
+  const count = slides.length;
+
+  useEffect(() => {
+    if (count <= 1) return;
+    const t = setInterval(() => setIdx((i) => (i + 1) % count), 6000);
+    return () => clearInterval(t);
+  }, [count]);
+
+  const TEAL = "#459696";
+  const HERO_H = 687;
+
+  return (
+    <section
+      id="uvod"
+      className="relative w-full overflow-hidden"
+      style={{ height: HERO_H, backgroundColor: "#ebe8e2" }}
+      data-template="hair-02"
+    >
+      {/* slides — crossfade */}
+      {slides.map((sl, i) => (
+        <div
+          key={i}
+          aria-hidden={i !== idx}
+          className="absolute inset-0 transition-opacity duration-1000"
+          style={{ opacity: i === idx ? 1 : 0, zIndex: i === idx ? 1 : 0 }}
+        >
+          <Image
+            src={sl.image}
+            alt={sl.alt ?? ""}
+            fill
+            className="object-cover"
+            sizes="100vw"
+            priority={i === 0}
+            unoptimized={shouldSkipNextImageOptimization(sl.image)}
+          />
+        </div>
+      ))}
+
+      {/* white overlay rgba(255,255,255,0.25) */}
+      <div aria-hidden className="absolute inset-0 z-10" style={{ backgroundColor: "rgba(255,255,255,0.25)" }} />
+
+      {/* CTA pill — centered at ~65% of height */}
+      <div
+        className="absolute z-20 flex flex-col items-center"
+        style={{ left: "50%", top: "65%", transform: "translate(-50%, -50%)" }}
+      >
+        <a
+          href={ctaHref}
+          className="no-underline uppercase tracking-widest transition-opacity hover:opacity-80"
+          style={{
+            backgroundColor: TEAL,
+            color: "#fff",
+            fontFamily: "'Montserrat', sans-serif",
+            fontSize: 13,
+            fontWeight: 600,
+            letterSpacing: "0.18em",
+            padding: "13px 36px",
+            borderRadius: 99,
+            display: "inline-block",
+          }}
+        >
+          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+        </a>
+      </div>
+
+      {/* Prev / Next arrows */}
+      {count > 1 && (
+        <>
+          <button
+            type="button"
+            onClick={() => setIdx((i) => (i - 1 + count) % count)}
+            aria-label="Předchozí slide"
+            className="absolute top-1/2 z-20 flex items-center justify-center bg-transparent border-0 cursor-pointer"
+            style={{ left: 20, transform: "translateY(-50%)", color: TEAL, opacity: 0.8, padding: 0 }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")}
+          >
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <polyline points="15 6 9 12 15 18" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            onClick={() => setIdx((i) => (i + 1) % count)}
+            aria-label="Další slide"
+            className="absolute top-1/2 z-20 flex items-center justify-center bg-transparent border-0 cursor-pointer"
+            style={{ right: 20, transform: "translateY(-50%)", color: TEAL, opacity: 0.8, padding: 0 }}
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.8")}
+          >
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <polyline points="9 6 15 12 9 18" />
+            </svg>
+          </button>
+        </>
+      )}
+
+      {/* Dots */}
+      {count > 1 && (
+        <div
+          className="absolute left-1/2 z-20 flex items-center gap-2"
+          style={{ bottom: 20, transform: "translateX(-50%)" }}
+          aria-hidden
+        >
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setIdx(i)}
+              aria-label={`Slide ${i + 1}`}
+              className="border-0 cursor-pointer rounded-full p-0"
+              style={{
+                width: i === idx ? 10 : 8,
+                height: i === idx ? 10 : 8,
+                backgroundColor: i === idx ? TEAL : "rgba(255,255,255,0.7)",
+                transition: "all .25s",
               }}
             />
           ))}

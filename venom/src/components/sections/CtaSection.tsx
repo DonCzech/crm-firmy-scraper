@@ -1,4 +1,6 @@
+import Image from "next/image";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
+import { shouldSkipNextImageOptimization } from "@/lib/image-source";
 
 interface CtaContent {
   title?: string;
@@ -19,6 +21,143 @@ interface Props {
 
 export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }: Props) {
   const c = content as CtaContent & { body?: string; image?: string };
+
+  // hair-04: žlutý bar, text vlevo, tmavé pill tlačítko s telefonem vpravo — 1:1 kim-impressive.cz
+  if (variant === "hair-04-cta-phone") {
+    const title     = String((content as Record<string,unknown>).title ?? "Nechcete čekat? Zkuste nám zavolat");
+    const phone     = String((content as Record<string,unknown>).phone ?? "704 123 456");
+    const phoneHref = String((content as Record<string,unknown>).phoneHref ?? "tel:+420704123456");
+    const GOLD      = "#FFDF25";
+    const DARK      = "#0d0d0d";
+    const LATO      = "'Lato', sans-serif";
+
+    return (
+      <section
+        data-template="hair-04"
+        style={{ backgroundColor: GOLD, padding: "0 clamp(40px, 8vw, 140px)" }}
+      >
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            minHeight: 110,
+            gap: 32,
+            flexWrap: "wrap",
+          }}
+        >
+          <GenericEditableText
+            sectionId={sectionId}
+            field="title"
+            value={title}
+            tag="p"
+            style={{
+              fontFamily: LATO,
+              fontSize: "clamp(18px, 2vw, 26px)",
+              fontWeight: 400,
+              color: DARK,
+              margin: 0,
+              lineHeight: 1.3,
+            }}
+          />
+          <a
+            href={phoneHref}
+            style={{
+              fontFamily: LATO,
+              fontSize: "clamp(16px, 1.5vw, 20px)",
+              fontWeight: 500,
+              color: GOLD,
+              backgroundColor: DARK,
+              borderRadius: 50,
+              padding: "16px 36px",
+              textDecoration: "none",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
+              transition: "background 0.2s, color 0.2s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#222"; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = DARK; }}
+          >
+            <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+          </a>
+        </div>
+      </section>
+    );
+  }
+
+  // beauty-01: full-bleed foto, tmavý overlay, centrovaný text, sand CTA
+  // Reference: selfbeautystudio.com — "Víc než střih. Zážitek."
+  if (variant === "cta-beauty-01") {
+    const bg       = String((content as Record<string,unknown>).backgroundImage ?? "");
+    const title    = String(c.title    ?? "Víc než střih. Zážitek.");
+    const subtitle = String(c.subtitle ?? "");
+    const ctaText  = String(c.ctaText  ?? "NAVŠTIVTE NÁS");
+    const ctaHref  = String(c.ctaHref  ?? "#kontakt");
+    const FONT_H   = "'Cormorant Garamond', 'Fahkwang', Georgia, serif";
+    const FONT_B   = "'Fahkwang', sans-serif";
+    const SAND     = "#E0BE9A";
+    return (
+      <section
+        id="rezervace"
+        className="relative flex items-center justify-center overflow-hidden"
+        style={{ minHeight: 480, backgroundColor: "#2a2520" }}
+        data-template="beauty-01"
+      >
+        {bg && (
+          <Image
+            src={bg}
+            alt=""
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+            priority={false}
+            unoptimized={shouldSkipNextImageOptimization(bg)}
+          />
+        )}
+        {/* Dark overlay */}
+        <div aria-hidden className="absolute inset-0 z-[1]" style={{ backgroundColor: "rgba(0,0,0,0.52)" }} />
+
+        {/* Content */}
+        <div className="relative z-[2] text-center px-6" style={{ maxWidth: 760 }}>
+          <h2 style={{ fontFamily: FONT_H, fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 400, color: "#ffffff", lineHeight: 1.15, marginBottom: 20, whiteSpace: "pre-line" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          {subtitle && (
+            <p style={{ fontFamily: FONT_B, fontSize: 15, fontWeight: 300, color: "rgba(255,255,255,0.82)", lineHeight: 1.75, marginBottom: 36, maxWidth: 580, margin: "0 auto 36px" }}>
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+          <a
+            href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: SAND,
+              color: "#1F1F1F",
+              fontFamily: FONT_B,
+              fontSize: 12,
+              fontWeight: 500,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              padding: "14px 40px",
+              transition: "background 0.25s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#C4A07E"; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = SAND; }}
+          >
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+        </div>
+      </section>
+    );
+  }
+
+  // hair-02: beige 2-col, teal tag + H1 + lead + outline CTA, circle image right
+  if (variant === "cta-hair-02-promo") {
+    return <CtaHair02Promo content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
 
   // hair-01: cream bg, dark title, gold outline button
   if (variant === "cta-hair-01") {
@@ -271,6 +410,83 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
             </a>
           )}
         </div>
+      </div>
+    </section>
+  );
+}
+
+// hair-02: beige (#ebe8e2) 2-col — left: teal h6 tag + H1 + lead + outline CTA; right: circle image
+function CtaHair02Promo({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const tag     = String(content.tag     ?? "e-shop");
+  const title   = String(content.title   ?? "REVOLUCE V PÉČI O VLASY");
+  const body    = String(content.body    ?? "");
+  const ctaText = String(content.ctaText ?? "Zjistit více");
+  const ctaHref = resolveDemoHref(String(content.ctaHref ?? "#kontakt"), tenantSlug, isAdmin);
+  const image   = String(content.image   ?? "");
+  const TEAL  = "#8ab2ab";
+  const BEIGE = "rgb(235,232,226)";
+  const FONT  = "'Montserrat', sans-serif";
+
+  return (
+    <section
+      id="promo"
+      style={{ backgroundColor: BEIGE, padding: "70px 0", fontFamily: FONT }}
+      data-template="hair-02"
+    >
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 48 }}>
+        {/* Left — text */}
+        <div style={{ flex: "1 1 380px", minWidth: 280 }}>
+          {/* Teal tag */}
+          <p style={{ color: TEAL, fontFamily: FONT, fontSize: 14, fontWeight: 500, margin: "0 0 20px", textTransform: "lowercase", letterSpacing: "0.03em" }}>
+            <GenericEditableText sectionId={sectionId} field="tag" value={tag} tag="span" />
+          </p>
+          {/* H1 */}
+          <h2 style={{ color: "#000000", fontFamily: FONT, fontSize: "clamp(1.75rem, 3vw, 2rem)", fontWeight: 700, lineHeight: 1.4, margin: "0 0 16px", textTransform: "uppercase" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          {/* Lead */}
+          {body && (
+            <p style={{ color: "#000000", fontFamily: FONT, fontSize: 16, lineHeight: 1.7, margin: "0 0 28px" }}>
+              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+            </p>
+          )}
+          {/* Outline CTA */}
+          <a
+            href={ctaHref}
+            style={{
+              display: "inline-block",
+              fontFamily: FONT,
+              fontSize: 14,
+              fontWeight: 600,
+              color: TEAL,
+              border: `1.5px solid ${TEAL}`,
+              borderRadius: 10,
+              padding: "10px 30px",
+              textDecoration: "none",
+              textTransform: "lowercase",
+              letterSpacing: "0.02em",
+              transition: "background .2s, color .2s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = TEAL; e.currentTarget.style.color = "#fff"; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = TEAL; }}
+          >
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+        </div>
+
+        {/* Right — circle image */}
+        {image && (
+          <div style={{ flex: "0 0 auto", width: "min(380px, 100%)", aspectRatio: "1/1", borderRadius: "50%", overflow: "hidden", position: "relative" }}>
+            <Image
+              src={image}
+              alt={title}
+              fill
+              className="object-cover"
+              sizes="(max-width:768px) 100vw, 380px"
+              unoptimized={shouldSkipNextImageOptimization(image)}
+            />
+          </div>
+        )}
       </div>
     </section>
   );

@@ -30,6 +30,81 @@ export function TestimonialsSection({ content, variant, sectionId }: Props) {
 
   if (!testimonials.length) return null;
 
+  // beauty-01: 3-col grid, cream bg, uppercase title, star rating per card
+  // Reference: selfbeautystudio.com — "MILÁČEK V SRDCI PRAHY", simple text cards
+  if (variant === "beauty-01-testimonials-3col") {
+    const subtitle    = String(content.subtitle    ?? "Co říkají naši klienti:");
+    const ratingLine  = String(content.ratingLine  ?? "Hodnocení 5★ od našich klientů");
+    const CREAM2  = "#F5EDE4";
+    const DARK    = "#1F1F1F";
+    const MUTED   = "#5B4D43";
+    const SAND    = "#E0BE9A";
+    const FONT_H  = "'Cormorant Garamond', 'Fahkwang', Georgia, serif";
+    const FONT_B  = "'Fahkwang', sans-serif";
+    return (
+      <section id="reference" style={{ backgroundColor: CREAM2, padding: "80px 24px" }} data-template="beauty-01">
+        <div style={{ maxWidth: 1040, margin: "0 auto" }}>
+          {/* Header */}
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <p style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 300, letterSpacing: "0.22em", color: MUTED, textTransform: "uppercase", marginBottom: 10 }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </p>
+            {subtitle && (
+              <h2 style={{ fontFamily: FONT_H, fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 400, color: DARK, marginBottom: 12 }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </h2>
+            )}
+            {ratingLine && (
+              <p style={{ fontFamily: FONT_B, fontSize: 13, fontWeight: 300, color: MUTED, letterSpacing: "0.06em" }}>
+                <GenericEditableText sectionId={sectionId} field="ratingLine" value={ratingLine} tag="span" />
+              </p>
+            )}
+          </div>
+
+          {/* 3-col grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: 24 }}>
+            {testimonials.map((t, i) => (
+              <div
+                key={`rev-${i}`}
+                style={{
+                  backgroundColor: "#FFF8F1",
+                  padding: "32px 28px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 16,
+                }}
+              >
+                {/* Stars */}
+                <div style={{ display: "flex", gap: 3 }}>
+                  {Array.from({ length: t.rating ?? 5 }).map((_, j) => (
+                    <span key={j} style={{ color: SAND, fontSize: 16 }}>★</span>
+                  ))}
+                </div>
+                {/* Quote text */}
+                <p style={{ fontFamily: FONT_B, fontSize: 14, fontWeight: 300, color: DARK, lineHeight: 1.75, flex: 1, fontStyle: "italic" }}>
+                  &ldquo;<GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={t.text} tag="span" />&rdquo;
+                </p>
+                {/* Divider */}
+                <div style={{ width: 32, height: 1, backgroundColor: SAND }} aria-hidden />
+                {/* Name + role */}
+                <div>
+                  <p style={{ fontFamily: FONT_H, fontSize: 17, fontWeight: 400, color: DARK, marginBottom: 3 }}>
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={t.name} tag="span" />
+                  </p>
+                  {t.role && (
+                    <p style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 300, color: MUTED, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.role`} value={t.role} tag="span" />
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   // hair-01: white bg, rating line, horizontal card row
   if (variant === "hair-01-cards") {
     const MONO = "'Montserrat',sans-serif";

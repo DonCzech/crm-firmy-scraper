@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.env
+.env.local
+*.db
+*.db-journal
+.DS_Store
+coverage/
+.turbo/
+.vercel
+.pnpm-store/
+venom/.next/
+venom/template-lab/clones/
+venom/scripts/seed-*.mjs

@@ -21,6 +21,142 @@ interface Props {
 
 export function ServicesSection({ content, variant, sectionId }: Props) {
 
+  // hair-04: 3-col, diamond foto s gold borderem, tmavé bg, gold nadpisy — 1:1 kim-impressive.cz
+  if (variant === "hair-04-service-cards") {
+    type Item04 = { title?: string; body?: string; image?: string };
+    const items = (content.items as Item04[]) ?? [];
+    const GOLD  = "#FFDF25";
+    const LATO  = "'Lato', sans-serif";
+    const PLACEHOLDERS = [
+      "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=400&h=400&fit=crop&crop=face&fm=webp",
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=400&fit=crop&crop=face&fm=webp",
+      "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=400&h=400&fit=crop&crop=face&fm=webp",
+    ];
+
+    return (
+      <section
+        id="sluzby"
+        data-template="hair-04"
+        style={{ backgroundColor: "#0d0d0d", padding: "80px 24px 90px" }}
+      >
+        <style>{`
+          [data-template="hair-04"] .h04-card {
+            transition: transform 0.35s cubic-bezier(.22,.61,.36,1);
+          }
+          [data-template="hair-04"] .h04-card:hover {
+            transform: translateY(-10px);
+          }
+          [data-template="hair-04"] .h04-diamond {
+            transition: box-shadow 0.35s ease, border-color 0.35s ease;
+          }
+          [data-template="hair-04"] .h04-card:hover .h04-diamond {
+            box-shadow: 0 0 32px rgba(255,223,37,0.45), 0 0 8px rgba(255,223,37,0.25);
+            border-color: #fff;
+          }
+          [data-template="hair-04"] .h04-title {
+            transition: color 0.3s ease;
+          }
+          [data-template="hair-04"] .h04-card:hover .h04-title {
+            color: #ffffff;
+          }
+        `}</style>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "clamp(40px, 6vw, 100px)",
+            flexWrap: "wrap",
+            maxWidth: 1200,
+            margin: "0 auto",
+          }}
+        >
+          {items.map((it, i) => {
+            const imgSrc = it.image || PLACEHOLDERS[i] || "";
+            return (
+              <div
+                key={i}
+                className="h04-card"
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  textAlign: "center",
+                  flex: "1 1 260px",
+                  maxWidth: 320,
+                }}
+              >
+                {/* Diamond foto */}
+                <div
+                  className="h04-diamond"
+                  style={{
+                    width: 190,
+                    height: 190,
+                    transform: "rotate(45deg)",
+                    overflow: "hidden",
+                    border: `2px solid ${GOLD}`,
+                    flexShrink: 0,
+                    marginBottom: 56,
+                    position: "relative",
+                  }}
+                >
+                  <GenericEditableImage
+                    sectionId={sectionId}
+                    field={`items.${i}.image`}
+                    src={imgSrc}
+                    alt={it.title ?? ""}
+                    className="absolute inset-0"
+                    style={{ position: "absolute", inset: 0 }}
+                  >
+                    {imgSrc ? (
+                      <Image
+                        src={imgSrc}
+                        alt={it.title ?? ""}
+                        fill
+                        sizes="270px"
+                        className="object-cover"
+                        style={{ transform: "rotate(-45deg) scale(1.45)", transformOrigin: "center" }}
+                        unoptimized={shouldSkipNextImageOptimization(imgSrc)}
+                      />
+                    ) : (
+                      <div style={{ position: "absolute", inset: 0, backgroundColor: "#1a1a1a" }} />
+                    )}
+                  </GenericEditableImage>
+                </div>
+
+                {/* Název — gold */}
+                <h3 className="h04-title" style={{
+                  fontFamily: LATO,
+                  fontSize: 22,
+                  fontWeight: 600,
+                  color: GOLD,
+                  margin: "0 0 16px",
+                  lineHeight: 1.3,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={it.title ?? ""} tag="span" />
+                </h3>
+
+                {/* Popis — bílý */}
+                <p style={{
+                  fontFamily: LATO,
+                  fontSize: 15,
+                  fontWeight: 300,
+                  color: "rgba(255,255,255,0.85)",
+                  lineHeight: 1.75,
+                  margin: 0,
+                  maxWidth: 280,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.body`} value={it.body ?? ""} tag="span" />
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    );
+  }
+
+  if (variant === "beauty-01-services-3col") return <Beauty01Services3col content={content} sectionId={sectionId} />;
+
   // hair-01: 4 numbered cards (01–04), gold číslo, Montserrat, cream bg
   if (variant === "hair-numbered-cards") {
     interface HairItem { number?: string; name: string; description: string; ctaText?: string; ctaHref?: string; }
@@ -760,6 +896,132 @@ export function ServicesSection({ content, variant, sectionId }: Props) {
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+}
+
+// beauty-01: 3 service cards — portrait foto, name, price, desc, 2 CTA links
+// Reference: selfbeauty.cz — krémové pozadí, Cormorant Garamond 30px name, Inter light desc
+function Beauty01Services3col({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const title    = String(content.title    ?? "SLUŽBY");
+  const subtitle = String(content.subtitle ?? "");
+  const desc     = String(content.description ?? "");
+  const items    = (content.items as Array<{
+    name: string; price?: string; description?: string; image?: string;
+    ctaReservation?: string; ctaReservationHref?: string;
+    ctaPricing?: string; ctaPricingHref?: string;
+  }>) ?? [];
+
+  const CREAM  = "#FFF8F1";
+  const DARK   = "#1F1F1F";
+  const MUTED  = "#5B4D43";
+  const SAND   = "#E0BE9A";
+  const FONT_H = "'Cormorant Garamond', 'Fahkwang', Georgia, serif";
+  const FONT_B = "'Fahkwang', sans-serif";
+
+  return (
+    <section id="sluzby" style={{ backgroundColor: CREAM, padding: "80px 24px" }} data-template="beauty-01">
+      {/* Section header */}
+      <div style={{ maxWidth: 1040, margin: "0 auto", textAlign: "center", marginBottom: 56 }}>
+        <p style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 300, letterSpacing: "0.22em", color: MUTED, textTransform: "uppercase", marginBottom: 12 }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </p>
+        {subtitle && (
+          <h2 style={{ fontFamily: FONT_H, fontSize: "clamp(28px, 3.5vw, 42px)", fontWeight: 400, color: DARK, marginBottom: 16, lineHeight: 1.2 }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </h2>
+        )}
+        {desc && (
+          <p style={{ fontFamily: FONT_B, fontSize: 15, fontWeight: 300, color: MUTED, lineHeight: 1.7, maxWidth: 560, margin: "0 auto" }}>
+            <GenericEditableText sectionId={sectionId} field="description" value={desc} tag="span" />
+          </p>
+        )}
+      </div>
+
+      {/* 3-col grid */}
+      <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 32 }}>
+        {items.map((item, i) => (
+          <div key={`svc-${i}`} style={{ display: "flex", flexDirection: "column" }}>
+            {/* Portrait foto */}
+            {item.image && (
+              <div style={{ width: "100%", aspectRatio: "368/464", position: "relative", overflow: "hidden", marginBottom: 20 }}>
+                <GenericEditableImage
+                  sectionId={sectionId}
+                  field={`items.${i}.image`}
+                  src={item.image}
+                  alt={item.name}
+                  className="absolute inset-0 w-full h-full"
+                  style={{ position: "absolute" }}
+                >
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    className="object-cover object-center"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    unoptimized={shouldSkipNextImageOptimization(item.image)}
+                  />
+                </GenericEditableImage>
+              </div>
+            )}
+
+            {/* Service name */}
+            <h3 style={{ fontFamily: FONT_H, fontSize: 30, fontWeight: 400, color: DARK, lineHeight: 1.2, marginBottom: 8 }}>
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
+            </h3>
+
+            {/* Price */}
+            {item.price && (
+              <p style={{ fontFamily: FONT_B, fontSize: 15, fontWeight: 100, color: DARK, marginBottom: 10 }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.price`} value={item.price} tag="span" />
+              </p>
+            )}
+
+            {/* Description */}
+            {item.description && (
+              <p style={{ fontFamily: FONT_B, fontSize: 14, fontWeight: 300, color: MUTED, lineHeight: 1.65, marginBottom: 20, flex: 1 }}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
+              </p>
+            )}
+
+            {/* CTA links */}
+            <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: "auto" }}>
+              {item.ctaReservation && (
+                <a
+                  href={item.ctaReservationHref ?? "#rezervace"}
+                  style={{
+                    fontFamily: FONT_B, fontSize: 12, fontWeight: 400, color: DARK,
+                    letterSpacing: "0.08em", textDecoration: "none", display: "inline-flex",
+                    alignItems: "center", gap: 6,
+                    borderBottom: `1px solid ${SAND}`, paddingBottom: 2,
+                    transition: "color 0.2s",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.color = MUTED; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = DARK; }}
+                >
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaReservation`} value={item.ctaReservation} tag="span" />
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
+                </a>
+              )}
+              {item.ctaPricing && (
+                <a
+                  href={item.ctaPricingHref ?? "#cenik"}
+                  style={{
+                    fontFamily: FONT_B, fontSize: 12, fontWeight: 400, color: MUTED,
+                    letterSpacing: "0.08em", textDecoration: "none", display: "inline-flex",
+                    alignItems: "center", gap: 6, transition: "color 0.2s",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.color = DARK; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = MUTED; }}
+                >
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaPricing`} value={item.ctaPricing} tag="span" />
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden><path d="M2 8L8 2M8 2H4M8 2V6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );

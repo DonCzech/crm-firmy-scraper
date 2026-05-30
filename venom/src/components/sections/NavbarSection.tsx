@@ -1072,9 +1072,690 @@ function NavbarHair01Topbar({ content, variant: _v, isAdmin, tenantSlug, section
   );
 }
 
+function NavbarHair02({ content, variant: _v, isAdmin, tenantSlug, sectionId }: Props) {
+  const [open, setOpen] = useState(false);
+  const siteName = String(content.siteName ?? "Hair Studio No.1");
+  const logoUrl  = String(content.logoUrl ?? "");
+  const logoSrc  = logoUrl || demoLogoDataUrl(siteName);
+  const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+
+  // Reference: hairsalon-no1-demo — bílá hlavička
+  // Výška zmenšena o 30%: 90px → 63px, mobile 70px → 49px
+  const BG    = "#ffffff";
+  const TEXT  = "#4a4a4a";
+  const TEAL  = "#459696";
+  const SERIF = "Georgia, Times, 'Times New Roman', serif";
+
+  return (
+    <header
+      className="fixed top-0 left-0 right-0 z-50"
+      style={{ backgroundColor: "#ffffff" }}
+      data-template="hair-02"
+    >
+      {/* Desktop — výška 63px (90px * 0.7) */}
+      <div
+        className="hidden md:flex items-center max-w-[1280px] mx-auto"
+        style={{ height: 63, padding: "0 24px" }}
+      >
+        {/* Logo vlevo */}
+        <a
+          href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"}
+          className="shrink-0 flex items-center"
+          aria-label={siteName}
+          style={{ marginRight: 32 }}
+        >
+          <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoSrc} alt={siteName} className="relative overflow-hidden" style={{ width: 112, height: 28 }}>
+            <img src={logoSrc} alt={siteName} style={{ width: 112, height: 28, objectFit: "contain" }} />
+          </GenericEditableImage>
+        </a>
+
+        {/* Nav linky (flex-1) */}
+        <nav className="flex items-center gap-6 flex-1">
+          {links.map((l, i) => (
+            <a
+              key={`h2-nav-${i}`}
+              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+              style={{
+                fontFamily: SERIF,
+                fontSize: "0.82em",
+                fontWeight: 400,
+                color: TEXT,
+                textTransform: "uppercase",
+                letterSpacing: "0.04em",
+                textDecoration: "none",
+                transition: "color 0.15s",
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = TEAL)}
+              onMouseLeave={e => (e.currentTarget.style.color = TEXT)}
+            >
+              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+            </a>
+          ))}
+        </nav>
+
+        {/* CTA vpravo — tmavý outline pill */}
+        <a
+          href={resolveDemoHref("/kontakt", tenantSlug, isAdmin)}
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 7,
+            border: `1.5px solid ${TEXT}`,
+            color: TEXT,
+            fontFamily: SERIF,
+            fontSize: "0.78em",
+            fontWeight: 400,
+            letterSpacing: "0.06em",
+            textTransform: "uppercase",
+            textDecoration: "none",
+            padding: "7px 18px",
+            borderRadius: 99,
+            whiteSpace: "nowrap",
+            transition: "background 0.15s, color 0.15s",
+          }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = TEXT; e.currentTarget.style.color = BG; }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = TEXT; }}
+        >
+          ON-LINE REZERVACE
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden><rect x="0.5" y="0.5" width="9" height="9" rx="1" stroke="currentColor" strokeWidth="1.2"/></svg>
+        </a>
+      </div>
+
+      {/* Mobile — výška 49px (70px * 0.7) */}
+      <div
+        className="flex md:hidden items-center justify-between"
+        style={{ height: 49, padding: "0 16px" }}
+      >
+        <a href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"} aria-label={siteName}>
+          <img src={logoSrc} alt={siteName} style={{ height: 28, objectFit: "contain" }} />
+        </a>
+        <button
+          className="flex flex-col justify-between w-5 h-[14px] bg-transparent border-0 cursor-pointer p-0"
+          onClick={() => setOpen(!open)}
+          aria-label="Menu"
+          aria-expanded={open}
+        >
+          <span className="block h-[1.5px] w-full" style={{ backgroundColor: TEXT }} />
+          <span className="block h-[1.5px] w-full" style={{ backgroundColor: TEXT }} />
+          <span className="block h-[1.5px] w-full" style={{ backgroundColor: TEXT }} />
+        </button>
+      </div>
+
+      {/* Mobile overlay */}
+      {open && (
+        <div
+          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8"
+          style={{ backgroundColor: "#ffffff" }}
+        >
+          <button
+            className="absolute top-5 right-6 bg-transparent border-0 cursor-pointer"
+            style={{ color: TEXT, fontSize: 22 }}
+            onClick={() => setOpen(false)}
+            aria-label="Zavřít menu"
+          >✕</button>
+          {links.map((l, i) => (
+            <a
+              key={`h2-mob-${i}`}
+              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+              style={{ fontFamily: SERIF, color: TEXT, fontSize: 16, fontWeight: 400, textTransform: "uppercase", letterSpacing: "0.06em", textDecoration: "none" }}
+              onClick={() => setOpen(false)}
+            >
+              {l.label}
+            </a>
+          ))}
+          <a
+            href={resolveDemoHref("/kontakt", tenantSlug, isAdmin)}
+            style={{
+              border: `1px solid ${TEAL}`, color: TEAL, fontFamily: SERIF,
+              fontSize: 14, padding: "10px 24px", borderRadius: 99, textDecoration: "none", textTransform: "uppercase",
+            }}
+            onClick={() => setOpen(false)}
+          >
+            ON-LINE REZERVACE
+          </a>
+        </div>
+      )}
+    </header>
+  );
+}
+
+// hair-03-navbar — Petra Studio
+// Reference: petramechurova-demo — světlé #ebebeb pozadí (sjednocené s hero),
+// position relative (ne fixed), SVG logo BEZ tmavého obdélníku (text přímo na světlém bg),
+// nav linky centrálně, E-SHOP outline + ONLINE REZERVACE solid dark
+// hair-03-navbar — Petra Studio
+function NavbarHair03({ content, variant: _v, isAdmin, tenantSlug, sectionId }: Props) {
+  const [open, setOpen] = useState(false);
+  const siteName = String(content.siteName ?? "Petra Studio");
+  const logoUrl  = String(content.logoUrl ?? "");
+  const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+
+  const DARK   = "#2f201a";
+  const GOLD   = "#c8a97e";
+  const SERIF  = "Georgia, 'Times New Roman', serif";
+  const SANS   = "system-ui, -apple-system, sans-serif";
+  const BG     = "#ebebeb";
+
+  // Logo bez tmavého rect — text přímo na světlém pozadí navbaru
+  const LogoSvg = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 62" width="200" height="44" aria-label={siteName}>
+      <text x="4" y="16" fontFamily={SERIF} fontSize="10" fill={GOLD} letterSpacing="4">HAIR MAKING</text>
+      <text x="4" y="44" fontFamily={SERIF} fontSize="26" fontWeight="400" fill={DARK} letterSpacing="2">petra</text>
+      <text x="98" y="44" fontFamily={SERIF} fontSize="26" fill={GOLD} letterSpacing="2"> studio</text>
+      <line x1="4" y1="50" x2="276" y2="50" stroke={GOLD} strokeWidth="0.8" />
+    </svg>
+  );
+
+  return (
+    <header
+      className="w-full"
+      style={{ backgroundColor: BG, borderBottom: "1px solid rgba(0,0,0,0.06)" }}
+      data-template="hair-03"
+    >
+      {/* ── Desktop ── */}
+      <div
+        className="hidden lg:flex items-center"
+        style={{ maxWidth: 1400, margin: "0 auto", height: 76, padding: "0 24px", gap: 0 }}
+      >
+        {/* Logo vlevo */}
+        <a
+          href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"}
+          className="shrink-0 flex items-center"
+          style={{ marginRight: 32, textDecoration: "none" }}
+          aria-label={siteName}
+        >
+          <GenericEditableImage
+            sectionId={sectionId}
+            field="logoUrl"
+            src={logoUrl}
+            alt={siteName}
+            className="relative"
+            style={{ width: 200, height: 44 }}
+          >
+            {logoUrl
+              ? <img src={logoUrl} alt={siteName} style={{ width: 200, height: 44, objectFit: "contain" }} />
+              : <LogoSvg />
+            }
+          </GenericEditableImage>
+        </a>
+
+        {/* Nav linky — ms-auto (Bootstrap-like), centrovaně */}
+        <nav className="flex items-center flex-1 justify-center" style={{ gap: 32 }}>
+          {links.map((l, i) => (
+            <a
+              key={`h3-nav-${i}`}
+              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+              style={{
+                fontFamily: SANS,
+                fontSize: 15,
+                fontWeight: 400,
+                color: "#212529",
+                textDecoration: "none",
+                whiteSpace: "nowrap",
+                transition: "color 0.15s",
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = DARK)}
+              onMouseLeave={e => (e.currentTarget.style.color = "#212529")}
+            >
+              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+            </a>
+          ))}
+        </nav>
+
+        {/* Buttons vpravo */}
+        <div className="flex items-center shrink-0" style={{ gap: 8 }}>
+          {/* E-SHOP — outline, square corners */}
+          <a
+            href={resolveDemoHref("/kontakt", tenantSlug, isAdmin)}
+            style={{
+              fontFamily: SANS,
+              fontSize: 14,
+              fontWeight: 400,
+              color: DARK,
+              border: `1px solid ${DARK}`,
+              backgroundColor: "transparent",
+              padding: "7px 20px",
+              borderRadius: 0,
+              textDecoration: "none",
+              letterSpacing: "0.02em",
+              transition: "background 0.15s, color 0.15s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = DARK; e.currentTarget.style.color = "#fff"; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = DARK; }}
+          >
+            E-SHOP
+          </a>
+          {/* ONLINE REZERVACE — solid dark, square corners */}
+          <a
+            href={resolveDemoHref("/kontakt", tenantSlug, isAdmin)}
+            style={{
+              fontFamily: SANS,
+              fontSize: 14,
+              fontWeight: 400,
+              color: "#ffffff",
+              backgroundColor: DARK,
+              border: `1px solid ${DARK}`,
+              padding: "7px 20px",
+              borderRadius: 0,
+              textDecoration: "none",
+              letterSpacing: "0.02em",
+              transition: "background 0.15s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#4a3428"; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = DARK; }}
+          >
+            ONLINE REZERVACE
+          </a>
+        </div>
+      </div>
+
+      {/* ── Mobile ── */}
+      <div
+        className="flex lg:hidden items-center justify-between"
+        style={{ height: 64, padding: "0 16px" }}
+      >
+        <a href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"} aria-label={siteName}>
+          <LogoSvg />
+        </a>
+        <button
+          className="bg-transparent border-0 cursor-pointer p-2 flex flex-col justify-between"
+          style={{ width: 28, height: 20 }}
+          onClick={() => setOpen(!open)}
+          aria-label="Menu"
+          aria-expanded={open}
+        >
+          <span className="block w-full" style={{ height: 1.5, backgroundColor: DARK }} />
+          <span className="block w-full" style={{ height: 1.5, backgroundColor: DARK }} />
+          <span className="block w-full" style={{ height: 1.5, backgroundColor: DARK }} />
+        </button>
+      </div>
+
+      {/* Mobile overlay */}
+      {open && (
+        <div
+          className="fixed inset-0 z-40 flex flex-col items-center justify-center"
+          style={{ backgroundColor: "#f5f5f3", gap: 28 }}
+        >
+          <button
+            className="absolute bg-transparent border-0 cursor-pointer"
+            style={{ top: 20, right: 20, fontSize: 24, color: DARK }}
+            onClick={() => setOpen(false)}
+            aria-label="Zavřít"
+          >✕</button>
+          {links.map((l, i) => (
+            <a
+              key={`h3-mob-${i}`}
+              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+              style={{ fontFamily: SANS, color: DARK, fontSize: 16, fontWeight: 400, textDecoration: "none" }}
+              onClick={() => setOpen(false)}
+            >
+              {l.label}
+            </a>
+          ))}
+          <a
+            href={resolveDemoHref("/kontakt", tenantSlug, isAdmin)}
+            style={{ fontFamily: SANS, backgroundColor: DARK, color: "#fff", fontSize: 14, fontWeight: 400, padding: "10px 28px", textDecoration: "none", letterSpacing: "0.02em", borderRadius: 0 }}
+            onClick={() => setOpen(false)}
+          >
+            ONLINE REZERVACE
+          </a>
+        </div>
+      )}
+    </header>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// hair-04-navbar — Impresiv Studio (kim-impressive.cz inspirace)
+// Originál: position:fixed; bg:#92a8d1; logo 120×81px vlevo; nav flex-end
+// Container: width:100% padding:0 20px; links: padding:0.9em 1em; align-items:stretch
+// ---------------------------------------------------------------------------
+function NavbarHair04({ content, variant: _v, isAdmin, tenantSlug, sectionId }: Props) {
+  const [open, setOpen] = useState(false);
+  const siteName = String(content.siteName ?? "Impresiv Studio");
+  const logoUrl  = String(content.logoUrl ?? "");
+  const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+
+  const BG   = "#92a8d1";
+  const TEXT = "#ffffff";
+  const LATO = "'Lato', sans-serif";
+
+  /* Demo logo — bílý wordmark na průhledném bg, proporce 120×81 jako originál */
+  const LogoSvg = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 81" width="120" height="81" aria-label={siteName}>
+      {/* Dekorativní linka nahoře */}
+      <line x1="0" y1="10" x2="120" y2="10" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
+      {/* Hlavní název */}
+      <text
+        x="60" y="46"
+        textAnchor="middle"
+        fontFamily={LATO}
+        fontSize="22"
+        fontWeight="700"
+        fill={TEXT}
+        letterSpacing="2"
+      >IMPRESIV</text>
+      {/* Podtitulek */}
+      <text
+        x="60" y="64"
+        textAnchor="middle"
+        fontFamily={LATO}
+        fontSize="10"
+        fontWeight="300"
+        fill="rgba(255,255,255,0.85)"
+        letterSpacing="4"
+      >STUDIO</text>
+      {/* Dekorativní linka dole */}
+      <line x1="0" y1="72" x2="120" y2="72" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8" />
+    </svg>
+  );
+
+  return (
+    <>
+      <header
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: "100%",
+          zIndex: 1000,
+          backgroundColor: BG,
+        }}
+        data-template="hair-04"
+      >
+        {/* ── Desktop — align-items:stretch, žádná fixed výška (řídí se logem 81px) ── */}
+        <div
+          className="hidden lg:flex"
+          style={{
+            width: "100%",
+            padding: "0 20px",
+            alignItems: "stretch",
+          }}
+        >
+          {/* Logo vlevo — padding-right:1em jako originál */}
+          <div style={{ paddingRight: "1em", display: "flex", alignItems: "center" }}>
+            <a
+              href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"}
+              style={{ textDecoration: "none", display: "block" }}
+              aria-label={siteName}
+            >
+              <GenericEditableImage
+                sectionId={sectionId}
+                field="logoUrl"
+                src={logoUrl}
+                alt={siteName}
+                className="relative"
+                style={{ width: 120, height: 81 }}
+              >
+                {logoUrl
+                  ? <img src={logoUrl} alt={siteName} style={{ maxWidth: 120, display: "block" }} />
+                  : <LogoSvg />
+                }
+              </GenericEditableImage>
+            </a>
+          </div>
+
+          {/* Nav — margin-left:auto, justify-content:flex-end, align-items:center */}
+          <nav
+            style={{ marginLeft: "auto", display: "flex", alignItems: "center" }}
+            aria-label="Hlavní menu"
+          >
+            {links.map((l, i) => (
+              <a
+                key={`h4-nav-${i}`}
+                href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+                style={{
+                  fontFamily: LATO,
+                  fontSize: 14,
+                  fontWeight: 400,
+                  color: TEXT,
+                  textDecoration: "none",
+                  padding: "0.9em 1em",
+                  display: "inline-block",
+                  whiteSpace: "nowrap",
+                }}
+                onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")}
+                onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+              >
+                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+              </a>
+            ))}
+          </nav>
+        </div>
+
+        {/* ── Mobile ── */}
+        <div
+          className="flex lg:hidden items-center justify-between"
+          style={{ padding: "0 16px", height: 64 }}
+        >
+          <a href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"} aria-label={siteName} style={{ display: "flex", alignItems: "center" }}>
+            {logoUrl
+              ? <img src={logoUrl} alt={siteName} style={{ maxWidth: 90, maxHeight: 48, objectFit: "contain" }} />
+              : (
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 44" width="110" height="40" aria-label={siteName}>
+                  <text x="4" y="28" fontFamily={LATO} fontSize="20" fontWeight="700" fill={TEXT} letterSpacing="1.5">IMPRESIV</text>
+                  <text x="4" y="40" fontFamily={LATO} fontSize="9" fontWeight="300" fill="rgba(255,255,255,0.8)" letterSpacing="3">STUDIO</text>
+                </svg>
+              )
+            }
+          </a>
+          <button
+            style={{ background: "none", border: "none", cursor: "pointer", padding: 8, display: "flex", flexDirection: "column", gap: 5 }}
+            onClick={() => setOpen(!open)}
+            aria-label="Menu"
+            aria-expanded={open}
+          >
+            <span style={{ display: "block", width: 24, height: 2, backgroundColor: TEXT }} />
+            <span style={{ display: "block", width: 24, height: 2, backgroundColor: TEXT }} />
+            <span style={{ display: "block", width: 24, height: 2, backgroundColor: TEXT }} />
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile drawer */}
+      {open && (
+        <div
+          style={{
+            position: "fixed", inset: 0, zIndex: 1100,
+            backgroundColor: BG,
+            display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 32,
+          }}
+        >
+          <button
+            style={{ position: "absolute", top: 20, right: 20, background: "none", border: "none", cursor: "pointer", fontSize: 28, color: TEXT, lineHeight: 1 }}
+            onClick={() => setOpen(false)}
+            aria-label="Zavřít"
+          >✕</button>
+          {links.map((l, i) => (
+            <a
+              key={`h4-mob-${i}`}
+              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+              style={{ fontFamily: LATO, color: TEXT, fontSize: 20, fontWeight: 400, textDecoration: "none" }}
+              onClick={() => setOpen(false)}
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
+      )}
+    </>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// beauty-01-topbar — Demo Beauty Studio
+// Sticky white navbar: logo vlevo, nav linky uprostřed, phone + sand CTA vpravo
+// Originál: selfbeauty.cz — Fahkwang font, white bg, sand #E0BE9A accent
+// ---------------------------------------------------------------------------
+function NavbarBeauty01({ content, variant: _v, isAdmin, tenantSlug, sectionId }: Props) {
+  const [open, setOpen] = useState(false);
+  const siteName = String(content.siteName ?? "Beauty Studio");
+  const logoUrl  = String(content.logoUrl ?? "");
+  const logoSrc  = logoUrl || demoLogoDataUrl(siteName);
+  const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const phone    = String(content.phone ?? "");
+  const ctaText  = String(content.ctaText ?? "REZERVACE");
+  const ctaHref  = String(content.ctaHref ?? "#rezervace");
+
+  const BG    = "#ffffff";
+  const SAND  = "#E0BE9A";
+  const TEXT  = "#1F1F1F";
+  const MUTED = "#5B4D43";
+  const FONT  = "'Fahkwang', serif";
+
+  return (
+    <header
+      className="sticky top-0 z-50"
+      style={{ backgroundColor: BG, borderBottom: "1px solid rgba(224,190,154,0.25)", fontFamily: FONT }}
+      data-template="beauty-01"
+    >
+      {/* Desktop — výška 88px */}
+      <div
+        className="hidden md:flex items-center max-w-[1280px] mx-auto"
+        style={{ height: 88, padding: "0 32px" }}
+      >
+        {/* Logo vlevo */}
+        <a
+          href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"}
+          className="shrink-0 flex items-center"
+          aria-label={siteName}
+          style={{ marginRight: 40 }}
+        >
+          <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoSrc} alt={siteName} className="relative overflow-hidden" style={{ width: 160, height: 40 }}>
+            <img src={logoSrc} alt={siteName} style={{ width: 160, height: 40, objectFit: "contain" }} />
+          </GenericEditableImage>
+        </a>
+
+        {/* Nav linky */}
+        <nav className="flex items-center gap-8 flex-1">
+          {links.map((l, i) => (
+            <a
+              key={`b1-nav-${i}`}
+              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+              style={{
+                fontFamily: FONT,
+                fontSize: "0.78em",
+                fontWeight: 400,
+                color: MUTED,
+                textTransform: "uppercase",
+                letterSpacing: "0.12em",
+                textDecoration: "none",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={e => (e.currentTarget.style.color = TEXT)}
+              onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
+            >
+              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+            </a>
+          ))}
+        </nav>
+
+        {/* Phone + CTA vpravo */}
+        <div className="flex items-center gap-5 ml-auto shrink-0">
+          {phone && (
+            <a
+              href={`tel:${phone.replace(/\s/g, "")}`}
+              style={{ fontFamily: FONT, fontSize: "0.78em", fontWeight: 400, color: MUTED, letterSpacing: "0.06em", whiteSpace: "nowrap", textDecoration: "none" }}
+            >
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+          )}
+          <a
+            href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              backgroundColor: SAND,
+              color: TEXT,
+              fontFamily: FONT,
+              fontSize: "0.72em",
+              fontWeight: 500,
+              letterSpacing: "0.16em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              padding: "10px 22px",
+              whiteSpace: "nowrap",
+              transition: "background 0.2s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#C4A07E"; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = SAND; }}
+          >
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+        </div>
+      </div>
+
+      {/* Mobile — výška 64px */}
+      <div
+        className="flex md:hidden items-center justify-between"
+        style={{ height: 64, padding: "0 20px" }}
+      >
+        <a href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"} aria-label={siteName}>
+          <img src={logoSrc} alt={siteName} style={{ height: 32, objectFit: "contain" }} />
+        </a>
+        <button
+          className="flex flex-col justify-between w-5 h-[14px] bg-transparent border-0 cursor-pointer p-0"
+          onClick={() => setOpen(!open)}
+          aria-label="Menu"
+          aria-expanded={open}
+        >
+          <span className="block h-[1.5px] w-full" style={{ backgroundColor: TEXT }} />
+          <span className="block h-[1.5px] w-full" style={{ backgroundColor: TEXT }} />
+          <span className="block h-[1.5px] w-full" style={{ backgroundColor: TEXT }} />
+        </button>
+      </div>
+
+      {/* Mobile overlay */}
+      {open && (
+        <div
+          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-8"
+          style={{ backgroundColor: BG, fontFamily: FONT }}
+        >
+          <button
+            className="absolute top-5 right-6 bg-transparent border-0 cursor-pointer"
+            style={{ color: TEXT, fontSize: 22 }}
+            onClick={() => setOpen(false)}
+            aria-label="Zavřít menu"
+          >✕</button>
+          {links.map((l, i) => (
+            <a
+              key={`b1-mob-${i}`}
+              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+              style={{ fontFamily: FONT, color: TEXT, fontSize: 15, fontWeight: 400, textTransform: "uppercase", letterSpacing: "0.12em", textDecoration: "none" }}
+              onClick={() => setOpen(false)}
+            >
+              {l.label}
+            </a>
+          ))}
+          <a
+            href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            style={{
+              backgroundColor: SAND, color: TEXT, fontFamily: FONT,
+              fontSize: 13, fontWeight: 500, padding: "12px 32px",
+              textTransform: "uppercase", letterSpacing: "0.14em", textDecoration: "none",
+            }}
+            onClick={() => setOpen(false)}
+          >
+            {ctaText}
+          </a>
+          {phone && (
+            <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ color: MUTED, fontFamily: FONT, fontSize: 13, textDecoration: "none" }}>
+              {phone}
+            </a>
+          )}
+        </div>
+      )}
+    </header>
+  );
+}
+
 // Main exported dispatch — must be after all variant functions
 export function NavbarSection(props: Props) {
   if (props.variant === "hair-01-topbar") return <NavbarHair01Topbar {...props} />;
+  if (props.variant === "hair-02-navbar") return <NavbarHair02 {...props} />;
+  if (props.variant === "hair-03-navbar") return <NavbarHair03 {...props} />;
+  if (props.variant === "hair-04-navbar") return <NavbarHair04 {...props} />;
+  if (props.variant === "beauty-01-topbar") return <NavbarBeauty01 {...props} />;
   return <NavbarSectionInner {...props} />;
 }
 
