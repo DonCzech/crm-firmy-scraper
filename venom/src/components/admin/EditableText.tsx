@@ -317,7 +317,16 @@ export default function EditableText({
           if (!richText) {
             e.preventDefault();
             const plain = e.clipboardData.getData("text/plain");
-            document.execCommand("insertText", false, plain);
+            const sel = window.getSelection();
+            if (!sel || sel.rangeCount === 0) return;
+            const range = sel.getRangeAt(0);
+            range.deleteContents();
+            const node = document.createTextNode(plain);
+            range.insertNode(node);
+            range.setStartAfter(node);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
           }
         }}
         onInput={(e: React.FormEvent<HTMLElement>) => {

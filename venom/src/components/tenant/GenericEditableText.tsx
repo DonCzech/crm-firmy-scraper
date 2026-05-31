@@ -242,7 +242,16 @@ export function GenericEditableText({
         onPaste={(event: React.ClipboardEvent<HTMLElement>) => {
           event.preventDefault();
           const plain = event.clipboardData.getData("text/plain");
-          document.execCommand("insertText", false, plain);
+          const sel = window.getSelection();
+          if (!sel || sel.rangeCount === 0) return;
+          const range = sel.getRangeAt(0);
+          range.deleteContents();
+          const node = document.createTextNode(plain);
+          range.insertNode(node);
+          range.setStartAfter(node);
+          range.collapse(true);
+          sel.removeAllRanges();
+          sel.addRange(range);
         }}
         onInput={(event: React.FormEvent<HTMLElement>) => {
           const nextValue = event.currentTarget.textContent ?? "";
