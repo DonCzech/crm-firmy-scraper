@@ -25,7 +25,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
   if (!file) return Response.json({ error: "No file provided" }, { status: 400 });
 
   try {
-    const result = await uploadMedia(file, tenant.id);
+    const result = await uploadMedia(file, tenant.id, { responsive: true });
     return Response.json({
       url: result.url,
       jpegUrl: result.jpegUrl,
