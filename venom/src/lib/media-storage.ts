@@ -73,13 +73,15 @@ interface OptimizedImage {
 // ── Vercel Blob provider ──────────────────────────────────────────────────────
 
 class VercelBlobProvider implements MediaStorageProvider {
+  constructor(private readonly token: string) {}
+
   async upload(image: OptimizedImage, tenantId: number): Promise<UploadResult> {
     const { put } = await import("@vercel/blob");
     const filename = `${tenantId}/media/${image.filename}`;
     const jpegKey = `${tenantId}/media/${image.jpegFilename}`;
     const [blob, jpegBlob] = await Promise.all([
-      put(filename, image.fallbackBuffer, { access: "public", contentType: image.mimeType }),
-      put(jpegKey, image.jpegBuffer, { access: "public", contentType: "image/jpeg" }),
+      put(filename, image.fallbackBuffer, { access: "public", contentType: image.mimeType, token: this.token }),
+      put(jpegKey, image.jpegBuffer, { access: "public", contentType: "image/jpeg", token: this.token }),
     ]);
 
     let variants: ResponsiveVariant[] | undefined;
@@ -89,8 +91,8 @@ class VercelBlobProvider implements MediaStorageProvider {
           const webpKey = `${tenantId}/media/${v.webp.filename}`;
           const jpegVariantKey = `${tenantId}/media/${v.jpeg.filename}`;
           const [webpRes, jpegRes] = await Promise.all([
-            put(webpKey, v.webp.buffer, { access: "public", contentType: "image/webp" }),
-            put(jpegVariantKey, v.jpeg.buffer, { access: "public", contentType: "image/jpeg" }),
+            put(webpKey, v.webp.buffer, { access: "public", contentType: "image/webp", token: this.token }),
+            put(jpegVariantKey, v.jpeg.buffer, { access: "public", contentType: "image/jpeg", token: this.token }),
           ]);
           return { width: v.width, height: v.height, webpUrl: webpRes.url, jpegUrl: jpegRes.url };
         })
@@ -101,6 +103,32 @@ class VercelBlobProvider implements MediaStorageProvider {
       url: blob.url,
       jpegUrl: jpegBlob.url,
       filename,
+      mimeType: image.mimeType,
+      sizeBytes: image.sizeBytes,
+      jpegSizeBytes: image.jpegSizeBytes,
+      width: image.width,
+      height: image.height,
+      variants,
+      lqip: image.lqip,
+    };
+  }
+}
+
+// ── Data URL provider (serverless fallback when Blob is not configured) ───────
+
+class DataUrlStorageProvider implements MediaStorageProvider {
+  async upload(image: OptimizedImage, tenantId: number): Promise<UploadResult> {
+    const variants: ResponsiveVariant[] | undefined = image.variants?.map((v) => ({
+      width: v.width,
+      height: v.height,
+      webpUrl: toDataUrl("image/webp", v.webp.buffer),
+      jpegUrl: toDataUrl("image/jpeg", v.jpeg.buffer),
+    }));
+
+    return {
+      url: toDataUrl(image.mimeType, image.fallbackBuffer),
+      jpegUrl: toDataUrl("image/jpeg", image.jpegBuffer),
+      filename: `${tenantId}/inline/${image.filename}`,
       mimeType: image.mimeType,
       sizeBytes: image.sizeBytes,
       jpegSizeBytes: image.jpegSizeBytes,
@@ -155,7 +183,9 @@ class LocalStorageProvider implements MediaStorageProvider {
 // ── Active provider selection ─────────────────────────────────────────────────
 
 function getProvider(): MediaStorageProvider {
-  if (process.env.BLOB_READ_WRITE_TOKEN) return new VercelBlobProvider();
+  const blobToken = process.env.BLOB_READ_WRITE_TOKEN || process.env.VERCEL_BLOB_READ_WRITE_TOKEN;
+  if (blobToken) return new VercelBlobProvider(blobToken);
+  if (process.env.VERCEL) return new DataUrlStorageProvider();
   return new LocalStorageProvider();
 }
 
@@ -188,6 +218,10 @@ function isValidImageBuffer(buf: Buffer): boolean {
     if (buf[8] === 0x57 && buf[9] === 0x45 && buf[10] === 0x42 && buf[11] === 0x50) return true;
   }
   return false;
+}
+
+function toDataUrl(mimeType: string, buffer: Buffer): string {
+  return `data:${mimeType};base64,${buffer.toString("base64")}`;
 }
 
 async function optimizeImage(input: Buffer, tenantId: number, options: UploadMediaOptions): Promise<OptimizedImage> {

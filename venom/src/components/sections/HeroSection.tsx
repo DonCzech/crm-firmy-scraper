@@ -200,17 +200,17 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     const [menuOpen, setMenuOpen] = useState(false);
 
     /* Logo — HTML elementy (SVG text nefunguje bez načteného fontu v browseru) */
-    const LogoEl = () => (
+    const logoEl = (
       <div style={{ display: "flex", alignItems: "center", gap: 14, textDecoration: "none" }}>
-        {/* K lettermark */}
-        <span style={{ fontFamily: LATO, fontSize: 64, fontWeight: 900, color: WHITE, lineHeight: 1, letterSpacing: "-2px", userSelect: "none" }}>K</span>
+        {/* Lettermark */}
+        <span style={{ fontFamily: LATO, fontSize: 64, fontWeight: 900, color: WHITE, lineHeight: 1, letterSpacing: "-2px", userSelect: "none" }}>A</span>
         {/* Svislý oddělovač */}
         <span aria-hidden style={{ display: "block", width: 1, height: 64, backgroundColor: "rgba(255,255,255,0.3)", flexShrink: 0 }} />
         {/* Text vpravo */}
         <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>
-          <span style={{ fontFamily: LATO, fontSize: 17, fontWeight: 700, color: WHITE, letterSpacing: "0.04em", lineHeight: 1.2 }}>Kim</span>
-          <span style={{ fontFamily: LATO, fontSize: 17, fontWeight: 700, color: WHITE, letterSpacing: "0.04em", lineHeight: 1.2 }}>Impressive</span>
-          <span style={{ fontFamily: LATO, fontSize: 10, fontWeight: 300, color: "rgba(255,255,255,0.7)", letterSpacing: "0.25em", lineHeight: 1.4, textTransform: "uppercase" }}>Hair Salon</span>
+          <span style={{ fontFamily: LATO, fontSize: 17, fontWeight: 700, color: WHITE, letterSpacing: "0.08em", lineHeight: 1.2, whiteSpace: "nowrap" }}>Alfa</span>
+          <span style={{ fontFamily: LATO, fontSize: 17, fontWeight: 700, color: WHITE, letterSpacing: "0.08em", lineHeight: 1.2, whiteSpace: "nowrap" }}>Barbershop</span>
+          <span style={{ fontFamily: LATO, fontSize: 10, fontWeight: 300, color: "rgba(255,255,255,0.7)", letterSpacing: "0.25em", lineHeight: 1.4, textTransform: "uppercase", whiteSpace: "nowrap" }}>Hair Salon</span>
         </span>
       </div>
     );
@@ -268,7 +268,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
             >
               {logoUrl
                 ? <img src={logoUrl} alt={siteName} style={{ maxHeight: 80, display: "block" }} />
-                : <LogoEl />
+                : logoEl
               }
             </a>
 
@@ -305,10 +305,12 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
                 ? <img src={logoUrl} alt={siteName} style={{ maxWidth: 100, maxHeight: 50, objectFit: "contain" }} />
                 : (
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontFamily: LATO, fontSize: 38, fontWeight: 900, color: WHITE, lineHeight: 1 }}>K</span>
-                    <span style={{ display: "flex", flexDirection: "column" }}>
-                      <span style={{ fontFamily: LATO, fontSize: 13, fontWeight: 700, color: WHITE }}>Kim Impressive</span>
-                      <span style={{ fontFamily: LATO, fontSize: 9, fontWeight: 300, color: "rgba(255,255,255,0.7)", letterSpacing: "0.2em" }}>HAIR SALON</span>
+                    <span style={{ fontFamily: LATO, fontSize: 38, fontWeight: 900, color: WHITE, lineHeight: 1 }}>A</span>
+                    <span aria-hidden style={{ display: "block", width: 1, height: 36, backgroundColor: "rgba(255,255,255,0.3)", flexShrink: 0 }} />
+                    <span style={{ display: "flex", flexDirection: "column", gap: 1 }}>
+                      <span style={{ fontFamily: LATO, fontSize: 12, fontWeight: 700, color: WHITE, letterSpacing: "0.06em", lineHeight: 1.05, whiteSpace: "nowrap" }}>Alfa</span>
+                      <span style={{ fontFamily: LATO, fontSize: 12, fontWeight: 700, color: WHITE, letterSpacing: "0.06em", lineHeight: 1.05, whiteSpace: "nowrap" }}>Barbershop</span>
+                      <span style={{ fontFamily: LATO, fontSize: 8, fontWeight: 300, color: "rgba(255,255,255,0.7)", letterSpacing: "0.18em", textTransform: "uppercase" }}>HAIR SALON</span>
                     </span>
                   </div>
                 )
