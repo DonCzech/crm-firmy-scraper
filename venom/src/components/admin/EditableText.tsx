@@ -313,6 +313,13 @@ export default function EditableText({
           }
           setFocused(true);
         }}
+        onPaste={(e: React.ClipboardEvent<HTMLElement>) => {
+          if (!richText) {
+            e.preventDefault();
+            const plain = e.clipboardData.getData("text/plain");
+            document.execCommand("insertText", false, plain);
+          }
+        }}
         onInput={(e: React.FormEvent<HTMLElement>) => {
           const nextValue = richText ? e.currentTarget.innerHTML : e.currentTarget.textContent || "";
           const nextSection = setPath(latestSection.current, field, nextValue);

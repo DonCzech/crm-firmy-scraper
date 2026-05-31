@@ -239,6 +239,11 @@ export function GenericEditableText({
           if (ref.current) ref.current.textContent = latestValue.current;
           setFocused(true);
         }}
+        onPaste={(event: React.ClipboardEvent<HTMLElement>) => {
+          event.preventDefault();
+          const plain = event.clipboardData.getData("text/plain");
+          document.execCommand("insertText", false, plain);
+        }}
         onInput={(event: React.FormEvent<HTMLElement>) => {
           const nextValue = event.currentTarget.textContent ?? "";
           latestValue.current = nextValue;
