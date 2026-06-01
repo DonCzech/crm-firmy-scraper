@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
@@ -34,8 +34,15 @@ export function AboutSection({ content, variant, sectionId }: Props) {
       >
         <style>{`
           @media (max-width: 768px) {
-            [data-template="hair-04"] #o-nas { flex-direction: column; }
-            [data-template="hair-04"] #o-nas > div:last-child { min-height: 300px; flex: 1 1 100%; }
+            section[data-template="hair-04"]#o-nas { flex-direction: column; }
+            section[data-template="hair-04"]#o-nas > div:first-child {
+              flex: 1 1 100% !important;
+              padding: 48px 24px !important;
+            }
+            section[data-template="hair-04"]#o-nas > div:last-child {
+              min-height: 280px;
+              flex: 1 1 100% !important;
+            }
           }
         `}</style>
         {/* Levý sloupec — text */}
@@ -104,7 +111,7 @@ export function AboutSection({ content, variant, sectionId }: Props) {
               alt={title}
               fill
               className="object-cover object-center"
-              sizes="50vw"
+              sizes="(max-width: 768px) 100vw, 50vw"
               unoptimized={shouldSkipNextImageOptimization(image || PLACEHOLDER)}
             />
           </GenericEditableImage>
@@ -517,6 +524,84 @@ export function AboutSection({ content, variant, sectionId }: Props) {
 
   // beauty-01: brands strip — cream bg, centered label + brand names in a row
   // Reference: selfbeauty.cz — Inter 200 uppercase label, brands horizontally
+  // ── about-massage-01-therapist ───────────────────────────────────────────────
+  // 2-col: portrait foto vlevo (40%) + content vpravo (60%), dark surface #141414
+  // section-label → therapist-name → role (gold) → divider → bio → stats
+  // Přesná replika .therapist-section z praha-masaze.cz originálu
+  if (variant === "about-massage-01-therapist") {
+    const tag     = String(content.tag    ?? "O mně");
+    const name    = String(content.name   ?? "Demo Masér");
+    const role    = String(content.role   ?? "Certifikovaný masér & terapeut");
+    const bio1    = String(content.bio1   ?? "");
+    const bio2    = String(content.bio2   ?? "");
+    const image   = String(content.image  ?? "");
+    const stats   = (content.stats as Array<{ number: string; label: string }>) ?? [];
+
+    const SURFACE  = "#141414";
+    const BORDER   = "#2A2520";
+    const GOLD     = "#C9A962";
+    const TEXT     = "#F5F0E8";
+    const SECONDARY= "#A09888";
+    const MUTED    = "#6A6058";
+    const FONT     = "'Inter', sans-serif";
+    const SERIF    = "'Cormorant Garamond', serif";
+
+    return (
+      <section
+        id="terapeut"
+        style={{ backgroundColor: SURFACE, padding: "100px 0" }}
+        data-template="massage-01"
+      >
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 80px" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "480px 1fr", gap: 64, alignItems: "center" }}>
+            {/* Foto vlevo — 560px výška, border overlay */}
+            <div style={{ position: "relative", height: 560, overflow: "hidden", flexShrink: 0 }}>
+              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={name} style={{ position: "absolute", inset: 0 }}>
+                <Image src={image} alt={name} fill className="object-cover object-top" sizes="480px" unoptimized={shouldSkipNextImageOptimization(image)} />
+              </GenericEditableImage>
+              {/* Border overlay */}
+              <div aria-hidden style={{ position: "absolute", inset: 0, border: `1px solid ${BORDER}`, pointerEvents: "none" }} />
+            </div>
+
+            {/* Content vpravo */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+              {/* Section label */}
+              <p style={{ display: "inline-flex", alignItems: "center", gap: 8, color: GOLD, fontFamily: FONT, fontSize: 11, fontWeight: 500, letterSpacing: 3, textTransform: "uppercase", margin: 0 }}>
+                <span style={{ display: "inline-block", width: 6, height: 6, background: GOLD, borderRadius: "50%" }} />
+                <GenericEditableText sectionId={sectionId} field="tag" value={tag} tag="span" />
+              </p>
+              {/* Jméno */}
+              <h2 style={{ fontFamily: SERIF, fontSize: 44, fontWeight: 400, color: TEXT, lineHeight: 1.1, margin: 0 }}>
+                <GenericEditableText sectionId={sectionId} field="name" value={name} tag="span" />
+              </h2>
+              {/* Role — gold */}
+              <p style={{ fontFamily: FONT, fontSize: 15, color: GOLD, margin: 0 }}>
+                <GenericEditableText sectionId={sectionId} field="role" value={role} tag="span" />
+              </p>
+              {/* Divider — 60px gold-dim */}
+              <div style={{ width: 60, height: 1, background: BORDER }} />
+              {/* Bio */}
+              {bio1 && (
+                <p style={{ fontFamily: FONT, fontSize: 15, fontWeight: 300, color: SECONDARY, lineHeight: 1.75, margin: 0 }}>
+                  <GenericEditableText sectionId={sectionId} field="bio1" value={bio1} tag="span" />
+                </p>
+              )}
+              {bio2 && (
+                <p style={{ fontFamily: FONT, fontSize: 15, fontWeight: 300, color: SECONDARY, lineHeight: 1.75, margin: 0 }}>
+                  <GenericEditableText sectionId={sectionId} field="bio2" value={bio2} tag="span" />
+                </p>
+              )}
+              {/* Stats — count-up při scrollu do view */}
+              {stats.length > 0 && (
+                <Massage01Stats stats={stats} sectionId={sectionId} />
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   if (variant === "about-beauty-01-brands") {
     const label = String(content.label ?? "POUŽÍVÁME PRÉMIOVÉ, CELOSVĚTOVĚ DŮVĚRYHODNÉ ZNAČKY");
     const items = (content.items as Array<{ name: string }>) ?? [];
@@ -1007,5 +1092,72 @@ function AboutBarber04Strip({
         </div>
       )}
     </section>
+  );
+}
+
+// ── Massage01Stats — count-up animace při scrollu ─────────────────────────────
+function Massage01Stats({ stats, sectionId }: {
+  stats: Array<{ number: string; label: string }>;
+  sectionId: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [counts, setCounts] = useState<number[]>(stats.map(() => 0));
+  const [started, setStarted] = useState(false);
+
+  // Parsujeme číslo a suffix ("12+" → { value: 12, suffix: "+" })
+  const parsed = stats.map(s => {
+    const match = s.number.match(/^(\d+)(.*)$/);
+    return { value: match ? parseInt(match[1], 10) : 0, suffix: match ? match[2] : "" };
+  });
+
+  useEffect(() => {
+    if (started) return;
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        obs.disconnect();
+        setStarted(true);
+        const duration = 1600;
+        const fps = 60;
+        const steps = Math.round((duration / 1000) * fps);
+        let step = 0;
+        const timer = setInterval(() => {
+          step++;
+          const progress = step / steps;
+          // easeOutQuart
+          const ease = 1 - Math.pow(1 - progress, 4);
+          setCounts(parsed.map(p => Math.round(p.value * ease)));
+          if (step >= steps) {
+            clearInterval(timer);
+            setCounts(parsed.map(p => p.value));
+          }
+        }, 1000 / fps);
+      },
+      { threshold: 0.3 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [started, parsed]);
+
+  const GOLD  = "#C9A962";
+  const MUTED = "#6A6058";
+  const SERIF = "'Cormorant Garamond', serif";
+  const FONT  = "'Inter', sans-serif";
+
+  return (
+    <div ref={ref} style={{ display: "flex", gap: 48 }}>
+      {stats.map((s, i) => (
+        <div key={i} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <span style={{ fontFamily: SERIF, fontSize: 36, color: GOLD, lineHeight: 1 }}>
+            {counts[i]}{parsed[i].suffix}
+          </span>
+          <span style={{ fontFamily: FONT, fontSize: 12, color: MUTED, letterSpacing: 1, textTransform: "uppercase" }}>
+            <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
+          </span>
+        </div>
+      ))}
+    </div>
   );
 }
