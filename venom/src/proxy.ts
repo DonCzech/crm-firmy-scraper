@@ -7,7 +7,7 @@ const PLATFORM_DOMAINS = new Set([
 ]);
 
 // Edge-compatible cookie name (must match @/lib/auth COOKIE_NAME)
-const ADMIN_COOKIE_NAME = "astera_admin_token";
+const ADMIN_COOKIE_NAME = "venom_admin_token";
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

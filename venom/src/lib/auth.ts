@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "astera-admin-secret-do-not-use-in-prod";
-export const COOKIE_NAME = "astera_admin_token";
+export const COOKIE_NAME = "venom_admin_token";
 export const COOKIE_MAX_AGE = 60 * 60 * 24 * 7; // 7 days in seconds
 
 export interface AdminPayload {

@@ -2,8 +2,11 @@ import { readdir, readFile } from "fs/promises";
 import path from "path";
 import { existsSync } from "fs";
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { query } from "@/lib/db";
 import { PreviewGrid, type PreviewItem } from "./PreviewGrid";
+import { verifyToken, COOKIE_NAME } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Webero — Hotové šablony (engine v2)",
@@ -148,6 +151,15 @@ async function discoverTemplates(): Promise<PreviewItem[]> {
 }
 
 export default async function PreviewV2Page() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get(COOKIE_NAME)?.value;
+  console.log("[preview-2] token present:", !!token, "| valid:", token ? !!verifyToken(token) : false);
+  if (!token || !verifyToken(token)) {
+    console.log("[preview-2] → redirect to login");
+    redirect("/admin/login?next=%2Fpreview-2");
+  }
+
   const items = await discoverTemplates();
+  console.log("[preview-2] items count:", items.length);
   return <PreviewGrid items={items} />;
 }

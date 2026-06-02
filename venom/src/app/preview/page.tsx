@@ -1,4 +1,7 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { verifyToken, COOKIE_NAME } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Venom — Výběr šablon",
@@ -1114,7 +1117,13 @@ const TEMPLATES = [
   },
 ];
 
-export default function PreviewPage() {
+export default async function PreviewPage() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get(COOKIE_NAME)?.value;
+  if (!token || !verifyToken(token)) {
+    redirect("/admin/login?next=%2Fpreview");
+  }
+
   return (
     <div style={{ minHeight: "100vh", background: "#0a0a0a", color: "#fff", fontFamily: "system-ui, sans-serif" }}>
       {/* Header */}
