@@ -210,13 +210,13 @@ export function TemplateReviewClient({ templateKey }: { templateKey: string }) {
   const completedCount = CHECKLIST_ITEMS.filter((c) => checklist[c.id]).length;
 
   return (
-    <div className="flex h-screen flex-col text-gray-100">
+    <div className="flex h-screen flex-col text-gray-900">
       {/* TopBar */}
-      <div className="flex shrink-0 items-center justify-between border-b border-gray-800 bg-gray-950 px-4 py-2.5">
+      <div className="flex shrink-0 items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-2.5">
         <div className="flex items-center gap-2">
           <Link
             href="/admin/template-queue"
-            className="inline-flex items-center gap-1 rounded p-1.5 text-gray-400 hover:bg-gray-800 hover:text-white"
+            className="inline-flex items-center gap-1 rounded p-1.5 text-gray-400 hover:bg-gray-100 hover:text-gray-900"
           >
             <ArrowLeft className="h-4 w-4" />
           </Link>
@@ -225,23 +225,23 @@ export function TemplateReviewClient({ templateKey }: { templateKey: string }) {
             style={{ backgroundImage: `url(/templates/${tpl.key}/preview.png)`, backgroundColor: "#1a1a1c" }}
           />
           <div className="min-w-0">
-            <div className="flex items-center gap-1.5 text-sm font-semibold text-white">
+            <div className="flex items-center gap-1.5 text-sm font-semibold text-gray-900">
               {tpl.name}
-              <code className="rounded bg-gray-800 px-1 py-0.5 text-[10px] font-normal text-gray-300">{tpl.key}</code>
+              <code className="rounded bg-gray-100 px-1 py-0.5 text-[10px] font-normal text-gray-700">{tpl.key}</code>
             </div>
-            <div className="text-[11px] text-gray-500">{tpl.industry} · {tpl.v2_tenant_count} v2 tenants · v{tpl.current_version}</div>
+            <div className="text-[11px] text-gray-400">{tpl.industry} · {tpl.v2_tenant_count} v2 tenants · v{tpl.current_version}</div>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
           {savedAt > 0 && (
-            <span className="text-[10.5px] text-gray-500">Uloženo {new Date(savedAt).toLocaleTimeString("cs")}</span>
+            <span className="text-[10.5px] text-gray-400">Uloženo {new Date(savedAt).toLocaleTimeString("cs")}</span>
           )}
           <DeviceTabs device={device} onChange={setDevice} />
           <button
             onClick={runScan}
             disabled={scanning}
-            className="inline-flex items-center gap-1.5 rounded-md border border-gray-700 bg-gray-900 px-2.5 py-1.5 text-xs text-gray-300 hover:bg-gray-800 disabled:opacity-60"
+            className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-xs text-gray-700 hover:bg-gray-100 disabled:opacity-60"
           >
             {scanning ? <Loader2 className="h-3 w-3 animate-spin" /> : <RefreshCw className="h-3 w-3" />}
             Skenovat
@@ -251,21 +251,21 @@ export function TemplateReviewClient({ templateKey }: { templateKey: string }) {
               href={`/demo/${previewSlug}/studio`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-md border border-gray-700 bg-gray-900 px-2.5 py-1.5 text-xs text-gray-300 hover:bg-gray-800"
+              className="inline-flex items-center gap-1.5 rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-xs text-gray-700 hover:bg-gray-100"
               title="Otevřít studio v novém okně"
             >
               <Edit3 className="h-3 w-3" /> Studio
             </a>
           )}
           {tpl.review_status === "approved" ? (
-            <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-500/15 px-3 py-1.5 text-xs font-semibold text-emerald-300">
+            <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-100 px-3 py-1.5 text-xs font-semibold text-emerald-700">
               <CheckCircle2 className="h-3.5 w-3.5" /> Publikováno
             </span>
           ) : (
             <button
               onClick={publishToCatalog}
               disabled={publishing}
-              className="inline-flex items-center gap-1.5 rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-500 disabled:opacity-60"
+              className="inline-flex items-center gap-1.5 rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-gray-900 hover:bg-emerald-500 disabled:opacity-60"
             >
               {publishing ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Rocket className="h-3.5 w-3.5" />}
               Publikovat na homepage
@@ -278,10 +278,10 @@ export function TemplateReviewClient({ templateKey }: { templateKey: string }) {
       {/* Body — left previews, right checklist */}
       <div className="flex flex-1 min-h-0">
         {/* Preview pane */}
-        <div className="flex-1 overflow-auto bg-gray-950 p-4">
+        <div className="flex-1 overflow-auto bg-gray-50 p-4">
           {!previewBase ? (
             <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
-              <AlertTriangle className="h-8 w-8 text-amber-400" />
+              <AlertTriangle className="h-8 w-8 text-amber-600" />
               <div className="text-sm text-gray-400">
                 Pro tuto šablonu zatím není v2 tenant — náhled není dostupný.<br />
                 Vytvoř tenanta v admin / template-lab nebo přes onboarding.
@@ -300,7 +300,7 @@ export function TemplateReviewClient({ templateKey }: { templateKey: string }) {
         </div>
 
         {/* Side panel — checklist + scan + notes */}
-        <div className="w-96 shrink-0 overflow-y-auto border-l border-gray-800 bg-gray-900">
+        <div className="w-96 shrink-0 overflow-y-auto border-l border-gray-200 bg-white">
           {/* Scan result */}
           {scan && <ScanSummary scan={scan} />}
 
@@ -315,16 +315,16 @@ export function TemplateReviewClient({ templateKey }: { templateKey: string }) {
                   onClick={() => setChecklist((prev) => ({ ...prev, [c.id]: !prev[c.id] }))}
                   className={`flex w-full items-center gap-2 rounded-md border px-2.5 py-2 text-left text-[12px] transition-colors ${
                     checked
-                      ? "border-emerald-500/40 bg-emerald-500/5 text-emerald-200"
-                      : "border-gray-800 bg-gray-950 text-gray-300 hover:border-gray-700"
+                      ? "border-emerald-300 bg-emerald-50 text-emerald-200"
+                      : "border-gray-200 bg-gray-50 text-gray-700 hover:border-gray-200"
                   }`}
                 >
                   <div className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
-                    checked ? "border-emerald-500 bg-emerald-500/30 text-emerald-300" : "border-gray-600"
+                    checked ? "border-emerald-500 bg-emerald-500/30 text-emerald-700" : "border-gray-600"
                   }`}>
                     {checked && <CheckCircle2 className="h-3 w-3" strokeWidth={3} />}
                   </div>
-                  <c.Icon className="h-3.5 w-3.5 text-gray-500" />
+                  <c.Icon className="h-3.5 w-3.5 text-gray-400" />
                   <span className="flex-1">{c.label}</span>
                 </button>
               );
@@ -338,16 +338,16 @@ export function TemplateReviewClient({ templateKey }: { templateKey: string }) {
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Co je hotové, co zbývá, problémy…"
               rows={6}
-              className="w-full resize-none rounded-md border border-gray-800 bg-gray-950 p-2 text-xs text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none"
+              className="w-full resize-none rounded-md border border-gray-200 bg-gray-50 p-2 text-xs text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:outline-none"
             />
-            <div className="mt-1 flex items-center justify-between text-[10px] text-gray-500">
+            <div className="mt-1 flex items-center justify-between text-[10px] text-gray-400">
               <span>{saving ? "Ukládám…" : "Auto-save"}</span>
               {tpl.reviewer_email && <span>Reviewer: {tpl.reviewer_email}</span>}
             </div>
           </Section>
 
           {error && (
-            <div className="mx-3 my-2 rounded border border-red-500/40 bg-red-500/10 p-2 text-[11px] text-red-300">
+            <div className="mx-3 my-2 rounded border border-red-300 bg-red-50 p-2 text-[11px] text-red-700">
               {error}
             </div>
           )}
@@ -361,9 +361,9 @@ function DevicePreview({ label, width, height, src }: { label: string; width: nu
   const scale = width === 1280 ? 0.6 : 0.7;
   return (
     <div className="flex flex-col items-center">
-      <div className="mb-1.5 text-[10.5px] uppercase tracking-wide text-gray-500">{label}</div>
+      <div className="mb-1.5 text-[10.5px] uppercase tracking-wide text-gray-400">{label}</div>
       <div
-        className="overflow-hidden rounded-md border border-gray-800 bg-white shadow-xl"
+        className="overflow-hidden rounded-md border border-gray-200 bg-white shadow-xl"
         style={{
           width: width * scale,
           height: height * scale,
@@ -387,7 +387,7 @@ function DevicePreview({ label, width, height, src }: { label: string; width: nu
 
 function DeviceTabs({ device, onChange }: { device: "both" | "desktop" | "mobile"; onChange: (d: "both" | "desktop" | "mobile") => void }) {
   return (
-    <div className="flex rounded-md bg-gray-900 p-0.5">
+    <div className="flex rounded-md bg-white p-0.5">
       <Btn active={device === "desktop"} onClick={() => onChange("desktop")}><Monitor className="h-3.5 w-3.5" /></Btn>
       <Btn active={device === "both"}    onClick={() => onChange("both")}>Both</Btn>
       <Btn active={device === "mobile"}  onClick={() => onChange("mobile")}><Smartphone className="h-3.5 w-3.5" /></Btn>
@@ -399,7 +399,7 @@ function Btn({ active, onClick, children }: { active: boolean; onClick: () => vo
   return (
     <button
       onClick={onClick}
-      className={`inline-flex items-center gap-1 rounded px-2 py-1 text-xs font-medium ${active ? "bg-gray-800 text-white" : "text-gray-400 hover:text-white"}`}
+      className={`inline-flex items-center gap-1 rounded px-2 py-1 text-xs font-medium ${active ? "bg-gray-100 text-gray-900" : "text-gray-400 hover:text-gray-900"}`}
     >
       {children}
     </button>
@@ -409,27 +409,27 @@ function Btn({ active, onClick, children }: { active: boolean; onClick: () => vo
 function StatusDropdown({ current, onChange }: { current: TemplateRow["review_status"]; onChange: (s: TemplateRow["review_status"]) => void }) {
   const [open, setOpen] = useState(false);
   const options: Array<{ value: TemplateRow["review_status"]; label: string; color: string }> = [
-    { value: "pending",  label: "Čeká",      color: "text-amber-300" },
-    { value: "reviewed", label: "V review",  color: "text-blue-300" },
-    { value: "blocked",  label: "Blokováno", color: "text-red-300" },
+    { value: "pending",  label: "Čeká",      color: "text-amber-700" },
+    { value: "reviewed", label: "V review",  color: "text-blue-700" },
+    { value: "blocked",  label: "Blokováno", color: "text-red-700" },
   ];
   const currentOpt = options.find((o) => o.value === current);
   return (
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="inline-flex items-center gap-1 rounded-md border border-gray-700 bg-gray-900 px-2.5 py-1.5 text-xs text-gray-300 hover:bg-gray-800"
+        className="inline-flex items-center gap-1 rounded-md border border-gray-200 bg-white px-2.5 py-1.5 text-xs text-gray-700 hover:bg-gray-100"
       >
-        <span className={currentOpt?.color ?? "text-gray-300"}>{currentOpt?.label ?? current}</span>
+        <span className={currentOpt?.color ?? "text-gray-700"}>{currentOpt?.label ?? current}</span>
         <ChevronDown className="h-3 w-3" />
       </button>
       {open && (
-        <div className="absolute right-0 z-50 mt-1 w-32 rounded-md border border-gray-700 bg-gray-900 py-1 shadow-xl">
+        <div className="absolute right-0 z-50 mt-1 w-32 rounded-md border border-gray-200 bg-white py-1 shadow-xl">
           {options.map((o) => (
             <button
               key={o.value}
               onClick={() => { onChange(o.value); setOpen(false); }}
-              className={`block w-full px-3 py-1.5 text-left text-xs hover:bg-gray-800 ${o.color}`}
+              className={`block w-full px-3 py-1.5 text-left text-xs hover:bg-gray-100 ${o.color}`}
             >
               {o.label}
             </button>
@@ -442,8 +442,8 @@ function StatusDropdown({ current, onChange }: { current: TemplateRow["review_st
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="border-b border-gray-800 px-3 py-3">
-      <div className="mb-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-gray-500">{title}</div>
+    <div className="border-b border-gray-200 px-3 py-3">
+      <div className="mb-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-gray-400">{title}</div>
       <div className="space-y-1.5">{children}</div>
     </div>
   );
@@ -455,31 +455,31 @@ function ScanSummary({ scan }: { scan: ScanReport }) {
   return (
     <Section title="Sken">
       <div className="grid grid-cols-2 gap-2">
-        <div className="rounded border border-gray-800 bg-gray-950 px-2 py-1.5">
-          <div className="text-[9px] uppercase tracking-wider text-gray-500">Perf</div>
+        <div className="rounded border border-gray-200 bg-gray-50 px-2 py-1.5">
+          <div className="text-[9px] uppercase tracking-wider text-gray-400">Perf</div>
           <div className={`text-lg font-bold ${
-            perf?.score == null ? "text-gray-500" :
-            perf.score >= 90 ? "text-emerald-400" :
-            perf.score >= 70 ? "text-amber-400" : "text-red-400"
+            perf?.score == null ? "text-gray-400" :
+            perf.score >= 90 ? "text-emerald-600" :
+            perf.score >= 70 ? "text-amber-600" : "text-red-600"
           }`}>
             {perf?.score ?? "—"}
           </div>
-          {perf?.bytesKb && <div className="text-[10px] text-gray-500">{perf.bytesKb} KB · {perf.elapsed}ms</div>}
+          {perf?.bytesKb && <div className="text-[10px] text-gray-400">{perf.bytesKb} KB · {perf.elapsed}ms</div>}
         </div>
-        <div className="rounded border border-gray-800 bg-gray-950 px-2 py-1.5">
-          <div className="text-[9px] uppercase tracking-wider text-gray-500">Rezidua</div>
-          <div className={`text-lg font-bold ${residueTotal === 0 ? "text-emerald-400" : "text-red-400"}`}>
+        <div className="rounded border border-gray-200 bg-gray-50 px-2 py-1.5">
+          <div className="text-[9px] uppercase tracking-wider text-gray-400">Rezidua</div>
+          <div className={`text-lg font-bold ${residueTotal === 0 ? "text-emerald-600" : "text-red-600"}`}>
             {residueTotal}
           </div>
           {residueTotal > 0 && (
-            <div className="text-[10px] text-red-300">
+            <div className="text-[10px] text-red-700">
               {scan.residue.diskFindings.slice(0, 2).map((f) => f.pattern).join(", ")}
             </div>
           )}
         </div>
       </div>
       {perf?.issues && perf.issues.length > 0 && (
-        <ul className="mt-2 space-y-0.5 text-[10.5px] text-amber-300">
+        <ul className="mt-2 space-y-0.5 text-[10.5px] text-amber-700">
           {perf.issues.slice(0, 4).map((i, idx) => (
             <li key={idx} className="flex items-start gap-1">
               <span>·</span>

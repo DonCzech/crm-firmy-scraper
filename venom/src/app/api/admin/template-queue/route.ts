@@ -40,6 +40,35 @@ interface TemplateRow {
   last_residue_at: string | null;
 }
 
+// Industry priority order — matches preview-2 grouping but starts with barber.
+// Used both for auto-assign (which industry to pick next) and list ordering.
+const INDUSTRY_PRIORITY = [
+  "barber", "hairdresser", "hair", "beauty", "nails", "clinic",
+  "wellness", "massage", "ananda", "spa", "tawan",
+  "fitness", "physio", "fyzio",
+  "dentist", "dental", "ortho",
+  "tattoo",
+  "bakery", "cafe", "restaurant", "catering", "sweet",
+  "florist", "garden", "arbo", "grooming",
+  "veterinary", "vet", "pets", "pethotel",
+  "kids", "edu", "lang", "education", "autoskola",
+  "lawyer", "legal",
+  "accounting", "ucetni", "finance",
+  "realEstate", "reality", "architecture", "arch",
+  "auto", "autoservis", "klempir", "klima",
+  "instala", "stavba", "construction", "elektro", "malir", "floors",
+  "cleaning", "clean", "ddd",
+  "solar",
+  "hotel", "chalet",
+  "events", "dj",
+  "photographer", "photo", "video",
+];
+
+function industryRank(industry: string): number {
+  const idx = INDUSTRY_PRIORITY.indexOf(industry);
+  return idx >= 0 ? idx : 999;
+}
+
 export async function GET(req: NextRequest) {
   const { ok } = await requireAdmin();
   if (!ok) return Response.json({ error: "Unauthorized" }, { status: 401 });
@@ -49,7 +78,13 @@ export async function GET(req: NextRequest) {
   const status = url.searchParams.get("status");
   const all = url.searchParams.get("all") === "1";
 
-  const where: string[] = [];
+  const where: string[] = [
+    // Only show templates that have a corresponding disk dir (= a current
+    // template_versions row). Legacy DB-only entries like 'barber',
+    // 'wellness', 'astera' are excluded — those aren't real Phase 3 templates.
+    "EXISTS (SELECT 1 FROM template_versions tv WHERE tv.template_id = t.id)",
+    "t.status = 'active'",
+  ];
   const values: unknown[] = [];
   if (date) {
     values.push(date);
@@ -75,10 +110,17 @@ export async function GET(req: NextRequest) {
               JOIN tenants tn ON tn.id = s.tenant_id
              WHERE tn.template_id = t.id AND s.content_source = 'v2') AS v2_tenant_count
        FROM templates t
-      ${where.length ? "WHERE " + where.join(" AND ") : ""}
-      ORDER BY t.assigned_date NULLS LAST, t.review_status, t.key`,
+      WHERE ${where.join(" AND ")}`,
     values
   );
+
+  // Sort in JS by preview-2 industry priority, then by name.
+  rows.sort((a, b) => {
+    const ra = industryRank(a.industry);
+    const rb = industryRank(b.industry);
+    if (ra !== rb) return ra - rb;
+    return a.name.localeCompare(b.name, "cs");
+  });
 
   // Stats summary
   const stats = await queryOne<{ pending: string; reviewed: string; approved: string; blocked: string; total: string }>(
@@ -138,23 +180,25 @@ export async function POST(req: NextRequest) {
 
   const needed = count - existing.length;
 
-  // Pick pending templates, sort by v2 tenant impact, then alpha
-  const candidates = await query<{ id: number; key: string; n: string }>(
-    `SELECT t.id, t.key,
-            (SELECT COUNT(DISTINCT s.tenant_id)::text
-              FROM sections s
-              JOIN tenants tn ON tn.id = s.tenant_id
-             WHERE tn.template_id = t.id AND s.content_source = 'v2') AS n
+  // Pick pending templates whose disk version is seeded. Sort by industry
+  // priority (barber first), then by name within industry.
+  const all = await query<{ id: number; key: string; name: string; industry: string }>(
+    `SELECT t.id, t.key, t.name, t.industry
        FROM templates t
       WHERE t.review_status = 'pending'
         AND t.assigned_date IS NULL
-      ORDER BY (SELECT COUNT(DISTINCT s.tenant_id)
-                  FROM sections s
-                  JOIN tenants tn ON tn.id = s.tenant_id
-                 WHERE tn.template_id = t.id AND s.content_source = 'v2') DESC, t.key ASC
-      LIMIT $1`,
-    [needed]
+        AND t.status = 'active'
+        AND EXISTS (SELECT 1 FROM template_versions tv WHERE tv.template_id = t.id)`
   );
+
+  all.sort((a, b) => {
+    const ra = industryRank(a.industry);
+    const rb = industryRank(b.industry);
+    if (ra !== rb) return ra - rb;
+    return a.name.localeCompare(b.name, "cs");
+  });
+
+  const candidates = all.slice(0, needed);
 
   if (candidates.length === 0) {
     return Response.json({ assigned: 0, reason: "no pending templates left" });

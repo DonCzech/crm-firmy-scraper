@@ -96,18 +96,18 @@ export function TemplateQueueClient() {
   }, [items, filter]);
 
   return (
-    <div className="px-6 py-5 text-gray-100">
+    <div className="min-h-screen bg-white px-6 py-5 text-gray-900">
       {/* Header */}
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Review fronta šablon</h1>
-          <p className="mt-0.5 text-sm text-gray-400">
+          <h1 className="text-2xl font-semibold tracking-tight text-gray-900">Review fronta šablon</h1>
+          <p className="mt-0.5 text-sm text-gray-500">
             Denní QA workflow — 3 šablony / den, kontrola obsahu, obrázků, editoru a perf.
           </p>
         </div>
         <button
           onClick={reload}
-          className="inline-flex items-center gap-1.5 rounded-md border border-gray-700 bg-gray-900 px-3 py-1.5 text-xs text-gray-300 hover:bg-gray-800"
+          className="inline-flex items-center gap-1.5 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-50"
         >
           <RefreshCw className="h-3.5 w-3.5" /> Obnovit
         </button>
@@ -125,8 +125,8 @@ export function TemplateQueueClient() {
       )}
 
       {/* Tabs + filter */}
-      <div className="mb-4 flex flex-wrap items-center gap-3 border-b border-gray-800 pb-3">
-        <div className="flex gap-1 rounded-md bg-gray-900 p-0.5">
+      <div className="mb-4 flex flex-wrap items-center gap-3 border-b border-gray-200 pb-3">
+        <div className="flex gap-1 rounded-md bg-gray-100 p-0.5">
           <Tab active={view === "today"} onClick={() => setView("today")}>Dnes ({stats?.reviewed ?? 0})</Tab>
           <Tab active={view === "backlog"} onClick={() => setView("backlog")}>Backlog</Tab>
           <Tab active={view === "approved"} onClick={() => setView("approved")}>Schválené ({stats?.approved ?? 0})</Tab>
@@ -138,7 +138,7 @@ export function TemplateQueueClient() {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="rounded-md border border-gray-700 bg-gray-900 px-2.5 py-1.5 text-xs text-white focus:border-indigo-500 focus:outline-none"
+              className="rounded-md border border-gray-300 bg-white px-2.5 py-1.5 text-xs text-gray-900 focus:border-indigo-500 focus:outline-none"
             />
             <button
               onClick={assignToday}
@@ -153,13 +153,13 @@ export function TemplateQueueClient() {
 
         {(view === "backlog" || view === "approved") && (
           <div className="relative flex-1 max-w-xs">
-            <Search className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-500" />
+            <Search className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-400" />
             <input
               type="text"
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
               placeholder="Hledat (key, name, industry)…"
-              className="w-full rounded-md border border-gray-700 bg-gray-900 py-1.5 pl-7 pr-2 text-xs text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none"
+              className="w-full rounded-md border border-gray-300 bg-white py-1.5 pl-7 pr-2 text-xs text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none"
             />
           </div>
         )}
@@ -167,7 +167,7 @@ export function TemplateQueueClient() {
 
       {/* Content */}
       {error && (
-        <div className="mb-3 rounded-md border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-300">
+        <div className="mb-3 rounded-md border border-red-300 bg-red-50 p-3 text-sm text-red-700">
           {error}
         </div>
       )}
@@ -175,18 +175,18 @@ export function TemplateQueueClient() {
       {loading ? (
         <div className="py-10 text-center text-sm text-gray-500">Načítám…</div>
       ) : filtered.length === 0 ? (
-        <div className="rounded-md border border-dashed border-gray-700 px-6 py-10 text-center">
+        <div className="rounded-md border border-dashed border-gray-300 px-6 py-10 text-center">
           {view === "today" && (
             <>
-              <Calendar className="mx-auto mb-2 h-8 w-8 text-gray-600" />
-              <p className="text-sm text-gray-400">
+              <Calendar className="mx-auto mb-2 h-8 w-8 text-gray-400" />
+              <p className="text-sm text-gray-600">
                 Žádné šablony přiřazené na {date}.
-                Klikni na <strong className="text-white">Auto-přiřadit 3</strong> pro dnešní review.
+                Klikni na <strong className="text-gray-900">Auto-přiřadit 3</strong> pro dnešní review.
               </p>
             </>
           )}
           {view !== "today" && (
-            <p className="text-sm text-gray-400">Žádné šablony neodpovídají filtru.</p>
+            <p className="text-sm text-gray-500">Žádné šablony neodpovídají filtru.</p>
           )}
         </div>
       ) : (
@@ -204,11 +204,11 @@ function StatCard({
   label, value, color, Icon,
 }: { label: string; value: number; color: "amber" | "blue" | "emerald" | "red" | "gray"; Icon: React.ComponentType<{ className?: string }> }) {
   const colors = {
-    amber:   "border-amber-500/30 bg-amber-500/5 text-amber-300",
-    blue:    "border-blue-500/30 bg-blue-500/5 text-blue-300",
-    emerald: "border-emerald-500/30 bg-emerald-500/5 text-emerald-300",
-    red:     "border-red-500/30 bg-red-500/5 text-red-300",
-    gray:    "border-gray-700 bg-gray-900 text-gray-300",
+    amber:   "border-amber-200 bg-amber-50 text-amber-800",
+    blue:    "border-blue-200 bg-blue-50 text-blue-800",
+    emerald: "border-emerald-200 bg-emerald-50 text-emerald-800",
+    red:     "border-red-200 bg-red-50 text-red-800",
+    gray:    "border-gray-200 bg-gray-50 text-gray-800",
   };
   return (
     <div className={`flex items-center gap-2.5 rounded-md border px-3 py-2 ${colors[color]}`}>
@@ -228,7 +228,7 @@ function Tab({
     <button
       onClick={onClick}
       className={`rounded px-3 py-1.5 text-xs font-medium transition-colors ${
-        active ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800/60 hover:text-white"
+        active ? "bg-white text-gray-900 shadow-sm" : "text-gray-600 hover:bg-gray-200 hover:text-gray-900"
       }`}
     >
       {children}
@@ -238,10 +238,10 @@ function Tab({
 
 function StatusPill({ status }: { status: TemplateRow["review_status"] }) {
   const map = {
-    pending:  { label: "Čeká",       color: "border-amber-500/40 bg-amber-500/10 text-amber-300" },
-    reviewed: { label: "V review",   color: "border-blue-500/40 bg-blue-500/10 text-blue-300" },
-    approved: { label: "Schváleno",  color: "border-emerald-500/40 bg-emerald-500/10 text-emerald-300" },
-    blocked:  { label: "Blokováno",  color: "border-red-500/40 bg-red-500/10 text-red-300" },
+    pending:  { label: "Čeká",       color: "border-amber-300 bg-amber-50 text-amber-800" },
+    reviewed: { label: "V review",   color: "border-blue-300 bg-blue-50 text-blue-800" },
+    approved: { label: "Schváleno",  color: "border-emerald-300 bg-emerald-50 text-emerald-800" },
+    blocked:  { label: "Blokováno",  color: "border-red-300 bg-red-50 text-red-800" },
   };
   const s = map[status] ?? map.pending;
   return (
@@ -253,54 +253,51 @@ function StatusPill({ status }: { status: TemplateRow["review_status"] }) {
 
 function TemplateRow({ row }: { row: TemplateRow }) {
   const perfColor =
-    row.last_perf_score == null ? "text-gray-500"
-    : row.last_perf_score >= 90 ? "text-emerald-400"
-    : row.last_perf_score >= 70 ? "text-amber-400"
-    : "text-red-400";
+    row.last_perf_score == null ? "text-gray-400"
+    : row.last_perf_score >= 90 ? "text-emerald-600"
+    : row.last_perf_score >= 70 ? "text-amber-600"
+    : "text-red-600";
 
   return (
     <Link
       href={`/admin/template-queue/${row.key}`}
-      className="group flex items-center gap-3 rounded-md border border-gray-800 bg-gray-900 px-3 py-2.5 transition-colors hover:border-indigo-500/50 hover:bg-gray-800/70"
+      className="group flex items-center gap-3 rounded-md border border-gray-200 bg-white px-3 py-2.5 shadow-sm transition-colors hover:border-indigo-400 hover:bg-indigo-50/30 hover:shadow"
     >
       <div
-        className="h-10 w-16 shrink-0 rounded bg-cover bg-center"
-        style={{
-          backgroundImage: `url(/templates/${row.key}/preview.png)`,
-          backgroundColor: "#1a1a1c",
-        }}
+        className="h-10 w-16 shrink-0 rounded bg-cover bg-center bg-gray-100"
+        style={{ backgroundImage: `url(/templates/${row.key}/preview.png)` }}
       />
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          <span className="truncate text-sm font-medium text-white">{row.name}</span>
+          <span className="truncate text-sm font-medium text-gray-900">{row.name}</span>
           <StatusPill status={row.review_status} />
         </div>
-        <div className="mt-0.5 text-[11px] text-gray-400">
-          <code className="rounded bg-gray-800 px-1 py-0.5 text-[10px] text-gray-300">{row.key}</code>
+        <div className="mt-0.5 text-[11px] text-gray-500">
+          <code className="rounded bg-gray-100 px-1 py-0.5 text-[10px] text-gray-700">{row.key}</code>
           {" · "}{row.industry}
           {row.v2_tenant_count > 0 && (
-            <span className="ml-1.5 text-emerald-400">· {row.v2_tenant_count} v2 tenants</span>
+            <span className="ml-1.5 text-emerald-700">· {row.v2_tenant_count} v2 tenants</span>
           )}
         </div>
       </div>
       <div className="hidden gap-3 text-[10.5px] sm:flex">
         <div className="text-right">
-          <div className="text-gray-500">Perf</div>
+          <div className="text-gray-400">Perf</div>
           <div className={`font-mono font-bold ${perfColor}`}>
             {row.last_perf_score ?? "—"}
           </div>
         </div>
         <div className="text-right">
-          <div className="text-gray-500">Rezidua</div>
+          <div className="text-gray-400">Rezidua</div>
           <div className={`font-mono font-bold ${
-            row.last_residue_count == null ? "text-gray-500" :
-            row.last_residue_count === 0 ? "text-emerald-400" : "text-red-400"
+            row.last_residue_count == null ? "text-gray-400" :
+            row.last_residue_count === 0 ? "text-emerald-600" : "text-red-600"
           }`}>
             {row.last_residue_count ?? "—"}
           </div>
         </div>
       </div>
-      <ChevronRight className="h-4 w-4 text-gray-500 group-hover:text-white" />
+      <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-indigo-600" />
     </Link>
   );
 }

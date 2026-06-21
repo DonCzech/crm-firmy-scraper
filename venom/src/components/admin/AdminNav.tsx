@@ -23,7 +23,7 @@ export function AdminNav() {
 
   if (!checked) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-gray-950 z-50">
+      <div className="fixed inset-0 flex items-center justify-center bg-gray-50 z-50">
         <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
       </div>
     );
@@ -42,13 +42,13 @@ export function AdminNav() {
   }
 
   return (
-    <aside className="w-56 bg-gray-900 border-r border-gray-800 flex flex-col min-h-screen">
-      <div className="p-5 border-b border-gray-800">
+    <aside className="w-56 bg-white border-r border-gray-200 flex flex-col min-h-screen">
+      <div className="p-5 border-b border-gray-200">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-xs">V</span>
           </div>
-          <span className="font-semibold text-white text-sm">Venom Admin</span>
+          <span className="font-semibold text-gray-900 text-sm">Venom Admin</span>
         </div>
       </div>
       <nav className="flex-1 p-3 space-y-0.5">
@@ -59,7 +59,7 @@ export function AdminNav() {
               key={link.href}
               href={link.href}
               className={`flex items-center px-3 py-2 rounded-lg text-sm transition-colors ${
-                active ? "bg-indigo-600 text-white" : "text-gray-400 hover:bg-gray-800 hover:text-white"
+                active ? "bg-indigo-600 text-white" : "text-gray-700 hover:bg-gray-100 hover:text-gray-900"
               }`}
             >
               {link.label}
@@ -67,10 +67,10 @@ export function AdminNav() {
           );
         })}
       </nav>
-      <div className="p-3 border-t border-gray-800">
+      <div className="p-3 border-t border-gray-200">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center px-3 py-2 rounded-lg text-sm text-gray-400 hover:bg-gray-800 hover:text-white transition-colors"
+          className="w-full flex items-center px-3 py-2 rounded-lg text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 transition-colors"
         >
           Odhlásit se
         </button>
