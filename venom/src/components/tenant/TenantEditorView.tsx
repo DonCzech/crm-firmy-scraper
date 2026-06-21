@@ -474,12 +474,7 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
         backgroundColor: designTokens?.colorBackground ?? "#ffffff",
         color: designTokens?.colorText ?? "#111827",
         fontFamily: designTokens?.fontBody ?? "Inter, sans-serif",
-        // Reserve room at the top so the floating dock (46 px tall + 12 px
-        // top offset + 14 px breathing room) never overlaps the navbar /
-        // hero section of the live page. When collapsed only the slim tab
-        // remains on the right edge, so no offset is needed.
-        paddingTop: adminBarCollapsed ? 0 : 72,
-        transition: "background-color 0.3s ease, padding-top 0.32s cubic-bezier(0.18,0.89,0.32,1)",
+        transition: "background-color 0.3s ease",
       } as React.CSSProperties}
     >
       {/* Editor dock — replaces the legacy pill bar with a compact floating
@@ -523,6 +518,20 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
         />
       )}
 
+      {/* Transform-positioned wrapper — `transform` creates a new containing
+          block for fixed-position descendants, so the live page's own
+          `position: fixed` navbar gets pushed below the editor dock instead
+          of sitting at viewport top:0 and overlapping. Plain paddingTop on
+          the body doesn't move fixed children — only transform / will-change /
+          filter / perspective do. */}
+      <div
+        style={{
+          transform: adminBarCollapsed ? "translateY(0)" : "translateY(72px)",
+          transformOrigin: "top center",
+          transition: "transform 0.32s cubic-bezier(0.18,0.89,0.32,1)",
+          willChange: "transform",
+        }}
+      >
       <TrialBanner tenantSlug={tenant.slug} />
 
       {/* Viewport — desktop renders the live editable DOM (so admins can click
@@ -609,6 +618,7 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
           fallbackBg={designTokens?.colorBackground ?? "#ffffff"}
         />
       )}
+      </div>{/* end transform wrapper */}
 
       {/* Page Builder panel */}
       {builderOpen && (

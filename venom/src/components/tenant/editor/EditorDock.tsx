@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import {
   Eye, Save, Undo2, Redo2, Monitor, Smartphone, Tablet, MoreHorizontal,
-  Sparkles, Layers, ChevronDown, Rocket, X, Globe,
+  Sparkles, Layers, ChevronDown, Rocket, X, Globe, PanelRightClose,
 } from "lucide-react";
 import "../../studio/design-tokens.css";
 
@@ -176,6 +176,18 @@ export function EditorDock(props: EditorDockProps) {
               Page Builder
             </>
           )}
+        </button>
+
+        {/* Direct "Zasunout" — one-click collapse so admins don't have to
+            open the ⋯ menu to slide the dock away. */}
+        <button
+          type="button"
+          onClick={props.onCollapse}
+          aria-label="Zasunout dock"
+          title="Zasunout dock do strany"
+          className="inline-flex h-7 w-7 items-center justify-center rounded-md text-[var(--vs-text-muted)] transition-colors duration-100 hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
+        >
+          <PanelRightClose className="h-3.5 w-3.5" strokeWidth={1.75} />
         </button>
 
         {/* More menu */}
