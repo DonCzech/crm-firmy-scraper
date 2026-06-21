@@ -99,8 +99,14 @@ export async function GET(req: NextRequest) {
     where.push(`t.assigned_date = CURRENT_DATE`);
   }
 
-  // Enrich with v2 tenant counts (production impact)
-  const rows = await query<TemplateRow & { v2_tenant_count: string }>(
+  // Enrich with v2 tenant counts (production impact) + a representative tenant
+  // for one-click access (slug + access_token) so the admin queue lists every
+  // template with a working studio link without further lookup.
+  const rows = await query<TemplateRow & {
+    v2_tenant_count: string;
+    primary_tenant_slug: string | null;
+    primary_tenant_token: string | null;
+  }>(
     `SELECT t.id, t.key, t.name, t.industry, t.current_version, t.status,
             t.review_status, t.review_notes, t.reviewed_at, t.reviewer_email,
             t.assigned_date, t.review_checklist, t.last_perf_score, t.last_perf_at,
@@ -108,7 +114,15 @@ export async function GET(req: NextRequest) {
             (SELECT COUNT(DISTINCT s.tenant_id)::text
               FROM sections s
               JOIN tenants tn ON tn.id = s.tenant_id
-             WHERE tn.template_id = t.id AND s.content_source = 'v2') AS v2_tenant_count
+             WHERE tn.template_id = t.id AND s.content_source = 'v2') AS v2_tenant_count,
+            (SELECT tn.slug FROM tenants tn
+              JOIN sections s ON s.tenant_id = tn.id AND s.content_source = 'v2'
+             WHERE tn.template_id = t.id
+             ORDER BY tn.id LIMIT 1) AS primary_tenant_slug,
+            (SELECT tn.access_token FROM tenants tn
+              JOIN sections s ON s.tenant_id = tn.id AND s.content_source = 'v2'
+             WHERE tn.template_id = t.id
+             ORDER BY tn.id LIMIT 1) AS primary_tenant_token
        FROM templates t
       WHERE ${where.join(" AND ")}`,
     values
@@ -138,6 +152,8 @@ export async function GET(req: NextRequest) {
     items: rows.map((r) => ({
       ...r,
       v2_tenant_count: parseInt(r.v2_tenant_count, 10),
+      primary_tenant_slug: r.primary_tenant_slug ?? null,
+      primary_tenant_token: r.primary_tenant_token ?? null,
     })),
     stats: stats ? {
       pending:  parseInt(stats.pending,  10),
