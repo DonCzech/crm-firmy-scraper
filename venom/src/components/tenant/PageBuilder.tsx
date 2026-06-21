@@ -111,24 +111,20 @@ export function PageBuilder({ sections, tenantSlug, onChange, onClose }: Props) 
   }, [editing, showLibrary, onClose]);
 
   return (
-    <div data-studio className="fixed inset-0 z-[99998] flex" style={{ fontFamily: "var(--vs-font-sans)" }}>
-      {/* Scrim */}
-      <div
-        className="vs-enter absolute inset-0"
-        style={{ background: "rgba(8,8,10,0.55)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}
-        onClick={onClose}
-      />
+    <div data-studio className="pointer-events-none fixed inset-0 z-[99998] flex" style={{ fontFamily: "var(--vs-font-sans)" }}>
+      {/* Docked side panel — no scrim so the canvas stays visible while you
+          reorder sections. Click outside the panel does not auto-close
+          (intentional: prevents accidental dismiss while interacting with
+          the live page). Use the X button or Esc to close. */}
       <aside
         role="dialog"
-        aria-modal
         aria-label="Page Builder"
-        className="relative ml-auto flex h-full flex-col"
+        className="pointer-events-auto ml-auto flex h-full flex-col"
         style={{
           width: "min(420px, 92vw)",
           background: "var(--vs-bg)",
           boxShadow: "var(--vs-shadow-xl), -1px 0 0 0 var(--vs-border-strong)",
           animation: "vs-pb-in 320ms var(--vs-ease-out)",
-          zIndex: 1,
         }}
       >
         <style>{`@keyframes vs-pb-in {
