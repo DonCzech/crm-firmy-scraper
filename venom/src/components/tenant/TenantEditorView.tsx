@@ -456,8 +456,7 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
         backgroundColor: designTokens?.colorBackground ?? "#ffffff",
         color: designTokens?.colorText ?? "#111827",
         fontFamily: designTokens?.fontBody ?? "Inter, sans-serif",
-        paddingRight: builderOpen ? "360px" : "0",
-        transition: "padding-right 0.3s ease",
+        transition: "background-color 0.3s ease",
       } as React.CSSProperties}
     >
       {/* Editor dock — replaces the legacy pill bar with a compact floating
@@ -503,7 +502,33 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
 
       <TrialBanner tenantSlug={tenant.slug} />
 
-      <div>
+      {/* Viewport-clamping wrapper — when tablet/mobile is selected the tenant
+          page is clamped to a fixed width and centered, with the surrounding
+          area dimmed so the admin sees how the layout looks at that size. */}
+      <div
+        style={{
+          paddingTop: viewport === "desktop" ? "0" : "72px",
+          paddingBottom: viewport === "desktop" ? "0" : "32px",
+          background: viewport === "desktop" ? "transparent" : "var(--vs-bg)",
+          minHeight: viewport === "desktop" ? "auto" : "100vh",
+          transition: "padding 0.32s var(--vs-ease-out, cubic-bezier(0.18,0.89,0.32,1)), background 0.32s",
+        }}
+      >
+        <div
+          data-viewport={viewport}
+          style={{
+            width: viewport === "desktop" ? "100%" : viewport === "tablet" ? "768px" : "390px",
+            maxWidth: "100%",
+            margin: viewport === "desktop" ? "0" : "0 auto",
+            background: viewport === "desktop" ? "transparent" : (designTokens?.colorBackground ?? "#ffffff"),
+            boxShadow: viewport === "desktop"
+              ? "none"
+              : "0 24px 60px rgba(0,0,0,0.55), 0 8px 18px rgba(0,0,0,0.30), 0 0 0 1px var(--vs-border-strong, rgba(255,255,255,0.06))",
+            borderRadius: viewport === "desktop" ? 0 : 18,
+            overflow: viewport === "desktop" ? "visible" : "hidden",
+            transition: "width 0.32s var(--vs-ease-out, cubic-bezier(0.18,0.89,0.32,1)), border-radius 0.32s, box-shadow 0.32s",
+          }}
+        >
         {/* Navbar — singleton */}
         {navbarSections.length > 0 && (
           <SectionRenderer section={navbarSections[0]} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
@@ -545,6 +570,7 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
         {footerSections.length > 0 && (
           <SectionRenderer section={footerSections[0]} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
         )}
+        </div>
       </div>
 
       {/* Page Builder panel */}

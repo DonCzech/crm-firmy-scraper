@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { X, ExternalLink, Loader2 } from "lucide-react";
 import type { DrawerKey } from "./EditorDock";
+import { SeoPanel, MessagesPanel, RevisionsPanel, AuditPanel } from "./EditorDrawerPanels";
 import "../../studio/design-tokens.css";
 
 /**
@@ -25,19 +26,20 @@ export interface EditorDrawerProps {
 interface DrawerConfig {
   title: string;
   subtitle: string;
-  path: string;          // route used inside the iframe
+  path: string;          // route used inside the iframe (when native=false)
   width: number;         // px
   external?: boolean;    // open as new tab instead of iframe (account)
+  native?: boolean;      // render native React panel instead of iframe
 }
 
 const CONFIG: Record<DrawerKey, DrawerConfig> = {
   blog:       { title: "Blog",      subtitle: "Články a kategorie",       path: "/admin/blog",      width: 720 },
-  seo:        { title: "SEO",       subtitle: "Title, popis, sitemap",    path: "/admin/seo",       width: 520 },
-  messages:   { title: "Zprávy",    subtitle: "Příchozí z formulářů",     path: "/admin/contact",   width: 620 },
+  seo:        { title: "SEO",       subtitle: "Title, popis, sitemap",    path: "/admin/seo",       width: 520, native: true },
+  messages:   { title: "Zprávy",    subtitle: "Příchozí z formulářů",     path: "/admin/contact",   width: 620, native: true },
   analytics:  { title: "Analytics", subtitle: "Návštěvy a konverze",      path: "/admin/analytics", width: 760 },
   modules:    { title: "Moduly",    subtitle: "Rezervace, e-shop, formuláře", path: "/admin/modules", width: 560 },
-  revisions:  { title: "Verze",     subtitle: "Historie a obnovení",      path: "/admin/revisions", width: 560 },
-  audit:      { title: "Audit",     subtitle: "Záznamy úprav",            path: "/admin/audit",     width: 620 },
+  revisions:  { title: "Verze",     subtitle: "Historie a obnovení",      path: "/admin/revisions", width: 560, native: true },
+  audit:      { title: "Audit",     subtitle: "Záznamy úprav",            path: "/admin/audit",     width: 620, native: true },
   account:    { title: "Můj účet",  subtitle: "Profil a předplatné",      path: "/account/dashboard", width: 720, external: true },
 };
 
@@ -130,11 +132,6 @@ export function EditorDrawer({ open, tenantSlug, onClose }: EditorDrawerProps) {
 
         {/* Body */}
         <div className="relative flex-1 overflow-hidden bg-[var(--vs-bg)]">
-          {!iframeReady && (
-            <div className="absolute inset-0 flex items-center justify-center text-[12px] text-[var(--vs-text-muted)]">
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Načítám…
-            </div>
-          )}
           {cfg.external ? (
             <div className="flex h-full items-center justify-center p-6 text-center">
               <div>
@@ -152,15 +149,24 @@ export function EditorDrawer({ open, tenantSlug, onClose }: EditorDrawerProps) {
                 </a>
               </div>
             </div>
+          ) : cfg.native ? (
+            <NativeBody drawerKey={open} tenantSlug={tenantSlug} />
           ) : (
-            <iframe
-              key={open}
-              src={url}
-              title={cfg.title}
-              onLoad={() => setIframeReady(true)}
-              className="h-full w-full border-0"
-              style={{ background: "var(--vs-bg)" }}
-            />
+            <>
+              {!iframeReady && (
+                <div className="absolute inset-0 flex items-center justify-center text-[12px] text-[var(--vs-text-muted)]">
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Načítám…
+                </div>
+              )}
+              <iframe
+                key={open}
+                src={url}
+                title={cfg.title}
+                onLoad={() => setIframeReady(true)}
+                className="h-full w-full border-0"
+                style={{ background: "var(--vs-bg)" }}
+              />
+            </>
           )}
         </div>
 
@@ -175,4 +181,15 @@ export function EditorDrawer({ open, tenantSlug, onClose }: EditorDrawerProps) {
       </aside>
     </div>
   );
+}
+
+/** Routes native drawer keys to the matching React panel component. */
+function NativeBody({ drawerKey, tenantSlug }: { drawerKey: DrawerKey; tenantSlug: string }) {
+  switch (drawerKey) {
+    case "seo":       return <SeoPanel       tenantSlug={tenantSlug} />;
+    case "messages":  return <MessagesPanel  tenantSlug={tenantSlug} />;
+    case "revisions": return <RevisionsPanel tenantSlug={tenantSlug} />;
+    case "audit":     return <AuditPanel     tenantSlug={tenantSlug} />;
+    default:          return null;
+  }
 }
