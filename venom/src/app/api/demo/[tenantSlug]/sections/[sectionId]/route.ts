@@ -1,7 +1,8 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { query, auditLog } from "@/lib/db";
+import { query, queryOne, auditLog, type Section } from "@/lib/db";
 import { assertSameOrigin, requireTenantAdmin } from "@/lib/demo-auth";
+import { computeOverridesForSubmit } from "@/lib/section-resolver";
 
 const BodySchema = z.object({
   settings: z.record(z.unknown()).optional(),
@@ -33,18 +34,38 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
   if (!parsed.success) return Response.json({ error: parsed.error.issues[0]?.message }, { status: 400 });
 
   // Security: section must belong to this tenant — filter by tenant_id in WHERE
-  const rows = await query<{ id: number }>(
-    "SELECT id FROM sections WHERE id = $1 AND tenant_id = $2",
+  // Also fetch content_source + structural metadata for v2 sparse-override routing.
+  const sectionRow = await queryOne<Section & { content_source: string | null; content_overrides: Record<string, unknown> }>(
+    "SELECT * FROM sections WHERE id = $1 AND tenant_id = $2",
     [sid, tenant.id]
   );
-  if (!rows.length) return Response.json({ error: "Section not found" }, { status: 404 });
+  if (!sectionRow) return Response.json({ error: "Section not found" }, { status: 404 });
 
   const updates: string[] = ["updated_at = now()"];
   const values: unknown[] = [];
 
   if (parsed.data.settings !== undefined) {
-    updates.push(`settings = $${values.length + 1}`);
-    values.push(JSON.stringify(parsed.data.settings));
+    // F1: For v2 sections, the studio submits fully-merged content. We compute the
+    // sparse diff vs (template_default + slots) and store ONLY the diff in
+    // content_overrides. settings.content stays empty so template propagation works.
+    if (sectionRow.content_source === "v2") {
+      const incoming = (parsed.data.settings as { content?: Record<string, unknown> }).content ?? {};
+      const overrides = await computeOverridesForSubmit(
+        { ...sectionRow, content_source: (sectionRow.content_source ?? "legacy") as "v2" | "legacy" },
+        tenant,
+        incoming
+      );
+      // Preserve non-content settings keys (e.g. anchorId, designTokens) but strip content
+      const settingsWithoutContent = { ...(parsed.data.settings as Record<string, unknown>) };
+      delete settingsWithoutContent.content;
+      updates.push(`settings = $${values.length + 1}`);
+      values.push(JSON.stringify(settingsWithoutContent));
+      updates.push(`content_overrides = $${values.length + 1}::jsonb`);
+      values.push(JSON.stringify(overrides));
+    } else {
+      updates.push(`settings = $${values.length + 1}`);
+      values.push(JSON.stringify(parsed.data.settings));
+    }
   }
   if (parsed.data.is_visible !== undefined) {
     updates.push(`is_visible = $${values.length + 1}`);

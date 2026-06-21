@@ -368,6 +368,18 @@ export async function initDb(): Promise<void> {
       created_at TIMESTAMPTZ DEFAULT now()
     );
 
+    -- ── Tenant data slots (F1: shared data nezávislá na šabloně) ──────────────
+    -- Sdílená data (kontakt, brand, hodiny, social) přežívají přepnutí šablony.
+    -- Šablony v content/cs.json referencují přes {"$slot": "contact.phone"}.
+    CREATE TABLE IF NOT EXISTS tenant_data_slots (
+      id SERIAL PRIMARY KEY,
+      tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+      slot_key TEXT NOT NULL,
+      value JSONB NOT NULL,
+      updated_at TIMESTAMPTZ DEFAULT now(),
+      UNIQUE(tenant_id, slot_key)
+    );
+
     -- ── Indexes ───────────────────────────────────────────────────────────────
     CREATE INDEX IF NOT EXISTS idx_tenants_slug ON tenants(slug);
     CREATE INDEX IF NOT EXISTS idx_tenants_status ON tenants(status);
@@ -402,11 +414,20 @@ export async function initDb(): Promise<void> {
     ALTER TABLE tenants ADD COLUMN IF NOT EXISTS deletion_notified_at TIMESTAMPTZ;
     ALTER TABLE tenants ADD COLUMN IF NOT EXISTS parent_tenant_id INTEGER REFERENCES tenants(id) ON DELETE SET NULL;
     ALTER TABLE tenants ADD COLUMN IF NOT EXISTS showcase_kind TEXT;
+
+    -- F1: per-section sparse overrides + dual-mode render flag
+    ALTER TABLE sections ADD COLUMN IF NOT EXISTS content_overrides JSONB DEFAULT '{}';
+    ALTER TABLE sections ADD COLUMN IF NOT EXISTS content_source TEXT DEFAULT 'legacy';
+
+    -- F1: template version cache key + publish timestamp
+    ALTER TABLE template_versions ADD COLUMN IF NOT EXISTS checksum TEXT;
+    ALTER TABLE template_versions ADD COLUMN IF NOT EXISTS published_at TIMESTAMPTZ DEFAULT now();
   `);
 
   await pool.query(`
     CREATE INDEX IF NOT EXISTS idx_tenants_lifecycle ON tenants(lifecycle_status);
     CREATE INDEX IF NOT EXISTS idx_tenants_last_activity ON tenants(last_activity_at);
+    CREATE INDEX IF NOT EXISTS idx_data_slots_tenant ON tenant_data_slots(tenant_id);
   `);
 
   // Functional unique index for tenant_overrides — COALESCE avoids null inequalities

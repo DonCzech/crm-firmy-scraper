@@ -5,6 +5,7 @@ import { LayersPanel } from "./panels/LayersPanel";
 import { AddSectionPanel } from "./panels/AddSectionPanel";
 import { PagesPanel } from "./panels/PagesPanel";
 import { AssetsPanel } from "./panels/AssetsPanel";
+import { BrandPanel } from "./panels/BrandPanel";
 import { SettingsPanel } from "./panels/SettingsPanel";
 import type { StudioState } from "./TenantStudioView";
 
@@ -13,6 +14,7 @@ const TITLES: Record<string, string> = {
   add: "Přidat sekci",
   pages: "Stránky",
   assets: "Knihovna",
+  brand: "Identita firmy",
   settings: "Nastavení",
 };
 
@@ -33,6 +35,7 @@ export function StudioLeftPanel({ state }: { state: StudioState }) {
         {which === "add" && <AddSectionPanel state={state} />}
         {which === "pages" && <PagesPanel state={state} />}
         {which === "assets" && <AssetsPanel state={state} />}
+        {which === "brand" && <BrandPanel state={state} />}
         {which === "settings" && <SettingsPanel state={state} />}
       </div>
     </div>

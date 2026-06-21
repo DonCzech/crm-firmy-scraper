@@ -4,10 +4,13 @@ import { cookies } from "next/headers";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 import { getTenantBySlug, getTenantPage, getPageSections, getTenantOverrides } from "@/lib/db";
+import { resolveAllSections } from "@/lib/section-resolver";
+import { buildTenantSEO } from "@/lib/tenant-seo";
 import { TenantPublicView } from "@/components/tenant/TenantPublicView";
 import { ClonedSiteRenderer } from "@/components/tenant/ClonedSiteRenderer";
 import { TenantAnalytics, GtmNoScript } from "@/components/tenant/TenantAnalytics";
-import type { Metadata } from "next";
+import { loadTemplate } from "@/lib/templates/loader";
+import type { Metadata, Viewport } from "next";
 
 interface Props {
   params: Promise<{ tenantSlug: string }>;
@@ -17,39 +20,29 @@ interface Props {
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://venom-saas.vercel.app";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3015";
 
+export async function generateViewport({ params }: Props): Promise<Viewport> {
+  const { tenantSlug } = await params;
+  const tenant = await getTenantBySlug(tenantSlug);
+  let themeColor = "#ffffff";
+  if (tenant) {
+    try {
+      const tpl = await loadTemplate(tenant.template_key);
+      themeColor = tpl.designTokens?.colorBackground ?? "#ffffff";
+    } catch (_) {}
+  }
+  return { themeColor };
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tenantSlug } = await params;
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant) return {};
 
   const page = await getTenantPage(tenant.id, "home");
-  const canonicalUrl = `${BASE_URL}/demo/${tenantSlug}`;
-  const title = page?.seo_title ?? `${tenantSlug} — Demo`;
-  const description = page?.seo_description ?? undefined;
-  const ogImage = page?.og_image ?? `/demo/${tenantSlug}/opengraph-image`;
-
-  return {
-    metadataBase: new URL(SITE_URL),
-    title,
-    description,
-    robots: tenant.status === "demo" ? { index: false, follow: false } : { index: true, follow: true },
-    alternates: { canonical: canonicalUrl },
-    openGraph: {
-      title,
-      description,
-      url: canonicalUrl,
-      siteName: "Venom SaaS",
-      locale: "cs_CZ",
-      type: "website",
-      images: [ogImage],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [ogImage],
-    },
-  };
+  // F3: buildTenantSEO merges tenant_data_slots (brand.name, tagline, social, seo.*)
+  //     with page-level SEO overrides + tenant.industry → schema.org type.
+  const { metadata } = await buildTenantSEO(tenant, { page: page ?? undefined });
+  return metadata;
 }
 
 export default async function TenantDemoPage({ params, searchParams }: Props) {
@@ -61,10 +54,14 @@ export default async function TenantDemoPage({ params, searchParams }: Props) {
   const page = await getTenantPage(tenant.id, "home");
   if (!page) return notFound();
 
-  const [sections, overrides] = await Promise.all([
+  const [rawSections, overrides] = await Promise.all([
     getPageSections(tenant.id, page.id),
     getTenantOverrides(tenant.id),
   ]);
+
+  // F1 read-through: legacy sections pass through untouched; v2 sections get
+  // template defaults + slot refs + sparse overrides merged into settings.content.
+  const sections = await resolveAllSections(tenant, rawSections);
 
   // Studio mode: when the studio embeds this page in an iframe (?studio=1),
   // enable inline editing if the user has the tenant access cookie. The
@@ -100,10 +97,17 @@ export default async function TenantDemoPage({ params, searchParams }: Props) {
   }
 
   const gtmId = tenant.analytics_config?.gtm_id;
+  // F3: emit JSON-LD structured data (LocalBusiness/Organization based on industry)
+  const { jsonLd } = await buildTenantSEO(tenant, { page: page ?? undefined });
   return (
     <>
       <TenantAnalytics tenant={tenant} />
       {gtmId && <GtmNoScript gtmId={gtmId} />}
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: jsonLd }}
+      />
       <TenantPublicView tenant={tenant} page={page} sections={sections} overrides={overrides} isAdmin={isAdmin} />
     </>
   );

@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { getTenantBySlug, getTenantPage, getPageSections, getTenantOverrides } from "@/lib/db";
+import { resolveAllSections } from "@/lib/section-resolver";
 import { TenantStudioView } from "@/components/studio/TenantStudioView";
 import type { Metadata } from "next";
 
@@ -27,10 +28,14 @@ export default async function TenantStudioPage({ params }: Props) {
   const page = await getTenantPage(tenant.id, "home");
   if (!page) return notFound();
 
-  const [sections, overrides] = await Promise.all([
+  const [rawSections, overrides] = await Promise.all([
     getPageSections(tenant.id, page.id),
     getTenantOverrides(tenant.id),
   ]);
+
+  // F1: hydrate v2 sections with resolved content (template default + slots + sparse overrides)
+  // so Inspector has editable values to show. Legacy sections pass through untouched.
+  const sections = await resolveAllSections(tenant, rawSections);
 
   return (
     <TenantStudioView

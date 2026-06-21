@@ -3,7 +3,7 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 
 export type StudioBreakpoint = "desktop" | "tablet" | "mobile";
-export type StudioLeftPanel = "layers" | "add" | "pages" | "assets" | "settings" | null;
+export type StudioLeftPanel = "layers" | "add" | "pages" | "assets" | "brand" | "settings" | null;
 
 /** Element selected inside a full-page-clone iframe — used by the right Inspector */
 export interface CloneSelection {

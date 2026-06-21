@@ -1,6 +1,6 @@
 "use client";
 
-import { Layers, Plus, FileText, Image as ImageIcon, Settings } from "lucide-react";
+import { Layers, Plus, FileText, Image as ImageIcon, User, Settings } from "lucide-react";
 import clsx from "clsx";
 import { useStudio, type StudioLeftPanel } from "./StudioContext";
 
@@ -9,6 +9,7 @@ const ITEMS: Array<{ id: Exclude<StudioLeftPanel, null>; label: string; icon: Re
   { id: "add", label: "Přidat sekci", icon: Plus },
   { id: "pages", label: "Stránky", icon: FileText },
   { id: "assets", label: "Knihovna", icon: ImageIcon },
+  { id: "brand", label: "Identita firmy", icon: User },
   { id: "settings", label: "Nastavení", icon: Settings },
 ];
 

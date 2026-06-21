@@ -1,14 +1,18 @@
 "use client";
 
 import {
-  Monitor, Tablet, Smartphone, Undo2, Redo2, Check, Eye, HelpCircle, ChevronDown,
+  Monitor, Tablet, Smartphone, Undo2, Redo2, Check, Eye, HelpCircle, ChevronDown, Palette,
 } from "lucide-react";
+import { useState } from "react";
 import clsx from "clsx";
 import { useStudio, type StudioBreakpoint } from "./StudioContext";
 import type { StudioState } from "./TenantStudioView";
+import { GoLiveButton } from "./GoLiveButton";
+import { ChangeTemplateModal } from "./ChangeTemplateModal";
 
 export function StudioTopBar({ state, onHelp }: { state: StudioState; onHelp: () => void }) {
   const studio = useStudio();
+  const [showChangeTemplate, setShowChangeTemplate] = useState(false);
   return (
     <div className="flex h-14 items-center justify-between border-b border-[#27272a] bg-[#0f0f10] px-3">
       {/* Left */}
@@ -49,6 +53,15 @@ export function StudioTopBar({ state, onHelp }: { state: StudioState; onHelp: ()
       {/* Right */}
       <div className="flex items-center gap-2">
         <SaveStatusPill status={state.saveStatus} />
+        <button
+          type="button"
+          onClick={() => setShowChangeTemplate(true)}
+          className="inline-flex h-8 items-center gap-1.5 rounded-md px-2.5 text-xs font-medium text-[#d4d4d8] transition-colors duration-150 hover:bg-[#27272a]"
+          title="Změnit šablonu (kontaktní údaje zůstanou)"
+        >
+          <Palette className="h-4 w-4" strokeWidth={1.75} />
+          Změnit design
+        </button>
         <IconBtn label="Nápověda (?)" onClick={onHelp}>
           <HelpCircle className="h-4 w-4" strokeWidth={1.75} />
         </IconBtn>
@@ -65,13 +78,18 @@ export function StudioTopBar({ state, onHelp }: { state: StudioState; onHelp: ()
         </a>
         <button
           className="inline-flex h-8 items-center rounded-md bg-blue-600 px-3.5 text-xs font-semibold text-white transition-colors duration-150 hover:bg-blue-500"
-          aria-label="Publikovat"
-          title="Publikovat"
+          aria-label="Uložit změny"
+          title="Uložit změny"
           onClick={() => state.flushSave()}
         >
-          Publikovat
+          Uložit
         </button>
+        <GoLiveButton state={state} />
       </div>
+
+      {showChangeTemplate && (
+        <ChangeTemplateModal state={state} onClose={() => setShowChangeTemplate(false)} />
+      )}
     </div>
   );
 }
