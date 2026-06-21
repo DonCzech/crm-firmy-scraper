@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import {
   Eye, Save, Undo2, Redo2, Monitor, Smartphone, Tablet, MoreHorizontal,
   Sparkles, Layers, ChevronDown, Rocket, X, Globe, PanelRightClose,
+  LayoutDashboard,
 } from "lucide-react";
 import "../../studio/design-tokens.css";
 
@@ -41,6 +42,8 @@ export interface EditorDockProps {
   onViewportChange: (v: "desktop" | "tablet" | "mobile") => void;
   builderOpen: boolean;
   onToggleBuilder: () => void;
+  adminOpen: boolean;
+  onToggleAdmin: () => void;
   onOpenDrawer: (k: DrawerKey) => void;
   onCollapse: () => void;
 }
@@ -158,25 +161,52 @@ export function EditorDock(props: EditorDockProps) {
           Náhled
         </a>
 
-        {/* Page Builder — primary CTA */}
-        <button
-          type="button"
-          onClick={props.onToggleBuilder}
-          className="vs-grad-accent inline-flex h-7 items-center gap-1.5 rounded-md px-3 text-[11.5px] font-semibold tracking-tight text-white transition-[box-shadow,transform] duration-100 hover:scale-[1.02] active:translate-y-[0.5px]"
-          style={{ boxShadow: "0 1px 0 0 rgba(255,255,255,0.18) inset, 0 4px 14px rgba(99,102,241,0.40)" }}
-        >
-          {props.builderOpen ? (
-            <>
-              <X className="h-3.5 w-3.5" strokeWidth={2.25} />
-              Zavřít builder
-            </>
-          ) : (
-            <>
-              <Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} />
-              Page Builder
-            </>
-          )}
-        </button>
+        {/* Twin primary CTAs — Administrace + Builder. The user explicitly
+            asked for these to be the most prominent affordance in the dock
+            so they're laid out next to each other on the right cluster.
+            Administrace = unified admin shell. Builder = the side panel for
+            section reordering / editing. */}
+        <div className="flex items-center gap-1 rounded-lg p-0.5" style={{ background: "rgba(255,255,255,0.04)" }}>
+          <button
+            type="button"
+            onClick={props.onToggleAdmin}
+            aria-pressed={props.adminOpen}
+            className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[11.5px] font-semibold tracking-tight transition-[background,box-shadow,transform] duration-100 active:translate-y-[0.5px]"
+            style={{
+              background: props.adminOpen
+                ? "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)"
+                : "rgba(248,250,252,0.10)",
+              color: props.adminOpen ? "#0f172a" : "#f8fafc",
+              boxShadow: props.adminOpen
+                ? "0 1px 0 0 rgba(255,255,255,0.50) inset, 0 4px 14px rgba(15,23,42,0.30)"
+                : "0 1px 0 0 rgba(255,255,255,0.08) inset",
+            }}
+            title="Otevřít administraci"
+          >
+            <LayoutDashboard className="h-3.5 w-3.5" strokeWidth={2} />
+            Administrace
+          </button>
+          <button
+            type="button"
+            onClick={props.onToggleBuilder}
+            aria-pressed={props.builderOpen}
+            className="vs-grad-accent inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[11.5px] font-semibold tracking-tight text-white transition-[box-shadow,transform] duration-100 hover:scale-[1.02] active:translate-y-[0.5px]"
+            style={{ boxShadow: "0 1px 0 0 rgba(255,255,255,0.18) inset, 0 4px 14px rgba(99,102,241,0.40)" }}
+            title="Otevřít Page Builder"
+          >
+            {props.builderOpen ? (
+              <>
+                <X className="h-3.5 w-3.5" strokeWidth={2.25} />
+                Zavřít
+              </>
+            ) : (
+              <>
+                <Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} />
+                Builder
+              </>
+            )}
+          </button>
+        </div>
 
         {/* Direct "Zasunout" — one-click collapse so admins don't have to
             open the ⋯ menu to slide the dock away. */}

@@ -7,6 +7,7 @@ import { TrialBanner } from "./TrialBanner";
 import { EditorDock, EditorCollapsedTab, type DrawerKey } from "./editor/EditorDock";
 import { EditorDrawer } from "./editor/EditorDrawer";
 import { SectionFrame, ElementMicroRail } from "./editor/EditorElementOverlay";
+import { AdminConsole, type AdminView } from "./editor/AdminConsole";
 import type { Tenant, Page, Section, TenantOverride } from "@/lib/db";
 import type { SiteContent } from "@/lib/content-types";
 import { applyOverrides } from "@/lib/overrides";
@@ -136,8 +137,10 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
   const [builderOpen, setBuilderOpen] = useState(false);
   const [adminBarCollapsed, setAdminBarCollapsed] = useState(false);
 
-  // Editor surface state — drawer + section selection
+  // Editor surface state — drawer + admin console + section selection
   const [drawerOpen, setDrawerOpen] = useState<DrawerKey | null>(null);
+  const [adminOpen, setAdminOpen] = useState(false);
+  const [adminView, setAdminView] = useState<AdminView>("overview");
   const [viewport, setViewport] = useState<"desktop" | "tablet" | "mobile">("desktop");
   const [selectedSectionId, setSelectedSectionId] = useState<number | null>(null);
   const [hoverSectionId, setHoverSectionId] = useState<number | null>(null);
@@ -497,15 +500,35 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
           onViewportChange={setViewport}
           builderOpen={builderOpen}
           onToggleBuilder={() => setBuilderOpen((o) => !o)}
-          onOpenDrawer={(k) => setDrawerOpen(k)}
+          adminOpen={adminOpen}
+          onToggleAdmin={() => { setAdminView("overview"); setAdminOpen((o) => !o); }}
+          /* Existing drawer keys route into AdminConsole at the matching
+             view, so the categorised overflow menu now opens the same
+             unified administration page as the dedicated CTA. */
+          onOpenDrawer={(k) => {
+            // map DrawerKey → AdminView (they share the same identifier set)
+            setAdminView(k as AdminView);
+            setAdminOpen(true);
+          }}
           onCollapse={() => collapseBar(true)}
         />
       )}
 
+      {/* Legacy single-tool drawer kept for inline-editor flows that still
+          pass through it (no current callers). Retained behind state so a
+          future direct caller can re-enable without re-plumbing. */}
       <EditorDrawer
         open={drawerOpen}
         tenantSlug={tenant.slug}
         onClose={() => setDrawerOpen(null)}
+      />
+
+      {/* Unified fullscreen administration */}
+      <AdminConsole
+        open={adminOpen}
+        initialView={adminView}
+        tenantSlug={tenant.slug}
+        onClose={() => setAdminOpen(false)}
       />
 
       {/* Floating element micro-rail (selection + action buttons) */}
