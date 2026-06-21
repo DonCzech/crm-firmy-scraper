@@ -111,12 +111,23 @@ export function PageBuilder({ sections, tenantSlug, onChange, onClose }: Props) 
   }, [editing, showLibrary, onClose]);
 
   return (
-    <div data-studio className="pointer-events-none fixed inset-0 z-[99998] flex" style={{ fontFamily: "var(--vs-font-sans)" }}>
+    <div
+      className="pointer-events-none fixed inset-0 z-[99998] flex"
+      style={{
+        fontFamily: "var(--vs-font-sans)",
+        // Explicit transparent — the design-token sheet sets a dark
+        // background on [data-studio] which we DON'T want on this overlay
+        // wrapper (it would black out the canvas behind the panel).
+        background: "transparent",
+      }}
+    >
       {/* Docked side panel — no scrim so the canvas stays visible while you
           reorder sections. Click outside the panel does not auto-close
           (intentional: prevents accidental dismiss while interacting with
-          the live page). Use the X button or Esc to close. */}
+          the live page). Use the X button or Esc to close. data-studio is
+          on the aside only so the panel inherits the cinematic tokens. */}
       <aside
+        data-studio
         role="dialog"
         aria-label="Page Builder"
         className="pointer-events-auto ml-auto flex h-full flex-col"
