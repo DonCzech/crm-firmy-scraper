@@ -1,0 +1,168 @@
+/**
+ * Venom Studio — design tokens.
+ *
+ * One source of truth for typography, color, shadow, motion, radius. Applied
+ * via CSS variables so panel components stay terse and visually consistent.
+ * Studio shell carries the `data-studio` attribute that scopes these tokens.
+ */
+[data-studio] {
+  /* ── Color tokens (dark cinematic shell) ─────────────────────────────── */
+  --vs-bg:            #08080a;            /* viewport / canvas backdrop      */
+  --vs-bg-soft:       #0d0d11;            /* secondary background            */
+  --vs-surface:       #121217;            /* panels, cards                   */
+  --vs-surface-2:     #18181f;            /* nested surfaces, hover          */
+  --vs-surface-3:     #1f1f28;            /* active hover, popovers          */
+  --vs-border:        #1f1f28;            /* subtle dividers                 */
+  --vs-border-strong: #2a2a36;            /* strong dividers / inputs        */
+  --vs-text:          #f4f4f7;            /* primary text                    */
+  --vs-text-soft:     #d1d1d9;            /* secondary text                  */
+  --vs-text-muted:    #8a8a96;            /* muted text                      */
+  --vs-text-dim:      #5b5b66;            /* dimmest readable                */
+  --vs-text-disabled: #3a3a44;            /* disabled                        */
+
+  /* Brand + semantic */
+  --vs-accent:        #818cf8;            /* indigo-400 — primary brand      */
+  --vs-accent-hi:     #a5b4fc;            /* indigo-300 — focused/hover      */
+  --vs-accent-bg:     rgba(129,140,248,0.12);
+  --vs-accent-ring:   rgba(129,140,248,0.40);
+  --vs-success:       #34d399;            /* emerald-400                     */
+  --vs-success-bg:    rgba(52,211,153,0.10);
+  --vs-warning:       #fbbf24;            /* amber-400                       */
+  --vs-warning-bg:    rgba(251,191,36,0.10);
+  --vs-danger:        #f87171;            /* red-400                         */
+  --vs-danger-bg:     rgba(248,113,113,0.10);
+  --vs-info:          #60a5fa;            /* blue-400                        */
+  --vs-info-bg:       rgba(96,165,250,0.10);
+
+  /* ── Typography scale ─────────────────────────────────────────────────── */
+  --vs-font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --vs-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --vs-text-2xs:  10px;
+  --vs-text-xs:   11px;
+  --vs-text-sm:   12.5px;
+  --vs-text-base: 13.5px;
+  --vs-text-md:   15px;
+  --vs-text-lg:   18px;
+  --vs-text-xl:   22px;
+  --vs-text-2xl:  28px;
+  --vs-lh-tight:  1.15;
+  --vs-lh-normal: 1.45;
+  --vs-lh-loose:  1.6;
+  --vs-tracking-tight: -0.012em;
+  --vs-tracking-wide:  0.04em;
+  --vs-tracking-wider: 0.08em;
+
+  /* ── Spacing scale (4-pt grid) ───────────────────────────────────────── */
+  --vs-s-0:  0;
+  --vs-s-1:  2px;
+  --vs-s-2:  4px;
+  --vs-s-3:  6px;
+  --vs-s-4:  8px;
+  --vs-s-5:  10px;
+  --vs-s-6:  12px;
+  --vs-s-7:  14px;
+  --vs-s-8:  16px;
+  --vs-s-10: 20px;
+  --vs-s-12: 24px;
+  --vs-s-16: 32px;
+  --vs-s-20: 40px;
+
+  /* ── Radius ───────────────────────────────────────────────────────────── */
+  --vs-r-1: 4px;
+  --vs-r-2: 6px;
+  --vs-r-3: 8px;
+  --vs-r-4: 10px;
+  --vs-r-5: 12px;
+  --vs-r-6: 16px;
+  --vs-r-full: 9999px;
+
+  /* ── Shadows (designed for very dark surfaces) ───────────────────────── */
+  --vs-shadow-sm:
+    0 1px 0 0 rgba(255,255,255,0.04) inset,
+    0 1px 2px rgba(0,0,0,0.45);
+  --vs-shadow-md:
+    0 1px 0 0 rgba(255,255,255,0.04) inset,
+    0 4px 14px rgba(0,0,0,0.50);
+  --vs-shadow-lg:
+    0 1px 0 0 rgba(255,255,255,0.05) inset,
+    0 18px 38px rgba(0,0,0,0.55),
+    0 8px 16px rgba(0,0,0,0.35);
+  --vs-shadow-xl:
+    0 1px 0 0 rgba(255,255,255,0.06) inset,
+    0 30px 70px rgba(0,0,0,0.65),
+    0 14px 28px rgba(0,0,0,0.45);
+  --vs-glow-accent:
+    0 0 0 1px rgba(129,140,248,0.35),
+    0 8px 24px rgba(129,140,248,0.18);
+
+  /* ── Motion ────────────────────────────────────────────────────────────── */
+  --vs-ease-out:    cubic-bezier(0.18, 0.89, 0.32, 1);
+  --vs-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --vs-dur-1: 100ms;   /* hover, tap                 */
+  --vs-dur-2: 180ms;   /* panel slide, transition    */
+  --vs-dur-3: 260ms;   /* modal open                 */
+  --vs-dur-4: 380ms;   /* page-level transitions     */
+
+  /* ── Layout ────────────────────────────────────────────────────────────── */
+  --vs-rail-w:    52px;
+  --vs-panel-w:   296px;
+  --vs-inspector-w: 332px;
+  --vs-topbar-h:  56px;
+
+  font-family: var(--vs-font-sans);
+  font-feature-settings: "cv11", "ss01", "calt";
+  background: var(--vs-bg);
+  color: var(--vs-text);
+}
+
+/* ── Utility classes — minimal, used by primitives ──────────────────────── */
+.vs-focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--vs-bg), 0 0 0 4px var(--vs-accent-ring);
+}
+
+.vs-divider {
+  border-top: 1px solid var(--vs-border);
+}
+
+.vs-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--vs-border-strong) transparent;
+}
+.vs-scroll::-webkit-scrollbar { width: 8px; height: 8px; }
+.vs-scroll::-webkit-scrollbar-track { background: transparent; }
+.vs-scroll::-webkit-scrollbar-thumb {
+  background: var(--vs-border-strong);
+  border-radius: 8px;
+  border: 2px solid var(--vs-bg);
+}
+.vs-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--vs-text-disabled);
+}
+
+/* Soft animated entrance for primary surfaces */
+@keyframes vs-fade-in {
+  from { opacity: 0; transform: translateY(2px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.vs-enter {
+  animation: vs-fade-in var(--vs-dur-3) var(--vs-ease-out);
+}
+
+/* Soft hover lift */
+.vs-lift {
+  transition: transform var(--vs-dur-1) var(--vs-ease-out),
+              box-shadow var(--vs-dur-2) var(--vs-ease-out),
+              background var(--vs-dur-1) var(--vs-ease-out);
+}
+.vs-lift:hover {
+  transform: translateY(-1px);
+}
+
+/* Subtle gradient overlay for hero buttons (used by primary CTA) */
+.vs-grad-accent {
+  background-image: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+}
+.vs-grad-accent:hover {
+  background-image: linear-gradient(135deg, #a5b4fc 0%, #818cf8 100%);
+}

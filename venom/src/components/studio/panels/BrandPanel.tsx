@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Check, Loader2 } from "lucide-react";
+import { Check, Loader2, Building2, Phone, Clock, Share2, Receipt, Search } from "lucide-react";
+import { Input, EmptyState } from "../ui";
 import type { StudioState } from "../TenantStudioView";
 
 /**
@@ -34,6 +35,15 @@ const CATEGORY_LABELS: Record<Category, string> = {
   social: "Sociální sítě",
   company: "Firma",
   seo: "SEO výchozí",
+};
+
+const CATEGORY_ICONS: Record<Category, React.ComponentType<{ className?: string }>> = {
+  brand: Building2,
+  contact: Phone,
+  hours: Clock,
+  social: Share2,
+  company: Receipt,
+  seo: Search,
 };
 
 const CATEGORY_ORDER: Category[] = ["brand", "contact", "hours", "social", "company", "seo"];
@@ -113,54 +123,64 @@ export function BrandPanel({ state }: { state: StudioState }) {
   const fields = grouped[activeCat] ?? [];
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col vs-enter">
       {/* Category tabs */}
-      <div className="flex shrink-0 gap-0.5 border-b border-[#27272a] px-2 py-1.5 overflow-x-auto">
-        {CATEGORY_ORDER.filter((c) => grouped[c].length > 0).map((c) => (
-          <button
-            key={c}
-            type="button"
-            onClick={() => setActiveCat(c)}
-            className={`shrink-0 rounded-md px-2.5 py-1 text-[11px] font-medium transition-colors ${
-              activeCat === c
-                ? "bg-[#27272a] text-white"
-                : "text-[#a1a1aa] hover:bg-[#1f1f22] hover:text-white"
-            }`}
-          >
-            {CATEGORY_LABELS[c]}
-          </button>
-        ))}
-      </div>
+      <nav className="flex shrink-0 gap-0.5 overflow-x-auto border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2 py-2 vs-scroll">
+        {CATEGORY_ORDER.filter((c) => grouped[c].length > 0).map((c) => {
+          const Icon = CATEGORY_ICONS[c];
+          const isActive = activeCat === c;
+          return (
+            <button
+              key={c}
+              type="button"
+              onClick={() => setActiveCat(c)}
+              className={`group inline-flex shrink-0 items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[11px] font-medium tracking-tight transition-[background,color,box-shadow] duration-150 ${
+                isActive
+                  ? "bg-[var(--vs-surface-3)] text-[var(--vs-text)] shadow-[inset_0_0_0_1px_var(--vs-border-strong)]"
+                  : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]"
+              }`}
+            >
+              <Icon className={`h-3 w-3 ${isActive ? "text-[var(--vs-accent-hi)]" : ""}`} />
+              {CATEGORY_LABELS[c]}
+            </button>
+          );
+        })}
+      </nav>
 
       {/* Save indicator */}
-      <div className="flex shrink-0 items-center gap-1.5 border-b border-[#27272a] px-3 py-1.5 text-[10.5px]">
+      <div className="flex shrink-0 items-center gap-1.5 border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-3 py-1.5 text-[10.5px]">
         {saveState === "saving" && (
-          <><Loader2 className="h-3 w-3 animate-spin text-blue-400" /><span className="text-[#a1a1aa]">Ukládám…</span></>
+          <><Loader2 className="h-3 w-3 animate-spin text-[var(--vs-info)]" /><span className="text-[var(--vs-text-muted)]">Ukládám…</span></>
         )}
         {saveState === "saved" && (
-          <><Check className="h-3 w-3 text-green-400" /><span className="text-[#71717a]">Uloženo</span></>
+          <><Check className="h-3 w-3 text-[var(--vs-success)]" /><span className="text-[var(--vs-text-muted)]">Uloženo</span></>
         )}
         {saveState === "error" && (
-          <span className="truncate text-red-400" title={errorMsg ?? undefined}>{errorMsg ?? "Chyba ukládání"}</span>
+          <span className="truncate text-[var(--vs-danger)]" title={errorMsg ?? undefined}>{errorMsg ?? "Chyba ukládání"}</span>
         )}
         {saveState === "idle" && (
-          <span className="text-[#52525b]">Změny se ukládají automaticky.</span>
+          <span className="text-[var(--vs-text-dim)]">Změny se ukládají automaticky.</span>
         )}
       </div>
 
       {/* Fields */}
-      <div className="flex-1 overflow-y-auto p-2">
+      <div className="flex-1 overflow-y-auto vs-scroll p-3">
         {fields.length === 0 ? (
-          <div className="px-2 py-4 text-[11px] text-[#71717a]">Žádná pole v této kategorii.</div>
+          <EmptyState
+            title="Žádná pole"
+            description="V této kategorii nejsou definovaná pole. Vyber jinou kategorii nahoře."
+          />
         ) : (
-          fields.map((def) => (
-            <Field
-              key={def.key}
-              def={def}
-              value={values[def.key] ?? ""}
-              onChange={(v) => setValues((prev) => ({ ...prev, [def.key]: v }))}
-            />
-          ))
+          <div className="space-y-3">
+            {fields.map((def) => (
+              <Field
+                key={def.key}
+                def={def}
+                value={values[def.key] ?? ""}
+                onChange={(v) => setValues((prev) => ({ ...prev, [def.key]: v }))}
+              />
+            ))}
+          </div>
         )}
       </div>
     </div>
@@ -171,26 +191,40 @@ function Field({
   def, value, onChange,
 }: { def: SlotDef; value: string; onChange: (v: string) => void }) {
   const isColor = def.type === "color";
-  return (
-    <label className="mb-2 block px-1">
-      <span className="mb-1 block text-[10.5px] font-medium text-[#a1a1aa]">{def.label}</span>
-      <div className="flex items-center gap-1.5">
-        {isColor && (
+  if (isColor) {
+    return (
+      <div>
+        <label className="mb-1 block text-[10px] font-medium uppercase tracking-[0.08em] text-[var(--vs-text-muted)]">
+          {def.label}
+        </label>
+        <div className="flex items-center gap-2 rounded-md border border-[var(--vs-border-strong)] bg-[var(--vs-bg-soft)] px-2 py-1.5 focus-within:border-[var(--vs-accent)] focus-within:shadow-[0_0_0_3px_var(--vs-accent-bg)]">
+          <span
+            className="inline-block h-6 w-6 shrink-0 rounded ring-1 ring-[var(--vs-border-strong)]"
+            style={{ background: value || "#000" }}
+          />
           <input
             type="color"
             value={value || "#000000"}
             onChange={(e) => onChange(e.target.value)}
-            className="h-7 w-7 shrink-0 cursor-pointer rounded border border-[#27272a] bg-transparent"
+            className="h-6 w-7 shrink-0 cursor-pointer rounded bg-transparent"
           />
-        )}
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder={def.description ?? def.label}
-          className="min-w-0 flex-1 rounded-md border border-[#27272a] bg-[#0f0f10] px-2 py-1.5 text-[12px] text-white placeholder-[#52525b] focus:border-blue-500 focus:outline-none"
-        />
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="#000000"
+            className="min-w-0 flex-1 bg-transparent font-mono text-[11.5px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] outline-none"
+          />
+        </div>
       </div>
-    </label>
+    );
+  }
+  return (
+    <Input
+      label={def.label}
+      value={value}
+      placeholder={def.description ?? def.label}
+      onChange={(e) => onChange(e.target.value)}
+    />
   );
 }
