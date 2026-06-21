@@ -204,11 +204,18 @@ function MenuItem({
 /**
  * SectionFrame — wraps a section, displays a hover/selected ring, and exposes
  * the element to the page-level overlay via a ref callback.
+ *
+ * Hidden sections (admin mode) get a 35% opacity treatment with a corner
+ * "skrytá" badge so the admin can still see, click and restore them.
+ * pulseToken — when changed, triggers a 1s violet glow animation so the
+ * admin sees which section was just jumped to from the page builder.
  */
 export interface SectionFrameProps {
   sectionId: number;
   selected: boolean;
   hover: boolean;
+  hidden?: boolean;
+  pulseToken?: number;
   onSelect: () => void;
   onHover: (h: boolean) => void;
   onMount: (el: HTMLDivElement | null) => void;
@@ -217,10 +224,20 @@ export interface SectionFrameProps {
 }
 
 export function SectionFrame({
-  sectionId, selected, hover, onSelect, onHover, onMount, label, children,
+  sectionId, selected, hover, hidden, pulseToken, onSelect, onHover, onMount, label, children,
 }: SectionFrameProps) {
   const ref = useRef<HTMLDivElement | null>(null);
+  const [pulsing, setPulsing] = useState(false);
+
   useEffect(() => { onMount(ref.current); return () => onMount(null); }, [onMount]);
+
+  // When pulseToken bumps, fire the highlight animation for 1s.
+  useEffect(() => {
+    if (pulseToken === undefined) return;
+    setPulsing(true);
+    const t = setTimeout(() => setPulsing(false), 1100);
+    return () => clearTimeout(t);
+  }, [pulseToken]);
 
   return (
     <div
@@ -228,6 +245,10 @@ export function SectionFrame({
       data-editor-section={sectionId}
       data-studio
       className="relative group"
+      style={{
+        opacity: hidden ? 0.38 : 1,
+        transition: "opacity 220ms cubic-bezier(0.18,0.89,0.32,1)",
+      }}
       onMouseEnter={() => onHover(true)}
       onMouseLeave={() => onHover(false)}
       onClickCapture={(e) => {
@@ -239,7 +260,22 @@ export function SectionFrame({
       }}
     >
       {children}
-      {/* Hover ring */}
+
+      {/* Hidden checkered overlay — visually marks the section as not visible
+          publicly while keeping it interactive in the editor. */}
+      {hidden && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(135deg, rgba(0,0,0,0.06) 0 8px, transparent 8px 16px)",
+            mixBlendMode: "multiply",
+          }}
+        />
+      )}
+
+      {/* Hover/select ring */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 transition-[box-shadow,opacity] duration-150"
@@ -250,8 +286,21 @@ export function SectionFrame({
             : "inset 0 0 0 1.5px rgba(129,140,248,0.55)",
         }}
       />
+
+      {/* Jump-to pulse — animated indigo glow that fades out over 1s */}
+      {pulsing && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            animation: "vs-section-pulse 1100ms cubic-bezier(0.18,0.89,0.32,1) forwards",
+            zIndex: 10,
+          }}
+        />
+      )}
+
       {/* Top-left label badge — appears on hover when not selected */}
-      {hover && !selected && (
+      {hover && !selected && !hidden && (
         <div
           className="vs-enter pointer-events-none absolute left-0 top-0 z-10 inline-flex items-center gap-1 rounded-br-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white"
           style={{ background: "rgba(129,140,248,0.85)" }}
@@ -259,6 +308,30 @@ export function SectionFrame({
           {label}
         </div>
       )}
+
+      {/* "Skrytá" badge — top-right corner when hidden */}
+      {hidden && (
+        <div
+          className="pointer-events-none absolute right-0 top-0 z-10 inline-flex items-center gap-1 rounded-bl-md px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white"
+          style={{
+            background: "linear-gradient(135deg, rgba(251,191,36,0.95) 0%, rgba(217,119,6,0.95) 100%)",
+            boxShadow: "0 4px 12px rgba(217,119,6,0.40)",
+          }}
+        >
+          <EyeOff className="h-2.5 w-2.5" strokeWidth={2.5} />
+          Skrytá
+        </div>
+      )}
+
+      <style>{`
+        @keyframes vs-section-pulse {
+          0%   { box-shadow: inset 0 0 0 0px rgba(129,140,248,0), 0 0 0 0 rgba(129,140,248,0); background: rgba(129,140,248,0); }
+          15%  { box-shadow: inset 0 0 0 4px rgba(129,140,248,0.90), 0 0 32px 8px rgba(129,140,248,0.45); background: rgba(129,140,248,0.18); }
+          60%  { box-shadow: inset 0 0 0 3px rgba(129,140,248,0.55), 0 0 22px 4px rgba(129,140,248,0.25); background: rgba(129,140,248,0.08); }
+          100% { box-shadow: inset 0 0 0 0px rgba(129,140,248,0), 0 0 0 0 rgba(129,140,248,0); background: rgba(129,140,248,0); }
+        }
+      `}</style>
     </div>
   );
 }
+

@@ -16,6 +16,9 @@ interface Props {
   tenantSlug: string;
   onChange: (sections: Section[]) => void;
   onClose: () => void;
+  /** Triggered when a row is clicked — host scrolls the canvas to the
+      section and fires a 1s highlight pulse on the SectionFrame. */
+  onJumpToSection?: (id: number) => void;
 }
 
 const SECTION_LABELS = SECTION_TYPE_LABELS;
@@ -36,7 +39,7 @@ const TYPE_ORDER = [
   "contact", "opening-hours", "map", "products",
 ];
 
-export function PageBuilder({ sections, tenantSlug, onChange, onClose }: Props) {
+export function PageBuilder({ sections, tenantSlug, onChange, onClose, onJumpToSection }: Props) {
   const [editing, setEditing] = useState<Section | null>(null);
   const [showLibrary, setShowLibrary] = useState(false);
   const [libraryFilter, setLibraryFilter] = useState("");
@@ -207,6 +210,7 @@ export function PageBuilder({ sections, tenantSlug, onChange, onClose }: Props) 
             onRemove={remove}
             onOpenLibrary={() => setShowLibrary(true)}
             sorted={sorted}
+            onJumpToSection={onJumpToSection}
           />
         )}
 
@@ -224,7 +228,7 @@ export function PageBuilder({ sections, tenantSlug, onChange, onClose }: Props) 
 }
 
 function PageView({
-  navbar, main, footer, sorted, onMoveUp, onMoveDown, onToggleVisible, onDuplicate, onEdit, onRemove, onOpenLibrary,
+  navbar, main, footer, sorted, onMoveUp, onMoveDown, onToggleVisible, onDuplicate, onEdit, onRemove, onOpenLibrary, onJumpToSection,
 }: {
   navbar: Section[]; main: Section[]; footer: Section[]; sorted: Section[];
   onMoveUp: (id: number) => void;
@@ -234,6 +238,7 @@ function PageView({
   onEdit: (s: Section) => void;
   onRemove: (id: number) => void;
   onOpenLibrary: () => void;
+  onJumpToSection?: (id: number) => void;
 }) {
   return (
     <>
@@ -242,7 +247,13 @@ function PageView({
         {navbar.length > 0 && (
           <Group title="Hlavička" icon={<Lock className="h-3 w-3" />} subtitle="Chráněná sekce">
             {navbar.map(s => (
-              <RowLocked key={s.id} section={s} onToggleVisible={() => onToggleVisible(s.id)} onEdit={() => onEdit(s)} />
+              <RowLocked
+                key={s.id}
+                section={s}
+                onToggleVisible={() => onToggleVisible(s.id)}
+                onEdit={() => onEdit(s)}
+                onJump={onJumpToSection ? () => onJumpToSection(s.id) : undefined}
+              />
             ))}
           </Group>
         )}
@@ -270,6 +281,7 @@ function PageView({
                 onDuplicate={() => onDuplicate(s)}
                 onEdit={() => onEdit(s)}
                 onRemove={() => onRemove(s.id)}
+                onJump={onJumpToSection ? () => onJumpToSection(s.id) : undefined}
               />
             );
           })}
@@ -329,7 +341,7 @@ function Group({ title, subtitle, icon, children }: { title: string; subtitle?: 
 }
 
 function Row({
-  section, canMoveUp, canMoveDown, onMoveUp, onMoveDown, onToggleVisible, onDuplicate, onEdit, onRemove,
+  section, canMoveUp, canMoveDown, onMoveUp, onMoveDown, onToggleVisible, onDuplicate, onEdit, onRemove, onJump,
 }: {
   section: Section;
   canMoveUp: boolean;
@@ -340,6 +352,7 @@ function Row({
   onDuplicate: () => void;
   onEdit: () => void;
   onRemove: () => void;
+  onJump?: () => void;
 }) {
   const label = SECTION_LABELS[section.section_type] ?? section.section_type;
   const typeLabel = TYPE_LABEL[section.section_type] ?? section.section_type;
@@ -358,24 +371,32 @@ function Row({
         </IconBtn>
       </div>
 
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[var(--vs-surface-2)] text-[var(--vs-text-muted)] group-hover:bg-[var(--vs-accent-bg)] group-hover:text-[var(--vs-accent-hi)]">
-        <Layers className="h-4 w-4" strokeWidth={1.75} />
-      </div>
-
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-1.5">
-          <span className="truncate text-[12px] font-medium text-[var(--vs-text)]">{label}</span>
-          <span className="shrink-0 rounded-full bg-[var(--vs-surface-2)] px-1.5 py-px text-[9px] font-medium uppercase tracking-[var(--vs-tracking-wide)] text-[var(--vs-text-muted)]">
-            {typeLabel}
-          </span>
-          {!section.is_visible && (
-            <span className="shrink-0 rounded-full bg-[var(--vs-warning-bg)] px-1.5 py-px text-[9px] font-medium uppercase tracking-[var(--vs-tracking-wide)] text-[var(--vs-warning)]">
-              skrytá
-            </span>
-          )}
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); onJump?.(); }}
+        disabled={!onJump}
+        className="vs-focus-ring flex flex-1 min-w-0 items-center gap-2 rounded-md py-0.5 text-left transition-colors disabled:cursor-default"
+        title={onJump ? "Skočit na sekci v náhledu" : undefined}
+      >
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[var(--vs-surface-2)] text-[var(--vs-text-muted)] group-hover:bg-[var(--vs-accent-bg)] group-hover:text-[var(--vs-accent-hi)]">
+          <Layers className="h-4 w-4" strokeWidth={1.75} />
         </div>
-        <div className="truncate text-[10px] text-[var(--vs-text-dim)]">{section.section_variant}</div>
-      </div>
+
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-1.5">
+            <span className="truncate text-[12px] font-medium text-[var(--vs-text)]">{label}</span>
+            <span className="shrink-0 rounded-full bg-[var(--vs-surface-2)] px-1.5 py-px text-[9px] font-medium uppercase tracking-[var(--vs-tracking-wide)] text-[var(--vs-text-muted)]">
+              {typeLabel}
+            </span>
+            {!section.is_visible && (
+              <span className="shrink-0 rounded-full bg-[var(--vs-warning-bg)] px-1.5 py-px text-[9px] font-medium uppercase tracking-[var(--vs-tracking-wide)] text-[var(--vs-warning)]">
+                skrytá
+              </span>
+            )}
+          </div>
+          <div className="truncate text-[10px] text-[var(--vs-text-dim)]">{section.section_variant}</div>
+        </div>
+      </button>
 
       <div className="flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
         <IconBtn label="Upravit obsah" onClick={onEdit}>
@@ -398,18 +419,26 @@ function Row({
 }
 
 function RowLocked({
-  section, onToggleVisible, onEdit,
-}: { section: Section; onToggleVisible: () => void; onEdit: () => void }) {
+  section, onToggleVisible, onEdit, onJump,
+}: { section: Section; onToggleVisible: () => void; onEdit: () => void; onJump?: () => void }) {
   const label = SECTION_LABELS[section.section_type] ?? section.section_type;
   return (
     <div className={`vs-lift group flex items-center gap-2 rounded-lg border border-[var(--vs-border)] bg-[var(--vs-surface)] px-2 py-2 ${!section.is_visible ? "opacity-55" : ""}`}>
-      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[var(--vs-surface-2)] text-[var(--vs-text-dim)]">
-        <Lock className="h-3.5 w-3.5" strokeWidth={1.75} />
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="truncate text-[12px] font-medium text-[var(--vs-text)]">{label}</div>
-        <div className="truncate text-[10px] text-[var(--vs-text-dim)]">Chráněná sekce (nelze přesunout / smazat)</div>
-      </div>
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); onJump?.(); }}
+        disabled={!onJump}
+        className="vs-focus-ring flex flex-1 min-w-0 items-center gap-2 rounded-md text-left transition-colors disabled:cursor-default"
+        title={onJump ? "Skočit na sekci v náhledu" : undefined}
+      >
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[var(--vs-surface-2)] text-[var(--vs-text-dim)]">
+          <Lock className="h-3.5 w-3.5" strokeWidth={1.75} />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="truncate text-[12px] font-medium text-[var(--vs-text)]">{label}</div>
+          <div className="truncate text-[10px] text-[var(--vs-text-dim)]">Chráněná sekce (nelze přesunout / smazat)</div>
+        </div>
+      </button>
       <div className="flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
         <IconBtn label="Upravit obsah" onClick={onEdit}>
           <Pencil className="h-3.5 w-3.5 text-[var(--vs-accent-hi)]" strokeWidth={1.75} />

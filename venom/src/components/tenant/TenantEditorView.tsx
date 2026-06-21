@@ -141,7 +141,21 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
   const [viewport, setViewport] = useState<"desktop" | "tablet" | "mobile">("desktop");
   const [selectedSectionId, setSelectedSectionId] = useState<number | null>(null);
   const [hoverSectionId, setHoverSectionId] = useState<number | null>(null);
+  const [pulseTokens, setPulseTokens] = useState<Record<number, number>>({});
   const sectionElsRef = useRef<Map<number, HTMLDivElement | null>>(new Map());
+
+  // Scroll the canvas to a given section and trigger a 1s highlight pulse.
+  // Used from PageBuilder rows so the admin sees exactly which section they
+  // clicked on the sidebar.
+  const jumpToSection = useCallback((id: number) => {
+    const el = sectionElsRef.current.get(id);
+    if (!el) return;
+    // Smooth scroll with offset for the top dock
+    const top = el.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top, behavior: "smooth" });
+    setSelectedSectionId(id);
+    setPulseTokens((prev) => ({ ...prev, [id]: (prev[id] ?? 0) + 1 }));
+  }, []);
 
   const collapseBar = useCallback((collapsed: boolean) => {
     setAdminBarCollapsed(collapsed);
@@ -250,15 +264,19 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
 
   const designTokens = sections[0]?.settings?.designTokens as Record<string, string> | undefined;
 
-  const visibleSections = sections.filter((s) => s.is_visible);
-  const hasAsteraHome = visibleSections.some((s) => s.section_type === "astera-home");
-  const hasClonePage = visibleSections.some((s) => s.section_type === "full-page-clone");
+  // In admin mode the editor renders ALL sections, including hidden ones,
+  // so the user can still find them in the canvas, click them, and restore
+  // visibility via the micro-rail. Hidden ones get a "skrytá" overlay + low
+  // opacity treatment below. Visibility is only enforced for the public
+  // page renderer.
+  const hasAsteraHome = sections.some((s) => s.is_visible && s.section_type === "astera-home");
+  const hasClonePage = sections.some((s) => s.is_visible && s.section_type === "full-page-clone");
   // Clone pages use their own contentEditable inline editor injected by ClonedSiteRenderer
   const genericEditorEnabled = !hasAsteraHome && !hasClonePage;
   const editorBarEnabled = true; // always show bottom bar (clone uses its own save UI)
-  const navbarSections = visibleSections.filter((s) => s.section_type === "navbar");
-  const footerSections = visibleSections.filter((s) => s.section_type === "footer");
-  const mainSections = visibleSections.filter(
+  const navbarSections = sections.filter((s) => s.section_type === "navbar" && s.is_visible);
+  const footerSections = sections.filter((s) => s.section_type === "footer" && s.is_visible);
+  const mainSections = sections.filter(
     (s) => s.section_type !== "navbar" && s.section_type !== "footer"
   );
 
@@ -533,6 +551,8 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
                   sectionId={section.id}
                   selected={selectedSectionId === section.id}
                   hover={hoverSectionId === section.id}
+                  hidden={!section.is_visible}
+                  pulseToken={pulseTokens[section.id]}
                   onSelect={() => setSelectedSectionId(section.id)}
                   onHover={(h) => setHoverSectionId(h ? section.id : null)}
                   onMount={setSectionRef(section.id)}
@@ -568,6 +588,7 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
             saveSections(updated);
           }}
           onClose={() => setBuilderOpen(false)}
+          onJumpToSection={jumpToSection}
         />
       )}
       {editorBarEnabled && !hasClonePage && (
