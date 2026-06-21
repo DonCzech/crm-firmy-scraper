@@ -150,9 +150,12 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
   const jumpToSection = useCallback((id: number) => {
     const el = sectionElsRef.current.get(id);
     if (!el) return;
-    // Smooth scroll with offset for the top dock
-    const top = el.getBoundingClientRect().top + window.scrollY - 80;
-    window.scrollTo({ top, behavior: "smooth" });
+    // scrollIntoView honours the wrapper's scroll-margin-top (set on
+    // SectionFrame) so the floating dock never covers the target. block:start
+    // works for navbar + middle sections; for the footer at document bottom
+    // the browser already clamps to max scroll so it appears as low as
+    // possible — exactly the right behaviour.
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
     setSelectedSectionId(id);
     setPulseTokens((prev) => ({ ...prev, [id]: (prev[id] ?? 0) + 1 }));
   }, []);

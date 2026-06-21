@@ -239,6 +239,17 @@ export function SectionFrame({
     return () => clearTimeout(t);
   }, [pulseToken]);
 
+  // outline paints at the box border and is never clipped by children
+  // (unlike inset box-shadow on a sibling overlay, which gets covered when a
+  // section has a full-bleed background, e.g. CTA-hair-01). It also doesn't
+  // take any space in layout, so it doesn't shift section contents.
+  const outline = selected
+    ? "2px solid #818cf8"
+    : hover
+      ? "1.5px solid rgba(129,140,248,0.85)"
+      : "0 solid rgba(129,140,248,0)";
+  const outlineOffset = selected ? "-2px" : hover ? "-1.5px" : "0";
+
   return (
     <div
       ref={(el) => { ref.current = el; }}
@@ -247,7 +258,13 @@ export function SectionFrame({
       className="relative group"
       style={{
         opacity: hidden ? 0.38 : 1,
-        transition: "opacity 220ms cubic-bezier(0.18,0.89,0.32,1)",
+        outline,
+        outlineOffset,
+        // Reserve a little extra room above so scrollIntoView({block:"start"})
+        // honors the floating dock at the top of the viewport.
+        scrollMarginTop: 96,
+        scrollMarginBottom: 32,
+        transition: "opacity 220ms cubic-bezier(0.18,0.89,0.32,1), outline 150ms cubic-bezier(0.18,0.89,0.32,1)",
       }}
       onMouseEnter={() => onHover(true)}
       onMouseLeave={() => onHover(false)}
@@ -271,21 +288,23 @@ export function SectionFrame({
             backgroundImage:
               "repeating-linear-gradient(135deg, rgba(0,0,0,0.06) 0 8px, transparent 8px 16px)",
             mixBlendMode: "multiply",
+            zIndex: 5,
           }}
         />
       )}
 
-      {/* Hover/select ring */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 transition-[box-shadow,opacity] duration-150"
-        style={{
-          opacity: selected ? 1 : hover ? 0.6 : 0,
-          boxShadow: selected
-            ? "inset 0 0 0 2px #818cf8, 0 0 0 0 rgba(0,0,0,0)"
-            : "inset 0 0 0 1.5px rgba(129,140,248,0.55)",
-        }}
-      />
+      {/* Extra inner glow when selected — sits ABOVE child content thanks to
+          z-index so it shows on sections that paint their own backgrounds. */}
+      {selected && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            boxShadow: "inset 0 0 0 1px rgba(129,140,248,0.55), inset 0 0 24px rgba(99,102,241,0.18)",
+            zIndex: 6,
+          }}
+        />
+      )}
 
       {/* Jump-to pulse — animated indigo glow that fades out over 1s */}
       {pulsing && (
