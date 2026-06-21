@@ -10,6 +10,7 @@ import { ContentInspectorTab } from "./inspector/ContentInspectorTab";
 import { StyleInspectorTab } from "./inspector/StyleInspectorTab";
 import { LayoutInspectorTab } from "./inspector/LayoutInspectorTab";
 import { CloneInspector } from "./CloneInspector";
+import { Pill, IconButton } from "./ui";
 import type { StudioState } from "./TenantStudioView";
 
 type Tab = "content" | "style" | "layout";
@@ -22,58 +23,67 @@ export function StudioRightPanel({ state }: { state: StudioState }) {
   const isClonePanel = !!cloneSelected;
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex h-11 items-center gap-2 border-b border-[#27272a] px-3">
+    <div className="flex h-full flex-col vs-enter">
+      <header className="flex h-11 shrink-0 items-center gap-2 border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-3">
         {isClonePanel && cloneSelected ? (
           <>
-            <span className="truncate text-xs font-semibold text-white">{`<${cloneSelected.tag}>`}</span>
-            <span className="truncate text-[10.5px] text-[#71717a]">{cloneSelected.text.slice(0, 24) || cloneSelected.src?.split("/").pop() || ""}</span>
+            <Pill tone="accent" size="xs">{`<${cloneSelected.tag}>`}</Pill>
+            <span className="truncate text-[11px] text-[var(--vs-text-muted)]">
+              {cloneSelected.text.slice(0, 28) || cloneSelected.src?.split("/").pop() || ""}
+            </span>
           </>
         ) : section ? (
           <>
-            <span className="truncate text-xs font-semibold text-white">{getSectionLabel(section.section_type)}</span>
-            <span className="truncate text-[10.5px] text-[#71717a]">#{section.id}</span>
+            <span className="truncate text-[12.5px] font-semibold tracking-tight text-[var(--vs-text)]">
+              {getSectionLabel(section.section_type, section.section_variant)}
+            </span>
+            <Pill tone="neutral" size="xs">#{section.id}</Pill>
           </>
         ) : (
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#a1a1aa]">Inspektor</span>
+          <span className="text-[10.5px] font-semibold uppercase tracking-[var(--vs-tracking-wider)] text-[var(--vs-text-muted)]">
+            Inspektor
+          </span>
         )}
         <div className="ml-auto" />
-        <button
-          type="button"
-          aria-label="Zavřít"
-          title="Zavřít"
+        <IconButton
+          size="xs"
+          label="Zavřít panel"
           onClick={() => studio.setRightPanel(false)}
-          className="rounded p-1 text-[#71717a] hover:bg-[#27272a] hover:text-white"
         >
           <X className="h-3.5 w-3.5" strokeWidth={1.75} />
-        </button>
-      </div>
+        </IconButton>
+      </header>
+
       {isClonePanel && cloneSelected ? (
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto vs-scroll">
           <CloneInspector selected={cloneSelected} />
         </div>
       ) : section ? (
         <>
-          <div className="flex border-b border-[#27272a] bg-[#0f0f10] px-1">
+          <div className="flex shrink-0 border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-1">
             {(["content", "style", "layout"] as Tab[]).map((t) => (
               <button
                 key={t}
                 type="button"
                 onClick={() => setTab(t)}
                 className={clsx(
-                  "relative flex-1 px-2 py-2 text-[11px] font-medium uppercase tracking-wide transition-colors duration-150",
-                  tab === t ? "text-white" : "text-[#71717a] hover:text-[#d4d4d8]"
+                  "relative flex-1 px-2 py-2.5 text-[10.5px] font-semibold uppercase tracking-[var(--vs-tracking-wider)] transition-colors duration-150 vs-focus-ring",
+                  tab === t
+                    ? "text-[var(--vs-text)]"
+                    : "text-[var(--vs-text-muted)] hover:text-[var(--vs-text-soft)]"
                 )}
               >
                 {t === "content" ? "Obsah" : t === "style" ? "Styl" : "Layout"}
-                {tab === t && <span className="absolute inset-x-2 bottom-0 h-0.5 rounded-t bg-blue-500" />}
+                {tab === t && (
+                  <span className="absolute inset-x-2 bottom-0 h-[2px] rounded-t bg-[var(--vs-accent-hi)] shadow-[0_0_8px_var(--vs-accent-ring)]" />
+                )}
               </button>
             ))}
           </div>
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto vs-scroll">
             {tab === "content" && <ContentInspectorTab section={section} state={state} />}
-            {tab === "style" && <StyleInspectorTab section={section} state={state} />}
-            {tab === "layout" && <LayoutInspectorTab section={section} state={state} />}
+            {tab === "style"   && <StyleInspectorTab   section={section} state={state} />}
+            {tab === "layout"  && <LayoutInspectorTab  section={section} state={state} />}
           </div>
         </>
       ) : (

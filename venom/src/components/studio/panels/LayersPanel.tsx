@@ -42,16 +42,16 @@ export function LayersPanel({ state }: { state: StudioState }) {
           className={clsx(
             "flex h-8 cursor-pointer items-center gap-1.5 rounded-md px-1.5 text-xs",
             studio.selectedSectionId === clone.id && !studio.cloneScrollTarget
-              ? "bg-blue-500/10 text-white ring-1 ring-inset ring-blue-500/40"
-              : "text-[#d4d4d8] hover:bg-[#1f1f22]"
+              ? "bg-[var(--vs-accent-bg)] text-[var(--vs-text)] ring-1 ring-inset ring-[var(--vs-accent-ring)]"
+              : "text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)]"
           )}
         >
-          <Layout className="h-3.5 w-3.5 text-zinc-500" />
+          <Layout className="h-3.5 w-3.5 text-[var(--vs-text-muted)]" />
           <span className="truncate flex-1">Celá stránka (klon)</span>
         </div>
         {subLayers.length > 0 && (
           <>
-            <div className="mt-2 mb-1 px-1.5 text-[10px] uppercase tracking-wider text-zinc-500">
+            <div className="mt-2 mb-1 px-1.5 text-[10px] uppercase tracking-wider text-[var(--vs-text-muted)]">
               Sekce ({subLayers.length})
             </div>
             {subLayers.map(sl => (
@@ -98,7 +98,7 @@ export function LayersPanel({ state }: { state: StudioState }) {
       {navbar.map(s => (
         <LockedRow key={s.id} section={s} selected={studio.selectedSectionId === s.id} onSelect={() => studio.setSelection(s.id)} state={state} />
       ))}
-      {navbar.length > 0 && <div className="my-1.5 h-px bg-[#27272a]" />}
+      {navbar.length > 0 && <div className="my-1.5 h-px bg-[var(--vs-surface-3)]" />}
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
         <SortableContext items={middle.map(s => s.id)} strategy={verticalListSortingStrategy}>
           {middle.map(s => (
@@ -112,7 +112,7 @@ export function LayersPanel({ state }: { state: StudioState }) {
           ))}
         </SortableContext>
       </DndContext>
-      {footer.length > 0 && <div className="my-1.5 h-px bg-[#27272a]" />}
+      {footer.length > 0 && <div className="my-1.5 h-px bg-[var(--vs-surface-3)]" />}
       {footer.map(s => (
         <LockedRow key={s.id} section={s} selected={studio.selectedSectionId === s.id} onSelect={() => studio.setSelection(s.id)} state={state} />
       ))}
@@ -130,7 +130,7 @@ function RowInner({
   dragHandle?: React.ReactNode;
 }) {
   const Icon = getSectionIcon(section.section_type);
-  const label = getSectionLabel(section.section_type);
+  const label = getSectionLabel(section.section_type, section.section_variant);
   const [menu, setMenu] = useState(false);
   return (
     <div
@@ -138,12 +138,12 @@ function RowInner({
       className={clsx(
         "group flex h-8 cursor-pointer items-center gap-1.5 rounded-md px-1.5 text-xs transition-colors duration-150",
         selected
-          ? "bg-blue-500/10 text-white ring-1 ring-inset ring-blue-500/40"
-          : "text-[#d4d4d8] hover:bg-[#1f1f22]"
+          ? "bg-[var(--vs-accent-bg)] text-[var(--vs-text)] ring-1 ring-inset ring-[var(--vs-accent-ring)]"
+          : "text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)]"
       )}
     >
       {dragHandle ?? <span className="h-4 w-4" />}
-      <Icon className="h-3.5 w-3.5 shrink-0 text-[#a1a1aa]" strokeWidth={1.75} />
+      <Icon className="h-3.5 w-3.5 shrink-0 text-[var(--vs-text-muted)]" strokeWidth={1.75} />
       <span className="flex-1 truncate">{label}</span>
       <button
         type="button"
@@ -151,8 +151,8 @@ function RowInner({
         title={section.is_visible ? "Skrýt" : "Zobrazit"}
         onClick={(e) => { e.stopPropagation(); void state.patchSection(section.id, { is_visible: !section.is_visible }); }}
         className={clsx(
-          "rounded p-0.5 text-[#71717a] opacity-0 transition-opacity duration-150 group-hover:opacity-100 hover:text-white",
-          !section.is_visible && "opacity-100 text-amber-400"
+          "rounded p-0.5 text-[var(--vs-text-muted)] opacity-0 transition-opacity duration-150 group-hover:opacity-100 hover:text-[var(--vs-text)]",
+          !section.is_visible && "opacity-100 text-[var(--vs-warning)]"
         )}
       >
         {section.is_visible ? <Eye className="h-3.5 w-3.5" strokeWidth={1.75} /> : <EyeOff className="h-3.5 w-3.5" strokeWidth={1.75} />}
@@ -163,23 +163,23 @@ function RowInner({
           aria-label="Více"
           title="Více"
           onClick={(e) => { e.stopPropagation(); setMenu(m => !m); }}
-          className="rounded p-0.5 text-[#71717a] opacity-0 transition-opacity duration-150 group-hover:opacity-100 hover:bg-[#27272a] hover:text-white"
+          className="rounded p-0.5 text-[var(--vs-text-muted)] opacity-0 transition-opacity duration-150 group-hover:opacity-100 hover:bg-[var(--vs-surface-3)] hover:text-[var(--vs-text)]"
         >
           <MoreHorizontal className="h-3.5 w-3.5" strokeWidth={1.75} />
         </button>
         {menu && (
           <>
             <div className="fixed inset-0 z-40" onClick={(e) => { e.stopPropagation(); setMenu(false); }} />
-            <div className="absolute right-0 z-50 mt-1 w-36 rounded-md border border-[#27272a] bg-[#1a1a1c] py-1 text-xs shadow-xl">
+            <div className="absolute right-0 z-50 mt-1 w-36 rounded-md border border-[var(--vs-border)] bg-[var(--vs-surface)] py-1 text-xs shadow-xl">
               <button
                 onClick={(e) => { e.stopPropagation(); setMenu(false); void state.duplicateSection(section.id); }}
-                className="flex w-full items-center gap-2 px-2.5 py-1.5 text-left text-[#d4d4d8] hover:bg-[#27272a]"
+                className="flex w-full items-center gap-2 px-2.5 py-1.5 text-left text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-3)]"
               >
                 <Copy className="h-3.5 w-3.5" strokeWidth={1.75} /> Duplikovat
               </button>
               <button
                 onClick={(e) => { e.stopPropagation(); setMenu(false); void state.deleteSection(section.id); }}
-                className="flex w-full items-center gap-2 px-2.5 py-1.5 text-left text-red-400 hover:bg-[#27272a]"
+                className="flex w-full items-center gap-2 px-2.5 py-1.5 text-left text-[var(--vs-danger)] hover:bg-[var(--vs-surface-3)]"
               >
                 <Trash2 className="h-3.5 w-3.5" strokeWidth={1.75} /> Smazat
               </button>
@@ -216,7 +216,7 @@ function SortableRow(props: { section: Section; selected: boolean; onSelect: () 
             {...listeners}
             type="button"
             aria-label="Přesunout"
-            className="flex h-4 w-4 cursor-grab items-center justify-center text-[#52525b] hover:text-white"
+            className="flex h-4 w-4 cursor-grab items-center justify-center text-[var(--vs-text-dim)] hover:text-[var(--vs-text)]"
             onClick={(e) => e.stopPropagation()}
           >
             <GripVertical className="h-3.5 w-3.5" strokeWidth={1.75} />
@@ -240,13 +240,13 @@ function CloneSubLayerRow({
       className={clsx(
         "flex h-7 cursor-pointer items-center gap-1.5 rounded-md pl-5 pr-1.5 text-xs",
         selected
-          ? "bg-blue-500/10 text-white ring-1 ring-inset ring-blue-500/40"
-          : "text-[#a1a1aa] hover:bg-[#1f1f22] hover:text-white"
+          ? "bg-[var(--vs-accent-bg)] text-[var(--vs-text)] ring-1 ring-inset ring-[var(--vs-accent-ring)]"
+          : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
       )}
     >
-      <LayersIcon className="h-3 w-3 text-zinc-600" />
+      <LayersIcon className="h-3 w-3 text-[var(--vs-text-dim)]" />
       <span className="truncate">{layer.label}</span>
-      <span className="ml-auto text-[10px] text-zinc-600 font-mono">{layer.tag}</span>
+      <span className="ml-auto text-[10px] text-[var(--vs-text-dim)] font-mono">{layer.tag}</span>
     </div>
   );
 }

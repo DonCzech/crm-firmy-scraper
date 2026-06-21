@@ -134,14 +134,14 @@ export function AssetsPanel({ state }: { state: StudioState }) {
   return (
     <div className="flex h-full flex-col">
       {/* Slot selector + dropzone */}
-      <div className="shrink-0 border-b border-[#27272a] p-2">
-        <label className="mb-1 block text-[10px] font-medium uppercase tracking-wide text-[#a1a1aa]">
+      <div className="shrink-0 border-b border-[var(--vs-border)] p-2">
+        <label className="mb-1 block text-[10px] font-medium uppercase tracking-wide text-[var(--vs-text-muted)]">
           Typ obrázku
         </label>
         <select
           value={slot}
           onChange={(e) => setSlot(e.target.value)}
-          className="mb-2 h-7 w-full rounded border border-[#27272a] bg-[#0f0f10] px-2 text-[11px] text-white focus:border-blue-500 focus:outline-none"
+          className="mb-2 h-7 w-full rounded border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2 text-[11px] text-[var(--vs-text)] focus:border-[var(--vs-accent)] focus:outline-none"
         >
           {SLOTS.map((s) => (
             <option key={s.key} value={s.key}>
@@ -157,8 +157,8 @@ export function AssetsPanel({ state }: { state: StudioState }) {
           onClick={() => fileInputRef.current?.click()}
           className={`flex cursor-pointer flex-col items-center justify-center gap-1 rounded-md border-2 border-dashed py-4 text-[10.5px] transition-colors ${
             dragOver
-              ? "border-blue-500 bg-blue-500/10 text-blue-300"
-              : "border-[#3f3f46] text-[#71717a] hover:border-blue-500/50 hover:text-white"
+              ? "border-[var(--vs-accent)] bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)]"
+              : "border-[var(--vs-border-strong)] text-[var(--vs-text-muted)] hover:border-[var(--vs-accent-ring)] hover:text-[var(--vs-text)]"
           }`}
         >
           {uploading ? (
@@ -167,7 +167,7 @@ export function AssetsPanel({ state }: { state: StudioState }) {
             <>
               <Upload className="h-4 w-4" />
               <span>Přetáhni nebo klikni</span>
-              <span className="text-[9.5px] text-[#52525b]">
+              <span className="text-[9.5px] text-[var(--vs-text-dim)]">
                 Konverze: WebP {slotMeta.width}×{slotMeta.height} {slotMeta.fit}
               </span>
             </>
@@ -185,20 +185,20 @@ export function AssetsPanel({ state }: { state: StudioState }) {
         />
 
         {error && (
-          <div className="mt-1.5 rounded bg-red-500/10 px-2 py-1 text-[10px] text-red-300">{error}</div>
+          <div className="mt-1.5 rounded bg-[var(--vs-danger-bg)] px-2 py-1 text-[10px] text-[var(--vs-danger)]">{error}</div>
         )}
       </div>
 
       {/* Search */}
-      <div className="shrink-0 border-b border-[#27272a] p-2">
+      <div className="shrink-0 border-b border-[var(--vs-border)] p-2">
         <div className="relative">
-          <Search className="pointer-events-none absolute left-2 top-1/2 h-3 w-3 -translate-y-1/2 text-[#52525b]" />
+          <Search className="pointer-events-none absolute left-2 top-1/2 h-3 w-3 -translate-y-1/2 text-[var(--vs-text-dim)]" />
           <input
             type="text"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
             placeholder="Hledat…"
-            className="w-full rounded border border-[#27272a] bg-[#0f0f10] py-1 pl-6 pr-2 text-[11px] text-white placeholder-[#52525b] focus:border-blue-500 focus:outline-none"
+            className="w-full rounded border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] py-1 pl-6 pr-2 text-[11px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none"
           />
         </div>
       </div>
@@ -206,16 +206,16 @@ export function AssetsPanel({ state }: { state: StudioState }) {
       {/* Items */}
       <div className="flex-1 overflow-y-auto">
         {filtered === null ? (
-          <div className="p-3 text-[11px] text-[#71717a]">Načítám…</div>
+          <div className="p-3 text-[11px] text-[var(--vs-text-muted)]">Načítám…</div>
         ) : filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center px-4 py-10 text-center">
-            <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[#1a1a1c] text-[#52525b]">
+            <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[var(--vs-surface)] text-[var(--vs-text-dim)]">
               <ImageIcon className="h-4 w-4" strokeWidth={1.75} />
             </div>
-            <div className="text-[11px] font-medium text-[#d4d4d8]">
+            <div className="text-[11px] font-medium text-[var(--vs-text-soft)]">
               {items?.length === 0 ? "Žádné obrázky" : "Nic nenalezeno"}
             </div>
-            <p className="mt-1 max-w-[200px] text-[10.5px] leading-relaxed text-[#71717a]">
+            <p className="mt-1 max-w-[200px] text-[10.5px] leading-relaxed text-[var(--vs-text-muted)]">
               {items?.length === 0
                 ? "Nahraj první obrázek pomocí pole nahoře."
                 : "Zkus jiné vyhledávání."}
@@ -224,7 +224,7 @@ export function AssetsPanel({ state }: { state: StudioState }) {
         ) : (
           <div className="grid grid-cols-2 gap-1.5 p-2">
             {filtered.map((it, idx) => (
-              <div key={idx} className="group relative aspect-square overflow-hidden rounded-md border border-[#27272a] bg-[#1a1a1c]">
+              <div key={idx} className="group relative aspect-square overflow-hidden rounded-md border border-[var(--vs-border)] bg-[var(--vs-surface)]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={it.url} alt="" className="h-full w-full object-cover" />
                 <button
@@ -234,17 +234,17 @@ export function AssetsPanel({ state }: { state: StudioState }) {
                   title="Kopírovat URL"
                 >
                   {copiedUrl === it.url ? (
-                    <span className="inline-flex items-center gap-1 text-[10.5px] font-medium text-emerald-300">
+                    <span className="inline-flex items-center gap-1 text-[10.5px] font-medium text-[var(--vs-success)]">
                       <Check className="h-3 w-3" /> Zkopírováno
                     </span>
                   ) : (
-                    <span className="inline-flex items-center gap-1 text-[10.5px] font-medium text-white">
+                    <span className="inline-flex items-center gap-1 text-[10.5px] font-medium text-[var(--vs-text)]">
                       <Copy className="h-3 w-3" /> Kopírovat URL
                     </span>
                   )}
                 </button>
                 {(it.width || it.height) && (
-                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-1.5 py-1 text-[9px] text-white opacity-0 group-hover:opacity-100">
+                  <div className="pointer-events-none absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-1.5 py-1 text-[9px] text-[var(--vs-text)] opacity-0 group-hover:opacity-100">
                     {it.width}×{it.height}
                   </div>
                 )}
@@ -254,7 +254,7 @@ export function AssetsPanel({ state }: { state: StudioState }) {
         )}
       </div>
 
-      <div className="shrink-0 border-t border-[#27272a] px-3 py-1.5 text-[10.5px] text-[#52525b]">
+      <div className="shrink-0 border-t border-[var(--vs-border)] px-3 py-1.5 text-[10.5px] text-[var(--vs-text-dim)]">
         {filtered === null ? "…" : `${filtered.length} ${filtered.length === 1 ? "obrázek" : filtered.length < 5 ? "obrázky" : "obrázků"}`}
       </div>
     </div>

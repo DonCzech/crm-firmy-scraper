@@ -176,14 +176,14 @@ export function ContentInspectorTab({ section, state }: { section: Section; stat
   return (
     <div className="space-y-4 p-3">
       {isV2 && hasOverrides && (
-        <div className="flex items-center justify-between gap-2 rounded-md border border-blue-500/30 bg-blue-500/5 px-2.5 py-1.5">
-          <span className="text-[10.5px] text-blue-300">
+        <div className="flex items-center justify-between gap-2 rounded-md border border-[var(--vs-accent-ring)] bg-[var(--vs-accent-bg)] px-2.5 py-1.5">
+          <span className="text-[10.5px] text-[var(--vs-accent-hi)]">
             {modifiedPaths.size} {modifiedPaths.size === 1 ? "úprava" : modifiedPaths.size < 5 ? "úpravy" : "úprav"} vs šablona
           </span>
           <button
             type="button"
             onClick={resetSection}
-            className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10.5px] text-blue-300 hover:bg-blue-500/15"
+            className="inline-flex items-center gap-1 rounded px-1.5 py-0.5 text-[10.5px] text-[var(--vs-accent-hi)] hover:bg-[var(--vs-accent-bg)]"
             title="Vrátit sekci na výchozí stav šablony"
           >
             <RotateCcw className="h-3 w-3" strokeWidth={2} />
@@ -193,7 +193,7 @@ export function ContentInspectorTab({ section, state }: { section: Section; stat
       )}
 
       {scalarEntries.length === 0 && !arrayDef && (
-        <p className="px-1 text-[11px] text-[#71717a]">
+        <p className="px-1 text-[11px] text-[var(--vs-text-muted)]">
           Tento typ sekce upravuj klikáním přímo v náhledu.
         </p>
       )}
@@ -234,7 +234,7 @@ function Field({
   useEffect(() => { setLocal(value); }, [value]);
   return (
     <label className="block">
-      <span className="mb-1 flex items-center gap-1.5 text-[10.5px] font-medium uppercase tracking-wide text-[#a1a1aa]">
+      <span className="mb-1 flex items-center gap-1.5 text-[10.5px] font-medium uppercase tracking-wide text-[var(--vs-text-muted)]">
         {label}
         {isModified && (
           <span
@@ -249,7 +249,7 @@ function Field({
           onChange={(e) => setLocal(e.target.value)}
           onBlur={() => local !== value && onChange(local)}
           rows={3}
-          className="w-full resize-none rounded-md border border-[#27272a] bg-[#0f0f10] px-2.5 py-2 text-xs text-white placeholder-[#52525b] outline-none transition-colors focus:border-blue-500"
+          className="w-full resize-none rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2.5 py-2 text-xs text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] outline-none transition-colors focus:border-[var(--vs-accent)]"
         />
       ) : (
         <input
@@ -257,7 +257,7 @@ function Field({
           value={local}
           onChange={(e) => setLocal(e.target.value)}
           onBlur={() => local !== value && onChange(local)}
-          className="h-8 w-full rounded-md border border-[#27272a] bg-[#0f0f10] px-2.5 text-xs text-white placeholder-[#52525b] outline-none transition-colors focus:border-blue-500"
+          className="h-8 w-full rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2.5 text-xs text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] outline-none transition-colors focus:border-[var(--vs-accent)]"
         />
       )}
     </label>
@@ -287,25 +287,25 @@ function ArraySection({
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-[10.5px] font-medium uppercase tracking-wide text-[#a1a1aa]">Položky</span>
-        <span className="text-[10.5px] text-[#52525b]">{items.length}</span>
+        <span className="text-[10.5px] font-medium uppercase tracking-wide text-[var(--vs-text-muted)]">Položky</span>
+        <span className="text-[10.5px] text-[var(--vs-text-dim)]">{items.length}</span>
       </div>
       <div className="space-y-1.5">
         {items.map((item, i) => {
           const open = expanded === i;
           const label = String(item[itemLabelKey] ?? `Položka ${i + 1}`);
           return (
-            <div key={i} className="overflow-hidden rounded-md border border-[#27272a] bg-[#0f0f10]">
+            <div key={i} className="overflow-hidden rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
               <button
                 type="button"
                 onClick={() => setExpanded(open ? null : i)}
-                className="flex w-full items-center gap-1.5 px-2 py-1.5 text-left text-xs text-white hover:bg-[#1a1a1c]"
+                className="flex w-full items-center gap-1.5 px-2 py-1.5 text-left text-xs text-[var(--vs-text)] hover:bg-[var(--vs-surface)]"
               >
-                {open ? <ChevronDown className="h-3.5 w-3.5 text-[#71717a]" strokeWidth={1.75} /> : <ChevronRight className="h-3.5 w-3.5 text-[#71717a]" strokeWidth={1.75} />}
+                {open ? <ChevronDown className="h-3.5 w-3.5 text-[var(--vs-text-muted)]" strokeWidth={1.75} /> : <ChevronRight className="h-3.5 w-3.5 text-[var(--vs-text-muted)]" strokeWidth={1.75} />}
                 <span className="flex-1 truncate">{label}</span>
               </button>
               {open && (
-                <div className="space-y-2 border-t border-[#27272a] p-2">
+                <div className="space-y-2 border-t border-[var(--vs-border)] p-2">
                   {fields.map((f) => (
                     <Field
                       key={f.key}
@@ -318,7 +318,7 @@ function ArraySection({
                       }}
                     />
                   ))}
-                  <div className="flex items-center justify-end gap-1 border-t border-[#27272a] pt-2">
+                  <div className="flex items-center justify-end gap-1 border-t border-[var(--vs-border)] pt-2">
                     <ItemBtn
                       label="Nahoru"
                       disabled={i === 0}
@@ -367,7 +367,7 @@ function ArraySection({
           commit([...items, blank]);
           setExpanded(items.length);
         }}
-        className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-md border border-dashed border-[#3f3f46] py-2 text-xs text-[#a1a1aa] hover:border-blue-500/50 hover:text-white"
+        className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-md border border-dashed border-[var(--vs-border-strong)] py-2 text-xs text-[var(--vs-text-muted)] hover:border-[var(--vs-accent-ring)] hover:text-[var(--vs-text)]"
       >
         <Plus className="h-3.5 w-3.5" strokeWidth={1.75} /> Přidat položku
       </button>
@@ -383,7 +383,7 @@ function ItemBtn({ children, label, onClick, disabled, danger }: { children: Rea
       title={label}
       onClick={onClick}
       disabled={disabled}
-      className={`inline-flex h-6 w-6 items-center justify-center rounded text-[#a1a1aa] hover:bg-[#27272a] ${danger ? "hover:text-red-400" : "hover:text-white"} disabled:opacity-30 disabled:hover:bg-transparent`}
+      className={`inline-flex h-6 w-6 items-center justify-center rounded text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-3)] ${danger ? "hover:text-[var(--vs-danger)]" : "hover:text-[var(--vs-text)]"} disabled:opacity-30 disabled:hover:bg-transparent`}
     >
       {children}
     </button>
