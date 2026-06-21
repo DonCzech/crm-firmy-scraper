@@ -422,6 +422,18 @@ export async function initDb(): Promise<void> {
     -- F1: template version cache key + publish timestamp
     ALTER TABLE template_versions ADD COLUMN IF NOT EXISTS checksum TEXT;
     ALTER TABLE template_versions ADD COLUMN IF NOT EXISTS published_at TIMESTAMPTZ DEFAULT now();
+
+    -- Phase 3 review queue: daily 3-template QA workflow
+    ALTER TABLE templates ADD COLUMN IF NOT EXISTS review_status TEXT DEFAULT 'pending';
+    ALTER TABLE templates ADD COLUMN IF NOT EXISTS review_notes TEXT;
+    ALTER TABLE templates ADD COLUMN IF NOT EXISTS reviewed_at TIMESTAMPTZ;
+    ALTER TABLE templates ADD COLUMN IF NOT EXISTS reviewer_email TEXT;
+    ALTER TABLE templates ADD COLUMN IF NOT EXISTS assigned_date DATE;
+    ALTER TABLE templates ADD COLUMN IF NOT EXISTS review_checklist JSONB DEFAULT '{}';
+    ALTER TABLE templates ADD COLUMN IF NOT EXISTS last_perf_score INTEGER;
+    ALTER TABLE templates ADD COLUMN IF NOT EXISTS last_perf_at TIMESTAMPTZ;
+    ALTER TABLE templates ADD COLUMN IF NOT EXISTS last_residue_count INTEGER;
+    ALTER TABLE templates ADD COLUMN IF NOT EXISTS last_residue_at TIMESTAMPTZ;
   `);
 
   await pool.query(`

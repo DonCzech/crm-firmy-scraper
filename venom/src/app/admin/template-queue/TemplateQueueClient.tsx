@@ -1,0 +1,306 @@
+"use client";
+
+import { useEffect, useState, useMemo, useCallback } from "react";
+import Link from "next/link";
+import {
+  Calendar, Plus, CheckCircle2, AlertTriangle, Clock, ChevronRight,
+  Search, RefreshCw, ExternalLink,
+} from "lucide-react";
+
+interface TemplateRow {
+  id: number;
+  key: string;
+  name: string;
+  industry: string;
+  current_version: string;
+  status: string;
+  review_status: "pending" | "reviewed" | "approved" | "blocked";
+  review_notes: string | null;
+  reviewed_at: string | null;
+  reviewer_email: string | null;
+  assigned_date: string | null;
+  review_checklist: Record<string, unknown> | null;
+  last_perf_score: number | null;
+  last_perf_at: string | null;
+  last_residue_count: number | null;
+  last_residue_at: string | null;
+  v2_tenant_count: number;
+}
+
+interface Stats {
+  pending: number;
+  reviewed: number;
+  approved: number;
+  blocked: number;
+  total: number;
+}
+
+function todayISO() { return new Date().toISOString().slice(0, 10); }
+
+export function TemplateQueueClient() {
+  const [view, setView] = useState<"today" | "backlog" | "approved">("today");
+  const [items, setItems] = useState<TemplateRow[]>([]);
+  const [stats, setStats] = useState<Stats | null>(null);
+  const [date, setDate] = useState(todayISO());
+  const [filter, setFilter] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [assigning, setAssigning] = useState(false);
+
+  const reload = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const params = new URLSearchParams();
+      if (view === "today")    params.set("date", date);
+      if (view === "backlog")  params.set("all", "1");
+      if (view === "approved") params.set("status", "approved");
+      const res = await fetch(`/api/admin/template-queue?${params.toString()}`, { cache: "no-store" });
+      if (!res.ok) {
+        if (res.status === 401) { window.location.href = "/admin/login?next=/admin/template-queue"; return; }
+        throw new Error(`HTTP ${res.status}`);
+      }
+      const json = await res.json();
+      setItems(json.items ?? []);
+      setStats(json.stats ?? null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Načtení selhalo");
+    } finally {
+      setLoading(false);
+    }
+  }, [view, date]);
+
+  useEffect(() => { void reload(); }, [reload]);
+
+  async function assignToday() {
+    setAssigning(true);
+    try {
+      const res = await fetch("/api/admin/template-queue", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ date, count: 3 }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      await reload();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Přiřazení selhalo");
+    } finally {
+      setAssigning(false);
+    }
+  }
+
+  const filtered = useMemo(() => {
+    const f = filter.trim().toLowerCase();
+    if (!f) return items;
+    return items.filter((r) => r.key.includes(f) || r.name.toLowerCase().includes(f) || r.industry.includes(f));
+  }, [items, filter]);
+
+  return (
+    <div className="px-6 py-5 text-gray-100">
+      {/* Header */}
+      <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">Review fronta šablon</h1>
+          <p className="mt-0.5 text-sm text-gray-400">
+            Denní QA workflow — 3 šablony / den, kontrola obsahu, obrázků, editoru a perf.
+          </p>
+        </div>
+        <button
+          onClick={reload}
+          className="inline-flex items-center gap-1.5 rounded-md border border-gray-700 bg-gray-900 px-3 py-1.5 text-xs text-gray-300 hover:bg-gray-800"
+        >
+          <RefreshCw className="h-3.5 w-3.5" /> Obnovit
+        </button>
+      </div>
+
+      {/* Stats */}
+      {stats && (
+        <div className="mb-5 grid grid-cols-2 gap-3 md:grid-cols-5">
+          <StatCard label="Čeká"      value={stats.pending}  color="amber"  Icon={Clock} />
+          <StatCard label="V review"  value={stats.reviewed} color="blue"   Icon={Calendar} />
+          <StatCard label="Schváleno" value={stats.approved} color="emerald" Icon={CheckCircle2} />
+          <StatCard label="Blokováno" value={stats.blocked}  color="red"    Icon={AlertTriangle} />
+          <StatCard label="Celkem"    value={stats.total}    color="gray"   Icon={Calendar} />
+        </div>
+      )}
+
+      {/* Tabs + filter */}
+      <div className="mb-4 flex flex-wrap items-center gap-3 border-b border-gray-800 pb-3">
+        <div className="flex gap-1 rounded-md bg-gray-900 p-0.5">
+          <Tab active={view === "today"} onClick={() => setView("today")}>Dnes ({stats?.reviewed ?? 0})</Tab>
+          <Tab active={view === "backlog"} onClick={() => setView("backlog")}>Backlog</Tab>
+          <Tab active={view === "approved"} onClick={() => setView("approved")}>Schválené ({stats?.approved ?? 0})</Tab>
+        </div>
+
+        {view === "today" && (
+          <>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="rounded-md border border-gray-700 bg-gray-900 px-2.5 py-1.5 text-xs text-white focus:border-indigo-500 focus:outline-none"
+            />
+            <button
+              onClick={assignToday}
+              disabled={assigning}
+              className="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-indigo-500 disabled:opacity-60"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              {assigning ? "Přiřazuji…" : "Auto-přiřadit 3"}
+            </button>
+          </>
+        )}
+
+        {(view === "backlog" || view === "approved") && (
+          <div className="relative flex-1 max-w-xs">
+            <Search className="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-500" />
+            <input
+              type="text"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              placeholder="Hledat (key, name, industry)…"
+              className="w-full rounded-md border border-gray-700 bg-gray-900 py-1.5 pl-7 pr-2 text-xs text-white placeholder-gray-500 focus:border-indigo-500 focus:outline-none"
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Content */}
+      {error && (
+        <div className="mb-3 rounded-md border border-red-500/40 bg-red-500/10 p-3 text-sm text-red-300">
+          {error}
+        </div>
+      )}
+
+      {loading ? (
+        <div className="py-10 text-center text-sm text-gray-500">Načítám…</div>
+      ) : filtered.length === 0 ? (
+        <div className="rounded-md border border-dashed border-gray-700 px-6 py-10 text-center">
+          {view === "today" && (
+            <>
+              <Calendar className="mx-auto mb-2 h-8 w-8 text-gray-600" />
+              <p className="text-sm text-gray-400">
+                Žádné šablony přiřazené na {date}.
+                Klikni na <strong className="text-white">Auto-přiřadit 3</strong> pro dnešní review.
+              </p>
+            </>
+          )}
+          {view !== "today" && (
+            <p className="text-sm text-gray-400">Žádné šablony neodpovídají filtru.</p>
+          )}
+        </div>
+      ) : (
+        <div className="space-y-2">
+          {filtered.map((row) => (
+            <TemplateRow key={row.id} row={row} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StatCard({
+  label, value, color, Icon,
+}: { label: string; value: number; color: "amber" | "blue" | "emerald" | "red" | "gray"; Icon: React.ComponentType<{ className?: string }> }) {
+  const colors = {
+    amber:   "border-amber-500/30 bg-amber-500/5 text-amber-300",
+    blue:    "border-blue-500/30 bg-blue-500/5 text-blue-300",
+    emerald: "border-emerald-500/30 bg-emerald-500/5 text-emerald-300",
+    red:     "border-red-500/30 bg-red-500/5 text-red-300",
+    gray:    "border-gray-700 bg-gray-900 text-gray-300",
+  };
+  return (
+    <div className={`flex items-center gap-2.5 rounded-md border px-3 py-2 ${colors[color]}`}>
+      <Icon className="h-4 w-4 shrink-0" />
+      <div className="min-w-0">
+        <div className="text-[10.5px] uppercase tracking-wide opacity-80">{label}</div>
+        <div className="text-xl font-bold">{value}</div>
+      </div>
+    </div>
+  );
+}
+
+function Tab({
+  active, onClick, children,
+}: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`rounded px-3 py-1.5 text-xs font-medium transition-colors ${
+        active ? "bg-gray-800 text-white" : "text-gray-400 hover:bg-gray-800/60 hover:text-white"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function StatusPill({ status }: { status: TemplateRow["review_status"] }) {
+  const map = {
+    pending:  { label: "Čeká",       color: "border-amber-500/40 bg-amber-500/10 text-amber-300" },
+    reviewed: { label: "V review",   color: "border-blue-500/40 bg-blue-500/10 text-blue-300" },
+    approved: { label: "Schváleno",  color: "border-emerald-500/40 bg-emerald-500/10 text-emerald-300" },
+    blocked:  { label: "Blokováno",  color: "border-red-500/40 bg-red-500/10 text-red-300" },
+  };
+  const s = map[status] ?? map.pending;
+  return (
+    <span className={`inline-flex items-center rounded border px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide ${s.color}`}>
+      {s.label}
+    </span>
+  );
+}
+
+function TemplateRow({ row }: { row: TemplateRow }) {
+  const perfColor =
+    row.last_perf_score == null ? "text-gray-500"
+    : row.last_perf_score >= 90 ? "text-emerald-400"
+    : row.last_perf_score >= 70 ? "text-amber-400"
+    : "text-red-400";
+
+  return (
+    <Link
+      href={`/admin/template-queue/${row.key}`}
+      className="group flex items-center gap-3 rounded-md border border-gray-800 bg-gray-900 px-3 py-2.5 transition-colors hover:border-indigo-500/50 hover:bg-gray-800/70"
+    >
+      <div
+        className="h-10 w-16 shrink-0 rounded bg-cover bg-center"
+        style={{
+          backgroundImage: `url(/templates/${row.key}/preview.png)`,
+          backgroundColor: "#1a1a1c",
+        }}
+      />
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2">
+          <span className="truncate text-sm font-medium text-white">{row.name}</span>
+          <StatusPill status={row.review_status} />
+        </div>
+        <div className="mt-0.5 text-[11px] text-gray-400">
+          <code className="rounded bg-gray-800 px-1 py-0.5 text-[10px] text-gray-300">{row.key}</code>
+          {" · "}{row.industry}
+          {row.v2_tenant_count > 0 && (
+            <span className="ml-1.5 text-emerald-400">· {row.v2_tenant_count} v2 tenants</span>
+          )}
+        </div>
+      </div>
+      <div className="hidden gap-3 text-[10.5px] sm:flex">
+        <div className="text-right">
+          <div className="text-gray-500">Perf</div>
+          <div className={`font-mono font-bold ${perfColor}`}>
+            {row.last_perf_score ?? "—"}
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="text-gray-500">Rezidua</div>
+          <div className={`font-mono font-bold ${
+            row.last_residue_count == null ? "text-gray-500" :
+            row.last_residue_count === 0 ? "text-emerald-400" : "text-red-400"
+          }`}>
+            {row.last_residue_count ?? "—"}
+          </div>
+        </div>
+      </div>
+      <ChevronRight className="h-4 w-4 text-gray-500 group-hover:text-white" />
+    </Link>
+  );
+}
