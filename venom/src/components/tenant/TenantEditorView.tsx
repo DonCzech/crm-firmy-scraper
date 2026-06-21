@@ -4,10 +4,34 @@ import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { SectionRenderer } from "./SectionRenderer";
 import { PageBuilder } from "./PageBuilder";
 import { TrialBanner } from "./TrialBanner";
+import { EditorDock, EditorCollapsedTab, type DrawerKey } from "./editor/EditorDock";
+import { EditorDrawer } from "./editor/EditorDrawer";
+import { SectionFrame, ElementMicroRail } from "./editor/EditorElementOverlay";
 import type { Tenant, Page, Section, TenantOverride } from "@/lib/db";
 import type { SiteContent } from "@/lib/content-types";
 import { applyOverrides } from "@/lib/overrides";
 import { GenericInlineEditorProvider, type GenericHighlightChange, type GenericTextStyle } from "./GenericInlineEditorContext";
+
+const SECTION_LABELS: Record<string, string> = {
+  navbar: "Navigace",
+  hero: "Hero",
+  services: "Služby",
+  pricing: "Ceník",
+  testimonials: "Recenze",
+  gallery: "Galerie",
+  contact: "Kontakt",
+  "opening-hours": "Otevírací doba",
+  faq: "Časté dotazy",
+  cta: "CTA",
+  team: "Tým",
+  about: "O nás",
+  "blog-preview": "Blog",
+  map: "Mapa",
+  promo: "Promo",
+  stats: "Statistiky",
+  products: "Produkty",
+  footer: "Patička",
+};
 
 interface Props {
   tenant: Tenant;
@@ -112,9 +136,106 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
   const [builderOpen, setBuilderOpen] = useState(false);
   const [adminBarCollapsed, setAdminBarCollapsed] = useState(false);
 
+  // Editor surface state — drawer + section selection
+  const [drawerOpen, setDrawerOpen] = useState<DrawerKey | null>(null);
+  const [viewport, setViewport] = useState<"desktop" | "tablet" | "mobile">("desktop");
+  const [selectedSectionId, setSelectedSectionId] = useState<number | null>(null);
+  const [hoverSectionId, setHoverSectionId] = useState<number | null>(null);
+  const sectionElsRef = useRef<Map<number, HTMLDivElement | null>>(new Map());
+
   const collapseBar = useCallback((collapsed: boolean) => {
     setAdminBarCollapsed(collapsed);
   }, []);
+
+  // Section action handlers — move up/down, duplicate, hide, delete
+  const moveSection = useCallback((id: number, dir: -1 | 1) => {
+    setSections((prev) => {
+      const sorted = [...prev].sort((a, b) => a.order_index - b.order_index);
+      const idx = sorted.findIndex((s) => s.id === id);
+      const next = idx + dir;
+      if (idx < 0 || next < 0 || next >= sorted.length) return prev;
+      // Don't move around navbar / footer singletons
+      if (sorted[next].section_type === "navbar" || sorted[next].section_type === "footer") return prev;
+      [sorted[idx].order_index, sorted[next].order_index] = [sorted[next].order_index, sorted[idx].order_index];
+      const updated = prev.map((s) => sorted.find((x) => x.id === s.id) ?? s);
+      void fetch(`/api/demo/${tenant.slug}/sections`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sections: updated }),
+      });
+      return updated;
+    });
+  }, [tenant.slug]);
+
+  const toggleSectionVisible = useCallback((id: number) => {
+    setSections((prev) => {
+      const updated = prev.map((s) => s.id === id ? { ...s, is_visible: !s.is_visible } : s);
+      void fetch(`/api/demo/${tenant.slug}/sections/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_visible: updated.find((s) => s.id === id)?.is_visible ?? true }),
+      });
+      return updated;
+    });
+  }, [tenant.slug]);
+
+  const duplicateSection = useCallback(async (id: number) => {
+    const src = sections.find((s) => s.id === id);
+    if (!src) return;
+    const newOrder = Math.max(...sections.map((s) => s.order_index)) + 1;
+    const res = await fetch(`/api/demo/${tenant.slug}/sections`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sections: [
+          ...sections,
+          { ...src, id: -Date.now(), order_index: newOrder },
+        ],
+      }),
+    });
+    if (res.ok) {
+      const data = await res.json().catch(() => ({}));
+      // Server returns idMap for temp ids; just reload sections
+      if (data.idMap) {
+        const map = data.idMap as Record<string, number>;
+        const tempId = String(-Date.now());
+        const realId = map[tempId] ?? Math.max(...sections.map((s) => s.id)) + 1;
+        setSections((prev) => [
+          ...prev,
+          { ...src, id: realId, order_index: newOrder },
+        ]);
+      }
+    }
+  }, [sections, tenant.slug]);
+
+  const deleteSection = useCallback(async (id: number) => {
+    if (!window.confirm("Smazat tuto sekci? Tato akce nelze vrátit zpět z UI.")) return;
+    await fetch(`/api/demo/${tenant.slug}/sections/${id}`, { method: "DELETE" });
+    setSections((prev) => prev.filter((s) => s.id !== id));
+    if (selectedSectionId === id) setSelectedSectionId(null);
+  }, [tenant.slug, selectedSectionId]);
+
+  const setSectionRef = useCallback((id: number) => (el: HTMLDivElement | null) => {
+    sectionElsRef.current.set(id, el);
+  }, []);
+
+  const selectedSection = useMemo(() => sections.find((s) => s.id === selectedSectionId) ?? null, [sections, selectedSectionId]);
+  const selectedEl = selectedSectionId != null ? sectionElsRef.current.get(selectedSectionId) ?? null : null;
+  const selectedMeta = useMemo(() => {
+    if (!selectedSection) return null;
+    const sorted = [...sections].sort((a, b) => a.order_index - b.order_index);
+    const idx = sorted.findIndex((s) => s.id === selectedSection.id);
+    const prev = sorted[idx - 1];
+    const next = sorted[idx + 1];
+    return {
+      id: selectedSection.id,
+      type: selectedSection.section_type,
+      label: SECTION_LABELS[selectedSection.section_type] ?? selectedSection.section_type,
+      visible: selectedSection.is_visible,
+      canMoveUp:   !!prev && prev.section_type !== "navbar",
+      canMoveDown: !!next && next.section_type !== "footer",
+    };
+  }, [selectedSection, sections]);
 
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -339,110 +460,45 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
         transition: "padding-right 0.3s ease",
       } as React.CSSProperties}
     >
-      {/* Admin top bar */}
+      {/* Editor dock — replaces the legacy pill bar with a compact floating
+          top dock and side-drawer system. Uses our cinematic design tokens. */}
       {adminBarCollapsed ? (
-        <button
-          type="button"
-          onClick={() => collapseBar(false)}
-          className="fixed right-0 top-24 z-[99999] rounded-l-lg bg-gray-900/95 px-2.5 py-4 text-xs font-semibold text-white shadow-2xl backdrop-blur transition hover:bg-gray-800"
-          title="Vysunout editor"
-          aria-label="Vysunout editor"
-        >
-          <span className="block [writing-mode:vertical-rl]">Editor</span>
-        </button>
+        <EditorCollapsedTab onExpand={() => collapseBar(false)} />
       ) : (
-      <div className="fixed right-3 top-3 z-[99999] flex max-w-[calc(100vw-24px)] flex-wrap items-center justify-end gap-3 rounded-lg bg-gray-900/95 px-3 py-2 text-sm text-white shadow-2xl backdrop-blur" style={{ fontFamily: "system-ui, -apple-system, sans-serif", textTransform: "none", letterSpacing: "normal", lineHeight: "normal" }}>
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => collapseBar(true)}
-            className="rounded bg-white/10 px-2 py-1 text-xs font-semibold hover:bg-white/20"
-            style={{ textTransform: "none", letterSpacing: "normal", fontFamily: "inherit" }}
-            title="Zasunout editor do pravého boku"
-            aria-label="Zasunout editor do pravého boku"
-          >
-            → Zasunout
-          </button>
-          <span className="font-semibold">Editor</span>
-          <span className="text-gray-400">{tenant.slug}</span>
-        </div>
-        <div className="flex flex-wrap items-center justify-end gap-2">
-          {saving && <span className="text-yellow-400">Ukládám…</span>}
-          {saved && <span className="text-green-400">Uloženo ✓</span>}
-          <a
-            href={`/demo/${tenant.slug}/admin/blog`}
-            className="px-3 py-1 bg-gray-700 rounded text-xs hover:bg-gray-600"
-            style={{ textTransform: "none", letterSpacing: "normal", fontFamily: "inherit" }}
-          >
-            Blog
-          </a>
-          <a
-            href={`/demo/${tenant.slug}/admin/seo`}
-            className="px-3 py-1 bg-gray-700 rounded text-xs hover:bg-gray-600"
-            style={{ textTransform: "none", letterSpacing: "normal", fontFamily: "inherit" }}
-          >
-            SEO
-          </a>
-          <a
-            href={`/demo/${tenant.slug}/admin/contact`}
-            className="px-3 py-1 bg-gray-700 rounded text-xs hover:bg-gray-600"
-            style={{ textTransform: "none", letterSpacing: "normal", fontFamily: "inherit" }}
-          >
-            Zprávy
-          </a>
-          <a
-            href={`/demo/${tenant.slug}/admin/analytics`}
-            className="px-3 py-1 bg-gray-700 rounded text-xs hover:bg-gray-600"
-            style={{ textTransform: "none", letterSpacing: "normal", fontFamily: "inherit" }}
-          >
-            Analytics
-          </a>
-          <a
-            href={`/demo/${tenant.slug}/admin/modules`}
-            className="px-3 py-1 bg-gray-700 rounded text-xs hover:bg-gray-600"
-            style={{ textTransform: "none", letterSpacing: "normal", fontFamily: "inherit" }}
-          >
-            Moduly
-          </a>
-          <a
-            href={`/demo/${tenant.slug}/admin/revisions`}
-            className="px-3 py-1 bg-gray-700 rounded text-xs hover:bg-gray-600"
-            style={{ textTransform: "none", letterSpacing: "normal", fontFamily: "inherit" }}
-          >
-            Verze
-          </a>
-          <a
-            href={`/demo/${tenant.slug}/admin/audit`}
-            className="px-3 py-1 bg-gray-700 rounded text-xs hover:bg-gray-600"
-            style={{ textTransform: "none", letterSpacing: "normal", fontFamily: "inherit" }}
-          >
-            Audit
-          </a>
-          <a
-            href={`/demo/${tenant.slug}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-3 py-1 bg-gray-700 rounded text-xs hover:bg-gray-600"
-            style={{ textTransform: "none", letterSpacing: "normal", fontFamily: "inherit" }}
-          >
-            Náhled ↗
-          </a>
-          <a
-            href="/account/dashboard"
-            className="px-3 py-1 bg-violet-700 rounded text-xs hover:bg-violet-600"
-            style={{ textTransform: "none", letterSpacing: "normal", fontFamily: "inherit" }}
-          >
-            Můj účet
-          </a>
-          <button
-            onClick={() => setBuilderOpen(!builderOpen)}
-            className="px-3 py-1 bg-indigo-600 rounded text-xs hover:bg-indigo-700"
-            style={{ textTransform: "none", letterSpacing: "normal", fontFamily: "inherit" }}
-          >
-            {builderOpen ? "Zavřít builder" : "Page Builder"}
-          </button>
-        </div>
-      </div>
+        <EditorDock
+          tenantSlug={tenant.slug}
+          saveStatus={saving ? "saving" : saved ? "saved" : "idle"}
+          canUndo={historyRef.current.length > 0}
+          canRedo={redoRef.current.length > 0}
+          onUndo={() => { /* wired by inline editor */ }}
+          onRedo={() => { /* wired by inline editor */ }}
+          onFlushSave={() => void saveSections(sections)}
+          viewport={viewport}
+          onViewportChange={setViewport}
+          builderOpen={builderOpen}
+          onToggleBuilder={() => setBuilderOpen((o) => !o)}
+          onOpenDrawer={(k) => setDrawerOpen(k)}
+          onCollapse={() => collapseBar(true)}
+        />
+      )}
+
+      <EditorDrawer
+        open={drawerOpen}
+        tenantSlug={tenant.slug}
+        onClose={() => setDrawerOpen(null)}
+      />
+
+      {/* Floating element micro-rail (selection + action buttons) */}
+      {selectedMeta && (
+        <ElementMicroRail
+          target={selectedEl}
+          section={selectedMeta}
+          onMoveUp={() => moveSection(selectedMeta.id, -1)}
+          onMoveDown={() => moveSection(selectedMeta.id, 1)}
+          onDuplicate={() => void duplicateSection(selectedMeta.id)}
+          onToggleVisible={() => toggleSectionVisible(selectedMeta.id)}
+          onDelete={() => void deleteSection(selectedMeta.id)}
+        />
       )}
 
       <TrialBanner tenantSlug={tenant.slug} />
@@ -453,18 +509,34 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
           <SectionRenderer section={navbarSections[0]} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
         )}
 
-        {/* Main sections */}
-        <main>
+        {/* Main sections — wrapped in SectionFrame so the editor overlay can
+            attach selection ring + micro-rail. Hover/click activates the
+            element actions on the floating dock. */}
+        <main onClickCapture={(e) => {
+          // Click outside any frame deselects
+          const t = e.target as HTMLElement;
+          if (!t.closest("[data-editor-section]")) setSelectedSectionId(null);
+        }}>
           {mainSections.map((section) => {
             const baseContent = (section.settings?.content ?? {}) as Record<string, unknown>;
             const overriddenContent = applyOverrides(baseContent, overrides, section.id);
             const patchedSection = overriddenContent !== baseContent
               ? { ...section, settings: { ...section.settings, content: overriddenContent } }
               : section;
+            const label = SECTION_LABELS[section.section_type] ?? section.section_type;
             return (
-              <div key={section.id} className="relative group">
+              <SectionFrame
+                key={section.id}
+                sectionId={section.id}
+                selected={selectedSectionId === section.id}
+                hover={hoverSectionId === section.id}
+                onSelect={() => setSelectedSectionId(section.id)}
+                onHover={(h) => setHoverSectionId(h ? section.id : null)}
+                onMount={setSectionRef(section.id)}
+                label={label}
+              >
                 <SectionRenderer section={patchedSection} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
-              </div>
+              </SectionFrame>
             );
           })}
         </main>
