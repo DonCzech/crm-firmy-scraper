@@ -122,11 +122,18 @@ async function main() {
       params.push(FILTER);
       where += ` AND t.slug LIKE $${params.length}`;
     }
+    // Always exclude tenants whose sections include legacy clone/astera renderers —
+    // those have no template_versions match and would break.
     tenantsRes = await pool.query(
       `SELECT DISTINCT t.id, t.slug, t.template_id, t.template_version
          FROM tenants t
          JOIN sections s ON s.tenant_id = t.id
         WHERE ${where}
+          AND NOT EXISTS (
+            SELECT 1 FROM sections s2
+             WHERE s2.tenant_id = t.id
+               AND s2.section_type IN ('full-page-clone', 'astera-home')
+          )
         ORDER BY t.id
         ${LIMIT > 0 ? `LIMIT ${LIMIT}` : ""}`,
       params
