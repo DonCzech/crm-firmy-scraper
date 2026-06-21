@@ -502,76 +502,60 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
 
       <TrialBanner tenantSlug={tenant.slug} />
 
-      {/* Viewport-clamping wrapper — when tablet/mobile is selected the tenant
-          page is clamped to a fixed width and centered, with the surrounding
-          area dimmed so the admin sees how the layout looks at that size. */}
-      <div
-        style={{
-          paddingTop: viewport === "desktop" ? "0" : "72px",
-          paddingBottom: viewport === "desktop" ? "0" : "32px",
-          background: viewport === "desktop" ? "transparent" : "var(--vs-bg)",
-          minHeight: viewport === "desktop" ? "auto" : "100vh",
-          transition: "padding 0.32s var(--vs-ease-out, cubic-bezier(0.18,0.89,0.32,1)), background 0.32s",
-        }}
-      >
-        <div
-          data-viewport={viewport}
-          style={{
-            width: viewport === "desktop" ? "100%" : viewport === "tablet" ? "768px" : "390px",
-            maxWidth: "100%",
-            margin: viewport === "desktop" ? "0" : "0 auto",
-            background: viewport === "desktop" ? "transparent" : (designTokens?.colorBackground ?? "#ffffff"),
-            boxShadow: viewport === "desktop"
-              ? "none"
-              : "0 24px 60px rgba(0,0,0,0.55), 0 8px 18px rgba(0,0,0,0.30), 0 0 0 1px var(--vs-border-strong, rgba(255,255,255,0.06))",
-            borderRadius: viewport === "desktop" ? 0 : 18,
-            overflow: viewport === "desktop" ? "visible" : "hidden",
-            transition: "width 0.32s var(--vs-ease-out, cubic-bezier(0.18,0.89,0.32,1)), border-radius 0.32s, box-shadow 0.32s",
-          }}
-        >
-        {/* Navbar — singleton */}
-        {navbarSections.length > 0 && (
-          <SectionRenderer section={navbarSections[0]} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
-        )}
+      {/* Viewport — desktop renders the live editable DOM (so admins can click
+          sections, edit text inline, use the micro-rail). Tablet/mobile render
+          the public page inside an iframe at the chosen pixel width, so the
+          browser's own media queries respond accurately and you see the real
+          mobile layout — not the desktop layout squashed into 390px. */}
+      {viewport === "desktop" ? (
+        <div>
+          {/* Navbar — singleton */}
+          {navbarSections.length > 0 && (
+            <SectionRenderer section={navbarSections[0]} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
+          )}
 
-        {/* Main sections — wrapped in SectionFrame so the editor overlay can
-            attach selection ring + micro-rail. Hover/click activates the
-            element actions on the floating dock. */}
-        <main onClickCapture={(e) => {
-          // Click outside any frame deselects
-          const t = e.target as HTMLElement;
-          if (!t.closest("[data-editor-section]")) setSelectedSectionId(null);
-        }}>
-          {mainSections.map((section) => {
-            const baseContent = (section.settings?.content ?? {}) as Record<string, unknown>;
-            const overriddenContent = applyOverrides(baseContent, overrides, section.id);
-            const patchedSection = overriddenContent !== baseContent
-              ? { ...section, settings: { ...section.settings, content: overriddenContent } }
-              : section;
-            const label = SECTION_LABELS[section.section_type] ?? section.section_type;
-            return (
-              <SectionFrame
-                key={section.id}
-                sectionId={section.id}
-                selected={selectedSectionId === section.id}
-                hover={hoverSectionId === section.id}
-                onSelect={() => setSelectedSectionId(section.id)}
-                onHover={(h) => setHoverSectionId(h ? section.id : null)}
-                onMount={setSectionRef(section.id)}
-                label={label}
-              >
-                <SectionRenderer section={patchedSection} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
-              </SectionFrame>
-            );
-          })}
-        </main>
+          {/* Main sections — wrapped in SectionFrame so the editor overlay can
+              attach selection ring + micro-rail. */}
+          <main onClickCapture={(e) => {
+            const t = e.target as HTMLElement;
+            if (!t.closest("[data-editor-section]")) setSelectedSectionId(null);
+          }}>
+            {mainSections.map((section) => {
+              const baseContent = (section.settings?.content ?? {}) as Record<string, unknown>;
+              const overriddenContent = applyOverrides(baseContent, overrides, section.id);
+              const patchedSection = overriddenContent !== baseContent
+                ? { ...section, settings: { ...section.settings, content: overriddenContent } }
+                : section;
+              const label = SECTION_LABELS[section.section_type] ?? section.section_type;
+              return (
+                <SectionFrame
+                  key={section.id}
+                  sectionId={section.id}
+                  selected={selectedSectionId === section.id}
+                  hover={hoverSectionId === section.id}
+                  onSelect={() => setSelectedSectionId(section.id)}
+                  onHover={(h) => setHoverSectionId(h ? section.id : null)}
+                  onMount={setSectionRef(section.id)}
+                  label={label}
+                >
+                  <SectionRenderer section={patchedSection} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
+                </SectionFrame>
+              );
+            })}
+          </main>
 
-        {/* Footer — singleton */}
-        {footerSections.length > 0 && (
-          <SectionRenderer section={footerSections[0]} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
-        )}
+          {/* Footer — singleton */}
+          {footerSections.length > 0 && (
+            <SectionRenderer section={footerSections[0]} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
+          )}
         </div>
-      </div>
+      ) : (
+        <ViewportPreviewFrame
+          tenantSlug={tenant.slug}
+          viewport={viewport}
+          fallbackBg={designTokens?.colorBackground ?? "#ffffff"}
+        />
+      )}
 
       {/* Page Builder panel */}
       {builderOpen && (
@@ -599,5 +583,132 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
       )}
     </div>
     </GenericInlineEditorProvider>
+  );
+}
+
+/**
+ * ViewportPreviewFrame — renders the public tenant page inside a fixed-width
+ * iframe so the browser's own media queries fire at the simulated width.
+ * Adds a device chrome (notch / status bar / soft buttons) for tactile
+ * fidelity, dimmed surround with a vignette, and a small caption underneath.
+ */
+function ViewportPreviewFrame({
+  tenantSlug, viewport, fallbackBg,
+}: { tenantSlug: string; viewport: "tablet" | "mobile"; fallbackBg: string }) {
+  const isMobile = viewport === "mobile";
+  const width  = isMobile ? 390  : 820;
+  const height = isMobile ? 844  : 1180;
+  const radius = isMobile ? 38   : 22;
+  const bezel  = isMobile ? 10   : 14;
+
+  return (
+    <div
+      data-studio
+      style={{
+        minHeight: "100vh",
+        background:
+          "radial-gradient(1200px 600px at 50% 0%, rgba(99,102,241,0.06), transparent 60%), var(--vs-bg)",
+        paddingTop: 96,
+        paddingBottom: 64,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 16,
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          width,
+          height,
+          background: "#000",
+          borderRadius: radius,
+          padding: bezel,
+          boxShadow:
+            "0 32px 80px rgba(0,0,0,0.65), 0 12px 28px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.04), inset 0 0 0 1px rgba(255,255,255,0.06)",
+          transition: "width 0.32s cubic-bezier(0.18,0.89,0.32,1), height 0.32s cubic-bezier(0.18,0.89,0.32,1), border-radius 0.32s",
+        }}
+      >
+        {/* Device chrome: notch for mobile, top speaker for tablet */}
+        {isMobile ? (
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              top: bezel + 6,
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: 110,
+              height: 28,
+              background: "#000",
+              borderRadius: 18,
+              zIndex: 2,
+            }}
+          />
+        ) : (
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              top: bezel + 4,
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: 48,
+              height: 4,
+              background: "rgba(255,255,255,0.18)",
+              borderRadius: 2,
+              zIndex: 2,
+            }}
+          />
+        )}
+
+        {/* Screen */}
+        <iframe
+          key={viewport}
+          src={`/demo/${tenantSlug}?_v=${viewport}`}
+          title={`Náhled ${viewport}`}
+          style={{
+            width: "100%",
+            height: "100%",
+            border: 0,
+            background: fallbackBg,
+            borderRadius: radius - bezel,
+            display: "block",
+          }}
+        />
+
+        {/* Bottom home indicator (mobile only) */}
+        {isMobile && (
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              bottom: bezel + 6,
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: 130,
+              height: 4,
+              background: "rgba(255,255,255,0.55)",
+              borderRadius: 2,
+              zIndex: 2,
+            }}
+          />
+        )}
+      </div>
+
+      <div
+        style={{
+          textAlign: "center",
+          color: "var(--vs-text-muted, #8a8a96)",
+          fontSize: 11,
+          fontFamily: "var(--vs-font-sans, Inter, sans-serif)",
+          letterSpacing: "0.04em",
+          textTransform: "uppercase",
+        }}
+      >
+        {isMobile ? `${width} × ${height} px · iPhone-class` : `${width} × ${height} px · iPad-class`}
+        <span style={{ marginLeft: 10, opacity: 0.7 }}>· editace v Desktop módu</span>
+      </div>
+    </div>
   );
 }

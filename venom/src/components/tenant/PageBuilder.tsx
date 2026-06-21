@@ -122,12 +122,13 @@ export function PageBuilder({ sections, tenantSlug, onChange, onClose }: Props) 
         role="dialog"
         aria-modal
         aria-label="Page Builder"
-        className="ml-auto flex h-full flex-col"
+        className="relative ml-auto flex h-full flex-col"
         style={{
           width: "min(420px, 92vw)",
           background: "var(--vs-bg)",
           boxShadow: "var(--vs-shadow-xl), -1px 0 0 0 var(--vs-border-strong)",
           animation: "vs-pb-in 320ms var(--vs-ease-out)",
+          zIndex: 1,
         }}
       >
         <style>{`@keyframes vs-pb-in {
