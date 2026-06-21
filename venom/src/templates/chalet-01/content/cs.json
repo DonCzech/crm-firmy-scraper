@@ -1,0 +1,142 @@
+{
+  "navbar": {
+    "siteName": "Bouda Sněžné Údolí",
+    "logoUrl": "/templates/chalet-01/logo.svg",
+    "tagline": "Exkluzivní pronájem horské boudy ve Špindlerově Mlýně",
+    "phone": "+420 776 543 210",
+    "email": "rezervace@snezneudoli.cz",
+    "location": "Špindlerův Mlýn, Krkonoše",
+    "instagram": "https://instagram.com/snezneudoli",
+    "facebook": "https://facebook.com/snezneudoli",
+    "youtube": "https://youtube.com/@snezneudoli",
+    "links": [
+      { "label": "Ubytování",       "href": "#ubytovani" },
+      { "label": "Ceník",           "href": "#cenik"     },
+      { "label": "Galerie",         "href": "#galerie"   },
+      { "label": "Rezervace",       "href": "#rezervace" },
+      { "label": "Pro firmy",       "href": "#firmy"     },
+      { "label": "Aktivity v okolí","href": "#aktivity"  },
+      { "label": "Pobyty & Skupiny","href": "#skupiny"   },
+      { "label": "Kontakt",         "href": "#kontakt"   }
+    ]
+  },
+  "hero": {
+    "title": "Pronájem horské boudy Sněžné Údolí ve Špindlerově Mlýně",
+    "subtitle": "Bouda Sněžné Údolí — exkluzivní chalet pro až 18 hostů přímo u sjezdovky v srdci Krkonoš",
+    "ctaText": "Více o ubytování",
+    "ctaHref": "#ubytovani",
+    "cta2Text": "Rezervace",
+    "cta2Href": "#rezervace",
+    "phone": "+420 776 543 210",
+    "slides": [
+      {
+        "url": "/assets/chalet-01/2bf48740a3-chalet-milada-slide-06.jpg",
+        "alt": "Bouda Sněžné Údolí v zimě"
+      },
+      {
+        "url": "/assets/chalet-01/3bee5ffb5e-chalet-milada-slide-07.jpg",
+        "alt": "Výhled z boudy na zasněžené hřebeny"
+      }
+    ]
+  },
+  "about": {
+    "kicker": "Vítejte ve Špindlerově Mlýně",
+    "title": "Horská bouda pro 18 hostů s přímým výhledem na Krkonošský hřeben",
+    "body": "Bouda Sněžné Údolí je luxusní horský objekt k pronájmu ve Špindlerově Mlýně, otevřený v prosinci 2023. Nabízí výjimečné ubytování pro rodiny, party přátel i firemní týmy hledající soukromí, komfort a nezapomenutelnou atmosféru hor. Objekt disponuje šesti ložnicemi, prostorným obývákem s krbem, plně vybavenou kuchyní a panoramatickou terasou s výhledem na hřeben.",
+    "note": "Bouda je k dispozici k pronájmu po celý rok — lyžařská sezona, letní turistika, Vánoce i Silvestr.",
+    "ctaText": "Prohlédnout prostory",
+    "ctaHref": "#galerie",
+    "image": "/assets/chalet-01/c71ad76d9e-ADR_Milada_Mala_Upa_BoysPlayNice_01-9ca458d5.jpeg"
+  },
+  "amenities": {
+    "title": "Vybavení a služby",
+    "services": [],
+    "items": [
+      {
+        "name": "Ubytování",
+        "title": "Ubytování",
+        "description": "Šest ložnic pro až 18 hostů",
+        "icon": "home"
+      },
+      {
+        "name": "Wellness",
+        "title": "Wellness",
+        "description": "Privátní sauna s horskou vůní",
+        "icon": "spa"
+      },
+      {
+        "name": "Ski-in & Ski-out",
+        "title": "Ski-in & Ski-out",
+        "description": "Lyže na nohách, sjezdovka u dveří",
+        "icon": "ski"
+      },
+      {
+        "name": "Krb",
+        "title": "Krb",
+        "description": "Krbová kamna pro útulné večery",
+        "icon": "fire"
+      },
+      {
+        "name": "Kuchyně",
+        "title": "Kuchyně",
+        "description": "Profesionálně vybavená kuchyně",
+        "icon": "fork"
+      },
+      {
+        "name": "Cykloturistika",
+        "title": "Cykloturistika",
+        "description": "Úschovna kol a elektrokol",
+        "icon": "bike"
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Fotogalerie",
+    "subtitle": "Nahlédněte do interiéru i exteriéru boudy Sněžné Údolí",
+    "images": [
+      { "url": "/assets/chalet-01/c71ad76d9e-ADR_Milada_Mala_Upa_BoysPlayNice_01-9ca458d5.jpeg", "alt": "Bouda Sněžné Údolí — pohled zvenčí" },
+      { "url": "/assets/chalet-01/1b4fa2c2c7-Milada-panorama-cffce9f3.jpeg", "alt": "Panoramatický výhled na hřeben" },
+      { "url": "/assets/chalet-01/710a60e0aa-chalet-milada-slide-12-fde31c30.jpeg", "alt": "Zasněžená bouda v zimní krajině" },
+      { "url": "/assets/chalet-01/2d97f1b81e-IMG_2410_HDR_obyvak_1_aa-4fb09c59.jpeg", "alt": "Prostorný obývací pokoj" },
+      { "url": "/assets/chalet-01/b4b63e4a98-IMG_2461_HDR_krb_4_aa-95d9cbb2.jpeg", "alt": "Krbová kamna v obýváku" },
+      { "url": "/assets/chalet-01/dff014bc66-IMG_0048_HDR_sauna_2_a-56004b25.jpeg", "alt": "Privátní finská sauna" },
+      { "url": "/assets/chalet-01/607e43f13e-Milada-dalsi-2-chaty-s-vlekem-4413a325.jpeg", "alt": "Bouda a okolní sjezdovky" },
+      { "url": "/assets/chalet-01/54537378d8-IMG_2419_HDR-ddb96f6b.jpeg", "alt": "Moderní plně vybavená kuchyně" }
+    ]
+  },
+  "activities": {
+    "kicker": "Špindlerův Mlýn žije celý rok",
+    "title": "Zima i léto plné dobrodružství",
+    "body": "Špindlerův Mlýn je jedním z nejprestižnějších středisek Krkonoš s vynikající lyžařskou infrastrukturou — přes 25 km sjezdovek, moderní lanovky a servis na světové úrovni. V zimě si vychutnáte přímý přístup na svahy, v létě pak stovky kilometrů turistických a cyklistických tras s úchvatnými výhledy na hřeben.",
+    "body2": "Po náročném dni na horách se vraťte do tepla boudy, kde vás čeká privátní sauna, krb a pohoda v kruhu těch nejbližších. Večer si zajděte do některé z vyhlášených špindlerovských restaurací nebo si připravte vlastní jídlo v naší profesionálně vybavené kuchyni.",
+    "ctaText": "Tipy na výlety",
+    "ctaHref": "#aktivity",
+    "image": "/assets/chalet-01/8840279044-Milada-panorama.jpg"
+  },
+  "cta": {
+    "title": "Rezervujte si svůj pobyt v horách",
+    "subtitle": "Bouda Sněžné Údolí čeká na vás a vaše blízké. Naplňte ji smíchem, dobrodružstvím a vzpomínkami, které nezapomenete.",
+    "ctaText": "Zjistit dostupnost termínů",
+    "ctaHref": "#rezervace",
+    "phone": "+420 776 543 210",
+    "email": "rezervace@snezneudoli.cz"
+  },
+  "footer": {
+    "siteName": "Bouda Sněžné Údolí",
+    "tagline": "Exkluzivní pronájem horské boudy ve Špindlerově Mlýně",
+    "address": "Horská 42, 543 51 Špindlerův Mlýn",
+    "phone": "+420 776 543 210",
+    "email": "rezervace@snezneudoli.cz",
+    "web": "https://snezneudoli.cz",
+    "facebook": "https://facebook.com/snezneudoli",
+    "instagram": "https://instagram.com/snezneudoli",
+    "copyright": "© 2025 Bouda Sněžné Údolí. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "Ubytování",        "href": "#ubytovani" },
+      { "label": "Ceník",            "href": "#cenik"     },
+      { "label": "Galerie",          "href": "#galerie"   },
+      { "label": "Aktivity v okolí", "href": "#aktivity"  },
+      { "label": "Kontakt",          "href": "#kontakt"   }
+    ]
+  }
+}

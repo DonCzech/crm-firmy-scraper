@@ -1,0 +1,149 @@
+{
+  "navbar": {
+    "siteName": "Cukrárna Eliška",
+    "logoUrl": "/templates/sweet-01/logo.svg",
+    "links": [
+      { "label": "Pobočky",    "href": "/pobocky" },
+      { "label": "O nás",      "href": "/o-nas" },
+      { "label": "Kariéra",    "href": "#kariera" },
+      { "label": "Kontakt",    "href": "/kontakt" }
+    ],
+    "ctaText": "Objednat online",
+    "ctaHref": "#objednat",
+    "phone": "704 123 456",
+    "email": "email@demo.cz"
+  },
+  "hero": {
+    "title": "Sladké chvíle začínají tady",
+    "subtitle": "Ručně vyráběné dezerty, čerstvé croissanty a domácí limonády každý den",
+    "ctaText": "Prohlédnout nabídku",
+    "ctaHref": "#nabidka",
+    "bgImage": "/assets/sweet-01/797fa4da98-showcase.jpg"
+  },
+  "usp": {
+    "title": "Co nás odlišuje",
+    "items": [
+      {
+        "icon": "bake",
+        "title": "Vlastní výroba denně",
+        "body": "Každé ráno pečeme čerstvě od základu. Žádné polotovary, žádné kompromisy."
+      },
+      {
+        "icon": "fresh",
+        "title": "Lokální ingredience",
+        "body": "Spolupracujeme s farmáři z okolí. Máslo, vejce i ovoce pocházejí od prověřených dodavatelů."
+      },
+      {
+        "icon": "clock",
+        "title": "Otevřeno každý den",
+        "body": "Sedm dní v týdnu, od rána do večera. Protože chuť na dobrý zákusek nepočká."
+      }
+    ]
+  },
+  "about": {
+    "kicker": "NÁŠ PŘÍBĚH",
+    "title": "Cukrárna s duší rodinné tradice",
+    "body": "Cukrárna Eliška vznikla z lásky k poctivému řemeslu. Každý dort, každý koláček a každá pralinká se u nás vyrábí ručně podle receptur, které se v rodině předávají už přes čtyřicet let.\n\nVěříme, že správný dezert dokáže proměnit obyčejný den v nezapomenutelný. Přijďte si k nám sednout, dát si kávu a dopřát si chvíli jen pro sebe.",
+    "ctaText": "Více o nás",
+    "ctaHref": "/o-nas",
+    "image": "/assets/sweet-01/e25354119e-ochutnejte.jpg",
+    "imageAlt": "Výroba dortů v cukrárně Eliška"
+  },
+  "products": {
+    "kicker": "CO NABÍZÍME",
+    "title": "Něco dobrého pro každého",
+    "services": [
+      {
+        "name": "Dorty na objednávku",
+        "description": "Navrhneme a upečeme dort přesně podle vašich přání — na narozeniny, svatbu nebo firemní akci.",
+        "image": "/assets/sweet-01/5dd36fab10-rozvoz_maly.jpg",
+        "imageAlt": "Dort na objednávku",
+        "ctaText": "Objednat dort",
+        "ctaHref": "#objednat"
+      },
+      {
+        "name": "Věrnostní program",
+        "description": "Za každý nákup sbíráte body. Po dosažení 100 bodů získáte dezert zdarma nebo slevu na příští objednávku.",
+        "image": "/assets/sweet-01/f4947cd77d-usetrete_v3.jpg",
+        "imageAlt": "Věrnostní karta",
+        "ctaText": "Jak to funguje",
+        "ctaHref": "#vernostni-program"
+      },
+      {
+        "name": "Sezonní speciality",
+        "description": "Každou sezónu přicházíme s novými chutěmi. Jahodové tartaletky, dýňový cheesecake nebo vánoční perníčky.",
+        "image": "/assets/sweet-01/e25354119e-ochutnejte.jpg",
+        "imageAlt": "Sezonní speciality",
+        "ctaText": "Aktuální nabídka",
+        "ctaHref": "#speciality"
+      }
+    ]
+  },
+  "locations": {
+    "title": "Navštivte nás",
+    "subtitle": "Najdete nás na třech místech v Praze — vždy blízko vám",
+    "branches": [
+      {
+        "name": "Praha 2 — Náměstí Míru",
+        "address": "Ukázková 123, 120 00 Praha 2",
+        "hours": "Po–Pá 7:30–19:00, So–Ne 9:00–18:00",
+        "phone": "704 123 456"
+      },
+      {
+        "name": "Praha 6 — Dejvice",
+        "address": "Ukázková 456, 160 00 Praha 6",
+        "hours": "Po–Pá 8:00–18:30, So 9:00–14:00",
+        "phone": "704 654 321"
+      },
+      {
+        "name": "Praha 10 — Vršovice",
+        "address": "Ukázková 789, 101 00 Praha 10",
+        "hours": "Po–Ne 8:00–20:00",
+        "phone": "704 123 456"
+      }
+    ],
+    "email": "email@demo.cz",
+    "phone": "704 123 456"
+  },
+  "footer": {
+    "siteName": "Cukrárna Eliška",
+    "logoUrl": "/templates/sweet-01/logo-white.svg",
+    "tagline": "Ručně vyráběné dezerty od roku 1983",
+    "address": "Ukázková 123, 120 00 Praha 2",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "fbHref": "https://facebook.com/demo",
+    "igHref": "https://instagram.com/demo",
+    "ytHref": "https://youtube.com/demo",
+    "ico": "12345678",
+    "hours": "Po–Pá 7:30–19:00, So–Ne 9:00–18:00",
+    "copyright": "© 2025 Cukrárna Eliška. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "Naše pobočky", "href": "/pobocky" },
+      { "label": "O cukrárně",   "href": "/o-nas" },
+      { "label": "Kontakt",      "href": "/kontakt" }
+    ]
+  },
+  "pages": {
+    "pobocky": {
+      "seoTitle": "Pobočky — Cukrárna Eliška",
+      "seoDescription": "Tři pobočky v Praze — Náměstí Míru, Dejvice a Vršovice. Najděte tu nejbližší.",
+      "hero": {
+        "title": "Naše pobočky",
+        "subtitle": "Tři místa plná sladkých chvil"
+      }
+    },
+    "o-nas": {
+      "seoTitle": "O nás — Cukrárna Eliška",
+      "seoDescription": "Rodinná cukrárna s více než čtyřicetiletou tradicí ručně vyráběných dezertů v Praze.",
+      "hero": {
+        "title": "Náš příběh",
+        "subtitle": "Čtyři desetiletí sladkého řemesla"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Cukrárna Eliška",
+      "seoDescription": "Napište nám nebo nás navštivte. Rádi odpovíme na jakýkoli dotaz."
+    }
+  }
+}

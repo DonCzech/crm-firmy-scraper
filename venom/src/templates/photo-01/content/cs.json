@@ -1,0 +1,120 @@
+{
+  "navbar": {
+    "siteName": "TEREZA HORÁČKOVÁ",
+    "logoUrl": "",
+    "phone": "777 654 321",
+    "ctaText": "Rezervovat focení",
+    "ctaHref": "#kontakt",
+    "links": [
+      { "label": "Úvod",      "href": "#uvod"      },
+      { "label": "Svatby",    "href": "#svatby"    },
+      { "label": "Rodiny",    "href": "#rodiny"    },
+      { "label": "Portfolio", "href": "#portfolio" },
+      { "label": "Poukaz",   "href": "#poukaz"    },
+      { "label": "Ceník",    "href": "#cenik"     },
+      { "label": "Rezervace","href": "#kontakt"   }
+    ]
+  },
+  "hero": {
+    "title": "Fotografie plné života",
+    "subtitle": "Svatební a rodinná fotografka z Brna",
+    "slides": [
+      { "url": "/assets/photo-01/7ab039ed9a-IMG_7869-800x1200.jpg",             "alt": "Svatební foto" },
+      { "url": "/assets/photo-01/6f2157b1cd-IMG_2911-1-800x1200.jpg",           "alt": "Rodinné foto"  },
+      { "url": "/assets/photo-01/be780168ea-IMG_8405-800x1200.jpg",             "alt": "Svatební foto" },
+      { "url": "/assets/photo-01/25795a8b08-IMG_2693-800x1200.jpg",             "alt": "Rodinné foto"  },
+      { "url": "/assets/photo-01/ccac9bf405-IMG_3231-800x1200.jpg",             "alt": "Portrét"       },
+      { "url": "/assets/photo-01/3d195734d7-IMG_0173-800x1200.jpg",             "alt": "Svatební foto" },
+      { "url": "/assets/photo-01/721f37ae31-IMG_3383-800x1200.jpg",             "alt": "Rodinné foto"  },
+      { "url": "/assets/photo-01/c986f04202-IMG_5122-800x1200.jpg",             "alt": "Těhotenské"    },
+      { "url": "/assets/photo-01/58a105563a-IMG_9928-800x1200.jpg",             "alt": "Portrét"       },
+      { "url": "/assets/photo-01/dab0092e36-IMG_1838-1-800x1200.jpg",           "alt": "Svatební foto" },
+      { "url": "/assets/photo-01/6ff8a057a7-IMG_3142-Enhanced-NR-800x1200.jpg", "alt": "Rodinné foto"  },
+      { "url": "/assets/photo-01/2787b6ddc6-5E7A4179-800x1200.jpg",             "alt": "Portrét"       },
+      { "url": "/assets/photo-01/01ec208497-IMG_0642-800x1200.jpg",             "alt": "Svatební foto" },
+      { "url": "/assets/photo-01/642c897ee4-IMG_3793-800x1200.jpg",             "alt": "Rodinné foto"  },
+      { "url": "/assets/photo-01/8b63a5df70-IMG_6118-800x1200.jpg",             "alt": "Portrét"       }
+    ],
+    "categories": [
+      {
+        "name": "Svatby",
+        "description": "Váš velký den zaslouží fotografie, které vás budou dojímat ještě po letech.",
+        "href": "#svatby",
+        "imageUrl": "/assets/photo-01/60cba36f06-IMG_2840-800x1200.jpg"
+      },
+      {
+        "name": "Rodiny",
+        "description": "Přirozené, uvolněné, autentické. Focení, kde se děti smějí a rodiče si oddychnou.",
+        "href": "#rodiny",
+        "imageUrl": "/assets/photo-01/3a3626d762-IMG_0177-800x1200.jpg"
+      },
+      {
+        "name": "Těhotenské",
+        "description": "Jedinečné okamžiky před příchodem nového života, zachycené s citem.",
+        "href": "#rodiny",
+        "imageUrl": "/assets/photo-01/86b5f7c7d8-IMG_5319-800x1200.jpg"
+      }
+    ]
+  },
+  "about": {
+    "eyebrow": "O mně",
+    "title": "Tereza Horáčková",
+    "subtitle": "Fotografka se sídlem v Brně a okolí",
+    "body": "Fotit mě baví od chvíle, kdy jsem jako teenagerka dostala první zrcadlovku. Dnes mám za sebou přes 80 svateb a stovky rodinných focení po celé Moravě. Pracuji přirozeně, bez přemrštěného režírování — jen hezké okamžiky, jak skutečně jsou.",
+    "body2": "Věřím, že nejlepší fotografie vznikají tehdy, kdy se před objektivem cítíte dobře. Proto se vždy snažím, aby focení bylo příjemným zážitkem pro celou rodinu.",
+    "imageUrl": "/assets/photo-01/642c897ee4-IMG_3793-800x1200.jpg",
+    "imageAlt": "Portrét fotografky Terezy Horáčkové"
+  },
+  "gallery": {
+    "eyebrow": "Portfolio",
+    "title": "Výběr z tvorby",
+    "images": [
+      { "url": "/assets/photo-01/7ab039ed9a-IMG_7869-800x1200.jpg",             "alt": "Svatební foto"   },
+      { "url": "/assets/photo-01/6f2157b1cd-IMG_2911-1-800x1200.jpg",           "alt": "Rodinné foto"    },
+      { "url": "/assets/photo-01/638cf44627-IMG_2521-edited-1920x1080.jpg",     "alt": "Těhotenské foto" },
+      { "url": "/assets/photo-01/be780168ea-IMG_8405-800x1200.jpg",             "alt": "Svatební foto"   },
+      { "url": "/assets/photo-01/25795a8b08-IMG_2693-800x1200.jpg",             "alt": "Rodinné foto"    },
+      { "url": "/assets/photo-01/ccac9bf405-IMG_3231-800x1200.jpg",             "alt": "Portrét"         },
+      { "url": "/assets/photo-01/3d195734d7-IMG_0173-800x1200.jpg",             "alt": "Svatební foto"   },
+      { "url": "/assets/photo-01/721f37ae31-IMG_3383-800x1200.jpg",             "alt": "Rodinné foto"    },
+      { "url": "/assets/photo-01/c986f04202-IMG_5122-800x1200.jpg",             "alt": "Těhotenské foto" },
+      { "url": "/assets/photo-01/58a105563a-IMG_9928-800x1200.jpg",             "alt": "Portrét"         },
+      { "url": "/assets/photo-01/dab0092e36-IMG_1838-1-800x1200.jpg",           "alt": "Svatební foto"   },
+      { "url": "/assets/photo-01/6ff8a057a7-IMG_3142-Enhanced-NR-800x1200.jpg", "alt": "Rodinné foto"    }
+    ]
+  },
+  "cta": {
+    "eyebrow": "Dárkový poukaz",
+    "title": "Poukaz na focení",
+    "subtitle": "Darujte vzpomínky, které vydrží navždy",
+    "bullets": [
+      "rodinné nebo těhotenské focení v exteriéru",
+      "doručení poštou v elegantním dárkovém balení",
+      "platnost 12 měsíců od zakoupení"
+    ],
+    "ctaText": "Objednat poukaz",
+    "ctaHref": "#kontakt",
+    "imageUrl": "/assets/photo-01/c986f04202-IMG_5122-800x1200.jpg",
+    "imageAlt": "Těhotenské focení"
+  },
+  "footer": {
+    "siteName": "Tereza Horáčková",
+    "tagline": "Svatební a rodinná fotografka",
+    "phone": "777 654 321",
+    "email": "info@tererafoto.cz",
+    "address": "Brno a Jihomoravský kraj",
+    "ico": "87654321",
+    "vatNote": "Neplátce DPH",
+    "copyright": "© 2026 Tereza Horáčková. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "Úvod",      "href": "#uvod"      },
+      { "label": "Svatby",    "href": "#svatby"    },
+      { "label": "Rodiny",    "href": "#rodiny"    },
+      { "label": "Portfolio", "href": "#portfolio" },
+      { "label": "Poukaz",   "href": "#poukaz"    },
+      { "label": "Rezervace","href": "#kontakt"   }
+    ],
+    "instagram": "https://instagram.com/demo",
+    "facebook":  "https://facebook.com/demo"
+  }
+}

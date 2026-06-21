@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary":    "#3DCE78",
+    "secondary":  "#2db868",
+    "accent":     "#05303a",
+    "background": "#ffffff",
+    "surface":    "#e8efee",
+    "text":       "#05303a",
+    "textMuted":  "#6f898e",
+    "border":     "#d9e0e2"
+  },
+  "typography": {
+    "fontHeading": "'Montserrat', 'Raleway', 'Helvetica Neue', Arial, sans-serif",
+    "fontBody":    "'Open Sans', 'Helvetica Neue', Arial, sans-serif"
+  }
+}

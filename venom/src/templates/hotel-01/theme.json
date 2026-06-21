@@ -1,0 +1,27 @@
+{
+  "colors": {
+    "primary":    "#a98763",
+    "secondary":  "#879B32",
+    "background": "#ffffff",
+    "surface":    "#f9f6f2",
+    "text":       "#5D5D5D",
+    "textMuted":  "#797979",
+    "accent":     "#3e3e3e",
+    "border":     "#e8e0d6"
+  },
+  "typography": {
+    "fontHeading": "'Playfair Display', Georgia, serif",
+    "fontBody":    "'Poppins', sans-serif",
+    "scale":       "comfortable"
+  },
+  "radius": {
+    "sm":   "0px",
+    "md":   "0px",
+    "lg":   "2px",
+    "pill": "0px"
+  },
+  "spacing": {
+    "personality": "airy",
+    "section":     "comfortable"
+  }
+}

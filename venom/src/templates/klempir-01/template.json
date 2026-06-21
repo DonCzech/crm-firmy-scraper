@@ -1,0 +1,77 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "klempir-01",
+  "name": "Demo Klempíř z Prahy",
+  "industry": "klempir",
+  "skeleton": "b2b-trade",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Klempíř & Pokrývač — solo řemeslník. Transparentní→bílý sticky navbar, video/foto hero 100vh, O mně 2-col (foto+stats), 9 služeb 3-col grid, galerie projektů, sekce historické opravy, recenze 3 karty, kontakt info+form, footer. Inspirováno klempirzprahy.cz. Metalická stříbrná #c0c0c0 + tmavé #3a3a3a, Montserrat.",
+  "sectionOrderNote": "Navbar → Hero → About → Services → Gallery → Historical → Testimonials → Contact → Footer",
+  "skippedSections": [
+    { "pos": 3, "name": "Pricing", "reason": "Ceny jsou individuální dle rozsahu zakázky — klempíř nacení po obhlídce" }
+  ],
+  "extraSections": [
+    { "type": "promo", "reason": "Historické opravy — výrazná promo sekce o specializaci na historické střechy a klempířské prvky" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",       "variant": "klempir-01-navbar",       "contentRef": "navbar"       },
+        { "type": "hero",         "variant": "klempir-01-hero",         "contentRef": "hero"         },
+        { "type": "about",        "variant": "klempir-01-about",        "contentRef": "about"        },
+        { "type": "services",     "variant": "klempir-01-services",     "contentRef": "services"     },
+        { "type": "gallery",      "variant": "klempir-01-gallery",      "contentRef": "gallery"      },
+        { "type": "promo",        "variant": "klempir-01-historical",   "contentRef": "historical"   },
+        { "type": "testimonials", "variant": "klempir-01-testimonials", "contentRef": "testimonials" },
+        { "type": "contact",      "variant": "klempir-01-contact",      "contentRef": "contact"      },
+        { "type": "footer",       "variant": "klempir-01-footer",       "contentRef": "footer"       }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Služby",
+      "seoTitleKey": "pages.sluzby.seoTitle",
+      "seoDescriptionKey": "pages.sluzby.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "klempir-01-navbar",   "contentRef": "navbar"   },
+        { "type": "hero",     "variant": "hero-centered",       "contentRef": "pages.sluzby.hero" },
+        { "type": "services", "variant": "klempir-01-services", "contentRef": "services" },
+        { "type": "contact",  "variant": "klempir-01-contact",  "contentRef": "contact"  },
+        { "type": "footer",   "variant": "klempir-01-footer",   "contentRef": "footer"   }
+      ]
+    },
+    {
+      "slug": "reference",
+      "title": "Reference",
+      "seoTitleKey": "pages.reference.seoTitle",
+      "seoDescriptionKey": "pages.reference.seoDescription",
+      "sections": [
+        { "type": "navbar",       "variant": "klempir-01-navbar",       "contentRef": "navbar"       },
+        { "type": "hero",         "variant": "hero-centered",           "contentRef": "pages.reference.hero" },
+        { "type": "gallery",      "variant": "klempir-01-gallery",      "contentRef": "gallery"      },
+        { "type": "testimonials", "variant": "klempir-01-testimonials", "contentRef": "testimonials" },
+        { "type": "footer",       "variant": "klempir-01-footer",       "contentRef": "footer"       }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "klempir-01-navbar",  "contentRef": "navbar"  },
+        { "type": "contact", "variant": "klempir-01-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "klempir-01-footer",  "contentRef": "footer"  }
+      ]
+    }
+  ],
+  "content": { "default": "./content/cs.json" }
+}

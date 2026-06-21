@@ -1,0 +1,101 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "clean-02",
+  "name": "Demo Modrý Žralok",
+  "industry": "clean",
+  "skeleton": "b2b-trade",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Úklidová firma Praha — firemní a SVJ úklid. Bílý sticky navbar (#ffffff) s modrým (#1c91ff) gradientem CTA, fullbleed hero s video mixem, logo trust-strip (klienti), 4-col benefit karty, services grid s foto, 2-col about, media sekce, numbered steps, testimonials, kontaktní formulář, tmavý navy (#0e0e53) footer. Bricolage Grotesque + Onest. Inspirováno modryzralok.cz.",
+  "sectionOrderNote": "Navbar → Hero → Stats → Promo → Services → About → Blog → CTA → Testimonials → Contact → Footer",
+  "skippedSections": [
+    {
+      "pos": 6,
+      "name": "Pricing",
+      "reason": "Ceny jsou individuální — modryzralok.cz má samostatnou ceníkovou stránku, ne sekci na HP"
+    },
+    {
+      "pos": 7,
+      "name": "Portfolio/Gallery",
+      "reason": "Originál modryzralok.cz nemá dedikovanou galerii na HP — fotky jsou integrované do hero a services karet"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Originál nemá FAQ sekci na homepage"
+    },
+    {
+      "pos": 11,
+      "name": "Map",
+      "reason": "Firma pokrývá celou Prahu, bez konkrétní mapy na HP"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "stats",
+      "reason": "Logo trust-strip — 40+ firem a 40+ SVJ spokojených zákazníků + partnerské logá"
+    },
+    {
+      "type": "promo",
+      "reason": "4-col benefit karty — Výhody Modrého žraloka (spolehlivý úklid / rychlá komunikace / pojištění / osobní schůzka)"
+    },
+    {
+      "type": "blog-preview",
+      "reason": "Media mentions sekce — 'Napsali o nás' (novinové a podcastové zmínky)"
+    },
+    {
+      "type": "contact",
+      "reason": "Kontaktní formulář s info panelem — klíčová konverzní sekce; modryzralok.cz ji má jako hlavní CTA na homepage"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",       "variant": "clean-02-navbar",       "contentRef": "navbar"       },
+        { "type": "hero",         "variant": "clean-02-hero",         "contentRef": "hero"         },
+        { "type": "stats",        "variant": "clean-02-stats",        "contentRef": "stats"        },
+        { "type": "promo",        "variant": "clean-02-promo",        "contentRef": "promo"        },
+        { "type": "services",     "variant": "clean-02-services",     "contentRef": "services"     },
+        { "type": "about",        "variant": "clean-02-about",        "contentRef": "about"        },
+        { "type": "blog-preview", "variant": "clean-02-blog",         "contentRef": "blog"         },
+        { "type": "cta",          "variant": "clean-02-cta",          "contentRef": "cta"          },
+        { "type": "testimonials", "variant": "clean-02-testimonials", "contentRef": "testimonials" },
+        { "type": "contact",      "variant": "clean-02-contact",      "contentRef": "contact"      },
+        { "type": "footer",       "variant": "clean-02-footer",       "contentRef": "footer"       }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Naše služby",
+      "seoTitleKey": "pages.sluzby.seoTitle",
+      "seoDescriptionKey": "pages.sluzby.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "clean-02-navbar",   "contentRef": "navbar"   },
+        { "type": "services", "variant": "clean-02-services", "contentRef": "services" },
+        { "type": "contact",  "variant": "clean-02-contact",  "contentRef": "contact"  },
+        { "type": "footer",   "variant": "clean-02-footer",   "contentRef": "footer"   }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "clean-02-navbar",  "contentRef": "navbar"  },
+        { "type": "contact", "variant": "clean-02-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "clean-02-footer",  "contentRef": "footer"  }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

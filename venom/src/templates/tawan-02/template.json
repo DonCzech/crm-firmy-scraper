@@ -1,0 +1,43 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "tawan-02",
+  "name": "Demo Escape Massage",
+  "industry": "wellness",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Luxusní thajské masáže, warm brown #604B3A + #927259, font Candara — hero image, icon boxes, massage card slider, why-us, testimonials, gift voucher, footer. Inspirováno escapemassage.cz.",
+  "sectionOrderNote": "Navbar → Hero → Boxes → Services → Why → Testimonials → Gift → Footer",
+  "skippedSections": [
+    { "pos": 5,  "name": "Pricing",     "reason": "Ceník je samostatná podstránka (/cenik); homepage ho nezahrnuje — viz escapemassage.cz" },
+    { "pos": 6,  "name": "Gallery",     "reason": "Galerie neexistuje na homepage originálu — fotky jsou vloženy inline v hero a why-us" },
+    { "pos": 7,  "name": "Team",        "reason": "Masérky nejsou prezentovány jmenovitě — pouze kolektivní 'certifikované masérky' v hero" },
+    { "pos": 9,  "name": "Booking/CTA", "reason": "CTA je v navbaru (Rezervace tlačítko) a v hero — samostatná CTA sekce na homepage chybí" },
+    { "pos": 10, "name": "Locations",   "reason": "Jediná pobočka — adresa ve footeru, mapa na kontaktní stránce" },
+    { "pos": 11, "name": "FAQ",         "reason": "FAQ není na homepage originálu escapemassage.cz" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "tawan-02-navbar",      "contentRef": "navbar" },
+        { "type": "hero",         "variant": "tawan-02-hero",        "contentRef": "hero" },
+        { "type": "about",        "variant": "tawan-02-boxes",       "contentRef": "boxes" },
+        { "type": "services",     "variant": "tawan-02-services",    "contentRef": "services" },
+        { "type": "about",        "variant": "tawan-02-why",         "contentRef": "why" },
+        { "type": "testimonials", "variant": "tawan-02-testimonials","contentRef": "testimonials" },
+        { "type": "about",        "variant": "tawan-02-gift",        "contentRef": "gift" },
+        { "type": "footer",       "variant": "tawan-02-footer",      "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

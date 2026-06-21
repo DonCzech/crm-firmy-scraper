@@ -1,0 +1,246 @@
+{
+  "navbar": {
+    "siteName": "Pacífico",
+    "logoUrl": "/templates/restaurant-03/logo.svg",
+    "ctaText": "Rezervace",
+    "ctaHref": "#kontakt",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "links": [
+      { "label": "Domů",     "href": "/" },
+      { "label": "O nás",    "href": "/o-nas" },
+      { "label": "Menu",     "href": "/menu" },
+      { "label": "Galerie",  "href": "/galerie" },
+      { "label": "Kontakt",  "href": "/kontakt" }
+    ]
+  },
+
+  "hero": {
+    "title": "Chuť oceánu\nv srdci Prahy.",
+    "subtitle": "CEVICHE · TIRADITO · LOMO SALTADO · PISCO",
+    "ctaText": "Rezervovat stůl",
+    "ctaHref": "#kontakt",
+    "videoUrl": "",
+    "posterUrl": "https://images.unsplash.com/photo-1559847844-5315695dadae?w=1920&h=1080&fit=crop&fm=webp&q=85",
+    "slides": [
+      { "url": "https://images.unsplash.com/photo-1559847844-5315695dadae?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" },
+      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 40%" },
+      { "url": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 50%" },
+      { "url": "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" }
+    ]
+  },
+
+  "about": {
+    "id": "o-nas",
+    "tagline": "Naše filosofie",
+    "title": "Čerstvost.\nAutentická peruánská kuchyně.",
+    "body": "Pacífico přináší pravou kuchyni peruánského pobřeží přímo do centra Prahy. Ceviche z denně dováženého čerstvého mořského ryb, klasické tiradito, domácí causa a ikonický Lomo Saltado — vše připraveno podle tradičních receptů z pečlivě vybraných surovin.",
+    "body2": "Každý talíř je malé umělecké dílo. Doplňujeme ho výběrem peruánských pisco koktejlů, jihoamerických vín a craft piv. Přijďte ochutnat, co skutečná kuchyně pobřeží chutná.",
+    "ctaText": "Více o nás",
+    "ctaHref": "/o-nas",
+    "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=85"
+  },
+
+  "services": {
+    "id": "menu",
+    "tagline": "Naše speciality",
+    "title": "Chuť oceánu\nna každém talíři.",
+    "body": "Od klasického ceviche přes pikantní tiradito až po pověstný Lomo Saltado — vždy čerstvé, vždy autentické.",
+    "ctaText": "Zobrazit celé menu",
+    "ctaHref": "/menu",
+    "services": [],
+    "items": [
+      {
+        "name": "Ceviche Clásico",
+        "category": "Podpisový pokrm",
+        "description": "Denně dovážená čerstvá ryba marinovaná v citrusové šťávě s ají amarillo, červenou cibulí a koriandrem. Podáváno s choclo a batátovými chipsy.",
+        "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Zjistit více",
+        "ctaHref": "/menu"
+      },
+      {
+        "name": "Lomo Saltado",
+        "category": "Peruánský klasik",
+        "description": "Hovězí svíčková stir-fry s rajčaty, červenou cibulí a paprikou, ochucená sójovou omáčkou a podávaná s peruánskou rýží a hranolky.",
+        "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Zjistit více",
+        "ctaHref": "/menu"
+      },
+      {
+        "name": "Pisco Sour Bar",
+        "category": "Koktejlový bar",
+        "description": "Autentický peruánský Pisco Sour, Chilcano de Pisco, Maracuyá Sour a sezónní speciály. Doplňkový výběr jihoamerických vín a craft piv.",
+        "image": "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Zjistit více",
+        "ctaHref": "/menu"
+      }
+    ]
+  },
+
+  "cta": {
+    "id": "rezervace",
+    "tagline": "Rezervujte si místo",
+    "title": "Oceán chutí\nvás čeká.",
+    "body": "Čerstvé mořské plody, autentická peruánská kuchyně a pisco koktejly — reservujte si stůl a nechte se unést chutěmi, které pamatují dávné pobřežní tržiště Limy.",
+    "ctaText": "Rezervovat stůl",
+    "ctaHref": "#kontakt",
+    "ctaSecondaryText": "Prohlédnout menu",
+    "ctaSecondaryHref": "/menu",
+    "image": "https://images.unsplash.com/photo-1559847844-5315695dadae?w=1920&h=1080&fit=crop&fm=webp&q=85"
+  },
+
+  "gallery": {
+    "id": "galerie",
+    "tagline": "Atmosféra",
+    "title": "Nahlédněte\nk nám.",
+    "ctaText": "Celá galerie",
+    "ctaHref": "/galerie",
+    "images": [
+      { "url": "https://images.unsplash.com/photo-1559847844-5315695dadae?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Mořské plody" },
+      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Restaurace" },
+      { "url": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Ceviche" },
+      { "url": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Jídlo" },
+      { "url": "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Pisco bar" },
+      { "url": "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Grill" },
+      { "url": "https://images.unsplash.com/photo-1547592180-85f173990554?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Čerstvé suroviny" },
+      { "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Interiér" }
+    ]
+  },
+
+  "contact": {
+    "id": "kontakt",
+    "tagline": "Kde nás najdete",
+    "title": "Kontakt\na rezervace",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "rezervace@demo.cz",
+    "hours": "Út–Ne: 12:00–23:00",
+    "hours2": "Pondělí: zavřeno | Út–Čt 12:00–22:00 | Pá–So 12:00–23:00 | Ne 12:00–21:00",
+    "mapEmbedUrl": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2559.9!2d14.4208!3d50.0880!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDA1JzE2LjgiTiAxNMKwMjUnMTUuMCJF!5e0!3m2!1scs!2scz!4v1700000000000",
+    "ctaText": "Rezervovat stůl",
+    "ctaHref": "mailto:rezervace@demo.cz"
+  },
+
+  "footer": {
+    "siteName": "Pacífico",
+    "logoUrl": "/templates/restaurant-03/logo.svg",
+    "tagline": "Peruánská pobřežní kuchyně v srdci Prahy.",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "hours": "Út–Ne: 12:00–23:00",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "links": [
+      { "label": "Domů",     "href": "/" },
+      { "label": "O nás",    "href": "/o-nas" },
+      { "label": "Menu",     "href": "/menu" },
+      { "label": "Galerie",  "href": "/galerie" },
+      { "label": "Kontakt",  "href": "/kontakt" }
+    ],
+    "copyright": "© 2026 Demo Pacífico",
+    "legal": "IČO: 12345678 | info@demo.cz"
+  },
+
+  "pages": {
+    "menu": {
+      "seoTitle": "Menu — Demo Pacífico",
+      "seoDescription": "Ceviche, tiradito, Lomo Saltado a Pisco Sour bar. Autentická peruánská pobřežní kuchyně v centru Prahy.",
+      "hero": {
+        "title": "Naše menu",
+        "subtitle": "Autentická kuchyně peruánského pobřeží",
+        "backgroundUrl": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&h=600&fit=crop&fm=webp&q=85"
+      },
+      "services": {
+        "id": "menu-page",
+        "tagline": "Jídelní lístek",
+        "title": "Co u nás ochutnat.",
+        "body": "Vyberte si z bohaté nabídky peruánské pobřežní kuchyně — od lehkého ceviche přes sytý Lomo Saltado až po koktejlový bar s peruánským piscem.",
+        "ctaText": "",
+        "ctaHref": "",
+        "services": [],
+        "items": [
+          {
+            "name": "Ceviche Mixto",
+            "category": "Ryby a mořské plody",
+            "description": "Mix čerstvé ryby, krevet a kalamárů marinovaný v citrusovém leche de tigre s ají amarillo, červenou cibulí a koriandrem.",
+            "image": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&h=400&fit=crop&fm=webp&q=85",
+            "ctaText": "",
+            "ctaHref": ""
+          },
+          {
+            "name": "Lomo Saltado",
+            "category": "Hlavní chody",
+            "description": "Peruánský klasik — hovězí svíčková stir-fry s zeleninou, sójovou omáčkou, servírovaná s rýží a hranolky.",
+            "image": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop&fm=webp&q=85",
+            "ctaText": "",
+            "ctaHref": ""
+          },
+          {
+            "name": "Pisco Sour",
+            "category": "Koktejly",
+            "description": "Ikonický peruánský koktejl z pisco, citronové šťávy, cukrového sirupu a vaječného bílku. Podáváno s hořkými kapkami Angostura.",
+            "image": "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?w=600&h=400&fit=crop&fm=webp&q=85",
+            "ctaText": "",
+            "ctaHref": ""
+          }
+        ]
+      }
+    },
+    "o-nas": {
+      "seoTitle": "O nás — Demo Pacífico",
+      "seoDescription": "Poznejte příběh Pacífico — autentické peruánské pobřežní restaurace v centru Prahy.",
+      "hero": {
+        "title": "O nás",
+        "subtitle": "Kuchyně, která voní oceánem",
+        "backgroundUrl": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=600&fit=crop&fm=webp&q=85"
+      },
+      "about": {
+        "id": "o-nas-page",
+        "tagline": "Naše filosofie",
+        "title": "Chuť peruánského\npobřeží v centru Prahy.",
+        "body": "Pacífico vzniklo ze vášně pro autentickou peruánskou kuchyni. Přivezli jsme recepty přímo z pobřeží — z trhů Limy, Callaa a Miraflores — a přizpůsobili je těm nejlepším lokálním surovinám.",
+        "body2": "Věříme, že dobré jídlo vypráví příběh. Každé ceviche, každý pisco sour, každý Lomo Saltado je vzpomínkou na místo, kde slunce zapadá do tichého oceánu.",
+        "ctaText": "Rezervovat stůl",
+        "ctaHref": "/kontakt",
+        "image": "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&h=600&fit=crop&fm=webp&q=85"
+      }
+    },
+    "galerie": {
+      "seoTitle": "Galerie — Demo Pacífico",
+      "seoDescription": "Prohlédněte si fotogalerii Pacífico — atmosféra, jídlo a koktejly.",
+      "hero": {
+        "title": "Galerie",
+        "subtitle": "Záblesky z naší restaurace",
+        "backgroundUrl": "https://images.unsplash.com/photo-1559847844-5315695dadae?w=1920&h=600&fit=crop&fm=webp&q=85"
+      },
+      "gallery": {
+        "id": "galerie-page",
+        "tagline": "Fotogalerie",
+        "title": "Atmosféra\nPacífico.",
+        "ctaText": "",
+        "ctaHref": "",
+        "images": [
+          { "url": "https://images.unsplash.com/photo-1559847844-5315695dadae?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Mořské plody" },
+          { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Restaurace" },
+          { "url": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Ceviche" },
+          { "url": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Jídlo" },
+          { "url": "https://images.unsplash.com/photo-1578474846511-04ba529f0b88?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Pisco bar" },
+          { "url": "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Grill" },
+          { "url": "https://images.unsplash.com/photo-1547592180-85f173990554?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Čerstvé suroviny" },
+          { "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Interiér" },
+          { "url": "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Detail" },
+          { "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Bar" },
+          { "url": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Ranní příprava" },
+          { "url": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=800&h=533&fit=crop&fm=webp&q=80", "alt": "Dezert" }
+        ]
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt & Rezervace — Demo Pacífico",
+      "seoDescription": "Rezervujte si stůl v Pacífico. Kontakt: 704 123 456, rezervace@demo.cz. Otevřeno Út–Ne 12:00–23:00."
+    }
+  }
+}

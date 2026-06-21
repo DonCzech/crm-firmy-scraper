@@ -1,0 +1,198 @@
+{
+  "navbar": {
+    "siteName": "Demo Fresh Coffee",
+    "logoUrl": "/templates/cafe-04/logo.svg",
+    "links": [
+      { "label": "Menu",    "href": "/coffeebar" },
+      { "label": "Kavárna", "href": "/coffeebar" },
+      { "label": "Kontakt", "href": "/kontakt" }
+    ]
+  },
+
+  "hero": {
+    "slides": [
+      {
+        "imageUrl": "/assets/cafe-04/5eb956e095-67cc82f0c6e15f8db05a4779_BAB33CEE-0F29-4D78-BCED-B59C17731DB6.jpeg",
+        "alt": "Demo Coffee Room interiér"
+      },
+      {
+        "imageUrl": "/assets/cafe-04/d200837881-67cc82f0c6e15f8db05a4776_62B3352B-509A-4406-9541-0074B55A3320.jpeg",
+        "alt": "Demo Coffee Room káva"
+      },
+      {
+        "imageUrl": "/assets/cafe-04/034c52cbde-67cc82f0c6e15f8db05a477a_7AF7C937-2FD8-437D-9E84-3C981161DB33.jpeg",
+        "alt": "Demo Coffee Room snídaně"
+      }
+    ],
+    "tagline": "bringing you the good stuff",
+    "scrollLabel": "scroll down"
+  },
+
+  "about": {
+    "blocks": [
+      {
+        "imageUrl": "/assets/cafe-04/5eb956e095-67cc82f0c6e15f8db05a4779_BAB33CEE-0F29-4D78-BCED-B59C17731DB6.jpeg",
+        "imageAlt": "Demo Fresh Coffee interiér",
+        "text": "Vítejte v Demo Fresh Coffee, kde servírujeme tu nejlepší specialty kávu v okolí. Naši baristé jsou kávový průvodci — připraví dokonalý šálek pokaždé, s využitím nejkvalitnějších zrn a moderních technik přípravy. Zkuste některý z našich unikátních nápojů — cold brew nebo gingerbread latte.",
+        "imageLeft": true
+      },
+      {
+        "imageUrl": "/assets/cafe-04/d200837881-67cc82f0c6e15f8db05a4776_62B3352B-509A-4406-9541-0074B55A3320.jpeg",
+        "imageAlt": "Demo Fresh Coffee snídaně",
+        "text": "Nabízíme také skvělé snídaňové menu. Od avokádového toastu přes grilovaný sýr až po sweet banana bread. Snídaně podáváme do 12:30 ve všední dny a do 14:30 o víkendech. Vaše chuťové buňky vám poděkují.",
+        "imageLeft": false
+      },
+      {
+        "imageUrl": "/assets/cafe-04/034c52cbde-67cc82f0c6e15f8db05a477a_7AF7C937-2FD8-437D-9E84-3C981161DB33.jpeg",
+        "imageAlt": "Demo Fresh Coffee atmosféra",
+        "text": "S útulnou atmosférou a přátelským personálem je Demo Fresh Coffee ideálním místem k relaxaci. Máme také široký výběr zrn od různých pražíren — kupte si pytlík a vychutnejte si čerstvou kávu i doma.",
+        "imageLeft": true
+      },
+      {
+        "imageUrl": "/assets/cafe-04/c2a20f2df0-67cc82f0c6e15f8db05a4772_BF8CCCC2-DED0-4D1E-8D9B-E5ACAAB474B3.jpeg",
+        "imageAlt": "Demo Fresh Coffee káva",
+        "text": "Hledáte místo k sezení? Žádný problém! Rezervace nedělíme — prostě přijďte. Naše uvolněná atmosféra a přátelský tým vás uvítají kdykoliv. Přijďte zjistit, proč jsou naše kavárny tak oblíbené.",
+        "imageLeft": false
+      }
+    ]
+  },
+
+  "locations": {
+    "title": "Otevírací doba",
+    "subtitle": "Najdete nás na čtyřech místech v Praze",
+    "branches": [
+      {
+        "name": "Ukázková — Vinohrady",
+        "address": "Ukázková 74, Praha 2",
+        "hours": [
+          { "day": "Pondělí – Pátek", "hours": "7:30 – 18:00" },
+          { "day": "Sobota – Neděle", "hours": "9:00 – 18:00" }
+        ]
+      },
+      {
+        "name": "Ukázková — Staré Město",
+        "address": "Ukázková 12, Praha 1",
+        "hours": [
+          { "day": "Pondělí – Neděle", "hours": "9:00 – 19:00" }
+        ]
+      },
+      {
+        "name": "Ukázková — Holešovice",
+        "address": "Ukázková 10a, Praha 7",
+        "hours": [
+          { "day": "Pondělí – Pátek", "hours": "7:00 – 19:00" },
+          { "day": "Sobota – Neděle", "hours": "8:00 – 18:00" }
+        ]
+      },
+      {
+        "name": "Ukázková — Vinohrady II",
+        "address": "Ukázková 16, Praha 2",
+        "hours": [
+          { "day": "Pondělí – Pátek", "hours": "7:00 – 20:00" },
+          { "day": "Sobota – Neděle", "hours": "9:00 – 20:00" }
+        ]
+      }
+    ]
+  },
+
+  "blog": {
+    "heading": "Behind the mugs",
+    "subheading": "lifestyle stories",
+    "ctaText": "Všechny příspěvky",
+    "ctaHref": "#",
+    "posts": [
+      {
+        "title": "Jak rozpoznat kvalitní specialty kávu",
+        "excerpt": "Průvodce světem single-origin zrn a čerstvého pražení pro každého kávového nadšence.",
+        "imageUrl": "/assets/cafe-04/3b2194ce16-67cc82f0c6e15f8db05a4785_DSC05499.jpeg",
+        "date": "2026-05-15",
+        "href": "#"
+      },
+      {
+        "title": "Snídaně, která vás nakopne",
+        "excerpt": "Avokádový toast, banana bread nebo granola — vyberte si svůj ranní rituál.",
+        "imageUrl": "/assets/cafe-04/a1b3149563-67cc82f0c6e15f8db05a4787_DSC04049.jpeg",
+        "date": "2026-04-28",
+        "href": "#"
+      },
+      {
+        "title": "Za kávou po Praze: naše oblíbené roastery",
+        "excerpt": "Kde kupujeme naše zrna? Představujeme roastery, které milujeme a které máte v šálku.",
+        "imageUrl": "/assets/cafe-04/c2a20f2df0-67cc82f0c6e15f8db05a4772_BF8CCCC2-DED0-4D1E-8D9B-E5ACAAB474B3.jpeg",
+        "date": "2026-04-10",
+        "href": "#"
+      }
+    ]
+  },
+
+  "newsletter": {
+    "heading": "don't miss anything",
+    "subheading": "Přihlaste se k odběru novinek a buďte první, kdo se dozví o nových kávách, akcích a příbězích z kavárny.",
+    "inputPlaceholder": "váš e-mail",
+    "ctaText": "Přihlásit se",
+    "successText": "Díky! Brzy se ozveme."
+  },
+
+  "footer": {
+    "siteName": "Demo Coffee Room",
+    "logoUrl": "/templates/cafe-04/logo.svg",
+    "tagline": "bringing you the good stuff",
+    "links": [
+      { "label": "Domů",     "href": "/" },
+      { "label": "Coffee Bar","href": "/coffeebar" },
+      { "label": "Kontakt",  "href": "/kontakt" },
+      { "label": "GDPR",     "href": "/gdpr" }
+    ],
+    "contact": {
+      "email": "email@demo.cz",
+      "phone": "704 123 456",
+      "address": "Ukázková 123, 110 00 Praha 1"
+    },
+    "social": {
+      "facebook":  "https://facebook.com/demo",
+      "instagram": "https://instagram.com/demo"
+    },
+    "copyright": "© 2026 Demo Coffee Room. Všechna práva vyhrazena.",
+    "ico": "12345678"
+  },
+
+  "contact": {
+    "heading": "Napište nám",
+    "subheading": "Rádi vám odpovíme. Neváhejte se ozvat.",
+    "email": "email@demo.cz",
+    "phone": "+420 704 123 456",
+    "address": "Ukázková 123\n110 00 Praha 1",
+    "formFields": {
+      "name": "Jméno",
+      "email": "E-mail",
+      "message": "Zpráva",
+      "submit": "Odeslat"
+    }
+  },
+
+  "pages": {
+    "coffeebar": {
+      "seoTitle": "Coffee Bar — Demo Coffee Room",
+      "seoDescription": "Prohlédněte si naše menu — specialty kávy, čaje, snídaně a lehká jídla.",
+      "hero": {
+        "heading": "Coffee Bar",
+        "imageUrl": "/assets/cafe-04/1aa655361c-67cc82f0c6e15f8db05a475e_DSC07517-web.jpg"
+      },
+      "services": {
+        "heading": "Naše menu",
+        "items": [
+          { "name": "Espresso", "price": "55 Kč", "description": "Silné a aromatické" },
+          { "name": "Flat White", "price": "85 Kč", "description": "Hladké a krémové" },
+          { "name": "Cold Brew", "price": "95 Kč", "description": "Studená extrakce 24 h" },
+          { "name": "Avokádový toast", "price": "175 Kč", "description": "Se semínky a citrónem" },
+          { "name": "Banana Bread", "price": "85 Kč", "description": "Domácí, čerstvě pečený" },
+          { "name": "Granola", "price": "145 Kč", "description": "S jogurtem a sezonním ovocem" }
+        ]
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Demo Coffee Room",
+      "seoDescription": "Kontaktujte Demo Coffee Room. Najdete nás na čtyřech místech v Praze."
+    }
+  }
+}

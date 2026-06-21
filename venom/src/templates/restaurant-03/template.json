@@ -1,0 +1,92 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "restaurant-03",
+  "name": "Demo La Casa Latina",
+  "industry": "restaurant",
+  "skeleton": "gastro",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Latinskoamerická restaurace — tmavý zelený design #0c351a, zlatá #b97d26 akcent, Georgia serif H1; hamburger navbar s centrovaným logem, fullbleed hero, o nás split, menu karty, zlatý CTA pás, galerie, kontakt + mapa. Inspirováno lacasalatina.cz (La Casa Latina).",
+  "sectionOrderNote": "Navbar → Hero → About → Services (menu) → CTA → Gallery → Contact → Footer",
+  "skippedSections": [
+    { "pos": 4,  "name": "Pricing",      "reason": "Restaurace nemá ceník na homepage — pricing je součástí menu stránky" },
+    { "pos": 8,  "name": "Testimonials", "reason": "Recenze nejsou na primární homepage originálu" },
+    { "pos": 9,  "name": "Team",         "reason": "Tým není součástí homepage flow originálu" },
+    { "pos": 10, "name": "FAQ",           "reason": "FAQ není v homepage flow originálu" }
+  ],
+  "extraSections": [
+    { "name": "Menu sekce", "type": "services", "variant": "restaurant-03-menu", "reason": "Gastro skeleton nemá services — nahrazuje standardní Menu blok výpisem kategorií pro restauraci (stejný pattern jako restaurant-01)" },
+    { "name": "Galerie", "type": "gallery", "variant": "restaurant-03-gallery", "reason": "La Casa Latina má bohatou fotogalerii jídla a atmosféry — klíčová součást homepage" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "restaurant-03-navbar",  "contentRef": "navbar" },
+        { "type": "hero",     "variant": "restaurant-03-hero",    "contentRef": "hero" },
+        { "type": "about",    "variant": "restaurant-03-about",   "contentRef": "about" },
+        { "type": "services", "variant": "restaurant-03-menu",    "contentRef": "services" },
+        { "type": "cta",      "variant": "restaurant-03-cta",     "contentRef": "cta" },
+        { "type": "gallery",  "variant": "restaurant-03-gallery", "contentRef": "gallery" },
+        { "type": "contact",  "variant": "restaurant-03-contact", "contentRef": "contact" },
+        { "type": "footer",   "variant": "restaurant-03-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "menu",
+      "title": "Menu",
+      "seoTitleKey": "pages.menu.seoTitle",
+      "seoDescriptionKey": "pages.menu.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "restaurant-03-navbar",  "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",         "contentRef": "pages.menu.hero" },
+        { "type": "services","variant": "restaurant-03-menu",    "contentRef": "pages.menu.services" },
+        { "type": "footer",  "variant": "restaurant-03-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "restaurant-03-navbar",  "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",         "contentRef": "pages.o-nas.hero" },
+        { "type": "about",   "variant": "restaurant-03-about",   "contentRef": "pages.o-nas.about" },
+        { "type": "footer",  "variant": "restaurant-03-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "galerie",
+      "title": "Galerie",
+      "seoTitleKey": "pages.galerie.seoTitle",
+      "seoDescriptionKey": "pages.galerie.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "restaurant-03-navbar",  "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",         "contentRef": "pages.galerie.hero" },
+        { "type": "gallery", "variant": "restaurant-03-gallery", "contentRef": "pages.galerie.gallery" },
+        { "type": "footer",  "variant": "restaurant-03-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt & Rezervace",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "restaurant-03-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "restaurant-03-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "restaurant-03-footer",  "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "grooming-01",
+  "name": "Demo Psí Salon",
+  "industry": "grooming",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Psí a kočičí grooming salon — tmavý přechod (transparentní → #101417) sticky navbar, zlatý #d0aa57 primary akcent, Hanken Grotesk font. Fullscreen hero slider, About sekce #f6f6f6 s adresou + galerií, tabulkový ceník podle plemen, before/after galerie, Klub sekce, FAQ. Inspirováno cutedogs.cz.",
+  "sectionOrderNote": "Navbar → Hero → About → Pricing → Gallery → Club → FAQ → Contact → Footer",
+  "skippedSections": [
+    { "pos": 3,  "name": "News",         "reason": "Blog/novinky sekce — není standardní pro grooming šablonu" },
+    { "pos": 5,  "name": "Pricing",      "reason": "Ceník je integrován v services sekci jako grooming-01-pricing tabs" },
+    { "pos": 7,  "name": "Eshop",        "reason": "E-shop slider — specialty sekce, mimo rozsah generické šablony" },
+    { "pos": 8,  "name": "Testimonials", "reason": "Cutedogs.cz nemá testimonials sekci — nahrazeno Klub sekcí" },
+    { "pos": 9,  "name": "Booking/CTA",  "reason": "Rezervace je integrována v navbar CTA a contact sekci" }
+  ],
+  "extraSections": [
+    { "type": "promo", "reason": "Klub/členství sekce — klíčový USP blok pro psí salon" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "grooming-01-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "grooming-01-hero",     "contentRef": "hero" },
+        { "type": "about",    "variant": "grooming-01-about",    "contentRef": "about" },
+        { "type": "services", "variant": "grooming-01-pricing",  "contentRef": "pricing" },
+        { "type": "gallery",  "variant": "grooming-01-gallery",  "contentRef": "gallery" },
+        { "type": "promo",    "variant": "grooming-01-club",     "contentRef": "club" },
+        { "type": "faq",      "variant": "grooming-01-faq",      "contentRef": "faq" },
+        { "type": "contact",  "variant": "grooming-01-contact",  "contentRef": "contact" },
+        { "type": "footer",   "variant": "grooming-01-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Služby",
+      "seoTitleKey": "pages.sluzby.seoTitle",
+      "seoDescriptionKey": "pages.sluzby.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "grooming-01-navbar",  "contentRef": "navbar" },
+        { "type": "services", "variant": "grooming-01-pricing", "contentRef": "pricing" },
+        { "type": "footer",   "variant": "grooming-01-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "grooming-01-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "grooming-01-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "grooming-01-footer",  "contentRef": "footer" }
+      ]
+    }
+  ]
+}

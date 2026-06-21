@@ -1,0 +1,413 @@
+{
+  "navbar": {
+    "siteName": "ARCHITEKTA",
+    "logoUrl": "/templates/arch-01/logo.svg",
+    "phone": "+420 731 456 890",
+    "links": [
+      {
+        "label": "Realizace",
+        "href": "/realizace"
+      },
+      {
+        "label": "Interiéry",
+        "href": "/interiery"
+      },
+      {
+        "label": "Ateliér",
+        "href": "/atelier"
+      },
+      {
+        "label": "Architekti",
+        "href": "/architekti"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ],
+    "socials": [
+      {
+        "icon": "instagram",
+        "href": "https://instagram.com/architekta"
+      },
+      {
+        "icon": "facebook",
+        "href": "https://facebook.com/architekta"
+      },
+      {
+        "icon": "youtube",
+        "href": "https://youtube.com/architekta"
+      }
+    ]
+  },
+  "hero": {
+    "slides": [
+      {
+        "imageUrl": "/templates/arch-01/hero-1.webp",
+        "alt": "Villa Říčany – exteriér za soumraku",
+        "title": "Villa Říčany"
+      },
+      {
+        "videoUrl": "/templates/arch-01/hero-video-1.mp4",
+        "alt": "Vila Olomouc nad přehradou – video",
+        "title": "Vila Olomouc nad přehradou"
+      },
+      {
+        "imageUrl": "/templates/arch-01/hero-2.webp",
+        "alt": "Rezidence Plzeň – pohled z terasy",
+        "title": "Rezidence Plzeň"
+      },
+      {
+        "imageUrl": "/templates/arch-01/hero-3.webp",
+        "alt": "Vila Hradec Králové – zahradní fasáda",
+        "title": "Vila Hradec Králové"
+      },
+      {
+        "videoUrl": "/templates/arch-01/hero-video-2.mp4",
+        "alt": "Vila Pardubice – video průlet",
+        "title": "Vila Pardubice"
+      }
+    ],
+    "ctaText": "Detail realizace",
+    "ctaHref": "/realizace",
+    "ctaText2": "Videa realizací",
+    "ctaHref2": "/realizace"
+  },
+  "projects": {
+    "heading": "Realizace",
+    "ctaText": "Všechny realizace",
+    "ctaHref": "/realizace",
+    "items": [
+      {
+        "title": "Villa Říčany",
+        "category": "Exteriér",
+        "imageUrl": "/templates/arch-01/project-1.webp",
+        "href": "/realizace"
+      },
+      {
+        "title": "Rezidence Plzeň",
+        "category": "Exteriér",
+        "imageUrl": "/templates/arch-01/project-2.webp",
+        "href": "/realizace"
+      },
+      {
+        "title": "Vila Hradec Králové",
+        "category": "Exteriér",
+        "imageUrl": "/templates/arch-01/project-3.webp",
+        "href": "/realizace"
+      },
+      {
+        "title": "Rodinný dům Jihlava",
+        "category": "Exteriér",
+        "imageUrl": "/templates/arch-01/project-4.webp",
+        "href": "/realizace"
+      },
+      {
+        "title": "Vila Pardubice",
+        "category": "Exteriér",
+        "imageUrl": "/templates/arch-01/project-5.webp",
+        "href": "/realizace"
+      },
+      {
+        "title": "Dům Olomouc – Povel",
+        "category": "Exteriér",
+        "imageUrl": "/templates/arch-01/project-6.webp",
+        "href": "/realizace"
+      }
+    ]
+  },
+  "about": {
+    "heading": "Forma studio | ateliér",
+    "tagline": "Tvar, světlo, prostor. Architektura, která zůstane.",
+    "body": "Věříme, že dobrý dům není jen dobře postavený dům. Je to místo, kde se život odehrává přirozeně a bez kompromisů. Každý projekt tvoříme od prvního náčrtu až po předání klíčů — s plným soustředěním na detail, materiál a váš způsob života. Forma studio bylo založeno s přesvědčením, že nadčasová architektura vzniká z poctivého dialogu mezi architektem a klientem.",
+    "ctaText": "Zjistit více",
+    "ctaHref": "/atelier",
+    "imageUrl": "/templates/arch-01/about.webp",
+    "imageAlt": "Forma studio ateliér"
+  },
+  "interiors": {
+    "heading": "Forma studio | interiéry",
+    "subheading": "Interiér vnímáme jako pokračování architektury jinými prostředky. Naše interiérové studio dotváří každý projekt do jeho přirozené podoby — od výběru materiálů po rozmístění světel.",
+    "ctaText": "Všechny interiéry",
+    "ctaHref": "/interiery",
+    "items": [
+      {
+        "title": "Obývací prostor Říčany",
+        "category": "Interiér",
+        "imageUrl": "/templates/arch-01/interior-1.webp",
+        "href": "/interiery"
+      },
+      {
+        "title": "Ložnice Plzeň – minimalistická",
+        "category": "Interiér",
+        "imageUrl": "/templates/arch-01/interior-2.webp",
+        "href": "/interiery"
+      },
+      {
+        "title": "Kuchyně Hradec Králové",
+        "category": "Interiér",
+        "imageUrl": "/templates/arch-01/interior-3.webp",
+        "href": "/interiery"
+      },
+      {
+        "title": "Koupelna Olomouc",
+        "category": "Interiér",
+        "imageUrl": "/templates/arch-01/interior-4.webp",
+        "href": "/interiery"
+      }
+    ]
+  },
+  "reels": {
+    "heading": "Reels",
+    "ctaText": "Další reels",
+    "ctaHref": "/realizace",
+    "posts": [
+      {
+        "title": "Střecha jako pátá fasáda",
+        "date": "12. 4. 2026",
+        "excerpt": "Na nové vile v Říčanech jsme navrhli zelenou střechu, která organicky propojuje objekt s okolním terénem a zároveň reguluje tepelné zisky.",
+        "imageUrl": "/templates/arch-01/reel-1.webp",
+        "href": "/realizace"
+      },
+      {
+        "title": "Světlo jako stavební materiál",
+        "date": "3. 4. 2026",
+        "excerpt": "Velkoformátová okna rezidence v Plzni jsou navržena tak, aby sledovala pohyb slunce — ranní světlo v ložnici, odpolední v obývacím pokoji.",
+        "imageUrl": "/templates/arch-01/reel-2.webp",
+        "href": "/realizace"
+      },
+      {
+        "title": "Hrubá stavba Hradec Králové",
+        "date": "27. 3. 2026",
+        "excerpt": "Nosná konstrukce vily v Hradci Králové je hotová. Tvar, který byl měsíce jen na papíře, konečně stojí v krajině a začíná dávat smysl v plném měřítku.",
+        "imageUrl": "/templates/arch-01/reel-3.webp",
+        "href": "/realizace"
+      },
+      {
+        "title": "Dřevo, kámen, sklo",
+        "date": "18. 3. 2026",
+        "excerpt": "Tři materiály, jeden příběh. Na projektu v Jihlavě jsme pracovali s jejich přirozeným kontrastem — drsnost kamene, teplo dřeva, průhlednost skla.",
+        "imageUrl": "/templates/arch-01/reel-4.webp",
+        "href": "/realizace"
+      }
+    ]
+  },
+  "media": {
+    "heading": "Média",
+    "ctaText": "Další média",
+    "ctaHref": "/atelier",
+    "items": [
+      {
+        "title": "Architekt & bydlení",
+        "issue": "únor 2026",
+        "imageUrl": "/templates/arch-01/media-1.webp"
+      },
+      {
+        "title": "Moderní byt",
+        "issue": "listopad 2025",
+        "imageUrl": "/templates/arch-01/media-2.webp"
+      },
+      {
+        "title": "Stavba & interiér",
+        "issue": "září 2025",
+        "imageUrl": "/templates/arch-01/media-3.webp"
+      },
+      {
+        "title": "Dům & zahrada",
+        "issue": "červen 2025",
+        "imageUrl": "/templates/arch-01/media-4.webp"
+      },
+      {
+        "title": "Forbes Life",
+        "issue": "březen 2025",
+        "imageUrl": "/templates/arch-01/media-5.webp"
+      }
+    ]
+  },
+  "team": {
+    "heading": "Forma studio | architekti",
+    "tagline": "Každý dům nese stopu svého architekta. Proto pečlivě vybíráme lidi, kteří svou práci berou jako osobní závazek — ne jako zakázku.",
+    "ctaText": "Poznat architekty",
+    "ctaHref": "/architekti",
+    "members": [
+      {
+        "name": "Martin Kovář",
+        "role": "Vedoucí architekt",
+        "imageUrl": "/templates/arch-01/team-1.webp",
+        "bio": "Vystudoval FA VUT v Brně a pracovní stáže absolvoval v Kodani a Barceloně. Specializuje se na rezidenční architekturu s důrazem na vztah stavby a krajiny."
+      },
+      {
+        "name": "Lucie Nováková",
+        "role": "Architektka a interiérová designérka",
+        "imageUrl": "/templates/arch-01/team-2.webp",
+        "bio": "Absolventka AVU Praha, obor design prostoru. Odpovídá za interiérové projekty a výběr materiálů. Věří, že detaily rozhodují o tom, jak se v domě cítíme."
+      },
+      {
+        "name": "Ondřej Šimánek",
+        "role": "Architekt a BIM koordinátor",
+        "imageUrl": "/templates/arch-01/team-3.webp",
+        "bio": "Odborník na digitální projektování a koordinaci stavby. Zajišťuje bezchybný průchod projektu od konceptu přes dokumentaci až po realizaci."
+      }
+    ]
+  },
+  "awards": {
+    "heading": "Ocenění",
+    "ctaText": "Další ocenění",
+    "ctaHref": "/atelier",
+    "items": [
+      {
+        "title": "Dům roku – cena veřejnosti 2023",
+        "imageUrl": "/templates/arch-01/award-2023.webp",
+        "alt": "Dům roku 2023"
+      },
+      {
+        "title": "Dům roku – cena veřejnosti 2022",
+        "imageUrl": "/templates/arch-01/award-2022.webp",
+        "alt": "Dům roku 2022"
+      },
+      {
+        "title": "Dům roku – cena veřejnosti 2021",
+        "imageUrl": "/templates/arch-01/award-2021.webp",
+        "alt": "Dům roku 2021"
+      },
+      {
+        "title": "Dům roku – absolutní vítěz 2020",
+        "imageUrl": "/templates/arch-01/award-2020.webp",
+        "alt": "Dům roku 2020"
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Kontaktujte nás",
+    "subheading": "Máte projekt, vizi nebo jen otázku? Napište nám — rádi si najdeme čas na první nezávaznou konzultaci.",
+    "email": "atelier@formastudio.cz",
+    "phone": "+420 731 456 890",
+    "phoneSecondary": "+420 731 456 891",
+    "offices": [
+      {
+        "name": "Ateliér Praha",
+        "address": "Mánesova 88",
+        "city": "120 00 Praha 2"
+      },
+      {
+        "name": "Ateliér Olomouc",
+        "address": "Horní náměstí 12",
+        "city": "779 00 Olomouc"
+      }
+    ],
+    "formFields": {
+      "namePlaceholder": "Vaše jméno",
+      "emailPlaceholder": "Váš e-mail",
+      "messagePlaceholder": "Popište svůj projekt nebo dotaz...",
+      "submitText": "Odeslat zprávu"
+    }
+  },
+  "footer": {
+    "siteName": "ARCHITEKTA",
+    "logoUrl": "/templates/arch-01/logo.svg",
+    "tagline": "Tvar, světlo, prostor. Architektura, která zůstane.",
+    "links": [
+      {
+        "label": "Realizace",
+        "href": "/realizace"
+      },
+      {
+        "label": "Interiéry",
+        "href": "/interiery"
+      },
+      {
+        "label": "Ateliér",
+        "href": "/atelier"
+      },
+      {
+        "label": "Architekti",
+        "href": "/architekti"
+      },
+      {
+        "label": "Kontakt",
+        "href": "/kontakt"
+      }
+    ],
+    "offices": [
+      {
+        "name": "Ateliér Praha",
+        "address": "Mánesova 88, 120 00 Praha 2"
+      },
+      {
+        "name": "Ateliér Olomouc",
+        "address": "Horní náměstí 12, 779 00 Olomouc"
+      }
+    ],
+    "email": "atelier@formastudio.cz",
+    "phone": "+420 731 456 890",
+    "socials": [
+      {
+        "icon": "instagram",
+        "href": "https://instagram.com/architekta"
+      },
+      {
+        "icon": "facebook",
+        "href": "https://facebook.com/architekta"
+      },
+      {
+        "icon": "youtube",
+        "href": "https://youtube.com/architekta"
+      }
+    ],
+    "legalName": "Forma studio s.r.o.",
+    "ico": "09876543",
+    "dic": "CZ09876543",
+    "legalAddress": "Mánesova 88, 120 00 Praha 2",
+    "gdprHref": "/gdpr",
+    "cookiesHref": "/cookies",
+    "copyright": "© 2026 Forma studio s.r.o."
+  },
+  "seo": {
+    "title": "Forma studio – Architektonický ateliér",
+    "description": "Forma studio – rezidenční architektura a interiérový design. Navrhujeme domy, ve kterých se dobře žije. Ateliéry v Praze a Olomouci.",
+    "ogImage": "/templates/arch-01/og-image.webp",
+    "canonical": "https://formastudio.cz"
+  },
+  "pages": {
+    "realizace": {
+      "seoTitle": "Realizace – Forma studio",
+      "seoDescription": "Prohlédněte si realizované projekty Forma studia — vily, rodinné domy a rezidenční stavby napříč Českou republikou.",
+      "hero": {
+        "title": "Realizace",
+        "subtitle": "Vily, rodinné domy a rezidenční projekty"
+      }
+    },
+    "interiery": {
+      "seoTitle": "Interiéry – Forma studio",
+      "seoDescription": "Interiérový design jako přirozené pokračování architektury. Forma studio interiérové studio Praha a Olomouc.",
+      "hero": {
+        "title": "Interiéry",
+        "subtitle": "Interiérový design jako přirozené pokračování architektury"
+      }
+    },
+    "atelier": {
+      "seoTitle": "Ateliér – Forma studio",
+      "seoDescription": "Poznejte Forma studio — náš příběh, filozofii a způsob práce.",
+      "hero": {
+        "title": "Ateliér",
+        "subtitle": "Náš příběh, filozofie a přístup k architektuře"
+      }
+    },
+    "architekti": {
+      "seoTitle": "Architekti – Forma studio",
+      "seoDescription": "Tým architektů a designérů Forma studia Praha a Olomouc.",
+      "hero": {
+        "title": "Architekti",
+        "subtitle": "Lidé za každým projektem"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt – Forma studio",
+      "seoDescription": "Kontaktujte Forma studio. Ateliéry v Praze a Olomouci.",
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Jsme tu pro vás"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "colors": {
+    "primary":    "#FF5500",
+    "secondary":  "#C3C3C3",
+    "background": "#000000",
+    "surface":    "#181818",
+    "text":       "#DBDBDB",
+    "textMuted":  "#C3C3C3",
+    "accent":     "#FF5500",
+    "border":     "#FF5500"
+  },
+  "typography": {
+    "fontHeading": "Archivo Black",
+    "fontBody":    "Montserrat",
+    "scale":       "comfortable"
+  },
+  "radius": {
+    "sm":   "0px",
+    "md":   "0px",
+    "lg":   "0px",
+    "pill": "0px"
+  },
+  "spacing": {
+    "personality": "spacious",
+    "section":     "comfortable"
+  }
+}

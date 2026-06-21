@@ -1,0 +1,183 @@
+{
+  "navbar": {
+    "siteName": "Demo Magic Tattoo Studio",
+    "logoUrl": "/templates/tattoo-03/logo.svg",
+    "phone": "704 123 456",
+    "ctaText": "Kontaktujte nás",
+    "ctaHref": "#kontakt",
+    "links": [
+      { "label": "Walk-In tetování", "href": "#walk-in" },
+      { "label": "Tetování",         "href": "#sluzby" },
+      { "label": "Ceník",            "href": "#cenik" },
+      { "label": "O studiu",         "href": "#o-nas" },
+      { "label": "Ukázky práce",     "href": "#galerie" }
+    ]
+  },
+  "hero": {
+    "title": "Tetování Praha",
+    "subtitle": "Nejlepší tetovací studio v Praze. Profesionální tetování v centru Prahy. Bez čekání. Otevřeno denně 10–20h i o víkendech a svátcích.",
+    "cta1Text": "Chci tetování",
+    "cta1Href": "#kontakt",
+    "cta2Text": "Naše práce",
+    "cta2Href": "#galerie",
+    "reviewCount": "1612",
+    "reviewScore": "4.9",
+    "backgroundImage": "/assets/tattoo-03/7f4e5a0126-recepce-studia-tetovani-praha-scaled.webp"
+  },
+  "about": {
+    "title": "Profesionální tetovací salon — kde jedinečný styl se setkává s mistrovstvím",
+    "body": "Při práci používáme nejmodernější veganské tetovací barvy, které splňují přísné normy EU. Dbáme na dodržení hygienických pravidel pro vaši maximální bezpečnost a spokojenost.",
+    "text2": "Přijďte se inspirovat do Demo Magic Tattoo Studia, kde se každé tetování stává trvalou a milovanou součástí vašeho příběhu. Náš tým tvoří pečlivě vybraní tatéři s lidským přístupem.",
+    "ctaText": "Objednat se",
+    "ctaHref": "#kontakt",
+    "image": "/templates/tattoo-03/about-team.jpg",
+    "stats": [
+      { "number": "15+",  "label": "let zkušeností" },
+      { "number": "1612", "label": "pozitivních recenzí" },
+      { "number": "4.9",  "label": "hvězdičkové hodnocení" },
+      { "number": "100%", "label": "spokojených klientů" }
+    ]
+  },
+  "services": {
+    "heading": "Na co se specializujeme",
+    "subheading": "Co děláme",
+    "services": [],
+    "items": [
+      {
+        "name": "Walk-In tetování",
+        "title": "Walk-In tetování",
+        "text": "Přijďte bez objednání a nechte svůj impuls proměnit v umělecké dílo na vaší kůži. Naši tatéři jsou připraveni pro vás kdykoliv. Žádné čekání, žádná nervozita.",
+        "image": "/templates/tattoo-03/service-1.jpg",
+        "href": "#kontakt"
+      },
+      {
+        "name": "Tetování podle požadavku",
+        "title": "Tetování podle požadavku",
+        "text": "Naši zkušení tatéři ctí vaše přání a jsou připraveni realizovat jakýkoliv návrh, který si představíte. U nás se každý nápad stává jedinečným dílem.",
+        "image": "/templates/tattoo-03/service-2.jpg",
+        "href": "#kontakt"
+      },
+      {
+        "name": "Párové tetování",
+        "title": "Párové tetování",
+        "text": "Přijďte se svým partnerem nebo přáteli. Vytetujeme vám symbol vašich vzájemných vztahů. Zkušení tatéři vám doporučí vhodný námět.",
+        "image": "/templates/tattoo-03/service-3.jpg",
+        "href": "#kontakt"
+      },
+      {
+        "name": "Předělání tetování",
+        "title": "Předělání tetování",
+        "text": "Přeměňte staré tetování v nové umělecké dílo. Naši zkušení tatéři vdechnou nový život vašemu inkoustu — cover-up i opravy stávajících tetování.",
+        "image": "/templates/tattoo-03/service-4.jpg",
+        "href": "#kontakt"
+      }
+    ]
+  },
+  "process": {
+    "title": "Jak to probíhá?",
+    "body": "3 jednoduché kroky k dokonalému tetování — přijďte připraveni a my se postaráme o zbytek.",
+    "heading": "Jak to probíhá?",
+    "subheading": "3 jednoduché kroky k dokonalému tetování",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Příprava na tetování",
+        "text": "Přijďte odpočatí, najedení, bez alkoholu a omamných látek. Můžete mít s sebou jednoho doprovod."
+      },
+      {
+        "number": "2",
+        "title": "Průběh tetování",
+        "text": "S tatérem doladíte motiv, místo se oholí a vydezinfikuje, přenese se vzor a barva se vpichuje pod kůži tetovacím strojkem."
+      },
+      {
+        "number": "3",
+        "title": "Závěrečná péče",
+        "text": "Hotové tetování se ošetří, zakryje fólií a je nutné ho několik týdnů pravidelně mazat doporučenou mastí."
+      }
+    ]
+  },
+  "gallery": {
+    "heading": "Ukázky práce",
+    "subheading": "Práce našich tatérů",
+    "images": [
+      { "url": "/templates/tattoo-03/gallery-1.jpg", "alt": "Tetování ukázka 1" },
+      { "url": "/templates/tattoo-03/gallery-2.jpg", "alt": "Tetování ukázka 2" },
+      { "url": "/templates/tattoo-03/gallery-3.jpg", "alt": "Tetování ukázka 3" },
+      { "url": "/templates/tattoo-03/gallery-4.jpg", "alt": "Tetování ukázka 4" },
+      { "url": "/templates/tattoo-03/gallery-5.jpg", "alt": "Tetování ukázka 5" },
+      { "url": "/templates/tattoo-03/gallery-6.jpg", "alt": "Tetování ukázka 6" },
+      { "url": "/templates/tattoo-03/gallery-7.jpg", "alt": "Tetování ukázka 7" },
+      { "url": "/templates/tattoo-03/gallery-8.jpg", "alt": "Tetování ukázka 8" }
+    ]
+  },
+  "testimonials": {
+    "heading": "Co říkají naši klienti",
+    "subheading": "Přidejte se k tisícům spokojených klientů",
+    "score": "4.9",
+    "reviewCount": "1612",
+    "testimonials": [
+      {
+        "text": "Naprosto fantastická zkušenost! Tatér byl profesionální a přátelský. Tetování vypadá přesně tak, jak jsem si představovala. Vrátím se rozhodně.",
+        "author": "Tereza K.",
+        "rating": 5
+      },
+      {
+        "text": "Super fast, super friendly! Felt very safe and satisfied. Will come back! Really professional and clean. Great sense of design.",
+        "author": "Berlin Guys",
+        "rating": 5
+      },
+      {
+        "text": "Walk-in tetování bez objednání — přijel jsem na dovolenou a odešel s krásným tetováním. Tým je skvělý, studio čisté a profesionální.",
+        "author": "Martin H.",
+        "rating": 5
+      }
+    ],
+    "items": [
+      {
+        "text": "Naprosto fantastická zkušenost! Tatér byl profesionální a přátelský. Tetování vypadá přesně tak, jak jsem si představovala. Vrátím se rozhodně.",
+        "author": "Tereza K.",
+        "rating": 5
+      },
+      {
+        "text": "Super fast, super friendly! Felt very safe and satisfied. Will come back! Really professional and clean. Great sense of design.",
+        "author": "Berlin Guys",
+        "rating": 5
+      },
+      {
+        "text": "Walk-in tetování bez objednání — přijel jsem na dovolenou a odešel s krásným tetováním. Tým je skvělý, studio čisté a profesionální.",
+        "author": "Martin H.",
+        "rating": 5
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Kontaktujte nás",
+    "subheading": "Rezervace & informace",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "hours": "Po–Ne 10:00–20:00",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "image": "/templates/tattoo-03/contact-studio.jpg"
+  },
+  "footer": {
+    "siteName": "Demo Tattoo Studio",
+    "tagline": "Profesionální tetovací studio v centru Prahy. Otevřeno denně 10–20h. Walk-in i rezervace.",
+    "logoUrl": "/templates/tattoo-03/logo.svg",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "hours": "Po–Ne 10:00–20:00",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "copyright": "© 2026 Demo Tattoo Studio. Všechna práva vyhrazena.",
+    "navLinks": [
+      { "label": "Walk-In",      "href": "#walk-in" },
+      { "label": "Tetování",     "href": "#sluzby" },
+      { "label": "Galerie",      "href": "#galerie" },
+      { "label": "O studiu",     "href": "#o-nas" },
+      { "label": "Kontakt",      "href": "#kontakt" }
+    ]
+  }
+}

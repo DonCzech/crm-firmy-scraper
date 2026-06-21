@@ -1,5 +1,5 @@
 /* beauty-01 — Demo Beauty Studio skin overrides */
-/* Cormorant Garamond — hero H1 (totožný s originálem selfbeauty.cz) */
+/* Cormorant Garamond — hero H1 (totožný s originálem design reference) */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
 :root {
   --color-primary:      #E0BE9A;
@@ -24,33 +24,33 @@
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url('/clones/selfbeauty/fonts/Noa26Uj3zpmBOgbNpOIjmqlWHCtTkBjw.woff2') format('woff2');
+  src: url('/assets/beauty-01/fe0da48159-Noa26Uj3zpmBOgbNpOIjmqlWHCtTkBjw.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Fahkwang';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/clones/selfbeauty/fonts/Noax6Uj3zpmBOgbNpOqIuLx7PiZ5.woff2') format('woff2');
+  src: url('/assets/beauty-01/4ff9618acc-Noax6Uj3zpmBOgbNpOqIuLx7PiZ5.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Fahkwang';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url('/clones/selfbeauty/fonts/Noa26Uj3zpmBOgbNpOJ7m6lWHCtTkBjw.woff2') format('woff2');
+  src: url('/assets/beauty-01/764eb508d6-Noa26Uj3zpmBOgbNpOJ7m6lWHCtTkBjw.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Fahkwang';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url('/clones/selfbeauty/fonts/Noa26Uj3zpmBOgbNpOJXnKlWHCtTkBjw.woff2') format('woff2');
+  src: url('/assets/beauty-01/6e22404161-Noa26Uj3zpmBOgbNpOJXnKlWHCtTkBjw.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Fahkwang';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('/clones/selfbeauty/fonts/Noa26Uj3zpmBOgbNpOIznalWHCtTkBjw.woff2') format('woff2');
+  src: url('/assets/beauty-01/0705ab61f4-Noa26Uj3zpmBOgbNpOIznalWHCtTkBjw.woff2') format('woff2');
 }

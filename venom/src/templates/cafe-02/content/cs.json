@@ -1,0 +1,181 @@
+{
+  "siteName": "Kavárna Republica",
+  "tagline": "Kavárna v srdci Prahy",
+  "description": "Od rána až do pozdního odpoledne si užijte cvrkot vídeňské kavárny a večer zpomalte při noblesní večeři inspirované francouzskou kuchyní.",
+
+  "navbar": {
+    "siteName": "Kavárna Republica",
+    "logoUrl": "/templates/cafe-02/logo.svg",
+    "ctaText": "Rezervace",
+    "ctaHref": "/rezervace",
+    "phone": "704 123 456",
+    "links": [
+      { "label": "Úvod",      "href": "/" },
+      { "label": "Menu",      "href": "/menu" },
+      { "label": "Rezervace", "href": "/rezervace" },
+      { "label": "O nás",     "href": "/o-nas" },
+      { "label": "Kontakt",   "href": "/kontakt" }
+    ]
+  },
+
+  "hero": {
+    "title": "Vídeňská elegance\nv srdci Prahy",
+    "subtitle": "Od rána až do pozdního odpoledne si užijte cvrkot vídeňské kavárny.",
+    "ctaText": "Zarezervovat stůl",
+    "ctaHref": "/rezervace",
+    "ctaSecondaryText": "Prohlédnout menu",
+    "ctaSecondaryHref": "/menu",
+    "slides": [
+      { "url": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 40%" },
+      { "url": "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" },
+      { "url": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 35%" },
+      { "url": "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" }
+    ]
+  },
+
+  "about": {
+    "id": "o-nas",
+    "tagline": "Náš příběh",
+    "title": "Místo, kde se čas\nzastaví nad šálkem kávy.",
+    "body": "Demo Café Savoy je kavárna ve vídeňském stylu, kde se snídaně prolíná s brunčem a odpolední káva s večerní večeří. Interiér s vysokými stropy a lustry evokuje belle époque zlatého věku kavárny.",
+    "body2": "Nabízíme pečivo připravené denně v ranních hodinách, výběrovou kávu z prvoligových pražíren i obsáhlou nabídku snídaní a vídeňských specialit po celý den.",
+    "ctaText": "Více o nás",
+    "ctaHref": "/o-nas",
+    "image": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=900&h=675&fit=crop&fm=webp&q=85"
+  },
+
+  "services": {
+    "id": "menu",
+    "tagline": "Naše nabídka",
+    "title": "Menu pro každou\ndenní dobu.",
+    "body": "Snídaně, obědy i večeře v elegantním vídeňském prostředí. Každý chod připravujeme z čerstvých surovin a poctivých receptur.",
+    "ctaText": "Zobrazit celé menu",
+    "ctaHref": "/menu",
+    "items": [
+      {
+        "name": "Snídaně & Brunch",
+        "category": "Ráno · 8:00–13:00",
+        "description": "Čerstvé croissanty, vídeňský závin, vejce různými způsoby a výběrová káva. Pečivo pečeme denně od brzkých ranních hodin.",
+        "image": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Jídelní lístek",
+        "ctaHref": "/menu"
+      },
+      {
+        "name": "Denní menu & Obědy",
+        "category": "Poledne · 11:00–15:00",
+        "description": "Dvouchodbé polední menu s polévkou a hlavním jídlem. Výběr z klasické vídeňské kuchyně i moderních lehčích pokrmů.",
+        "image": "https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Jídelní lístek",
+        "ctaHref": "/menu"
+      },
+      {
+        "name": "Večeře à la carte",
+        "category": "Večer · od 17:30",
+        "description": "Plné menu inspirované francouzskou kuchyní. Vídeňský řízek, krémová polévky, dezerty a pečlivě sestavený vinný lístek.",
+        "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Jídelní lístek",
+        "ctaHref": "/menu"
+      }
+    ]
+  },
+
+  "cta": {
+    "id": "rezervace",
+    "tagline": "Rezervujte si stůl",
+    "title": "Udělejte si\nvelkolepost ze dne.",
+    "body": "Rezervujte online nebo nás kontaktujte telefonicky. Rádi připravíme soukromou událost přesně podle vašich představ.",
+    "ctaText": "Zarezervovat stůl",
+    "ctaHref": "/rezervace",
+    "ctaSecondaryText": "Prohlédnout menu",
+    "ctaSecondaryHref": "/menu",
+    "image": "https://images.unsplash.com/photo-1550966871-3ed3cbe818b0?w=1920&h=1080&fit=crop&fm=webp&q=85"
+  },
+
+  "contact": {
+    "id": "kontakt",
+    "tagline": "Kde nás najdete",
+    "title": "Kontakt\na rezervace",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "rezervace@demo.cz",
+    "hours": "Po–Pá 8:00–22:00, So–Ne 9:00–22:00",
+    "ctaText": "Zarezervovat stůl",
+    "ctaHref": "mailto:rezervace@demo.cz",
+    "mapLat": "50.0875",
+    "mapLng": "14.4213",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo"
+  },
+
+  "footer": {
+    "siteName": "Kavárna Republica",
+    "logoUrl": "/templates/cafe-02/logo.svg",
+    "tagline": "Vídeňská elegance v srdci Prahy.",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "hours": "Po–Pá 8:00–22:00, So–Ne 9:00–22:00",
+    "ico": "12345678",
+    "web": "https://demo.cz",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "links": [
+      { "label": "Úvod",      "href": "/" },
+      { "label": "Menu",      "href": "/menu" },
+      { "label": "Rezervace", "href": "/rezervace" },
+      { "label": "O nás",     "href": "/o-nas" },
+      { "label": "Kontakt",   "href": "/kontakt" }
+    ]
+  },
+
+  "pages": {
+    "menu": {
+      "seoTitle": "Menu — Demo Café Savoy",
+      "seoDescription": "Jídelní a nápojový lístek Demo Café Savoy. Snídaně, obědy a večeře ve vídeňském stylu.",
+      "hero": {
+        "title": "Naše menu",
+        "subtitle": "Snídaně, obědy a večeře ve vídeňském stylu.",
+        "backgroundImage": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=600&fit=crop&fm=webp&q=85"
+      },
+      "services": {
+        "id": "menu-page",
+        "tagline": "Jídelní lístek",
+        "title": "Co vám nabídneme.",
+        "ctaText": "Zarezervovat stůl",
+        "ctaHref": "/rezervace",
+        "items": []
+      }
+    },
+    "rezervace": {
+      "seoTitle": "Rezervace — Demo Café Savoy",
+      "seoDescription": "Zarezervujte si stůl v Demo Café Savoy. Online rezervace nebo telefonicky.",
+      "hero": {
+        "title": "Rezervace",
+        "subtitle": "Zarezervujte si stůl online nebo nás kontaktujte.",
+        "backgroundImage": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1920&h=600&fit=crop&fm=webp&q=85"
+      }
+    },
+    "o-nas": {
+      "seoTitle": "O nás — Demo Café Savoy",
+      "seoDescription": "Příběh Demo Café Savoy — vídeňská kavárna v srdci Prahy.",
+      "hero": {
+        "title": "Náš příběh",
+        "subtitle": "Vídeňská kavárna s tradicí a elegancí.",
+        "backgroundImage": "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1920&h=600&fit=crop&fm=webp&q=85"
+      },
+      "about": {
+        "tagline": "O nás",
+        "title": "Tradice, elegance\na skvělá kuchyně.",
+        "body": "Demo Café Savoy vznikla s vizí přinést do Prahy autentickou atmosféru vídeňských kaváren. Vysoké stropy, lustry a obsluha v klasickém oděvu vytvářejí jedinečné prostředí.",
+        "body2": "Naší filozofií je pečlivý výběr surovin, poctivá příprava a osobní přístup ke každému hostu.",
+        "ctaText": "Zarezervovat stůl",
+        "ctaHref": "/rezervace",
+        "image": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=900&h=675&fit=crop&fm=webp&q=85"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Demo Café Savoy",
+      "seoDescription": "Kontakt a otevírací doba Demo Café Savoy."
+    }
+  }
+}

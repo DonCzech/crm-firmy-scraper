@@ -1,0 +1,147 @@
+{
+  "navbar": {
+    "siteName": "MARTIN VESELÝ",
+    "logoUrl": "",
+    "phone": "731 556 892",
+    "links": [
+      { "label": "O mně",         "href": "#o-mne"    },
+      { "label": "Svatební videa","href": "#videa"    },
+      { "label": "Místa",         "href": "#mista"    },
+      { "label": "Reference",     "href": "#reference"},
+      { "label": "FAQ",           "href": "#faq"      },
+      { "label": "Nabídka",       "href": "#nabidka"  },
+      { "label": "Napište mi",    "href": "#kontakt"  }
+    ]
+  },
+  "hero": {
+    "title": "Svatební filmy\no vztazích, citech a lidech",
+    "quote": "Každý pár má svůj příběh, své ticho i svůj smích",
+    "subtitle": "Natáčím svatby tak, jak se opravdu žijí — bez pozování, s prostorem pro vaše emoce a blízké.",
+    "body": "",
+    "ctaText": "Dostupnost termínu",
+    "ctaHref": "#kontakt",
+    "imageUrl": "/assets/video-01/8dc4ae83f6-Svatba-2023-Lea-Petr-Kemp-Kunzak-Telc-HonzaKamenarCZ.jpg",
+    "imageAlt": "Svatební kameraman při práci"
+  },
+  "about": {
+    "eyebrow": "Ahoj!",
+    "title": "Jsem Martin, snílek, táta, manžel a taky svatební kameraman.",
+    "titleNormal": "Jsem Martin, snílek, táta, manžel a taky",
+    "titleBold": "svatební kameraman",
+    "body": "Baví mě lidi a jejich vztahy. S trpělivostí a empatií natáčím svatební filmy po celé České republice — od Šumavy až po Moravu.",
+    "body2": "Miluju chvíle, které trvají jen pár vteřin, ale ve videu zůstanou navždy — pro vás, vaše děti i vnoučata. Svatební film pro mě není jen o dokonalém záběru, je o tom zachytit pocit — jak se smějete, jak se držíte za ruce, jak se na sebe díváte.",
+    "ctaText": "Pojďme se více poznat",
+    "ctaHref": "#kontakt",
+    "imageUrl": "/assets/video-01/75eafcc8ce-780614_510adedb8cd347d1ac13c26446958b17_mv2.jpg_Svatba-2024-Gabca-Kuba-Hajnyho-stodola-obrad.jpg",
+    "imageAlt": "Svatební kameraman Martin Veselý",
+    "imageCaption": "Foto: Kristýna Horáčková",
+    "bgImageUrl": "/assets/video-01/dcbeaf808e-780614_52151e0a612f4122b0ff854b477bb04c_mv2.jpg_Svatba-2025-Linda-Filip-statek-Smrciny-dron-lokace.jpg"
+  },
+  "gallery": {
+    "eyebrow": "Příběhy",
+    "title": "Šest svateb, šest příběhů",
+    "subtitle": "Každý pár je jiný. Každý příběh je autentický.",
+    "ctaText": "Celé portfolio",
+    "ctaHref": "#kontakt",
+    "images": [],
+    "items": [
+      {
+        "url": "/assets/video-01/bb959b82a1-780614_486a137e12ad45c79f578b14cd5ff89c_mv2.jpg_Svatba-2024-Gabca-Kuba-Hajnyho-stodola-svatebni-misto-dron.jpg",
+        "alt": "Svatba Barbora & Tomáš",
+        "couple": "Barbora & Tomáš",
+        "location": "Hájenka Vltava, Jižní Čechy",
+        "tags": "intimita ‧ příroda ‧ boho ‧ tradice"
+      },
+      {
+        "url": "/assets/video-01/dcbeaf808e-780614_52151e0a612f4122b0ff854b477bb04c_mv2.jpg_Svatba-2025-Linda-Filip-statek-Smrciny-dron-lokace.jpg",
+        "alt": "Svatba Veronika & Jakub",
+        "couple": "Veronika & Jakub",
+        "location": "Statek Sluneční dvůr, Vysočina",
+        "tags": "styl ‧ lovestory ‧ smích ‧ přátelé"
+      },
+      {
+        "url": "/assets/video-01/f07ba1c4a2-780614_58c276f0b3034a74a59d8103ac28e65c_mv2.jpg_Svatba-2025-Aneta-Ondra-Buskovsky-mlyn-portret-smich-pes.jpg",
+        "alt": "Svatba Karolína & Petr",
+        "couple": "Karolína & Petr",
+        "location": "Mlýn pod Lipami, Střední Čechy",
+        "tags": "obřad ‧ humor ‧ láska ‧ přirozenost"
+      },
+      {
+        "url": "/assets/video-01/a3e3730832-780614_58de94cd55b14891a8b070cd2b1eb7e8_mv2.jpg_Svatba-2025-Klara-Petr-Stredoceska-stodola-portret-venku.jpg",
+        "alt": "Svatba Eliška & Martin",
+        "couple": "Eliška & Martin",
+        "location": "Vinice Chateau Lednice, Morava",
+        "tags": "editorial ‧ emoce ‧ silný příběh"
+      },
+      {
+        "url": "/assets/video-01/85d4edbcee-780614_59ae7a531bda493c9b8aec0fa6c626c5_mv2.jpg_Svatba-2025-Zuzka-Kuba-Mlyn-Davidkov-obrad-smich-sranda.jpg",
+        "alt": "Svatba Tereza & Ondřej",
+        "couple": "Tereza & Ondřej",
+        "location": "Hostinec Na Kopci, Šumava",
+        "tags": "uvolněnost ‧ emoce ‧ smích"
+      },
+      {
+        "url": "/assets/video-01/6e00efc080-780614_6265f7e28c3543779a608f85b049e2c0_mv2.jpg_Svatba-2024-Klara-Lukas-Nas-Mlyn-Ochoz-portret-venku-humor.jpg",
+        "alt": "Svatba Adéla & Lukáš",
+        "couple": "Adéla & Lukáš",
+        "location": "Zámek Třeboň, Jižní Čechy",
+        "tags": "luxus ‧ elegance ‧ pohoda"
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Co na filmech oceňují páry:",
+    "ctaText": "Další ohlasy",
+    "ctaHref": "#kontakt",
+    "testimonials": [
+      {
+        "text": "Martin zachytil úplně vše — naše nervy před obřadem, smích na hostině i slzy při prvním tanci. Video si pouštíme znovu a znovu.",
+        "author": "Barbora & Tomáš",
+        "role": "Hájenka Vltava"
+      },
+      {
+        "text": "Byl nenápadný, ale přitom všudypřítomný. Výsledek nás dojal k slzám. Martinovu práci doporučujeme všem!",
+        "author": "Veronika & Jakub",
+        "role": "Statek Sluneční dvůr"
+      },
+      {
+        "text": "Tohle je boží. Každá sekunda toho videa je přesně to, co jsme cítili. Děkujeme, že jsi byl součástí našeho dne.",
+        "author": "Karolína & Petr",
+        "role": "Mlýn pod Lipami"
+      }
+    ]
+  },
+  "cta": {
+    "eyebrow": "Nabídka",
+    "title": "Vy prožijte svůj den. Já ho pro vás uchovám.",
+    "subtitle": "Jak může vypadat vaše svatební video",
+    "bullets": [
+      "Svatební klip — sestřih toho nejlepšího z vašeho dne",
+      "Celý svatební film — kompletní záznam vašeho příběhu",
+      "Individuální přístup a cena na míru vašim přáním"
+    ],
+    "ctaText": "Napište mi",
+    "ctaHref": "#kontakt",
+    "imageUrl": "/assets/video-01/c9de8b018f-780614_7a2276b672764aed8ee13b8ed04d2f6f_mv2.jpg_Svatba-2024-Hani-Martin-stodola-Suska-Kravsko-portret-smich-ctverec.jpg",
+    "imageAlt": "Novomanželé"
+  },
+  "footer": {
+    "siteName": "MARTIN VESELÝ",
+    "tagline": "Svatební kameraman — Česká republika",
+    "phone": "731 556 892",
+    "email": "martin@vesely-video.cz",
+    "address": "Filmová 7, 370 01 České Budějovice",
+    "ico": "06184523",
+    "copyright": "© 2026 Martin Veselý. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "O mně",          "href": "#o-mne"    },
+      { "label": "Svatební videa", "href": "#videa"    },
+      { "label": "Reference",      "href": "#reference"},
+      { "label": "Nabídka",        "href": "#nabidka"  },
+      { "label": "Napište mi",     "href": "#kontakt"  }
+    ],
+    "instagram": "https://instagram.com/demo",
+    "facebook":  "https://facebook.com/demo",
+    "youtube":   "https://youtube.com/demo"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "lawyer-01",
+  "name": "Demo HAVEL & PARTNERS",
+  "industry": "lawyer",
+  "skeleton": "professional",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Prémiová advokátní kancelář — 2-řádkový sticky bílý navbar s lang CZ/EN/SK, fullscreen hero s navy (#141760) bg a silným claimem, prázdné oblasti práva (3-col grid), karmínová (#a70336) stats sekce se 4 čísly, sekce mezinárodního dosahu, newsletter CTA strip, kontaktní sekce s kancelářemi, tmavý footer. Inspirováno havelpartners.cz.",
+  "sectionOrderNote": "Navbar → Hero → Services (oblasti práva) → Stats → About → CTA → Contact → Footer",
+  "skippedSections": [
+    { "pos": 4, "name": "About/Team",   "reason": "Tým je na podstránce; homepage ho nevyužívá" },
+    { "pos": 5, "name": "Cases",        "reason": "Case studies jsou na podstránce; homepage ukazuje jen oblasti práva" },
+    { "pos": 8, "name": "Testimonials", "reason": "Klientské reference jsou na podstránce" },
+    { "pos": 9, "name": "Insights",     "reason": "Aktuality/blog jsou na podstránce" },
+    { "pos": 10,"name": "FAQ",          "reason": "FAQ není součástí homepage flow originálu" }
+  ],
+  "extraSections": [
+    { "type": "stats",   "name": "Klíčová čísla", "reason": "Karmínová sekce se 4 čísly (právníci/klienti/jazyky/země) — přímý ekvivalent hp--section--red originálu" },
+    { "type": "about",   "name": "Mezinárodní dosah", "reason": "Bílá sekce s popisem mezinárodního působení kanceláře" },
+    { "type": "cta",     "name": "Newsletter/aktuality", "reason": "Šedý CTA strip 'Buďte stále v obraze' — newsletter přihlášení" },
+    { "type": "contact", "name": "Kontakty kanceláří", "reason": "Navy sekce s mřížkou kanceláří (Praha, Brno, Ostrava, Plzeň, Olomouc)" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs", "en", "sk"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "lawyer-01-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "lawyer-01-hero",     "contentRef": "hero" },
+        { "type": "services", "variant": "lawyer-01-services", "contentRef": "services" },
+        { "type": "stats",    "variant": "lawyer-01-stats",    "contentRef": "stats" },
+        { "type": "about",    "variant": "lawyer-01-about",    "contentRef": "about" },
+        { "type": "cta",      "variant": "lawyer-01-cta",      "contentRef": "cta" },
+        { "type": "contact",  "variant": "lawyer-01-contact",  "contentRef": "contact" },
+        { "type": "footer",   "variant": "lawyer-01-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "lawyer-01-navbar",  "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",     "contentRef": "pages.o-nas.hero" },
+        { "type": "about",   "variant": "lawyer-01-about",   "contentRef": "about" },
+        { "type": "footer",  "variant": "lawyer-01-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "lawyer-01-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "lawyer-01-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "lawyer-01-footer",  "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "content/cs.json"
+  }
+}

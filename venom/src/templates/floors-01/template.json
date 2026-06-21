@@ -1,0 +1,57 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "floors-01",
+  "name": "Demo Supellex",
+  "industry": "floors",
+  "skeleton": "b2b-trade",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Podlahy & e-shop katalog. Bílý 2-row e-shop navbar (logo+hledání+ikony / megamenu), fullbleed image slider, zelený (#007d47) showroom pruh, inspirační galerie, 4-col benefit grid, 3-col blog, FAQ accordion, newsletter+4-col footer. Inspirováno supellex.cz.",
+  "sectionOrderNote": "Navbar → Hero → Showrooms → Inspiration → Benefits → Blog → FAQ → Footer",
+  "skippedSections": [],
+  "extraSections": [
+    { "type": "promo", "reason": "Showroom pruh — zelené pozadí, obrázek showroomu, 5 lokací (Praha/Brno/Plzeň/…)" },
+    { "type": "promo", "reason": "Benefits grid — 4 ikony proč nakupovat u nás (Zkušenosti/Inspirace/Jedinečnost/Odbornost)" }
+  ],
+  "i18n": { "default": "cs", "supported": ["cs"] },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",       "variant": "floors-01-navbar",       "contentRef": "navbar"       },
+        { "type": "hero",         "variant": "floors-01-hero",         "contentRef": "hero"         },
+        { "type": "promo",        "variant": "floors-01-showrooms",    "contentRef": "showrooms"    },
+        { "type": "gallery",      "variant": "floors-01-inspiration",  "contentRef": "inspiration"  },
+        { "type": "promo",        "variant": "floors-01-benefits",     "contentRef": "benefits"     },
+        { "type": "blog-preview", "variant": "floors-01-blog",         "contentRef": "blog"         },
+        { "type": "faq",          "variant": "floors-01-faq",          "contentRef": "faq"          },
+        { "type": "footer",       "variant": "floors-01-footer",       "contentRef": "footer"       }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Kolekce",
+      "seoTitleKey": "pages.sluzby.seoTitle",
+      "seoDescriptionKey": "pages.sluzby.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "floors-01-navbar",    "contentRef": "navbar"  },
+        { "type": "gallery", "variant": "floors-01-inspiration","contentRef": "inspiration" },
+        { "type": "footer",  "variant": "floors-01-footer",    "contentRef": "footer"  }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "floors-01-navbar", "contentRef": "navbar"  },
+        { "type": "faq",     "variant": "floors-01-faq",    "contentRef": "faq"     },
+        { "type": "footer",  "variant": "floors-01-footer", "contentRef": "footer"  }
+      ]
+    }
+  ],
+  "content": { "default": "./content/cs.json" }
+}

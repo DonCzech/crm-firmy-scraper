@@ -1,0 +1,212 @@
+{
+  "navbar": {
+    "siteName": "Demo MAGNET",
+    "logoUrl": "/templates/autoservis-02/logo.svg",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "hours": "Po–Pá 8–17, So 8–14",
+    "links": [
+      { "label": "Žižkov",     "href": "/zizkov" },
+      { "label": "Strašnice",  "href": "/strasnice" },
+      {
+        "label": "Autoservis", "href": "/sluzby",
+        "children": [
+          { "label": "Servisní prohlídka",              "href": "#" },
+          { "label": "Garanční prohlídka",              "href": "#" },
+          { "label": "Servisní prohlídka BMW",          "href": "#" },
+          { "label": "Servisní prohlídka Mercedes",     "href": "#" },
+          { "label": "Garanční prohlídka Hyundai",      "href": "#" },
+          { "label": "Garanční prohlídka Renault",      "href": "#" },
+          { "label": "Garanční prohlídka Citroën",      "href": "#" },
+          { "label": "Garanční prohlídka Dacia",        "href": "#" },
+          { "label": "Servisní prohlídky Audi",         "href": "#" },
+          { "label": "Garanční prohlídka Škoda",        "href": "#" },
+          { "label": "Garanční prohlídka Opel",         "href": "#" },
+          { "label": "Garanční prohlídka KIA servis",   "href": "#" },
+          { "label": "Servisní prohlídka Ford",         "href": "#" },
+          { "label": "Servisní prohlídka Volkswagen",   "href": "#" },
+          { "label": "Garanční prohlídka Seat",         "href": "#" },
+          { "label": "Garanční prohlídka FIAT",         "href": "#" },
+          { "label": "Garanční prohlídka Peugeot",      "href": "#" },
+          { "label": "Autodiagnostika",                 "href": "#" },
+          { "label": "Autoelektrika",                   "href": "#" },
+          { "label": "Výměna oleje v motoru",           "href": "#" },
+          { "label": "Výměna oleje a filtrů",           "href": "#" },
+          { "label": "Výměna oleje Shell",              "href": "#" },
+          { "label": "Opravy automatických převodovek", "href": "#" },
+          { "label": "Servis klimatizace",              "href": "#" },
+          { "label": "Oprava klimatizace",              "href": "#" },
+          { "label": "Dezinfekce klimatizace",          "href": "#" },
+          { "label": "Čištění klimatizace v autě",      "href": "#" },
+          { "label": "Plnění klimatizace",              "href": "#" },
+          { "label": "Servis hybridních vozů",          "href": "#" },
+          { "label": "Čištění DPF filtru",              "href": "#" },
+          { "label": "Mechanické opravy",               "href": "#" },
+          { "label": "Výměna rozvodů",                  "href": "#" },
+          { "label": "Výměna brzdových destiček",       "href": "#" },
+          { "label": "Výměna spojky a setrvačníku",     "href": "#" },
+          { "label": "Výměna a oprava výfuku",          "href": "#" },
+          { "label": "STK",                             "href": "#" },
+          { "label": "Měření emisí",                    "href": "#" },
+          { "label": "Geometrie kol",                   "href": "#" },
+          { "label": "Lakování aut",                    "href": "#" },
+          { "label": "Opravy karoserie",                "href": "#" },
+          { "label": "Čištění interiérů",               "href": "#" },
+          { "label": "Servis všech značek",             "href": "#" }
+        ]
+      },
+      {
+        "label": "Pneuservis", "href": "#",
+        "children": [
+          { "label": "Přezutí pneu",               "href": "#" },
+          { "label": "Opravy pneu",                "href": "#" },
+          { "label": "Prodej pneumatik",           "href": "#" },
+          { "label": "TPMS – tlak v pneumatikách", "href": "#" },
+          { "label": "Pneuservis Praha 10 Strašnice", "href": "#" }
+        ]
+      },
+      { "label": "Ceník",      "href": "#" },
+      { "label": "Reference",  "href": "/reference" },
+      { "label": "O nás",     "href": "/o-nas" },
+      { "label": "Kontakt",   "href": "/kontakt" }
+    ]
+  },
+
+  "hero": {
+    "title": "Expres autoservis\nbez čekání",
+    "subtitle": "Přijeďte klidně hned — opravíme vaše auto rychle, kvalitně a za fér cenu",
+    "ctaText": "Objednat servis",
+    "ctaHref": "#kontakt",
+    "ctaSecondaryText": "Naše služby",
+    "ctaSecondaryHref": "/sluzby",
+    "bullets": [
+      "Přijeďte bez objednání, nebudete čekat",
+      "Servis všech značek vozidel",
+      "Garanční prohlídky bez ztráty záruky",
+      "Otevřeno i v sobotu 8–14 hod."
+    ],
+    "backgroundImage": "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=1600&h=900&fit=crop&fm=webp&q=85"
+  },
+
+  "services": {
+    "id": "sluzby",
+    "tagline": "Naše služby",
+    "title": "Kompletní péče\no vaše vozidlo",
+    "items": [
+      {
+        "icon": "wrench",
+        "name": "Běžná údržba",
+        "description": "Výměna oleje, filtrů, světel, stěračů, kontrola brzd. Vše rychle a bez objednání. Fixní ceny balíčků olej + filtr.",
+        "ctaText": "Více info",
+        "ctaHref": "/sluzby"
+      },
+      {
+        "icon": "engine",
+        "name": "Motor a převodovka",
+        "description": "Opravy motorů, výměna oleje v automatické převodovce (DSG, CVT, Škoda, VW, BMW, Audi), autodiagnostika.",
+        "ctaText": "Více info",
+        "ctaHref": "/sluzby"
+      },
+      {
+        "icon": "electric",
+        "name": "Autoelektrika",
+        "description": "Diagnostika a opravy elektroniky vozidla. Výměna baterií, alternátorů, spouštěčů, čidel a řídicích jednotek.",
+        "ctaText": "Více info",
+        "ctaHref": "/sluzby"
+      },
+      {
+        "icon": "climate",
+        "name": "Klimatizace",
+        "description": "Servis klimatizace: doplnění chladiva, čištění a dezinfekce. Doporučujeme každoroční servis pro optimální výkon.",
+        "ctaText": "Více info",
+        "ctaHref": "/sluzby"
+      }
+    ]
+  },
+
+  "about": {
+    "id": "o-nas",
+    "tagline": "Proč Demo MAGNET?",
+    "title": "Autoservis,\nkterému můžete věřit",
+    "body": "Opravíme vaše auto rychle, kvalitně a levně. Přijeďte bez objednání — budeme na vás připraveni. Servisujeme vozy všech značek a zajistíme garanční prohlídky bez ztráty záruky výrobce.",
+    "stats": [
+      { "number": "15+", "label": "let na trhu" },
+      { "number": "8 000+", "label": "spokojených zákazníků" },
+      { "number": "3 000+", "label": "oprav ročně" }
+    ],
+    "bullets": [
+      "Přijeďte bez objednání, nebudete čekat",
+      "Velký expres autoservis v Praze",
+      "Hybridy i Plug-in hybridy umíme",
+      "Kvalitní materiály za férové ceny"
+    ],
+    "ctaText": "Více o nás",
+    "ctaHref": "/o-nas",
+    "image": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&h=600&fit=crop&fm=webp&q=85"
+  },
+
+  "contact": {
+    "id": "kontakt",
+    "tagline": "Kde nás najdete",
+    "title": "Kontakt\na objednávka",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "hours": "Po–Pá 8:00–17:00, So 8:00–14:00",
+    "mapEmbedUrl": "",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo"
+  },
+
+  "footer": {
+    "siteName": "Demo MAGNET Autoservis",
+    "logoUrl": "/templates/autoservis-02/logo.svg",
+    "tagline": "Expres autoservis Praha — rychle, kvalitně, fér cena",
+    "email": "email@demo.cz",
+    "phone": "704 123 456",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pá 8:00–17:00, So 8:00–14:00",
+    "links": [
+      { "label": "Domů",    "href": "/" },
+      { "label": "Služby",  "href": "/sluzby" },
+      { "label": "O nás",   "href": "/o-nas" },
+      { "label": "Kontakt", "href": "/kontakt" }
+    ],
+    "legalLinks": [
+      { "label": "Obchodní podmínky", "href": "#" },
+      { "label": "Ochrana soukromí",  "href": "#" }
+    ],
+    "facebookUrl":  "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "copyright": "© 2025 Demo MAGNET Autoservis. Všechna práva vyhrazena."
+  },
+
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Služby — Demo MAGNET Autoservis",
+      "seoDescription": "Kompletní přehled autoservisních služeb — výměna oleje, garanční prohlídky, klimatizace, autoelektrika.",
+      "hero": {
+        "title": "Naše služby",
+        "subtitle": "Kompletní péče o vaše vozidlo"
+      },
+      "services": {
+        "id": "sluzby",
+        "tagline": "Kompletní nabídka",
+        "title": "Všechny naše služby",
+        "items": []
+      }
+    },
+    "o-nas": {
+      "seoTitle": "O nás — Demo MAGNET Autoservis",
+      "seoDescription": "Expres autoservis Praha — servisujeme vozy všech značek, garanční prohlídky bez ztráty záruky.",
+      "hero": {
+        "title": "O nás",
+        "subtitle": "Autoservis, kterému můžete věřit"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Demo MAGNET Autoservis",
+      "seoDescription": "Kontaktujte nás nebo se objednejte — autoservis Praha."
+    }
+  }
+}

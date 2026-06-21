@@ -1,0 +1,351 @@
+{
+  "siteName": "Lesní Smečka",
+  "siteDescription": "Outdoorové kroužky a příměstské tábory pro děti 5–14 let v přírodě.",
+
+  "navbar": {
+    "siteName": "Lesní Smečka",
+    "logoUrl": "",
+    "phone": "775 388 210",
+    "email": "ahoj@lesni-smecka.cz",
+    "ctaText": "Zapsat dítě",
+    "ctaHref": "/kontakt",
+    "links": [
+      { "label": "Náš tým",            "href": "/nas-tym" },
+      { "label": "Místa & rozvrhy",     "href": "/#mista" },
+      { "label": "Letní tábory",        "href": "/#tabory" },
+      { "label": "Angličtina v lese",   "href": "/#anglictina" },
+      { "label": "MiniSmečka",          "href": "/#minismecka" },
+      { "label": "Kalendář",            "href": "/#kalendar" },
+      { "label": "Novinky",             "href": "/#novinky" },
+      { "label": "Kontakt",             "href": "/kontakt" },
+      { "label": "Více ▾",             "href": "/#vice" }
+    ]
+  },
+
+  "hero": {
+    "title": "Lesní Smečka",
+    "tagline": "pro děti 5 až 14 let",
+    "heading": "Lesní Smečka",
+    "subheading": "Venkovní kroužky plné dobrodružství — kde příroda je největší hřiště",
+    "ctaText": "Chci se zapsat",
+    "ctaHref": "/kontakt",
+    "imageUrl": "/assets/kids-01/36b3126a5b-web-homepage-1.png",
+    "imageAlt": "Děti v lese na kroužku Lesní Smečka"
+  },
+
+  "pillars": {
+    "heading": "Co tě u nás čeká?",
+    "items": [
+      {
+        "icon": "run",
+        "title": "AKCE",
+        "description": "Každé setkání je jiné — žádná nuda, samý pohyb a výzvy",
+        "imageUrl": "/assets/kids-01/35d2f2da75-4.jpg",
+        "linkText": "Co děláme",
+        "linkHref": "/aktivity"
+      },
+      {
+        "icon": "star",
+        "title": "PARTA",
+        "description": "Smečka kamarádů, se kterými se nebojíš ničeho",
+        "imageUrl": "/assets/kids-01/2d481fa0e3-2.jpg",
+        "linkText": "Co děláme",
+        "linkHref": "/aktivity"
+      },
+      {
+        "icon": "leaf",
+        "title": "PŘÍRODA",
+        "description": "Les, louka, potok — náš domov a největší hřiště",
+        "imageUrl": "/assets/kids-01/ae58a376bc-1.jpg",
+        "linkText": "Co děláme",
+        "linkHref": "/aktivity"
+      }
+    ]
+  },
+
+  "about": {
+    "title": "Pro koho je Lesní Smečka?",
+    "body": "Lesní Smečka jsou outdoorové kroužky pro děti 5–14 let, které baví příroda, pohyb a život naplno.",
+    "heading": "Pro koho je Lesní Smečka?",
+    "imageUrl": "/assets/kids-01/3ab44d207e-db56d7b4-1cc2-47bf-857b-c2ac1a72e8ec_1_105_c.jpeg",
+    "imageAlt": "Děti při outdoorových aktivitách v lese",
+    "tagline": "Lesní Smečka je místo, kde děti rostou — silné, sebejisté a plné života.",
+    "items": [
+      "Pro děti od 5 do 14 let",
+      "Pro ty, kdo mají rádi pohyb, ale nudí je halové sporty",
+      "Pro malé dobrodruhy, kteří se nebojí bláta ani deště",
+      "Pro kluky a holky, které lákají výzvy a nová kamarádství",
+      "Pro rodiče, kteří chtějí dětem dát víc než tablet a gauč"
+    ],
+    "quote": "Pravé dobrodružství nečeká za obrazovkou. Přijď ho najít s námi.",
+    "ctaText": "Zjistit více o kroužcích",
+    "ctaHref": "/aktivity"
+  },
+
+  "services": {
+    "heading": "Co spolu zažijeme?",
+    "subheading": "Každý týden přinášíme nové výzvy. Rozvíjíme odvahu, týmového ducha a lásku k přírodě.",
+    "services": [],
+    "items": [
+      {
+        "name": "Lesní hry",
+        "imageUrl": "/assets/kids-01/62eef1fd76-scioles-intro-8.jpg",
+        "imageAlt": "Lesní hry pro děti",
+        "title": "LESNÍ HRY",
+        "features": [
+          "Stopovačky a bojovky",
+          "Přírodní překážkové dráhy",
+          "Noční výpravy s baterkou",
+          "Týmové strategie v terénu"
+        ],
+        "linkText": "Více o aktivitách",
+        "linkHref": "/aktivity"
+      },
+      {
+        "name": "Woodcraft",
+        "imageUrl": "/assets/kids-01/b9da37b8f8-10.jpg",
+        "imageAlt": "Woodcraft a přírodnické dovednosti",
+        "title": "WOODCRAFT",
+        "features": [
+          "Řezbářství a práce se dřevem",
+          "Rozdělání ohně třením",
+          "Čtení stop zvířat",
+          "Stavba přístřešku v lese"
+        ],
+        "linkText": "Více o aktivitách",
+        "linkHref": "/aktivity"
+      },
+      {
+        "name": "Divoká výprava",
+        "imageUrl": "/assets/kids-01/49f503af40-scioles-intro-9.jpg",
+        "imageAlt": "Divoká výprava v přírodě",
+        "title": "DIVOKÁ VÝPRAVA",
+        "features": [
+          "Brodění potoků a lezení skal",
+          "Orientace podle mapy a hvězd",
+          "Bivakování pod širákem",
+          "Přežití v divočině"
+        ],
+        "linkText": "Více o aktivitách",
+        "linkHref": "/aktivity"
+      }
+    ]
+  },
+
+  "team": {
+    "heading": "Kdo vás provede lesem?",
+    "subheading": "Naši vedoucí jsou zkušení outdooristi a srdcaři. Děti je milují.",
+    "ctaText": "Poznej celý tým",
+    "ctaHref": "/nas-tym",
+    "members": [
+      {
+        "name": "Markéta Horáková",
+        "role": "Vedoucí a zakladatelka",
+        "bio": "Lesem žiji od dětství. Devět let vedu táborové výpravy a každý rok mě děti znovu dobijí energií.",
+        "imageUrl": "/assets/kids-01/f2d88a7bab-scioles-intro-24.jpg"
+      },
+      {
+        "name": "Ondřej Blažek",
+        "role": "Vedoucí výprav",
+        "bio": "Horolezec, skaut a nadšený biolog. Každou výpravu beru jako malé dobrodružství pro nás všechny.",
+        "imageUrl": "/assets/kids-01/5f64fe3de2-ae3f7c95-80f8-4422-9024-b9a0d8c4a379_1_105_c.jpeg"
+      },
+      {
+        "name": "Radek Procházka",
+        "role": "Průvodce přírodou",
+        "bio": "Pracuji jako ranger v NP Šumava. Příroda mě naučila všechno důležité — a to předávám dál.",
+        "imageUrl": "/assets/kids-01/c82910fc7e-martin-foto.jpg"
+      }
+    ]
+  },
+
+  "cta": {
+    "title": "Zapište dítě do Lesní Smečky",
+    "heading": "Zapište dítě do Lesní Smečky",
+    "subheading": "Místa jsou omezená — smečka čítá nejvýše 12 dětí. Neotálejte!",
+    "ctaText": "NEZÁVAZNÁ PŘIHLÁŠKA",
+    "ctaHref": "/kontakt",
+    "note": "Odpovídáme do 24 hodin."
+  },
+
+  "testimonials": {
+    "heading": "Co říkají rodiče",
+    "label": "RODIČE O LESNÍ SMEČCE",
+    "ctaText": "Přečíst všechny recenze",
+    "ctaHref": "/recenze",
+    "testimonials": [],
+    "items": [
+      {
+        "text": "Syn se vrací z každého kroužku umazaný od hlavy k patě a se zářícíma očima. To je pro mě ta nejlepší zpětná vazba.",
+        "author": "Petra M.",
+        "company": "Lesní Smečka"
+      },
+      {
+        "text": "Dcera se poprvé v životě sama přihlásila zpátky na kroužek. To se ještě nikdy nestalo. Lesní Smečka ji prostě dostala.",
+        "author": "Lukáš V.",
+        "company": "Lesní Smečka"
+      },
+      {
+        "text": "Konečně kroužek, kde nejde o výkon, ale o zážitek. Děti se tu naučí spolupracovat, pomáhat si a neztratit se v lese.",
+        "author": "Michaela Š.",
+        "company": "Lesní Smečka"
+      },
+      {
+        "text": "Vedoucí jsou skvělí — mají přirozenou autoritu a zároveň děti berou jako parťáky. Takoví lidi jsou vzácní.",
+        "author": "Roman K.",
+        "company": "Lesní Smečka"
+      }
+    ]
+  },
+
+  "stats": {
+    "heading": "Jak to u nás chodí",
+    "items": [
+      {
+        "imageUrl": "/assets/kids-01/31a711c4d4-scioles-intro-18.jpg",
+        "title": "KDY SE SCHÁZÍME",
+        "subtitle": "úterý až pátek odpoledne",
+        "features": [
+          "Po škole od 14:00",
+          "Každé setkání 90 minut",
+          "Říjen až červen"
+        ]
+      },
+      {
+        "imageUrl": "/assets/kids-01/df38ec00c5-scioles-intro-25.jpg",
+        "title": "JAK TO FUNGUJE",
+        "subtitle": "smečky po 10–12 dětech",
+        "features": [
+          "2 zkušení vedoucí",
+          "Sraz na okraji lesa",
+          "Vybavení zajistíme"
+        ]
+      },
+      {
+        "imageUrl": "/assets/kids-01/8fe6a033ae-9.jpg",
+        "title": "CO JEŠTĚ CHYSTÁME",
+        "features": [
+          "Víkendové výpravy",
+          "Letní tábory v přírodě",
+          "Příměstské tábory",
+          "Angličtina v lese"
+        ]
+      }
+    ]
+  },
+
+  "benefits": {
+    "heading": "Co Lesní Smečka přinese vašemu dítěti",
+    "imageUrl": "/assets/kids-01/04e685188e-5.jpg",
+    "imageAlt": "Dítě při aktivitách v přírodě",
+    "tagline": "Příroda formuje charakter lépe než jakákoli učebnice.",
+    "items": [
+      "ODVAHA — naučí se překonávat strach a zkoušet nové věci",
+      "ODOLNOST — přijde domů mokré, ale silnější a spokojenější",
+      "PŘÁTELSTVÍ — najde partu, se kterou se nebojí ničeho",
+      "KREATIVITA — les rozvíjí fantazii, kterou obrazovka potlačuje",
+      "SEBEDŮVĚRA — každá zvládnutá výzva posiluje víru v sebe sama"
+    ],
+    "practicalHeading": "Praktické věci",
+    "practicalItems": [
+      "Kroužky probíhají 1× týdně, každé setkání trvá 90 minut.",
+      "Smečku tvoří 10–12 dětí a vedou ji 2 proškolení vedoucí.",
+      "Sraz vždy na dohodnutém místě v přírodě, kousek od zastávky MHD.",
+      "Na výpravách platí pravidlo: žádný mobil, jen lidi a příroda.",
+      "Roční předplatné s možností rozložení do splátek.",
+      "Zameškanou hodinu lze nahradit v jiné skupině."
+    ]
+  },
+
+  "contact": {
+    "heading": "Zaujalo vás to?",
+    "subheading": "Napište nám nebo zavolejte — rádi odpovíme na všechny otázky.",
+    "ctaText": "NAPSAT NÁM",
+    "ctaHref": "mailto:ahoj@lesni-smecka.cz",
+    "contactLabel": "Kontakt",
+    "pricingHeading": "Cena kroužku",
+    "pricingItems": [
+      { "location": "Praha", "price": "3 490 Kč za pololetí" },
+      { "location": "Středočeský kraj", "price": "2 990 Kč za pololetí" }
+    ],
+    "locationsHeading": "Kde nás najdete",
+    "locationsSubheading": "Všechna místa srazu jsou u lesa, max. 10 minut od MHD.",
+    "locations": [
+      "Praha — Divoká Šárka",
+      "Praha — Kunratický les",
+      "Praha — Prokopské údolí",
+      "Říčany — Voděradské bučiny",
+      "Beroun — Karlické údolí"
+    ],
+    "email": "ahoj@lesni-smecka.cz",
+    "phone": "775 388 210",
+    "address": "Přírodní 7, 150 00 Praha 5 — Smíchov"
+  },
+
+  "footer": {
+    "siteName": "Lesní Smečka",
+    "logoUrl": "/templates/kids-01/logo.svg",
+    "tagline": "Outdoorové kroužky a tábory pro děti 5–14 let v srdci přírody.",
+    "columns": [
+      {
+        "title": "Kroužky",
+        "links": [
+          { "label": "Co děláme",       "href": "/aktivity" },
+          { "label": "Letní tábory",    "href": "/#tabory" },
+          { "label": "Víkendové výpravy","href": "/#vypravy" },
+          { "label": "Místa srazu",     "href": "/#mista" },
+          { "label": "Ceník",           "href": "/#cenik" }
+        ]
+      },
+      {
+        "title": "O nás",
+        "links": [
+          { "label": "Náš tým",         "href": "/nas-tym" },
+          { "label": "Co říkají rodiče","href": "/recenze" },
+          { "label": "Kontakt",         "href": "/kontakt" },
+          { "label": "Časté otázky",    "href": "/faq" }
+        ]
+      }
+    ],
+    "phone": "775 388 210",
+    "email": "ahoj@lesni-smecka.cz",
+    "address": "Přírodní 7, 150 00 Praha 5",
+    "facebook": "https://facebook.com/lesni-smecka",
+    "instagram": "https://instagram.com/lesni.smecka",
+    "legalName": "Lesní Smečka z.s.",
+    "ico": "09876543",
+    "dic": "CZ09876543",
+    "legalAddress": "Přírodní 7, 150 00 Praha 5 — Smíchov",
+    "privacyHref": "/ochrana-udaju",
+    "cookiesHref": "/cookies"
+  },
+
+  "pages": {
+    "aktivity": {
+      "seoTitle": "Co děláme | Lesní Smečka",
+      "seoDescription": "Lesní hry, woodcraft a divoké výpravy pro děti 5–14 let v přírodě.",
+      "hero": {
+        "title": "Co děláme",
+        "heading": "Co děláme",
+        "subheading": "Lesní hry, woodcraft a výpravy pro děti 5–14 let"
+      }
+    },
+    "nas-tym": {
+      "seoTitle": "Náš tým | Lesní Smečka",
+      "seoDescription": "Poznejte naše vedoucí — zkušené outdooristy a srdcaře.",
+      "hero": {
+        "title": "Náš tým",
+        "heading": "Náš tým",
+        "subheading": "Zkušení vedoucí, kteří mají přírodu v krvi"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt | Lesní Smečka",
+      "seoDescription": "Zapište dítě do Lesní Smečky — napište nebo zavolejte.",
+      "hero": {
+        "heading": "Pojďme se domluvit",
+        "subheading": "Napište nám nebo zavolejte — rádi odpovíme."
+      }
+    }
+  }
+}

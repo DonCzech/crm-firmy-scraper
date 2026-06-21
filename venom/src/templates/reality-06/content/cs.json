@@ -1,0 +1,168 @@
+{
+  "navbar": {
+    "siteName": "Dominik Krejčí",
+    "logoUrl": "/templates/reality-06/logo.svg",
+    "logoAlt": "Dominik Krejčí – realitní makléř",
+    "ctaText": "Nezávazná konzultace",
+    "ctaHref": "#kontakt",
+    "phone": "704 123 456",
+    "email": "dominik@krejci-reality.cz",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "linkedinUrl": "https://linkedin.com/in/demo",
+    "youtubeUrl": "https://youtube.com/demo",
+    "links": [
+      { "label": "Nemovitosti",  "href": "#nemovitosti" },
+      { "label": "Reference",    "href": "#reference" },
+      { "label": "Služby",       "href": "#sluzby" },
+      { "label": "Online odhad", "href": "#odhad" },
+      { "label": "O mně",        "href": "#o-mne" },
+      { "label": "Kontakt",      "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "title": "Váš realitní makléř v Praze",
+    "agentName": "Dominik Krejčí",
+    "heading": "Váš realitní makléř v Praze",
+    "bgImage": "/assets/reality-06/87184cf5cd-hero-image-03.jpg",
+    "agentImage": "/assets/reality-06/1c29b1dc93-jan.png",
+    "phone": "704 123 456",
+    "email": "dominik@krejci-reality.cz",
+    "whatsapp": "https://wa.me/420704123456",
+    "googleUrl": "#",
+    "googleRating": "4,9",
+    "stats": [
+      { "number": "10+", "label": "let praxe\nv realitách" },
+      { "number": "150+", "label": "Prodaných\nnemovitostí" },
+      { "number": "97 %", "label": "Spokojených\nklientů" }
+    ]
+  },
+  "about": {
+    "title": "O mně",
+    "body": "Pražský realitní makléř s desetiletou praxí a osobním přístupem.",
+    "para1": "Jsem pražský realitní makléř s **více než 10 lety zkušeností**. Specializuji se na prodej a pronájem bytů a rodinných domů napříč celou Prahou. Každý klient u mě dostane **plný servis** — od profesionální fotografie a marketingu až po advokátní přípravu smluv. Mé heslo: **Férově, rychle a bez zbytečného stresu.**",
+    "ctaText": "Kontaktujte mě",
+    "ctaHref": "#kontakt"
+  },
+  "services": {
+    "title": "Služby",
+    "subtitle": "Každou nemovitost propaguju naplno. Využívám profesionální fotografy, videoprohlídky, home staging i cílenou reklamu na sociálních sítích — aby Vaše nemovitost zaujala správné kupce co nejrychleji.",
+    "services": [
+      { "name": "Profesionální fotografie", "title": "Profesionální fotografie", "image": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop&q=80" },
+      { "name": "Videoprohlídky",           "title": "Videoprohlídky",           "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&q=80" },
+      { "name": "Home staging",             "title": "Home staging",             "image": "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&h=600&fit=crop&q=80" },
+      { "name": "3D Virtuální prohlídky",   "title": "3D Virtuální prohlídky",   "image": "https://images.unsplash.com/photo-1600573472556-e636c2acda88?w=800&h=600&fit=crop&q=80" },
+      { "name": "Realitní marketing",       "title": "Realitní marketing",       "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&q=80" },
+      { "name": "Advokátní servis",         "title": "Advokátní servis",         "image": "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=600&fit=crop&q=80" }
+    ]
+  },
+  "listings": {
+    "title": "Nemovitosti v nabídce",
+    "allLabel": "Zobrazit všechny nabídky",
+    "allHref": "#kontakt",
+    "items": [
+      {
+        "title": "Byt 3+kk, Praha 2 — Vinohrady",
+        "location": "Praha 2 — Vinohrady",
+        "price": "7 200 000",
+        "type": "prodej",
+        "image": "https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?w=600&h=400&fit=crop&q=80"
+      },
+      {
+        "title": "Byt 2+kk, Praha 5 — Smíchov",
+        "location": "Praha 5 — Smíchov",
+        "price": "5 100 000",
+        "type": "prodej",
+        "image": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop&q=80"
+      },
+      {
+        "title": "Byt 1+kk, Praha 7 — Holešovice",
+        "location": "Praha 7 — Holešovice",
+        "price": "16 900",
+        "type": "pronajem",
+        "image": "https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?w=600&h=400&fit=crop&q=80"
+      }
+    ]
+  },
+  "testimonials": {
+    "id": "recenze",
+    "title": "Co říkají moji klienti",
+    "testimonials": [
+      {
+        "name": "Lucie H.",
+        "rating": 5,
+        "text": "Dominik prodal náš byt za necelé čtyři týdny a za cenu, která překonala naše očekávání. Komunikace na jedničku od prvního hovoru až po předání klíčů."
+      },
+      {
+        "name": "Martin V.",
+        "rating": 5,
+        "text": "Hledal jsem makléře, který to opravdu umí. Dominik nafotil byt profesionálně, připravil skvělý inzerát a do dvou týdnů měl kupce. Doporučuji!"
+      },
+      {
+        "name": "Kateřina B.",
+        "rating": 5,
+        "text": "Díky Dominikovi jsme koupili přesně to, co jsme hledali — v naší ceně a na skvělé adrese. Celý proces byl hladký a stresuprostý. Moc děkujeme!"
+      }
+    ]
+  },
+  "contact": {
+    "id": "kontakt",
+    "title": "Pojďme to probrat",
+    "subtitle": "Napište mi nebo zavolejte — první konzultace je vždy zdarma a nezávazná.",
+    "phone": "704 123 456",
+    "email": "dominik@krejci-reality.cz",
+    "address": "Václavské náměstí 1, 110 00 Praha 1"
+  },
+  "footer": {
+    "siteName": "Dominik Krejčí",
+    "agentImage": "/assets/reality-06/1c29b1dc93-jan.png",
+    "phone": "704 123 456",
+    "email": "dominik@krejci-reality.cz",
+    "whatsapp": "https://wa.me/420704123456",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "linkedinUrl": "https://linkedin.com/in/demo",
+    "copyright": "© 2026 Dominik Krejčí, všechna práva vyhrazena.",
+    "serviceLinks": [
+      { "label": "Profesionální fotografie", "href": "#sluzby" },
+      { "label": "Videoprohlídky",           "href": "#sluzby" },
+      { "label": "Home staging",             "href": "#sluzby" },
+      { "label": "3D Virtuální prohlídky",   "href": "#sluzby" },
+      { "label": "Realitní marketing",       "href": "#sluzby" },
+      { "label": "Advokátní servis",         "href": "#sluzby" }
+    ],
+    "propertyLinks": [
+      { "label": "Byty prodej",           "href": "#nemovitosti" },
+      { "label": "Byty pronájem",         "href": "#nemovitosti" },
+      { "label": "Rodinné domy prodej",   "href": "#nemovitosti" },
+      { "label": "Rodinné domy pronájem", "href": "#nemovitosti" },
+      { "label": "Prodej pozemků",        "href": "#nemovitosti" }
+    ]
+  },
+  "pages": {
+    "o-mne": {
+      "seoTitle": "O mně — Dominik Krejčí, realitní makléř Praha",
+      "seoDescription": "Pražský realitní makléř s 10letou praxí. Prodej a pronájem bytů a domů po celé Praze.",
+      "hero": {
+        "title": "O mně",
+        "subtitle": "Realitní makléř s osobním přístupem"
+      }
+    },
+    "nabidka": {
+      "seoTitle": "Aktuální nabídka — Dominik Krejčí",
+      "seoDescription": "Aktuální nabídka nemovitostí k prodeji a pronájmu v Praze.",
+      "hero": {
+        "title": "Aktuální nabídka",
+        "subtitle": "Nemovitosti k prodeji a pronájmu v Praze"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Dominik Krejčí, realitní makléř",
+      "seoDescription": "Kontaktujte Dominika Krejčího pro nezávaznou konzultaci zdarma.",
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "První konzultace zdarma a nezávazně"
+      }
+    }
+  }
+}

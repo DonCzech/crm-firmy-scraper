@@ -1,0 +1,81 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "sweet-01",
+  "name": "Cukrárna Eliška",
+  "industry": "sweet",
+  "skeleton": "gastro",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Cukrárna & pekárna — sticky bílá navbar, fullscreen hero s červeným CTA, červený USP strip 3-col, 2-col about, 3-col produktové karty, pobočky s mapou, jednoduchá světlá patička. Inspirováno ovocnysvetozor.cz (Joomla + Gantry e-shop).",
+  "sectionOrderNote": "Navbar → Hero → Stats(USP) → About → Services(produkty) → Contact(pobočky) → Footer",
+  "skippedSections": [
+    { "pos": 4,  "name": "Menu/Pricing",  "reason": "Cukrárna nemá klasický ceník na homepage — produkty jsou v e-shopu" },
+    { "pos": 5,  "name": "Gallery",       "reason": "Galerie není jako samostatná sekce na homepage — fotos jsou součástí hero a about" },
+    { "pos": 6,  "name": "CTA",           "reason": "Není dedikovaná CTA sekce — CTA je součástí hero a produktových karet" },
+    { "pos": 8,  "name": "Testimonials",  "reason": "Recenze nejsou na homepage originálu" },
+    { "pos": 9,  "name": "Events",        "reason": "Events/blog není na homepage" },
+    { "pos": 10, "name": "FAQ",           "reason": "FAQ je v navigaci jako samostatná stránka, ne na homepage" }
+  ],
+  "extraSections": [
+    { "type": "stats",   "variant": "sweet-01-usp",       "reason": "USP trust strip 3-col (Pečeme si sami / Čerstvé suroviny / 7 dní) — klíčový brand element cukrárny" },
+    { "type": "services","variant": "sweet-01-products",   "reason": "3-col produktové karty (Rozvoz / Ušetřete / Ochutnejte!) na homepage" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",   "variant": "sweet-01-navbar",    "contentRef": "navbar" },
+        { "type": "hero",     "variant": "sweet-01-hero",      "contentRef": "hero" },
+        { "type": "stats",    "variant": "sweet-01-usp",       "contentRef": "usp" },
+        { "type": "about",    "variant": "sweet-01-about",     "contentRef": "about" },
+        { "type": "services", "variant": "sweet-01-products",  "contentRef": "products" },
+        { "type": "contact",  "variant": "sweet-01-locations", "contentRef": "locations" },
+        { "type": "footer",   "variant": "sweet-01-footer",    "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "pobocky",
+      "title": "Pobočky",
+      "seoTitleKey": "pages.pobocky.seoTitle",
+      "seoDescriptionKey": "pages.pobocky.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "sweet-01-navbar",    "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",      "contentRef": "pages.pobocky.hero" },
+        { "type": "contact", "variant": "sweet-01-locations", "contentRef": "locations" },
+        { "type": "footer",  "variant": "sweet-01-footer",    "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "sweet-01-navbar", "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",   "contentRef": "pages.o-nas.hero" },
+        { "type": "about",   "variant": "sweet-01-about",  "contentRef": "about" },
+        { "type": "footer",  "variant": "sweet-01-footer", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "sweet-01-navbar",    "contentRef": "navbar" },
+        { "type": "contact", "variant": "sweet-01-locations", "contentRef": "locations" },
+        { "type": "footer",  "variant": "sweet-01-footer",    "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

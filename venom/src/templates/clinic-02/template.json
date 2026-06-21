@@ -1,0 +1,46 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "clinic-02",
+  "name": "Demo Bomton Clinic",
+  "industry": "clinic",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Kosmetická klinika estetické dermatologie — bílý navbar s navy #0F203E logem a amber #ffa60b CTA, fullbleed hero s dark overlay a tagline, Google reviews sekce, oblíbená ošetření cards, konzultace zdarma promo, about s feature checklist, newsletter CTA, footer. Inspirováno bomtonclinic.cz.",
+  "sectionOrderNote": "Navbar → Hero → About → Services → Promo [extra] → Testimonials → CTA → Contact → Footer (dle bomtonclinic.cz)",
+  "skippedSections": [
+    { "pos": 5,  "name": "Pricing",   "reason": "Bomton ceník je na samostatné stránce; homepage jen odkazuje na kontakt/rezervace" },
+    { "pos": 6,  "name": "Gallery",   "reason": "Bomton nemá dedikovanou galerii na homepage — fotky jsou integrované v sekcích" },
+    { "pos": 7,  "name": "Team",      "reason": "Tým prezentován na podstránce, homepage ho neobsahuje" },
+    { "pos": 11, "name": "FAQ",       "reason": "Originál nemá FAQ sekci na homepage" }
+  ],
+  "extraSections": [
+    { "type": "promo", "name": "Konzultace ZDARMA promo", "reason": "Bomton má výraznou promo sekci nabízející bezplatnou konzultaci" },
+    { "type": "cta",   "name": "Newsletter CTA",          "reason": "Bomton má newsletter sekci se slevou 10 % na první návštěvu" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "clinic-02-navbar",       "contentRef": "navbar" },
+        { "type": "hero",         "variant": "clinic-02-hero",         "contentRef": "hero" },
+        { "type": "about",        "variant": "clinic-02-about",        "contentRef": "about" },
+        { "type": "services",     "variant": "clinic-02-services",     "contentRef": "services" },
+        { "type": "promo",        "variant": "clinic-02-promo",        "contentRef": "promo" },
+        { "type": "testimonials", "variant": "clinic-02-testimonials", "contentRef": "testimonials" },
+        { "type": "cta",          "variant": "clinic-02-cta",          "contentRef": "cta" },
+        { "type": "contact",      "variant": "clinic-02-contact",      "contentRef": "contact" },
+        { "type": "footer",       "variant": "clinic-02-footer",       "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "content/cs.json"
+  }
+}

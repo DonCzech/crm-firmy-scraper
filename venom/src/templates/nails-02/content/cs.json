@@ -1,0 +1,151 @@
+{
+  "navbar": {
+    "siteName": "Premium Nails",
+    "logoUrl": "",
+    "ctaText": "Objednat se",
+    "ctaHref": "#kontakt",
+    "links": [
+      { "label": "Hlavní",   "href": "#hero" },
+      { "label": "O nás",    "href": "#o-nas" },
+      { "label": "Ceník",    "href": "#cenik" },
+      { "label": "Recenze",  "href": "#recenze" },
+      { "label": "Kontakty", "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "tagline":  "Elegance, která začíná u detailu.",
+    "subtitle": "Prémiové nehtové studio v srdci Prahy. Manikúra, pedikúra a originální nail design — od přirozeného vzhledu po výrazné designy.",
+    "bgImage":  "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=2400&q=80",
+    "ctaText":  "Objednat se",
+    "ctaHref":  "#kontakt"
+  },
+  "about": {
+    "numberPrefix": "(01)",
+    "title":        "O nás",
+    "kicker":       "O studiu",
+    "body":         "Nabízíme manikúru a pedikúru všech typů – od přirozeného vzhledu po prodloužení a originální design. Naše práce skutečně vydrží a samozřejmostí je individuální přístup i váš maximální komfort.",
+    "imageUrl":     "/templates/nails-02/about/about-portrait.webp"
+  },
+  "promo": {
+    "label":   "Nová klientka",
+    "message": "10% sleva na vaši první návštěvu — manikúra, pedikúra a nail design v Premium Nails.",
+    "ctaText": "Rezervovat termín",
+    "ctaHref": "#kontakt"
+  },
+  "pricing": {
+    "numberPrefix": "(02)",
+    "title":        "Ceník",
+    "lead":         "Demonstrační ceník — všechny ceny v Kč včetně DPH. Skutečné ceny upraví majitel přes editor.",
+    "groups": [
+      {
+        "title": "Manikúra",
+        "items": [
+          { "name": "Klasická manikúra",         "price": "550 Kč" },
+          { "name": "Japonská manikúra",         "price": "750 Kč" },
+          { "name": "Gel lak / Shellac",         "price": "850 Kč" },
+          { "name": "Gel modeláž",               "price": "1 200 Kč" },
+          { "name": "Doplnění gelu",             "price": "950 Kč" },
+          { "name": "Odstranění gelu",           "price": "350 Kč" }
+        ]
+      },
+      {
+        "title": "Pedikúra",
+        "items": [
+          { "name": "Klasická pedikúra",         "price": "750 Kč" },
+          { "name": "Kombinovaná pedikúra",      "price": "950 Kč" },
+          { "name": "Pedikúra + gel lak",        "price": "1 200 Kč" },
+          { "name": "Spa pedikúra",              "price": "1 350 Kč" },
+          { "name": "Parafínový zábal",          "price": "250 Kč" }
+        ]
+      },
+      {
+        "title": "Nail design",
+        "items": [
+          { "name": "Francouzská manikúra",      "price": "+ 150 Kč" },
+          { "name": "Ombré efekt",               "price": "+ 200 Kč" },
+          { "name": "Ruční malba (1 nehet)",     "price": "+ 80 Kč" },
+          { "name": "Kamínky / chrom (1 nehet)", "price": "+ 60 Kč" },
+          { "name": "Stamping vzor",             "price": "+ 100 Kč" }
+        ]
+      },
+      {
+        "title": "Doplňky",
+        "items": [
+          { "name": "Lakování klasické (ruce)",  "price": "250 Kč" },
+          { "name": "Lakování klasické (nohy)",  "price": "300 Kč" },
+          { "name": "Oprava jednoho nehtu",      "price": "120 Kč" },
+          { "name": "Dárkový poukaz",            "price": "od 500 Kč" }
+        ]
+      }
+    ]
+  },
+  "testimonials": {
+    "numberPrefix": "(03)",
+    "title":        "Recenze",
+    "kicker":       "Co o nás říkají klientky",
+    "ratingText":   "4.9 / 5 hodnocení na Google",
+    "ratingHref":   "https://google.com/search?q=demo",
+    "reviews": [
+      {
+        "quote":  "Naprostá spokojenost. Holky jsou opravdové profesionálky, manikúra mi vydržela přes čtyři týdny bez jediného škrábance. Atmosféra studia je úžasná, vždycky se ráda vracím.",
+        "author": "Tereza H.",
+        "meta":   "Praha · pravidelná klientka"
+      },
+      {
+        "quote":  "Šla jsem na první návštěvu díky 10% slevě pro nové klientky. Byla jsem nadšená — výsledek přesně podle inspirace a velmi příjemný přístup. Doporučuju.",
+        "author": "Veronika M.",
+        "meta":   "Praha 10"
+      },
+      {
+        "quote":  "Pedikúra na úrovni špičkového wellness — pohodlí, čistota a krásné provedení. Cenu vnímám jako adekvátní kvalitě. Příště zkusím nail design.",
+        "author": "Klára S.",
+        "meta":   "Vinohrady"
+      }
+    ]
+  },
+  "gallery": {
+    "title":   "Galerie",
+    "kicker":  "Naše práce v detailu",
+    "igText":  "Sledujte nás na Instagramu",
+    "igHref":  "https://instagram.com/demo",
+    "images": [
+      { "url": "/templates/nails-02/gallery/gallery-1.webp", "alt": "Manikúra detail" },
+      { "url": "/templates/nails-02/gallery/gallery-2.webp", "alt": "Nail design" },
+      { "url": "/templates/nails-02/gallery/gallery-3.webp", "alt": "Gel modeláž" },
+      { "url": "/templates/nails-02/gallery/gallery-4.webp", "alt": "Francouzská manikúra" },
+      { "url": "/templates/nails-02/gallery/gallery-5.webp", "alt": "Pedikúra spa" },
+      { "url": "/templates/nails-02/gallery/gallery-6.webp", "alt": "Nail art detail" }
+    ]
+  },
+  "contact": {
+    "numberPrefix": "(04)",
+    "title":        "Kontakty",
+    "kicker":       "Těšíme se na vás",
+    "address":      "Ukázková 123, 110 00 Praha 1",
+    "email":        "email@demo.cz",
+    "phone":        "+420 704 123 456",
+    "hours":        "Po–Pá 9:00–18:00, So 9:00–14:00",
+    "mapEmbedUrl":  "https://www.google.com/maps?q=Praha&output=embed",
+    "igHref":       "https://instagram.com/demo",
+    "waHref":       "https://wa.me/420704123456"
+  },
+  "footer": {
+    "siteName":  "Premium Nails",
+    "tagline":   "Prémiové nehtové studio v srdci Prahy. Manikúra, pedikúra a originální nail design.",
+    "address":   "Ukázková 123, 110 00 Praha 1",
+    "email":     "email@demo.cz",
+    "phone":     "+420 704 123 456",
+    "hours":     "Po–Pá 9:00–18:00, So 9:00–14:00",
+    "ico":       "12345678",
+    "copyright": "© 2026 Premium Nails. Demo web — všechna práva vyhrazena.",
+    "igHref":    "https://instagram.com/demo",
+    "waHref":    "https://wa.me/420704123456",
+    "links": [
+      { "label": "O nás",    "href": "#o-nas" },
+      { "label": "Ceník",    "href": "#cenik" },
+      { "label": "Recenze",  "href": "#recenze" },
+      { "label": "Galerie",  "href": "#galerie" },
+      { "label": "Kontakty", "href": "#kontakt" }
+    ]
+  }
+}

@@ -1,0 +1,185 @@
+{
+  "navbar": {
+    "siteName": "Veterina Zdravá tlapka",
+    "logoUrl": "/templates/vet-01/logo.svg",
+    "openText": "Právě ordinujeme",
+    "phone": "+420 731 456 789",
+    "email": "klinika@zdravatlapka.cz",
+    "address": "Lipová 14, Brno",
+    "links": [
+      { "label": "Úvod",        "href": "/" },
+      { "label": "Služby",      "href": "#sluzby" },
+      { "label": "Náš tým",    "href": "#tym" },
+      { "label": "Koho léčíme","href": "#ko-lecime" },
+      { "label": "O klinice",  "href": "#o-nas" },
+      { "label": "Kontakt",    "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "title": "Zdraví vašich mazlíčků je naší prioritou",
+    "heading": "Zdraví vašich mazlíčků je naší prioritou",
+    "subheading": "Moderní veterinární péče s laskavým přístupem ke každému zvířeti",
+    "ctaText": "Objednat se online",
+    "ctaHref": "#kontakt",
+    "slides": [
+      {
+        "title": "Psí pacienti",
+        "subtitle": "Komplexní péče od štěněte až po seniora",
+        "backgroundUrl": "/assets/vet-01/983aa7e248-main-psi.jpg",
+        "overlayColor": "#1abc9c"
+      },
+      {
+        "title": "Kočičí pacienti",
+        "subtitle": "Klidné prostředí přátelské ke kočkám",
+        "backgroundUrl": "/assets/vet-01/a266420990-main-cat.jpg",
+        "overlayColor": "#4054b2"
+      },
+      {
+        "title": "Drobní pacienti",
+        "subtitle": "Specializovaná péče o králíky a hlodavce",
+        "backgroundUrl": "/assets/vet-01/5ea2f94c5a-main-savci.jpg",
+        "overlayColor": "#833ca3"
+      }
+    ]
+  },
+  "services": {
+    "title": "Co u nás najdete",
+    "heading": "Co u nás najdete",
+    "kicker": "Naše služby",
+    "services": [],
+    "body": "Poskytujeme kompletní veterinární péči pod jednou střechou — od preventivních prohlídek přes moderní diagnostiku až po chirurgické zákroky a pooperační péči.",
+    "items": [
+      {
+        "name": "Diagnostika",
+        "title": "Diagnostika",
+        "description": "Laboratoř přímo na klinice, ultrazvuk, RTG a digitální zobrazovací metody pro rychlou a přesnou diagnózu.",
+        "iconUrl": "/assets/vet-01/8048a1e31d-icon-vet.png"
+      },
+      {
+        "name": "Prevence",
+        "title": "Prevence",
+        "description": "Vakcinace, odčervení, čipování a pravidelné preventivní prohlídky pro dlouhý a zdravý život vašeho mazlíčka.",
+        "iconUrl": "/assets/vet-01/5683add3bf-icon-vet-2.png"
+      },
+      {
+        "name": "Chirurgie",
+        "title": "Chirurgie",
+        "description": "Plánované i urgentní operace v moderně vybaveném operačním sále s bezpečnou anestezií a monitoring EKG.",
+        "iconUrl": "/assets/vet-01/89665484cc-icon-vet-03.png"
+      },
+      {
+        "name": "Hospitalizace",
+        "title": "Hospitalizace",
+        "description": "Klidné boxy s individuálním přístupem, průběžné monitorování a pravidelné hlášení majiteli.",
+        "iconUrl": "/assets/vet-01/ca27ad56d7-icon-vet-4.png"
+      }
+    ],
+    "ctaText": "Zjistit více",
+    "ctaHref": "#kontakt"
+  },
+  "about": {
+    "title": "O klinice Zdravá tlapka",
+    "kicker": "O nás",
+    "heading": "O klinice Zdravá tlapka",
+    "body": "Jsme rodinná veterinární klinika působící v Brně od roku 2011. Specializujeme se na péči o psy, kočky, králíky a drobné hlodavce. Náš tým tvoří zkušení veterináři, kteří přistupují ke každému pacientovi s maximální péčí a respektem.",
+    "imageUrl": "/assets/vet-01/7d846c1361-dog.jpg",
+    "features": [
+      "Vlastní laboratoř s výsledky do 30 minut",
+      "Klidné prostředí bez zbytečného stresu pro zvíře",
+      "Tým 4 veterinářů s úzkou specializací",
+      "Moderní vybavení — ultrazvuk, RTG, endoskop",
+      "Rabbit-friendly klinika certifikovaná v ČR",
+      "Cat-friendly certifikace ISFM Gold"
+    ],
+    "ctaText": "Více o klinice",
+    "ctaHref": "#kontakt"
+  },
+  "specs": {
+    "heading": "Oblasti naší odbornosti",
+    "kicker": "Specializace",
+    "items": [
+      { "title": "Preventivní medicína",  "description": "Vakcinační plány, antiparazitika a poradenství pro zdravý životní styl" },
+      { "title": "Kardiologie",           "description": "EKG vyšetření a echokardiografie pro srdeční pacienty" },
+      { "title": "Dermatologie",          "description": "Diagnostika a léčba kožních onemocnění, alergií a ekzémů" },
+      { "title": "Chirurgie",             "description": "Plánované i urgentní operace ve vlastním operačním sále" },
+      { "title": "Oftalmologie",          "description": "Kompletní péče o zrak — od katarakty po onemocnění rohovky" },
+      { "title": "Stomatologie",          "description": "Dentální hygiena, extrakce zubů a léčba paradontózy" },
+      { "title": "Felinní medicína",      "description": "Cat-friendly přístup a specializace na onemocnění koček" },
+      { "title": "Exotická zvířata",      "description": "Péče o králíky, morčata, fretky a plazy" },
+      { "title": "Seniorská péče",        "description": "Geriatrické prohlídky a management chronických onemocnění" }
+    ]
+  },
+  "certs": {
+    "heading": "Certifikace a ocenění",
+    "kicker": "Ověřená kvalita",
+    "items": [
+      {
+        "title": "Rabbit-friendly klinika",
+        "description": "Jako jedna z prvních klinik v ČR jsme získali certifikát Rabbit-friendly. Naše prostory a postupy jsou přizpůsobeny tak, aby byl stres králíků a malých savců při návštěvě minimální.",
+        "imageUrl": "/assets/vet-01/7983af26b5-sert-rabbit2.png"
+      },
+      {
+        "title": "Cat-friendly Gold (ISFM)",
+        "description": "Mezinárodní společnost pro felinní medicínu nám udělila certifikaci Gold. Pracujeme s feromony, máme oddělené čekárny a naši veterináři pravidelně absolvují kurzy felinního chování.",
+        "imageUrl": "/assets/vet-01/6ca334ff52-sert-cat.png"
+      }
+    ]
+  },
+  "team": {
+    "heading": "Kdo se postará o vašeho mazlíčka",
+    "kicker": "Náš tým",
+    "members": [
+      {
+        "name": "MVDr. Tomáš Kovářík",
+        "role": "Veterinární lékař — zakladatel kliniky",
+        "bio": "Absolvent Veterinární a farmaceutické univerzity v Brně. Přes 15 let praxe v chirurgii a interní medicíně. Zakladatel kliniky Zdravá tlapka.",
+        "imageUrl": "/assets/vet-01/7112e9a43c-2.jpg"
+      },
+      {
+        "name": "MVDr. Petra Horáčková",
+        "role": "Veterinární lékařka — felinní medicína",
+        "bio": "Specializuje se na kočičí medicínu a dermatologii. Absolventka VFU Brno, držitelka certifikátu ISFM. Pravidelně se vzdělává na mezinárodních konferencích.",
+        "imageUrl": "/assets/vet-01/9845c2d48c-5.jpg"
+      },
+      {
+        "name": "MVDr. Lucie Procházková",
+        "role": "Veterinární lékařka — exotická zvířata",
+        "bio": "Odbornice na péči o králíky, hlodavce a plazy. Absolventka FVL v Praze. Spoluautorka metodiky pro rabbit-friendly certifikaci v České republice.",
+        "imageUrl": "/assets/vet-01/9db6cd5ec6-IMG-20260209-WA0003.jpg"
+      }
+    ]
+  },
+  "contact": {
+    "kicker": "Kontakt",
+    "heading": "Přijďte nás navštívit",
+    "phone": "+420 731 456 789",
+    "email": "klinika@zdravatlapka.cz",
+    "address": "Lipová 14, 602 00 Brno-střed",
+    "hours": "Po–Pá 8:00–19:00",
+    "hoursNote": "So 9:00–13:00 | Ne: Zavřeno",
+    "ctaText": "Napsat e-mail",
+    "ctaHref": "mailto:klinika@zdravatlapka.cz",
+    "ctaCardTitle": "Máte dotaz nebo chcete objednat mazlíčka?",
+    "ctaCardBody": "Neváhejte nás kontaktovat. Rádi odpovíme na vaše otázky a pomůžeme s objednáním termínu."
+  },
+  "footer": {
+    "siteName": "Zdravá tlapka",
+    "tagline": "Zdraví vašich mazlíčků je naší každodenní prioritou.",
+    "phone": "+420 731 456 789",
+    "email": "klinika@zdravatlapka.cz",
+    "address": "Lipová 14, 602 00 Brno-střed",
+    "hours": "Po–Pá 8:00–19:00 | So 9:00–13:00",
+    "fbHref": "https://facebook.com/zdravatlapka",
+    "igHref": "https://instagram.com/zdravatlapka",
+    "logoUrl": "/templates/vet-01/logo-white.svg",
+    "copyright": "© 2025 Veterina Zdravá tlapka, s.r.o. Všechna práva vyhrazena.",
+    "colTitleNav": "Navigace",
+    "colTitleContact": "Kontakt",
+    "links": [
+      { "label": "Úvod",      "href": "/" },
+      { "label": "Služby",    "href": "#sluzby" },
+      { "label": "Náš tým",  "href": "#tym" },
+      { "label": "Kontakt",  "href": "#kontakt" }
+    ]
+  }
+}

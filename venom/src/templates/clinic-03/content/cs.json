@@ -1,0 +1,202 @@
+{
+  "navbar": {
+    "siteName": "DIAMOND LOOK",
+    "logoUrl": "/templates/clinic-03/logo.svg",
+    "ctaText": "Kontaktujte nás",
+    "ctaHref": "#kontakt",
+    "links": [
+      { "label": "Akce",      "href": "#sluzby",  "badge": "sale" },
+      { "label": "Zákroky",   "href": "#sluzby",  "dropdown": true },
+      { "label": "Ceník",     "href": "#kontakt" },
+      { "label": "Lékaři",    "href": "#o-nas" },
+      { "label": "Celebrity", "href": "#o-nas" },
+      { "label": "Proměny",   "href": "#galerie" }
+    ]
+  },
+  "hero": {
+    "ctaHref": "#sluzby",
+    "slides": [
+      {
+        "kicker": "Nejoblíbenější procedura",
+        "title": "Řekni YES\nsvé proměně",
+        "sub": "Přední klinika estetické medicíny v Praze. Více než 40 lékařů, moderní technologie a výsledky, které vás překvapí.",
+        "cta": "Zjistit více",
+        "bg": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1600&q=80",
+        "overlay": "rgba(0,0,0,0.42)"
+      },
+      {
+        "kicker": "Plastická chirurgie",
+        "title": "Krása v rukou\nprofesionálů",
+        "sub": "Plastika nosu, víček, břicha a další chirurgické zákroky v péči zkušených plastických chirurgů.",
+        "cta": "Objednat konzultaci",
+        "bg": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=1600&q=80",
+        "overlay": "rgba(0,0,0,0.48)"
+      },
+      {
+        "kicker": "Bez narkózy · Rychlá rekonvalescence",
+        "title": "Liposukce\nmodernější metodou",
+        "sub": "Nejpopulárnější liposukce bez celkové narkózy, modelace postavy a tvarování siluety.",
+        "cta": "Více o liposukci",
+        "bg": "https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=1600&q=80",
+        "overlay": "rgba(0,0,0,0.45)"
+      },
+      {
+        "kicker": "Laser & Rejuvenace",
+        "title": "Mladistvý vzhled\nbez skalpelu",
+        "sub": "Frakční laser, IPL a neinvazivní metody pro omlazení pleti a redukci vrásek.",
+        "cta": "Zjistit více",
+        "bg": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=1600&q=80",
+        "overlay": "rgba(0,0,0,0.38)"
+      },
+      {
+        "kicker": "Výplně & Botulotoxin",
+        "title": "Přirozená krása\nbez kompromisů",
+        "sub": "Aplikace výplní kyseliny hyaluronové a botulotoxinu pro přirozený a svěží výsledek.",
+        "cta": "Rezervovat termín",
+        "bg": "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=1600&q=80",
+        "overlay": "rgba(0,0,0,0.44)"
+      }
+    ]
+  },
+  "services": {
+    "title": "Vyberte si z populárních zákroků",
+    "kicker": "Objednejte se na osobní nezávaznou konzultaci s našimi odborníky",
+    "ctaText": "Zobrazit všechny zákroky",
+    "ctaHref": "#kontakt",
+    "services": [
+      {
+        "name": "Hlava & Obličej",
+        "description": "Komplexní péče o pleť, výplně, botulotoxin, laserová ošetření a plastické zákroky obličeje.",
+        "imageUrl": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=400&q=80",
+        "ctaText": "Zjistit více",
+        "ctaHref": "#kontakt"
+      },
+      {
+        "name": "Tělo & Liposukce",
+        "description": "Nejpopulárnější liposukce bez narkózy, modelace postavy a tvarování siluety moderními metodami.",
+        "imageUrl": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=400&q=80",
+        "ctaText": "Zjistit více",
+        "ctaHref": "#kontakt"
+      },
+      {
+        "name": "Plastická chirurgie",
+        "description": "Plastika nosu, víček, břicha a další chirurgické zákroky v rukou zkušených plastických chirurgů.",
+        "imageUrl": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=400&q=80",
+        "ctaText": "Zjistit více",
+        "ctaHref": "#kontakt"
+      },
+      {
+        "name": "Laser & Rejuvenace",
+        "description": "Laserová omlazení, frakční laser, IPL a další neinvazivní metody pro mladistvý vzhled pleti.",
+        "imageUrl": "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=400&q=80",
+        "ctaText": "Zjistit více",
+        "ctaHref": "#kontakt"
+      },
+      {
+        "name": "Výplně & Botulotoxin",
+        "description": "Aplikace kyseliny hyaluronové a botulotoxinu pro přirozené vyhlazení vrásek a objem rtů.",
+        "imageUrl": "https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=400&q=80",
+        "ctaText": "Zjistit více",
+        "ctaHref": "#kontakt"
+      },
+      {
+        "name": "Vlasy & Náplasti",
+        "description": "Transplantace vlasů, mezoterapie a ošetření PRP pro hustší a zdravější vlasy.",
+        "imageUrl": "https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=400&q=80",
+        "ctaText": "Zjistit více",
+        "ctaHref": "#kontakt"
+      },
+      {
+        "name": "Intimní estetika",
+        "description": "Diskrétní ošetření intimních partií — laserová omlazení, hyaluron a funkční medicína.",
+        "imageUrl": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=400&q=80",
+        "ctaText": "Zjistit více",
+        "ctaHref": "#kontakt"
+      },
+      {
+        "name": "Nutriční poradenství",
+        "description": "Individuální plán výživy a doplňků stravy pro podporu výsledků estetických zákroků.",
+        "imageUrl": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=400&q=80",
+        "ctaText": "Zjistit více",
+        "ctaHref": "#kontakt"
+      },
+      {
+        "name": "Wellness & Relaxace",
+        "description": "Masáže, lymfodrenáže a relaxační procedury pro celkovou regeneraci těla a mysli.",
+        "imageUrl": "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=400&q=80",
+        "ctaText": "Zjistit více",
+        "ctaHref": "#kontakt"
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Proměny našich klientů",
+    "kicker": "Z dokonalých proměn spokojení klienti",
+    "ctaText": "Všechny proměny",
+    "ctaHref": "#kontakt",
+    "images": [
+      { "url": "https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=600&q=80", "alt": "Proměna — plastika nosu" },
+      { "url": "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=600&q=80", "alt": "Proměna — výplně a botulotoxin" },
+      { "url": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=600&q=80", "alt": "Proměna — laserová liposukce" },
+      { "url": "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80", "alt": "Proměna — lifting obličeje" },
+      { "url": "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=600&q=80", "alt": "Proměna — plastická chirurgie" },
+      { "url": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=600&q=80", "alt": "Proměna — rejuvenace pleti" }
+    ]
+  },
+  "about": {
+    "title": "Krása v rukou profesionálů",
+    "kicker": "Více jak 40 nejlépe hodnocených lékařů",
+    "body": "Naše klinika sdružuje přední odborníky v oblasti estetické medicíny a plastické chirurgie. Každý z našich lékařů má bohaté zkušenosti a pravidelně se vzdělává na mezinárodních konferencích.",
+    "ctaText": "Poznat náš tým",
+    "ctaHref": "#kontakt",
+    "stats": [
+      { "value": "40+",     "label": "Specializovaných lékařů" },
+      { "value": "30 000+", "label": "Spokojených klientů ročně" },
+      { "value": "20+",     "label": "Let na trhu" }
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1551601651-2a8555f1a136?auto=format&fit=crop&w=800&q=80"
+  },
+  "promo": {
+    "title": "Nejdůvěryhodnější značka",
+    "kicker": "Mezinárodní ocenění SUPERBRANDS",
+    "body": "Novinky, slevy a proměny zdarma do vašeho emailu. Získejte slevy na zákroky, informace o soutěžích a další výhody.",
+    "inputPlaceholder": "Váš e-mail",
+    "ctaText": "Odebírat novinky",
+    "ctaHref": "#kontakt",
+    "badges": [
+      "Nejdůvěryhodnější značka 2020",
+      "Superbrand ČR & SR",
+      "Mezinárodní pečeť kvality"
+    ]
+  },
+  "contact": {
+    "title": "Kontaktujte nás",
+    "kicker": "Jsme tu pro vás",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "+420 704 123 456",
+    "email": "email@demo.cz",
+    "hours": "Po–Pá 9:00–18:00, So 9:00–14:00",
+    "ctaText": "Objednat se online",
+    "ctaHref": "#kontakt"
+  },
+  "footer": {
+    "siteName": "DIAMOND LOOK",
+    "logoUrl": "/templates/clinic-03/logo.svg",
+    "tagline": "Přední klinika estetické medicíny v Praze",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "+420 704 123 456",
+    "email": "email@demo.cz",
+    "hours": "Po–Pá 9:00–18:00, So 9:00–14:00",
+    "web": "https://demo.cz",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "links": [
+      { "label": "Akce",    "href": "#sluzby" },
+      { "label": "Zákroky", "href": "#sluzby" },
+      { "label": "Ceník",   "href": "#kontakt" },
+      { "label": "Lékaři",  "href": "#o-nas" },
+      { "label": "Kontakt", "href": "#kontakt" }
+    ],
+    "copyright": "© 2026 Diamond Look. Všechna práva vyhrazena."
+  }
+}

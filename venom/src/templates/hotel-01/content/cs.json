@@ -1,0 +1,181 @@
+{
+  "navbar": {
+    "siteName": "GRAND HOTEL AURORA",
+    "logoUrl": "/templates/hotel-01/logo.svg",
+    "phone": "+420 605 200 300",
+    "ctaText": "Rezervujte pokoj",
+    "ctaHref": "#kontakt",
+    "overlayBgUrl": "/assets/hotel-01/bcecead1ec-Vaclavske_nam_6824a0438371a.jpg",
+    "links": [
+      { "label": "Pokoje & Suity",     "href": "#pokoje"  },
+      { "label": "Fotogalerie",         "href": "#galerie" },
+      { "label": "Balíčky & Akce",     "href": "#nabidky" },
+      { "label": "Restaurace",          "href": "#gastro"  },
+      { "label": "Firemní akce",        "href": "#eventy"  },
+      { "label": "Kontakt",             "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "title": "Výjimečný pobyt v srdci Brna",
+    "subtitle": "94 pokojů a suit v historickém centru — elegantní útočiště pro náročné hosty i obchodní cestující",
+    "ctaText": "Zjistit volné termíny",
+    "ctaHref": "#kontakt",
+    "slides": [
+      {
+        "url": "/assets/hotel-01/bcecead1ec-Vaclavske_nam_6824a0438371a.jpg",
+        "alt": "Náměstí Svobody – srdce Brna"
+      },
+      {
+        "url": "/assets/hotel-01/e8584642c6-img-0447_682c7d5ad7b17.jpg",
+        "alt": "Historický interiér hotelu"
+      },
+      {
+        "url": "/assets/hotel-01/63cb694f2b-Staromestske_nam_6824a057f3d4b.jpg",
+        "alt": "Centrum Brna"
+      },
+      {
+        "url": "/assets/hotel-01/d81ddeca56-800px-Secesni_budova_Hlavniho_nadrazi_682c7ca2bbd8a.jpg",
+        "alt": "Historická architektura"
+      },
+      {
+        "url": "/assets/hotel-01/f242673eb4-Powder_Gate_682c8263b2f56.jpg",
+        "alt": "Historické centrum"
+      }
+    ],
+    "promoText": "Jarní akce — 3 noci za cenu 2",
+    "promoHref": "#nabidky"
+  },
+  "about": {
+    "eyebrow": "O hotelu",
+    "title": "Tradice a moderní komfort pod jednou střechou",
+    "body": "Grand Hotel Aurora se nachází ve zrekonstruované secesní budově z roku 1908, pouhé dvě minuty chůze od náměstí Svobody. Spojujeme úctu k historickému dědictví Brna s veškerým komfortem, který si moderní host zaslouží — od klimatizovaných pokojů přes vysokorychlostní Wi-Fi až po individuální concierge servis.",
+    "body2": "Ať přijíždíte za odpočinkem, romantickým víkendem nebo obchodním jednáním, u nás najdete klidné zázemí i reprezentativní prostory pro konference a firemní večeře. Náš tým je připraven postarat se o každý detail vašeho pobytu.",
+    "cta1Text": "Náš příběh",
+    "cta1Href": "#o-hotelu",
+    "cta2Text": "Prohlédnout pokoje",
+    "cta2Href": "#pokoje",
+    "imageUrl": "/assets/hotel-01/2b07ce59bf-uvod_640b229f3ccac.jpg",
+    "imageAlt": "Lobby Grand Hotel Aurora"
+  },
+  "rooms": {
+    "eyebrow": "Ubytování",
+    "title": "Pokoje a suity pro každou příležitost",
+    "subtitle": "Od útulných dvoulůžkových pokojů po prostorné prezidentské suity — každý pokoj je zařízen s péčí o detail a maximálním důrazem na váš komfort.",
+    "ctaText": "Zobrazit všechny pokoje",
+    "ctaHref": "#pokoje",
+    "services": [
+      { "name": "Superior pokoje",     "description": "Útulné pokoje s výhledem do dvora nebo do zahrady." },
+      { "name": "Deluxe pokoje",       "description": "Prostornější pokoje s historickými prvky a moderním vybavením." },
+      { "name": "Junior Suite",        "description": "Samostatná obývací část a ložnice s panoramatickým výhledem." },
+      { "name": "Prezidentská Suite",  "description": "Exkluzivní suite s terasou, vanou a privátním servisem 24/7." }
+    ],
+    "items": [
+      {
+        "name": "Superior pokoje",
+        "description": "Komfortně zařízené Superior pokoje nabízejí vše podstatné — pohodlnou postel, moderní koupelnu a klidné prostředí pro dobrý spánek. Ideální volba pro jednonočního obchodního cestujícího i víkendový výlet.",
+        "image": "/assets/hotel-01/ee8c20c1c8-(1)-Art%20Nouveau%20Palace%20Hotel-Deluxe%20room%20King%20kopie.jpg",
+        "moreHref": "#pokoje",
+        "bookHref": "#kontakt"
+      },
+      {
+        "name": "Deluxe pokoje",
+        "description": "Deluxe pokoje jsou vybaveny historickým nábytkem na míru, parkety z masivního dřeva a prémiovými lůžkovinami. Větší koupelna s italskou sprchou a vanou dotváří pocit skutečného luxusu.",
+        "image": "/assets/hotel-01/2a84601a85-(3)-Art%20Nouveau%20Palace%20Hotel%20-%20Executive%20Double%20Room.jpg",
+        "moreHref": "#pokoje",
+        "bookHref": "#kontakt"
+      },
+      {
+        "name": "Junior Suite",
+        "description": "Junior Suite s odděleným salonem a ložnicí je ideální pro delší pobyty. Výhled na náměstí Svobody, nespočet detailů a osobní přivítání lahví prosecca z brněnského vinařství.",
+        "image": "/assets/hotel-01/731be36e37-Junior%20Suite%20twin.jpg",
+        "moreHref": "#pokoje",
+        "bookHref": "#kontakt"
+      },
+      {
+        "name": "Prezidentská Suite",
+        "description": "Naše vlajková loď. Dvoupodlažní suite s privátní terasou s výhledem na střechy Brna, velkou vířivou vanou, osobním butlerem a snídaní podávanou přímo na pokoji. Nezapomenutelný zážitek.",
+        "image": "/assets/hotel-01/e38c9687d5-Art%20Nouveau%20Palace%20Hotel%20-%20Art%20Nouveua%20Suite%20-%20living%20room.jpg",
+        "moreHref": "#pokoje",
+        "bookHref": "#kontakt"
+      }
+    ]
+  },
+  "gastro": {
+    "eyebrow": "Restaurace",
+    "title": "Bistro Aurora",
+    "body": "Bistro Aurora si zakládá na sezonní kuchyni z lokálních surovin. Každé ráno přivážíme čerstvou zeleninu z jihomoravských farem, ryby z místních rybníků a víno výhradně od moravských vinařů. Atmosféra historického sklepa s cihelnou klenbou vytváří nezapomenutelné prostředí pro romantickou večeři i neformální oběd s kolegy.",
+    "cta1Text": "Zobrazit aktuální menu",
+    "cta1Href": "#gastro",
+    "cta2Text": "Rezervovat stůl",
+    "cta2Href": "#kontakt",
+    "backgroundImage": "/assets/hotel-01/33707f2774-HP_REST_640f178e02e4f.png"
+  },
+  "offers": {
+    "eyebrow": "Balíčky & Akce",
+    "title": "Speciální nabídky pro váš pobyt",
+    "subtitle": "Naplánujte dovolou s předstihem a ušetřete — nebo využijte jeden z našich tematických balíčků pro nezapomenutelný zážitek.",
+    "ctaText": "Zobrazit všechny balíčky",
+    "ctaHref": "#nabidky",
+    "images": [
+      { "url": "/assets/hotel-01/0eaa90c981-1749462461_g_jpgtif_dsc8129-20160314-133809.jpg", "alt": "Jarní balíček" },
+      { "url": "/assets/hotel-01/b51f751019-1738764726_g_25-02-Palace_Detail_02.jpg",         "alt": "Romantický víkend" },
+      { "url": "/assets/hotel-01/192ba81a0e-1678711596_g_Art%20Nouveau%20Palace%20Hotel-Junior%20Suite%20King-living%20room%20kopie.jpg", "alt": "Firemní pobyt" }
+    ],
+    "items": [
+      {
+        "name": "Jarní únik — 3 noci za cenu 2",
+        "description": "Přijeďte na tři noci a tu třetí dostanete zcela zdarma. Balíček zahrnuje snídani formou bufetu, láhev moravského vína při příjezdu a pozdní checkout do 14:00.",
+        "image": "/assets/hotel-01/0eaa90c981-1749462461_g_jpgtif_dsc8129-20160314-133809.jpg",
+        "moreHref": "#nabidky",
+        "bookHref": "#kontakt"
+      },
+      {
+        "name": "Romantický víkend pro dva",
+        "description": "Dvě noci v Deluxe pokoji, privátní večeře pro dva v Bistru Aurora, svíčky a lůžko posypané okvětními plátky. Ideální dárek k výročí nebo narozeninám.",
+        "image": "/assets/hotel-01/b51f751019-1738764726_g_25-02-Palace_Detail_02.jpg",
+        "moreHref": "#nabidky",
+        "bookHref": "#kontakt"
+      },
+      {
+        "name": "Firemní pobyt & konference",
+        "description": "Pronájem konferenčního sálu pro 10–80 osob, káva a občerstvení po celý den, oběd z denního menu a zvýhodněné ceny ubytování pro účastníky. Vše včetně audiovizuální techniky.",
+        "image": "/assets/hotel-01/192ba81a0e-1678711596_g_Art%20Nouveau%20Palace%20Hotel-Junior%20Suite%20King-living%20room%20kopie.jpg",
+        "moreHref": "#nabidky",
+        "bookHref": "#kontakt"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Kontakt",
+    "title": "Těšíme se na vás",
+    "subtitle": "Náš tým je vám k dispozici denně. Neváhejte nás kontaktovat s jakýmkoliv přáním — rádi vám pomůžeme s rezervací i přípravou vašeho pobytu.",
+    "phone": "+420 605 200 300",
+    "phone2": "+420 605 200 301",
+    "email": "recepce@grandaurorabrno.cz",
+    "emailReservation": "rezervace@grandaurorabrno.cz",
+    "address": "Jezuitská 12",
+    "city": "602 00 Brno-střed",
+    "hours": "Recepce: otevřeno 24 hodin denně",
+    "mapUrl": "https://maps.google.com/?q=49.1951,16.6068"
+  },
+  "footer": {
+    "siteName": "GRAND HOTEL AURORA",
+    "logoUrl": "/templates/hotel-01/logo.svg",
+    "tagline": "Historické srdce Brna, moderní komfort",
+    "address": "Jezuitská 12",
+    "city": "602 00 Brno-střed",
+    "phone": "+420 605 200 300",
+    "email": "recepce@grandaurorabrno.cz",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "copyright": "© 2025 Grand Hotel Aurora s.r.o. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "Pokoje & Suity",  "href": "#pokoje"  },
+      { "label": "Fotogalerie",      "href": "#galerie" },
+      { "label": "Balíčky & Akce",  "href": "#nabidky" },
+      { "label": "Restaurace",       "href": "#gastro"  },
+      { "label": "Firemní akce",     "href": "#eventy"  },
+      { "label": "Kontakt",          "href": "#kontakt" }
+    ]
+  }
+}

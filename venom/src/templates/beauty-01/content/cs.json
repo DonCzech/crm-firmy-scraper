@@ -18,7 +18,7 @@
   },
 
   "hero": {
-    "backgroundImage": "/clones/selfbeauty/img/25d2c3_5fab4401087b41f29620a69a18371d2e_mv2.jpg",
+    "backgroundImage": "/assets/beauty-01/09c69a4aa5-25d2c3_5fab4401087b41f29620a69a18371d2e_mv2.jpg",
     "tag": "Praha 1 · Prémiové beauty studio",
     "titleH1": "Holičství, nehty\na péče o pleť",
     "titleItalic": "na jednom místě.",
@@ -47,7 +47,7 @@
         "name": "Barber",
         "price": "od 490 Kč",
         "description": "Precizní střihy, modelování vousů a péče o vlasy šitá na míru vašemu stylu v klidném, moderním prostředí.",
-        "image": "/clones/selfbeauty/img/25d2c3_13082b7e0aa0425ea57cd610ecf9fcac_mv2.jpg",
+        "image": "/assets/beauty-01/73c191f6ea-25d2c3_13082b7e0aa0425ea57cd610ecf9fcac_mv2.jpg",
         "ctaReservation": "CHCI REZERVACI",
         "ctaReservationHref": "#rezervace",
         "ctaPricing": "CENÍK",
@@ -57,7 +57,7 @@
         "name": "Manikúra a pedikúra",
         "price": "od 529 Kč",
         "description": "Dlouhotrvající, zdravě vypadající nehty vytvořené s prémiovou péčí značek LUMORE a SPARITUAL a s pečlivým smyslem pro detail.",
-        "image": "/clones/selfbeauty/img/25d2c3_7edb5e4fb8e848b98f1e557901e8a74e_mv2.jpg",
+        "image": "/assets/beauty-01/78194dd042-25d2c3_7edb5e4fb8e848b98f1e557901e8a74e_mv2.jpg",
         "ctaReservation": "CHCI REZERVACI",
         "ctaReservationHref": "#rezervace",
         "ctaPricing": "CENÍK",
@@ -67,7 +67,7 @@
         "name": "Péče o pleť, obočí a řasy",
         "price": "od 650 Kč",
         "description": "Pokročilá ošetření obličeje od proslulé značky Dermalogica. Zvýrazněte svůj look laminací řas a obočí.",
-        "image": "/clones/selfbeauty/img/25d2c3_34d83b42d6234a288e476f0481edd7d3_mv2.jpg",
+        "image": "/assets/beauty-01/fd7a74d28c-25d2c3_34d83b42d6234a288e476f0481edd7d3_mv2.jpg",
         "ctaReservation": "CHCI REZERVACI",
         "ctaReservationHref": "#rezervace",
         "ctaPricing": "CENÍK",
@@ -103,12 +103,12 @@
     "title": "Tým",
     "subtitle": "Lidé, kteří se zajímají o detaily.",
     "members": [
-      { "name": "Minh",  "role": "Vedoucí / Nehtář",     "image": "/clones/selfbeauty/img/25d2c3_06e713a5198f4638a638da953ce7b5d1_mv2.jpg" },
-      { "name": "Linhi", "role": "Pleťová terapeutka",   "image": "/clones/selfbeauty/img/25d2c3_652b56ffc4a24f3386e12934a2457997_mv2.jpg" },
-      { "name": "Dan",   "role": "Barber",                "image": "/clones/selfbeauty/img/25d2c3_ce733d90a74643febecbef1410d2bcdd_mv2.jpg" },
-      { "name": "Adam",  "role": "Barber",                "image": "/clones/selfbeauty/img/25d2c3_f287d4ee5b254c6286de56d57f03a9a8_mv2.jpg" },
-      { "name": "Cheky", "role": "Nehtář",                "image": "/clones/selfbeauty/img/25d2c3_d8439966c7be4b68bca7aba3602d44fa_mv2.jpg" },
-      { "name": "Mia",   "role": "Nehtářka",              "image": "/clones/selfbeauty/img/25d2c3_1ea900ab27e8428791ac2c7e78b5f00a_mv2.jpg" }
+      { "name": "Minh",  "role": "Vedoucí / Nehtář",     "image": "/assets/beauty-01/d54cfcaedb-25d2c3_06e713a5198f4638a638da953ce7b5d1_mv2.jpg" },
+      { "name": "Linhi", "role": "Pleťová terapeutka",   "image": "/assets/beauty-01/eddcfa5e8c-25d2c3_652b56ffc4a24f3386e12934a2457997_mv2.jpg" },
+      { "name": "Dan",   "role": "Barber",                "image": "/assets/beauty-01/31b23ae895-25d2c3_ce733d90a74643febecbef1410d2bcdd_mv2.jpg" },
+      { "name": "Adam",  "role": "Barber",                "image": "/assets/beauty-01/72b347c2a8-25d2c3_f287d4ee5b254c6286de56d57f03a9a8_mv2.jpg" },
+      { "name": "Cheky", "role": "Nehtář",                "image": "/assets/beauty-01/ecb9b23d88-25d2c3_d8439966c7be4b68bca7aba3602d44fa_mv2.jpg" },
+      { "name": "Mia",   "role": "Nehtářka",              "image": "/assets/beauty-01/3991e81b53-25d2c3_1ea900ab27e8428791ac2c7e78b5f00a_mv2.jpg" }
     ]
   },
 
@@ -117,12 +117,12 @@
     "subtitle": "Prostor navržený pro pohodlí.",
     "description": "Moderní, klidné a příjemné, navržené tak, abyste si mohli odpočinout už od okamžiku, kdy vstoupíte dovnitř.",
     "images": [
-      { "url": "/clones/selfbeauty/img/25d2c3_188cf45b59be485dbec404bb0f776561_mv2.jpg", "alt": "Studio interiér" },
-      { "url": "/clones/selfbeauty/img/25d2c3_6b7baccf784b45bab36205c5d3426fb7_mv2.jpg", "alt": "Barber stanice" },
-      { "url": "/clones/selfbeauty/img/25d2c3_77951b9f262d4da9a4264b706ff448a9_mv2.jpg", "alt": "Nehtové studio" },
-      { "url": "/clones/selfbeauty/img/25d2c3_0b5cdb5642444c788cc116a4ef9db3ec_mv2.jpg", "alt": "Kosmetický salon" },
-      { "url": "/clones/selfbeauty/img/25d2c3_56a44ea189fb446589e88bfe426c780d_mv2.jpg", "alt": "Čekárna" },
-      { "url": "/clones/selfbeauty/img/25d2c3_a622681d722f4b379c6a2f95f754edaf_mv2.jpg", "alt": "Detail produktů" }
+      { "url": "/assets/beauty-01/de0c770a84-25d2c3_188cf45b59be485dbec404bb0f776561_mv2.jpg", "alt": "Studio interiér" },
+      { "url": "/assets/beauty-01/ade720c4f2-25d2c3_6b7baccf784b45bab36205c5d3426fb7_mv2.jpg", "alt": "Barber stanice" },
+      { "url": "/assets/beauty-01/5581f1a173-25d2c3_77951b9f262d4da9a4264b706ff448a9_mv2.jpg", "alt": "Nehtové studio" },
+      { "url": "/assets/beauty-01/602edcf05f-25d2c3_0b5cdb5642444c788cc116a4ef9db3ec_mv2.jpg", "alt": "Kosmetický salon" },
+      { "url": "/assets/beauty-01/2dc1e141d6-25d2c3_56a44ea189fb446589e88bfe426c780d_mv2.jpg", "alt": "Čekárna" },
+      { "url": "/assets/beauty-01/ccd750caca-25d2c3_a622681d722f4b379c6a2f95f754edaf_mv2.jpg", "alt": "Detail produktů" }
     ]
   },
 
@@ -157,7 +157,7 @@
     "subtitle": "Od precizního střihu a úpravy vousů po barvení, trvalou a regeneraci vlasů — zažijte prémiovou péči v srdci Prahy.",
     "ctaText": "NAVŠTIVTE NÁS",
     "ctaHref": "#kontakt",
-    "backgroundImage": "/clones/selfbeauty/img/25d2c3_e72421d45591439da3f8808f772478ad_mv2.jpg"
+    "backgroundImage": "/assets/beauty-01/b15170d2a6-25d2c3_e72421d45591439da3f8808f772478ad_mv2.jpg"
   },
 
   "contact": {

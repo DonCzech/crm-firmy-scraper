@@ -1,0 +1,112 @@
+{
+  "highlights": {
+    "items": [
+      { "icon": "/templates/ananda-01/icon-a.svg",      "label": "JEDINÉ ÁJURVÉDSKÉ CENTRUM\nV PRAZE" },
+      { "icon": "/templates/ananda-01/icon-diamant.svg", "label": "EXKLUZIVNÍ PROSTŘEDÍ\nINDIVIDUÁLNÍ PŘÍSTUP" },
+      { "icon": "/templates/ananda-01/icon-budha.svg",  "label": "KVALIFIKOVANÍ\nINDIČTÍ TERAPEUTÉ" }
+    ]
+  },
+  "about": {
+    "title":   "Co je ájurvéda",
+    "body":    "Ájurvéda je tradiční indická medicína přinášející životní rovnováhu při zdraví těla i duše. Úspěch zaznamenává při řešení různých zdravotních potíží, duševních zátěží či chronických problémů. Spolu s ájurvédskou procedurou využívá principy stravování, přírodní oleje, byliny a doplňky stravy na bázi tisíciletých zkušeností. Díky individuálnímu přístupu k potřebám každého jedince a komplexnímu pohledu na život si ájurvéda nachází opět pevné místo v moderní společnosti.",
+    "ctaText": "Co je ájurvéda",
+    "ctaHref": "#o-ajurvede",
+    "image":   ""
+  },
+  "benefits": {
+    "title":   "UNIKÁTNÍ CESTA\nNAŠÍ LÉČEBNOU PROCEDUROU",
+    "ctaText": "CHCI VYZKOUŠET PROCEDURU",
+    "ctaHref": "#kontakt",
+    "steps": [
+      { "icon": "🤲", "label": "DIAGNOSTIKA ÁJURVÉDSKÉHO SPECIALISTY" },
+      { "icon": "💆", "label": "ÁJURVÉDSKÉ LÉČEBNÉ PROCEDURY" },
+      { "icon": "🥣", "label": "STRAVOVACÍ REŽIM A DOPLŇKY" }
+    ]
+  },
+  "hero": {
+    "headline": "Tradiční indická\nmedicína v srdci Prahy",
+    "ctaText":  "REZERVOVAT",
+    "ctaHref":  "#kontakt",
+    "cta2Text": "DÁRKOVÝ VOUCHER",
+    "cta2Href": "#voucher",
+    "slides": [
+      { "bgImage": "" },
+      { "bgImage": "" },
+      { "bgImage": "" },
+      { "bgImage": "" }
+    ]
+  },
+  "services": {
+    "title": "NAŠE PROCEDURY A PROGRAMY",
+    "items": [
+      { "image": "/templates/ananda-01/service-1.jpg", "title": "ÁJURVÉDSKÉ MASÁŽE", "desc": "Tradiční olejové masáže obnovující rovnováhu těla a mysli podle dóšické typologie.", "href": "#kontakt" },
+      { "image": "/templates/ananda-01/service-2.jpg", "title": "LÉČEBNÉ PROGRAMY",   "desc": "Komplexní Panchakarma a jiné detoxikační programy pod vedením indických specialistů.", "href": "#kontakt" },
+      { "image": "/templates/ananda-01/service-3.jpg", "title": "RELAXAČNÍ POBYTY",   "desc": "Víkendové a týdenní pobyty v partnerských hotelech s ájurvédskými procedurami.", "href": "#kontakt" },
+      { "image": "/templates/ananda-01/service-4.jpg", "title": "DÁRKOVÉ VOUCHERY",   "desc": "Originální dárek pro vaše blízké — zážitková ájurvéda pro každou příležitost.", "href": "#kontakt" }
+    ]
+  },
+  "testimonials": {
+    "title": "VAŠE ZKUŠENOSTI V ANANDA SPA",
+    "score": "4.8",
+    "count": "53",
+    "items": [
+      { "text": "Úžasný zážitek. Terapeuti jsou velmi profesionální a procedury opravdu účinkují. Cítím se jako znovuzrozená.", "author": "Martina K.", "stars": 5, "date": "Únor 2025" },
+      { "text": "Navštívila jsem Anandaspa opakovaně a pokaždé odcházím s pocitem hluboké relaxace. Doporučuji každému.", "author": "Jana Š.",  "stars": 5, "date": "Leden 2025" },
+      { "text": "Perfektní péče a individuální přístup. Díky ájurvédě jsem se zbavila chronických bolestí zad.", "author": "Tomáš V.",  "stars": 5, "date": "Prosinec 2024" },
+      { "text": "Krásné prostředí, příjemný personál a velice účinné procedury. Rozhodně se vrátím.", "author": "Eva B.",   "stars": 5, "date": "Listopad 2024" }
+    ]
+  },
+  "hotels": {
+    "title": "NABÍDKA PARTNERSKÝCH HOTELŮ",
+    "subtitle": "Jako klient Anandy SPA získáte exkluzivní slevu na ubytování v našich partnerských hotelech v centru Prahy.",
+    "hotels": [
+      { "image": "", "name": "Hotel Praha Grand",    "stars": 5, "desc": "Luxusní 5★ hotel v srdci Prahy, 5 minut od Anandy SPA.",    "href": "#" },
+      { "image": "", "name": "Boutique Hotel Rezia", "stars": 4, "desc": "Klidná poloha, snídaně v ceně, exkluzivní sleva 15 %.",       "href": "#" },
+      { "image": "", "name": "Hotel Yasmin Praha",   "stars": 4, "desc": "Design hotel s privátním wellness, 10 minut pěšky.",          "href": "#" },
+      { "image": "", "name": "Art Nouveau Palace",   "stars": 5, "desc": "Secesní palác, historické centrum, nadstandardní apartmány.", "href": "#" }
+    ]
+  },
+  "faq": {
+    "title": "ČASTO KLADENÉ OTÁZKY",
+    "items": [
+      { "q": "Co je ájurvéda a jak funguje?",              "a": "Ájurvéda je více než 5 000 let staré tradiční indické léčitelství. Pracuje s individuální konstitucí člověka (dóša) a nabízí komplexní přístup ke zdraví." },
+      { "q": "Musím se před první návštěvou připravovat?",  "a": "Stačí přijít v pohodlném oblečení. Naši terapeuti vás před procedurou provedou krátkým dotazníkem." },
+      { "q": "Jak dlouho trvá jedna ájurvédská procedura?", "a": "Délka závisí na vybrané proceduře — od 45 minut (masáž) až po 3 hodiny (Panchakarma)." },
+      { "q": "Jsou procedury vhodné i pro děti?",           "a": "Vybrané procedury lze provádět u dětí od 8 let za přítomnosti rodiče." },
+      { "q": "Jak si mohu zarezervovat termín?",            "a": "Rezervaci provedete přes kontaktní formulář, telefonicky nebo e-mailem." },
+      { "q": "Nabízíte dárkové poukazy?",                  "a": "Ano! Vouchery platné 6 měsíců od vydání, použitelné na jakoukoli proceduru." }
+    ]
+  },
+  "contact": {
+    "title": "CHCETE VĚDĚT VÍC?\nKONTAKTUJTE NÁS",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "address": "Náměstí Míru 12, Praha 2",
+    "hours": "Po–Pá 9:00–20:00 / So–Ne 10:00–18:00"
+  },
+  "footer": {
+    "siteName": "Demo Ananda SPA",
+    "tagline": "Tradiční indická medicína v srdci Prahy",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "address": "Náměstí Míru 12, Praha 2"
+  },
+  "navbar": {
+    "siteName":   "Demo Ananda SPA",
+    "logoUrl":    "/templates/ananda-01/logo.svg",
+    "promoText":  "Vyberte si z nabídky našich voucherů a",
+    "promoBold":  "darujte pravou ájurvédu",
+    "promoHref":  "#voucher",
+    "ctaText":    "REZERVOVAT",
+    "ctaHref":    "#kontakt",
+    "links": [
+      { "label": "Ájurvéda poprvé",  "href": "#ayurveda-poprve" },
+      { "label": "Nabídka",          "href": "#sluzby" },
+      { "label": "ANANDA KLUB",      "href": "#klub" },
+      { "label": "Dárkový voucher",  "href": "#voucher" },
+      { "label": "O ájurvédě",       "href": "#o-ayurvede" },
+      { "label": "O nás",            "href": "#o-nas" },
+      { "label": "Kontakt",          "href": "#kontakt" }
+    ]
+  }
+}

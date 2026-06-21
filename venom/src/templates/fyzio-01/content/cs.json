@@ -1,0 +1,186 @@
+{
+  "navbar": {
+    "siteName": "Vaše Fyzio",
+    "logoUrl": "/logos/fyzio-01-logo.svg",
+    "ctaText": "Objednat se",
+    "ctaHref": "#kontakt",
+    "phone": "704 123 456",
+    "email": "info@vasefyzio.cz",
+    "address": "Náměstí Míru 12, Praha 2",
+    "hours": "Po–Pá 7:00–20:00",
+    "facebookUrl": "https://facebook.com/vasefyzio",
+    "instagramUrl": "https://instagram.com/vasefyzio",
+    "links": [
+      { "label": "O nás",    "href": "#o-nas" },
+      { "label": "Služby",   "href": "#sluzby" },
+      { "label": "Tým",      "href": "#tym" },
+      { "label": "Ceník",    "href": "#cenik" },
+      { "label": "Kontakt",  "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "title": "Vrátíme vás\nzpět do pohybu",
+    "tagline": "Profesionální fyzioterapie v srdci Prahy",
+    "body": "Specializujeme se na diagnostiku a léčbu pohybového aparátu. Každý pacient dostane individuální plán péče sestavený přímo pro něj.",
+    "ctaText": "Objednat se online",
+    "ctaHref": "#kontakt",
+    "ctaSecondaryText": "Naše služby",
+    "ctaSecondaryHref": "#sluzby",
+    "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=1400&h=900&fit=crop&q=85"
+  },
+  "about": {
+    "id": "o-nas",
+    "tagline": "Kdo jsme",
+    "title": "Péče, která skutečně funguje",
+    "body": "Vaše Fyzio je moderní fyzioterapeutická klinika v Praze 2, kde spojujeme klinické zkušenosti s nejnovějšími poznatky z oblasti rehabilitace. Náš tým pracuje pod vedením rehabilitačního lékaře a ke každému pacientovi přistupuje individuálně.",
+    "body2": "Věříme, že dobrá fyzioterapie není jen o úlevě od bolesti — je o návratu ke kvalitnímu, aktivnímu životu. Proto vytváříme léčebné plány šité na míru vašemu tělu i životnímu stylu.",
+    "ctaText": "Poznejte náš tým",
+    "ctaHref": "#tym",
+    "image": "/assets/fyzio-01/8f6d8fc4f9-spolecna-mensi-p2etehg4tt7cnh01wwn8xd3776tsib3fb5918iue5c.jpg"
+  },
+  "services": {
+    "id": "sluzby",
+    "tagline": "Naše specializace",
+    "title": "Co pro vás dokážeme udělat",
+    "body": "Nabízíme široké spektrum fyzioterapeutických služeb — od manuální terapie až po moderní přístrojové metody. Vždy pod dohledem zkušeného odborníka.",
+    "ctaText": "Objednat se",
+    "ctaHref": "#kontakt",
+    "services": [],
+    "items": [
+      {
+        "name": "Manuální terapie",
+        "title": "Manuální terapie",
+        "description": "Cílená práce rukou na kloubech, svalech a měkkých tkáních. Rychlá úleva od bolesti a obnovení přirozeného pohybu.",
+        "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=400&fit=crop&q=80",
+        "tag": "Terapie"
+      },
+      {
+        "name": "Sportovní rehabilitace",
+        "title": "Sportovní rehabilitace",
+        "description": "Rychlý a bezpečný návrat do sportu po zranění. Sestavíme plán rehabilitace i prevence pro amatéry i výkonnostní sportovce.",
+        "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&h=400&fit=crop&q=80",
+        "tag": "Sport"
+      },
+      {
+        "name": "Fyzioterapie pro ženy",
+        "title": "Fyzioterapie pro ženy",
+        "description": "Odborná péče zaměřená na těhotenství, poporodní rehabilitaci a obtíže s pánevním dnem. V bezpečném a diskrétním prostředí.",
+        "image": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&h=400&fit=crop&q=80",
+        "tag": "Ženy"
+      },
+      {
+        "name": "Vertebrologie",
+        "title": "Vertebrologie",
+        "description": "Komplexní diagnostika a léčba bolestí páteře, výhřezů plotének a funkčních blokád. Bez zbytečných léků.",
+        "image": "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&h=400&fit=crop&q=80",
+        "tag": "Páteř"
+      },
+      {
+        "name": "Fyzioterapie pro děti",
+        "title": "Fyzioterapie pro děti",
+        "description": "Šetrná a hravá péče pro nejmenší pacienty. Pomáháme s vývojovými poruchami, skoliózou i poúrazovými stavy.",
+        "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=600&h=400&fit=crop&q=80",
+        "tag": "Děti"
+      },
+      {
+        "name": "Přístrojová terapie",
+        "title": "Přístrojová terapie",
+        "description": "Ultrazvuk, laser, magnetoterapie, TENS a rázová vlna — certifikované metody pro urychlení hojení a snížení zánětu.",
+        "image": "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=600&h=400&fit=crop&q=80",
+        "tag": "Přístroje"
+      }
+    ]
+  },
+  "team": {
+    "id": "tym",
+    "tagline": "Náš tým",
+    "title": "Odborníci, kterým můžete věřit",
+    "body": "Tým Vaše Fyzio tvoří zkušení fyzioterapeuti a rehabilitační lékaři s mnohaletou praxí a specializovaným vzděláním.",
+    "ctaText": "Více o týmu",
+    "ctaHref": "#o-nas",
+    "members": [
+      {
+        "name": "MUDr. Tomáš Krejčí",
+        "role": "Rehabilitační lékař",
+        "image": "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=300&h=300&fit=crop&crop=faces&q=80",
+        "href": "#"
+      },
+      {
+        "name": "Mgr. Karolína Nováková",
+        "role": "Fyzioterapeutka",
+        "image": "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=300&h=300&fit=crop&crop=faces&q=80",
+        "href": "#"
+      },
+      {
+        "name": "Mgr. Tereza Horáčková",
+        "role": "Fyzioterapeutka — ženy",
+        "image": "https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=300&h=300&fit=crop&crop=faces&q=80",
+        "href": "#"
+      },
+      {
+        "name": "Mgr. Lucie Marková",
+        "role": "Fyzioterapeutka — děti",
+        "image": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&crop=faces&q=80",
+        "href": "#"
+      },
+      {
+        "name": "Mgr. Pavel Šimánek",
+        "role": "Sportovní fyzioterapeut",
+        "image": "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=300&h=300&fit=crop&crop=faces&q=80",
+        "href": "#"
+      }
+    ]
+  },
+  "cta": {
+    "tagline": "Začněte ještě dnes",
+    "title": "Udělejte první krok k životu bez bolesti",
+    "body": "Objednejte se na vstupní vyšetření a zjistěte, co stojí za vašimi obtížemi. Naši odborníci jsou tu pro vás — rychlé termíny, individuální přístup.",
+    "ctaText": "Objednat se online",
+    "ctaHref": "#kontakt",
+    "ctaSecondaryText": "Zavolat nám",
+    "ctaSecondaryHref": "tel:+420704123456"
+  },
+  "contact": {
+    "id": "kontakt",
+    "tagline": "Kontakt",
+    "title": "Jsme tu pro vás",
+    "phone": "704 123 456",
+    "email": "info@vasefyzio.cz",
+    "emailInfo": "rezervace@vasefyzio.cz",
+    "address": "Náměstí Míru 12",
+    "city": "120 00 Praha 2",
+    "hours": "Po–Pá 7:00–20:00",
+    "facebookUrl": "https://facebook.com/vasefyzio",
+    "instagramUrl": "https://instagram.com/vasefyzio"
+  },
+  "footer": {
+    "siteName": "Vaše Fyzio",
+    "tagline": "Profesionální fyzioterapie v srdci Prahy",
+    "logoUrl": "/logos/fyzio-01-logo.svg",
+    "phone": "704 123 456",
+    "email": "info@vasefyzio.cz",
+    "address": "Náměstí Míru 12, 120 00 Praha 2",
+    "hours": "Po–Pá 7:00–20:00",
+    "facebookUrl": "https://facebook.com/vasefyzio",
+    "instagramUrl": "https://instagram.com/vasefyzio",
+    "copyright": "© 2025 Vaše Fyzio s.r.o. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "O nás",    "href": "#o-nas" },
+      { "label": "Služby",   "href": "#sluzby" },
+      { "label": "Tým",      "href": "#tym" },
+      { "label": "Ceník",    "href": "#cenik" },
+      { "label": "Kontakt",  "href": "#kontakt" }
+    ],
+    "linksServices": [
+      { "label": "Manuální terapie",       "href": "#sluzby" },
+      { "label": "Sportovní rehabilitace", "href": "#sluzby" },
+      { "label": "Fyzioterapie pro ženy",  "href": "#sluzby" },
+      { "label": "Vertebrologie",          "href": "#sluzby" },
+      { "label": "Přístrojová terapie",    "href": "#sluzby" }
+    ],
+    "linksInfo": [
+      { "label": "Ochrana osobních údajů", "href": "#" },
+      { "label": "Cookies",                "href": "#" }
+    ]
+  }
+}

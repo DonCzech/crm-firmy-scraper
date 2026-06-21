@@ -1,0 +1,86 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "reality-06",
+  "name": "Demo Jan Šrubař",
+  "industry": "reality",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Osobní stránka realitního makléře — bílé pozadí #ffffff, modrá #263A82 brand, světlá #F0F0F8 sekce; sticky navbar + monogram JS logo + tel + modré CTA, hero split (makléř + stats), o mně, nabídka, recenze, kontakt. Inspirováno srubar.cz.",
+  "sectionOrderNote": "Navbar → Hero → O mně → Nabídka → Recenze → Kontakt → Footer",
+  "skippedSections": [
+    { "pos": 3,  "name": "About",       "reason": "WIP — o mně sekce bude přidána v dalším kroku" },
+    { "pos": 4,  "name": "Services",    "reason": "WIP — služby sekce bude přidána v dalším kroku" },
+    { "pos": 5,  "name": "Gallery",     "reason": "Originál nemá klasickou galerii — fotky jsou v hero a listings" },
+    { "pos": 6,  "name": "Gallery2",    "reason": "Skeleton gallery slot 2 — přeskočen" },
+    { "pos": 7,  "name": "Pricing",     "reason": "Ceník není na homepage originálu" },
+    { "pos": 8,  "name": "Testimonials","reason": "WIP — recenze bude přidána v dalším kroku" },
+    { "pos": 9,  "name": "Team",        "reason": "Jde o osobní stránku jednoho makléře — tým není relevantní" },
+    { "pos": 10, "name": "FAQ",         "reason": "FAQ není v homepage flow originálu" },
+    { "pos": 11, "name": "CTA",         "reason": "CTA je inline v hero a o-mně sekci" },
+    { "pos": 12, "name": "Map",         "reason": "Mapa není na homepage originálu" }
+  ],
+  "extraSections": [
+    { "type": "services",      "variant": "reality-06-services",    "reason": "Moje služby — 3 karty Prodej/Koupě/Pronájem" },
+    { "type": "promo",         "variant": "reality-06-listings",    "reason": "Nemovitosti v nabídce — kartový grid s aktuální nabídkou makléře" },
+    { "type": "testimonials", "variant": "reality-06-testimonials", "reason": "Reference klientů — 3 bílé karty na světle modrém bg + Google rating badge" },
+    { "type": "contact",      "variant": "reality-06-contact",      "reason": "Kontaktní sekce na homepage — 2-col info + formulář" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar", "variant": "reality-06-navbar",    "contentRef": "navbar" },
+        { "type": "hero",   "variant": "hero-reality-06-agent", "contentRef": "hero" },
+        { "type": "about",    "variant": "reality-06-about",      "contentRef": "about" },
+        { "type": "services", "variant": "reality-06-services",   "contentRef": "services" },
+        { "type": "promo",    "variant": "reality-06-listings",   "contentRef": "listings" },
+        { "type": "testimonials", "variant": "reality-06-testimonials", "contentRef": "testimonials" },
+        { "type": "contact",      "variant": "reality-06-contact",      "contentRef": "contact" },
+        { "type": "footer",       "variant": "reality-06-footer",        "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-mne",
+      "title": "O mně",
+      "seoTitleKey": "pages.o-mne.seoTitle",
+      "seoDescriptionKey": "pages.o-mne.seoDescription",
+      "sections": [
+        { "type": "navbar", "variant": "reality-06-navbar", "contentRef": "navbar" },
+        { "type": "hero",   "variant": "hero-centered",     "contentRef": "pages.o-mne.hero" },
+        { "type": "footer", "variant": "default",           "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "nabidka",
+      "title": "Nabídka",
+      "seoTitleKey": "pages.nabidka.seoTitle",
+      "seoDescriptionKey": "pages.nabidka.seoDescription",
+      "sections": [
+        { "type": "navbar", "variant": "reality-06-navbar", "contentRef": "navbar" },
+        { "type": "hero",   "variant": "hero-centered",     "contentRef": "pages.nabidka.hero" },
+        { "type": "footer", "variant": "default",           "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "reality-06-navbar", "contentRef": "navbar" },
+        { "type": "contact", "variant": "default",           "contentRef": "contact" },
+        { "type": "footer",  "variant": "default",           "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

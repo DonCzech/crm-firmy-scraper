@@ -1,0 +1,37 @@
+{
+  "colors": {
+    "primary":    "#263A82",
+    "secondary":  "#F0F0F8",
+    "background": "#ffffff",
+    "surface":    "#F8F8F8",
+    "text":       "#141414",
+    "textMuted":  "#555555",
+    "accent":     "#263A82",
+    "border":     "#e5e7eb"
+  },
+  "typography": {
+    "fontHeading": "'Helvetica Neue', Helvetica, Arial, sans-serif",
+    "fontBody":    "'Helvetica Neue', Helvetica, Arial, sans-serif",
+    "scale":       "comfortable"
+  },
+  "radius": {
+    "sm":   "2px",
+    "md":   "6px",
+    "lg":   "12px",
+    "pill": "99rem"
+  },
+  "spacing": {
+    "personality": "spacious",
+    "section":     "comfortable"
+  },
+  "shadows": {
+    "sm": "0 1px 4px rgba(38,58,130,0.07)",
+    "md": "0 4px 16px rgba(38,58,130,0.11)",
+    "lg": "0 12px 40px rgba(38,58,130,0.16)"
+  },
+  "animation": {
+    "ease":      "cubic-bezier(.4,0,.2,1)",
+    "duration":  "200ms",
+    "intensity": "subtle"
+  }
+}

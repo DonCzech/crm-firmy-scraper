@@ -48,8 +48,8 @@
   "hero": {
     "title": "S LÁSKOU K VLASŮM",
     "subtitle": "Jsme profesionální kadeřnický salon v samém srdci Prahy.",
-    "backgroundImage": "/clones/petramechurova/storage/creator/45/1702642528_3iKLIYVa4M7z5VaU4Uiv7TEP53BZwrMs.png",
-    "image": "/clones/petramechurova/storage/creator/45/1760692005_FbCfkDSf07qQzU8Ww4sUdx8tAEhwkUP4.jpg",
+    "backgroundImage": "/assets/hair-03/837c26f491-1702642528_3iKLIYVa4M7z5VaU4Uiv7TEP53BZwrMs.png",
+    "image": "/assets/hair-03/e04afa9b74-1760692005_FbCfkDSf07qQzU8Ww4sUdx8tAEhwkUP4.jpg",
     "ctaText": "Chci se objednat",
     "ctaHref": "/kontakt"
   },
@@ -61,7 +61,7 @@
       "Zakládáme si na kvalitě profesionálních služeb. Přistupujeme ke klientům s láskou, respektem a úctou.",
       "Skvělý tým tvoří skvělou atmosféru, spolu s hezkým interiérem. Salon Demo Studio je místem, kde se nejen vlasy, ale i srdce stává krásnějšími."
     ],
-    "image": "/clones/petramechurova/storage/creator/45/1712318979_EiHhus89frT7Ut498QYyP4jyomshz0cf.jpg"
+    "image": "/assets/hair-03/6d24febbf9-1712318979_EiHhus89frT7Ut498QYyP4jyomshz0cf.jpg"
   },
   "team": {
     "title": "Kdo se o vás postará",
@@ -71,17 +71,17 @@
       {
         "name": "Demo Majitelka",
         "role": "Majitelka",
-        "image": "/clones/petramechurova/storage/creator/45/1702746932_EgJTop6CVnvlfDvEDFPz0o0syBWslvfE.png"
+        "image": "/assets/hair-03/26ef3e68ce-1702746932_EgJTop6CVnvlfDvEDFPz0o0syBWslvfE.png"
       },
       {
         "name": "Demo Stylistka",
         "role": "Top Stylist",
-        "image": "/clones/petramechurova/storage/creator/45/1702746938_WK0R7ATY6ta19jeC4OejrZGoNwalBBNQ.png"
+        "image": "/assets/hair-03/23eba17178-1702746938_WK0R7ATY6ta19jeC4OejrZGoNwalBBNQ.png"
       },
       {
         "name": "Demo Koloristka",
         "role": "Top Stylist",
-        "image": "/clones/petramechurova/storage/creator/45/1702746943_ojeibRrbeQmo4nOGG9g6gMJrj3PEYDqN.png"
+        "image": "/assets/hair-03/de14cebb83-1702746943_ojeibRrbeQmo4nOGG9g6gMJrj3PEYDqN.png"
       }
     ]
   },
@@ -91,21 +91,21 @@
       {
         "title": "25 let krásy: příběh Salonu Demo Studio",
         "excerpt": "V roce 2026 slaví Salon Demo Studio významný milník – 25 let své existence. To je čtvrt století...",
-        "image": "/clones/petramechurova/storage/creator/45/agendas/2026-01/n4Jk32GkfEkfFRfdeTqVFp5FVp2XkIM1.jpg",
+        "image": "/assets/hair-03/4e0e7f3c58-n4Jk32GkfEkfFRfdeTqVFp5FVp2XkIM1.jpg",
         "href": "#blog",
         "date": "23/01/2026"
       },
       {
         "title": "DETAIL: Kolekce, která je zaměřena na preciznost",
         "excerpt": "Nová kolekce DETAIL přináší pohled na krásu, která se skrývá v drobnostech.",
-        "image": "/clones/petramechurova/storage/creator/45/agendas/2025-10/WofRTFeU8JPtgqIvWwzuShfBGhIxIRs4.png",
+        "image": "/assets/hair-03/19aa9561ad-WofRTFeU8JPtgqIvWwzuShfBGhIxIRs4.png",
         "href": "#blog",
         "date": "17/10/2025"
       },
       {
         "title": "Letní vlasová péče – ochrana před sluncem a hydratace",
         "excerpt": "Slunce, moře, vítr ve vlasech… a pak suché, lámavé a vyšisované vlasy? Ne, děkujeme!",
-        "image": "/clones/petramechurova/storage/creator/45/agendas/2025-06/TGQ5G8xZQgLrCb9vIyBgHjqPK7Xnqdtc.jpg",
+        "image": "/assets/hair-03/3e5e67ead2-TGQ5G8xZQgLrCb9vIyBgHjqPK7Xnqdtc.jpg",
         "href": "#blog",
         "date": "24/06/2025"
       }
@@ -116,31 +116,31 @@
     "title": "Jak to u nás vypadá",
     "images": [
       {
-        "url": "/clones/petramechurova/storage/creator/45/1702747282_A9uSziXVDTDVu8WyqYVSKStIhnSZoFpP.jpg",
+        "url": "/assets/hair-03/dc8e802a2f-1702747282_A9uSziXVDTDVu8WyqYVSKStIhnSZoFpP.jpg",
         "alt": "Salon interiér"
       },
       {
-        "url": "/clones/petramechurova/storage/creator/45/1702747299_aDr6kC4QsVqnnStLpTrXeehMEnppZOxi.jpg",
+        "url": "/assets/hair-03/5aa535a569-1702747299_aDr6kC4QsVqnnStLpTrXeehMEnppZOxi.jpg",
         "alt": "Práce stylistky"
       },
       {
-        "url": "/clones/petramechurova/storage/creator/45/1702747315_P2RbaFS2SUGgVkrYVm9IAGjyOFZuF6oh.jpg",
+        "url": "/assets/hair-03/ca2b4f5ca5-1702747315_P2RbaFS2SUGgVkrYVm9IAGjyOFZuF6oh.jpg",
         "alt": "Kadeřnická práce"
       },
       {
-        "url": "/clones/petramechurova/storage/creator/45/1702747266_KPD6p4JXeqP9gJjZfqqZnCWDX617dzOC.jpg",
+        "url": "/assets/hair-03/8ea31dcb00-1702747266_KPD6p4JXeqP9gJjZfqqZnCWDX617dzOC.jpg",
         "alt": "Účes detail"
       },
       {
-        "url": "/clones/petramechurova/storage/creator/45/1702747225_la3pmgvUyaWUcAcuRVLKjBgS3sCv9LW8.jpg",
+        "url": "/assets/hair-03/bc0e0016bc-1702747225_la3pmgvUyaWUcAcuRVLKjBgS3sCv9LW8.jpg",
         "alt": "Barvení vlasů"
       },
       {
-        "url": "/clones/petramechurova/storage/creator/45/1702747338_xz0pMa7vDqb8QmjaahADqUosJQjrgff5.jpg",
+        "url": "/assets/hair-03/ee3856ff76-1702747338_xz0pMa7vDqb8QmjaahADqUosJQjrgff5.jpg",
         "alt": "Salon atmosféra"
       },
       {
-        "url": "/clones/petramechurova/storage/creator/45/1702747237_6qOOh5C5exbNpAnt7s7NwPLvAKyizzWW.jpg",
+        "url": "/assets/hair-03/944f6ce9f3-1702747237_6qOOh5C5exbNpAnt7s7NwPLvAKyizzWW.jpg",
         "alt": "Výsledek střihu"
       },
       {

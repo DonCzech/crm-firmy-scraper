@@ -1,0 +1,84 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "autoskola-01",
+  "name": "Autoškola GENIUS",
+  "industry": "autoskola",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Autoškola — bílý design, oranžový #f16823 akcent, tmavý #484848, Roboto font. Bílý topbar s telefonem + social + hodnocením, bílý sticky navbar, fullscreen video/foto hero, pobočky grid, about sekce, services kurzy, promo sekce, team, testimonials, kontakt, footer. Inspirováno nobe.cz.",
+  "sectionOrderNote": "Navbar → Hero → Stats → About → Services → Promo → Team → Testimonials → Contact → Footer",
+  "skippedSections": [
+    { "pos": 5,  "name": "Pricing",    "reason": "Ceny jsou součástí sekce Kurzy (services), ne samostatná stránka" },
+    { "pos": 6,  "name": "Gallery",    "reason": "Autoškola nemá typickou fotogalerii — nahrazeno team sekcí s lektory" },
+    { "pos": 9,  "name": "Booking/CTA","reason": "CTA je integrováno do hero a services sekcí" },
+    { "pos": 11, "name": "FAQ",        "reason": "FAQ není součástí originálního nobe.cz homepage flow" }
+  ],
+  "extraSections": [
+    { "type": "stats",  "reason": "Pobočky / lokality — klíčový prvek autoškoly (mapa měst kde působí)" },
+    { "type": "promo",  "reason": "Proč NOBE? sekce — výhody autoškoly, motivační blok" },
+    { "type": "team",   "reason": "Tým lektorů — důležitý trust element pro autoškolu" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "autoskola-01-navbar",       "contentRef": "navbar" },
+        { "type": "hero",         "variant": "autoskola-01-hero",         "contentRef": "hero" },
+        { "type": "stats",        "variant": "autoskola-01-stats",        "contentRef": "stats" },
+        { "type": "about",        "variant": "autoskola-01-about",        "contentRef": "about" },
+        { "type": "services",     "variant": "autoskola-01-services",     "contentRef": "services" },
+        { "type": "promo",        "variant": "autoskola-01-promo",        "contentRef": "promo" },
+        { "type": "team",         "variant": "autoskola-01-team",         "contentRef": "team" },
+        { "type": "testimonials", "variant": "autoskola-01-testimonials", "contentRef": "testimonials" },
+        { "type": "contact",      "variant": "autoskola-01-contact",      "contentRef": "contact" },
+        { "type": "footer",       "variant": "autoskola-01-footer",       "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kurzy",
+      "title": "Kurzy",
+      "seoTitleKey": "pages.kurzy.seoTitle",
+      "seoDescriptionKey": "pages.kurzy.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "autoskola-01-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",         "contentRef": "pages.kurzy.hero" },
+        { "type": "services", "variant": "autoskola-01-services", "contentRef": "services" },
+        { "type": "footer",   "variant": "autoskola-01-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "autoskola-01-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",         "contentRef": "pages.o-nas.hero" },
+        { "type": "about",    "variant": "autoskola-01-about",    "contentRef": "about" },
+        { "type": "team",     "variant": "autoskola-01-team",     "contentRef": "team" },
+        { "type": "footer",   "variant": "autoskola-01-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "autoskola-01-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "autoskola-01-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "autoskola-01-footer",  "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

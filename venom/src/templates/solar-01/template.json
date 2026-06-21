@@ -1,0 +1,104 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "solar-01",
+  "name": "Demo Solar",
+  "industry": "solar",
+  "skeleton": "b2b-trade",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Fotovoltaika & tepelná čerpadla — firma na klíč. Tmavý navy gradient hero (#0d2a3a→#1a4565) 2-col s foto vpravo, Inter font, oranžový #ff7a00 akcent. Stats pruh 4 čísla, 3 service karty s ikonami, 4-step process, oranžové CTA, navy 4-col footer. Inspirováno schlieger.cz.",
+  "sectionOrderNote": "Navbar → Hero → Stats → Services → Process → CTA → Footer",
+  "skippedSections": [
+    {
+      "pos": 4,
+      "name": "About",
+      "reason": "Originál schlieger.cz nemá sekci O nás — hero text nahrazuje"
+    },
+    {
+      "pos": 5,
+      "name": "Process",
+      "reason": "Process je přítomen jako promo sekce — skeleton tento slot jako about/process nezná"
+    },
+    {
+      "pos": 6,
+      "name": "Pricing/Estimate",
+      "reason": "Ceny jsou individuální dle rozsahu zakázky — kalkulace probíhá přes CTA formulář"
+    },
+    {
+      "pos": 7,
+      "name": "Gallery",
+      "reason": "Realizace jsou zmíněny v navigaci, ale originál nemá dedikovanou galerii na homepage"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Hodnocení je zmíněno jako stat (4.9 ⭐ Google) v stats sekci, nikoli jako samostatná sekce"
+    },
+    {
+      "pos": 10,
+      "name": "Contact",
+      "reason": "Kontaktní formulář je v CTA sekci, footer má kontaktní info"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál schlieger.cz nemá FAQ sekci"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "stats",
+      "reason": "Stats pruh — 4 čísla (5 200+ zákazníků / 14 dní / 25 let záruka / 4.9 Google)"
+    },
+    {
+      "type": "promo",
+      "reason": "4-step proces Jak to funguje (Kalkulace → Návrh → Dotace → Instalace)"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",   "variant": "solar-01-navbar",   "contentRef": "navbar"   },
+        { "type": "hero",     "variant": "solar-01-hero",     "contentRef": "hero"     },
+        { "type": "stats",    "variant": "solar-01-stats",    "contentRef": "stats"    },
+        { "type": "services", "variant": "solar-01-services", "contentRef": "services" },
+        { "type": "promo",    "variant": "solar-01-process",  "contentRef": "process"  },
+        { "type": "cta",      "variant": "solar-01-cta",      "contentRef": "cta"      },
+        { "type": "footer",   "variant": "solar-01-footer",   "contentRef": "footer"   }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Naše služby",
+      "seoTitleKey": "pages.sluzby.seoTitle",
+      "seoDescriptionKey": "pages.sluzby.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "solar-01-navbar",   "contentRef": "navbar"   },
+        { "type": "services", "variant": "solar-01-services", "contentRef": "services" },
+        { "type": "cta",      "variant": "solar-01-cta",      "contentRef": "cta"      },
+        { "type": "footer",   "variant": "solar-01-footer",   "contentRef": "footer"   }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar", "variant": "solar-01-navbar", "contentRef": "navbar" },
+        { "type": "cta",    "variant": "solar-01-cta",    "contentRef": "cta"    },
+        { "type": "footer", "variant": "solar-01-footer", "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

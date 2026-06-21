@@ -1,0 +1,16 @@
+/* ddd-01 — Demo Deratizace */
+
+[data-template="ddd-01"] {
+  --color-primary:      #0c93eb;
+  --color-primary-h:    #015ba3;
+  --color-dark:         #064e86;
+  --color-dark-2:       #07294a;
+  --color-light:        #f0f8ff;
+  --color-accent:       #7cc8fd;
+  --color-text:         #1a2a3a;
+  --color-muted:        #5a8ab8;
+  --font-heading:       'Figtree', system-ui, sans-serif;
+  --font-body:          'Figtree', system-ui, sans-serif;
+  --radius-btn:         4px;
+  --radius-card:        6px;
+}

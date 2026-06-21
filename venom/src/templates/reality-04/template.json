@@ -1,0 +1,54 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "reality-04",
+  "name": "Demo Quantum Reality",
+  "industry": "reality",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Pražská realitní kancelář — bílé pozadí #ffffff, modrá #1032CF brand, zelená #198754 akcent (btn-success), světlá #f2f2f2 povrchy; sticky navbar + split hero (Nabízíte/Hledáte) + ratings panel + Proč právě my + recenze + hotline CTA + kontaktní formulář + mapa + about + footer. Inspirováno quantum.cz.",
+  "sectionOrderNote": "Navbar → Hero (split) → Ratings → Why Us → Testimonials → Hotline CTA → Contact Form → Map → About → Footer",
+  "skippedSections": [
+    { "pos": 3,  "name": "About",      "reason": "About je součástí samostatné about sekce dole na stránce, ne inline" },
+    { "pos": 4,  "name": "Video",      "reason": "Nahrazeno extra sekcí reality-04-ratings" },
+    { "pos": 5,  "name": "Pricing",    "reason": "Ceník není na homepage originálu" },
+    { "pos": 6,  "name": "Gallery",    "reason": "Originál nemá klasickou galerii — fotky jsou v hero a why-us sekcích" },
+    { "pos": 7,  "name": "Gallery2",   "reason": "Skeleton gallery slot 2 — přeskočen" },
+    { "pos": 8,  "name": "Testimonials","reason": "Nahrazeno extra sekcí reality-04-testimonials" },
+    { "pos": 9,  "name": "FAQ",        "reason": "FAQ není v homepage flow originálu" },
+    { "pos": 10, "name": "Locations",  "reason": "Nahrazeno extra sekcí reality-04-contact" },
+    { "pos": 11, "name": "FAQ2",       "reason": "Skeleton FAQ slot 2 — přeskočen" }
+  ],
+  "extraSections": [
+    { "name": "Ratings panel", "type": "promo", "variant": "reality-04-ratings", "reason": "3 platformy hodnocení (Google/Seznam/Facebook) — specifická sekce originálu" },
+    { "name": "Proč právě my", "type": "services", "variant": "reality-04-why-us", "reason": "4-tab interaktivní sekce s obrázky — klíčový element quantum.cz" },
+    { "name": "Hotline CTA",   "type": "cta",      "variant": "reality-04-hotline", "reason": "bg-light lišta s tel číslem 'Infolinka' + CTA btn — typický element originálu" },
+    { "name": "Contact Form",  "type": "contact",  "variant": "reality-04-contact-form", "reason": "6-field kontaktní formulář s výběrem nemovitosti — specifický pro reality" },
+    { "name": "About expandable", "type": "about", "variant": "reality-04-about", "reason": "Expandovatelný textový blok 'O kanceláři' na konci homepage" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar", "variant": "reality-04-navbar",     "contentRef": "navbar" },
+        { "type": "hero",   "variant": "reality-04-split-hero", "contentRef": "hero" },
+        { "type": "promo",    "variant": "reality-04-ratings",    "contentRef": "ratings" },
+        { "type": "services",      "variant": "reality-04-why-us",       "contentRef": "whyUs" },
+        { "type": "testimonials",  "variant": "reality-04-testimonials", "contentRef": "testimonials" },
+        { "type": "cta",           "variant": "reality-04-hotline",      "contentRef": "hotline" },
+        { "type": "contact",       "variant": "reality-04-contact",      "contentRef": "contact" },
+        { "type": "about",         "variant": "reality-04-about",        "contentRef": "about" },
+        { "type": "footer",        "variant": "reality-04-footer",       "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

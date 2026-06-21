@@ -1,0 +1,104 @@
+{
+  "navbar": {
+    "siteName": "Lumina Events",
+    "logoUrl": "",
+    "phone": "777 888 999",
+    "poptavkaHref": "#kontakt",
+    "links": [
+      { "label": "Služby",    "href": "#sluzby"    },
+      { "label": "Reference", "href": "#portfolio" },
+      { "label": "O nás",     "href": "#kontakt"   },
+      { "label": "Blog",      "href": "#kontakt"   },
+      { "label": "Kontakt",   "href": "#kontakt"   }
+    ]
+  },
+  "hero": {
+    "title": "Zážitky, které",
+    "titleLine2": "nikdy nezapomenete",
+    "imageUrl": "/assets/events-01/b8424c62d9-showcase-1920x1000.jpg",
+    "videoUrl": "",
+    "imageAlt": "Luxusní gala večer"
+  },
+  "services": {
+    "eyebrow": "Naše specializace",
+    "title": "Co pro vás připravíme",
+    "items": [
+      {
+        "icon": "★",
+        "name": "Gala & Firemní večery",
+        "title": "Gala & Firemní večery",
+        "description": "Od intímních výročních slavností po velkolepé gala večery pro stovky hostů. Každý detail navrhujeme s důrazem na atmosféru a dokonalý zážitek."
+      },
+      {
+        "icon": "▲",
+        "name": "Kongresy & Konference",
+        "title": "Kongresy & Konference",
+        "description": "Profesionální zajištění kongresů, odborných seminářů a produktových prezentací. Technické zázemí, moderace i simultánní tlumočení."
+      },
+      {
+        "icon": "●",
+        "name": "Teambuilding & Incentive",
+        "title": "Teambuilding & Incentive",
+        "description": "Motivační programy a incentivní zájezdy navržené přesně pro vaši firemní kulturu. Výsledek? Tým, který táhne za jeden provaz."
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "Náš postup",
+    "title": "Od myšlenky k nezapomenutelné akci",
+    "steps": [
+      { "number": "01", "title": "Analýza & vize", "description": "Nasloucháme vašim cílům, představám a očekáváním. Společně definujeme koncept, který sedí přesně vám." },
+      { "number": "02", "title": "Kreativní návrh", "description": "Předložíme detailní projektový plán, moodboard a transparentní rozpočet bez skrytých položek." },
+      { "number": "03", "title": "Příprava & produkce", "description": "Koordinujeme místo konání, dodavatele, techniku, catering i umělce — vše v jedněch rukou." },
+      { "number": "04", "title": "Den D & follow-up", "description": "Celou akci řídíme osobně na místě. Po skončení obdržíte zprávu a fotodokumentaci." }
+    ]
+  },
+  "gallery": {
+    "eyebrow": "Realizované projekty",
+    "title": "Ukázky naší práce",
+    "images": [
+      { "url": "/assets/events-01/f7c7924faa-Firemni2.jpg",      "alt": "Firemní slavnost",  "caption": "Firemní slavnost", "label": "2024" },
+      { "url": "/assets/events-01/14c8c12cff-Konference.jpg",    "alt": "Mezinárodní kongres","caption": "Kongres",         "label": "2025" },
+      { "url": "/assets/events-01/5d3ee634ce-Teambuilding-1.jpg","alt": "Incentive program", "caption": "Incentive trip",   "label": "2024" },
+      { "url": "/assets/events-01/133715d130-Vanoce.jpg",        "alt": "Vánoční gala",      "caption": "Vánoční gala",     "label": "2024" },
+      { "url": "/assets/events-01/693e4116c3-Roadshow-1.jpg",    "alt": "Produktová roadshow","caption": "Roadshow",        "label": "2025" },
+      { "url": "/assets/events-01/cdec9b6f32-Festivaly-1.jpg",   "alt": "Letní festival",    "caption": "Open-air festival","label": "2025" }
+    ]
+  },
+  "stats": {
+    "items": [
+      { "value": "14",  "suffix": "",  "label": "Let na trhu"           },
+      { "value": "380", "suffix": "+", "label": "Úspěšných akcí"        },
+      { "value": "9",   "suffix": "",  "label": "Specialistů v týmu"    }
+    ]
+  },
+  "cta": {
+    "eyebrow": "Pojďme na to společně",
+    "title": "Plánujete firemní akci?",
+    "subtitle": "Kontaktujte nás a domluvte si nezávaznou konzultaci. Rádi vám ukážeme, jak z vaší akce udělat výjimečný zážitek.",
+    "ctaText": "Nezávazná poptávka",
+    "ctaSecondaryText": "Zavolat nám",
+    "ctaHref": "mailto:info@luminaevents.cz",
+    "phone": "+420 777 888 999",
+    "email": "info@luminaevents.cz",
+    "imageUrl": "/assets/events-01/133715d130-Vanoce.jpg"
+  },
+  "footer": {
+    "siteName": "Lumina Events",
+    "tagline": "Eventová agentura · Praha & Brno",
+    "phone": "777 888 999",
+    "email": "info@luminaevents.cz",
+    "address": "Václavské náměstí 12, 110 00 Praha 1",
+    "ico": "09876543",
+    "web": "https://luminaevents.cz",
+    "copyright": "© 2026 Lumina Events s.r.o. Všechna práva vyhrazena.",
+    "facebook": "https://facebook.com/luminaevents",
+    "instagram": "https://instagram.com/luminaevents",
+    "links": [
+      { "label": "Služby",    "href": "#sluzby"    },
+      { "label": "Proces",    "href": "#proces"    },
+      { "label": "Portfolio", "href": "#portfolio" },
+      { "label": "Kontakt",   "href": "#kontakt"   }
+    ]
+  }
+}

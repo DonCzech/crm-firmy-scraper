@@ -1,0 +1,79 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "edu-01",
+  "name": "Demo Akademie",
+  "industry": "edu",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Doučování & vzdělávání — tmavě navy #132339 + modrý #0059df akcent, Libre Franklin font. Sticky navy navbar s bílými linky + modrý CTA, split hero s vyhledáváním, grid služeb (6 karet), video sekce, mapa poboček, testimonials karusel, stats čítače, about sekce, kontakt formulář, footer. Inspirováno skolapopulo.cz.",
+  "sectionOrderNote": "Navbar → Hero → Services → About → Stats → Testimonials → Contact → Footer",
+  "skippedSections": [
+    { "pos": 5,  "name": "Pricing",  "reason": "Ceník je součástí sekce Služby (edu), ne samostatná stránka" },
+    { "pos": 6,  "name": "Gallery",  "reason": "Vzdělávací akademie nemá typickou fotogalerii — nahrazeno stats sekcí" },
+    { "pos": 7,  "name": "Team",     "reason": "Lektoři jsou součástí about sekce, ne samostatný team blok na homepage" },
+    { "pos": 9,  "name": "Booking/CTA", "reason": "CTA je integrováno do hero a contact sekcí" },
+    { "pos": 11, "name": "FAQ",      "reason": "FAQ není součástí originálního skolapopulo.cz homepage flow" }
+  ],
+  "extraSections": [
+    { "type": "stats", "reason": "Čítače výsledků (34 000+ studentů / 96% úspěšnost) — klíčový trust element edu šablony" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "edu-01-navbar",       "contentRef": "navbar" },
+        { "type": "hero",         "variant": "edu-01-hero",         "contentRef": "hero" },
+        { "type": "services",     "variant": "edu-01-services",     "contentRef": "services" },
+        { "type": "about",        "variant": "edu-01-about",        "contentRef": "about" },
+        { "type": "stats",        "variant": "edu-01-stats",        "contentRef": "stats" },
+        { "type": "testimonials", "variant": "edu-01-testimonials", "contentRef": "testimonials" },
+        { "type": "contact",      "variant": "edu-01-contact",      "contentRef": "contact" },
+        { "type": "footer",       "variant": "edu-01-footer",       "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Služby",
+      "seoTitleKey": "pages.sluzby.seoTitle",
+      "seoDescriptionKey": "pages.sluzby.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "edu-01-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",   "contentRef": "pages.sluzby.hero" },
+        { "type": "services", "variant": "edu-01-services", "contentRef": "services" },
+        { "type": "contact",  "variant": "edu-01-contact",  "contentRef": "contact" },
+        { "type": "footer",   "variant": "edu-01-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "edu-01-navbar",  "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",  "contentRef": "pages.o-nas.hero" },
+        { "type": "about",   "variant": "edu-01-about",   "contentRef": "about" },
+        { "type": "stats",   "variant": "edu-01-stats",   "contentRef": "stats" },
+        { "type": "footer",  "variant": "edu-01-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "edu-01-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "edu-01-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "edu-01-footer",  "contentRef": "footer" }
+      ]
+    }
+  ]
+}

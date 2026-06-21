@@ -1,0 +1,83 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "lang-01",
+  "name": "Demo Jazyková škola",
+  "industry": "lang",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Jazyková škola — bílý design, červený #e63946 akcent, tmavý #1a1a2e, Inter font. Sticky bílý navbar, hero s gradientem a kartou jazyků, stats bar tmavý, kurzy 3-col, CTA test úrovně, 4 kroky jak to funguje, tmavý footer. Inspirováno jipka.cz.",
+  "sectionOrderNote": "Navbar → Hero → Stats → Services → CTA → Promo → Footer",
+  "skippedSections": [
+    { "pos": 3,  "name": "About",        "reason": "Originál nemá samostatnou about sekci na homepage" },
+    { "pos": 5,  "name": "Pricing",      "reason": "Ceny jsou součástí services karet, ne samostatná stránka" },
+    { "pos": 6,  "name": "Gallery",      "reason": "Jazyková škola nemá typickou fotogalerii na homepage" },
+    { "pos": 8,  "name": "Testimonials", "reason": "Testimonials nejsou v originálním jipka.cz homepage flow" },
+    { "pos": 7,  "name": "Team",         "reason": "Jazyková škola nemá tým lektorů na homepage" },
+    { "pos": 10, "name": "Locations",    "reason": "Kontakt je v patičce, bez samostatné sekce" },
+    { "pos": 11, "name": "FAQ",          "reason": "FAQ není součástí originálního jipka.cz homepage flow" }
+  ],
+  "extraSections": [
+    { "type": "stats",  "reason": "4 klíčové statistiky (35 let, 9 jazyků, 12 000+ studentů, ⭐ 4.9)" },
+    { "type": "cta",    "reason": "Test úrovně — motivační blok pro konverzi" },
+    { "type": "promo",  "reason": "Jak to funguje — 4 kroky od přihlášky k certifikaci" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "lang-01-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "lang-01-hero",     "contentRef": "hero" },
+        { "type": "stats",    "variant": "lang-01-stats",    "contentRef": "stats" },
+        { "type": "services", "variant": "lang-01-services", "contentRef": "services" },
+        { "type": "cta",      "variant": "lang-01-cta",      "contentRef": "cta" },
+        { "type": "promo",    "variant": "lang-01-promo",    "contentRef": "promo" },
+        { "type": "footer",   "variant": "lang-01-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kurzy",
+      "title": "Kurzy",
+      "seoTitleKey": "pages.kurzy.seoTitle",
+      "seoDescriptionKey": "pages.kurzy.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "lang-01-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",    "contentRef": "pages.kurzy.hero" },
+        { "type": "services", "variant": "lang-01-services", "contentRef": "services" },
+        { "type": "footer",   "variant": "lang-01-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O škole",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "lang-01-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",    "contentRef": "pages.o-nas.hero" },
+        { "type": "promo",    "variant": "lang-01-promo",    "contentRef": "promo" },
+        { "type": "footer",   "variant": "lang-01-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "lang-01-navbar",      "contentRef": "navbar" },
+        { "type": "contact", "variant": "autoskola-01-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "lang-01-footer",      "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

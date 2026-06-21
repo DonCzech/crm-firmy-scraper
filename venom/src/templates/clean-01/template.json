@@ -1,0 +1,86 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "clean-01",
+  "name": "Demo Clean",
+  "industry": "clean",
+  "skeleton": "b2b-trade",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Úklidová firma & mytí oken. Tmavý navbar (#0d1a20) transparent→tmavý on-scroll, 100vh video hero s zeleným (#69be28) akcentem, horizontální service nav s ikonami, 2-col about, benefit grid, foto mozaika, 3-box CTA, zeleno-černý footer. Inspirováno cleancat.cz.",
+  "sectionOrderNote": "Navbar → Hero → Services → About → Promo → Gallery → CTA → Footer",
+  "skippedSections": [
+    {
+      "pos": 6,
+      "name": "Pricing/Estimate",
+      "reason": "Ceny jsou individuální — cleancat.cz nemá ceník, nabídky se tvoří na míru po kontaktu"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Originál cleancat.cz nemá dedikované hodnocení — reference jsou v navigaci"
+    },
+    {
+      "pos": 10,
+      "name": "Service area",
+      "reason": "Mapa nepotřebná — firma pokrývá celou ČR, není vázána na konkrétní lokalitu"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál cleancat.cz nemá FAQ sekci"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "promo",
+      "reason": "Benefit grid — 4 výhody firmy (zkušenosti / individuální přístup / technologie / reference)"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",   "variant": "clean-01-navbar",   "contentRef": "navbar"   },
+        { "type": "hero",     "variant": "clean-01-hero",     "contentRef": "hero"     },
+        { "type": "services", "variant": "clean-01-services", "contentRef": "services" },
+        { "type": "about",    "variant": "clean-01-about",    "contentRef": "about"    },
+        { "type": "promo",    "variant": "clean-01-promo",    "contentRef": "promo"    },
+        { "type": "gallery",  "variant": "clean-01-gallery",  "contentRef": "gallery"  },
+        { "type": "cta",      "variant": "clean-01-cta",      "contentRef": "cta"      },
+        { "type": "footer",   "variant": "clean-01-footer",   "contentRef": "footer"   }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Naše služby",
+      "seoTitleKey": "pages.sluzby.seoTitle",
+      "seoDescriptionKey": "pages.sluzby.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "clean-01-navbar",   "contentRef": "navbar"   },
+        { "type": "services", "variant": "clean-01-services", "contentRef": "services" },
+        { "type": "cta",      "variant": "clean-01-cta",      "contentRef": "cta"      },
+        { "type": "footer",   "variant": "clean-01-footer",   "contentRef": "footer"   }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "clean-01-navbar",   "contentRef": "navbar"   },
+        { "type": "cta",      "variant": "clean-01-cta",      "contentRef": "cta"      },
+        { "type": "footer",   "variant": "clean-01-footer",   "contentRef": "footer"   }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

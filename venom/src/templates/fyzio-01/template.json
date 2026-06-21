@@ -1,0 +1,43 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "fyzio-01",
+  "name": "Demo Fyzio Klinika",
+  "industry": "fyzio",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Fyzioterapeutická klinika — bílé pozadí #ffffff, navy #1f2d69 brand, green #10d15d CTA akcent, teal #6bbea1 hover, Open Sans body + Montserrat headings — sticky navbar bez topobar, hero s videem, about, services grid, team, CTA booking, kontakt. Inspirováno fyziovsem.cz.",
+  "sectionOrderNote": "Navbar → Hero → About → Services → Team → CTA → Contact → Footer",
+  "skippedSections": [
+    { "pos": 5,  "name": "Gallery",      "reason": "Originál fyziovsem.cz nemá galerii na homepage — fotografie jsou součástí hero a about sekcí" },
+    { "pos": 6,  "name": "Testimonials", "reason": "Originál nemá recenze na homepage" },
+    { "pos": 8,  "name": "Pricing",      "reason": "Ceník je na samostatné stránce /cenik" },
+    { "pos": 9,  "name": "FAQ",          "reason": "FAQ není na homepage originálu" },
+    { "pos": 11, "name": "FAQ",          "reason": "FAQ není na homepage originálu" }
+  ],
+  "extraSections": [],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "fyzio-01-navbar",        "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-fyzio-01-fullbleed", "contentRef": "hero" },
+        { "type": "about",    "variant": "about-fyzio-01-2col",     "contentRef": "about" },
+        { "type": "services", "variant": "fyzio-01-services-grid",  "contentRef": "services" },
+        { "type": "team",     "variant": "fyzio-01-team-grid",      "contentRef": "team" },
+        { "type": "cta",      "variant": "fyzio-01-cta-booking",    "contentRef": "cta" },
+        { "type": "contact",  "variant": "contact-fyzio-01",        "contentRef": "contact" },
+        { "type": "footer",   "variant": "fyzio-01-footer",         "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

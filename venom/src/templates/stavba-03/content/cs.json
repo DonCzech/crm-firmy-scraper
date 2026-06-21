@@ -1,0 +1,194 @@
+{
+  "navbar": {
+    "siteName": "StavPro s.r.o.",
+    "logoUrl": "",
+    "phone": "731 456 789",
+    "email": "poptavka@stavpro.cz",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "#kontakt",
+    "links": [
+      { "label": "Domů",        "href": "/" },
+      { "label": "O nás",       "href": "/o-nas" },
+      { "label": "Naše služby", "href": "/sluzby" },
+      { "label": "Reference",   "href": "/reference" },
+      { "label": "Kontakt",     "href": "/kontakt" }
+    ]
+  },
+  "hero": {
+    "headline":           "Stavíme a rekonstruujeme po celé Praze a středních Čechách",
+    "subheadline":        "Kompletní rekonstrukce bytů, výstavba rodinných domů a veškeré řemeslné práce. Vždy se smlouvou, pevnou cenou a bez zbytečných překvapení.",
+    "ctaText":            "Získat cenovou nabídku",
+    "ctaHref":            "#kontakt",
+    "ctaSecondaryText":   "Prohlédnout realizace",
+    "ctaSecondaryHref":   "/reference",
+    "backgroundImage":    "",
+    "tag":                "Stavební firma Praha a Středočeský kraj"
+  },
+  "stats": {
+    "heading": "Čísla, která hovoří za nás",
+    "items": [
+      { "value": "46",     "suffix": "+",    "label": "Realizovaných projektů" },
+      { "value": "12860",  "suffix": " m²",  "label": "Postaveno a zrekonstruováno" },
+      { "value": "15",     "suffix": " let", "label": "Zkušeností na trhu" }
+    ],
+    "usps": [
+      { "icon": "shield", "title": "Platby až po odvedené práci",     "description": "Nepožadujeme zálohy. Platíte vždy jen za etapu, která je skutečně hotová a předaná." },
+      { "icon": "users",  "title": "Vše pod jednou střechou",         "description": "Jeden tým, jedna smlouva, jeden kontakt. Od hrubé stavby až po malířské práce." },
+      { "icon": "check",  "title": "Pevná cena a termín v smlouvě",   "description": "Cenu ani termín neměníme po cestě. Co je domluveno ve smlouvě, to platí." }
+    ]
+  },
+  "about": {
+    "kicker":   "O nás",
+    "heading":  "Zkušená stavební firma s férovým přístupem",
+    "body":     "Jsme rodinná stavební firma s patnáctiletou tradicí. Specializujeme se na rekonstrukce bytů a stavby rodinných domů v Praze a okolí. Každý projekt řešíme individuálně — nasloucháme vašim potřebám a navrhujeme řešení, která dávají smysl jak technicky, tak cenově.",
+    "bullets": [
+      "Rekonstrukce bytů a rodinných domů",
+      "Novostavby rodinných domů na klíč",
+      "Přístavby, nástavby a půdní vestavby",
+      "Koupelny, podlahy a sádrokartonové práce"
+    ],
+    "ctaText":  "Více o firmě",
+    "ctaHref":  "/o-nas",
+    "imageUrl": ""
+  },
+  "services": {
+    "kicker":   "Co děláme",
+    "heading":  "Stavební práce, na které se můžete spolehnout",
+    "subtitle": "Provádíme veškeré stavební a řemeslné práce pro byty i domy",
+    "items": [
+      { "icon": "home",     "title": "Rekonstrukce bytů",         "description": "Celková i částečná rekonstrukce bytů — bourání, zednické práce, podlahy, obklady, malby." },
+      { "icon": "building", "title": "Rodinné domy na klíč",      "description": "Novostavby rodinných domů od základů po kolaudaci. Pevná cena, garantovaný termín." },
+      { "icon": "layers",   "title": "Sádrokartony a příčky",     "description": "Montáž SDK příček, podhledů a kazetových stropů. Rychle, čistě a přesně." },
+      { "icon": "droplets", "title": "Koupelny na míru",          "description": "Kompletní rekonstrukce koupelen a bytových jader včetně instalatérských prací a obkladů." },
+      { "icon": "grid",     "title": "Obklady a podlahové krytiny","description": "Pokládka dlažeb, obkladů a plovoucích podlah v bytech, domech i provozovnách." },
+      { "icon": "wrench",   "title": "Voda, topení, kanalizace",  "description": "Kompletní zdravotechnické instalace — nové rozvody, výměna kotlů, podlahové topení." }
+    ]
+  },
+  "cta": {
+    "heading":            "Máte projekt? Rádi se na něj podíváme",
+    "subtitle":           "Stačí nám popsat, co potřebujete. Ozveme se do 24 hodin a domluvíme nezávaznou prohlídku nebo konzultaci — zdarma a bez závazků.",
+    "ctaText":            "Poptat projekt",
+    "ctaHref":            "#kontakt",
+    "ctaSecondaryText":   "Prohlédnout reference",
+    "ctaSecondaryHref":   "/reference"
+  },
+  "gallery": {
+    "kicker":   "Naše práce",
+    "heading":  "Vybrané realizace",
+    "subtitle": "Projekty dokončené v Praze a Středočeském kraji",
+    "ctaText":  "Zobrazit vše",
+    "ctaHref":  "/reference",
+    "images": [
+      { "__placeholder": [800, 600, "Rekonstrukce bytu"], "category": "Rekonstrukce bytů",    "title": "Kompletní rekonstrukce 3+kk Praha 5" },
+      { "__placeholder": [800, 600, "Rodinný dům"],       "category": "Novostavby",            "title": "Rodinný dům Praha-západ" },
+      { "__placeholder": [800, 600, "Koupelna"],          "category": "Koupelny",              "title": "Rekonstrukce koupelny Praha 10" },
+      { "__placeholder": [800, 600, "Plot a terasa"],     "category": "Terasy a oplocení",     "title": "Terasa a plot Říčany" },
+      { "__placeholder": [800, 600, "Obklady"],           "category": "Obklady a podlahy",     "title": "Pokládka dlažby — prodejna Praha 9" },
+      { "__placeholder": [800, 600, "Rekonstrukce"],      "category": "Komerční prostory",     "title": "Rekonstrukce kanceláří Praha 1" }
+    ]
+  },
+  "testimonials": {
+    "kicker":  "Co říkají klienti",
+    "heading": "Spokojení zákazníci jsou naší nejlepší vizitkou",
+    "items": [
+      {
+        "quote": "S prací kluků jsme maximálně spokojeni. Rekonstrukce proběhla přesně podle plánu, bez zdražování a bez zbytečného zdržování. Doporučujeme všem.",
+        "name":  "Tomáš Veselý",
+        "role":  "Rekonstrukce bytu 4+kk, Praha 6"
+      },
+      {
+        "quote": "Konečně firma, která drží slovo. Dohodli jsme cenu, podepsali smlouvu a přesně tak to i proběhlo. Koupelna je nádherná, jsme nadšeni.",
+        "name":  "Lucie Marková",
+        "role":  "Rekonstrukce koupelny, Praha 4"
+      },
+      {
+        "quote": "Stavěli nám rodinný dům na klíč. Komunikace na výbornou, tým šikovný a spolehlivý. Věděli jsme vždy, co se děje a co bude následovat.",
+        "name":  "Radek a Jana Horáčkovi",
+        "role":  "Novostavba rodinného domu, Brandýs nad Labem"
+      }
+    ]
+  },
+  "contact": {
+    "kicker":      "Kontakt",
+    "heading":     "Ozvěte se nám — rádi poradíme",
+    "phone":       "731 456 789",
+    "email":       "poptavka@stavpro.cz",
+    "address":     "Příkladná 123, 110 00 Praha 1",
+    "hours":       "Po–Pá 7:30–17:00, So 8:00–12:00",
+    "ico":         "12345678",
+    "formHeading": "Poptat projekt",
+    "submitText":  "Odeslat poptávku"
+  },
+  "footer": {
+    "siteName":  "StavPro s.r.o.",
+    "logoUrl":   "",
+    "tagline":   "Rekonstrukce bytů a stavby rodinných domů v Praze a Středočeském kraji.",
+    "phone":     "731 456 789",
+    "email":     "poptavka@stavpro.cz",
+    "address":   "Příkladná 123, 110 00 Praha 1",
+    "ico":       "12345678",
+    "copyright": "© 2026 StavPro s.r.o. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "Domů",        "href": "/" },
+      { "label": "O nás",       "href": "/o-nas" },
+      { "label": "Naše služby", "href": "/sluzby" },
+      { "label": "Reference",   "href": "/reference" },
+      { "label": "Kontakt",     "href": "/kontakt" }
+    ]
+  },
+  "pages": {
+    "sluzby": {
+      "seoTitle":       "Naše stavební služby | StavPro s.r.o.",
+      "seoDescription": "Rekonstrukce bytů, novostavby, koupelny, obklady, sádrokartony. Stavební firma Praha a Středočeský kraj.",
+      "hero": {
+        "headline":    "Naše stavební služby",
+        "subheadline": "Kompletní stavební a řemeslné práce pro byty, domy i komerční objekty"
+      },
+      "services": {
+        "kicker":   "Nabídka",
+        "heading":  "Co nabízíme",
+        "subtitle": "Profesionální stavební práce se zárukou kvality a termínu",
+        "items": [
+          { "icon": "home",     "title": "Rekonstrukce bytů",        "description": "Celková i částečná rekonstrukce bytů v Praze." },
+          { "icon": "building", "title": "Rodinné domy na klíč",     "description": "Novostavby rodinných domů s garantovanou cenou." },
+          { "icon": "layers",   "title": "Sádrokartony a příčky",    "description": "Montáž SDK příček, podhledů a stropů." },
+          { "icon": "droplets", "title": "Koupelny na míru",         "description": "Kompletní rekonstrukce koupelen a bytových jader." },
+          { "icon": "grid",     "title": "Obklady a podlahy",        "description": "Pokládka dlažeb, obkladů a plovoucích podlah." },
+          { "icon": "wrench",   "title": "Voda, topení, kanalizace", "description": "Zdravotechnické instalace a rozvody topení." }
+        ]
+      }
+    },
+    "reference": {
+      "seoTitle":       "Naše realizace | StavPro s.r.o.",
+      "seoDescription": "Prohlédněte si naše dokončené projekty — rekonstrukce bytů, novostavby a komerční prostory v Praze.",
+      "hero": {
+        "headline":    "Naše realizace",
+        "subheadline": "Projekty dokončené v Praze a Středočeském kraji"
+      },
+      "gallery": {
+        "kicker":  "Realizace",
+        "heading": "Vybrané projekty",
+        "images": [
+          { "__placeholder": [800, 600, "Rekonstrukce bytu"], "category": "Rekonstrukce bytů",  "title": "Kompletní rekonstrukce 3+kk Praha 5" },
+          { "__placeholder": [800, 600, "Rodinný dům"],       "category": "Novostavby",          "title": "Rodinný dům Praha-západ" },
+          { "__placeholder": [800, 600, "Koupelna"],          "category": "Koupelny",            "title": "Rekonstrukce koupelny Praha 10" },
+          { "__placeholder": [800, 600, "Plot a terasa"],     "category": "Terasy a oplocení",   "title": "Terasa a plot Říčany" },
+          { "__placeholder": [800, 600, "Obklady"],           "category": "Obklady a podlahy",   "title": "Pokládka dlažby — prodejna Praha 9" },
+          { "__placeholder": [800, 600, "Rekonstrukce"],      "category": "Komerční prostory",   "title": "Rekonstrukce kanceláří Praha 1" }
+        ]
+      }
+    },
+    "o-nas": {
+      "seoTitle":       "O nás | StavPro s.r.o.",
+      "seoDescription": "Rodinná stavební firma v Praze s 15 lety praxe. Rekonstrukce bytů a novostavby rodinných domů bez záloh.",
+      "hero": {
+        "headline":    "O naší firmě",
+        "subheadline": "Rodinná stavební firma s patnáctiletou tradicí"
+      }
+    },
+    "kontakt": {
+      "seoTitle":       "Kontakt | StavPro s.r.o.",
+      "seoDescription": "Kontaktujte StavPro pro nezávaznou poptávku. Rekonstrukce bytů a stavby rodinných domů v Praze."
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "reality-05",
+  "name": "Demo Ondřej Kučera",
+  "industry": "reality",
+  "skeleton": "real-estate",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Osobní realitní makléř — zlatá (#CFA968) tématiqa, bílý sticky navbar s logem makléře, fullscreen hero s foto pozadím a pravostranným textem, sekce 'O mně' + 'Co Vám nabízím' na zlatém bg, tmavá stats sekce (15 let / 1080+ klientů / 550+ transakcí), blog preview, tmavé testimonials. Inspirováno okucera.cz.",
+  "sectionOrderNote": "Navbar → Hero → About → Stats → Blog → Testimonials → Contact → Footer",
+  "skippedSections": [
+    { "pos": 3, "name": "Listings (gallery)", "reason": "Osobní makléř bez katalogového výpisu na homepage; nahrazeno about+stats" },
+    { "pos": 4, "name": "About/Team",         "reason": "Tým = jeden makléř; zpracováno jako reality-05-about kombinující bio + co nabízím" },
+    { "pos": 5, "name": "Services",           "reason": "Služby zahrnuty v about sekci jako 3 features" },
+    { "pos": 8, "name": "CTA/Contact",        "reason": "Kontakt jako samostatná sekce reality-01-contact; CTA implicitně v hero" },
+    { "pos": 9, "name": "FAQ",                "reason": "FAQ není součástí homepage flow originálu okucera.cz" }
+  ],
+  "extraSections": [
+    { "name": "Statistiky",     "type": "stats",        "variant": "reality-05-stats",  "reason": "3 tmavé counter boxy (15 let / 1080+ klientů / 550+ transakcí)" },
+    { "name": "Blog preview",   "type": "blog-preview", "variant": "reality-02-blog",   "reason": "3-col blog preview reuse z reality-02" },
+    { "name": "Kontakt + mapa", "type": "contact",      "variant": "reality-01-contact","reason": "Kontaktní sekce s mapou — součástí homepage flow originálu okucera.cz" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "reality-05-navbar",       "contentRef": "navbar" },
+        { "type": "hero",         "variant": "reality-05-hero",         "contentRef": "hero" },
+        { "type": "about",        "variant": "reality-05-about",        "contentRef": "about" },
+        { "type": "stats",        "variant": "reality-05-stats",        "contentRef": "stats" },
+        { "type": "blog-preview", "variant": "reality-02-blog",         "contentRef": "blog" },
+        { "type": "testimonials", "variant": "reality-05-testimonials", "contentRef": "testimonials" },
+        { "type": "contact",      "variant": "reality-01-contact",      "contentRef": "contact" },
+        { "type": "footer",       "variant": "reality-05-footer",       "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-mne",
+      "title": "O mně",
+      "seoTitleKey": "pages.o-mne.seoTitle",
+      "seoDescriptionKey": "pages.o-mne.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "reality-05-navbar",  "contentRef": "navbar" },
+        { "type": "about",   "variant": "reality-05-about",   "contentRef": "about" },
+        { "type": "footer",  "variant": "reality-05-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "reality-05-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "reality-01-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "reality-05-footer",  "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "chalet-01",
+  "name": "Demo Horský Chalet",
+  "industry": "chalet",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Ubytování / horská chata — elegantní chalet k pronájmu v Krkonoších. Transparentní navbar → dark on-scroll, fullscreen 2-slide hero slider, 6-ikona amenity grid, about sekce s historií, gallery lightbox, aktivity sekce, CTA + patička. Inspirováno chaletmilada.cz. Josefin Sans uppercase + Plus Jakarta Sans.",
+  "sectionOrderNote": "Navbar → Hero → About → Amenities → Gallery → Activities → CTA → Footer",
+  "skippedSections": [
+    {
+      "pos": 5,
+      "name": "Pricing",
+      "reason": "Ceny jsou na vyžádání / závislé na termínu — bez ceníku na HP"
+    },
+    {
+      "pos": 7,
+      "name": "Team",
+      "reason": "Chalet neprovozuje viditelný tým — majitelé se neprezentují na HP"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Originál chaletmilada.cz nemá recenze na homepage"
+    },
+    {
+      "pos": 10,
+      "name": "Locations",
+      "reason": "Kontakt je součástí CTA sekce, mapa není potřeba"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál chaletmilada.cz nemá FAQ na homepage"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "services",
+      "reason": "6-ikona amenity grid (ubytování, wellness, ski-in/out, relax, gastro, cyklisté) — klíčový prvek originálu"
+    },
+    {
+      "type": "promo",
+      "reason": "Aktivity v okolí — léto/zima sekce s popisem aktivit"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",   "variant": "chalet-01-navbar",    "contentRef": "navbar"    },
+        { "type": "hero",     "variant": "chalet-01-hero",      "contentRef": "hero"      },
+        { "type": "about",    "variant": "chalet-01-about",     "contentRef": "about"     },
+        { "type": "services", "variant": "chalet-01-amenities", "contentRef": "amenities" },
+        { "type": "gallery",  "variant": "chalet-01-gallery",   "contentRef": "gallery"   },
+        { "type": "promo",    "variant": "chalet-01-activities","contentRef": "activities"},
+        { "type": "cta",      "variant": "chalet-01-cta",       "contentRef": "cta"       },
+        { "type": "footer",   "variant": "chalet-01-footer",    "contentRef": "footer"    }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "ortho-02",
+  "name": "Demo Perfect Smile",
+  "industry": "ortho",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Ortodontická klinika Perfect Smile — bílý sticky navbar s gold #b39f6b CTA, video hero 'Vytváříme krásné úsměvy', 4 pathbox karty rovnátek, 4-krokový průvodce léčbou, fullbleed 'usměvy' fotosekce, reference/testimonials, sekce kontaktu pro 2 pobočky, footer. Inspirováno perfectsmile.cz.",
+  "sectionOrderNote": "Navbar → Hero → Services → About/Process → Promo → Testimonials → Contact → Footer",
+  "skippedSections": [
+    { "pos": 4,  "name": "Gallery",      "reason": "Perfectsmile nemá dedikovanou galerii — fotky jsou integrovány v sekcích" },
+    { "pos": 7,  "name": "Team",         "reason": "Tým je na podstránce, homepage ho neobsahuje" },
+    { "pos": 9,  "name": "FAQ",          "reason": "Originál nemá FAQ na homepage" },
+    { "pos": 10, "name": "OpeningHours", "reason": "Hodiny jsou součástí contact sekce" }
+  ],
+  "extraSections": [
+    { "type": "promo", "name": "Průvodce léčbou – 4 kroky", "reason": "Perfectsmile má 4-krokový proces léčby na šedém #f5f5f5 bg" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "ortho-02-navbar",       "contentRef": "navbar" },
+        { "type": "hero",         "variant": "ortho-02-hero",         "contentRef": "hero" },
+        { "type": "services",     "variant": "ortho-02-services",     "contentRef": "services" },
+        { "type": "promo",        "variant": "ortho-02-process",      "contentRef": "process" },
+        { "type": "about",        "variant": "ortho-02-about",        "contentRef": "about" },
+        { "type": "testimonials", "variant": "ortho-02-testimonials", "contentRef": "testimonials" },
+        { "type": "contact",      "variant": "ortho-02-contact",      "contentRef": "contact" },
+        { "type": "footer",       "variant": "ortho-02-footer",       "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "content/cs.json"
+  }
+}

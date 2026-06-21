@@ -1,0 +1,187 @@
+{
+  "siteName": "Akademia Plus",
+  "siteDescription": "Doučování s garantovanými výsledky — od základní školy až po vysokoškolské přijímačky.",
+
+  "navbar": {
+    "siteName": "Akademia Plus",
+    "logoUrl": "/templates/edu-01/logo.svg",
+    "phone": "776 543 210",
+    "email": "info@akademia-plus.cz",
+    "ctaText": "Klientská zóna",
+    "ctaHref": "/kontakt",
+    "links": [
+      { "label": "Domů",      "href": "/" },
+      { "label": "Služby",    "href": "/sluzby" },
+      { "label": "O nás",     "href": "/o-nas" },
+      { "label": "Ceník",     "href": "/cenik" },
+      { "label": "Reference", "href": "/reference" },
+      { "label": "Lektoři",   "href": "/lektori" },
+      { "label": "Kontakt",   "href": "/kontakt" }
+    ]
+  },
+
+  "hero": {
+    "title": "Doučování na míru",
+    "heading": "Doučování na míru",
+    "subheading": "Každý student je jiný — proto stavíme výuku kolem jeho potřeb. Přijímačky, maturita i jazyky.",
+    "ctaText": "Vybrat předmět",
+    "ctaHref": "/sluzby",
+    "ctaSecondaryText": "Kontaktovat nás",
+    "ctaSecondaryHref": "/kontakt",
+    "backgroundImage": "/assets/edu-01/c6f14df800-large_virtual_classroom_study_space_23_2149178644_1ac594bc94.jpg",
+    "heroImages": [
+      "/assets/edu-01/c6f14df800-large_virtual_classroom_study_space_23_2149178644_1ac594bc94.jpg",
+      "/assets/edu-01/4b00abd9bc-large_SP_3_2023_806_9058ffa96d.jpg",
+      "/assets/edu-01/cc8f34ad6e-large_portrait_smiling_beautiful_blond_woman_writing_down_notes_doing_homework_studying_from_home_doing_1258_254363_5e6344dc8c.jpg",
+      "/assets/edu-01/33538a0de4-large_Skola_Populo_10_2022_Socials_741_4_7afe053e0a.jpg"
+    ]
+  },
+
+  "services": {
+    "heading": "Jak vám pomůžeme",
+    "subheading": "Komplexní vzdělávací podpora od 1. třídy ZŠ až po VŠ přijímačky a jazykové certifikáty",
+    "services": [
+      { "name": "Školní předměty", "title": "Školní předměty", "description": "Matematika, fyzika, chemie, biologie, český jazyk a dějepis — vše pod jednou střechou.", "icon": "book" },
+      { "name": "Přípravné kurzy", "title": "Přípravné kurzy", "description": "Intenzivní příprava na přijímačky na SŠ a VŠ s procvičováním reálných testů.", "icon": "package" },
+      { "name": "Jazykové kurzy", "title": "Jazykové kurzy", "description": "Angličtina, němčina, španělština a italština pro děti, studenty i dospělé.", "icon": "globe" },
+      { "name": "Online videolekce", "title": "Online videolekce", "description": "Nahrané výkladové lekce ke klíčovým tématům, dostupné kdykoli a odkudkoli.", "icon": "video" },
+      { "name": "Maturitní příprava", "title": "Maturitní příprava", "description": "Cílená příprava na maturitu s rozborem minulých písemných i ústních zkoušek.", "icon": "clipboard" },
+      { "name": "Skupinové webináře", "title": "Skupinové webináře", "description": "Živé online lekce v malých skupinkách — interaktivní výuka bez dojíždění.", "icon": "monitor" }
+    ]
+  },
+
+  "about": {
+    "title": "O nás",
+    "heading": "Výsledky, na které se dá spolehnout",
+    "subheading": "Malé skupiny, ověření lektoři, jasný plán",
+    "body": "Akademia Plus vznikla s jediným cílem: aby každý student odcházel s pocitem, že to zvládne. Pracujeme výhradně v individuálním formátu nebo skupinkách do čtyř žáků, aby lektor mohl věnovat plnou pozornost každému.",
+    "body2": "Každé doučování zahajujeme krátkým vstupním testem, na jehož základě sestavíme studijní plán přesně na míru. Výuka probíhá v naší učebně v centru Brna nebo online přes videohovor — jak vám to vyhovuje.",
+    "imageUrl": "/assets/edu-01/5f962e7616-large_DSC_00123_42c323f1ab_1_fad7c99af9.jpeg",
+    "imageAlt": "Lektorka pracuje se studentkou u stolu",
+    "ctaText": "Více o nás",
+    "ctaHref": "/o-nas"
+  },
+
+  "stats": {
+    "heading": "Akademia Plus v číslech",
+    "items": [
+      { "value": "21 000+", "label": "spokojených studentů" },
+      { "value": "780+",    "label": "prověřených lektorů" },
+      { "value": "93 %",    "label": "úspěšnost u přijímaček" },
+      { "value": "7+",      "label": "let na trhu" }
+    ]
+  },
+
+  "testimonials": {
+    "title": "Reference",
+    "heading": "Co říkají naši studenti a rodiče",
+    "testimonials": [],
+    "rating": "4,9",
+    "ratingCount": "214 recenzí",
+    "items": [
+      {
+        "text": "Kluk měl z matiky čtyřku a hrozilo propadnutí. Po čtyřech měsících s Akademia Plus udělal maturitu na dvojku. Lektorka přesně věděla, kde jsou mezery, a systematicky je opravila.",
+        "author": "Markéta Horáčková",
+        "role": "Matka studenta",
+        "subject": "Maturita z matematiky"
+      },
+      {
+        "text": "Připravovala jsem se na přijímačky na právnickou fakultu. Lektor mi pomohl zvládnout analytické myšlení i obecné studijní předpoklady. Dostala jsem se na školu svého výběru!",
+        "author": "Tereza Blahová",
+        "role": "Studentka",
+        "subject": "VŠ přijímačky"
+      },
+      {
+        "text": "Syn potřeboval zlepšit angličtinu kvůli zahraniční stáži. Za tři měsíce online výuky posunul úroveň z B1 na B2. Lektorka byla skvělá a hodiny byly vždy dobře připravené.",
+        "author": "Radek Kříž",
+        "role": "Otec studenta",
+        "subject": "Angličtina B2"
+      },
+      {
+        "text": "Dcera nastoupila na gymnázium a ze začátku měla problém s fyzikou. Díky individuálním lekcím látku pochopila do hloubky a nyní patří ve třídě mezi nejlepší.",
+        "author": "Lucie Málková",
+        "role": "Matka žákyně",
+        "subject": "Fyzika"
+      }
+    ]
+  },
+
+  "contact": {
+    "heading": "Napište nám",
+    "subheading": "Zanechte nám zprávu a ozveme se vám nejpozději do druhého pracovního dne.",
+    "phone": "+420 776 543 210",
+    "email": "info@akademia-plus.cz",
+    "address": "Václavské náměstí 56, 110 00 Praha 1",
+    "hours": "Po–Pá 8:00–19:00, So 9:00–13:00",
+    "status": "Právě přijímáme nové studenty!"
+  },
+
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Služby — Akademia Plus",
+      "seoDescription": "Přehled doučovacích služeb Akademia Plus: školní předměty, přijímačky, maturita, jazykové kurzy a online výuka.",
+      "hero": {
+        "title": "Naše služby",
+        "heading": "Doučování pro každý cíl",
+        "subheading": "Vyberte si z naší nabídky kurzů přesně podle toho, co právě potřebujete."
+      }
+    },
+    "o-nas": {
+      "seoTitle": "O nás — Akademia Plus",
+      "seoDescription": "Poznejte Akademia Plus — vzdělávací centrum s ověřenými lektory a individuálním přístupem od roku 2018.",
+      "hero": {
+        "title": "O nás",
+        "heading": "Kdo za Akademia Plus stojí",
+        "subheading": "Tým zkušených lektorů se zaměřením na výsledky — od roku 2018."
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Akademia Plus",
+      "seoDescription": "Kontaktujte Akademia Plus. Rádi vám poradíme s výběrem kurzu a zodpovíme všechny otázky."
+    }
+  },
+
+  "footer": {
+    "siteName": "Akademia Plus",
+    "logoUrl": "/templates/edu-01/logo.svg",
+    "description": "Doučování s garantovanými výsledky pro žáky ZŠ, studenty SŠ i uchazeče o VŠ v celé ČR.",
+    "phone": "+420 776 543 210",
+    "email": "info@akademia-plus.cz",
+    "address": "Václavské náměstí 56, 110 00 Praha 1",
+    "facebook": "https://facebook.com/akademiaplus",
+    "instagram": "https://instagram.com/akademiaplus",
+    "companyName": "Akademia Plus s.r.o.",
+    "ico": "09876543",
+    "columns": [
+      {
+        "title": "Výuka",
+        "links": [
+          { "label": "Školní předměty",  "href": "/sluzby/predmety" },
+          { "label": "Přípravné kurzy",  "href": "/sluzby/pripravne" },
+          { "label": "Jazykové kurzy",   "href": "/sluzby/jazyky" },
+          { "label": "Online výuka",     "href": "/sluzby/online" }
+        ]
+      },
+      {
+        "title": "Pro studenty",
+        "links": [
+          { "label": "Ceník",          "href": "/cenik" },
+          { "label": "Reference",      "href": "/reference" },
+          { "label": "Časté dotazy",   "href": "/faq" },
+          { "label": "Blog",           "href": "/blog" }
+        ]
+      },
+      {
+        "title": "O centru",
+        "links": [
+          { "label": "O nás",             "href": "/o-nas" },
+          { "label": "Náš tým",           "href": "/lektori" },
+          { "label": "Kontakt",           "href": "/kontakt" },
+          { "label": "Obchodní podmínky", "href": "/podminky" },
+          { "label": "GDPR",              "href": "/gdpr" }
+        ]
+      }
+    ],
+    "copyright": "© 2026 Akademia Plus s.r.o. IČO: 09876543"
+  }
+}

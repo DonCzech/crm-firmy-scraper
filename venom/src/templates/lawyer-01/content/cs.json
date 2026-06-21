@@ -1,0 +1,167 @@
+{
+  "navbar": {
+    "siteName":  "Demo SVOBODA & PARTNERS",
+    "logoUrl":   "/templates/lawyer-01/logo.svg",
+    "ctaText":   "Kontaktujte nás",
+    "ctaHref":   "#kontakt",
+    "email":     "email@demo.cz",
+    "langs":     ["CZ", "EN", "SK"],
+    "links": [
+      { "label": "O nás",               "href": "/o-nas" },
+      { "label": "Tým",                 "href": "#tym" },
+      { "label": "Právní specializace", "href": "#sluzby" },
+      { "label": "Podnikatelské obory", "href": "#obory" },
+      { "label": "Média",               "href": "#media" },
+      { "label": "Blog",                "href": "#blog" },
+      { "label": "Kariéra",             "href": "#kariera" },
+      { "label": "Akademie",            "href": "#akademie" },
+      { "label": "Kontakt",             "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "title":    "Největší česko-slovenská advokátní kancelář s mezinárodním dosahem",
+    "subtitle": "Poskytujeme právní a daňové poradenství ve všech oblastech práva pro přední české, slovenské i mezinárodní klienty.",
+    "bgImage":  "/images/template-gallery/lawyer-01-hero-bg.jpg",
+    "videoUrl": "/templates/lawyer-01/hp-final.webm",
+    "ctaText":  "Zjistit více",
+    "ctaHref":  "#sluzby"
+  },
+  "services": {
+    "title": "Oblasti práva",
+    "lead":  "Pokrýváme všechny klíčové oblasti komerčního práva pro domácí i zahraniční klienty.",
+    "services": [],
+    "items": [
+      {
+        "name":        "Bankovnictví a finance",
+        "description": "Strukturování transakcí, úvěrové smlouvy, sekuritizace a regulatorní poradenství pro finanční instituce.",
+        "icon":        "bank"
+      },
+      {
+        "name":        "Fúze a akvizice",
+        "description": "Due diligence, strukturování M&A transakcí, korporátní poradenství a post-merger integrace.",
+        "icon":        "briefcase"
+      },
+      {
+        "name":        "Daňové právo",
+        "description": "Daňové plánování, transferové ceny, daňové spory a poradenství při přeshraničních transakcích.",
+        "icon":        "document"
+      },
+      {
+        "name":        "Pracovní právo",
+        "description": "Zaměstnanecké smlouvy, kolektivní vyjednávání, restrukturalizace a pracovní spory.",
+        "icon":        "people"
+      },
+      {
+        "name":        "Nemovitosti",
+        "description": "Akvizice, development, financování nemovitostí a due diligence pro rezidenční i komerční projekty.",
+        "icon":        "building"
+      },
+      {
+        "name":        "Duševní vlastnictví",
+        "description": "Ochrana ochranných známek, patentů, autorských práv a licenční smlouvy.",
+        "icon":        "lightbulb"
+      }
+    ]
+  },
+  "stats": {
+    "items": [
+      { "value": "200+",  "label": "právníků a daňových poradců" },
+      { "value": "5 000+","label": "klientů" },
+      { "value": "12",    "label": "jazyků" },
+      { "value": "110+",  "label": "zemí" }
+    ]
+  },
+  "about": {
+    "title":    "Mezinárodní dosah",
+    "subtitle": "Právní a daňové poradenství bez hranic",
+    "lead":     "Poskytujeme právní a daňové poradenství ve 12 jazycích, našim klientům jsme asistovali ve více než 110 zemích světa. Úzce spolupracujeme s předními mezinárodními právnickými firmami v Evropě, Asii, Severní Americe, Africe i Austrálii.",
+    "body":     "Díky tomu mají naši klienti přístup k místním právním expertům po celém světě, kteří jsou koordinováni naším týmem. Jsme aktivní členy International Bar Association (IBA) a spolupracujeme s členy sítě Terralex.",
+    "ctaText":  "Více o kanceláři",
+    "ctaHref":  "/o-nas",
+    "imageUrl": ""
+  },
+  "cta": {
+    "title":    "Buďte stále v obraze",
+    "message":  "Vyplňte svůj e-mail a budeme vám zasílat pravidelné informace ze světa práva a podnikání.",
+    "ctaText":  "Odebírat",
+    "ctaHref":  "#newsletter",
+    "inputPlaceholder": "Zadejte váš e-mail"
+  },
+  "contact": {
+    "title": "Kontaktujte nás",
+    "phone": "+420 704 123 456",
+    "email": "email@demo.cz",
+    "offices": [
+      {
+        "city":    "Praha",
+        "address": "Ukázková 123, 110 00 Praha 1",
+        "phone":   "+420 704 123 456",
+        "email":   "email@demo.cz"
+      },
+      {
+        "city":    "Brno",
+        "address": "Ukázková 456, 602 00 Brno",
+        "phone":   "+420 704 123 456",
+        "email":   "email@demo.cz"
+      },
+      {
+        "city":    "Ostrava",
+        "address": "Ukázková 789, 702 00 Ostrava",
+        "phone":   "+420 704 123 456",
+        "email":   "email@demo.cz"
+      },
+      {
+        "city":    "Plzeň",
+        "address": "Ukázková 321, 301 00 Plzeň",
+        "phone":   "+420 704 123 456",
+        "email":   "email@demo.cz"
+      },
+      {
+        "city":    "Olomouc",
+        "address": "Ukázková 654, 779 00 Olomouc",
+        "phone":   "+420 704 123 456",
+        "email":   "email@demo.cz"
+      }
+    ]
+  },
+  "footer": {
+    "siteName":  "Demo SVOBODA & PARTNERS",
+    "tagline":   "Největší česko-slovenská advokátní kancelář s mezinárodním dosahem.",
+    "logoUrl":   "/templates/lawyer-01/logo.svg",
+    "email":     "email@demo.cz",
+    "phone":     "+420 704 123 456",
+    "address":   "Ukázková 123, 110 00 Praha 1",
+    "ico":       "12345678",
+    "web":       "https://demo.cz",
+    "socials": [
+      { "icon": "linkedin", "href": "https://linkedin.com/company/demo", "label": "LinkedIn" },
+      { "icon": "facebook", "href": "https://facebook.com/demo",        "label": "Facebook" }
+    ],
+    "links": [
+      { "label": "O nás",         "href": "/o-nas" },
+      { "label": "Oblasti práva", "href": "#sluzby" },
+      { "label": "Tým",          "href": "#tym" },
+      { "label": "Kariéra",      "href": "#kariera" },
+      { "label": "Kontakt",      "href": "#kontakt" }
+    ],
+    "legalLinks": [
+      { "label": "Ochrana osobních údajů", "href": "#gdpr" },
+      { "label": "Obchodní podmínky",      "href": "#podminky" }
+    ],
+    "copyright": "© 2026 Demo SVOBODA & PARTNERS"
+  },
+  "pages": {
+    "o-nas": {
+      "seoTitle":       "O nás | Demo HAVEL & PARTNERS",
+      "seoDescription": "Největší česko-slovenská advokátní kancelář s mezinárodním dosahem. Více než 200 právníků, 5 000 klientů, 12 jazyků.",
+      "hero": {
+        "title":    "O nás",
+        "subtitle": "Jsme největší česko-slovenská advokátní kancelář s mezinárodním dosahem."
+      }
+    },
+    "kontakt": {
+      "seoTitle":       "Kontakt | Demo HAVEL & PARTNERS",
+      "seoDescription": "Kontaktujte naše kanceláře v Praze, Brně, Ostravě, Plzni a Olomouci."
+    }
+  }
+}

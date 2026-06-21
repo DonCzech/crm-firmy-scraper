@@ -1,0 +1,189 @@
+{
+  "navbar": {
+    "siteName": "Demo Pavel Červenka",
+    "logoUrl": "/templates/reality-05/logo.svg",
+    "ctaText": "Kontakt",
+    "ctaHref": "#kontakt",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "links": [
+      { "label": "Úvod",             "href": "/" },
+      { "label": "O mně",            "href": "/o-mne" },
+      { "label": "Nabídka",          "href": "#nabidka" },
+      { "label": "Reference",        "href": "#reference" },
+      { "label": "Blog",             "href": "#blog" },
+      { "label": "Kontakt",          "href": "/kontakt" }
+    ]
+  },
+
+  "hero": {
+    "title": "Více jak patnáct let zkušeností. Jsem tu pro Vás.",
+    "ctaText": "Co o mně řekli klienti",
+    "ctaHref": "#reference",
+    "slides": [
+      {
+        "bgImage": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1600&h=900&fit=crop&q=80",
+        "bgPosition": "center top",
+        "title": "Více jak\npatnáct let zkušeností.\nJsem tu pro Vás.",
+        "ctaText": "Co o mně řekli klienti",
+        "ctaHref": "#reference"
+      },
+      {
+        "bgImage": "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=1600&h=900&fit=crop&q=80",
+        "bgPosition": "center top",
+        "title": "Váš příběh,\nmoje péče.",
+        "ctaText": "Kontaktujte mě",
+        "ctaHref": "#kontakt"
+      }
+    ]
+  },
+
+  "about": {
+    "id": "o-mne",
+    "title": "O mně",
+    "body": "Do světa realit jsem vkročil před 15 lety... a už tehdy jsem věděl, že poctivá práce, důslednost a férový přístup jsou klíčem k úspěchu. A to stále platí!\n\nNemovitosti jsou víc než jen obchodní transakce. Uvědomuji si, že pro mé klienty jde často o jednu z největších životních událostí – nový domov, nový začátek. A já jsem tu od toho, abych je tímto procesem provedl s empatií, lidskostí a v přátelském duchu.\n\nPokud zvažujete prodej či koupi nemovitosti a chcete mít po boku makléře, který Vás bezpečně provede celým procesem, jsem tu pro Vás.",
+    "tagline": "Váš příběh, moje péče.",
+    "whyTitle": "Co Vám nabízím",
+    "features": [
+      {
+        "icon": "plus",
+        "title": "Bohaté zkušenosti",
+        "body": "Dříve než se rozhodnete prodávat, zvu Vás na konzultaci zdarma."
+      },
+      {
+        "icon": "diamond",
+        "title": "Jdu s dobou",
+        "body": "Pro prodej za co nejvyšší cenu používám moderní nástroje a špičkové služby."
+      },
+      {
+        "icon": "check",
+        "title": "Vyznám se",
+        "body": "Velmi rád a efektivně pomůžu i s obtížnými případy."
+      }
+    ],
+    "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=700&fit=crop&q=80"
+  },
+
+  "stats": {
+    "id": "statistiky",
+    "bgImage": "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=600&fit=crop&q=80",
+    "items": [
+      { "value": "15",   "suffix": " let", "label": "zkušeností v oboru" },
+      { "value": "1080", "suffix": "+",    "label": "spokojených klientů" },
+      { "value": "550",  "suffix": "+",    "label": "realizovaných transakcí" }
+    ]
+  },
+
+  "blog": {
+    "tagline": "Tipy a rady",
+    "title": "Nejnovější články",
+    "ctaText": "Všechny články",
+    "ctaHref": "#blog",
+    "posts": [
+      {
+        "title": "Když se prodej mění v zážitek: Jak působit na smysly budoucích majitelů",
+        "excerpt": "Prodej nemovitosti není jen o technických parametrech. Zjistěte, jak díky psychologii a atmosféře proměnit prohlídku v zážitek.",
+        "category": "Prodej",
+        "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&q=80",
+        "ctaText": "Přečíst článek",
+        "ctaHref": "#blog"
+      },
+      {
+        "title": "Stěhujete se do nového? Zvládněte prodej bytu s hypotékou snadno a bez stresu",
+        "excerpt": "Máte hypotéku na stávajícím bytě a chcete koupit nový? Vysvětlíme vám jak na to krok za krokem.",
+        "category": "Hypotéka",
+        "image": "https://images.unsplash.com/photo-1560472355-536de3962603?w=600&h=400&fit=crop&q=80",
+        "ctaText": "Přečíst článek",
+        "ctaHref": "#blog"
+      },
+      {
+        "title": "Co všechno rozhoduje o ceně nemovitosti? Faktory, které možná neznáte",
+        "excerpt": "Cena se neodvíjí jen od lokality a metráže. Přinášíme přehled faktorů, které hodnotu vaší nemovitosti skutečně ovlivňují.",
+        "category": "Oceňování",
+        "image": "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&h=400&fit=crop&q=80",
+        "ctaText": "Přečíst článek",
+        "ctaHref": "#blog"
+      }
+    ]
+  },
+
+  "testimonials": {
+    "id": "reference",
+    "title": "Reference",
+    "bgImage": "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=600&fit=crop&q=80",
+    "testimonials": [
+      {
+        "text": "Spolupráce byla příkladná. Chtěla bych Vám ještě jednou poděkovat za velice příjemnou spolupráci a doufám, že někdy v budoucnu využiji znovu Vaše služby.",
+        "author": "I. Hronovská"
+      },
+      {
+        "text": "Poskytnul jste perfektní servis. Jsem tak rád, že jsme narazili na Vás a že Váš přístup ke klientům je tak profesionální.",
+        "author": "J. Z."
+      },
+      {
+        "text": "Dobrý den, mockrát děkuji. Perfektní práce, musím Vás pochválit a určitě si ukládám Vaše číslo. Naprostá profesionalita.",
+        "author": "Paní Nikki"
+      },
+      {
+        "text": "Děkujeme Vám za Vaši práci, ochotu, trpělivost i pochopení. Věřili jsme Vám, že dům se úspěšně prodá i když to nebylo jednoduché.",
+        "author": "Rodina Procházkova"
+      },
+      {
+        "text": "Pana Kučeru mohu 100% doporučit. Prodal mi byt v Praze velmi rychle. Se vším mi poradil. Byla s ním velmi dobrá komunikace. Je to opravdový profesionál.",
+        "author": "M. Kovář"
+      },
+      {
+        "text": "Jsme velice rádi, že jsme k prodeji naší nemovitosti využili jeho služeb. Pokud hledáte slušného, vstřícného profesionála ve světě realit, je to jednoznačné doporučení!",
+        "author": "O. V."
+      }
+    ]
+  },
+
+  "contact": {
+    "tagline": "Kontakt",
+    "title": "Jsem připraven Vám pomoci",
+    "subtitle": "Ozvěte se mi. Rád Vám zodpovím veškeré dotazy a domluvíme se na nezávazné konzultaci.",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "hours": "Po–Pá 9:00–18:00, So 9:00–14:00",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "ico": "12345678",
+    "company": "Demo realitní makléř s.r.o."
+  },
+
+  "footer": {
+    "siteName": "Demo Pavel Červenka",
+    "logoUrl": "/templates/reality-05/logo.svg",
+    "tagline": "Osobní realitní makléř · Praha",
+    "quickContactText": "Jsem připraven Vám pomoci najít správné řešení.",
+    "quickContactCta": "Kontakt",
+    "quickContactHref": "#kontakt",
+    "links": [
+      { "label": "O mně",   "href": "/o-mne" },
+      { "label": "Kontakt", "href": "/kontakt" }
+    ],
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "ico": "12345678",
+    "company": "Demo realitní makléř s.r.o.",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "copyright": "2026 © Demo realitní makléř s.r.o."
+  },
+
+  "pages": {
+    "o-mne": {
+      "seoTitle": "O mně | Demo Ondřej Kučera",
+      "seoDescription": "Osobní realitní makléř s 15 lety zkušeností. Pomáhám klientům s prodejem a koupí nemovitostí v Praze."
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt | Demo Ondřej Kučera",
+      "seoDescription": "Kontaktujte mě pro nezávaznou konzultaci. Realitní makléř Praha."
+    }
+  }
+}

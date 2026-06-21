@@ -1,0 +1,136 @@
+{
+  "navbar": {
+    "siteName": "BioStop Praha",
+    "logoUrl": "/templates/ddd-01/logo.svg",
+    "announcementText": "Okamžitý zásah do 24 hodin — volejte",
+    "phone": "+420 704 123 456",
+    "email": "info@demo.cz",
+    "links": [
+      { "label": "Služby",   "href": "#sluzby"   },
+      { "label": "Škůdci",  "href": "#skudci"   },
+      { "label": "O nás",   "href": "#onas"     },
+      { "label": "Ceník",   "href": "#cenik"    },
+      { "label": "Blog",    "href": "#blog"     },
+      { "label": "Kontakt", "href": "#kontakt"  }
+    ]
+  },
+  "hero": {
+    "title": "Zbavte se škůdců jednou provždy",
+    "subtitle": "Garantujeme trvalé výsledky — profesionální likvidace hlodavců, hmyzu a parazitů s ekologicky šetrnými přípravky. Rychlý příjezd, diskrétní přístup.",
+    "ctaText": "Bezplatná konzultace",
+    "ctaHref": "#kontakt",
+    "ctaSecondaryText": "Co řešíme",
+    "ctaSecondaryHref": "#sluzby",
+    "backgroundImage": "/assets/ddd-01/227f3ec63a-f7b3d8c58916308fb8b6e9f3d0cd5b1e.webp"
+  },
+  "about": {
+    "eyebrow": "Kvalita ověřená praxí",
+    "title": "Odborníci na likvidaci škůdců",
+    "body": "BioStop Praha provádí DDD zásahy na základě platného oprávnění vydaného hygienickou stanicí. Naši technici procházejí pravidelným školením a používají výhradně biocidní přípravky schválené pro použití v obytných i průmyslových prostorách.",
+    "body2": "Každý zásah je dokumentován zápisem o provedené práci včetně záruky na výsledek. Nabízíme také dlouhodobé smluvní zajištění DDD pro firmy, restaurace a bytové domy. BioStop Praha s.r.o.",
+    "ctaText": "Přehled služeb",
+    "ctaHref": "#sluzby",
+    "images": [
+      { "url": "/assets/ddd-01/227f3ec63a-f7b3d8c58916308fb8b6e9f3d0cd5b1e.webp", "alt": "Dezinsekce štěnic" },
+      { "url": "/assets/ddd-01/d2a8d2e510-767450d489c79107d2bcb36ec2d63609.webp", "alt": "Deratizace hlodavců" }
+    ]
+  },
+  "services": {
+    "eyebrow": "Certifikované zásahy",
+    "title": "Naše služby",
+    "subtitle": "Kompletní ochrana před škůdci — od jednorázového zásahu po pravidelný servis.",
+    "items": [
+      { "icon": "🐀", "name": "Deratizace",             "description": "Likvidace myší, potkanů a krys metodami šetrnými k okolnímu prostředí. Výsledek garantujeme."       },
+      { "icon": "🦟", "name": "Dezinsekce",             "description": "Hubení štěnic, švábů, blech, mravenců, vos a sršňů — chemicky i tepelnou metodou."              },
+      { "icon": "🧹", "name": "Dezinfekce",             "description": "Hloubková sanitace prostor certifikovanými přípravky. Vhodné pro domácnosti, firmy i zdravotnictví."             },
+      { "icon": "🐦", "name": "Odpuzování holubů",      "description": "Instalace sítí, hrotů a zvukových odpuzovačů. Trvalé ekologické řešení bez poškození fasády."                            },
+      { "icon": "📦", "name": "Vyklízení a sanace",     "description": "Vyklízení nemovitostí po holobytí, dezinfekce a základní úprava prostor."                   }
+    ]
+  },
+  "gallery": {
+    "eyebrow": "Rozpoznejte problém včas",
+    "title": "Nejčastější škůdci",
+    "images": [
+      { "url": "/assets/ddd-01/9d4050de0f-9bf8dd5a6b4a001d27926275f55a468d.webp", "alt": "Štěnice" },
+      { "url": "/assets/ddd-01/699ee80282-e97d0d8c8026677b371e8964d4cfe817.webp", "alt": "Švábi" },
+      { "url": "/assets/ddd-01/fe11f1e161-7b9de38e0f017579bc18e310c07ad3c9.webp", "alt": "Vosy" },
+      { "url": "/assets/ddd-01/e55aa8e6af-3c618f8f5e7d523ea610b398a72a86b5.webp", "alt": "Sršně" },
+      { "url": "/assets/ddd-01/c9b16ea804-dbfd099b9624dc33cad04547363d9b21.webp", "alt": "Blechy" },
+      { "url": "/assets/ddd-01/e8fdd4d099-8fa8fd54af104efcc7b2c050c983a487.webp", "alt": "Mravenci" },
+      { "url": "/assets/ddd-01/7ad345110f-a99cff950febc6c33e5ea754cd1e6bea.webp", "alt": "Myši" },
+      { "url": "/assets/ddd-01/d1f6d33ffd-f032a99198f4a32a3f3ccc1617bde876.webp", "alt": "Potkani" },
+      { "url": "/assets/ddd-01/b2706a57ed-4d7b410831e0d3d0576ea3187a275cc8.webp", "alt": "Krysy" },
+      { "url": "/assets/ddd-01/7d75d3124e-632295ce37ca0434ddf6965757a2b8f9.webp", "alt": "Hraboši" },
+      { "url": "/assets/ddd-01/5835ade883-dbbc2cbe393e50290de553b2faa51dc3.webp", "alt": "Kuny" }
+    ]
+  },
+  "services_ddd": {
+    "eyebrow": "Certifikované DDD zásahy",
+    "title": "Co řešíme",
+    "bullets": [
+      { "label": "Likvidace potkanů",   "href": "#sluzby" },
+      { "label": "Likvidace štěnic",    "href": "#sluzby" },
+      { "label": "Likvidace myší",      "href": "#sluzby" },
+      { "label": "Likvidace švábů",     "href": "#sluzby" },
+      { "label": "Likvidace hrabošů",   "href": "#sluzby" },
+      { "label": "Likvidace mravenců",  "href": "#sluzby" },
+      { "label": "Likvidace krys",      "href": "#sluzby" },
+      { "label": "Likvidace vos",       "href": "#sluzby" },
+      { "label": "Likvidace sršňů",     "href": "#sluzby" },
+      { "label": "Odchyt kun",          "href": "#sluzby" },
+      { "label": "Likvidace blech",     "href": "#sluzby" }
+    ],
+    "cards": [
+      { "url": "/assets/ddd-01/bdeeeaad51-bcd1c3591edf625249ea538bddb4e74d.webp", "caption": "Deratizace",                  "href": "#sluzby" },
+      { "url": "/assets/ddd-01/d776ab505c-fb6a4dc858600411851803e5e49e73c2.webp", "caption": "Dezinsekce",                 "href": "#sluzby" },
+      { "url": "/assets/ddd-01/0dffbd635d-0279da88b88948e0bdf4ab0c4c4f0992.webp", "caption": "Odpuzování holubů",         "href": "#sluzby" },
+      { "url": "/assets/ddd-01/8319951c26-ae552a2edd3c74b4f996ff967bb40044.webp", "caption": "Vyklízení a sanace",        "href": "#sluzby" }
+    ]
+  },
+  "cta": {
+    "eyebrow": "Potřebujete pomoc?",
+    "title": "Volejte — přijedeme ještě dnes",
+    "subtitle": "Popište nám situaci a my se o vše postaráme. Pracujeme diskrétně, rychle a s písemnou zárukou výsledku.",
+    "ctaText": "Zavolat nyní",
+    "ctaHref": "tel:+420704123456",
+    "ctaSecondaryText": "Napsat zprávu",
+    "ctaSecondaryHref": "mailto:info@demo.cz"
+  },
+  "footer": {
+    "siteName": "BioStop Praha s.r.o.",
+    "tagline": "Certifikované DDD služby",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "+420 704 123 456",
+    "email": "info@demo.cz",
+    "web": "https://demo.cz",
+    "ico": "12345678",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "openingHours": "Po–Pá 7:00–19:00, So 8:00–14:00",
+    "servicesLabel": "Co řešíme",
+    "infoLabel": "Důležité odkazy",
+    "links": [
+      { "label": "Deratizace",              "href": "#sluzby" },
+      { "label": "Dezinsekce",              "href": "#sluzby" },
+      { "label": "Odpuzování holubů",       "href": "#sluzby" },
+      { "label": "Vyklízení a sanace",      "href": "#sluzby" }
+    ],
+    "linksCol2": [
+      { "label": "O společnosti",              "href": "#onas"    },
+      { "label": "Blog a rady",               "href": "#blog"    },
+      { "label": "Kontaktujte nás",           "href": "#kontakt" },
+      { "label": "Ochrana osobních údajů",    "href": "#gdpr"    }
+    ],
+    "copyright": "© 2026 BioStop Praha s.r.o. Všechna práva vyhrazena."
+  },
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Služby — BioStop Praha",
+      "seoDescription": "Profesionální deratizace, dezinsekce a dezinfekce v Praze. Rychlý příjezd, písemná záruka."
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — BioStop Praha",
+      "seoDescription": "Potřebujete okamžitou pomoc se škůdci? Zavolejte nebo napište — přijedeme ještě dnes."
+    }
+  }
+}

@@ -1,0 +1,230 @@
+{
+  "navbar": {
+    "siteName": "Trattoria Portofino",
+    "logoUrl": "/templates/restaurant-04/logo.svg",
+    "ctaText": "Rezervace",
+    "ctaHref": "#kontakt",
+    "cta2Text": "Objednat",
+    "cta2Href": "#objednat",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "links": [
+      { "label": "O nás",        "href": "/o-nas" },
+      { "label": "Jídelní lístek", "href": "/menu" },
+      { "label": "Polední menu", "href": "/menu#poledni" },
+      { "label": "Galerie",      "href": "/galerie" },
+      { "label": "Kontakt",      "href": "/kontakt" }
+    ]
+  },
+
+  "hero": {
+    "title": "Chuť Itálie\npřímo v srdci\nPrahy.",
+    "subtitle": "PASTA · RISOTTO · FRUTTI DI MARE · ŽIVÁ HUDBA",
+    "ctaText": "Rezervovat stůl",
+    "ctaHref": "#kontakt",
+    "cta2Text": "Jídelní lístek",
+    "cta2Href": "#menu",
+    "slides": [
+      { "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" },
+      { "url": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 40%" },
+      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 50%" },
+      { "url": "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 55%" },
+      { "url": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" }
+    ]
+  },
+
+  "about": {
+    "id": "o-nas",
+    "tagline": "Rodinná tradice od roku 2011",
+    "title": "Ligurská kuchyně,\nkterá promlouvá za sebe.",
+    "body": "Trattoria Portofino přináší do Prahy autentickou ligurskou kuchyni. Vaříme podle rodinných receptur, které chef Matteo Rossini přivezl ze svého rodného Janova — pesto alla genovese z čerstvé bazalky, čerstvé mořské plody dovážené třikrát týdně a těstoviny vyráběné každé ráno přímo v naší kuchyni.",
+    "body2": "Naše dvě pobočky najdete v centru Prahy i na klidném Smíchově. Nabízíme soukromé sály pro firemní večeře a oslavy až pro 40 osob. Rezervace doporučujeme zejména na víkendy.",
+    "ctaText": "Náš příběh",
+    "ctaHref": "/o-nas",
+    "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=85"
+  },
+
+  "services": {
+    "id": "menu",
+    "tagline": "Naše speciality",
+    "title": "Co dnes\nvaříme.",
+    "body": "Každý pokrm vzniká z pečlivě vybraných surovin — čerstvé mořské plody, sezónní zelenina z trhů a certifikovaný parmazán z Emilia-Romagna. Bez kompromisů.",
+    "ctaText": "Celý jídelní lístek",
+    "ctaHref": "/menu",
+    "services": [],
+    "items": [
+      {
+        "name": "Tagliolini al granchio",
+        "category": "Pasta fresca",
+        "description": "Čerstvé vaječné tagliolini s krabím masem, cherry rajčátky, kaparami a kapkou chilli. Vařeno al dente podle ligurské tradice — jemné, aromatické a plné mořské chuti.",
+        "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Zobrazit lístek",
+        "ctaHref": "/menu"
+      },
+      {
+        "name": "Risotto ai funghi porcini",
+        "category": "Secondi piatti",
+        "description": "Krémové risotto Carnaroli s čerstvými hříbky, sušenými porcini, parmigianem a kapkou lanýžového oleje. Připravováno pomalu, servírováno okamžitě — all'onda, jak se patří.",
+        "image": "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Zobrazit lístek",
+        "ctaHref": "/menu"
+      },
+      {
+        "name": "Focaccia Genovese",
+        "category": "Antipasti",
+        "description": "Tradiční ligurská focaccia s hrubozrnnou solí, rozmarýnem a olivovým olejem extra vergine z Riviera Ligure DOP. Pečena v kamenné peci na 280 °C. Ideální úvod do každého jídla.",
+        "image": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Zjistit více",
+        "ctaHref": "/o-nas"
+      }
+    ]
+  },
+
+  "cta": {
+    "id": "poledni-menu",
+    "tagline": "Každý pracovní den 11:30 – 14:30",
+    "title": "Polední menu\nza 189 Kč.",
+    "body": "Každý týden připravujeme nové dvouchodové polední menu z čerstvých surovin. Součástí je polévka, hlavní chod dle denní nabídky a chléb s pestem. Přihlaste se k odběru a menu dostanete každé pondělí ráno do e-mailu.",
+    "ctaText": "Odebírat menu e-mailem",
+    "ctaHref": "#kontakt",
+    "ctaSecondaryText": "Jídelní lístek",
+    "ctaSecondaryHref": "/menu",
+    "image": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1080&fit=crop&fm=webp&q=85"
+  },
+
+  "gallery": {
+    "id": "galerie",
+    "tagline": "Atmosféra a prostředí",
+    "title": "Přijďte se\npodívat.",
+    "ctaText": "Celá galerie",
+    "ctaHref": "/galerie",
+    "images": [
+      { "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Hlavní sál restaurace" },
+      { "url": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Čerstvé těstoviny" },
+      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Večerní atmosféra" },
+      { "url": "https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Risotto ai funghi" },
+      { "url": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Burgery & dezerty" },
+      { "url": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Sezónní speciality" },
+      { "url": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Focaccia z pece" },
+      { "url": "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Terasa v létě" }
+    ]
+  },
+
+  "contact": {
+    "id": "kontakt",
+    "tagline": "Navštivte nás",
+    "title": "Dvě restaurace,\njedno srdce.",
+    "body": "Rezervujte stůl online nebo nás kontaktujte telefonicky. Na soukromé akce a firemní večeře připravíme nabídku na míru.",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "locations": [
+      {
+        "name": "Portofino Praha 1 — Staré Město",
+        "address": "Ukázková 12",
+        "city": "110 00 Praha 1",
+        "phone": "704 123 456",
+        "email": "staremesto@demo.cz",
+        "hours": "Po–Pá 11:00–23:00, So–Ne 12:00–23:00"
+      },
+      {
+        "name": "Portofino Praha 5 — Smíchov",
+        "address": "Ukázková 456",
+        "city": "150 00 Praha 5",
+        "phone": "704 654 321",
+        "email": "smichov@demo.cz",
+        "hours": "Út–Pá 11:30–22:30, So–Ne 12:00–22:30, Po zavřeno"
+      }
+    ],
+    "ctaText": "Rezervovat stůl",
+    "ctaHref": "mailto:rezervace@demo.cz",
+    "formTitle": "Napište nám",
+    "formSubtitle": "Rezervace, dotazy i soukromé akce — odpovíme do 2 hodin."
+  },
+
+  "footer": {
+    "siteName": "Trattoria Portofino",
+    "logoUrl": "/templates/restaurant-04/logo.svg",
+    "tagline": "Ligurská kuchyně v srdci Prahy od roku 2011",
+    "address": "Ukázková 12, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "web": "https://demo.cz",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "hours": "Po–Pá 11:00–23:00, So–Ne 12:00–23:00",
+    "copyright": "© 2025 Trattoria Portofino s.r.o. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "O nás",            "href": "/o-nas" },
+      { "label": "Jídelní lístek",   "href": "/menu" },
+      { "label": "Galerie",          "href": "/galerie" },
+      { "label": "Kontakt",          "href": "/kontakt" },
+      { "label": "Obchodní podmínky", "href": "/podminky" },
+      { "label": "Ochrana osobních údajů", "href": "/gdpr" }
+    ]
+  },
+
+  "pages": {
+    "menu": {
+      "seoTitle": "Jídelní lístek – Trattoria Portofino Praha",
+      "seoDescription": "Prozkoumejte náš jídelní lístek — čerstvé těstoviny, risotto, mořské plody, ligurská focaccia a dezerty. Italská kuchyně v Praze.",
+      "hero": {
+        "title": "Jídelní lístek",
+        "subtitle": "Ligurská kuchyně z čerstvých surovin"
+      },
+      "services": {
+        "id": "menu-detail",
+        "tagline": "Celá nabídka",
+        "title": "Co si přejete?",
+        "body": "Vyberte si z naší sezónní nabídky ligurských specialit, čerstvých těstovin a mořských plodů.",
+        "ctaText": "Rezervovat stůl",
+        "ctaHref": "/kontakt",
+        "services": [],
+        "items": []
+      }
+    },
+    "o-nas": {
+      "seoTitle": "O nás – Trattoria Portofino Praha",
+      "seoDescription": "Jsme ligurská restaurace v Praze se dvěma pobočkami. Vaříme autentickou italskou kuchyni podle rodinných receptur od roku 2011.",
+      "hero": {
+        "title": "Náš příběh",
+        "subtitle": "Ligurská tradice v Praze od roku 2011"
+      },
+      "about": {
+        "id": "o-nas-detail",
+        "tagline": "Kdo jsme",
+        "title": "Vášeň pro jídlo\nzrozená v Janově.",
+        "body": "Chef Matteo Rossini vyrostl v ligurském Janově, kde jako dítě sledoval svou babičku při přípravě čerstvého pesta. Po studiích v milánské gastronomické škole a praxi v římském Michelin bistr otevřel v roce 2011 první Trattoria Portofino v Praze.",
+        "body2": "Dnes provozujeme dvě restaurace v Praze a zásobujeme prémiové hotely čerstvými těstovinami z vlastní výroby. Naší filosofií je jednoduchost — kvalitní suroviny, tradiční receptury a osobní přístup ke každému hostovi.",
+        "ctaText": "Rezervovat stůl",
+        "ctaHref": "/kontakt",
+        "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=85"
+      }
+    },
+    "galerie": {
+      "seoTitle": "Galerie – Trattoria Portofino Praha",
+      "seoDescription": "Prohlédněte si prostředí, jídla a atmosféru naší ligurské restaurace v Praze. Dvě pobočky — Praha 1 a Praha 5.",
+      "hero": {
+        "title": "Galerie",
+        "subtitle": "Naše prostředí a pokrmy"
+      },
+      "gallery": {
+        "id": "galerie-full",
+        "tagline": "Prostředí & speciality",
+        "title": "Nahlédněte\nk nám.",
+        "ctaText": "",
+        "ctaHref": "",
+        "images": []
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt & Rezervace – Trattoria Portofino Praha",
+      "seoDescription": "Rezervujte stůl nebo nás kontaktujte. Trattoria Portofino — dvě pobočky v Praze 1 a Praze 5. Soukromé akce a firemní večeře na míru.",
+      "hero": {
+        "title": "Kontakt",
+        "subtitle": "Těšíme se na vaši návštěvu"
+      }
+    }
+  }
+}

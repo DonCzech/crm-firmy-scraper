@@ -1,0 +1,245 @@
+{
+  "navbar": {
+    "siteName": "Klempířské práce Brno",
+    "logoUrl": "/templates/klempir-01/logo.svg",
+    "phone": "+420 603 987 654",
+    "email": "poptavka@klempirstvi-demo.cz",
+    "ctaText": "Kontaktovat",
+    "ctaHref": "/kontakt",
+    "links": [
+      { "label": "O mně",             "href": "/#o-mne" },
+      { "label": "Služby",            "href": "/#sluzby" },
+      { "label": "Galerie",           "href": "/#galerie" },
+      { "label": "Historické opravy", "href": "/#historicke" },
+      { "label": "Recenze",           "href": "/#recenze" },
+      { "label": "Kontakt",           "href": "/kontakt" }
+    ]
+  },
+  "hero": {
+    "label": "Brno a okolí • Rychlý výjezd • 15 let praxe",
+    "title": "PROFESIONÁLNÍ KLEMPÍŘSKÉ PRÁCE V BRNĚ",
+    "subtitle": "Opravy, rekonstrukce a výměny klempířských, tesařských a pokrývačských prvků i celků. Výškové práce, havárie, historické opravy.",
+    "ctaText": "Kontaktovat",
+    "ctaHref": "/kontakt",
+    "ctaSecondaryText": "Služby",
+    "ctaSecondaryHref": "/sluzby",
+    "backgroundImage": "/assets/klempir-01/bcf3ce5be0-hero.jpeg"
+  },
+  "about": {
+    "kicker": "O mně",
+    "title": "Pečlivá práce s důrazem na detail",
+    "subtitle": "Každá střecha si zaslouží odbornou péči.",
+    "body": "S patnácti lety praxe v klempířství, tesařství a pokrývačství nabízím spolehlivé a precizní řešení pro každou střechu. Specializuji se na rekonstrukce starších objektů, výměny oplechování i havarijní opravy. Pracuji svědomitě, s dodržením dohodnutých termínů a s důrazem na dlouhodobou funkčnost odvedené práce.",
+    "stats": [
+      { "label": "Zkušenosti",    "value": "15+ let praxe" },
+      { "label": "Lokalita",      "value": "Brno a Jihomoravský kraj" },
+      { "label": "Jazyky",        "value": "CZ / SK" },
+      { "label": "Specializace",  "value": "Rekonstrukce střech" }
+    ],
+    "image": "/assets/klempir-01/8aa266e3d6-klempir-portrait.jpg",
+    "phone": "+420 603 987 654",
+    "phoneLabel": "Zavolejte pro nezávaznou konzultaci"
+  },
+  "services": {
+    "kicker": "Co nabízím",
+    "title": "Nabízím",
+    "subtitle": "Kompletní klempířské, tesařské a pokrývačské práce pro domy i komerční objekty.",
+    "items": [
+      {
+        "name": "Historické opravy",
+        "title": "Historické opravy",
+        "description": "Odborné opravy a restaurování historických klempířských prvků při zachování původního řemeslného charakteru stavby.",
+        "icon": "landmark",
+        "image": "/assets/klempir-01/d340c15260-historicke-opravy.jpg"
+      },
+      {
+        "name": "Zakázková výroba",
+        "title": "Zakázková výroba",
+        "description": "Výroba klempířských dílů a prvků přesně na míru — od jednoduchých oplechování až po složité atypické profily.",
+        "icon": "hammer",
+        "image": "/assets/klempir-01/080d33afb3-zakazkova-vyroba.jpg"
+      },
+      {
+        "name": "Výškové práce",
+        "title": "Výškové práce",
+        "description": "Bezpečné provádění klempířských a pokrývačských prací ve výškách pomocí horolezecké techniky nebo plošin.",
+        "icon": "mountain",
+        "image": "/assets/klempir-01/47e044e278-vyskove-prace.jpg"
+      },
+      {
+        "name": "Odvodňovací systémy",
+        "title": "Odvodňovací systémy",
+        "description": "Kompletní řešení odvodu dešťové vody — montáž, opravy a čištění žlabů, svodů a chrličů.",
+        "icon": "droplets",
+        "image": "/assets/klempir-01/3eca941e72-odvod-vody.jpg"
+      },
+      {
+        "name": "Havárie",
+        "title": "Havárie",
+        "description": "Pohotovostní výjezd a rychlé odstranění havarijních stavů — protékající střecha, poškozené oplechování, odtržené svody.",
+        "icon": "zap",
+        "image": "/assets/klempir-01/23eacfdea4-havarie.jpg"
+      },
+      {
+        "name": "Tesařské konstrukce",
+        "title": "Tesařské konstrukce",
+        "description": "Opravy a zhotovení krovů, laťování a bednění jako podklad pro kvalitní klempířské a pokrývačské práce.",
+        "icon": "tree-pine",
+        "image": "/assets/klempir-01/e1ed51e994-tesarske-konstrukce.jpg"
+      },
+      {
+        "name": "Revize střech",
+        "title": "Revize střech",
+        "description": "Pravidelné prohlídky střech s písemným protokolem — odhalíme problémy dříve, než způsobí větší škody.",
+        "icon": "search",
+        "image": "/assets/klempir-01/f826bdd92f-revize-strech.jpg"
+      },
+      {
+        "name": "Výběr technologie",
+        "title": "Výběr nejlepší technologie",
+        "description": "Poradím vám s volbou materiálu a technologie — titan-zinek, měď, hliník nebo pozinkovaný plech pro váš konkrétní objekt.",
+        "icon": "settings",
+        "image": "/assets/klempir-01/d407e9972a-vyber-technologie.jpg"
+      },
+      {
+        "name": "Rekonstrukce střech",
+        "title": "Kompletní rekonstrukce střech",
+        "description": "Celková obnova střechy na klíč — klempířské, tesařské i pokrývačské práce pod jednou střechou.",
+        "icon": "building",
+        "image": "/assets/klempir-01/02fd7cbae1-rekonstrukce-strech.jpg"
+      }
+    ]
+  },
+  "gallery": {
+    "kicker": "Realizace",
+    "title": "Dokončené projekty",
+    "subtitle": "Ukázka vybraných zakázek z Brna a Jihomoravského kraje.",
+    "images": [
+      {
+        "url": "/assets/klempir-01/42531f0187-cervenataskovastrecha.jpg",
+        "alt": "Rekonstrukce střechy Brno-Královo Pole",
+        "title": "Rekonstrukce střechy Brno-sever",
+        "description": "Kompletní výměna tašek a oplechování na rodinném domě."
+      },
+      {
+        "url": "/assets/klempir-01/c146138839-sablonova-krytina.jpg",
+        "alt": "Šablonová krytina Brno centrum",
+        "title": "Historický dům v centru Brna",
+        "description": "Obnova šablonové krytiny s důrazem na zachování původního vzhledu."
+      },
+      {
+        "url": "/assets/klempir-01/eef89e992f-samovyzlab.jpg",
+        "alt": "Oplechování a žlaby Brno",
+        "title": "Oplechování atiky a žlaby",
+        "description": "Výměna sámového žlabu, svodů a oplechování atiky."
+      }
+    ]
+  },
+  "historical": {
+    "kicker": "Specialista",
+    "title": "Historické opravy jsou moje vášeň",
+    "subtitle": "Řemeslná tradice v moderním provedení",
+    "body": "Práce na historických budovách vyžaduje trpělivost, zkušenost a znalost tradičních materiálů. Každý prvek restauruji s respektem k původnímu řemeslu a s použitím materiálů odpovídajících době vzniku stavby. Výsledkem je oprava, která vydrží dalším generacím.\n\nSpolupracuji s památkáři a architekty — váš projekt je v dobrých rukou.",
+    "images": [
+      { "url": "/assets/klempir-01/dd63c96a7b-WhatsApp%20Image%202025-03-17%20at%2009.47.38_c7f4d3b8.jpg", "alt": "Restaurování historického oplechování střechy" },
+      { "url": "/assets/klempir-01/596d6d0484-WhatsApp%20Image%202025-03-17%20at%2009.48.40_c85809a4.jpg", "alt": "Oprava historické římsy a klempířských detailů" },
+      { "url": "/assets/klempir-01/9cf13e0481-WhatsApp%20Image%202025-03-17%20at%2009.49.01_4708fca9.jpg", "alt": "Detail precizní řemeslné práce na historickém prvku" },
+      { "url": "/assets/klempir-01/8f8592a546-WhatsApp%20Image%202025-03-17%20at%2016.06.12_ff7a52a3.jpg", "alt": "Oprava a výměna oplechování na historické střeše" },
+      { "url": "/assets/klempir-01/6aed0d0a4e-WhatsApp%20Image%202025-03-17%20at%2016.09.51_06fad90a.jpg", "alt": "Rekonstrukce historických okapů a svodů" },
+      { "url": "/assets/klempir-01/d4ca9e339b-WhatsApp%20Image%202025-03-17%20at%2016.13.06_105ac9ea.jpg", "alt": "Dokončená oprava historické střechy" }
+    ],
+    "ctaText": "Zjistit více",
+    "ctaHref": "/sluzby"
+  },
+  "testimonials": {
+    "kicker": "Recenze",
+    "title": "Co říkají klienti",
+    "subtitle": "Hodnocení 4.8★ (34 recenzí)",
+    "items": [
+      {
+        "name": "Miroslav Kratochvíl",
+        "text": "Výborná práce, rychlý příjezd na havarijní situaci a poctivě odvedená oprava. Střecha přestala téct ještě ten den. Rozhodně doporučuji a budu se ozývat i příště.",
+        "rating": 5,
+        "image": "/assets/klempir-01/f57d7d0c9a-petrjuha.png"
+      },
+      {
+        "name": "Lenka Procházková",
+        "text": "Profesionální přístup od první konzultace až po předání díla. Cena odpovídala nabídce, žádná překvapení. Práce na historickém domě provedena s náležitou péčí.",
+        "rating": 5,
+        "image": "/assets/klempir-01/de7f72b626-jahoda.png"
+      },
+      {
+        "name": "Radek Šimánek",
+        "text": "Výměna celého systému žlabů a svodů na třípodlažním domě — hotovo za dva dny, uklizeno, bez komplikací. Přesně takový řemeslník, jakého hledáte.",
+        "rating": 5,
+        "image": "/assets/klempir-01/1d25d0d35e-svoboda.png"
+      }
+    ]
+  },
+  "contact": {
+    "kicker": "Kontakt",
+    "title": "Kontakt",
+    "subtitle": "Potřebujete opravu střechy, výměnu oplechování nebo řešíte havarijní stav? Neváhejte se ozvat — poradím a rychle vyjedu.",
+    "phone": "+420 603 987 654",
+    "email": "poptavka@klempirstvi-demo.cz",
+    "address": "Jihomoravský kraj a Brno",
+    "hours": "Po–Pá 7:00–17:00, So 8:00–12:00",
+    "formTitle": "Napište mi",
+    "fields": [
+      { "name": "name",    "label": "Jméno",          "type": "text",     "required": true  },
+      { "name": "phone",   "label": "Telefon",         "type": "tel",      "required": true  },
+      { "name": "email",   "label": "E-mail",          "type": "email",    "required": false },
+      { "name": "message", "label": "Popis zakázky",   "type": "textarea", "required": true  }
+    ],
+    "ctaText": "Odeslat zprávu"
+  },
+  "footer": {
+    "siteName": "Klempířské práce Brno",
+    "logoUrl": "/templates/klempir-01/logo.svg",
+    "tagline": "Klempířské, pokrývačské a tesařské práce v Brně a Jihomoravském kraji.",
+    "phone": "+420 603 987 654",
+    "email": "poptavka@klempirstvi-demo.cz",
+    "address": "Jihomoravský kraj, Brno",
+    "ico": "87654321",
+    "firmName": "Klempíř Brno s.r.o.",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "copyright": "© 2026 Klempířské práce Brno. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "Úvod",      "href": "/"          },
+      { "label": "Služby",    "href": "/sluzby"    },
+      { "label": "Reference", "href": "/reference" },
+      { "label": "Kontakt",   "href": "/kontakt"   }
+    ],
+    "services": [
+      "Historické opravy",
+      "Zakázková výroba",
+      "Výškové práce",
+      "Odvodňovací systémy",
+      "Revize střech",
+      "Rekonstrukce střech"
+    ]
+  },
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Klempířské služby — Klempířské práce Brno",
+      "seoDescription": "Kompletní klempířské, tesařské a pokrývačské práce v Brně a Jihomoravském kraji.",
+      "hero": {
+        "title": "Klempířské služby",
+        "subtitle": "Kompletní řešení pro vaši střechu v Brně a okolí"
+      }
+    },
+    "reference": {
+      "seoTitle": "Reference a realizace — Klempířské práce Brno",
+      "seoDescription": "Ukázky dokončených klempířských a pokrývačských zakázek z Brna a Jihomoravského kraje.",
+      "hero": {
+        "title": "Reference",
+        "subtitle": "Dokončené projekty z Brna a okolí"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Klempířské práce Brno",
+      "seoDescription": "Kontaktujte nás pro nezávaznou poptávku klempířských prací v Brně."
+    }
+  }
+}

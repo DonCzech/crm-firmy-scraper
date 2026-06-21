@@ -1,0 +1,53 @@
+/* cafe-02 — Demo Café Savoy — Vídeňská kavárna */
+/* Primary: #A89B67 (gold/bronze), Accent: #6C1D45 (burgundy), Bg: #FFF */
+
+:root {
+  --cafe02-gold:     #A89B67;
+  --cafe02-gold-dk:  #8A7E52;
+  --cafe02-burgundy: #6C1D45;
+  --cafe02-dark:     #1A0E0A;
+  --cafe02-cream:    #F7F4EF;
+  --cafe02-muted:    #8C7B6A;
+  --cafe02-border:   #E8E0D5;
+  --cafe02-white:    #FFFFFF;
+  --cafe02-font-serif: Georgia, 'Times New Roman', serif;
+  --cafe02-font-sans:  'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+/* Navbar */
+.cafe02-nav { background: var(--cafe02-white); border-bottom: 1px solid var(--cafe02-border); }
+.cafe02-nav-link { color: var(--cafe02-dark); text-decoration: none; transition: color 0.2s; }
+.cafe02-nav-link:hover { color: var(--cafe02-gold); }
+
+/* Buttons */
+.cafe02-btn-gold {
+  background: var(--cafe02-gold);
+  color: var(--cafe02-white);
+  border: none;
+  padding: 10px 24px;
+  font-family: var(--cafe02-font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.2s;
+}
+.cafe02-btn-gold:hover { background: var(--cafe02-gold-dk); }
+
+.cafe02-btn-outline {
+  background: transparent;
+  color: var(--cafe02-white);
+  border: 1px solid rgba(255,255,255,0.6);
+  padding: 10px 24px;
+  font-family: var(--cafe02-font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+.cafe02-btn-outline:hover { background: rgba(255,255,255,0.1); border-color: white; }

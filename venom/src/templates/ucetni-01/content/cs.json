@@ -1,0 +1,151 @@
+{
+  "navbar": {
+    "siteName":  "Bilance & Co.",
+    "logoUrl":   "",
+    "ctaText":   "Sjednat schůzku",
+    "ctaHref":   "#kontakt",
+    "phone":     "+420 704 123 456",
+    "email":     "email@demo.cz",
+    "links": [
+      { "label": "Úvod",    "href": "/" },
+      { "label": "O nás",   "href": "/o-nas" },
+      { "label": "Služby",  "href": "#sluzby" },
+      { "label": "Ceník",   "href": "#cenik" },
+      { "label": "Blog",    "href": "#blog" },
+      { "label": "Kontakt", "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "title":        "Účetnictví a daňové poradenství pro váš klid",
+    "subtitle":     "Svěřte čísla odborníkům. V Bilance & Co. se staráme o vaše účetnictví, mzdy a daně – abyste vy mohli růst bez starostí.",
+    "imageUrl":     "/templates/ucetni-01/illustration.png",
+    "ctaText":      "Začít spolupráci",
+    "ctaHref":      "#kontakt",
+    "calendarText": "Vyberte si online termín konzultace nebo rady – jednoduše a bez závazků.",
+    "card1Text":    "✅ Daňová optimalizace",
+    "card2Text":    "📊 320+ spokojených klientů"
+  },
+  "services": {
+    "title": "Co pro vás uděláme",
+    "lead":  "Nabízíme plnou škálu účetních a daňových služeb – od živnostníka po velkou firmu.",
+    "items": [
+      {
+        "name":        "Podvojné účetnictví",
+        "description": "Vedeme podvojné i jednoduché účetnictví přesně, spolehlivě a v souladu s aktuální legislativou.",
+        "icon":        "document"
+      },
+      {
+        "name":        "Daňová přiznání",
+        "description": "Zpracujeme daňová přiznání za fyzické i právnické osoby a zastoupíme vás před finančním úřadem.",
+        "icon":        "calculator"
+      },
+      {
+        "name":        "Mzdy a personalistika",
+        "description": "Kompletní mzdová agenda, přihlášky k pojistným, pracovní smlouvy a roční zúčtování daně.",
+        "icon":        "people"
+      },
+      {
+        "name":        "Finanční controlling",
+        "description": "Analýza cash-flow, reporty pro vedení firmy a poradenství při strategických finančních rozhodnutích.",
+        "icon":        "chart"
+      }
+    ]
+  },
+  "stats": {
+    "title": "Čísla, která mluví za vše",
+    "body":  "Za každým číslem stojí reálný klient, vyřešený problém a léta budovaná důvěra. To je základ naší práce.",
+    "items": [
+      { "value": "320+",  "label": "spokojených klientů" },
+      { "value": "12+",   "label": "let zkušeností" },
+      { "value": "99 %",  "label": "bezchybnost podání" },
+      { "value": "0 Kč",  "label": "sankcí pro klienty" }
+    ]
+  },
+  "about": {
+    "title":      "Účetnictví bez kompromisů",
+    "subtitle":   "Preciznost, diskrétnost, partnerství",
+    "badgeText":  "👍 Váš spolehlivý finanční partner",
+    "lead":       "Nejsme jen účetní firma – jsme váš finanční partner. Rozumíme podnikání a víme, co čísla znamenají v praxi.",
+    "body":       "Od roku 2013 pomáháme živnostníkům, malým i středním firmám zvládat účetnictví bez stresu. Komunikujeme jasně, reagujeme rychle a výsledky dodáváme včas. Věříme, že správné účetnictví je základ zdravého byznysu.",
+    "ctaText":    "Více o nás",
+    "ctaHref":    "/o-nas",
+    "imageUrl":   "/templates/ucetni-01/about-vector.png"
+  },
+  "testimonials": {
+    "title": "Co říkají naši klienti",
+    "items": [
+      {
+        "name":    "Radek Horáček",
+        "role":    "Jednatel stavební firmy",
+        "text":    "Bilance & Co. nám ušetřily nejen čas, ale i nervy. Vždy vědí, co dělají, a výsledky mluví za vše.",
+        "rating":  5,
+        "avatarUrl": ""
+      },
+      {
+        "name":    "Lucie Marková",
+        "role":    "OSVČ, fotografka",
+        "text":    "Konečně mám přehled o svých financích a daních. Komunikace je skvělá, vždy rychlá odpověď.",
+        "rating":  5,
+        "avatarUrl": ""
+      },
+      {
+        "name":    "Pavel Sedláček",
+        "role":    "Majitel e-shopu",
+        "text":    "Přešli jsme od předchozího účetního a rozdíl je obrovský. Profesionální, spolehliví a vždy ochotní.",
+        "rating":  5,
+        "avatarUrl": ""
+      }
+    ]
+  },
+  "contact": {
+    "title":   "Napište nebo zavolejte",
+    "lead":    "Ozvěte se nám – rádi probereme vaši situaci a navrhneme optimální řešení bez závazků.",
+    "ctaText": "Zahájit spolupráci",
+    "ctaHref": "#kontakt",
+    "phone":   "+420 704 123 456",
+    "email":   "email@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours":   "Po–Pá 8:30–17:00"
+  },
+  "footer": {
+    "siteName":  "Bilance & Co.",
+    "tagline":   "Účetnictví, daně a mzdy s péčí o každý detail. Váš partner pro klidné podnikání.",
+    "logoUrl":   "/templates/ucetni-01/logo.svg",
+    "email":     "email@demo.cz",
+    "phone":     "+420 704 123 456",
+    "address":   "Ukázková 123, 110 00 Praha 1",
+    "ico":       "12345678",
+    "web":       "https://demo.cz",
+    "socials": [
+      { "icon": "facebook",  "href": "https://facebook.com/demo",  "label": "Facebook" },
+      { "icon": "instagram", "href": "https://instagram.com/demo", "label": "Instagram" },
+      { "icon": "linkedin",  "href": "https://linkedin.com/company/demo", "label": "LinkedIn" }
+    ],
+    "links": [
+      { "label": "Úvod",    "href": "/" },
+      { "label": "O nás",   "href": "/o-nas" },
+      { "label": "Služby",  "href": "#sluzby" },
+      { "label": "Ceník",   "href": "#cenik" },
+      { "label": "Kontakt", "href": "#kontakt" }
+    ],
+    "legalLinks": [
+      { "label": "Ochrana osobních údajů", "href": "#gdpr" },
+      { "label": "Obchodní podmínky",      "href": "#podminky" }
+    ],
+    "copyright": "© 2026 Bilance & Co. Všechna práva vyhrazena."
+  },
+  "pages": {
+    "o-nas": {
+      "seoTitle":       "O nás | Bilance & Co.",
+      "seoDescription": "Tým zkušených účetních a daňových poradců. Přesnost, rychlost a diskrétnost od roku 2013.",
+      "hero": {
+        "title":    "O nás",
+        "subtitle": "Jsme tým, který bere vaše čísla vážně."
+      }
+    },
+    "kontakt": {
+      "seoTitle":       "Kontakt | Bilance & Co.",
+      "seoDescription": "Kontaktujte Bilance & Co. pro konzultaci účetnictví nebo daní. Ukázková 123, Praha 1."
+    }
+  }
+}

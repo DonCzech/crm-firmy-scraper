@@ -1,0 +1,212 @@
+{
+  "navbar": {
+    "siteName": "ThermoPlus Praha",
+    "logoUrl": "/templates/instala-02/logo.svg",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "/kontakt",
+    "links": [
+      { "label": "Úvod",      "href": "/" },
+      { "label": "Služby",    "href": "/sluzby" },
+      { "label": "Reference", "href": "/reference" },
+      { "label": "O nás",     "href": "#o-nas" },
+      { "label": "Kontakt",   "href": "/kontakt" }
+    ]
+  },
+  "hero": {
+    "label": "Praha a Středočeský kraj • Příjezd do 90 minut",
+    "title": "Teplo doma\nzačíná\nu nás",
+    "subtitle": "Profesionální montáž a servis vytápění, vodoinstalace a elektroinstalace. Certifikovaní technici, záruky na materiál i práci, havarijní pohotovost.",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "/kontakt",
+    "ctaSecondaryText": "Co nabízíme",
+    "ctaSecondaryHref": "/sluzby",
+    "backgroundImage": "/assets/instala-02/53d62bc71b-Vestop-topenarstvi-a-instalaterstvi.png",
+    "statsValue": "15+",
+    "statsLabel": "let praxe"
+  },
+  "about": {
+    "kicker": "Kdo jsme",
+    "title": "Řemeslo předané z otce na syna",
+    "subtitle": "Rodinná firma s tradicí, moderním vybavením a osobním přístupem.",
+    "body": "ThermoPlus Praha vznikla jako rodinná firma a tuto tradici si pečlivě chráníme dodnes. Každou zakázku — ať jde o výměnu baterie nebo kompletní rekonstrukci topení — přebíráme s osobní zodpovědností. Naši technici jsou pravidelně proškolováni, vozový park plně vybaven a na každou práci si bereme dostatek času, aby výsledek vydržel desítky let.",
+    "features": [
+      { "title": "Certifikovaní technici",  "description": "Všichni naši montéři pravidelně absolvují odborná školení výrobců. Pracujeme s certifikací pro plyn, vodu i elektro.", "icon": "star" },
+      { "title": "Záruka 36 měsíců",        "description": "Na námi provedenou instalaci poskytujeme záruku 36 měsíců — o 12 měsíců více, než vyžaduje zákon.", "icon": "shield" },
+      { "title": "Havarijní pohotovost",    "description": "Prasklo potrubí? Nefunguje kotel? Havarijní linku máme otevřenou nepřetržitě. Technik dorazí zpravidla do 90 minut.", "icon": "zap" },
+      { "title": "Čistota na pracovišti",   "description": "Po dokončení práce po sobě vždy uklidíme. Zakrýváme podlahy, odvážíme odpad a předáváme pracoviště v čistém stavu.", "icon": "truck" }
+    ],
+    "stats": [
+      { "value": "15+",  "label": "let zkušeností" },
+      { "value": "800+", "label": "spokojených zákazníků" },
+      { "value": "36m",  "label": "záruka na práci" }
+    ],
+    "image": "/assets/instala-02/1fd3131959-Vestop-vodo-topo-1.jpg",
+    "phone": "+420 704 123 456",
+    "phoneLabel": "Volejte kdykoliv"
+  },
+  "services": {
+    "kicker": "Naše služby",
+    "title": "Vytápění, voda, elektro — vše pod jednou střechou",
+    "subtitle": "Nemusíte shánět tři různé firmy. Zajistíme kompletní řešení od projektu až po závěrečnou revizi.",
+    "items": [
+      {
+        "name": "Výměna a montáž kotlů",
+        "title": "Výměna a montáž kotlů",
+        "description": "Vyměníme starý kotel za nový kondenzační nebo kotel na tuhá paliva. Zajistíme odvod spalin, napojení na otopnou soustavu i uvedení do provozu. Spolupracujeme s předními výrobci.",
+        "ctaText": "Zjistit více",
+        "ctaHref": "/sluzby",
+        "icon": "flame",
+        "image": "/assets/instala-02/5fd11e590a-kotle-na-tuha-paliva.jpg"
+      },
+      {
+        "name": "Tepelná čerpadla",
+        "title": "Tepelná čerpadla",
+        "description": "Instalujeme systémy vzduch–voda a voda–voda od ověřených výrobců. Poradíme s výběrem, zpracujeme podklady pro dotaci z programu Nová zelená úsporám a vše provedeme na klíč.",
+        "ctaText": "Zjistit více",
+        "ctaHref": "/sluzby",
+        "icon": "thermometer",
+        "image": "/assets/instala-02/2ae0d10d82-Instalace-tepelnych-cerpadel.png"
+      },
+      {
+        "name": "Vodoinstalace",
+        "title": "Vodoinstalace",
+        "description": "Rozvody studené a teplé vody, výměna baterií, umyvadel a sprch, opravy úniků. Pracujeme s materiály Viega, Geberit a Grohe pro maximální životnost rozvodů.",
+        "ctaText": "Zjistit více",
+        "ctaHref": "/sluzby",
+        "icon": "droplets",
+        "image": "/assets/instala-02/fa3485d07d-Topenarske-a-instalaterske-sluzby-1.jpg"
+      },
+      {
+        "name": "Elektroinstalace",
+        "title": "Elektroinstalace",
+        "description": "Kompletní elektroinstalace při rekonstrukcích, přípojky pro tepelná čerpadla a fotovoltaiku, výměna rozvaděčů a pojistkových skříní. Práce provádíme s platnou elektrotechnickou způsobilostí.",
+        "ctaText": "Zjistit více",
+        "ctaHref": "/sluzby",
+        "icon": "zap",
+        "image": "/assets/instala-02/42349e67b1-Elektroinstalace.jpg"
+      },
+      {
+        "name": "Servis a údržba topení",
+        "title": "Servis a údržba topení",
+        "description": "Roční prohlídka, čištění výměníku, kontrola tlaku, odkalení soustavy a seřízení termostatů prodlouží životnost vašeho topení o roky. Nabízíme servisní smlouvy s přednostním výjezdem.",
+        "ctaText": "Zjistit více",
+        "ctaHref": "/sluzby",
+        "icon": "settings",
+        "image": "/assets/instala-02/f50546bc80-Servis-topeni.jpg"
+      }
+    ]
+  },
+  "faq": {
+    "kicker": "Časté dotazy",
+    "title": "Máte otázky? Máme odpovědi.",
+    "subtitle": "Pokud tu tu svoji nenajdete, zavolejte — rádi poradíme i složitější situace.",
+    "items": [
+      {
+        "question": "Jak dlouho trvá výměna kotle?",
+        "answer": "Standardní výměna plynového kotle za nový kondenzační trvá obvykle půl dne. Počítejte s tím, že ráno přijedeme, odpoledne topíte. U složitějších rekonstrukcí s novými rozvody může práce trvat 1–2 dny."
+      },
+      {
+        "question": "Pomůžete mi s dotací na tepelné čerpadlo?",
+        "answer": "Ano. Máme zkušenosti s programem Nová zelená úsporám i kotlíkovými dotacemi. Připravíme vám potřebné podklady a poradíme, jak o dotaci požádat — bez zbytečné byrokracie."
+      },
+      {
+        "question": "Co se stane, když práci nedokončíte v dohodnutém termínu?",
+        "answer": "Termín dokončení uvádíme ve smlouvě. Pokud ho z naší strany nedodržíme, máte nárok na smluvní pokutu. Tato situace nastává výjimečně — zákazníky si vážíme a plánování bereme vážně."
+      },
+      {
+        "question": "Pracujete i v panelových domech a bytech?",
+        "answer": "Samozřejmě. Velkou část naší práce tvoří právě byty v panelovém i cihllovém bytovém fondu — výměny stoupaček, instalace nových koupelen, výměny kotlů v bytových domech."
+      },
+      {
+        "question": "Vydáváte po dokončení práce doklady a protokoly?",
+        "answer": "Ano, vždy. Po dokončení práce obdržíte předávací protokol, záruční list, revizní zprávu (u elektro a plynu) a fakturu. Veškerá dokumentace je v pořádku pro pojišťovnu i případnou reklamaci."
+      }
+    ]
+  },
+  "gallery": {
+    "kicker": "Realizace",
+    "title": "Z čeho máme radost",
+    "subtitle": "Každý projekt je jiný. Tady jsou ty, na které jsme obzvlášť hrdí.",
+    "images": [
+      { "url": "/assets/instala-02/5fd11e590a-kotle-na-tuha-paliva.jpg",       "alt": "Nový kotel na tuhá paliva po instalaci",   "caption": "Kotel na tuhá paliva" },
+      { "url": "/assets/instala-02/837ba0f542-krbove-vlozky.jpg",              "alt": "Vestavěná krbová vložka v obývacím pokoji", "caption": "Krbová vložka" },
+      { "url": "/assets/instala-02/1e6398d3aa-plynove-kotle.jpg",              "alt": "Kondenzační plynový kotel v technické místnosti", "caption": "Kondenzační kotel" },
+      { "url": "/assets/instala-02/fc4cf7aced-topeni.jpg",                     "alt": "Nové podlahové vytápění při rekonstrukci",  "caption": "Podlahové vytápění" },
+      { "url": "/assets/instala-02/f50546bc80-Servis-topeni.jpg",              "alt": "Technik při ročním servisu kotle",           "caption": "Roční servis kotle" },
+      { "url": "/assets/instala-02/31eb23156e-udrzba-a-servis.jpg",            "alt": "Odkalení topné soustavy",                   "caption": "Odkalení soustavy" },
+      { "url": "/assets/instala-02/0bedbc6469-Topenarske-a-instalaterske-sluzby-5.jpg", "alt": "Rekonstrukce topení v rodinném domě", "caption": "Rekonstrukce topení" },
+      { "url": "/assets/instala-02/3de3af465d-Topenarske-a-instalaterske-sluzby-6.jpg", "alt": "Nové rozvody vody v koupelně",       "caption": "Rozvody vody" }
+    ]
+  },
+  "contact": {
+    "kicker": "Napište nebo zavolejte",
+    "title": "Domluvíme se rychle",
+    "subtitle": "Poptávku vyřídíme zpravidla do druhého pracovního dne. Havárie řešíme okamžitě — volejte přímo.",
+    "phone": "+420 704 123 456",
+    "email": "info@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pá 7:00–17:00, havarijní linka nonstop",
+    "ico": "12345678",
+    "fields": ["name", "phone", "email", "subject", "message"],
+    "submitText": "Odeslat poptávku",
+    "mapEmbed": ""
+  },
+  "footer": {
+    "siteName": "ThermoPlus Praha",
+    "logoUrl": "/templates/instala-02/logo.svg",
+    "tagline": "Vytápění, voda a elektro — poctivě a načas",
+    "stripText": "Potřebujete pomoc? Zavolejte nám hned teď.",
+    "hours": "Po–Pá 7:00–17:00",
+    "hoursEmergency": "Havarijní výjezdy operativně",
+    "phone": "+420 704 123 456",
+    "email": "info@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "ico": "12345678",
+    "dic": "CZ12345678",
+    "companyName": "Demo Studio s.r.o.",
+    "links": [
+      { "label": "Úvod",      "href": "/" },
+      { "label": "Služby",    "href": "/sluzby" },
+      { "label": "Reference", "href": "/reference" },
+      { "label": "Kontakt",   "href": "/kontakt" }
+    ],
+    "socials": [
+      { "icon": "facebook",  "href": "https://facebook.com/demo",  "label": "Facebook"  },
+      { "icon": "instagram", "href": "https://instagram.com/demo", "label": "Instagram" }
+    ],
+    "copyright": "© 2026 Demo Studio s.r.o. Všechna práva vyhrazena."
+  },
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Služby | ThermoPlus Praha",
+      "seoDescription": "Výměna kotlů, tepelná čerpadla, vodoinstalace, elektroinstalace a servis topení. Certifikovaní technici, záruka 36 měsíců.",
+      "hero": {
+        "title": "Naše služby",
+        "subtitle": "Vytápění, voda a elektro — vše pod jednou střechou",
+        "backgroundImage": "/assets/instala-02/fa3485d07d-Topenarske-a-instalaterske-sluzby-1.jpg"
+      }
+    },
+    "reference": {
+      "seoTitle": "Reference | ThermoPlus Praha",
+      "seoDescription": "Ukázky dokončených realizací — kotle, tepelná čerpadla, rekonstrukce topení a vodoinstalace Praha.",
+      "hero": {
+        "title": "Z čeho máme radost",
+        "subtitle": "Vybrané realizace z naší práce",
+        "backgroundImage": "/assets/instala-02/3de3af465d-Topenarske-a-instalaterske-sluzby-6.jpg"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt | ThermoPlus Praha",
+      "seoDescription": "Kontaktujte ThermoPlus Praha pro nezávaznou cenovou nabídku. Vytápění a instalatérství Praha a Středočeský kraj."
+    }
+  },
+  "seo": {
+    "title": "ThermoPlus Praha — Vytápění, voda a elektro",
+    "description": "Certifikovaná firma pro montáž kotlů, tepelná čerpadla, vodoinstalace a elektroinstalace. Záruka 36 měsíců, havarijní pohotovost, Praha a Středočeský kraj.",
+    "canonical": "https://demo.cz",
+    "ogImage": "/templates/instala-02/logo.svg"
+  }
+}

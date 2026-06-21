@@ -1,0 +1,176 @@
+{
+  "navbar": {
+    "siteName": "Mistr Rekonstrukcí",
+    "logoUrl": "",
+    "phone": "+420 775 321 900",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "/poptavka",
+    "links": [
+      { "label": "Úvod",        "href": "/#uvod" },
+      { "label": "Činnosti",    "href": "/#cinnosti" },
+      { "label": "Fotogalerie", "href": "/#fotogalerie" },
+      { "label": "Reference",   "href": "/#reference" },
+      { "label": "Kontakt",     "href": "/#kontakt" }
+    ]
+  },
+  "hero": {
+    "title": "Rekonstrukce bytů a bytových jader, na které se můžete spolehnout",
+    "subtitle": "Pečlivá realizace, čistá práce a termíny, které dodržíme.",
+    "ctaText": "Chci poptávku zdarma",
+    "ctaHref": "/poptavka",
+    "ctaSecondaryText": "Prohlédnout realizace",
+    "ctaSecondaryHref": "/fotogalerie",
+    "refLinkText": "Co říkají naši zákazníci →",
+    "refLinkHref": "/#reference",
+    "images": [
+      "https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?w=1800&h=1000&fit=crop&fm=webp&q=90",
+      "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1800&h=1000&fit=crop&fm=webp&q=90",
+      "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=1800&h=1000&fit=crop&fm=webp&q=90"
+    ],
+    "stats": [
+      { "end": 38, "suffix": "+",   "label": "Dokončených realizací" },
+      { "end": 9400, "suffix": " m²", "label": "Zrekonstruované plochy" },
+      { "end": 11,  "suffix": " let", "label": "Zkušeností v oboru" }
+    ],
+    "uspItems": [
+      { "icon": "clock",  "title": "Více než dekáda zkušeností",  "text": "Od roku 2013 realizujeme rekonstrukce bytů, jader a domů po celé Praze a okolí." },
+      { "icon": "shield", "title": "Záruky a smluvní jistota",    "text": "Na veškeré provedené práce poskytujeme záruku a pracujeme výhradně se smlouvou." },
+      { "icon": "check",  "title": "Ověřené materiály a postupy", "text": "Spolupracujeme jen s důvěryhodnými dodavateli a používáme certifikované materiály." }
+    ]
+  },
+  "services": {
+    "id": "cinnosti",
+    "title": "Co pro vás zvládneme od A do Z",
+    "subtitle": "Přebíráme plnou odpovědnost za průběh i výsledek — od návrhu až po předání klíčů.",
+    "items": [
+      { "icon": "home",     "title": "Byty na klíč",                   "text": "Kompletní rekonstrukce celého bytu včetně koordinace všech řemesel a finálního úklidu." },
+      { "icon": "pipe",     "title": "Bytová jádra",                   "text": "Odborná demontáž starého jádra a výstavba nového včetně rozvodů vody, kanalizace a elektřiny." },
+      { "icon": "bath",     "title": "Koupelny a WC",                  "text": "Funkční a estetické koupelny — kvalitní hydroizolace, obklady, sanita i osvětlení." },
+      { "icon": "wall",     "title": "Sádrokarton a příčky",           "text": "Montáž nových příček, podhledů a předstěn pro lepší dispozici i zvukovou izolaci." },
+      { "icon": "house",    "title": "Rodinné domy",                   "text": "Celkové i částečné rekonstrukce rodinných domů — interiér, fasáda i přístavby." },
+      { "icon": "wrench",   "title": "Bourací a stavební úpravy",      "text": "Bezpečné bourací práce, otevírání průchozích otvorů a veškeré navazující úpravy." },
+      { "icon": "shovel",   "title": "Zemní a výkopové práce",         "text": "Přípravné terénní práce, výkopy pro základy a inženýrské sítě, zásypy a hutnění." },
+      { "icon": "building", "title": "Koordinace celé stavby",         "text": "Zajistíme veškeré profese, materiál i časový harmonogram — vy jen sledujete výsledek." }
+    ]
+  },
+  "gallery": {
+    "id": "fotogalerie",
+    "title": "Vybrané realizace z naší dílny",
+    "subtitle": "Každý projekt je pro nás novou výzvou — prohlédněte si výsledky naší práce.",
+    "ctaText": "Zobrazit celou galerii",
+    "ctaHref": "/fotogalerie",
+    "images": [
+      { "url": "https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?w=800&h=600&fit=crop&fm=webp&q=85", "alt": "Kompletní rekonstrukce obývacího pokoje" },
+      { "url": "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=800&h=600&fit=crop&fm=webp&q=85", "alt": "Moderní kuchyňská linka po rekonstrukci" },
+      { "url": "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=800&h=600&fit=crop&fm=webp&q=85", "alt": "Nová koupelna s walk-in sprchou" },
+      { "url": "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&h=600&fit=crop&fm=webp&q=85", "alt": "Rekonstrukce rodinného domu v Praze" }
+    ]
+  },
+  "about": {
+    "id": "o-nas",
+    "kicker": "Co nás odlišuje od ostatních?",
+    "title": "Poctivá řemesla a lidský přístup",
+    "text": "Věříme, že dobrá rekonstrukce začíná nasloucháním. Každý byt i každý zákazník je jiný — proto ke každé zakázce přistupujeme individuálně a bez zbytečného pospíchání.",
+    "bullets": [
+      "Přesná a čistá práce bez zbytečného nepořádku",
+      "Férové ceny s podrobnou rozpočtovou kalkulací",
+      "Stálý kontakt a průběžné informování klienta",
+      "Tým ověřených řemeslníků s mnoholetou praxí"
+    ],
+    "image": "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop&fm=webp&q=85"
+  },
+  "testimonials": {
+    "id": "reference",
+    "title": "Co říkají ti, kteří s námi už stavěli",
+    "subtitle": "Přečtěte si zkušenosti zákazníků, kteří nám svěřili svůj domov.",
+    "items": [
+      {
+        "text": "Rekonstrukci bytového jádra jsme svěřili firmě Mistr Rekonstrukcí a nelitujeme. Práce proběhla rychle, na místě byl vždy pořádek a výsledek předčil naše očekávání. Rozhodně doporučujeme.",
+        "name": "Tomáš Kovář",
+        "location": "Praha 4"
+      },
+      {
+        "text": "Hledali jsme spolehlivou firmu na rekonstrukci koupelny a WC. Od prvního kontaktu přes realizaci až po předání — vše proběhlo přesně podle plánu. Oceňujeme hlavně otevřenou komunikaci a dodržení ceny.",
+        "name": "Lucie Marková",
+        "location": "Praha 6"
+      },
+      {
+        "text": "Kompletní rekonstrukce bytu 3+1 v panelovém domě. Za dva a půl měsíce hotovo, bez zádrhelů a přesně v dohodnuté ceně. Byt vypadá jako nový. Jdeme to doporučit celému domu.",
+        "name": "Petr a Jana Horáčkovi",
+        "location": "Beroun"
+      }
+    ]
+  },
+  "footer": {
+    "id": "kontakt",
+    "siteName": "Mistr Rekonstrukcí",
+    "logoUrl": "",
+    "tagline": "Rekonstrukce bytů, jader, koupelen a rodinných domů na klíč — s lidským přístupem.",
+    "ico": "09876543",
+    "dic": "CZ09876543",
+    "phone": "+420 775 321 900",
+    "email": "info@mistr-rekonstrukci.cz",
+    "address": "Stavební 17, 130 00 Praha 3",
+    "facebook": "https://facebook.com/mistr-rekonstrukci",
+    "copyright": "© 2025 Mistr Rekonstrukcí s.r.o. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "Úvod",                    "href": "/#uvod" },
+      { "label": "Činnosti",                "href": "/#cinnosti" },
+      { "label": "Fotogalerie",             "href": "/fotogalerie" },
+      { "label": "Kontakt",                 "href": "/#kontakt" },
+      { "label": "Ochrana osobních údajů", "href": "/gdpr" },
+      { "label": "Obchodní podmínky",       "href": "/podminky" }
+    ]
+  },
+  "contact": {
+    "id": "poptavka",
+    "kicker": "Napište nám ještě dnes",
+    "title": "Poptejte rekonstrukci zdarma",
+    "phone": "+420 775 321 900",
+    "email": "info@mistr-rekonstrukci.cz",
+    "address": "Stavební 17, 130 00 Praha 3",
+    "ctaText": "Odeslat poptávku"
+  },
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Naše služby — Mistr Rekonstrukcí",
+      "seoDescription": "Přehled stavebních a rekonstrukčních prací — byty, jádra, koupelny, domy.",
+      "hero": {
+        "title": "Co pro vás uděláme",
+        "subtitle": "Kompletní rekonstrukce bytů, jader a rodinných domů na klíč."
+      },
+      "services": {
+        "id": "sluzby",
+        "title": "Přehled našich prací",
+        "subtitle": "Od prvního kontaktu po předání hotového díla.",
+        "items": []
+      }
+    },
+    "reference": {
+      "seoTitle": "Reference — Mistr Rekonstrukcí",
+      "seoDescription": "Přečtěte si, co říkají zákazníci, kteří s námi rekonstruovali.",
+      "hero": {
+        "title": "Reference zákazníků",
+        "subtitle": "Lidé, kteří nám svěřili svůj domov."
+      }
+    },
+    "fotogalerie": {
+      "seoTitle": "Fotogalerie realizací — Mistr Rekonstrukcí",
+      "seoDescription": "Prohlédněte si fotky dokončených rekonstrukcí bytů, koupelen a domů.",
+      "hero": {
+        "title": "Galerie našich realizací",
+        "subtitle": "Výběr z dokončených projektů za poslední roky."
+      },
+      "gallery": {
+        "id": "galerie",
+        "title": "Dokončené projekty",
+        "subtitle": "",
+        "images": []
+      }
+    },
+    "poptavka": {
+      "seoTitle": "Nezávazná poptávka zdarma — Mistr Rekonstrukcí",
+      "seoDescription": "Poptejte rekonstrukci bez závazku — odpovíme do 24 hodin."
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "colors": {
+    "primary":    "#FFC527",
+    "secondary":  "#1e293b",
+    "background": "#ffffff",
+    "surface":    "#F2F5F7",
+    "text":       "#1e293b",
+    "textMuted":  "#64748b",
+    "accent":     "#FFC527",
+    "border":     "#e2e8f0"
+  },
+  "typography": {
+    "fontHeading": "'Outfit', sans-serif",
+    "fontBody":    "'Outfit', sans-serif",
+    "scale":       "comfortable"
+  },
+  "radius": {
+    "sm":   "4px",
+    "md":   "8px",
+    "lg":   "12px",
+    "pill": "50px"
+  },
+  "spacing": {
+    "personality": "normal",
+    "section":     "comfortable"
+  }
+}

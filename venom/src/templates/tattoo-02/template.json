@@ -1,0 +1,41 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "tattoo-02",
+  "name": "Demo Homie Tattoo",
+  "industry": "tattoo",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Prémiové tetovací & piercing studio — bílý navbar s kontaktním topbarem, fullbleed tmavý hero centrovaný, 2-col about, galerie mřížka (Tattoo/Piercing), slider referencí, kontakt s ikonami. Inspirováno homietattoo.cz.",
+  "sectionOrderNote": "Navbar → Hero → About → Gallery → Testimonials → Contact → Footer",
+  "skippedSections": [
+    { "pos": 4,  "name": "Services",    "reason": "tatáž funkce pokryta About sekcí (2-col split tattoo & piercing)" },
+    { "pos": 5,  "name": "Pricing",     "reason": "ceník je na podstránce /cenik, ne na homepage" },
+    { "pos": 7,  "name": "Team",        "reason": "tatéři jsou na podstránce /tatteri" },
+    { "pos": 9,  "name": "Booking/CTA", "reason": "rezervace integrována přímo v navbar CTA a hero" },
+    { "pos": 11, "name": "FAQ",         "reason": "FAQ vynecháno z homepage" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "tattoo-02-navbar",        "contentRef": "navbar" },
+        { "type": "hero",         "variant": "hero-tattoo-02-centered", "contentRef": "hero" },
+        { "type": "about",        "variant": "tattoo-02-about",         "contentRef": "about" },
+        { "type": "gallery",      "variant": "tattoo-02-gallery",       "contentRef": "gallery" },
+        { "type": "testimonials", "variant": "tattoo-02-testimonials",  "contentRef": "testimonials" },
+        { "type": "contact",      "variant": "tattoo-02-contact",       "contentRef": "contact" },
+        { "type": "footer",       "variant": "tattoo-02-footer",        "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

@@ -1,0 +1,253 @@
+{
+  "navbar": {
+    "siteName": "Pavel Marak",
+    "siteTagline": "Váš osobní trenér",
+    "logoUrl": "",
+    "phone": "704 123 456",
+    "ctaText": "1. konzultace ZDARMA",
+    "ctaHref": "#kontakt",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "links": [
+      { "label": "Ceník",    "href": "#cenik" },
+      { "label": "Recenze",  "href": "#recenze" },
+      { "label": "FAQ",      "href": "#faq" },
+      { "label": "Kontakt",  "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "title": "Zpět do kondice s respektem k tělu",
+    "tagline": "Fyzioterapeut & Osobní trenér",
+    "headline": "Zpět do kondice\ns respektem k tělu",
+    "quote": "Máte bolesti nebo jste po operaci? Společně sestavíme plán a obnovíme Vaši kondici.",
+    "ctaText": "1. konzultace ZDARMA",
+    "ctaHref": "#kontakt",
+    "ctaNote": "(nutná registrace)",
+    "image": "/assets/fitness-01/bb6263038c-pavel-marak-hero.webp",
+    "badgeText": "Fyzio & Fitness",
+    "badgeHref": "#sluzby",
+    "rating": "5.0",
+    "ratingCount": "60+ recenzí",
+    "ratingImage": "/assets/fitness-01/8c2712b2e3-headerreviewsgroup.png",
+    "benefitsHeading": "Přidejte se k těm, kteří dělají pokroky",
+    "benefitsRating": "5.0",
+    "benefitsRatingCount": "60+ spokojených klientů",
+    "benefitsAvatars": [
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80",
+      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&q=80"
+    ],
+    "benefitsItems": [
+      { "icon": "dumbbell", "title": "Tréninky", "description": "Fitness Centrum / Online" },
+      { "icon": "calendar", "title": "Rezervační systém", "description": "pro fitness tréninky i vstupní konzultace" },
+      { "icon": "chat", "title": "Máte dotaz?", "description": "Napište nám e-mail nebo zavolejte" }
+    ]
+  },
+  "about": {
+    "title": "Zkoušíte všechno, ale nic nepomáhá?",
+    "body": "Jsem fyzioterapeut a osobní trenér. Díky propojení informací z obou oborů na vaše tělo nahlížím komplexně.",
+    "tagline": "O mně",
+    "heading": "Zkoušíte všechno, ale nic nepomáhá?",
+    "subheading": "Svěřte se trenérovi, který vaše problémy uvidí komplexně",
+    "bio": "Jsem fyzioterapeut a osobní trenér. Díky propojení informací z obou oborů na vaše tělo nahlížím komplexně. Ukážu vám, že silový trénink nemusí být jen o budování velkých svalů, ale také o lepším držení těla, zmírnění bolestí kloubů a zad, větší odolnosti vůči každodennímu stresu a zatížení.",
+    "bio2": "Kromě potíží s pohybovým aparátem se na mě můžete obrátit s cílem redukce váhy či formování postavy.",
+    "name": "Pavel Marak",
+    "role": "Fyzioterapeut & Osobní trenér",
+    "image": "https://images.unsplash.com/photo-1567013127542-490d757e51fc?auto=format&fit=crop&w=800&q=80",
+    "stats": [
+      { "number": "8+",  "label": "let praxe" },
+      { "number": "200+", "label": "spokojených klientů" },
+      { "number": "100%", "label": "individuální přístup" }
+    ]
+  },
+  "services": {
+    "title": "KOMPLEXNÍ tréninky na míru",
+    "sectionTag": "Specializace",
+    "heading": "KOMPLEXNÍ tréninky na míru",
+    "subheading": "Nejčastěji vám pomáhám vyřešit",
+    "ctaText": "Rezervovat trénink",
+    "ctaHref": "#kontakt",
+    "services": [],
+    "items": [
+      {
+        "name": "Bolesti a problémy zad",
+        "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=533&q=80",
+        "title": "Bolesti a problémy zad",
+        "location": "Fitness Centrum"
+      },
+      {
+        "name": "Rekondice",
+        "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=400&h=533&q=80",
+        "title": "Rekondice",
+        "location": "Fitness Centrum"
+      },
+      {
+        "name": "Ženské zdraví",
+        "image": "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=400&h=533&q=80",
+        "title": "Ženské zdraví",
+        "location": "Fitness Centrum"
+      },
+      {
+        "name": "Redukce váhy",
+        "image": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=400&h=533&q=80",
+        "title": "Redukce váhy",
+        "location": "Fitness Centrum"
+      },
+      {
+        "name": "Tvarování postavy a svalstva",
+        "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=400&h=533&q=80",
+        "title": "Tvarování postavy a svalstva",
+        "location": "Fitness Centrum"
+      },
+      {
+        "name": "Bolest kloubů, Artróza",
+        "image": "https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=400&h=533&q=80",
+        "title": "Bolest kloubů, Artróza",
+        "location": "Fitness Centrum"
+      },
+      {
+        "name": "Pánevní dno",
+        "image": "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=400&h=533&q=80",
+        "title": "Pánevní dno",
+        "location": "Fitness Centrum"
+      },
+      {
+        "name": "Rehabilitace po zranění",
+        "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=400&h=533&q=80",
+        "title": "Rehabilitace po zranění",
+        "location": "Fitness Centrum"
+      }
+    ]
+  },
+  "pricing": {
+    "services": [],
+    "sectionTag": "Ceník",
+    "heading": "KOMPLEXNÍ FYZIO programy, které dávají smysl",
+    "subheading": "Kdy jindy začít, když ne teď?",
+    "note": "Všechny lekce jsou komplexní a na míru Vám. Pokud si nevyberete z nabízených programů, napište si o individuální plán.",
+    "ctaHref": "#kontakt",
+    "plans": [
+      {
+        "name": "1 TRÉNINK / KONZULTACE",
+        "period": "jednorázově",
+        "price": "1 400",
+        "unit": "Kč",
+        "perPeriod": "/hod",
+        "featured": true,
+        "features": [
+          "1 trénink",
+          "jednorázově"
+        ],
+        "ctaText": "Rezervovat trénink",
+        "ctaHref": "#kontakt"
+      },
+      {
+        "name": "BASIC",
+        "period": "3 měsíce · 12 tréninků",
+        "price": "4 750",
+        "unit": "Kč",
+        "perPeriod": "/měsíc",
+        "featured": false,
+        "features": [
+          "Osobní trénink 1× týdně",
+          "Konzultace stravovacích či pohybových návyků 1× 30 min",
+          "Tréninkový plán"
+        ],
+        "ctaText": "Začít program",
+        "ctaHref": "#kontakt"
+      },
+      {
+        "name": "STANDARD",
+        "period": "6 měsíců · 25 tréninků",
+        "price": "4 550",
+        "unit": "Kč",
+        "perPeriod": "/měsíc",
+        "featured": false,
+        "features": [
+          "Osobní trénink 1× týdně",
+          "Konzultace stravovacích či pohybových návyků 2× 30 min",
+          "Tréninkový plán",
+          "Pravidelné vyhodnocení pokroků"
+        ],
+        "ctaText": "Začít program",
+        "ctaHref": "#kontakt"
+      }
+    ]
+  },
+  "testimonials": {
+    "testimonials": [],
+    "sectionTag": "Reference",
+    "heading": "Co říkají klienti",
+    "googleRating": "5.0",
+    "googleCount": "60+ recenzí",
+    "items": [
+      {
+        "text": "Po včerejší návštěvě se cítím fantasticky. Oproti včerejšku se cítím minimálně o 70 % lépe. Hlava mě zatím vůbec nebolela. Velmi cením návaznosti na rehabilitaci ve smyslu tréninků, které mě po proležených měsících dostaly zpět do formy!",
+        "author": "Jitka",
+        "role": "Rehabilitace a tréninky",
+        "stars": 5
+      },
+      {
+        "text": "Dnes cítím ohromnou úlevu, při pohledu vlevo ještě cítím tah, ale ramenem můžu skoro po roce vesele mávat! Ve cvičení pokračuji a snad se ho nevzdám!",
+        "author": "Roman",
+        "role": "Úvodní konzultace fyzioterapie",
+        "stars": 5
+      },
+      {
+        "text": "Pavel je skvělý trenér — má obrovský přehled, trénink vždy přizpůsobí mým potřebám a výsledky jsou znát. Díky němu jsem se zbavila chronických bolestí zad.",
+        "author": "Tereza K.",
+        "role": "Osobní tréninky",
+        "stars": 5
+      }
+    ]
+  },
+  "faq": {
+    "heading": "Máte dotaz?",
+    "items": [
+      {
+        "question": "Jak se mohu objednat na trénink?",
+        "answer": "Trénink si můžete rezervovat prostřednictvím online rezervačního systému. Pro rezervaci je nutná registrace. Po registraci vám systém umožní rezervovat si pouze vstupní konzultaci. Po absolvování vstupní konzultace získáte plný přístup k rezervačnímu systému."
+      },
+      {
+        "question": "K čemu slouží vstupní konzultace?",
+        "answer": "Vstupní konzultace slouží k upřesnění vašich cílů a nastavení vhodného způsobu spolupráce. Probíhá standardně telefonicky. Vstupní konzultace je zdarma."
+      },
+      {
+        "question": "Mohu trénovat, pokud mám chronické bolesti zad, jsem po operaci nebo úrazu?",
+        "answer": "Ano, je možné se objednat i s pohybovými obtížemi. Jsem fyzioterapeut, a proto přizpůsobím trénink vašim možnostem a zdravotnímu stavu. Většina mých klientů začínala trénovat právě s pohybovými obtížemi."
+      },
+      {
+        "question": "Nevyberu si z nabízených balíčků, je možnost individuálního plánu?",
+        "answer": "Ano, pokud si nevyberete z nabízených programů, napište mi přes e-mail a domluvíme se individuálně na programu a ceníku přesně pro vás."
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Kontakt",
+    "email": "info@pavelmarak.cz",
+    "phone": "704 123 456",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "name": "Pavel Marak",
+    "role": "Fyzioterapeut & Osobní trenér",
+    "image": "/assets/fitness-01/bb6263038c-pavel-marak-hero.webp"
+  },
+  "footer": {
+    "siteName": "Pavel Marak",
+    "siteTagline": "Fyzioterapeut & Osobní trenér",
+    "logoUrl": "",
+    "email": "info@pavelmarak.cz",
+    "phone": "704 123 456",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "copyright": "© 2025 Pavel Marak. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "Ceník",   "href": "#cenik" },
+      { "label": "Recenze", "href": "#recenze" },
+      { "label": "FAQ",     "href": "#faq" },
+      { "label": "Kontakt", "href": "#kontakt" }
+    ]
+  }
+}

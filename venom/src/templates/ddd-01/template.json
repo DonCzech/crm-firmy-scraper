@@ -1,0 +1,40 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "ddd-01",
+  "name": "Demo Deratizace",
+  "industry": "ddd",
+  "skeleton": "b2b-trade",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Deratizace & DDD firma. Modrý (#0c93eb) announcement bar + bílá sticky navbar, tmavý fullbleed hero s bg foto, 2-col about, pest grid (škůdci), services list + service karty, CTA strip, footer #064e86. Inspirováno deratizacepraha.com.",
+  "sectionOrderNote": "Navbar → Hero → About → Gallery → Services → CTA → Footer",
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",    "variant": "ddd-01-navbar",    "contentRef": "navbar"      },
+        { "type": "hero",      "variant": "ddd-01-hero",      "contentRef": "hero"        },
+        { "type": "about",     "variant": "ddd-01-about",     "contentRef": "about"       },
+        { "type": "gallery",   "variant": "ddd-01-gallery",   "contentRef": "gallery"     },
+        { "type": "services",  "variant": "ddd-01-services",  "contentRef": "services_ddd" },
+        { "type": "cta",       "variant": "ddd-01-cta",       "contentRef": "cta"          },
+        { "type": "footer",    "variant": "ddd-01-footer",    "contentRef": "footer"       }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "skippedSections": [
+    { "pos": 6, "name": "Pricing/Estimate", "reason": "DDD firmy neprezentují ceník online — ceny jsou individuální na základě konzultace, originál deratizacepraha.com ceník nemá" },
+    { "pos": 8, "name": "Testimonials",     "reason": "Originál neobsahuje recenze zákazníků — DDD segment funguje primárně na doporučení, sekci lze přidat v budoucí verzi" },
+    { "pos": 10, "name": "Service area",    "reason": "Mapa servisní oblasti není na originální stránce — pokrytí je zmíněno v textu about sekce" },
+    { "pos": 11, "name": "FAQ",             "reason": "Originál neobsahuje FAQ sekci — jednoduché B2B trade stránky v DDD segmentu FAQ standardně vynechávají" }
+  ]
+}

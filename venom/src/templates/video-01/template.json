@@ -1,0 +1,46 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "video-01",
+  "name": "Demo Kameraman",
+  "industry": "video",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Svatební kameraman — minimalistický Wix-style web. Bílý sticky navbar Playfair wordmark, fullbleed hero s citátem, 2-col about, galerie filmů, testimonials párů, CTA nabídka, tmavý footer. Inspirováno honzakamenar.cz. Playfair Display serif + Inter.",
+  "sectionOrderNote": "Navbar → Hero → About → Films/Gallery → Testimonials → CTA → Footer",
+  "skippedSections": [
+    { "pos": 4,  "name": "Services", "reason": "Nabídka je v CTA sekci" },
+    { "pos": 5,  "name": "Pricing",  "reason": "Kameraman nedává ceník na homepage — ceny na vyžádání" },
+    { "pos": 7,  "name": "Team",     "reason": "Osobní web — kameraman je sám sobě brand, team sekce není" },
+    { "pos": 9,  "name": "FAQ",      "reason": "FAQ originál má na podstránce, ne na homepage" },
+    { "pos": 10, "name": "Contact",  "reason": "Kontakt je v footeru — osobní web bez kontaktního formuláře na homepage" },
+    { "pos": 11, "name": "FAQ",      "reason": "Viz pos 9" }
+  ],
+  "extraSections": [
+    { "type": "gallery",      "reason": "Galerie filmů — 'Šest svateb, šest příběhů'" },
+    { "type": "testimonials", "reason": "Citáty párů — klíčový social proof pro kameramana" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",       "variant": "video-01-navbar",       "contentRef": "navbar"       },
+        { "type": "hero",         "variant": "video-01-hero",         "contentRef": "hero"         },
+        { "type": "about",        "variant": "video-01-about",        "contentRef": "about"        },
+        { "type": "gallery",      "variant": "video-01-gallery",      "contentRef": "gallery"      },
+        { "type": "testimonials", "variant": "video-01-testimonials", "contentRef": "testimonials" },
+        { "type": "cta",          "variant": "video-01-cta",          "contentRef": "cta"          },
+        { "type": "footer",       "variant": "video-01-footer",       "contentRef": "footer"       }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "colors": {
+    "primary":    "#8b7355",
+    "secondary":  "#1a1a1a",
+    "background": "#ffffff",
+    "surface":    "#f5f0eb",
+    "text":       "#1a1a1a",
+    "textMuted":  "#6b6b6b",
+    "accent":     "#c0bbad",
+    "border":     "#e8e3dd"
+  },
+  "typography": {
+    "fontHeading": "'Playfair Display', Georgia, serif",
+    "fontBody":    "system-ui, -apple-system, sans-serif",
+    "scale":       "comfortable"
+  },
+  "radius": {
+    "sm":   "0px",
+    "md":   "2px",
+    "lg":   "4px",
+    "pill": "999px"
+  },
+  "spacing": {
+    "personality": "airy",
+    "section":     "comfortable"
+  }
+}

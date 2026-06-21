@@ -1,0 +1,72 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "hotel-01",
+  "name": "Demo Boutique Hotel",
+  "industry": "hotel",
+  "skeleton": "gastro",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Luxusní boutique hotel v centru Prahy — Art Nouveau styl. Transparentní hamburger navbar, fullscreen image slider hero, 2-col About s SVG-clipped foto, slider pokojů, gastronomická sekce, speciální nabídky, kontakt formulář, tmavý footer. Inspirováno palacehotel.cz.",
+  "sectionOrderNote": "Navbar → Hero → About → Rooms → Gastro → Offers → Contact → Footer",
+  "skippedSections": [
+    {
+      "pos": 4,
+      "name": "Menu",
+      "reason": "Hotel nemá ceník/menu na homepage — pokoje jsou prezentovány v services sekci"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Originál palacehotel.cz nemá recenze na homepage — nahrazeno speciálními nabídkami"
+    },
+    {
+      "pos": 9,
+      "name": "Events",
+      "reason": "Eventy jsou odkázány z navigace, bez preview bloku na homepage"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Originál palacehotel.cz nemá FAQ na homepage"
+    },
+    {
+      "pos": 6,
+      "name": "Reservations/CTA",
+      "reason": "Rezervace probíhá přes Rezervujte tlačítko v navbar CAB a contact formulář — bez samostatné CTA sekce"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "services",
+      "reason": "Slider pokojů (4 typy) s foto + Více + Rezervujte — odpovídá PlainScrollTile bloku originálu"
+    },
+    {
+      "type": "promo",
+      "reason": "Gastronomická sekce (textbgblock): restaurační foto bg + text o Café Palace — odpovídá block-textbgblock originálu"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",   "variant": "hotel-01-navbar",  "contentRef": "navbar"   },
+        { "type": "hero",     "variant": "hotel-01-hero",    "contentRef": "hero"     },
+        { "type": "about",    "variant": "hotel-01-about",   "contentRef": "about"    },
+        { "type": "services", "variant": "hotel-01-rooms",   "contentRef": "rooms"    },
+        { "type": "promo",    "variant": "hotel-01-gastro",  "contentRef": "gastro"   },
+        { "type": "gallery",  "variant": "hotel-01-offers",  "contentRef": "offers"   },
+        { "type": "contact",  "variant": "hotel-01-contact", "contentRef": "contact"  },
+        { "type": "footer",   "variant": "hotel-01-footer",  "contentRef": "footer"   }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

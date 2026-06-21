@@ -1,0 +1,155 @@
+{
+  "navbar": {
+    "siteName": "Premium Care",
+    "logoUrl": "",
+    "phone": "+420 704 123 456",
+    "ctaText": "Objednat se",
+    "ctaHref": "#kontakt",
+    "igHref": "https://instagram.com/demo",
+    "fbHref": "https://facebook.com/demo",
+    "links": [
+      { "label": "Rovnátka",        "href": "#sluzby" },
+      { "label": "Ostatní služby",  "href": "#sluzby" },
+      { "label": "Reference",       "href": "#reference" },
+      { "label": "Průvodce léčbou", "href": "#proces" },
+      { "label": "Ceník",           "href": "#kontakt" },
+      { "label": "O nás",           "href": "#about" },
+      { "label": "Kontakt",         "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "heading": "Krásný úsměv začíná zde",
+    "subheading": "Ortodoncie pro dospělé, teenagery i děti v Praze",
+    "ctaText": "Sjednat konzultaci zdarma",
+    "ctaHref": "#kontakt",
+    "bgImage": "/templates/ortho-02/hero-bg.webp",
+    "videoSrc": "/templates/ortho-02/hero-video.mp4"
+  },
+  "services": {
+    "heading": "Rovné zuby nejsou jen otázka krásy — jsou základem zdravého chrupu na celý život. Správně seřazené zuby se lépe čistí, méně se kazí a chrání dásně před paradontózou. Ortodontickou léčbu poskytujeme dětem, dospívajícím i dospělým pacientům.",
+    "subheading": "Proč volit ortodoncii",
+    "items": [
+      {
+        "title": "Invisalign®",
+        "subtitle": "Průhledná rovnátka",
+        "description": "Snímatelné průhledné alignery pro nenápadnou a pohodlnou léčbu bez kovových zámečků",
+        "href": "#sluzby",
+        "image": "/templates/ortho-02/service-invisalign.jpg"
+      },
+      {
+        "title": "Estetická",
+        "subtitle": "Keramická rovnátka",
+        "description": "Keramické nebo safírové zámečky splynou s barvou zubu — elegance bez kompromisů",
+        "href": "#sluzby",
+        "image": "/templates/ortho-02/service-esteticka.jpg"
+      },
+      {
+        "title": "Kovová",
+        "subtitle": "Klasická rovnátka",
+        "description": "Nejspolehlivější řešení pro složitější případy — přesná, odolná a osvědčená",
+        "href": "#sluzby",
+        "image": "/templates/ortho-02/service-kovova.jpg"
+      },
+      {
+        "title": "Dětská",
+        "subtitle": "Rovnátka pro děti",
+        "description": "Šetrná ortodontická péče přizpůsobená rostoucímu chrupu od prvních stálých zubů",
+        "href": "#sluzby",
+        "image": "/templates/ortho-02/service-deti.jpg"
+      }
+    ]
+  },
+  "process": {
+    "heading": "Celý průběh léčby je předem jasný, srozumitelný a bez překvapení. Takhle to u nás chodí od první návštěvy až po výsledný úsměv.",
+    "subheading": "Jak léčba probíhá",
+    "steps": [
+      {
+        "number": "1",
+        "title": "Vstupní konzultace",
+        "description": "Bezplatná prohlídka, zhodnocení chrupu a představení možností léčby bez jakýchkoli závazků"
+      },
+      {
+        "number": "2",
+        "title": "Individuální léčebný plán",
+        "description": "Lékař sestaví plán přesně pro vás — typ rovnátek, délka léčby, postup a cena"
+      },
+      {
+        "number": "3",
+        "title": "Nasazení a aktivní léčba",
+        "description": "Rovnátka jsou aplikována a začíná samotné rovnání — pravidelné kontroly každých 6–8 týdnů"
+      },
+      {
+        "number": "4",
+        "title": "Sejmutí a retenční fáze",
+        "description": "Po dosažení výsledku rovnátka sejmeme a zajistíme fixaci výsledku pomocí retaineru"
+      }
+    ],
+    "cta1Text": "Prohlédnout služby",
+    "cta1Href": "#sluzby",
+    "cta2Text": "Objednat se online",
+    "cta2Href": "#kontakt"
+  },
+  "about": {
+    "heading": "Zdravý úsměv mění sebevědomí i každodenní pohodu.",
+    "body": "Věříme, že ortodontická péče by měla být dostupná, srozumitelná a příjemná pro každého. Proto přistupujeme ke každému pacientovi individuálně — ať přichází dítě, teenager nebo dospělý. Naším cílem není jen rovný chrup, ale výsledek, se kterým budete spokojeni na celý život.",
+    "subline": "Přijďte se přesvědčit osobně — první konzultace je zdarma.",
+    "bgImage": "/templates/ortho-02/about-bg.jpg"
+  },
+  "testimonials": {
+    "heading": "Nejlepší odměnou je úsměv, který naši pacienti nosí každý den",
+    "subheading": "Co říkají pacienti",
+    "body": "Přečtěte si zkušenosti lidí, kteří prošli léčbou u nás — v jejich slovech najdete víc než v jakékoli reklamě.",
+    "items": [
+      {
+        "author": "Veronika K.",
+        "handle": "@veruchick",
+        "text": "Nikdy jsem si nemyslela, že budu mít rovné zuby, aniž bych to celou dobu přiznávala. Invisalign byl naprosto nenápadný a výsledek předčil moje očekávání. Doporučuji každému, kdo váhá.",
+        "rating": 5
+      },
+      {
+        "author": "Tomáš M.",
+        "handle": "@tomas_m",
+        "text": "Přišel jsem jako dospělý se špatným chrupem a odcházel jsem po roce a půl s úsměvem, který mi dodává sebevědomí. Tým je profesionální, vstřícný a celý průběh byl jasně vysvětlený.",
+        "rating": 5
+      },
+      {
+        "author": "Jana S.",
+        "handle": "@janasm",
+        "text": "Syn se léčby bál, ale tady ho vždy přivítali s úsměvem a trpělivostí. Výsledek je skvělý, průběh bezbolestný. Moc děkujeme celému týmu za péči a lidský přístup.",
+        "rating": 5
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Začněte ještě dnes",
+    "subheading": "Objednání",
+    "body": "První konzultace je zdarma a nezávazná. Stačí nás kontaktovat — online, telefonicky nebo e-mailem.",
+    "phone": "+420 704 123 456",
+    "email": "ordinace@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pá 8:00–18:00",
+    "ctaText": "Objednat se online",
+    "bookingHref": "#",
+    "mapLat": "50.0755",
+    "mapLng": "14.4378"
+  },
+  "footer": {
+    "siteName": "Premium Care",
+    "tagline": "Ortodontická klinika · Praha",
+    "phone": "+420 704 123 456",
+    "email": "ordinace@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pá 8:00–18:00",
+    "ico": "12345678",
+    "igHref": "https://instagram.com/demo",
+    "fbHref": "https://facebook.com/demo",
+    "links": [
+      { "label": "Rovnátka",        "href": "#sluzby" },
+      { "label": "Ostatní služby",  "href": "#sluzby" },
+      { "label": "Průvodce léčbou","href": "#proces" },
+      { "label": "O nás",           "href": "#about" },
+      { "label": "Kontakt",         "href": "#kontakt" }
+    ],
+    "copyright": "© 2025 Premium Care s.r.o. Všechna práva vyhrazena."
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "hotel-02",
+  "name": "Demo Hotel Atlantis",
+  "industry": "hotel",
+  "skeleton": "gastro",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Moderní wellness hotel u přehrady — Montserrat + Cormorant Garamond, steel-gray #96A1AC. Transparentní navbar s bílým border, fullscreen image slider hero s booking widgetem, 2-col about, numbered features, alternating rooms, package offers, gallery slider, tmavý footer. Inspirováno hotel-atlantis.cz.",
+  "sectionOrderNote": "Navbar → Hero → About → Features → Rooms → Packages → Gallery → Footer",
+  "skippedSections": [
+    {
+      "pos": 4,
+      "name": "Menu",
+      "reason": "Hotel nemá ceník/menu na homepage — pokoje jsou prezentovány v services sekci"
+    },
+    {
+      "pos": 6,
+      "name": "Reservations/CTA",
+      "reason": "Rezervace probíhá přes booking widget v hero a tlačítka u pokojů — bez samostatné CTA sekce"
+    },
+    {
+      "pos": 7,
+      "name": "Locations",
+      "reason": "Kontakt je v footeru + adresa je součástí footer sekce — bez samostatné kontaktní sekce"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Originál hotel-atlantis.cz nemá recenze na homepage"
+    },
+    {
+      "pos": 9,
+      "name": "Contact",
+      "reason": "Kontakt je odkazován z navigace a footeru, bez samostatné kontaktní sekce na homepage"
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Originál hotel-atlantis.cz nemá FAQ na homepage"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "stats",
+      "reason": "Numbered features sekce '01/02/03/04 Proč si pobyt u nás skvěle užijete?' — odpovídá s-features-cols originálu"
+    },
+    {
+      "type": "services",
+      "reason": "Alternating rooms sekce — pokoje střídavě vlevo/vpravo, každý s foto+popis+2CTA"
+    },
+    {
+      "type": "promo",
+      "reason": "Balíčky sekce — 2 pakety s fotem, platností a CTA (odpovídá s-offers-slider-images originálu)"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",   "variant": "hotel-02-navbar",   "contentRef": "navbar"   },
+        { "type": "hero",     "variant": "hotel-02-hero",     "contentRef": "hero"     },
+        { "type": "about",    "variant": "hotel-02-about",    "contentRef": "about"    },
+        { "type": "stats",    "variant": "hotel-02-features", "contentRef": "features" },
+        { "type": "services", "variant": "hotel-02-rooms",    "contentRef": "rooms"    },
+        { "type": "promo",    "variant": "hotel-02-packages", "contentRef": "packages" },
+        { "type": "gallery",  "variant": "hotel-02-gallery",  "contentRef": "gallery"  },
+        { "type": "footer",   "variant": "hotel-02-footer",   "contentRef": "footer"   }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

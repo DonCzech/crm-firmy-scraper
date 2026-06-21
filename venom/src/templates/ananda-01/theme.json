@@ -1,0 +1,27 @@
+{
+  "colors": {
+    "primary":    "#AA813A",
+    "secondary":  "#2A9ABC",
+    "background": "#F2EDE4",
+    "surface":    "#ffffff",
+    "text":       "#334155",
+    "textMuted":  "#64748b",
+    "accent":     "#AA813A",
+    "border":     "#e2d8cc"
+  },
+  "typography": {
+    "fontHeading": "Jost",
+    "fontBody":    "Jost",
+    "scale":       "comfortable"
+  },
+  "radius": {
+    "sm":   "4px",
+    "md":   "8px",
+    "lg":   "16px",
+    "pill": "999px"
+  },
+  "spacing": {
+    "personality": "spacious",
+    "section":     "airy"
+  }
+}

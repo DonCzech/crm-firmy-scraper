@@ -1,0 +1,116 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "elektro-01",
+  "name": "Demo Elektro",
+  "industry": "elektro",
+  "skeleton": "b2b-trade",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Elektroinstalace a hromosvody — živnostník/OSVČ. Tmavý červený gradient hero, Montserrat font, červený #dd0808 akcent, tmavá #1b1b1b, shape divider SVG. Navbar transparentní→bílý scroll, 2 service karty, galerie realizací, kontakt+formulář, mapa okruhu působení. Inspirováno elektro-bohacek.cz.",
+  "sectionOrderNote": "Navbar → Hero → Services → Gallery → Contact → Map → CTA → Footer",
+  "skippedSections": [
+    {
+      "pos": 4,
+      "name": "About",
+      "reason": "Živnostník — sekce O nás je nahrazena krátkým hero textem; originál tuto sekci nemá"
+    },
+    {
+      "pos": 5,
+      "name": "Blog",
+      "reason": "Živnostník nemá blog — obsah zastaralý nebo chybí"
+    },
+    {
+      "pos": 6,
+      "name": "Pricing",
+      "reason": "Ceny jsou individuální dle rozsahu zakázky"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Originál elektrobohacek nemá sekci recenzí — pouze galerie realizací"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál elektrobohacek nemá FAQ sekci"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "contact",
+      "reason": "Kontaktní formulář je součástí homepage jako finální kontaktní blok a zároveň standalone /kontakt stránka"
+    },
+    {
+      "type": "map",
+      "reason": "Okruh působení — mapa regionu Praha a Středočeský kraj"
+    },
+    {
+      "type": "cta",
+      "reason": "Nezávazná poptávka — samostatný formulář blok před patičkou"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",  "variant": "elektro-01-navbar",   "contentRef": "navbar"  },
+        { "type": "hero",    "variant": "elektro-01-hero",     "contentRef": "hero"    },
+        { "type": "services","variant": "elektro-01-services", "contentRef": "services"},
+        { "type": "gallery", "variant": "elektro-01-gallery",  "contentRef": "gallery" },
+        { "type": "contact", "variant": "elektro-01-contact",  "contentRef": "contact" },
+        { "type": "map",     "variant": "elektro-01-map",      "contentRef": "map"     },
+        { "type": "cta",     "variant": "elektro-01-cta-form", "contentRef": "cta"     },
+        { "type": "footer",  "variant": "elektro-01-footer",   "contentRef": "footer"  }
+      ]
+    },
+    {
+      "slug": "elektroinstalace",
+      "title": "Elektroinstalace",
+      "seoTitleKey": "pages.elektroinstalace.seoTitle",
+      "seoDescriptionKey": "pages.elektroinstalace.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "elektro-01-navbar",          "contentRef": "navbar"                             },
+        { "type": "hero",    "variant": "hero-centered",              "contentRef": "pages.elektroinstalace.hero"        },
+        { "type": "services","variant": "elektro-01-services-detail", "contentRef": "pages.elektroinstalace.servicesDetail" },
+        { "type": "gallery", "variant": "elektro-01-gallery",         "contentRef": "gallery"                            },
+        { "type": "contact", "variant": "elektro-01-contact",         "contentRef": "contact"                            },
+        { "type": "footer",  "variant": "elektro-01-footer",          "contentRef": "footer"                             }
+      ]
+    },
+    {
+      "slug": "hromosvody",
+      "title": "Hromosvody",
+      "seoTitleKey": "pages.hromosvody.seoTitle",
+      "seoDescriptionKey": "pages.hromosvody.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "elektro-01-navbar",          "contentRef": "navbar"                         },
+        { "type": "hero",    "variant": "hero-centered",              "contentRef": "pages.hromosvody.hero"          },
+        { "type": "services","variant": "elektro-01-services-detail", "contentRef": "pages.hromosvody.servicesDetail"},
+        { "type": "gallery", "variant": "elektro-01-gallery",         "contentRef": "gallery"                        },
+        { "type": "contact", "variant": "elektro-01-contact",         "contentRef": "contact"                        },
+        { "type": "footer",  "variant": "elektro-01-footer",          "contentRef": "footer"                         }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "elektro-01-navbar",  "contentRef": "navbar"  },
+        { "type": "contact", "variant": "elektro-01-contact", "contentRef": "contact" },
+        { "type": "map",     "variant": "elektro-01-map",     "contentRef": "map"     },
+        { "type": "footer",  "variant": "elektro-01-footer",  "contentRef": "footer"  }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

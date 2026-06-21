@@ -1,0 +1,175 @@
+{
+  "navbar": {
+    "siteName": "Power Fitness",
+    "logoUrl": "/logos/power-fitness-logo.svg",
+    "ctaText": "Skupinové lekce",
+    "ctaHref": "#lekce",
+    "links": [
+      { "label": "Úvod",         "href": "#" },
+      { "label": "O nás",        "href": "#o-nas" },
+      { "label": "Lekce",        "href": "#lekce" },
+      { "label": "Galerie",      "href": "#galerie" },
+      { "label": "Kontakt",      "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "title": "Síla začíná tady",
+    "tagline": "Nejsme jen posilovna. Jsme POWER FITNESS!",
+    "headline": "Síla začíná\ntady",
+    "body": "Moderní vybavení, zkušení trenéři a motivující prostředí — vše, co potřebuješ k dosažení svých cílů. Ať jde o sílu, kondici nebo zdravý životní styl.",
+    "ctaText": "Skupinové lekce",
+    "ctaHref": "#lekce",
+    "ctaSecondaryText": "Akce a novinky",
+    "ctaSecondaryHref": "#o-nas",
+    "image": "/images/fitness-02/hero.webp"
+  },
+  "stats": {
+    "items": [
+      { "number": "4",    "suffix": "",  "label": "Pobočky" },
+      { "number": "25",   "suffix": "+", "label": "Trenérů" },
+      { "number": "8",    "suffix": "+", "label": "Let na trhu" },
+      { "number": "1500", "suffix": "+", "label": "Aktivních klientů" }
+    ]
+  },
+  "about": {
+    "tagline": "Od roku 2017",
+    "title": "Nejsme jen posilovna. Jsme POWER FITNESS!",
+    "body": "V Power Fitness spojujeme špičkové vybavení, profesionální tým a přátelskou atmosféru. Pomůžeme ti dosáhnout výsledků — ať trénuješ poprvé nebo jsi ostřílený sportovec.",
+    "body2": "U nás nejde jen o výkon. Jde o pohyb, který tě baví, a prostředí, kam se budeš chtít vracet každý den.",
+    "ctaText": "Více o nás",
+    "ctaHref": "#lekce",
+    "image": "/images/fitness-02/about-trainer.webp",
+    "image2": "/images/fitness-02/about-reception.webp"
+  },
+  "services": {
+    "tagline": "Skupinové lekce",
+    "title": "Cvičení pro každého",
+    "body": "Vyberte si z naší pestré nabídky skupinových lekcí vedených certifikovanými instruktory.",
+    "ctaText": "Rezervovat lekci",
+    "ctaHref": "#kontakt",
+    "services": [],
+    "items": [
+      {
+        "name": "Silový trénink",
+        "title": "Silový trénink",
+        "description": "Buduj sílu a formuj postavu pod vedením zkušených trenérů.",
+        "image": "/images/fitness-02/service-silovy.webp",
+        "tag": "Síla"
+      },
+      {
+        "name": "Jóga",
+        "title": "Jóga",
+        "description": "Harmonizuj tělo i mysl s naší jógou pro všechny úrovně.",
+        "image": "/images/fitness-02/service-joga.webp",
+        "tag": "Wellness"
+      },
+      {
+        "name": "Kruhový trénink",
+        "title": "Kruhový trénink",
+        "description": "Intenzivní skupinový trénink, který zrychlí metabolismus a zpevní celé tělo.",
+        "image": "/images/fitness-02/service-kruhovy.webp",
+        "tag": "Kondice"
+      },
+      {
+        "name": "Zumba",
+        "title": "Zumba",
+        "description": "Tancuj a cvič zároveň! Zumba baví a efektivně spaluje kalorie.",
+        "image": "/images/fitness-02/service-zumba.webp",
+        "tag": "Tanec"
+      },
+      {
+        "name": "Bojová umění",
+        "title": "Bojová umění",
+        "description": "MMA, box i sebeobrana pro děti i dospělé. Rozvíjej sílu, koordinaci a sebedisciplínu.",
+        "image": "/images/fitness-02/service-mma.webp",
+        "tag": "MMA"
+      },
+      {
+        "name": "Běh & Kardio",
+        "title": "Běh & Kardio",
+        "description": "Zlepši kondici a vydržlivost s naším kardiofitness programem.",
+        "image": "/images/fitness-02/service-kardio.webp",
+        "tag": "Kardio"
+      }
+    ]
+  },
+  "gallery": {
+    "tagline": "Naše centra",
+    "title": "Moderní vybavení, přátelská atmosféra",
+    "images": [
+      { "url": "/images/fitness-02/gallery-1.webp",  "alt": "Power Fitness — posilovací stroje" },
+      { "url": "/images/fitness-02/gallery-2.webp",  "alt": "Power Fitness — činky a volné váhy" },
+      { "url": "/images/fitness-02/gallery-3.webp",  "alt": "Power Fitness — bench press" },
+      { "url": "/images/fitness-02/gallery-4.webp",  "alt": "Power Fitness — kardio zóna" },
+      { "url": "/images/fitness-02/gallery-5.webp",  "alt": "Power Fitness — běžecké pásy" },
+      { "url": "/images/fitness-02/gallery-6.webp",  "alt": "Power Fitness — interiér centra" },
+      { "url": "/images/fitness-02/gallery-7.webp",  "alt": "Power Fitness — velká hala" },
+      { "url": "/images/fitness-02/gallery-8.webp",  "alt": "Power Fitness — vybavení" },
+      { "url": "/images/fitness-02/gallery-9.webp",  "alt": "Power Fitness — silová zóna" },
+      { "url": "/images/fitness-02/gallery-10.webp", "alt": "Power Fitness — trénink" }
+    ]
+  },
+  "contact": {
+    "tagline": "Kontakt",
+    "title": "Vyber si svou pobočku",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pá 6:00–22:00, So–Ne 8:00–20:00",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "locations": [
+      {
+        "name": "Power Fitness Centrum",
+        "address": "Ukázková 123, 110 00 Praha 1",
+        "phone": "704 123 456",
+        "email": "email@demo.cz",
+        "hours": "Po–Pá 6:00–22:00, So–Ne 8:00–20:00",
+        "image": "/images/fitness-02/location-centrum.webp"
+      },
+      {
+        "name": "Power Fitness Nusle",
+        "address": "Ukázková 456, 140 00 Praha 4",
+        "phone": "704 654 321",
+        "email": "info@demo.cz",
+        "hours": "Po–Pá 6:00–22:00, So–Ne 8:00–20:00",
+        "image": "/images/fitness-02/location-nusle.webp"
+      },
+      {
+        "name": "Power Fitness Záběhlice",
+        "address": "Ukázková 789, 110 00 Praha 1",
+        "phone": "704 123 456",
+        "email": "rezervace@demo.cz",
+        "hours": "Po–Pá 6:00–22:00, So–Ne 8:00–20:00",
+        "image": "/images/fitness-02/location-zabelice.webp"
+      },
+      {
+        "name": "Power Fitness Smíchov",
+        "address": "Ukázková 321, 150 00 Praha 5",
+        "phone": "704 999 888",
+        "email": "smichov@demo.cz",
+        "hours": "Po–Pá 6:00–22:00, So–Ne 8:00–20:00",
+        "image": "/images/fitness-02/location-smichov.webp"
+      }
+    ]
+  },
+  "footer": {
+    "siteName": "Power Fitness",
+    "tagline": "Moderní fitness centra v Praze",
+    "logoUrl": "/logos/power-fitness-logo.svg",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pá 6:00–22:00, So–Ne 8:00–20:00",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "copyright": "© 2025 Power Fitness. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "Úvod",    "href": "#" },
+      { "label": "O nás",   "href": "#o-nas" },
+      { "label": "Lekce",   "href": "#lekce" },
+      { "label": "Galerie", "href": "#galerie" },
+      { "label": "Kontakt", "href": "#kontakt" }
+    ]
+  }
+}

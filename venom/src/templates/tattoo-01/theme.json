@@ -1,0 +1,27 @@
+{
+  "colors": {
+    "primary":    "#ff5c4b",
+    "secondary":  "#000000",
+    "background": "#ffffff",
+    "surface":    "#f7f7f7",
+    "text":       "#000000",
+    "textMuted":  "#666666",
+    "accent":     "#ff5c4b",
+    "border":     "#e4e4e4"
+  },
+  "typography": {
+    "fontHeading": "sans-serif",
+    "fontBody":    "sans-serif",
+    "scale":       "default"
+  },
+  "radius": {
+    "sm":   "0px",
+    "md":   "0px",
+    "lg":   "0px",
+    "pill": "0px"
+  },
+  "spacing": {
+    "personality": "normal",
+    "section":     "normal"
+  }
+}

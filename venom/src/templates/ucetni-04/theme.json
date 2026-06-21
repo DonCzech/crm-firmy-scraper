@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary":    "#1B3A6B",
+    "secondary":  "#C8923A",
+    "accent":     "#C8923A",
+    "background": "#ffffff",
+    "surface":    "#F8F9FB",
+    "text":       "#1a2332",
+    "textMuted":  "#6b7280",
+    "border":     "#e5e7eb"
+  },
+  "typography": {
+    "fontHeading": "'Inter', 'Montserrat', 'Helvetica Neue', Arial, sans-serif",
+    "fontBody":    "'Inter', 'Helvetica Neue', Arial, sans-serif"
+  }
+}

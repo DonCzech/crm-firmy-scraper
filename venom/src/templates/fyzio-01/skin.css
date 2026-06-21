@@ -1,0 +1,31 @@
+/* fyzio-01 — Demo Fyzio Centrum
+   Fyzioterapeutická klinika
+   Navy #1f2d69 · Green #10d15d · Teal #6bbea1 · Open Sans + Montserrat
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+
+:root {
+  --color-primary:    #1f2d69;
+  --color-secondary:  #6bbea1;
+  --color-background: #ffffff;
+  --color-surface:    #f5f8fc;
+  --color-text:       #333333;
+  --color-text-muted: #666666;
+  --color-accent:     #10d15d;
+  --color-border:     #e8edf5;
+
+  --font-heading: 'Montserrat', sans-serif;
+  --font-body:    'Open Sans', sans-serif;
+
+  --radius:     4px;
+  --radius-sm:  3px;
+  --radius-lg:  8px;
+  --radius-pill: 99px;
+}
+
+[data-template="fyzio-01"],
+[data-template="fyzio-01-topbar"] {
+  font-family: var(--font-body);
+  color: var(--color-text);
+}

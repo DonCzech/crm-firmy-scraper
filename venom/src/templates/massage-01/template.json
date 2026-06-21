@@ -1,0 +1,41 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "massage-01",
+  "name": "Demo Masáže Praha",
+  "industry": "wellness",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Prémiové masážní studio, tmavý luxury styl #0A0A0A + gold #C9A962, Cormorant Garamond + Inter — fullwidth hero, 3-col services, 2-col therapist about, reviews, instagram gallery, contact+map. Inspirováno praha-masaze.cz.",
+  "sectionOrderNote": "Navbar → Hero → Services (3-col) → About/Therapist (2-col) → Testimonials (3-col) → Gallery (4-col) → Contact → Footer",
+  "skippedSections": [
+    { "pos": 5,  "name": "Pricing",     "reason": "Praha-masaze.cz nemá ceník na homepage — je na podstránce /cenik-masazi" },
+    { "pos": 7,  "name": "Team",        "reason": "Studio má jediného terapeuta — profil je součástí About sekce" },
+    { "pos": 9,  "name": "Booking/CTA", "reason": "Rezervace probíhá přes telefon v navbaru, bez samostatné CTA sekce" },
+    { "pos": 11, "name": "FAQ",         "reason": "Originál nemá FAQ sekci" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "massage-01-navbar",            "contentRef": "navbar" },
+        { "type": "hero",         "variant": "hero-massage-01-fullbleed",    "contentRef": "hero" },
+        { "type": "services",     "variant": "massage-01-services-3col",     "contentRef": "services" },
+        { "type": "about",        "variant": "about-massage-01-therapist",   "contentRef": "about" },
+        { "type": "testimonials", "variant": "massage-01-testimonials-3col", "contentRef": "testimonials" },
+        { "type": "gallery",      "variant": "massage-01-gallery-insta",     "contentRef": "gallery" },
+        { "type": "contact",      "variant": "contact-massage-01",           "contentRef": "contact" },
+        { "type": "footer",       "variant": "massage-01-footer",            "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

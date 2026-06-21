@@ -1,0 +1,68 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "arbo-01",
+  "name": "Demo Lesarb",
+  "industry": "arbo",
+  "skeleton": "b2b-trade",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Arboristika & lesnické práce — certifikovaní specialisté. Bílý navbar s plovoucím kontejnerem nad sliderem, 8-slide fullscreen hero slider, 3 service karty, certificate/about sekce na světle-zelené ploše, testimonials slider, asymetrická galerie, dark-green info + footer. Inspirováno lesarb.cz.",
+  "sectionOrderNote": "Navbar → Hero → Services → About → Testimonials → Gallery → Contact → Footer",
+  "skippedSections": [
+    {
+      "pos": 6,
+      "name": "Pricing",
+      "reason": "Ceny jsou individuální — nabídky po poptávce, bez ceníku"
+    },
+    {
+      "pos": 7,
+      "name": "FAQ",
+      "reason": "Originál lesarb.cz nemá FAQ sekci na homepage"
+    },
+    {
+      "pos": 9,
+      "name": "Contact/CTA",
+      "reason": "Nahrazeno info sekcí (type=contact) s 3-col dark-green info blokem"
+    },
+    {
+      "pos": 10,
+      "name": "Service area",
+      "reason": "Oblast je uvedena v contact sekci, bez mapy"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál lesarb.cz FAQ sekci na homepage nemá"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "contact",
+      "reason": "Dark-green info blok se 3 sloupci: kontakty / navigace / služby — odpovídá .l-info sekci originálu"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",       "variant": "arbo-01-navbar",       "contentRef": "navbar"       },
+        { "type": "hero",         "variant": "arbo-01-hero",         "contentRef": "hero"         },
+        { "type": "services",     "variant": "arbo-01-services",     "contentRef": "services"     },
+        { "type": "about",        "variant": "arbo-01-about",        "contentRef": "about"        },
+        { "type": "testimonials", "variant": "arbo-01-testimonials", "contentRef": "testimonials" },
+        { "type": "gallery",      "variant": "arbo-01-gallery",      "contentRef": "gallery"      },
+        { "type": "contact",      "variant": "arbo-01-contact",      "contentRef": "contact"      },
+        { "type": "footer",       "variant": "arbo-01-footer",       "contentRef": "footer"       }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

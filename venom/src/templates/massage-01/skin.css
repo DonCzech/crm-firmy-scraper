@@ -1,0 +1,20 @@
+/* massage-01 — Demo Masáže Praha */
+/* Originál: design reference — tmavý luxury wellness, gold #C9A962, Cormorant Garamond */
+[data-template="massage-01"] {
+  --color-bg:             #0A0A0A;
+  --color-surface:        #141414;
+  --color-card:           #1A1A1A;
+  --color-border:         #2A2520;
+  --color-border-subtle:  #1A1815;
+  --color-gold:           #C9A962;
+  --color-gold-dim:       rgba(201, 169, 98, 0.25);
+  --color-text:           #F5F0E8;
+  --color-text-secondary: #A09888;
+  --color-text-muted:     #6A6058;
+  --font-body:            'Inter', sans-serif;
+  --font-heading:         'Cormorant Garamond', serif;
+  --section-padding-y:    100px;
+  --section-padding-x:    80px;
+  --container-width:      1280px;
+  --transition:           0.25s ease;
+}

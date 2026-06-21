@@ -1,0 +1,70 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "reality-02",
+  "name": "Demo FER Makléři",
+  "industry": "reality",
+  "skeleton": "real-estate",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Realitní matchmaker portál — bílý sticky navbar s dark-teal #05303a texty, light-green gradient hero s 4 property-type kartami (Byt/Dům/Pozemek/Jiné) a primárním #3DCE78 CTA; numbered 4-step process sekce, 4 benefits, agent-criteria list, dark-teal footer s nav sloupci. Inspirováno fermakleri.cz.",
+  "sectionOrderNote": "Navbar → Hero → Steps (Jak fungujeme) → Benefits (Proč s námi) → Agents (Kteří makléři) → CTA → Blog → Footer",
+  "skippedSections": [
+    { "pos": 3, "name": "Listings",     "reason": "Portál nemá výpis nemovitostí — doporučuje makléře, ne konkrétní nemovitosti" },
+    { "pos": 4, "name": "About/Team",   "reason": "Tým není součástí homepage originálu fermakleri.cz" },
+    { "pos": 7, "name": "Testimonials", "reason": "Recenze nejsou součástí primárního homepage flow" },
+    { "pos": 9, "name": "FAQ",          "reason": "FAQ není v homepage flow originálu" }
+  ],
+  "extraSections": [
+    { "name": "Jak fungujeme – 4 kroky", "type": "promo",        "variant": "reality-02-steps",    "reason": "Numbered 4-step process section specifická pro reality matchmaker portál" },
+    { "name": "Proč prodávat s námi",    "type": "about",        "variant": "reality-02-benefits", "reason": "4 benefit boxes s ikonami — originál fermakleri.cz" },
+    { "name": "Kritéria makléřů",        "type": "services",     "variant": "reality-02-agents",   "reason": "5-item criteria list pro makléře v portálu" },
+    { "name": "Blog preview",            "type": "blog-preview", "variant": "reality-02-blog",     "reason": "3-col karty s fotkami, category tagy, zelené CTA — Poctivý Makléř blog" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "reality-02-navbar",   "contentRef": "navbar" },
+        { "type": "hero",         "variant": "reality-02-hero",     "contentRef": "hero" },
+        { "type": "promo",        "variant": "reality-02-steps",    "contentRef": "steps" },
+        { "type": "about",        "variant": "reality-02-benefits", "contentRef": "benefits" },
+        { "type": "services",     "variant": "reality-02-agents",   "contentRef": "agents" },
+        { "type": "cta",          "variant": "reality-02-cta",      "contentRef": "cta" },
+        { "type": "blog-preview", "variant": "reality-02-blog",     "contentRef": "blogPreview" },
+        { "type": "footer",       "variant": "reality-02-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar", "variant": "reality-02-navbar",   "contentRef": "navbar" },
+        { "type": "hero",   "variant": "hero-centered",        "contentRef": "pages.o-nas.hero" },
+        { "type": "about",  "variant": "reality-02-benefits", "contentRef": "benefits" },
+        { "type": "footer", "variant": "reality-02-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "reality-02-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "reality-02-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "reality-02-footer",  "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

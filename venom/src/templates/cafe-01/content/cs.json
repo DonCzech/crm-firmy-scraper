@@ -14,8 +14,8 @@
       { "label": "O nás", "href": "/o-nas" },
       { "label": "Kontakt", "href": "/kontakt" }
     ],
-    "pinIcon": "/clones/costa/src/themes/template/build/icon-pin.svg",
-    "userIcon": "/clones/costa/src/themes/template/build/icon-user.svg",
+    "pinIcon": "/assets/cafe-01/27659b6e42-icon-pin.svg",
+    "userIcon": "/assets/cafe-01/f6114d5976-icon-user.svg",
     "loginLabel": "Přihlásit",
     "loginHref": "/prihlaseni",
     "locationsHref": "/kavarny"
@@ -26,7 +26,7 @@
     "subtitle": "Objevte novinky v naší kavárně",
     "ctaText": "Zjistit více",
     "ctaHref": "/nabidka",
-    "backgroundImage": "/clones/costa/src/themes/template/build/COSTA_banner_2026_05_1600x640_06.webp"
+    "backgroundImage": "/assets/cafe-01/2100b6d926-COSTA_banner_2026_05_1600x640_06.webp"
   },
 
   "about": {

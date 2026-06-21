@@ -1,0 +1,44 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "ananda-01",
+  "name": "Demo Ananda SPA",
+  "industry": "wellness",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Ájurvédské SPA, gold #AA813A + modrá #2A9ABC, cream #F2EDE4, font Jost — promo bar + fixní navbar, hero slider, nabídka, o nás, kontakt. Inspirováno anandaspa.cz.",
+  "sectionOrderNote": "Navbar → Hero → About → Services → Testimonials → Contact → FAQ → Footer",
+  "skippedSections": [
+    { "pos": 5,  "name": "Pricing",     "reason": "Ájurvédské SPA neuvádí ceník na webu — ceny na vyžádání / individuální nabídka" },
+    { "pos": 6,  "name": "Gallery",     "reason": "Galerie není součástí anandaspa.cz homepage — procedury prezentovány kartami v Services" },
+    { "pos": 7,  "name": "Team",        "reason": "Terapeuti nejsou jmenovitě prezentováni — pouze zmínka o indických odbornících v highlights" },
+    { "pos": 9,  "name": "Booking/CTA", "reason": "CTA je součástí Contact sekce (gold formulář) — samostatná CTA sekce není potřeba" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "ananda-01-navbar",          "contentRef": "navbar" },
+        { "type": "hero",         "variant": "ananda-01-hero-slider",     "contentRef": "hero" },
+        { "type": "about",        "variant": "ananda-01-highlights",      "contentRef": "highlights" },
+        { "type": "about",        "variant": "ananda-01-about-ayurveda",  "contentRef": "about" },
+        { "type": "about",        "variant": "ananda-01-benefits",        "contentRef": "benefits" },
+        { "type": "services",     "variant": "ananda-01-services",        "contentRef": "services" },
+        { "type": "testimonials", "variant": "ananda-01-testimonials",    "contentRef": "testimonials" },
+        { "type": "about",        "variant": "ananda-01-hotels",          "contentRef": "hotels" },
+        { "type": "faq",          "variant": "ananda-01-faq",             "contentRef": "faq" },
+        { "type": "contact",      "variant": "ananda-01-contact",         "contentRef": "contact" },
+        { "type": "footer",       "variant": "ananda-01-footer",          "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

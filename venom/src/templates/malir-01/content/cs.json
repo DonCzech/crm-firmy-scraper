@@ -1,0 +1,170 @@
+{
+  "navbar": {
+    "siteName": "Malířské práce",
+    "logoUrl": "/templates/malir-01/logo.svg",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "links": [
+      { "label": "Úvod",         "href": "/" },
+      { "label": "Malování",     "href": "/malování" },
+      { "label": "Lakování",     "href": "/lakování" },
+      { "label": "Ceník",        "href": "/cenik" },
+      { "label": "Reference",    "href": "/reference" },
+      { "label": "Časté dotazy", "href": "#faq" },
+      { "label": "Kontakt",      "href": "/kontakt" }
+    ]
+  },
+  "hero": {
+    "title": "Váš domov si zaslouží\nto nejlepší provedení",
+    "subtitle": "Profesionální malování interiérů a lakování oken, dveří i nábytku. Praha a okolí.",
+    "ctaText": "Chci vymalovat",
+    "ctaHref": "#sluzby",
+    "ctaSecondaryText": "Chci nalakovat",
+    "ctaSecondaryHref": "#sluzby",
+    "images": [
+      "/templates/malir-01/malir-top.jpg",
+      "/templates/malir-01/malir-top-2.jpg",
+      "/templates/malir-01/malir-top-3.jpg",
+      "/templates/malir-01/malir-top-4.jpg"
+    ]
+  },
+  "about": {
+    "id": "o-nas",
+    "tagline": "O nás",
+    "title": "Kvalita, na kterou se\nmůžete spolehnout",
+    "body": "Věříme, že každý interiér si zaslouží pečlivé provedení. Pracujeme čistě, přesně a vždy dodržíme domluvený termín i cenu. Za 20 let praxe jsme vymalovali stovky bytů, kanceláří i rodinných domů — a každý zákazník od nás odešel spokojený.\n\nSpecializujeme se na malování interiérů a lakování dřevěných prvků. Používáme výhradně ověřené materiály předních značek, které zaručují dlouhou životnost a čistý výsledek bez žloutnutí."
+  },
+  "services": {
+    "id": "sluzby",
+    "tagline": "Naše služby",
+    "title": "Co pro vás uděláme",
+    "items": [
+      {
+        "name": "Malování",
+        "description": "Interiér i exteriér",
+        "image": "/templates/malir-01/xroad-malovani.jpg",
+        "ctaText": "Mám zájem",
+        "ctaHref": "/malování"
+      },
+      {
+        "name": "Lakování",
+        "description": "Okna, dveře, nábytek...",
+        "image": "/templates/malir-01/xroad-lakovani.jpg",
+        "ctaText": "Mám zájem",
+        "ctaHref": "/lakování"
+      }
+    ]
+  },
+  "promo": {
+    "id": "benefity",
+    "tagline": "Proč si vybrat nás",
+    "title": "5 důvodů, proč nás zákazníci volí znovu",
+    "items": [
+      {
+        "icon": "📅",
+        "title": "Termín je termín",
+        "description": "Domluvený termín dodržíme vždy. Žádné výmluvy, žádné posuny bez předchozí domluvy."
+      },
+      {
+        "icon": "🪣",
+        "title": "Prémiové barvy",
+        "description": "Pracujeme s barvami Primalex, Dulux a Krasula. Výsledek vydrží roky bez žloutnutí a šednutí."
+      },
+      {
+        "icon": "🧹",
+        "title": "Uklidíme po sobě",
+        "description": "Zakryjeme nábytek a podlahy, po dokončení vše odkryjeme a uklidíme. Odcházíme, jako bychom tu nebyli."
+      },
+      {
+        "icon": "🛡️",
+        "title": "Záruka 2 roky",
+        "description": "Na všechny naše práce poskytujeme záruku 2 roky. Případné nedostatky opravíme zdarma."
+      },
+      {
+        "icon": "🎨",
+        "title": "Poradíme s barvami",
+        "description": "Nejste si jisti odstínem? Pomůžeme vám vybrat barvu, která bude sedět k vašemu nábytku i světlu."
+      }
+    ]
+  },
+  "faq": {
+    "id": "faq",
+    "tagline": "Otázky a odpovědi",
+    "title": "Časté dotazy",
+    "subtitle": "Nejčastější otázky zákazníků před objednávkou. Nenašli jste odpověď? Zavolejte nám.",
+    "items": [
+      {
+        "question": "Jak rychle se dostanu na termín?",
+        "answer": "Běžná čekací doba je 2–3 týdny. U menších zakázek (1–2 pokoje) jsme schopni nastoupit i dříve. Přesný termín domluvíme při nezávazné prohlídce nebo telefonicky."
+      },
+      {
+        "question": "Musím si zajistit barvy sám?",
+        "answer": "Ne, vše zajistíme za vás. V ceně zakázky je materiál — barvy Primalex nebo Dulux, penetrace i případná stěrka. Pokud máte specifický požadavek na značku nebo odstín, rádi ho splníme."
+      },
+      {
+        "question": "Jak se připravit na příchod malířů?",
+        "answer": "Stačí sundat ze zdí obrazy a závěsy. Vše ostatní — zakrytí nábytku, podlah i zárubní — zajistíme sami. Po skončení vše odkryjeme a odneseme odpad."
+      },
+      {
+        "question": "Jak stanovíte cenu zakázky?",
+        "answer": "Cenu vždy určujeme po osobní prohlídce nebo na základě fotografií a výměr. Základní orientační cena malování bytu 50 m² se pohybuje od 8 000 Kč včetně materiálu. Finální cena závisí na stavu povrchů a zvoleném materiálu."
+      },
+      {
+        "question": "Děláte také hladké stěrky?",
+        "answer": "Ano, stěrkování je naše specialita. Stěnu nejprve napenetrujeme, naneseme dvě vrstvy jemné stěrky a vybrousíme do hladka. Výsledek je stěna bez jediné nerovnosti — ideální pro moderní interiéry."
+      }
+    ]
+  },
+  "testimonials": {
+    "id": "hodnoceni",
+    "tagline": "Co říkají zákazníci",
+    "title": "Řekli o nás",
+    "subtitle": "Přečtěte si zkušenosti zákazníků. Všechna hodnocení si ověříte na Google.",
+    "googleRating": 4.9,
+    "googleReviewCount": 63,
+    "items": [
+      {
+        "text": "Přišli včas, pracovali rychle a čistě. Byt vypadá jako nový. Oceňuji, že vše zakryli a po sobě uklidili — ani koberec neměl flíček. Bez váhání doporučuji.",
+        "name": "Markéta V.",
+        "role": "Zákaznice, Praha 6"
+      },
+      {
+        "text": "Objednal jsem malování celého rodinného domu. Cena odpovídala nabídce, termín byl splněn přesně. Pánové byli ochotní, poradili s výběrem barev a výsledek předčil očekávání.",
+        "name": "Tomáš B.",
+        "role": "Zákazník, Praha-západ"
+      },
+      {
+        "text": "Rychlá reakce na poptávku, férová cena a profesionální provedení. Lakování oken dopadlo skvěle — vypadají jako nová. Určitě se obrátím znovu.",
+        "name": "Lenka H.",
+        "role": "Zákaznice, Praha 4"
+      }
+    ]
+  },
+  "footer": {
+    "siteName": "Malířské práce",
+    "logoUrl": "/templates/malir-01/logo.svg",
+    "tagline": "Malování a lakování — Praha a okolí",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "web": "https://demo.cz",
+    "ic": "12345678",
+    "copyright": "© 2025 Malířské práce",
+    "links": [
+      { "label": "Malování",  "href": "/malování" },
+      { "label": "Lakování",  "href": "/lakování" },
+      { "label": "Reference", "href": "/reference" },
+      { "label": "Kontakt",   "href": "/kontakt" }
+    ],
+    "social": {
+      "facebook":  "https://facebook.com/demo",
+      "instagram": "https://instagram.com/demo"
+    }
+  },
+  "pages": {
+    "kontakt": {
+      "seoTitle": "Kontakt | Malířské práce Praha",
+      "seoDescription": "Nezávazná cenová nabídka na malování interiérů a lakování oken a dveří. Volejte nebo napište."
+    }
+  }
+}

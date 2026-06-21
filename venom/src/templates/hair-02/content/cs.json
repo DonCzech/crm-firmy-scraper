@@ -22,8 +22,8 @@
   "hero": {
     "title": "Demo Hair Salon",
     "slides": [
-      { "image": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC0914.jpg",      "alt": "Recepce Demo Hair Salon" },
-      { "image": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC1087-1024x683.jpg", "alt": "Interiér salonu" }
+      { "image": "/assets/hair-02/4d26a316df-DSC0914.jpg",      "alt": "Recepce Demo Hair Salon" },
+      { "image": "/assets/hair-02/1c05a78aaf-DSC1087-1024x683.jpg", "alt": "Interiér salonu" }
     ],
     "ctaText": "On-line rezervace",
     "ctaHref": "#kontakt"
@@ -52,7 +52,7 @@
     "body": "Pokud hledáte řešení pro zdravější, silnější a krásnější vlasy, máme pro vás to pravé. Využíváme prémiové produkty a nejnovější techniky.",
     "ctaText": "zjistit více",
     "ctaHref": "#kontakt",
-    "image": "/clones/hairsalon-no1/wp-content/uploads/2025/03/IMG_0924.webp"
+    "image": "/assets/hair-02/19ca280349-IMG_0924.webp"
   },
   "contact-location": {
     "tag": "Demo Hair Salon",
@@ -62,19 +62,19 @@
     "ctaHref": "#kontakt",
     "phone": "+420 704 123 456",
     "email": "email@demo.cz",
-    "image": "/clones/hairsalon-no1/wp-content/uploads/2025/06/DSC1150-kopiya-e1750182526444.jpg"
+    "image": ""
   },
   "gallery": {
     "title": "Naše práce",
     "images": [
-      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC0914.jpg",       "alt": "Interiér demo salonu" },
-      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC1072.jpg",        "alt": "Kadeřnické křeslo" },
-      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC1106.jpg",        "alt": "Mytí vlasů" },
-      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC0929.jpg",        "alt": "Barvení vlasů" },
-      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC1300.webp",       "alt": "Střih a styling" },
-      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC1210.webp",       "alt": "Práce stylistky" },
-      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/04/DSC1598-3.webp",     "alt": "Balayage technika" },
-      { "url": "/clones/hairsalon-no1/wp-content/uploads/2025/03/IMG_0924.webp",      "alt": "Péče o vlasy" }
+      { "url": "/assets/hair-02/4d26a316df-DSC0914.jpg",       "alt": "Interiér demo salonu" },
+      { "url": "/assets/hair-02/e3869b8d3c-DSC1072.jpg",        "alt": "Kadeřnické křeslo" },
+      { "url": "/assets/hair-02/0e78010331-DSC1106.jpg",        "alt": "Mytí vlasů" },
+      { "url": "/assets/hair-02/6861d0ad18-DSC0929.jpg",        "alt": "Barvení vlasů" },
+      { "url": "/assets/hair-02/2239235813-DSC1300.webp",       "alt": "Střih a styling" },
+      { "url": "/assets/hair-02/10a80d4b76-DSC1210.webp",       "alt": "Práce stylistky" },
+      { "url": "/assets/hair-02/df609aaa4b-DSC1598-3.webp",     "alt": "Balayage technika" },
+      { "url": "/assets/hair-02/19ca280349-IMG_0924.webp",      "alt": "Péče o vlasy" }
     ]
   },
   "services": {
@@ -133,14 +133,14 @@
       "hero": {
         "title": "O nás",
         "subtitle": "Náš příběh a tým",
-        "backgroundImage": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC0914.jpg"
+        "backgroundImage": "/assets/hair-02/4d26a316df-DSC0914.jpg"
       }
     },
     "galerie": {
       "hero": {
         "title": "Galerie",
         "subtitle": "Nabízíme kompletní kadeřnické služby pro dámy, pány i děti. Pracujeme s prémiovými vlasovými produkty a ovládáme nejmodernější techniky barvení a zesvětlení.",
-        "backgroundImage": "/clones/hairsalon-no1/wp-content/uploads/2025/05/DSC1087-1024x683.jpg"
+        "backgroundImage": "/assets/hair-02/1c05a78aaf-DSC1087-1024x683.jpg"
       }
     }
   }

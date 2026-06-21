@@ -1,0 +1,168 @@
+{
+  "navbar": {
+    "siteName": "Demo Hybernská",
+    "logoUrl": "/templates/restaurant-02/logo.svg",
+    "ctaText": "Rezervace",
+    "ctaHref": "#kontakt",
+    "phone": "704 123 456",
+    "email": "rezervace@demo.cz",
+    "links": [
+      { "label": "Akce",           "href": "/akce" },
+      { "label": "O nás",          "href": "/o-nas" },
+      { "label": "Jídelní lístek", "href": "/menu" },
+      { "label": "Galerie",        "href": "/galerie" },
+      { "label": "Kontakt",        "href": "#kontakt" }
+    ]
+  },
+
+  "hero": {
+    "title": "Česká kuchyně\nv srdci Prahy.",
+    "subtitle": "Žebra, svíčková, polední menu a výborné koktejly.\nVítejte v Hybernské.",
+    "ctaText": "Rezervovat stůl",
+    "ctaHref": "#kontakt",
+    "ctaSecondaryText": "Jídelní lístek",
+    "ctaSecondaryHref": "/menu",
+    "slides": [
+      { "url": "https://images.unsplash.com/photo-1544025162-d76694265947?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 40%" },
+      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" },
+      { "url": "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center 60%" },
+      { "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1920&h=1080&fit=crop&fm=webp&q=85", "pos": "center center" }
+    ]
+  },
+
+  "about": {
+    "id": "o-nas",
+    "tagline": "Náš příběh",
+    "title": "Poctivá česká\nkuchyně od roku 1998.",
+    "body": "Vaříme z čerstvých lokálních surovin každý den. Naším posláním je přinášet hostům autentické chutě klasické české kuchyně — od konfitovaných žeber přes svíčkovou až po sezónní speciality.",
+    "body2": "K jídlu nabízíme výběr čepovaného piva, domácích vín a ručně míchané koktejly. Rádi uvítáme firemní skupiny, rodinné oslavy i každodenní hosty.",
+    "ctaText": "Více o nás",
+    "ctaHref": "/o-nas",
+    "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=85"
+  },
+
+  "services": {
+    "id": "menu",
+    "tagline": "Naše nabídka",
+    "title": "Co u nás najdete.",
+    "body": "Od poledního menu přes klasická česká jídla až po víkendové speciality — vždy čerstvé a poctivě připravené.",
+    "ctaText": "Celý jídelní lístek",
+    "ctaHref": "/menu",
+    "services": [],
+    "items": [
+      {
+        "name": "Polední menu",
+        "category": "Po–Pá 11:00–14:30",
+        "description": "Polévka + výběr ze 3 hlavních chodů každý den. Domácí kuchyně za dostupnou cenu.",
+        "image": "https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Zobrazit menu",
+        "ctaHref": "/menu"
+      },
+      {
+        "name": "Česká klasika",
+        "category": "À la carte",
+        "description": "Svíčková, konfitovaná žebra, vepřové koleno, guláš z vepřových líček — poctivě připravené podle tradičních receptů.",
+        "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Zobrazit menu",
+        "ctaHref": "/menu"
+      },
+      {
+        "name": "Nápoje & Koktejly",
+        "category": "Bar",
+        "description": "Točené pivo, výběr vín a ručně míchané koktejly. Každý den do posledního hosta.",
+        "image": "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Nápojový lístek",
+        "ctaHref": "/menu"
+      }
+    ]
+  },
+
+  "cta": {
+    "id": "rezervace",
+    "tagline": "Rezervujte si místo",
+    "title": "Přijďte ochutnat\npravou českou kuchyni.",
+    "body": "Rezervujte online nebo nás kontaktujte telefonicky. Rádi připravíme stůl pro firemní akce, narozeniny i rodinné oslavy.",
+    "ctaText": "Rezervovat stůl",
+    "ctaHref": "#kontakt",
+    "ctaSecondaryText": "Jídelní lístek",
+    "ctaSecondaryHref": "/menu",
+    "image": "https://images.unsplash.com/photo-1550966871-3ed3cbe818b0?w=1920&h=1080&fit=crop&fm=webp&q=85"
+  },
+
+  "contact": {
+    "id": "kontakt",
+    "tagline": "Kde nás najdete",
+    "title": "Kontakt\na rezervace",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "rezervace@demo.cz",
+    "hours": "Po–Pá 11:00–23:00, So–Ne 12:00–23:00",
+    "ctaText": "Rezervovat stůl",
+    "ctaHref": "mailto:rezervace@demo.cz",
+    "mapLat": "50.0875",
+    "mapLng": "14.4213",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo"
+  },
+
+  "footer": {
+    "siteName": "Demo Hybernská",
+    "logoUrl": "/templates/restaurant-02/logo.svg",
+    "tagline": "Česká kuchyně v srdci Prahy.",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "hours": "Po–Pá 11:00–23:00, So–Ne 12:00–23:00",
+    "ico": "12345678",
+    "web": "https://demo.cz",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "links": [
+      { "label": "Domů",            "href": "/" },
+      { "label": "Jídelní lístek",  "href": "/menu" },
+      { "label": "O nás",           "href": "/o-nas" },
+      { "label": "Kontakt",         "href": "/kontakt" },
+      { "label": "Ochrana osobních údajů", "href": "/gdpr" }
+    ]
+  },
+
+  "pages": {
+    "menu": {
+      "seoTitle":       "Jídelní lístek — Demo Hybernská",
+      "seoDescription": "Prohlédněte si náš jídelní lístek — česká klasika, polední menu a sezónní speciality.",
+      "hero": {
+        "title": "Jídelní lístek",
+        "subtitle": "Česká klasika připravená z čerstvých surovin."
+      },
+      "services": {
+        "id": "menu-kompletni",
+        "tagline": "Naše nabídka",
+        "title": "Co u nás najdete",
+        "services": [],
+        "items": []
+      }
+    },
+    "o-nas": {
+      "seoTitle":       "O nás — Demo Hybernská",
+      "seoDescription": "Příběh restaurace Hybernská — poctivá česká kuchyně v centru Prahy od roku 1998.",
+      "hero": {
+        "title": "Náš příběh",
+        "subtitle": "Poctivá česká kuchyně od roku 1998."
+      },
+      "about": {
+        "id": "pribeh",
+        "tagline": "Od roku 1998",
+        "title": "Tradice a poctivost\nv každém jídle.",
+        "body": "Začínali jsme jako malá rodinná restaurace v centru Prahy. Dnes vaříme pro stovky spokojených hostů každý den a na naší kuchyni se nic nezměnilo — stále vaříme poctivě a z čerstvých surovin.",
+        "body2": "Naší misí je zachovat tradice české gastronomie a nabídnout hostům domácí atmosféru v srdci velkoměsta.",
+        "ctaText": "Kontaktovat nás",
+        "ctaHref": "/kontakt",
+        "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=85"
+      }
+    },
+    "kontakt": {
+      "seoTitle":       "Kontakt & Rezervace — Demo Hybernská",
+      "seoDescription": "Rezervujte si stůl nebo nás kontaktujte. Ukázková 123, Praha 1."
+    }
+  }
+}

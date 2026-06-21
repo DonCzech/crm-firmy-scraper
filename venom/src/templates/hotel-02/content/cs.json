@@ -1,0 +1,164 @@
+{
+  "navbar": {
+    "siteName": "RELAX HOTEL",
+    "logoUrl": "/templates/hotel-02/logo.svg",
+    "phone": "+420 731 456 789",
+    "ctaText": "Rezervovat pobyt",
+    "ctaHref": "#kontakt",
+    "links": [
+      { "label": "Wellness",     "href": "#wellness"    },
+      { "label": "Ubytování",    "href": "#ubytovani"   },
+      { "label": "Gastronomie",  "href": "#gastro"      },
+      { "label": "Balíčky",      "href": "#balicky"     },
+      { "label": "Kongres",      "href": "#kongres"     },
+      { "label": "O hotelu",     "href": "#o-hotelu"    }
+    ]
+  },
+  "hero": {
+    "title": "Odpočinek, který si opravdu zasloužíte",
+    "subtitle": "Relax Hotel & Wellness",
+    "ctaText": "Zjistit více",
+    "ctaHref": "#o-hotelu",
+    "slides": [
+      {
+        "url": "/assets/hotel-02/540d4f92ea-c0v0f0ox25mcdpr-313230302e2e38302e31-daed713b-1920x1080-1.webp",
+        "alt": "Relax Hotel — exteriér"
+      },
+      {
+        "url": "/assets/hotel-02/8223b9996a-atlantis-101-fe9b6204-1920x1080-1.webp",
+        "alt": "Relax Hotel — interiér"
+      },
+      {
+        "url": "/assets/hotel-02/9433492da7-335-hroa-i-2cf831ce-1920x1080-1.webp",
+        "alt": "Relax Hotel — pokoje"
+      },
+      {
+        "url": "/assets/hotel-02/e88f679edc-congress-70a-05047f70-1920x1080-1.webp",
+        "alt": "Relax Hotel — kongresové prostory"
+      }
+    ]
+  },
+  "about": {
+    "eyebrow": "Vítejte v Relax Hotelu",
+    "title": "Místo, kde si každý host přijde na své",
+    "body": "Náš hotel nabízí 58 komfortně vybavených pokojů a apartmánů, rozlehlé wellness centrum s finskou saunou, parní lázní a vyhřívaným bazénem, dvě restaurace s regionální i mezinárodní kuchyní a moderní kongresové zázemí pro firemní akce až 200 osob. Vše v klidné přírodě, jen pár minut od centra města.",
+    "body2": "Přijeďte za odpočinkem, romantickým víkendem nebo pracovním setkáním. Náš tým se postará o každý detail tak, abyste odjížděli spokojení a s chutí se brzy vrátit.",
+    "imageUrl": "/assets/hotel-02/f464329507-dron-3-50a11035-460x575-1.webp",
+    "imageAlt": "Relax Hotel — pohled z ptačí perspektivy"
+  },
+  "features": {
+    "eyebrow": "Proč rezervovat přímo u nás?",
+    "title": "Nejlepší ceny a benefity získáte rezervací na našem webu",
+    "items": [
+      {
+        "number": "01",
+        "title": "Garantované nejlepší ceny",
+        "description": "Při přímé rezervaci vám zaručíme nejnižší dostupnou cenu bez skrytých poplatků. Navíc obdržíte welcome drink a časný check-in dle dostupnosti."
+      },
+      {
+        "number": "02",
+        "title": "Flexibilní podmínky",
+        "description": "Zrušení rezervace zdarma až 48 hodin před příjezdem. Žádný stres s plánováním — vaše dovolená, vaše pravidla."
+      },
+      {
+        "number": "03",
+        "title": "Wellness v ceně pobytu",
+        "description": "Každý hotelový host má neomezený přístup do celého wellness centra — sauny, bazén, relaxační zóna — bez jakéhokoliv příplatku."
+      },
+      {
+        "number": "04",
+        "title": "Osobní přístup",
+        "description": "Naše recepce je k dispozici 24 hodin denně. Rádi zajistíme transfery, výlety, masáže nebo speciální přání přímo na míru vašemu pobytu."
+      }
+    ]
+  },
+  "rooms": {
+    "eyebrow": "Ubytování",
+    "title": "Pohodlí, které ocení každý host",
+    "subtitle": "Od útulných dvoulůžkových pokojů až po luxusní apartmány — všechny prostory jsou zařízeny s důrazem na klid, eleganci a váš komfort.",
+    "services": [],
+    "items": [
+      {
+        "name": "Superior dvoulůžkový pokoj",
+        "description": "Vzdušný pokoj s výhledem do zahradního atria, king-size postelí, klimatizací a moderní koupelnou s walk-in sprchou. Ideální pro romantický pobyt i pracovní cestu.",
+        "image": "/assets/hotel-02/15ab1f15ae-atlantis-101-fe9b6204-960x1080-1.webp",
+        "moreHref": "#ubytovani",
+        "bookHref": "#kontakt"
+      },
+      {
+        "name": "Rodinný apartmán",
+        "description": "Prostorný apartmán se dvěma ložnicemi, obývacím pokojem a plně vybavenou kuchyňkou. Dokonalé zázemí pro rodiny s dětmi — dětská postýlka a hrazdičky k dispozici zdarma.",
+        "image": "/assets/hotel-02/4d9ef0d95d-img-0066-0b8e831e-600x540-1.webp",
+        "moreHref": "#ubytovani",
+        "bookHref": "#kontakt"
+      },
+      {
+        "name": "Wellness Suite s vířivkou",
+        "description": "Exkluzivní suite pro dva s privátní vířivkou na terase, romantickým osvětlením hvězdného nebe a přímým vstupem do wellness sekce hotelu. Nezapomenutelný zážitek zaručen.",
+        "image": "/assets/hotel-02/0ca62ce2fa-330-privat-spa-1292054d-600x540-1.webp",
+        "moreHref": "#ubytovani",
+        "bookHref": "#kontakt"
+      }
+    ]
+  },
+  "packages": {
+    "eyebrow": "Dárky, na které se nezapomíná",
+    "title": "Obdarujte blízké pobytem plným zážitků",
+    "items": [
+      {
+        "name": "Víkend plný pohody",
+        "validity": "Platnost celoročně",
+        "image": "/assets/hotel-02/f307708af5-relax-zoo-ctverec-c4e62b1a-385x330-1.webp",
+        "detailHref": "#balicky",
+        "bookHref": "#kontakt"
+      },
+      {
+        "name": "Romantický pobyt pro dva",
+        "validity": "Platnost celoročně",
+        "image": "/assets/hotel-02/5bc3eddd54-wellness-masaz-kolagenarium-3ku2-a43b902b-385x330-1.webp",
+        "detailHref": "#balicky",
+        "bookHref": "#kontakt"
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Nahlédněte k nám",
+    "images": [
+      { "url": "/assets/hotel-02/b340e5ae1c-dron-2-5f4cb0ce-640x400-1.webp", "alt": "Relax Hotel — pohled z dronu" },
+      { "url": "/assets/hotel-02/fef0cdf3e6-jprerovsky-hotel-atlantis-16a0148-e991e403-640x400-1.webp", "alt": "Relax Hotel — recepce a lobby" },
+      { "url": "/assets/hotel-02/e08eaad4aa-jprerovsky-hotel-atlantis-16a0544-d9849d18-640x400-1.webp", "alt": "Relax Hotel — hotelová restaurace" },
+      { "url": "/assets/hotel-02/66f98e4490-fotoatlantis-44-163f7a20-640x400-1.webp", "alt": "Relax Hotel — wellness centrum" },
+      { "url": "/assets/hotel-02/51df5f940d-a67i4325-e7463d41-640x400-1.webp", "alt": "Relax Hotel — vyhřívaný bazén" },
+      { "url": "/assets/hotel-02/cf8fdba30d-a67i4346-1b84930c-640x400-1.webp", "alt": "Relax Hotel — relaxační zóna" },
+      { "url": "/assets/hotel-02/06ac4a9077-206-a-71822dc8-640x400-1.webp", "alt": "Relax Hotel — hotelový pokoj" },
+      { "url": "/assets/hotel-02/58f44f82a4-jprerovsky-hotel-atlantis-pool-16a7546-5b69d838-640x400-1.webp", "alt": "Relax Hotel — venkovní bazén" }
+    ]
+  },
+  "footer": {
+    "siteName": "RELAX HOTEL",
+    "logoUrl": "/templates/hotel-02/logo.svg",
+    "tagline": "Váš oázou klidu a pohody",
+    "address": "Lázeňská 18",
+    "city": "360 01 Karlovy Vary",
+    "phone": "+420 731 456 789",
+    "phone2": "+420 731 456 700",
+    "email": "recepce@relaxhotel.cz",
+    "emailBooking": "rezervace@relaxhotel.cz",
+    "facebook": "https://facebook.com/relaxhotel",
+    "instagram": "https://instagram.com/relaxhotel",
+    "copyright": "© 2025 Relax Hotel s.r.o. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "Wellness",     "href": "#wellness"  },
+      { "label": "Ubytování",    "href": "#ubytovani" },
+      { "label": "Gastronomie",  "href": "#gastro"    },
+      { "label": "Balíčky",      "href": "#balicky"   },
+      { "label": "Kongres",      "href": "#kongres"   },
+      { "label": "Galerie",      "href": "#galerie"   }
+    ],
+    "importantLinks": [
+      { "label": "GDPR & Cookies",    "href": "#gdpr"    },
+      { "label": "Obchodní podmínky", "href": "#podminky"},
+      { "label": "Ubytovací řád",     "href": "#rad"     }
+    ]
+  }
+}

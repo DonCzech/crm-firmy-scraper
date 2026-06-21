@@ -1,0 +1,27 @@
+{
+  "colors": {
+    "primary":    "#927259",
+    "secondary":  "#604B3A",
+    "background": "#ffffff",
+    "surface":    "#EAE3DE",
+    "text":       "#3C2F25",
+    "textMuted":  "#927259",
+    "accent":     "#AD8F78",
+    "border":     "#D8CABF"
+  },
+  "typography": {
+    "fontHeading": "Candara",
+    "fontBody":    "Candara",
+    "scale":       "comfortable"
+  },
+  "radius": {
+    "sm":   "4px",
+    "md":   "20px",
+    "lg":   "20px",
+    "pill": "999px"
+  },
+  "spacing": {
+    "personality": "spacious",
+    "section":     "airy"
+  }
+}

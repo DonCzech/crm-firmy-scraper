@@ -1,0 +1,263 @@
+{
+  "siteName": "Autoškola DRIVE CZ",
+  "siteDescription": "Řidičský průkaz skupiny B s garancí složení zkoušky — kurzy po celé Moravě.",
+
+  "navbar": {
+    "siteName": "Autoškola DRIVE CZ",
+    "logoUrl": "",
+    "phone": "777 888 999",
+    "email": "info@drivecz.cz",
+    "address": "Hlavní 47, 602 00 Brno",
+    "rating": "4,8",
+    "ratingCount": "1 924 hodnocení",
+    "ctaText": "Zapsat se",
+    "ctaHref": "/zapis",
+    "links": [
+      { "label": "Domů",      "href": "/" },
+      { "label": "Kurzy",     "href": "/kurzy" },
+      { "label": "Ceník",     "href": "/cenik" },
+      { "label": "O škole",   "href": "/o-nas" },
+      { "label": "Pobočky",   "href": "/pobocky" },
+      { "label": "Kontakt",   "href": "/kontakt" }
+    ]
+  },
+
+  "hero": {
+    "heading": "Řidičák skupiny B — rychle, bezpečně, s přehledem",
+    "subheading": "Zahajujeme nové kurzy každý měsíc. Vyberte si termín a začněte ještě tento týden.",
+    "ctaText": "Vybrat termín",
+    "ctaHref": "/zapis",
+    "ctaSecondaryText": "Prohlédnout kurzy",
+    "ctaSecondaryHref": "/kurzy",
+    "backgroundImage": "/assets/autoskola-01/be95d7f5ea-ridicak-450x275.jpg",
+    "backgroundVideo": ""
+  },
+
+  "stats": {
+    "heading": "Naše pobočky",
+    "subheading": "Jsme blízko vám — působíme v 8 moravských a středočeských městech.",
+    "items": [
+      { "value": "Brno",          "label": "Pobočka Brno-střed" },
+      { "value": "Zlín",          "label": "Pobočka Zlín" },
+      { "value": "Olomouc",       "label": "Pobočka Olomouc" },
+      { "value": "Uherské Hradiště", "label": "Pobočka U. Hradiště" },
+      { "value": "Kroměříž",      "label": "Pobočka Kroměříž" },
+      { "value": "Přerov",        "label": "Pobočka Přerov" },
+      { "value": "Hodonín",       "label": "Pobočka Hodonín" },
+      { "value": "Prostějov",     "label": "Pobočka Prostějov" }
+    ]
+  },
+
+  "about": {
+    "heading": "Autoškola, které můžete věřit",
+    "subheading": "Na moravském trhu od roku 2011",
+    "body": "Autoškola DRIVE CZ vznikla v Brně v roce 2011 s jediným cílem — připravit absolventy tak, aby za volantem zvládali skutečné silniční situace, ne jen projít zkouškou. Za tu dobu jsme vyškolili přes 8 000 řidičů a rozrostli se do 8 poboček.",
+    "body2": "Každý žák má u nás přiděleného osobního instruktora od první hodiny až po závěrečné zkoušky. Věříme, že důvěra mezi žákem a instruktorem je základem bezpečné jízdy.",
+    "imageUrl": "/assets/autoskola-01/dc1d3814c1-office-620822_1920-1024x680.jpg",
+    "imageAlt": "Výukové centrum autoškoly DRIVE CZ",
+    "ctaText": "Zjistit více",
+    "ctaHref": "/o-nas",
+    "statsItems": [
+      { "value": "13+",   "label": "let na trhu" },
+      { "value": "8 000", "label": "absolventů" },
+      { "value": "4,8 ★", "label": "průměrné hodnocení" }
+    ]
+  },
+
+  "services": {
+    "heading": "Kurzy pro každého",
+    "subheading": "Flexibilní termíny, jasné ceny",
+    "items": [
+      {
+        "title": "Klasický kurz B",
+        "description": "Výuka rozložená do 8–10 týdnů. Teorie večer, jízdy v termínech, které vám vyhovují.",
+        "price": "od 11 900 Kč",
+        "features": ["Teorie online i prezenčně", "28 povinných jízdních hodin", "Možnost splátek"],
+        "ctaText": "Zapsat se",
+        "ctaHref": "/zapis",
+        "iconType": "car"
+      },
+      {
+        "title": "Rychlokurz B",
+        "description": "Řidičák za 3 týdny. Intenzivní výuka denně — ideální při rodičovské nebo dovolené.",
+        "price": "od 13 900 Kč",
+        "features": ["Denní výuka po–pá", "Zkouška do 30 dní", "Malé skupiny max. 6 žáků"],
+        "ctaText": "Zapsat se",
+        "ctaHref": "/zapis",
+        "iconType": "zap",
+        "highlighted": true
+      },
+      {
+        "title": "Zdokonalovací jízdy",
+        "description": "Pro absolventy i řidiče vracející se po přestávce. Nácvik parkování, dálnice, noční jízda.",
+        "price": "450 Kč / hod.",
+        "features": ["Parkování a couvání", "Jízda po dálnici", "Noční a zimní jízda"],
+        "ctaText": "Objednat se",
+        "ctaHref": "/zapis",
+        "iconType": "repeat"
+      }
+    ]
+  },
+
+  "promo": {
+    "heading": "Proč DRIVE CZ?",
+    "subheading": "To, na čem záleží",
+    "items": [
+      {
+        "title": "Garance opravné zkoušky",
+        "description": "Pokud nesložíte zkoušku napoprvé, první opravný termín u nás máte zdarma.",
+        "iconType": "star"
+      },
+      {
+        "title": "Transparentní ceny",
+        "description": "Žádné skryté poplatky. Cena kurzu zahrnuje vše — teorii, jízdy i správní poplatek.",
+        "iconType": "credit-card"
+      },
+      {
+        "title": "E-learning zdarma",
+        "description": "Přístup do naší online platformy s videolekturacemi a testy na 12 měsíců.",
+        "iconType": "monitor"
+      },
+      {
+        "title": "Vozy do 3 let stáří",
+        "description": "Cvičíme výhradně na nových vozech s ABS, ESP a kamerovým systémem.",
+        "iconType": "car"
+      },
+      {
+        "title": "Osobní instruktor",
+        "description": "Od zápisu až po zkoušku jezdíte vždy se stejným instruktorem, který vás zná.",
+        "iconType": "users"
+      },
+      {
+        "title": "8 poboček na Moravě",
+        "description": "Pobočku najdete v Brně, Zlíně, Olomouci a pěti dalších městech. Zápis online.",
+        "iconType": "map-pin"
+      }
+    ],
+    "ctaText": "Vybrat termín kurzu",
+    "ctaHref": "/zapis"
+  },
+
+  "team": {
+    "heading": "Vaši instruktoři",
+    "subheading": "Lidé, kteří vás naučí jezdit s jistotou",
+    "items": [
+      {
+        "name": "Martin Dvořák",
+        "role": "Zakladatel & hlavní instruktor",
+        "bio": "Řídí DRIVE CZ od prvního dne v roce 2011. Aktivní závodní minulost z okruhů mu dala cit pro bezpečnou jízdu, který předává každému žáku.",
+        "imageUrl": "/assets/autoskola-01/b982409c35-patrik.png"
+      },
+      {
+        "name": "Ondřej Kratochvíl",
+        "role": "Instruktor Brno",
+        "bio": "Deset let praxe, klidný přístup a schopnost vysvětlit složité manévry jednoduše. Jeho žáci mají jednu z nejvyšších úspěšností u zkoušek.",
+        "imageUrl": "/assets/autoskola-01/8c1ff5dfdf-koci-radovan.png"
+      },
+      {
+        "name": "Petr Novotný",
+        "role": "Instruktor Zlín & Kroměříž",
+        "bio": "Specialista na výuku ve městě i na dálnici. Každou lekci přizpůsobuje tempu a potřebám konkrétního žáka.",
+        "imageUrl": "/assets/autoskola-01/6c8d79645f-lukas_klik.png"
+      },
+      {
+        "name": "Tereza Horáčková",
+        "role": "Instruktorka Olomouc",
+        "bio": "Certifikovaná instruktorka se zaměřením na bezpečnou jízdu v zimních podmínkách. Oblíbená pro trpělivý a empatický přístup.",
+        "imageUrl": "/assets/autoskola-01/8e202200d4-monika_soldanova.png"
+      }
+    ]
+  },
+
+  "testimonials": {
+    "heading": "Říkají o nás",
+    "subheading": "Přes 1 900 hodnocení — průměr 4,8 z 5 hvězdiček",
+    "items": [
+      {
+        "name": "Radek P.",
+        "role": "Absolvent Brno, rychlokurz",
+        "text": "Rychlokurz za 3 týdny jsem bral skepticky, ale fungovalo to perfektně. Instruktor byl skvělý, tempo bylo náročné, ale zvládnutelné. Zkoušky napoprvé.",
+        "rating": 5,
+        "imageUrl": ""
+      },
+      {
+        "name": "Lucie V.",
+        "role": "Absolventka Zlín, klasický kurz",
+        "text": "Měla jsem strach z jízdy ve městě, ale pan Novotný měl neuvěřitelnou trpělivost. Teď jezdím i po Brně bez problémů. Vřele doporučuji.",
+        "rating": 5,
+        "imageUrl": ""
+      },
+      {
+        "name": "Jakub Š.",
+        "role": "Absolvent Olomouc",
+        "text": "Oceňuji hlavně garanční opravný termín zdarma — nakonec jsem ho nepotřeboval, ale vědomí, že tam je, ubralo spoustu stresu před zkouškou.",
+        "rating": 5,
+        "imageUrl": ""
+      }
+    ]
+  },
+
+  "contact": {
+    "heading": "Napište nám",
+    "subheading": "Rádi odpovíme na dotazy ohledně kurzů, termínů i cen. Ozveme se do jednoho pracovního dne.",
+    "phone": "777 888 999",
+    "email": "info@drivecz.cz",
+    "address": "Hlavní 47, 602 00 Brno",
+    "hours": "Po–Pá 8:00–17:00, So 9:00–12:00",
+    "mapEmbed": "",
+    "ctaText": "Odeslat dotaz",
+    "formFields": {
+      "namePlaceholder": "Jméno a příjmení",
+      "emailPlaceholder": "Váš e-mail",
+      "phonePlaceholder": "Telefon (nepovinné)",
+      "messagePlaceholder": "Napište nám — dotaz, zájem o kurz, termín..."
+    }
+  },
+
+  "footer": {
+    "siteName": "Autoškola DRIVE CZ",
+    "logoUrl": "",
+    "tagline": "Řidičský průkaz skupiny B s garancí složení zkoušky.",
+    "phone": "777 888 999",
+    "email": "info@drivecz.cz",
+    "address": "Hlavní 47, 602 00 Brno",
+    "ico": "09876543",
+    "facebook": "https://facebook.com/drivecz",
+    "instagram": "https://instagram.com/drivecz",
+    "youtube": "https://youtube.com/drivecz",
+    "copyright": "© 2025 Autoškola DRIVE CZ s.r.o. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "Domů",      "href": "/" },
+      { "label": "Kurzy",     "href": "/kurzy" },
+      { "label": "Ceník",     "href": "/cenik" },
+      { "label": "O škole",   "href": "/o-nas" },
+      { "label": "Pobočky",   "href": "/pobocky" },
+      { "label": "Kontakt",   "href": "/kontakt" }
+    ]
+  },
+
+  "pages": {
+    "kurzy": {
+      "seoTitle": "Kurzy řízení skupiny B — Autoškola DRIVE CZ",
+      "seoDescription": "Klasický i intenzivní kurz skupiny B. Zahájení každý měsíc, 8 poboček na Moravě.",
+      "hero": {
+        "heading": "Kurzy skupiny B",
+        "subheading": "Klasický nebo rychlokurz — zahájení každý měsíc.",
+        "backgroundImage": "/assets/autoskola-01/be95d7f5ea-ridicak-450x275.jpg"
+      }
+    },
+    "o-nas": {
+      "seoTitle": "O škole — Autoškola DRIVE CZ",
+      "seoDescription": "Autoškola DRIVE CZ na Moravě od roku 2011. Přes 8 000 absolventů, 8 poboček.",
+      "hero": {
+        "heading": "O autoškole DRIVE CZ",
+        "subheading": "Třináct let zkušeností, 8 000 spokojených absolventů.",
+        "backgroundImage": "/assets/autoskola-01/dc1d3814c1-office-620822_1920-1024x680.jpg"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt a pobočky — Autoškola DRIVE CZ",
+      "seoDescription": "Kontaktujte nás nebo navštivte jednu z 8 poboček po celé Moravě."
+    }
+  }
+}

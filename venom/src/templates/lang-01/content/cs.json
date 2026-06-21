@@ -1,0 +1,185 @@
+{
+  "siteName": "Lingvista Jazyková akademie",
+  "siteDescription": "Skupinové i individuální kurzy 7 jazyků, příprava na mezinárodní zkoušky, firemní jazykové vzdělávání.",
+
+  "navbar": {
+    "siteName": "Lingvista akademie",
+    "logoUrl": "",
+    "phone": "602 987 543",
+    "email": "kurzy@lingvista-akademie.cz",
+    "address": "Náměstí Svobody 14, 602 00 Brno",
+    "ctaText": "Zapsat se",
+    "ctaHref": "/kurzy",
+    "links": [
+      { "label": "Kurzy",          "href": "/kurzy" },
+      { "label": "Letní tábory",   "href": "/tabory" },
+      { "label": "Jak to funguje", "href": "/#jak-to-funguje" },
+      { "label": "Kontakt",        "href": "/kontakt" }
+    ]
+  },
+
+  "hero": {
+    "title": "Jazyk, který vám otevře dveře",
+    "eyebrow": "Zahájení nového semestru 1. září",
+    "heading": "Jazyk, který vám otevře dveře",
+    "headingHighlight": "otevře dveře",
+    "subheading": "Výuka přizpůsobená vašemu tempu. Malé skupiny, rodilí mluvčí a moderní metody — od začátečníků po pokročilé.",
+    "ctaText": "Vybrat kurz",
+    "ctaHref": "/kurzy",
+    "ctaSecondaryText": "Zjistit úroveň",
+    "ctaSecondaryHref": "/#test",
+    "cardHeading": "Letní jazykové kempy",
+    "cardSubheading": "Pro děti 8–17 let · Brno · Zlín · Olomouc",
+    "languages": [
+      { "flag": "🇬🇧", "name": "Angličtina" },
+      { "flag": "🇩🇪", "name": "Němčina" },
+      { "flag": "🇪🇸", "name": "Španělština" },
+      { "flag": "🇮🇹", "name": "Italština" },
+      { "flag": "🇯🇵", "name": "Japonština" },
+      { "flag": "🇵🇱", "name": "Polština" }
+    ]
+  },
+
+  "stats": {
+    "items": [
+      { "value": "28 let",   "label": "Na trhu" },
+      { "value": "7",        "label": "Jazyků" },
+      { "value": "8 500+",   "label": "Studentů ročně" },
+      { "value": "⭐ 4.8",   "label": "Hodnocení Google" }
+    ]
+  },
+
+  "services": {
+    "heading": "Výuka přesně podle vás",
+    "eyebrow": "Naše kurzy",
+    "subtitle": "Skupinové, individuální a firemní kurzy",
+    "items": [
+      {
+        "icon": "SK",
+        "name": "Skupinové kurzy",
+        "title": "Skupinové kurzy",
+        "description": "Semestrální výuka v malých skupinkách 3–7 studentů se stejnou úrovní.",
+        "features": ["2× týdně 90 min", "28 lekcí / semestr", "od 7 200 Kč"]
+      },
+      {
+        "icon": "IND",
+        "name": "Individuální lekce",
+        "title": "Individuální lekce",
+        "description": "Výuka 1 na 1 přizpůsobená vašim cílům. Online nebo prezenčně v Brně.",
+        "features": ["flexibilní termíny", "váš vlastní program", "od 750 Kč/hod"]
+      },
+      {
+        "icon": "FIR",
+        "name": "Firemní výuka",
+        "title": "Firemní výuka",
+        "description": "Jazykové kurzy přímo ve vaší firmě nebo online pro celý tým.",
+        "features": ["výuka u vás / online", "měsíční reporty", "nabídka na míru"]
+      }
+    ]
+  },
+
+  "cta": {
+    "title": "Jakou máte úroveň?",
+    "heading": "Jakou máte úroveň?",
+    "subheading": "Bezplatný online test za 8 minut vám poradí, do jakého kurzu nastoupit.",
+    "ctaText": "Spustit test zdarma",
+    "ctaHref": "/#test"
+  },
+
+  "promo": {
+    "heading": "Čtyři kroky k plynulé řeči",
+    "eyebrow": "Jak to funguje",
+    "items": [
+      {
+        "step": "1",
+        "title": "Online test úrovně",
+        "description": "Během 8 minut zjistíme vaši aktuální jazykovou úroveň A1–C2."
+      },
+      {
+        "step": "2",
+        "title": "Doporučení kurzu",
+        "description": "Navrhneme nejvhodnější kurz podle vašich cílů, časových možností a úrovně."
+      },
+      {
+        "step": "3",
+        "title": "Zahájení výuky",
+        "description": "Nastoupíte v nejbližším termínu. Lektoři jsou certifikovaní odborníci nebo rodilí mluvčí."
+      },
+      {
+        "step": "4",
+        "title": "Zkouška a certifikát",
+        "description": "Připravíme vás na Cambridge, IELTS, Goethe-Institut, DELE a další mezinárodní zkoušky."
+      }
+    ]
+  },
+
+  "contact": {
+    "heading": "Ozvěte se nám",
+    "subheading": "Rádi poradíme s výběrem kurzu, sdělíme aktuální termíny a zašleme cenovou nabídku.",
+    "phone": "602 987 543",
+    "email": "kurzy@lingvista-akademie.cz",
+    "address": "Náměstí Svobody 14, 602 00 Brno",
+    "hours": "Po–Pá 8:00–19:00, So 9:00–13:00",
+    "ctaText": "Odeslat dotaz",
+    "formFields": {
+      "namePlaceholder": "Jméno a příjmení",
+      "emailPlaceholder": "Váš e-mail",
+      "phonePlaceholder": "Telefon (nepovinné)",
+      "messagePlaceholder": "Napište nám — zájem o kurz, dotaz na termíny, firemní výuka..."
+    }
+  },
+
+  "footer": {
+    "siteName": "Lingvista akademie",
+    "logoUrl": "",
+    "tagline": "Jazyková akademie s 28 lety zkušeností. 7 jazyků pro děti, dospělé i firmy.",
+    "phone": "602 987 543",
+    "email": "kurzy@lingvista-akademie.cz",
+    "address": "Náměstí Svobody 14, 602 00 Brno",
+    "ico": "87654321",
+    "facebook": "https://facebook.com/lingvista",
+    "instagram": "https://instagram.com/lingvista",
+    "linkedin": "https://linkedin.com/lingvista",
+    "copyright": "© 2026 Lingvista Jazyková akademie. Všechna práva vyhrazena.",
+    "navGroups": [
+      {
+        "label": "Kurzy",
+        "links": [
+          { "label": "Skupinové",    "href": "/kurzy" },
+          { "label": "Individuální", "href": "/kurzy" },
+          { "label": "Firemní",      "href": "/kurzy" },
+          { "label": "Letní kempy",  "href": "/tabory" }
+        ]
+      },
+      {
+        "label": "Kontakt",
+        "links": []
+      }
+    ]
+  },
+
+  "pages": {
+    "kurzy": {
+      "seoTitle": "Kurzy jazyků — Lingvista Jazyková akademie",
+      "seoDescription": "Skupinové, individuální i firemní jazykové kurzy v Brně. 7 jazyků, malé skupiny, certifikovaní lektoři.",
+      "hero": {
+        "title": "Jazykové kurzy",
+        "heading": "Jazykové kurzy",
+        "subheading": "Skupinové, individuální i firemní výuka — nové skupiny startují každý měsíc."
+      }
+    },
+    "o-nas": {
+      "seoTitle": "O akademii — Lingvista Jazyková akademie",
+      "seoDescription": "28 let zkušeností v jazykovém vzdělávání. Přes 8 500 studentů ročně v Brně a okolí.",
+      "hero": {
+        "title": "O naší akademii",
+        "heading": "O naší akademii",
+        "subheading": "28 let zkušeností, 8 500 spokojených studentů ročně a tým 34 lektorů."
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Lingvista Jazyková akademie",
+      "seoDescription": "Navštivte nás na Náměstí Svobody 14 v Brně nebo nám napište. Rádi poradíme."
+    }
+  }
+}

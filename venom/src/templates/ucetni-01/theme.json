@@ -1,0 +1,16 @@
+{
+  "colors": {
+    "primary":    "#FFB500",
+    "secondary":  "#202124",
+    "accent":     "#FFB500",
+    "background": "#ffffff",
+    "surface":    "#FFFBF1",
+    "text":       "#202124",
+    "textMuted":  "#515151",
+    "border":     "#e5e7eb"
+  },
+  "typography": {
+    "fontHeading": "'Space Grotesk', 'Inter', Arial, sans-serif",
+    "fontBody":    "'Inter', 'Space Grotesk', Arial, sans-serif"
+  }
+}

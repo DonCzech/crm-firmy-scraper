@@ -1,0 +1,47 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "vet-01",
+  "name": "Váš Veterinář",
+  "industry": "vet",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Veterinární klinika — bílý #ffffff navbar s teal #286C7E logo, topbar s kontakty, hero slider (psi/kočky/savci), sekce služeb 4 karty, o nás, specializace, certifikace, tým veterinářů, kontakt. Inspirováno veterinafenix.cz.",
+  "sectionOrderNote": "Navbar → Hero → Services → About → Promo (specializace) → Promo (certifikace) → Team → Contact → Footer",
+  "skippedSections": [
+    { "pos": 5,  "name": "Pricing",      "reason": "Ceník není na homepage originálu" },
+    { "pos": 6,  "name": "Gallery",      "reason": "Originál nemá dedikovanou fotogalerii na homepage" },
+    { "pos": 8,  "name": "Testimonials", "reason": "Recenze nejsou na homepage originálu" },
+    { "pos": 9,  "name": "Booking/CTA",  "reason": "Originál nemá dedikovaný CTA/booking blok na homepage" },
+    { "pos": 11, "name": "FAQ",          "reason": "FAQ sekce není na homepage originálu" }
+  ],
+  "extraSections": [
+    { "type": "promo", "name": "Specializace", "reason": "Originál má seznam specializací (Prevence, Kardiologie, Dermatologie, atd.) jako vizuální blok" },
+    { "type": "promo", "name": "Certifikace", "reason": "Rabbit-friendly + Cat-friendly + ISFM certifikace — klíčový USP blok" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "vet-01-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "vet-01-hero",     "contentRef": "hero" },
+        { "type": "services", "variant": "vet-01-services", "contentRef": "services" },
+        { "type": "about",    "variant": "vet-01-about",    "contentRef": "about" },
+        { "type": "promo",    "variant": "vet-01-specs",    "contentRef": "specs" },
+        { "type": "promo",    "variant": "vet-01-certs",    "contentRef": "certs" },
+        { "type": "team",     "variant": "vet-01-team",     "contentRef": "team" },
+        { "type": "contact",  "variant": "vet-01-contact",  "contentRef": "contact" },
+        { "type": "footer",   "variant": "vet-01-footer",   "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "content/cs.json"
+  }
+}

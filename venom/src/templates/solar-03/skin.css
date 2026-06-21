@@ -1,0 +1,16 @@
+/* solar-03 — Demo AC-Heating — Tepelná čerpadla & Fotovoltaika */
+/* Primary: #ff8b00 orange | Dark: #222 | Surface: #f3f5f6 */
+
+[data-template="solar-03"] {
+  --primary: #ff8b00;
+  --dark:    #222222;
+  --surface: #f3f5f6;
+  --white:   #ffffff;
+  --muted:   #575757;
+  --border:  #ebebeb;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+[data-template="solar-03"] a {
+  color: inherit;
+}

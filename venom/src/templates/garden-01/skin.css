@@ -1,0 +1,16 @@
+/* garden-01 — Demo Gerberra */
+
+[data-template="garden-01"] {
+  --color-primary:      #6a961f;
+  --color-primary-h:    #5a7e18;
+  --color-accent:       #bcba63;
+  --color-dark:         #202714;
+  --color-dark-2:       #2e3a1a;
+  --color-light:        #f2f2f2;
+  --color-text:         #3a3a3a;
+  --color-muted:        #5a5a5a;
+  --font-heading:       'Cardo', Georgia, serif;
+  --font-body:          'Inter', Arial, sans-serif;
+  --radius-btn:         4px;
+  --radius-card:        8px;
+}

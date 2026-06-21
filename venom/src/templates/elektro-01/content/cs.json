@@ -1,0 +1,158 @@
+{
+  "navbar": {
+    "siteName": "Váš elektrikář",
+    "logoUrl": "",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "#kontakt",
+    "links": [
+      { "label": "Úvod",      "href": "/"          },
+      { "label": "Služby",    "href": "#sluzby"    },
+      { "label": "Reference", "href": "#reference" },
+      { "label": "Kontakt",   "href": "#kontakt"   }
+    ]
+  },
+  "hero": {
+    "title": "ELEKTROINSTALACE\nHROMOSVODY",
+    "subtitle": "Kvalitně odvedená práce, spokojený zákazník.",
+    "ctaText": "KONTAKTUJTE NÁS",
+    "ctaHref": "#kontakt",
+    "backgroundImage": ""
+  },
+  "services": {
+    "title": "Nabízené služby",
+    "kicker": "Co nabízím",
+    "items": [
+      {
+        "name": "Elektroinstalace",
+        "title": "Elektroinstalace",
+        "description": "Kompletní elektroinstalační práce pro rodinné domy, byty i průmyslové objekty. Silnoproudé i slaboproudé instalace dle platných norem ČSN.",
+        "ctaText": "Více informací",
+        "ctaHref": "/elektroinstalace",
+        "icon": "lightning"
+      },
+      {
+        "name": "Hromosvody",
+        "title": "Hromosvody",
+        "description": "Návrh, montáž a revize hromosvodů a uzemnění. Spolehlivá ochrana Vašeho objektu před bleskem dle platných norem.",
+        "ctaText": "Více informací",
+        "ctaHref": "/hromosvody",
+        "icon": "shield"
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Galerie realizací",
+    "kicker": "Moje reference",
+    "subtitle": "Ukázky dokončených elektroinstalačních prací a hromosvodů",
+    "images": [
+      { "url": "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Elektroinstalace realizace", "category": "Elektroinstalace" },
+      { "url": "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Rozvaděč montáž",            "category": "Elektroinstalace" },
+      { "url": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Hromosvod realizace",        "category": "Hromosvody"       },
+      { "url": "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Slaboproudé rozvody",        "category": "Slaboproud"       },
+      { "url": "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Průmyslová instalace",       "category": "Elektroinstalace" },
+      { "url": "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Uzemnění objektu",           "category": "Hromosvody"       }
+    ],
+    "ctaText": "Více referencí"
+  },
+  "contact": {
+    "title": "Kontaktujte mě",
+    "kicker": "Kontakt",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pá 8:00–18:00",
+    "formTitle": "Napište mi"
+  },
+  "map": {
+    "title": "Okruh působení",
+    "description": "Elektroinstalace a hromosvody — Praha a Středočeský kraj.",
+    "address": "Ukázková 123, 110 00 Praha 1"
+  },
+  "cta": {
+    "title": "Nezávazná poptávka",
+    "subtitle": "Kontaktujte mě — co nejdříve se Vám ozvu.",
+    "formTitle": "Odeslat poptávku"
+  },
+  "footer": {
+    "siteName": "Váš elektrikář",
+    "logoUrl": "",
+    "tagline": "Elektroinstalace a hromosvody Praha a okolí",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "ic": "12345678",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "links": [
+      { "label": "Elektroinstalace", "href": "/elektroinstalace" },
+      { "label": "Hromosvody",       "href": "/hromosvody" },
+      { "label": "Reference",        "href": "#reference" },
+      { "label": "Kontakt",          "href": "#kontakt" }
+    ]
+  },
+  "pages": {
+    "elektroinstalace": {
+      "seoTitle": "Elektroinstalace — Demo Elektro Praha",
+      "seoDescription": "Silnoproudé a slaboproudé elektroinstalace pro rodinné domy, byty a průmyslové objekty. Rozvaděče, osvětlení, datové rozvody. Demo Elektro Praha.",
+      "hero": {
+        "title": "Elektroinstalace",
+        "subtitle": "Silnoproudé a slaboproudé instalace pro všechny typy objektů."
+      },
+      "servicesDetail": {
+        "sections": [
+          {
+            "title": "Silnoproud",
+            "description": "Kompletní projektování a realizace silnoproudých elektroinstalací — od rozvaděčů po zásuvky a osvětlení. Práce jsou prováděny dle platných norem ČSN a za použití certifikovaných materiálů.",
+            "items": [
+              "Rozvaděče a elektroměrové skříně",
+              "Světelné a zásuvkové obvody",
+              "Průmyslové a komerční instalace",
+              "Rekonstrukce a opravy elektroinstalací",
+              "Revize a výchozí revizní zprávy"
+            ]
+          },
+          {
+            "title": "Slaboproud",
+            "description": "Datové rozvody, televizní antény, zabezpečovací systémy a další slaboproudá zařízení pro moderní domácnosti i firmy.",
+            "items": [
+              "Datové a telefonní rozvody",
+              "Televizní antény a satelitní příjmy",
+              "Zabezpečovací a kamerové systémy",
+              "Domovní telefony a videotelefony",
+              "Strukturovaná kabeláž Cat6/Cat6A"
+            ]
+          }
+        ]
+      }
+    },
+    "hromosvody": {
+      "seoTitle": "Hromosvody — Demo Elektro Praha",
+      "seoDescription": "Návrh, montáž a revize hromosvodů a uzemnění pro rodinné domy i průmyslové objekty. Ochrana před bleskem dle ČSN. Demo Elektro Praha.",
+      "hero": {
+        "title": "Hromosvody",
+        "subtitle": "Spolehlivá ochrana Vašeho objektu před bleskem."
+      },
+      "servicesDetail": {
+        "sections": [
+          {
+            "title": "Hromosvody a uzemnění",
+            "description": "Návrh a montáž systémů ochrany před bleskem (LPS) pro rodinné domy, průmyslové a administrativní budovy. Veškeré práce jsou prováděny v souladu s normou ČSN EN 62305 a jsou doloženy revizní zprávou.",
+            "items": [
+              "Hromosvodní soustavy pro rodinné domy",
+              "Průmyslové a administrativní objekty",
+              "Uzemnění a ekvipotenciální pospojování",
+              "Revize a revizní zprávy",
+              "Opravy a modernizace stávajících soustav"
+            ]
+          }
+        ]
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Demo Elektro Praha",
+      "seoDescription": "Kontaktujte Demo Elektro — elektroinstalace a hromosvody Praha. Tel: 704 123 456, email: info@demo.cz. Ukázková 123, Praha 1."
+    }
+  }
+}

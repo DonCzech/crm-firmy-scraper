@@ -1,0 +1,110 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "klima-01",
+  "name": "Demo PragoClima",
+  "industry": "klima",
+  "skeleton": "b2b-trade",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Klimatizace & tepelná čerpadla — B2B servisní firma od roku 1990. Bílý fixed navbar (74px, Outfit, červený #e30016 hover), hero 2-col (tmavý navy bg s modrou texturou: headline + CTA vlevo, produkt karta vpravo), stats pruh 3 čísla (modrý bg), promo katalog CTA, 6 service karet (grid), šedé about sekce 6 features, galerie realizací, navy footer. Inspirováno pragoclima.cz.",
+  "sectionOrderNote": "Navbar → Hero → Stats → Promo → Services → About → Gallery → Footer",
+  "skippedSections": [
+    {
+      "pos": 4,
+      "name": "Logos",
+      "reason": "Partnerské značky jsou zmíněny v about sekci, originál nemá dedikovaný logo pruh na homepage"
+    },
+    {
+      "pos": 6,
+      "name": "Pricing/Estimate",
+      "reason": "Originál pragoclima.cz nenabízí ceník — ceny jsou individuální dle rozsahu zakázky, kontakt přes CTA"
+    },
+    {
+      "pos": 8,
+      "name": "Testimonials",
+      "reason": "Recenze nejsou na homepage originálu — jsou pouze stats (3 000+ realizací)"
+    },
+    {
+      "pos": 9,
+      "name": "Contact/CTA",
+      "reason": "Kontakt je dostupný přes červené CTA tlačítko v navbaru a footer sekci — žádná standalone contact sekce na homepage"
+    },
+    {
+      "pos": 10,
+      "name": "Service area",
+      "reason": "Originál pragoclima.cz nemá mapu servisní oblasti — dvě pobočky jsou zmíněny v patičce (Praha + Ostrava)"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál pragoclima.cz nemá FAQ sekci"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "stats",
+      "reason": "3 klíčová čísla firmy (30+ let / 3 000+ realizací / 30+ zaměstnanců)"
+    },
+    {
+      "type": "promo",
+      "reason": "Katalog CTA — odkaz na produktový katalog PDF/stránku"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",   "variant": "klima-01-navbar",   "contentRef": "navbar"   },
+        { "type": "hero",     "variant": "klima-01-hero",     "contentRef": "hero"     },
+        { "type": "stats",    "variant": "klima-01-stats",    "contentRef": "stats"    },
+        { "type": "promo",    "variant": "klima-01-catalog",  "contentRef": "catalog"  },
+        { "type": "services", "variant": "klima-01-services", "contentRef": "services" },
+        { "type": "about",    "variant": "klima-01-about",    "contentRef": "about"    },
+        { "type": "gallery",  "variant": "klima-01-gallery",  "contentRef": "gallery"  },
+        { "type": "footer",   "variant": "klima-01-footer",   "contentRef": "footer"   }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Naše služby",
+      "seoTitleKey": "pages.sluzby.seoTitle",
+      "seoDescriptionKey": "pages.sluzby.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "klima-01-navbar",   "contentRef": "navbar"   },
+        { "type": "services", "variant": "klima-01-services", "contentRef": "services" },
+        { "type": "footer",   "variant": "klima-01-footer",   "contentRef": "footer"   }
+      ]
+    },
+    {
+      "slug": "reference",
+      "title": "Reference",
+      "seoTitleKey": "pages.reference.seoTitle",
+      "seoDescriptionKey": "pages.reference.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "klima-01-navbar",  "contentRef": "navbar"  },
+        { "type": "gallery", "variant": "klima-01-gallery", "contentRef": "gallery" },
+        { "type": "footer",  "variant": "klima-01-footer",  "contentRef": "footer"  }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "klima-01-navbar",  "contentRef": "navbar"  },
+        { "type": "about",   "variant": "klima-01-about",   "contentRef": "about"   },
+        { "type": "footer",  "variant": "klima-01-footer",  "contentRef": "footer"  }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

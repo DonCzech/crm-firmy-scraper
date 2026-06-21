@@ -1,0 +1,27 @@
+{
+  "colors": {
+    "primary":    "#0d7486",
+    "secondary":  "#286C7E",
+    "background": "#ffffff",
+    "surface":    "#DCE9EE",
+    "text":       "#2c2c2c",
+    "textMuted":  "#747474",
+    "accent":     "#42aaba",
+    "border":     "#D8D8D8"
+  },
+  "typography": {
+    "fontHeading": "'Forum', 'Georgia', serif",
+    "fontBody":    "'Roboto Condensed', 'Roboto', sans-serif",
+    "scale":       "comfortable"
+  },
+  "radius": {
+    "sm":   "4px",
+    "md":   "8px",
+    "lg":   "12px",
+    "pill": "50px"
+  },
+  "spacing": {
+    "personality": "normal",
+    "section":     "comfortable"
+  }
+}

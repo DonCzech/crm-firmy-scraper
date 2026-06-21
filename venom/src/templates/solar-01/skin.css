@@ -1,0 +1,16 @@
+/* solar-01 — Demo Solar */
+/* Inter via system stack (already loaded globally) */
+
+[data-template="solar-01"] {
+  --color-primary:      #ff7a00;
+  --color-primary-h:    #e86d00;
+  --color-dark:         #0d2a3a;
+  --color-dark-2:       #1a4565;
+  --color-light:        #f7f8fa;
+  --color-text:         #1a1a1a;
+  --color-muted:        #555555;
+  --font-heading:       'Inter', -apple-system, sans-serif;
+  --font-body:          'Inter', -apple-system, sans-serif;
+  --radius-btn:         8px;
+  --radius-card:        16px;
+}

@@ -1,0 +1,16 @@
+/* chalet-01 — Demo Horský Chalet | Ubytování / Horská chata */
+/* Primary: #c0bbad (béžová) | Dark: #1e2329 | Font: Josefin Sans + Plus Jakarta Sans */
+
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
+
+:root {
+  --chalet-beige:       #c0bbad;
+  --chalet-beige-dark:  #8a7e6e;
+  --chalet-dark:        #1e2329;
+  --chalet-dark-mid:    #2e3540;
+  --chalet-surface:     #f5f3f0;
+  --chalet-text:        #2a2a2a;
+  --chalet-white:       #ffffff;
+  --chalet-font-head:   'Josefin Sans', sans-serif;
+  --chalet-font-body:   'Plus Jakarta Sans', sans-serif;
+}

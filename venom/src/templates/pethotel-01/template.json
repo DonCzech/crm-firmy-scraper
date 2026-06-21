@@ -1,0 +1,66 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "pethotel-01",
+  "name": "Demo Hotel pro psy",
+  "industry": "pethotel",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Psí hotel a školka — krémová navbar sticky (gradient #fff5ee→#fcfae8), hnědočervená #712419 primary, červená #D6123D CTA, žlutá #F9C93D accent, Quicksand font. Full-bleed hero s maskot psem, 3-col služby, červený rok-strip, žlutý why-us 4-box, instagram galerie, about se statistikami, kontakt, footer. Inspirováno skolkapropejska.cz.",
+  "sectionOrderNote": "Navbar → Hero → Services → Promo(rok) → Promo(whyus) → Gallery → About → Contact → Footer",
+  "skippedSections": [
+    { "pos": 5,  "name": "Pricing",     "reason": "Ceník — pethotel nemá standardní ceník na homepage; přejít na kontakt" },
+    { "pos": 7,  "name": "Team",        "reason": "Tým — originál nemá samostatnou team sekci; founders jsou v about sekci" },
+    { "pos": 8,  "name": "News",        "reason": "Blog/aktuality — specifická sekce, vynechána v generické šabloně" },
+    { "pos": 9,  "name": "Booking/CTA", "reason": "CTA — objednávka je přímo v contact sekci" },
+    { "pos": 11, "name": "FAQ",         "reason": "FAQ — originál nemá FAQ sekci na homepage" }
+  ],
+  "extraSections": [
+    { "type": "promo", "reason": "Rok strip — 'Vaše psí parťáky hlídáme již od roku 2012' — červená #D7123D CTA banner" },
+    { "type": "promo", "reason": "Why Us — 'Proč se u nás pejskům líbí?' — 4 boxy na žlutém #F9C93D bg" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "pethotel-01-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "pethotel-01-hero",     "contentRef": "hero" },
+        { "type": "services", "variant": "pethotel-01-services", "contentRef": "services" },
+        { "type": "promo",    "variant": "pethotel-01-year",     "contentRef": "year" },
+        { "type": "promo",    "variant": "pethotel-01-whyus",    "contentRef": "whyus" },
+        { "type": "gallery",  "variant": "pethotel-01-gallery",  "contentRef": "gallery" },
+        { "type": "about",    "variant": "pethotel-01-about",    "contentRef": "about" },
+        { "type": "contact",  "variant": "pethotel-01-contact",  "contentRef": "contact" },
+        { "type": "footer",   "variant": "pethotel-01-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Služby",
+      "seoTitleKey": "pages.sluzby.seoTitle",
+      "seoDescriptionKey": "pages.sluzby.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "pethotel-01-navbar",   "contentRef": "navbar" },
+        { "type": "services", "variant": "pethotel-01-services", "contentRef": "services" },
+        { "type": "footer",   "variant": "pethotel-01-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "pethotel-01-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "pethotel-01-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "pethotel-01-footer",  "contentRef": "footer" }
+      ]
+    }
+  ]
+}

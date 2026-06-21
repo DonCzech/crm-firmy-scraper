@@ -1,0 +1,147 @@
+{
+  "navbar": {
+    "siteName": "Pekárna U Mlýna",
+    "logoUrlLight": "/templates/bakery-02/logo-white.svg",
+    "logoUrlDark":  "/templates/bakery-02/logo-dark.svg",
+    "fbHref": "https://facebook.com/pekarnaumulyna",
+    "igHref": "https://instagram.com/pekarnaumulyna",
+    "linksLeft": [
+      { "label": "DOMŮ",            "href": "/" },
+      { "label": "NAŠE PEČIVO",     "href": "/nase-pecivo" },
+      { "label": "TÝDENNÍ NABÍDKA", "href": "/aktualni-nabidka" }
+    ],
+    "linksRight": [
+      { "label": "O NÁS",           "href": "/o-nas" },
+      { "label": "PRACUJTE S NÁMI", "href": "/kariera" },
+      { "label": "NAŠE PRODEJNY",   "href": "/pobocky" }
+    ]
+  },
+
+  "hero": {
+    "slides": [
+      {
+        "backgroundImage": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1920&q=85",
+        "headingLine1": "Řemeslo předávané",
+        "headingLine2": "z generace na generaci"
+      },
+      {
+        "backgroundImage": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1920&q=85",
+        "headingLine1": "Každý bochník",
+        "headingLine2": "s péčí a láskou"
+      },
+      {
+        "backgroundImage": "https://images.unsplash.com/photo-1568254183919-78a4f43a2877?w=1920&q=85",
+        "headingLine1": "Ráno čerstvé,",
+        "headingLine2": "celý den voňavé"
+      }
+    ],
+    "ctaText": "PROHLÉDNOUT NABÍDKU",
+    "ctaHref": "/nase-pecivo"
+  },
+
+  "mosaic": {
+    "heading": "Co u nás najdete",
+    "items": [
+      {
+        "image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
+        "text": "Pečeme klasický kvasnicový chléb, vícezrnné bochníky i speciální regionální druhy.",
+        "linkLabel": "NAŠE PEČIVO",
+        "linkHref": "/nase-pecivo"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+        "text": "Čerstvě upečené croissanty, šneky a koláče — ideální snídaně ke kávě z naší kavárny.",
+        "linkLabel": "SLADKÉ PEČIVO",
+        "linkHref": "/nase-pecivo"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=800&q=80",
+        "text": "Každý týden nová sezonní specialita — sledujte, co právě vychází z pece.",
+        "linkLabel": "TÝDENNÍ NABÍDKA",
+        "linkHref": "/aktualni-nabidka"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80",
+        "text": "Tři prodejny napříč Prahou — vždy blízko vašeho domova nebo práce.",
+        "linkLabel": "NAŠE PRODEJNY",
+        "linkHref": "/pobocky"
+      }
+    ]
+  },
+
+  "delivery": {
+    "heading": "Pekárna U Mlýna i pro váš domov",
+    "text": "Nestihli jste přijít osobně? Objednejte si naše pečivo přes Wolt nebo Bolt Food — doručíme čerstvě z pece přímo ke dveřím."
+  },
+
+  "locations": {
+    "heading": "Naše prodejny",
+    "items": [
+      {
+        "image": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&q=80",
+        "name": "U Mlýna — Vinohrady",
+        "address": "Mánesova 48, Praha 2",
+        "woltHref": "https://wolt.com/cs/cze/prague/restaurant/pekarnaumulyna"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80",
+        "name": "U Mlýna — Dejvice",
+        "address": "Jugoslávských partyzánů 12, Praha 6",
+        "woltHref": "https://wolt.com/cs/cze/prague/restaurant/pekarnaumulyna"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1568254183919-78a4f43a2877?w=800&q=80",
+        "name": "U Mlýna — Smíchov",
+        "address": "Nádražní 84, Praha 5",
+        "woltHref": "https://wolt.com/cs/cze/prague/restaurant/pekarnaumulyna"
+      }
+    ]
+  },
+
+  "footer": {
+    "siteName": "Pekárna U Mlýna",
+    "logoUrlDark": "/templates/bakery-02/logo-dark.svg",
+    "email": "info@pekarnaumulyna.cz",
+    "phone": "+420 731 456 789",
+    "fbHref": "https://facebook.com/pekarnaumulyna",
+    "igHref": "https://instagram.com/pekarnaumulyna",
+    "addressCols": [
+      [
+        { "name": "Vinohrady", "address": "Mánesova 48, Praha 2", "phone": "+420 731 456 789" },
+        { "name": "Dejvice", "address": "Jugoslávských partyzánů 12, Praha 6", "phone": "+420 731 456 790" }
+      ],
+      [
+        { "name": "Smíchov", "address": "Nádražní 84, Praha 5", "phone": "+420 731 456 791" },
+        { "name": "Zákaznická linka", "address": "Po–Pá 7:00–18:00", "phone": "+420 731 456 789" }
+      ]
+    ],
+    "links": [
+      { "label": "O pekárně",        "href": "/o-nas" },
+      { "label": "Naše pečivo",      "href": "/nase-pecivo" },
+      { "label": "Týdenní nabídka",  "href": "/aktualni-nabidka" },
+      { "label": "Naše prodejny",    "href": "/pobocky" },
+      { "label": "Pracujte s námi",  "href": "/kariera" },
+      { "label": "Ochrana soukromí", "href": "/gdpr" }
+    ],
+    "companyName": "Pekárna U Mlýna s.r.o.",
+    "ico": "09876543"
+  },
+
+  "pages": {
+    "nase-pecivo": {
+      "seoTitle": "Naše pečivo — Pekárna U Mlýna",
+      "seoDescription": "Čerstvý chléb, rohlíky, croissanty a sezonní speciality z vlastní pece.",
+      "hero": { "heading": "Naše pečivo", "backgroundImage": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1920&q=85" }
+    },
+    "o-nas": {
+      "seoTitle": "O pekárně — Pekárna U Mlýna",
+      "seoDescription": "Rodinná pekárna v Praze s tradicí od roku 1994.",
+      "hero": { "heading": "Náš příběh", "backgroundImage": "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=1920&q=85" }
+    },
+    "pobocky": {
+      "seoTitle": "Naše prodejny — Pekárna U Mlýna",
+      "seoDescription": "Tři prodejny v Praze — Vinohrady, Dejvice a Smíchov.",
+      "hero": { "heading": "Kde nás najdete", "backgroundImage": "https://images.unsplash.com/photo-1568254183919-78a4f43a2877?w=1920&q=85" }
+    }
+  }
+}

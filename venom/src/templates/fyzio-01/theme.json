@@ -1,0 +1,27 @@
+{
+  "colors": {
+    "primary":    "#1f2d69",
+    "secondary":  "#6bbea1",
+    "background": "#ffffff",
+    "surface":    "#f5f8fc",
+    "text":       "#333333",
+    "textMuted":  "#666666",
+    "accent":     "#10d15d",
+    "border":     "#e8edf5"
+  },
+  "typography": {
+    "fontHeading": "Montserrat",
+    "fontBody":    "Open Sans",
+    "scale":       "comfortable"
+  },
+  "radius": {
+    "sm":   "3px",
+    "md":   "4px",
+    "lg":   "8px",
+    "pill": "99px"
+  },
+  "spacing": {
+    "personality": "normal",
+    "section":     "comfortable"
+  }
+}

@@ -1,0 +1,28 @@
+/* instala-02 — Demo Vestop */
+/* Topenářství & Instalatérství — červená #ee4036, Montserrat + Roboto */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+  --i2-red:     #ee4036;
+  --i2-red-dk:  #c42d2d;
+  --i2-dark:    #111111;
+  --i2-gray:    #444444;
+  --i2-light:   #f4f4f4;
+  --i2-white:   #ffffff;
+  --i2-border:  #e0e0e0;
+  --i2-font-h:  'Montserrat', sans-serif;
+  --i2-font-b:  'Roboto', sans-serif;
+}
+
+[data-template^="instala-02"] {
+  font-family: var(--i2-font-b);
+  color: var(--i2-dark);
+}
+
+[data-template^="instala-02"] h1,
+[data-template^="instala-02"] h2,
+[data-template^="instala-02"] h3,
+[data-template^="instala-02"] h4 {
+  font-family: var(--i2-font-h);
+}

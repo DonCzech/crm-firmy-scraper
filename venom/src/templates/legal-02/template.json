@@ -1,0 +1,80 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "legal-02",
+  "name": "Demo ROWAN LEGAL",
+  "industry": "lawyer",
+  "skeleton": "professional",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Prémiová advokátní kancelář Praha — statický světle modrošedý (#DCDFEB) navbar s SVG 'ROWAN LEGAL' logem (scales + navy wordmark), tmavě modrý (#143171) hero se 4 statistikami (100+ právníků), about sekce, grid právních specializací, blog preview novinky, kontakt, tmavý footer. Inspirováno rowan.cz.",
+  "sectionOrderNote": "Navbar → Hero → About → Services → Blog → Contact → Footer",
+  "skippedSections": [
+    { "pos": 4,  "name": "Team",         "reason": "Tým má vlastní stránku /tym — není součástí primárního homepage flow" },
+    { "pos": 5,  "name": "Gallery",      "reason": "Advokátní kancelář nepotřebuje galerii — nahrazeno blogem/novinkami" },
+    { "pos": 6,  "name": "Process",      "reason": "About/process blok je součástí hero sekce (homepage-numbers strip) — na homepage se nezobrazuje jako samostatná sekce" },
+    { "pos": 7,  "name": "CTA",          "reason": "Blog preview sekce plní roli CTA — slouží jako přechod ke kontaktu" },
+    { "pos": 8,  "name": "Testimonials", "reason": "Reference nejsou součástí primárního homepage flow originálu" },
+    { "pos": 10, "name": "FAQ",          "reason": "FAQ není v homepage flow originálu rowan.cz" }
+  ],
+  "extraSections": [
+    { "name": "Novinky / Blog", "type": "blog-preview", "variant": "legal-02-blog", "reason": "ROWAN LEGAL homepage obsahuje výraznou sekci aktualit/novinek — náhrada gallery" },
+    { "name": "Kontakt",        "type": "contact",       "variant": "legal-02-contact", "reason": "Kontaktní sekce na homepage i samostatné stránce — standardní pro advokátní kancelář" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "legal-02-navbar",   "contentRef": "navbar" },
+        { "type": "hero",         "variant": "legal-02-hero",     "contentRef": "hero" },
+        { "type": "services",     "variant": "legal-02-services", "contentRef": "services" },
+        { "type": "blog-preview", "variant": "legal-02-blog",      "contentRef": "blog" },
+        { "type": "contact",      "variant": "legal-02-contact",  "contentRef": "contact" },
+        { "type": "footer",       "variant": "legal-02-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "legal-02-navbar",  "contentRef": "navbar" },
+        { "type": "hero",    "variant": "lawyer-01-hero",   "contentRef": "pages.o-nas.hero" },
+        { "type": "about",   "variant": "legal-02-about",   "contentRef": "about" },
+        { "type": "footer",  "variant": "legal-02-footer", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Naše služby",
+      "seoTitleKey": "pages.sluzby.seoTitle",
+      "seoDescriptionKey": "pages.sluzby.seoDescription",
+      "sections": [
+        { "type": "navbar",    "variant": "legal-02-navbar",     "contentRef": "navbar" },
+        { "type": "hero",      "variant": "lawyer-01-hero",      "contentRef": "pages.sluzby.hero" },
+        { "type": "services",  "variant": "legal-02-services",   "contentRef": "services" },
+        { "type": "footer",    "variant": "legal-02-footer",    "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "legal-02-navbar",   "contentRef": "navbar" },
+        { "type": "contact", "variant": "legal-02-contact",  "contentRef": "contact" },
+        { "type": "footer",  "variant": "legal-02-footer",  "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

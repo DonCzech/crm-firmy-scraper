@@ -1,0 +1,149 @@
+{
+  "navbar": {
+    "siteName": "Demo Tattoo Studio",
+    "logoUrl": "/templates/tattoo-01/logo-white.svg",
+    "phone": "704 123 456",
+    "ctaText": "Objednat se",
+    "ctaHref": "#kontakt",
+    "shopHref": "#",
+    "shopText": "E-SHOP",
+    "links": [
+      { "label": "Tattoo",   "href": "#tattoo" },
+      { "label": "Piercing", "href": "#piercing" },
+      { "label": "Kontakt",  "href": "#kontakt" },
+      { "label": "Ceník",    "href": "#cenik" },
+      { "label": "Služby",   "href": "#sluzby" }
+    ]
+  },
+  "hero": {
+    "title": "Demo Tattoo Studio",
+    "subtitle": "Tetování a piercing od roku 1996",
+    "cta1Text": "Tattoo",
+    "cta1Href": "#tattoo",
+    "cta2Text": "Piercing",
+    "cta2Href": "#piercing",
+    "cta3Text": "Objednat se",
+    "cta3Href": "#kontakt",
+    "backgroundImage": "/assets/tattoo-01/00d07958d1-true-love-tribo-valentyn.jpg",
+    "artImage": "/templates/tattoo-01/hero-art.webp"
+  },
+  "intro": {
+    "title": "Profesionální tetování a piercing",
+    "body": "Věnujeme se profesionálnímu tetování a piercingu na té nejvyšší úrovni. V našem studiu a obchodě najdete největší výběr šperků z titanu, zirconu, oceli, dřeva, rohoviny a dalších materiálů.",
+    "text": "Věnujeme se profesionálnímu tetování a piercingu na té nejvyšší úrovni. V našem studiu a obchodě najdete největší výběr šperků z titanu, zirconu, oceli, dřeva, rohoviny a dalších materiálů."
+  },
+  "servicesTattoo": {
+    "title": "Tattoo",
+    "body": "V našem studiu pracuje 6 tatérů a každý má svůj specifický styl. Důležitá je pro nás nejen kvalita a originalita, ale také, aby tetování vypadalo dobře i za dvacet let.",
+    "heading": "Tattoo",
+    "text": "V našem studiu pracuje 6 tatérů a každý má svůj specifický styl. Důležitá je pro nás nejen kvalita a originalita, ale také, aby tetování vypadalo dobře i za dvacet let. Prohlédněte si portfolia jednotlivých umělců a domluvte si osobní konzultaci.",
+    "cta1Text": "Objednat se",
+    "cta1Href": "#kontakt",
+    "cta2Text": "Naši tatéři",
+    "cta2Href": "#tattoo",
+    "image": "/assets/tattoo-01/d96c81e0e3-sluzby-tattoo-sq.jpg"
+  },
+  "servicesPiercing": {
+    "title": "Piercing",
+    "body": "Bodypiercingu se věnujeme přes 30 let. Naši pierceři jsou zkušení odborníci s mnoholetou praxí.",
+    "heading": "Piercing",
+    "text": "Bodypiercingu se věnujeme přes 30 let. Naši pierceři jsou zkušení odborníci s mnoholetou praxí. Také u nás najdete největší výběr šperků v ČR, protože zastupujeme legendárního výrobce šperků.",
+    "cta1Text": "Objednat se",
+    "cta1Href": "#kontakt",
+    "cta2Text": "Naši pierceři",
+    "cta2Href": "#piercing",
+    "image": "/assets/tattoo-01/a68d7d069e-pierce-sq.jpg"
+  },
+  "gallery": {
+    "heading": "Naše práce",
+    "images": [
+      { "url": "/assets/tattoo-01/54abfa9857-2j0b1788.jpg",           "alt": "Tetování ukázka 1" },
+      { "url": "/assets/tattoo-01/203e6c041d-2j0b8090.jpg",           "alt": "Tetování ukázka 2" },
+      { "url": "/assets/tattoo-01/6fb95cc08e-petra13200.jpg",          "alt": "Tetování ukázka 3" },
+      { "url": "/assets/tattoo-01/dee30c3c09-tmavsi-petra.jpg",        "alt": "Tetování ukázka 4" },
+      { "url": "/assets/tattoo-01/d96c81e0e3-sluzby-tattoo-sq.jpg",   "alt": "Tetování ukázka 5" },
+      { "url": "/assets/tattoo-01/a68d7d069e-pierce-sq.jpg",          "alt": "Piercing ukázka" },
+      { "url": "/assets/tattoo-01/ca7a175945-jakub.jpg",              "alt": "Tetování ukázka 7" },
+      { "url": "/assets/tattoo-01/8604cccad8-tribo-new.jpg",          "alt": "Studio interiér" }
+    ]
+  },
+  "testimonials": {
+    "heading": "Co říkají naši klienti",
+    "testimonials": [
+      {
+        "text": "Jsem moc ráda, že jsem si vymyslela motiv, který pro mě má určitý smysl, a také že jsem našla tatéra, který ho dokázal dokonale vytetovat. Ze studia jsem odcházela s první kérkou, která je naprosto dokonalá.",
+        "quote": "Jsem moc ráda, že jsem si vymyslela motiv, který pro mě má určitý smysl, a také že jsem našla tatéra, který ho dokázal dokonale vytetovat. Ze studia jsem odcházela s první kérkou, která je naprosto dokonalá.",
+        "author": "Katka",
+        "image": "/assets/tattoo-01/ca7a175945-jakub.jpg"
+      },
+      {
+        "text": "Super fast, super friendly! Felt very safe and I'm satisfied. Will come back! Really professional and clean. Great sense of design.",
+        "quote": "Super fast, super friendly! Felt very safe and I'm satisfied. Will come back! Really professional and clean. Great sense of design.",
+        "author": "Berlin Guys",
+        "image": "/assets/tattoo-01/54abfa9857-2j0b1788.jpg"
+      },
+      {
+        "text": "Po konzultaci mi vytvořil krásné, jemné tetování, které ke mně jde, jako bych ho měla od narození.",
+        "quote": "Po konzultaci mi vytvořil krásné, jemné tetování, které ke mně jde, jako bych ho měla od narození.",
+        "author": "Tereza Bartošová",
+        "image": "/assets/tattoo-01/dee30c3c09-tmavsi-petra.jpg"
+      }
+    ]
+  },
+  "principles": {
+    "title": "Naše zásady",
+    "body": "Pracujeme podle přísných standardů kvality a bezpečnosti.",
+    "heading": "Naše zásady",
+    "items": [
+      {
+        "icon": "hygiene",
+        "title": "Přísně hygienické prostředí",
+        "text": "Dbáme na maximální čistotu a sterilitu."
+      },
+      {
+        "icon": "care",
+        "title": "Poučíme o vhodném způsobu hojení",
+        "text": "Poskytneme vám veškeré informace pro správné hojení."
+      },
+      {
+        "icon": "tools",
+        "title": "Všechny nástroje jsou sterilní nebo jednorázové",
+        "text": "Pracujeme výhradně s certifikovanými nástroji a materiály."
+      },
+      {
+        "icon": "friendly",
+        "title": "Jsme vždy střízliví a přátelští",
+        "text": "Profesionální přístup a příjemná atmosféra jsou pro nás samozřejmostí."
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Kontakt",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "hours": "Po–Pá 10:00–19:00, So 10:00–17:00",
+    "image": "/assets/tattoo-01/8604cccad8-tribo-new.jpg",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo"
+  },
+  "footer": {
+    "siteName": "Demo Tattoo Studio",
+    "tagline": "Profesionální tetování a piercing v srdci Prahy. Přes 30 let zkušeností.",
+    "logoUrl": "/templates/tattoo-01/logo-white.svg",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "hours": "Po–So  10:00–20:00",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "copyright": "© Demo Tattoo Studio 2026",
+    "navLinks": [
+      { "label": "Tattoo",   "href": "#tattoo" },
+      { "label": "Piercing", "href": "#piercing" },
+      { "label": "Galerie",  "href": "#galerie" },
+      { "label": "Ceník",    "href": "#cenik" },
+      { "label": "Kontakt",  "href": "#kontakt" }
+    ]
+  }
+}

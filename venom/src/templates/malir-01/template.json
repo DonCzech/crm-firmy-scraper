@@ -1,0 +1,55 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "malir-01",
+  "name": "Demo Petrovo malování",
+  "industry": "malir",
+  "skeleton": "b2b-trade",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Malíř & natěrač — malování interiérů a lakování oken/dveří. Černý (#000000) navbar, amber (#E79B0E) akcent, Playfair Display nadpisy, Raleway body, 4-foto hero slider, 2 service karty (Malování/Lakování), benefits grid, FAQ accordion, recenze. Inspirováno petrovomalovani.cz.",
+  "sectionOrderNote": "Navbar → Hero → About → Services → Promo → FAQ → Testimonials → Footer",
+  "skippedSections": [
+    { "pos": 6,  "name": "Pricing/Estimate", "reason": "Ceny jsou individuální — základní odhad po telefonu, žádný ceník na webu" },
+    { "pos": 7,  "name": "Portfolio",        "reason": "Fotogalerie je na podstránce reference — homepage nemá samostatnou gallery sekci" },
+    { "pos": 8,  "name": "Contact form",     "reason": "Originál nemá kontaktní formulář na homepage — pouze copyright footer s adresou" },
+    { "pos": 9,  "name": "Contact/CTA",       "reason": "Originál nemá CTA sekci — kontakt je pouze v footer copyright baru" },
+    { "pos": 10, "name": "Service area",     "reason": "Firma operuje v Praze a okolí — bez mapy servisní oblasti na homepage" }
+  ],
+  "extraSections": [
+    { "type": "promo", "reason": "Benefity (5 výhod firmy) — rychlost / bělost / úklid / záruka / návrh designu; dle originálu petrovomalovani.cz" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",       "variant": "malir-01-navbar",       "contentRef": "navbar" },
+        { "type": "hero",         "variant": "malir-01-hero",         "contentRef": "hero" },
+        { "type": "about",        "variant": "malir-01-about",        "contentRef": "about" },
+        { "type": "services",     "variant": "malir-01-services",     "contentRef": "services" },
+        { "type": "promo",        "variant": "malir-01-promo",        "contentRef": "promo" },
+        { "type": "faq",          "variant": "malir-01-faq",          "contentRef": "faq" },
+        { "type": "testimonials", "variant": "malir-01-testimonials", "contentRef": "testimonials" },
+        { "type": "footer",       "variant": "malir-01-footer",       "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar", "variant": "malir-01-navbar", "contentRef": "navbar" },
+        { "type": "footer", "variant": "malir-01-footer", "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

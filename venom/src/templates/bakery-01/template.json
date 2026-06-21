@@ -1,0 +1,84 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "bakery-01",
+  "name": "Demo Zrno Zrnko",
+  "industry": "bakery",
+  "skeleton": "gastro",
+  "version": "1.0.0",
+  "baseTemplate": null,
+  "description": "Řemeslná pekárna & kavárna — světlý minimální design; topbar se social ikonami, sticky navbar s centrovaným logem, fullscreen hero s uppercase sloganem, panorama banner + 2-col about, 2-col promo sekce, jednoduchá patička. Inspirováno zrnozrnko.cz (Webnode 2).",
+  "sectionOrderNote": "Navbar → Hero → About → Services (promo) → Footer",
+  "skippedSections": [
+    { "pos": 4, "name": "CTA",          "reason": "Originál nemá dedikovanou CTA sekci na homepage" },
+    { "pos": 5, "name": "Contact",      "reason": "Kontakt je přes navigaci, na homepage není contact sekce" },
+    { "pos": 6, "name": "Gallery",      "reason": "Galerie není na homepage — je součástí about 2-col" },
+    { "pos": 7, "name": "Pricing",      "reason": "Pekárna/kavárna nemá klasický ceník na homepage" },
+    { "pos": 8, "name": "Testimonials", "reason": "Recenze nejsou na homepage originálu" },
+    { "pos": 9, "name": "Team",         "reason": "Tým není v homepage flow" },
+    { "pos": 10, "name": "FAQ",         "reason": "FAQ není v homepage flow" }
+  ],
+  "extraSections": [
+    {
+      "name": "Promo 2-col",
+      "type": "services",
+      "variant": "bakery-01-promo-2col",
+      "reason": "Druhá 2-col promo sekce pro brunch & akce (specifická pro bakery-01 layout)"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "bakery-01-navbar",     "contentRef": "navbar" },
+        { "type": "hero",     "variant": "bakery-01-hero",       "contentRef": "hero" },
+        { "type": "about",    "variant": "bakery-01-about",      "contentRef": "about" },
+        { "type": "services", "variant": "bakery-01-promo-2col", "contentRef": "services" },
+        { "type": "footer",   "variant": "bakery-01-footer",     "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar", "variant": "bakery-01-navbar", "contentRef": "navbar" },
+        { "type": "about",  "variant": "bakery-01-about",  "contentRef": "pages.o-nas.about" },
+        { "type": "footer", "variant": "bakery-01-footer", "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "pekarna",
+      "title": "Pekárna",
+      "seoTitleKey": "pages.pekarna.seoTitle",
+      "seoDescriptionKey": "pages.pekarna.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "bakery-01-navbar",     "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",        "contentRef": "pages.pekarna.hero" },
+        { "type": "services", "variant": "bakery-01-promo-2col", "contentRef": "pages.pekarna.services" },
+        { "type": "footer",   "variant": "bakery-01-footer",     "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kava",
+      "title": "Káva",
+      "seoTitleKey": "pages.kava.seoTitle",
+      "seoDescriptionKey": "pages.kava.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "bakery-01-navbar",     "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",        "contentRef": "pages.kava.hero" },
+        { "type": "services", "variant": "bakery-01-promo-2col", "contentRef": "pages.kava.services" },
+        { "type": "footer",   "variant": "bakery-01-footer",     "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

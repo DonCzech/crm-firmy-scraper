@@ -1,0 +1,152 @@
+{
+  "navbar": {
+    "siteName": "Čistá Firma",
+    "logoUrl": "",
+    "tagline": "Profesionální úklid & správa budov",
+    "phone": "+420 602 881 440",
+    "email": "info@cistaFirma.cz",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "#kontakt",
+    "links": [
+      { "label": "Úvod",      "href": "#uvod"      },
+      { "label": "O firmě",   "href": "#onas"      },
+      { "label": "Služby",    "href": "#sluzby"    },
+      { "label": "Reference", "href": "#reference"  },
+      { "label": "Kariéra",   "href": "#kariera"   },
+      { "label": "Kontakt",   "href": "#kontakt"   }
+    ]
+  },
+  "hero": {
+    "title": "Čistota, na kterou se můžete spolehnout",
+    "subtitle": "Zajišťujeme profesionální úklid průmyslových hal, kanceláří, zdravotnických zařízení i veřejných prostor. Rychle, spolehlivě a bez starostí.",
+    "ctaText": "Prohlédnout služby",
+    "ctaHref": "#sluzby",
+    "backgroundImage": "/assets/clean-01/17afb6b349-service-nav-bg.webp",
+    "videoUrl": ""
+  },
+  "services": {
+    "title": "Co pro vás zvládneme",
+    "subtitle": "Komplexní řešení čistoty od každodenního úklidu až po specializované průmyslové čištění — vše pod jednou střechou.",
+    "eyebrow": "Naše služby",
+    "services": [],
+    "items": [
+      {
+        "icon": "🤖",
+        "name": "Robotický úklid",
+        "description": "Autonomní čisticí roboty zvládají velké plochy rychle a bez přerušení provozu."
+      },
+      {
+        "icon": "🧹",
+        "name": "Pravidelný úklid",
+        "description": "Denní, týdenní i měsíční úklid kanceláří, hal a společných prostor dle vašeho plánu."
+      },
+      {
+        "icon": "✨",
+        "name": "Výškové práce",
+        "description": "Čištění fasád, střešních světlíků a těžko dostupných míst s certifikovanými lezci."
+      },
+      {
+        "icon": "⚙️",
+        "name": "Průmyslové čištění",
+        "description": "Odmaštění strojů, čištění výrobních linek a technologií v potravinářství i strojírenství."
+      },
+      {
+        "icon": "🛡️",
+        "name": "Ostraha objektů",
+        "description": "Nepřetržitá bezpečnostní služba, kamerovéý dohled a kontrola vstupu do areálu."
+      }
+    ]
+  },
+  "about": {
+    "title": "Kdo jsme a co nás pohání",
+    "subtitle": "Čistá Firma působí na trhu od roku 2004. Za tu dobu jsme se stali důvěryhodným partnerem pro více než 350 firem po celé České republice — od malých kanceláří až po výrobní závody s tisíci zaměstnanci.",
+    "body": "Naší silou je vlastní tým proškolených pracovníků, moderní technika a systém řízení kvality ISO 9001. Každé pracoviště dostane přiděleného koordinátora, který dohlíží na plnění dohodnutých standardů a je kdykoliv dostupný pro vaše požadavky.",
+    "ctaText": "Jak pracujeme",
+    "ctaHref": "#sluzby",
+    "image": "/assets/clean-01/b72f4e0bf8-static-bg-services-info.webp"
+  },
+  "promo": {
+    "title": "Proč si vybírají nás?",
+    "subtitle": "Víc než 20 let zkušeností a stovky spokojených klientů — to není náhoda.",
+    "eyebrow": "Naše výhody",
+    "items": [
+      {
+        "icon": "🏆",
+        "title": "20 let na trhu",
+        "description": "Dvě desetiletí v oboru nám daly know-how, které menší firmy prostě nemají."
+      },
+      {
+        "icon": "📋",
+        "title": "Plán šitý na míru",
+        "description": "Žádné šablony — každý klient dostane harmonogram přesně podle svého provozu."
+      },
+      {
+        "icon": "🔬",
+        "title": "Kontrola kvality",
+        "description": "Pravidelné audity, digitální check-listy a certifikace ISO 9001 jako standard."
+      },
+      {
+        "icon": "🌱",
+        "title": "Ekologický přístup",
+        "description": "Používáme certifikované ekologické přípravky šetrné k lidem i životnímu prostředí."
+      }
+    ]
+  },
+  "gallery": {
+    "eyebrow": "Reference",
+    "title": "Ukázky naší práce",
+    "subtitle": "Výsledky mluví samy za sebe — podívejte se na realizace z posledních měsíců.",
+    "images": [
+      { "url": "/assets/clean-01/fa4c744a76-_DSC3792.webp",         "alt": "Leštění průmyslové podlahy v logistickém centru"   },
+      { "url": "/assets/clean-01/bf7b789712-_DSC3876.webp",         "alt": "Voskování podlahy ve výrobní hale"                 },
+      { "url": "/assets/clean-01/06835163f7-image-cleaning-3.webp", "alt": "Dezinfekce a hloubkový úklid zdravotnického zařízení" }
+    ]
+  },
+  "cta": {
+    "eyebrow": "Kontakt",
+    "title": "Připravíme vám nabídku do 24 hodin",
+    "subtitle": "Stačí nám říct, co a kde potřebujete uklidit. Zbytek zařídíme my.",
+    "ctaText": "Napsat e-mail",
+    "ctaHref": "mailto:info@cistaFirma.cz",
+    "ctaSecondaryText": "Zavolat hned",
+    "ctaSecondaryHref": "tel:+420602881440"
+  },
+  "footer": {
+    "ctaStripTitle": "Máte zájem o spolupráci?",
+    "ctaStripSubtitle": "Ozvěte se nám — připravíme nabídku na míru.",
+    "servicesLabel": "Služby",
+    "infoLabel": "Informace",
+    "siteName": "Čistá Firma s.r.o.",
+    "tagline": "Profesionální úklid & správa budov",
+    "address": "Průmyslová 14, 301 00 Plzeň",
+    "phone": "+420 602 881 440",
+    "email": "info@cistaFirma.cz",
+    "web": "https://cistaFirma.cz",
+    "ico": "28834712",
+    "facebook": "https://facebook.com/cistaFirma",
+    "instagram": "https://instagram.com/cistaFirma",
+    "openingHours": "Po–Pá 6:00–18:00",
+    "links": [
+      { "label": "Pravidelný úklid",    "href": "#sluzby"  },
+      { "label": "Výškové práce",       "href": "#sluzby"  },
+      { "label": "Průmyslové čištění",  "href": "#sluzby"  },
+      { "label": "Ostraha objektů",     "href": "#sluzby"  }
+    ],
+    "linksCol2": [
+      { "label": "Ochrana osobních údajů", "href": "#gdpr"    },
+      { "label": "Kariéra u nás",          "href": "#kariera" },
+      { "label": "Péče o zaměstnance",     "href": "#kariera" }
+    ],
+    "copyright": "© 2026 Čistá Firma s.r.o. Všechna práva vyhrazena."
+  },
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Naše služby — Čistá Firma",
+      "seoDescription": "Pravidelný úklid, průmyslové čištění, výškové práce a ostraha objektů pro firmy v celé ČR."
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Čistá Firma",
+      "seoDescription": "Poptejte nezávaznou nabídku úklidových služeb. Odpovíme do 24 hodin."
+    }
+  }
+}

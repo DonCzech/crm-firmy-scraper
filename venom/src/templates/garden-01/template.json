@@ -1,0 +1,97 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "garden-01",
+  "name": "Demo Gerberra",
+  "industry": "garden",
+  "skeleton": "b2b-trade",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Zahradnické služby — realizace a údržba zahrad. Tmavý #202714 sticky navbar se SVG rostlinným logem + zlatý #bcba63 akcent, fullbleed hero s tmavým overlayem, galerie proměn 2-col grid, 4-box 'proč my' sekce na tmavém pozadí, kontaktní formulář, 4-col footer. Inspirováno gerberra.cz.",
+  "sectionOrderNote": "Navbar → Hero → Gallery → About → Contact → Footer",
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Services",
+      "reason": "Gerberra.cz nemá dedikovanou services sekci na homepage — služby jsou v samostatné stránce /sluzby"
+    },
+    {
+      "pos": 6,
+      "name": "Pricing/Estimate",
+      "reason": "Ceny jsou individuální — nabídky na míru po kontaktu, bez ceníku"
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Originál nemá hodnocení na homepage"
+    },
+    {
+      "pos": 8,
+      "name": "Pricing",
+      "reason": "Ceny jsou individuální — nabídky na míru po kontaktu"
+    },
+    {
+      "pos": 9,
+      "name": "Contact/CTA",
+      "reason": "Nahrazeno plnou contact sekcí (type=contact) s formulářem"
+    },
+    {
+      "pos": 10,
+      "name": "Service area",
+      "reason": "Oblast (Praha a okolí) je uvedena v contact sekci a footeru, bez mapy"
+    },
+    {
+      "pos": 11,
+      "name": "FAQ",
+      "reason": "Originál gerberra.cz FAQ sekci na homepage nemá"
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "contact",
+      "reason": "Kontaktní formulář s info panelem — klíčová konverzní sekce; originál ji má jako hlavní CTA na homepage"
+    }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",  "variant": "garden-01-navbar",  "contentRef": "navbar"  },
+        { "type": "hero",    "variant": "garden-01-hero",    "contentRef": "hero"    },
+        { "type": "gallery", "variant": "garden-01-gallery", "contentRef": "gallery" },
+        { "type": "about",   "variant": "garden-01-about",   "contentRef": "about"   },
+        { "type": "contact", "variant": "garden-01-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "garden-01-footer",  "contentRef": "footer"  }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Naše služby",
+      "seoTitleKey": "pages.sluzby.seoTitle",
+      "seoDescriptionKey": "pages.sluzby.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "garden-01-navbar",  "contentRef": "navbar"  },
+        { "type": "footer",  "variant": "garden-01-footer",  "contentRef": "footer"  }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "garden-01-navbar",  "contentRef": "navbar"  },
+        { "type": "contact", "variant": "garden-01-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "garden-01-footer",  "contentRef": "footer"  }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

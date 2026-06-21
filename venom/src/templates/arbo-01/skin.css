@@ -1,0 +1,17 @@
+/* arbo-01 — Demo Lesarb | Arboristika & Lesnické práce */
+/* Primary: #106133 | Accent: #e0cebc | Font: Fira Sans */
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;700&display=swap');
+
+:root {
+  --arbo-green:       #106133;
+  --arbo-green-mid:   #15a04a;
+  --arbo-green-hover: #128940;
+  --arbo-green-dark:  #0d4e29;
+  --arbo-beige:       #e0cebc;
+  --arbo-brown:       #5a4937;
+  --arbo-surface:     #ecf6f0;
+  --arbo-text:        #444444;
+  --arbo-white:       #ffffff;
+  --arbo-font:        'Fira Sans', sans-serif;
+}

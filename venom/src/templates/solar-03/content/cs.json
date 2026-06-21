@@ -1,0 +1,152 @@
+{
+  "navbar": {
+    "siteName": "Demo SolarPro",
+    "tagline": "Obnovitelná energie",
+    "announcementText": "DEMO SOLARPRO — SPECIÁLNÍ NABÍDKA PRO PRŮMYSLOVÉ OBJEKTY NA",
+    "announcementLink": "WWW.SOLARPRO-PRUMYSL.CZ",
+    "announcementHref": "#",
+    "links": [
+      { "label": "Realizace",      "href": "#realizace"  },
+      { "label": "Monitoring",     "href": "#monitoring" },
+      { "label": "Aktuality",      "href": "#aktuality"  },
+      { "label": "Sortiment",      "href": "#sortiment"  },
+      { "label": "Poradna",        "href": "#poradna"    },
+      { "label": "O firmě",        "href": "#ofirme"     },
+      { "label": "Kontakt",        "href": "#kontakt"    }
+    ],
+    "navLinks": [
+      { "label": "Vzduch-voda",     "href": "#vzduchvoda" },
+      { "label": "Země-voda",       "href": "#zemevoda"   },
+      { "label": "Solární panely",  "href": "#solar"      }
+    ],
+    "ctaText": "Bezplatná konzultace",
+    "ctaHref": "#kontakt"
+  },
+  "footer": {
+    "siteName": "SolarPro",
+    "tagline": "Obnovitelná energie",
+    "copyright": "© 2026 SolarPro Energetika, s.r.o.",
+    "col1Title": "Naše služby",
+    "col1Links": [
+      { "label": "Vzduch-voda",    "href": "#vzduchvoda" },
+      { "label": "Země-voda",      "href": "#zemevoda"   },
+      { "label": "Solární panely", "href": "#solar"      },
+      { "label": "Dotační poradenství", "href": "#dotace" },
+      { "label": "Realizace",      "href": "#realizace"  }
+    ],
+    "col2Title": "Produktová řada",
+    "col2Links": [
+      { "label": "EcoTherm Air 6",    "href": "#sortiment" },
+      { "label": "EcoTherm Air 9",    "href": "#sortiment" },
+      { "label": "EcoTherm Air 12",   "href": "#sortiment" },
+      { "label": "EcoTherm Geo 8",    "href": "#sortiment" },
+      { "label": "EcoTherm Geo 12",   "href": "#sortiment" },
+      { "label": "SolarPanel 400W",   "href": "#sortiment" },
+      { "label": "SolarPanel 550W",   "href": "#sortiment" },
+      { "label": "Bateriový úložiště","href": "#sortiment" }
+    ],
+    "col3Title": "Informace",
+    "col3Links": [
+      { "label": "Aktuality",      "href": "#aktuality" },
+      { "label": "Poradna",        "href": "#poradna"   },
+      { "label": "Kontakt",        "href": "#kontakt"   },
+      { "label": "O společnosti",  "href": "#ofirme"    },
+      { "label": "Volná místa",    "href": "#kariera"   }
+    ],
+    "fbHref": "#",
+    "igHref": "#",
+    "ytHref": "#"
+  },
+  "stats": {
+    "title": "Jsme SolarPro",
+    "stats": [
+      { "value": "15 let zkušeností",  "description": "První instalaci tepelného čerpadla jsme realizovali v roce 2011. Systém běží bez závad dodnes." },
+      { "value": "Česká výroba",        "description": "Naše technologie vznikají v Jihočeském kraji. Nekupujete dovoz — kupujete českou preciznost." },
+      { "value": "8 740 instalací",     "description": "Tolik domácností a firem nás svěřilo své vytápění. Každá instalace je pro nás referencí." }
+    ]
+  },
+  "testimonials": {
+    "title": "Zákazníci o nás",
+    "reviews": [
+      {
+        "name": "Petra Horáčková",
+        "text": "Celý proces od první schůzky přes projektovou dokumentaci až po spuštění systému proběhl naprosto hladce. Tým SolarPro byl vždy dostupný, odpovídal rychle a hlavně odborně. Tepelné čerpadlo funguje bezchybně, monitoring přes mobilní aplikaci je neskutečně pohodlný. Vrřele doporučuji všem, kdo uvažují o přechodu na obnovitelné zdroje."
+      },
+      {
+        "name": "Roman Blažek",
+        "text": "Měl jsem obavy z administrativy kolem dotace, ale SolarPro vyřídilo vše za mě. Bez starostí, v termínu a za cenu, která odpovídala nabídce. Kvalitní práce, čisté pracovní prostředí po montáži a skvělý servisní přístup."
+      },
+      {
+        "name": "Jana Kubešová",
+        "text": "Po šesti měsících provozu kombinace tepelného čerpadla a fotovoltaiky šetřím na energiích přes 60 %. Instalace proběhla za dva dny, montéři byli precizní a uklidili po sobě. SolarPro splnilo vše, co slíbilo. Lepší investici jsem za poslední roky neudělala."
+      }
+    ]
+  },
+  "process": {
+    "title": "Jak to u nás funguje",
+    "image": "/templates/solar-03/process.jpg",
+    "steps": [
+      { "title": "Bezplatná konzultace a návrh systému do 48 hodin", "description": "Zavolejte nám nebo vyplňte poptávkový formulář. Náš energetický poradce vás kontaktuje, projde váš objekt a připraví nezávazný návrh systému na míru." },
+      { "title": "Kompletní dotační servis bez starostí", "description": "Postaráme se o veškerou byrokracii spojenou s dotačními programy. Připravíme žádost, doložíme požadovanou dokumentaci a dotaci dotáhneme do úspěšného konce." },
+      { "title": "Odborná montáž a zprovoznění na klíč", "description": "Certifikovaní technici provádějí instalaci s maximální pečlivostí. Po montáži systém nastavíme, otestujeme a zaškolíme vás k jeho ovládání." },
+      { "title": "Dlouhodobá záruční i pozáruční péče", "description": "Poskytujeme záruku 5 let na celou instalaci a doživotní technickou podporu. Vzdálený monitoring odhalí případné problémy dříve, než je vůbec zaznamenáte." }
+    ]
+  },
+  "about": {
+    "title": "10 důvodů, proč si vybrat tepelné čerpadlo nebo fotovoltaiku od SolarPro",
+    "items": [
+      { "title": "Česká výroba v Jihočeském kraji",     "description": "Vlastní výrobní závod s přísnou kontrolou kvality každého kusu." },
+      { "title": "Montáž do 6 týdnů od podpisu",        "description": "Máme skladem. Domluvíme termín a přijedeme v domluvenou dobu." },
+      { "title": "Dotace vyřídíme za vás",              "description": "Specializujeme se na dotační programy NZÚ a OP TAK. Úspěšnost 99 %." },
+      { "title": "Prémiové komponenty s certifikací",   "description": "Používáme výhradně komponenty s evropskou certifikací a ověřenou životností." },
+      { "title": "Záruka 5 let na instalaci",           "description": "Naše záruka nekončí předáním. Servisujeme a opravujeme po celou záruční dobu." },
+      { "title": "Nejvyšší COP ve své kategorii",       "description": "Vlastní vývoj řídicí elektroniky zajišťuje špičkovou účinnost i za mrazu −25 °C." },
+      { "title": "Servisní síť po celé republice",      "description": "Vlastní technici v každém kraji. Reakční doba do 24 hodin, o víkendu do 48 hodin." },
+      { "title": "Zkušenosti od roku 2011",             "description": "15 let na trhu, přes 8 700 spokojených zákazníků — to je naše vizitka." },
+      { "title": "Individuální přístup ke každé zakázce","description": "Žádný typový projekt. Každé řešení navrhujeme podle vašeho objektu a potřeb." },
+      { "title": "Ekologický provoz bez emisí",         "description": "Nulové přímé emise CO₂. Pomáháme vám snižovat uhlíkovou stopu i platby za energie." }
+    ]
+  },
+  "services": {
+    "title": "Naše řešení",
+    "cards": [
+      {
+        "title": "Tepelná čerpadla vzduch-voda",
+        "subtitle": "pro rodinné i bytové domy",
+        "image": "/templates/solar-03/services-1.jpg",
+        "bullets": ["Dotace NZÚ zajistíme", "COP až 5,1 při 7 °C", "Tiché venkovní jednotky"],
+        "ctaText": "Více informací",
+        "ctaHref": "#vzduchvoda"
+      },
+      {
+        "title": "Fotovoltaické elektrárny",
+        "subtitle": "se skladováním energie",
+        "image": "/templates/solar-03/services-2.jpg",
+        "bullets": ["Panely s výkonem 550 Wp", "Baterie pro noční provoz", "Vzdálený monitoring zdarma"],
+        "ctaText": "Více informací",
+        "ctaHref": "#solar"
+      },
+      {
+        "title": "Hybridní energetický systém",
+        "subtitle": "čerpadlo + FVE + baterie",
+        "image": "/templates/solar-03/services-3.jpg",
+        "bullets": ["Soběstačnost až 80 %", "Chytré řízení spotřeby", "Jednoduchá mobilní aplikace"],
+        "ctaText": "Více informací",
+        "ctaHref": "#hybrid"
+      }
+    ]
+  },
+  "hero": {
+    "title": "Tepelná čerpadla a solární elektrárny od českého výrobce",
+    "items": [
+      "Pro rodinné i komerční objekty",
+      "Dotaci vyřídíme za vás",
+      "Vlastní servisní síť po celé ČR"
+    ],
+    "ctaText": "Bezplatná konzultace",
+    "ctaHref": "#kontakt",
+    "image": "/templates/solar-03/hero.jpg",
+    "badge1": "15 let na trhu",
+    "badge2": "4,8 ★ Google"
+  }
+}

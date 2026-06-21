@@ -1,0 +1,79 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "restaurant-01",
+  "name": "Demo Memento",
+  "industry": "restaurant",
+  "skeleton": "gastro",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Prémiová restaurace — tmavý luxusní design #1a0e0a, amber #c8943f akcent, červené #c0392b CTA, Georgia serif H1; hamburger navbar s centrovaným logem, fullbleed hero, o nás split, menu karty, CTA rezervace, kontakt + mapa. Inspirováno ambi.cz (Ambiente).",
+  "sectionOrderNote": "Navbar → Hero → About → Services (menu) → CTA → Contact → Footer",
+  "skippedSections": [
+    { "pos": 4,  "name": "Pricing",     "reason": "Restaurace nemá ceník na homepage — pricing je součástí menu stránky" },
+    { "pos": 5,  "name": "Gallery",     "reason": "Originál ambi.cz nemá klasickou galerii na homepage — atmosféru nesou hero + about fotky" },
+    { "pos": 8,  "name": "Testimonials","reason": "Recenze nejsou na primární homepage originálu" },
+    { "pos": 9,  "name": "Team",        "reason": "Tým není součástí homepage flow originálu" },
+    { "pos": 10, "name": "FAQ",         "reason": "FAQ není v homepage flow originálu" }
+  ],
+  "extraSections": [
+    { "name": "Menu sekce", "type": "services", "variant": "restaurant-01-menu", "reason": "Gastro skeleton nemá services — nahrazuje standardní Menu blok výpisem menu kategorií pro restauraci" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "restaurant-01-navbar",  "contentRef": "navbar" },
+        { "type": "hero",     "variant": "restaurant-01-hero",    "contentRef": "hero" },
+        { "type": "about",    "variant": "restaurant-01-about",   "contentRef": "about" },
+        { "type": "services", "variant": "restaurant-01-menu",    "contentRef": "services" },
+        { "type": "cta",      "variant": "restaurant-01-cta",     "contentRef": "cta" },
+        { "type": "contact",  "variant": "restaurant-01-contact", "contentRef": "contact" },
+        { "type": "footer",   "variant": "restaurant-01-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "menu",
+      "title": "Menu",
+      "seoTitleKey": "pages.menu.seoTitle",
+      "seoDescriptionKey": "pages.menu.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "restaurant-01-navbar",  "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",         "contentRef": "pages.menu.hero" },
+        { "type": "services","variant": "restaurant-01-menu",    "contentRef": "pages.menu.services" },
+        { "type": "footer",  "variant": "restaurant-01-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "restaurant-01-navbar",  "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",         "contentRef": "pages.o-nas.hero" },
+        { "type": "about",   "variant": "restaurant-01-about",   "contentRef": "pages.o-nas.about" },
+        { "type": "footer",  "variant": "restaurant-01-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt & Rezervace",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "restaurant-01-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "restaurant-01-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "restaurant-01-footer",  "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

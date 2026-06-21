@@ -1,0 +1,242 @@
+{
+  "navbar": {
+    "siteName": "Autoservis Procházka",
+    "logoUrl": "/templates/autoservis-03/logo.svg",
+    "ctaText": "REZERVACE",
+    "ctaHref": "#kontakt",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "links": [
+      { "label": "Domů",        "href": "/" },
+      { "label": "Naše práce",  "href": "/#prace" },
+      { "label": "Služby",      "href": "/sluzby" },
+      { "label": "Ceník",       "href": "/#cenik" },
+      { "label": "Galerie",     "href": "/#galerie" },
+      { "label": "Dostupnost",  "href": "/#dostupnost" },
+      { "label": "Kontakt",     "href": "/kontakt" }
+    ]
+  },
+  "hero": {
+    "tagline": "BMW specializace • Profesionální přístup",
+    "title": "AUTOSERVIS\nPNEUSERVIS",
+    "subtitle": "Moderní technologie",
+    "phone": "704 123 456",
+    "ctaText": "Naše služby",
+    "ctaHref": "/sluzby",
+    "ctaSecondaryText": "Naše práce",
+    "ctaSecondaryHref": "/#prace",
+    "backgroundImage": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=1920&h=1080&fit=crop&fm=webp&q=80"
+  },
+  "stats": {
+    "id": "statistiky",
+    "items": [
+      { "value": "15+",   "label": "let zkušeností" },
+      { "value": "3 000+","label": "spokojených zákazníků" },
+      { "value": "4.8★",  "label": "hodnocení na Google" },
+      { "value": "24h",   "label": "express opravy" }
+    ]
+  },
+  "services": {
+    "id": "sluzby",
+    "tagline": "Co pro vás děláme",
+    "title": "Kompletní servis\nvašeho vozidla",
+    "subtitle": "Specializujeme se na pneuservis a autoservis s důrazem na BMW, ale poskytujeme kvalitní servis pro všechny značky vozidel.",
+    "items": [
+      {
+        "icon": "wrench",
+        "name": "Pneuservis",
+        "description": "Rychlé a kvalitní výměny a opravy pneumatik pro osobní i dodávková vozidla.",
+        "ctaText": "Více info",
+        "ctaHref": "/sluzby"
+      },
+      {
+        "icon": "settings",
+        "name": "Údržba vozidel",
+        "description": "Pravidelné kontroly, výměna opotřebovaných dílů a údržba motoru pro bezpečný provoz.",
+        "ctaText": "Více info",
+        "ctaHref": "/sluzby"
+      },
+      {
+        "icon": "cpu",
+        "name": "Diagnostika motorů",
+        "description": "Zjišťování problémů a poruch v motoru pro rychlé odstranění a spolehlivou jízdu.",
+        "ctaText": "Více info",
+        "ctaHref": "/sluzby"
+      },
+      {
+        "icon": "shield",
+        "name": "Opravy karoserie",
+        "description": "Obnovení estetického vzhledu a bezpečnosti vozidla po poškození.",
+        "ctaText": "Více info",
+        "ctaHref": "/sluzby"
+      }
+    ]
+  },
+  "aboutStory": {
+    "id": "o-nas",
+    "tagline": "O nás",
+    "title": "Váš spolehlivý partner\npro péči o vozidlo",
+    "body": "Jsme rodinný autoservis s více než 15 lety zkušeností v Praze. Specializujeme se na vozy BMW, ale pečujeme o všechny značky s maximální odborností a pečlivostí. Každé vozidlo bereme jako svěřený majetek – proto k opravám přistupujeme zodpovědně, transparentně a bez zbytečných příplatků.",
+    "bullets": [
+      "Certifikovaní mechanici s BMW specializací",
+      "Originální i kvalitní náhradní díly",
+      "Transparentní ceník bez skrytých poplatků",
+      "Expresní servis do 24 hodin"
+    ],
+    "ctaText": "Objednat se",
+    "ctaHref": "#kontakt",
+    "image": "https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=800&h=600&fit=crop&fm=webp&q=80"
+  },
+  "gallery": {
+    "id": "galerie",
+    "tagline": "Naše práce",
+    "title": "Výsledky, na které\njsme hrdí",
+    "subtitle": "Každý servisní zásah provádíme s maximální precizností.",
+    "items": [
+      { "url": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=600&h=400&fit=crop&fm=webp&q=80", "alt": "Servis BMW" },
+      { "url": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=400&fit=crop&fm=webp&q=80", "alt": "Pneuservis" },
+      { "url": "https://images.unsplash.com/photo-1625047509248-ec889cbff17f?w=600&h=400&fit=crop&fm=webp&q=80", "alt": "Diagnostika" },
+      { "url": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&fm=webp&q=80", "alt": "Oprava motoru" },
+      { "url": "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=600&h=400&fit=crop&fm=webp&q=80", "alt": "Výměna kol" },
+      { "url": "https://images.unsplash.com/photo-1507136566006-cfc505b114fc?w=600&h=400&fit=crop&fm=webp&q=80", "alt": "Karoserie" }
+    ]
+  },
+  "about": {
+    "id": "proc-my",
+    "tagline": "Proč si vybrat právě nás?",
+    "title": "Kvalita a spolehlivost\nna prvním místě",
+    "items": [
+      {
+        "icon": "user",
+        "title": "Individuální přístup",
+        "description": "Každé auto je jedinečné, stejně jako náš přístup k jeho opravě"
+      },
+      {
+        "icon": "zap",
+        "title": "Moderní technologie",
+        "description": "Používáme nejnovější diagnostické přístroje a kvalitní náhradní díly"
+      },
+      {
+        "icon": "award",
+        "title": "BMW specializace",
+        "description": "Hluboké znalosti a zkušenosti s vozy BMW všech generací"
+      },
+      {
+        "icon": "check-circle",
+        "title": "Důvěryhodnost",
+        "description": "Dlouholeté zkušenosti a spokojenost našich zákazníků"
+      }
+    ]
+  },
+  "pricing": {
+    "id": "cenik",
+    "tagline": "Transparentní ceny",
+    "title": "Ceník služeb",
+    "subtitle": "Snažíme se nabízet kvalitní služby za přijatelné ceny. Ceny se mohou lišit dle modelu a značky vozidla.",
+    "vatNote": "* uvedené ceny jsou bez DPH",
+    "ctaText": "Získat nabídku",
+    "ctaHref": "#kontakt",
+    "tables": [
+      {
+        "heading": "Autoservis",
+        "rows": [
+          { "name": "Výměna brzdových destiček a kotoučů 1 osa", "price": "od 2 000 Kč*" },
+          { "name": "Výměna kapalin v chladicím systému",         "price": "od 1 200 Kč*" },
+          { "name": "Výměna motorového oleje",                     "price": "od 1 300 Kč*" },
+          { "name": "Diagnostika chyb a oprava elektroniky",       "price": "od 2 400 Kč*" },
+          { "name": "Mechanické práce",                            "price": "1 200 Kč/h*" }
+        ]
+      },
+      {
+        "heading": "Pneuservis",
+        "rows": [
+          { "name": "Montáž + demontáž 1 ks kola z vozu",          "price": "140 Kč*" },
+          { "name": "Demontáž nebo montáž 1 ks pneu",              "price": "80 Kč*" },
+          { "name": "Vyvážení kola vč. závaží do 30 g / 1 kolo",   "price": "110 Kč*" },
+          { "name": "Oprava defektu",                               "price": "600 Kč*" },
+          { "name": "Diagnostika TPMS",                             "price": "500 Kč*" },
+          { "name": "Programovatelný TPMS ventil",                  "price": "900 Kč*" }
+        ]
+      }
+    ]
+  },
+  "testimonials": {
+    "id": "recenze",
+    "tagline": "Co říkají naši zákazníci",
+    "title": "Přečtěte si recenze\nod spokojených klientů",
+    "googleReviewUrl": "https://google.com/maps",
+    "items": [
+      {
+        "name": "Dmytro D.",
+        "rating": 5,
+        "date": "před měsícem",
+        "text": "Pan Tomáš je velmi kompetentní a příjemný mechanik. Dokázal zrepasovat přední podvozek na mé starší Mazdě 6 za méně než 24 hodin. Je to opravdu znalý a zkušený člověk – s jeho prací jsem více než spokojen a rozhodně ho doporučuji.",
+        "source": "Google"
+      },
+      {
+        "name": "Pavel K.",
+        "rating": 5,
+        "date": "před 2 měsíci",
+        "text": "Výborná zkušenost! Přezutí kol rychle a za rozumnou cenu. Personál příjemný, vše proběhlo bez problémů. Určitě se vrátím.",
+        "source": "Google"
+      },
+      {
+        "name": "Lucie M.",
+        "rating": 5,
+        "date": "před 3 měsíci",
+        "text": "BMW série 5 po výměně oleje a filtrů jezdí jako nové. Profesionální přístup, diagnostika odhalila i závadu o které jsem nevěděla. Doporučuji!",
+        "source": "Google"
+      }
+    ]
+  },
+  "contact": {
+    "id": "kontakt",
+    "tagline": "Kontaktujte nás",
+    "title": "Objednejte se\npředem",
+    "note": "Rezervaci vám potvrdíme nebo se domluvíme na jiném termínu",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "hours": "Po–Pá 7:00–17:00, So 8:00–12:00",
+    "whatsapp": "https://wa.me/420704123456",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "formTitle": "Rezervace termínu",
+    "formSubtitle": "Vyplňte formulář a my se vám ozveme s potvrzením",
+    "services": [
+      "Opravy automobilů",
+      "Pneuservis",
+      "BMW specializace",
+      "Diagnostika",
+      "STK a emise",
+      "Jiné"
+    ]
+  },
+  "footer": {
+    "siteName": "Demo Autoservis Tomáš",
+    "logoUrl": "/templates/autoservis-03/logo.svg",
+    "tagline": "BMW specializace",
+    "email": "info@demo.cz",
+    "phone": "704 123 456",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "instagramUrl": "https://instagram.com/demo",
+    "facebookUrl": "https://facebook.com/demo",
+    "links": [
+      { "label": "Domů",    "href": "/" },
+      { "label": "Služby",  "href": "/sluzby" },
+      { "label": "Ceník",   "href": "/#cenik" },
+      { "label": "Kontakt", "href": "/kontakt" }
+    ],
+    "copyright": "© 2025 Demo Autoservis Tomáš. Všechna práva vyhrazena."
+  },
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Služby — Demo Autoservis Tomáš",
+      "seoDescription": "Pneuservis, opravy motorů, BMW specializace, diagnostika, STK příprava."
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Demo Autoservis Tomáš",
+      "seoDescription": "Kontaktujte nás nebo se objednejte online."
+    }
+  }
+}

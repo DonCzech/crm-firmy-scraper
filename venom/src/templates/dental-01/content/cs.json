@@ -1,0 +1,94 @@
+{
+  "navbar": {
+    "siteName": "Demo Magic Smile",
+    "ctaText": "Objednat se",
+    "ctaHref": "#kontakt",
+    "links": [
+      { "label": "ÚVOD",    "href": "/" },
+      { "label": "O NÁS",   "href": "#o-nas" },
+      { "label": "POBOČKY", "href": "#pobocky" },
+      { "label": "SLUŽBY",  "href": "#sluzby" },
+      { "label": "KONTAKT", "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "heading": "Demo Dental Care – Profesionální péče o úsměv",
+    "backgroundUrl": "/templates/dental-01/hero-bg.webp"
+  },
+  "services": {
+    "heading": "Naše služby",
+    "kicker": "Co nabízíme",
+    "items": [
+      {
+        "title": "Dentální implantáty",
+        "description": "Trvalé řešení chybějících zubů s prodlouženou zárukou. Moderní titanové implantáty pro přirozený úsměv.",
+        "imageUrl": "/assets/dental-01/824dadfbac-cee2b886-b282-4b50-b872-10e579f8f61f.jpg"
+      },
+      {
+        "title": "Ortodoncie",
+        "description": "Rovnátka a nenápadné alignery pro rovný chrup. Ošetření pro děti i dospělé.",
+        "imageUrl": "/assets/dental-01/8db8555d7e-28d4dda8-526a-41d2-a8e9-1346a61fba23.jpg"
+      },
+      {
+        "title": "Bělení zubů",
+        "description": "Profesionální bělení v ordinaci i doma. Bezpečná metoda pro oslnivý úsměv.",
+        "imageUrl": "/assets/dental-01/824dadfbac-cee2b886-b282-4b50-b872-10e579f8f61f.jpg"
+      }
+    ]
+  },
+  "about": {
+    "kicker": "O nás",
+    "heading": "Stomatologická klinika Demo Dental Care",
+    "imageUrl": "/assets/dental-01/cf6ee44c5f-9f70b2f7-899d-47bd-b6fc-88e0b0e7539d-1200x674.jpg",
+    "body": "Poskytujeme špičkovou stomatologickou péči v Praze již od roku 2010. Naši zkušení lékaři kombinují moderní technologie s individuálním přístupem ke každému pacientovi.",
+    "features": [
+      "Zkušený tým specializovaných lékařů",
+      "Moderní digitální RTG a CBCT",
+      "Bezbariérový přístup",
+      "Spolupráce s pojišťovnami VZP, ČPZP, OZP",
+      "Prodloužená záruka na implantáty",
+      "Online objednávání 24/7"
+    ],
+    "ctaText": "Více o nás",
+    "ctaHref": "#kontakt",
+    "branches": [
+      { "name": "Ukázková 123", "city": "Praha 1" },
+      { "name": "Ukázková 456", "city": "Praha 9" }
+    ]
+  },
+  "promo": {
+    "heading": "Pro své pacienty jsme tu od roku 2010",
+    "body": "Poskytujeme prodlouženou záruku na dentální implantáty a zirkonové můstky. Spolupracujeme s pojišťovnami VZP, ČPZP, OZP, Média, Revírní bratrská pokladna.",
+    "ctaText": "Objednat se online",
+    "ctaHref": "#kontakt",
+    "backgroundUrl": "/assets/dental-01/533ec40372-banner-min.jpg"
+  },
+  "contact": {
+    "kicker": "Kontakt",
+    "heading": "Kontaktujte nás",
+    "phone": "+420 704 123 456",
+    "email": "info@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pá 8:00–18:00, So 8:00–13:00",
+    "ctaText": "Objednat se online",
+    "ctaHref": "rezervace@demo.cz",
+    "bookingEmail": "rezervace@demo.cz"
+  },
+  "footer": {
+    "siteName": "Dental CARE",
+    "tagline": "Špičková stomatologická péče v Praze od roku 2010.",
+    "phone": "+420 704 123 456",
+    "email": "info@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pá 8:00–18:00",
+    "fbHref": "https://facebook.com/demo",
+    "igHref": "https://instagram.com/demo",
+    "copyright": "© 2025 Dental CARE. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "O nás",   "href": "#o-nas" },
+      { "label": "Pobočky", "href": "#pobocky" },
+      { "label": "Služby",  "href": "#sluzby" },
+      { "label": "Kontakt", "href": "#kontakt" }
+    ]
+  }
+}

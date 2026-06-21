@@ -1,0 +1,27 @@
+{
+  "colors": {
+    "primary":    "#af8c6a",
+    "secondary":  "#393145",
+    "background": "#ffffff",
+    "surface":    "#f8f7f8",
+    "text":       "#393145",
+    "textMuted":  "#645a64",
+    "accent":     "#af8c6a",
+    "border":     "#e3e0dd"
+  },
+  "typography": {
+    "fontHeading": "Muli",
+    "fontBody":    "Muli",
+    "scale":       "comfortable"
+  },
+  "radius": {
+    "sm":   "0px",
+    "md":   "0px",
+    "lg":   "0px",
+    "pill": "0px"
+  },
+  "spacing": {
+    "personality": "spacious",
+    "section":     "airy"
+  }
+}

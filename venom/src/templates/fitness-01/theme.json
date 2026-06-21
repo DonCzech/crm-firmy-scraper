@@ -1,0 +1,27 @@
+{
+  "colors": {
+    "primary":    "#AD8A72",
+    "secondary":  "#000000",
+    "background": "#FFF9F7",
+    "surface":    "#F5EDE6",
+    "text":       "#000000",
+    "textMuted":  "#54595F",
+    "accent":     "#AD8A72",
+    "border":     "#E5D9D1"
+  },
+  "typography": {
+    "fontHeading": "Inter",
+    "fontBody":    "Roboto",
+    "scale":       "comfortable"
+  },
+  "radius": {
+    "sm":   "4px",
+    "md":   "6px",
+    "lg":   "8px",
+    "pill": "100px"
+  },
+  "spacing": {
+    "personality": "normal",
+    "section":     "comfortable"
+  }
+}

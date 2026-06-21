@@ -1,0 +1,144 @@
+{
+  "navbar": {
+    "siteName": "Demo Bomton Clinic",
+    "logoUrl": "/templates/clinic-02/logo.svg",
+    "ctaText": "Rezervace",
+    "ctaHref": "#kontakt",
+    "phone": "+420 704 123 456",
+    "links": [
+      { "label": "Zákroky",  "href": "#sluzby" },
+      { "label": "Služby",   "href": "#sluzby" },
+      { "label": "O nás",    "href": "#o-nas" },
+      { "label": "Ceník",    "href": "#kontakt" },
+      { "label": "Kontakt",  "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "title":    "ESTETIKA NA NEJVYŠŠÍ ÚROVNI",
+    "tagline":  "Špičková estetická péče v centru Prahy. Individuální přístup, moderní technologie a výsledky, které vás překvapí.",
+    "bgImage":  "/templates/clinic-02/hero-bg.webp",
+    "ctaText":  "Online rezervace",
+    "ctaHref":  "#kontakt"
+  },
+  "testimonials": {
+    "title":  "Recenze klientů",
+    "kicker": "5 z 5 hvězdiček na Google.com i Seznam.cz",
+    "testimonials": [
+      {
+        "text":   "V Demo Clinic jsem podstoupila aplikaci výplně rtů a s výsledkem jsem maximálně spokojená. Rty působí velmi přirozeně a esteticky. Velká spokojenost s paní doktorkou. Mohu jen doporučit.",
+        "author": "Erika Ch.",
+        "role":   "Klientka",
+        "rating": 5
+      },
+      {
+        "text":   "Přišla jsem s určitou představou, ale díky konzultaci s paní doktorkou, která mi vše pečlivě vysvětlila a doporučila vhodnější řešení, odcházím velmi spokojená. Oceňuji její profesionální a vstřícný přístup.",
+        "author": "Hana K.",
+        "role":   "Klientka",
+        "rating": 5
+      },
+      {
+        "text":   "Navštívila jsem kliniku kvůli aplikaci výplně rtů a jsem naprosto spokojená! Rty jsou nádherné a vypadají krásně přirozeně. Přístup celého personálu byl velmi profesionální, milý a vstřícný.",
+        "author": "Ela B.",
+        "role":   "Klientka",
+        "rating": 5
+      }
+    ]
+  },
+  "services": {
+    "title":  "Oblíbená ošetření",
+    "kicker": "Naše nejpopulárnější procedury",
+    "services": [
+      {
+        "name":        "Remodelace Profhilem",
+        "description": "Biorevitalizace pleti pomocí Profhilu — inovativní přípravek s kyselinou hyaluronovou pro omlazení a hydrataci pleti.",
+        "imageUrl":    "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=600&q=80",
+        "price":       "od 4 500 Kč",
+        "ctaText":     "Zjistit více",
+        "ctaHref":     "#kontakt"
+      },
+      {
+        "name":        "Výplň rtů",
+        "description": "Přirozené zvětšení a tvarování rtů pomocí kyseliny hyaluronové. Výsledek je okamžitý, přirozený a trvá 6–12 měsíců.",
+        "imageUrl":    "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80",
+        "price":       "od 3 800 Kč",
+        "ctaText":     "Zjistit více",
+        "ctaHref":     "#kontakt"
+      },
+      {
+        "name":        "Aplikace botulotoxinu",
+        "description": "Efektivní řešení vrásků a mimických linek. Výsledky jsou viditelné do 2 týdnů a trvají 4–6 měsíců.",
+        "imageUrl":    "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80",
+        "price":       "od 4 200 Kč",
+        "ctaText":     "Zjistit více",
+        "ctaHref":     "#kontakt"
+      }
+    ]
+  },
+  "promo": {
+    "kicker":   "Nezávazná konzultace",
+    "title":    "Konzultace ZDARMA",
+    "message":  "Nevíte, jaká procedura je přesně pro vás? Nabízíme profesionální konzultace vedené našimi odborníky. Poradíme vám a vytvoříme plán zahrnující ošetření přesně na míru vašim přáním.",
+    "ctaText":  "Objednat konzultaci",
+    "ctaHref":  "#kontakt"
+  },
+  "about": {
+    "title":    "O klinice",
+    "kicker":   "Na trhu od roku 1995",
+    "body":     "Demo Bomton Clinic je přední klinika estetické dermatologie v centru Prahy. Naši zkušení lékaři kombinují nejmodernější technologie s individuálním přístupem ke každému klientovi. Věříme, že krása by měla být přirozená a každé ošetření by mělo podpořit vaši sebedůvěru.",
+    "imageUrl": "/templates/clinic-02/about-clinic.webp",
+    "features": [
+      "Inovativní a efektivní přístroje",
+      "Individuální a diskrétní přístup",
+      "Zkušení lékaři a specialisté",
+      "Lokalita v centru Prahy",
+      "Konzultace zdarma",
+      "Nejmodernější technologie a postupy"
+    ],
+    "rating":   "5 z 5 hvězdiček na Google",
+    "ctaText":  "Zjistit více",
+    "ctaHref":  "#kontakt"
+  },
+  "cta": {
+    "kicker":  "Newsletter",
+    "title":   "Odebírejte newsletter a získejte slevu 10 %",
+    "message": "Speciální akce, zajímavosti, novinky ze světa kliniky a vše o kráse přímo do vašeho inboxu.",
+    "ctaText": "Přihlásit se k odběru",
+    "ctaHref": "#kontakt"
+  },
+  "contact": {
+    "title":   "Kontakt",
+    "kicker":  "Jsme tu pro vás",
+    "address": "Ukázková 123",
+    "city":    "110 00 Praha 1",
+    "phone":   "+420 704 123 456",
+    "email":   "info@demo.cz",
+    "web":     "https://demo.cz",
+    "hours": [
+      { "days": "Pondělí – Pátek", "time": "Po–Pá 9:00–18:00" },
+      { "days": "Sobota",          "time": "So 9:00–14:00" },
+      { "days": "Neděle",          "time": "Zavřeno" }
+    ],
+    "mapEmbedUrl": ""
+  },
+  "footer": {
+    "siteName":    "Demo Bomton Clinic",
+    "logoUrl":     "/templates/clinic-02/logo.svg",
+    "tagline":     "Klinika estetické dermatologie",
+    "address":     "Ukázková 123, 110 00 Praha 1",
+    "phone":       "+420 704 123 456",
+    "email":       "info@demo.cz",
+    "facebook":    "https://facebook.com/demo",
+    "instagram":   "https://instagram.com/demo",
+    "hours": [
+      { "days": "Po–Pá", "time": "9:00–18:00" },
+      { "days": "So",    "time": "9:00–14:00" },
+      { "days": "Ne",    "time": "Zavřeno" }
+    ],
+    "links": [
+      { "label": "GDPR",    "href": "#" },
+      { "label": "Ceník",   "href": "#" },
+      { "label": "Kontakt", "href": "#kontakt" }
+    ],
+    "copyright": "© 2025 Premium Clinic. Všechna práva vyhrazena."
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "ucetni-02",
+  "name": "Demo Daňový Poradce",
+  "industry": "ucetni",
+  "skeleton": "professional",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Daňové poradenství & účetnictví — sticky bílý navbar se zeleným (#004835) logem a zlatým (#bca160) CTA, hero #004835 bg (2-col text + fotografie), stats pás (1 600+ klientů / 10+ let / 80+ specialistů), sekce oborových řešení (12 odvětví, mint #E5ECEA karty), about sekce, blog preview, kontakt, footer. Inspirováno grantex.cz.",
+  "sectionOrderNote": "Navbar → Hero → Stats → Services → About → Blog → Contact → Footer",
+  "skippedSections": [
+    { "pos": 4, "name": "Testimonials",  "reason": "Grantex nepoužívá klasické citace na homepage; reference jsou na podstránce" },
+    { "pos": 5, "name": "Cases/Gallery", "reason": "Případové studie jsou na podstránce; homepage nevyužívá galerii" },
+    { "pos": 7, "name": "CTA strip",    "reason": "CTA funkci pokrývá hero sekce a kontaktní formulář" },
+    { "pos": 8, "name": "Testimonials 2","reason": "Reference klientů nejsou na homepage originálu" },
+    { "pos": 10,"name": "FAQ",           "reason": "FAQ není součástí homepage flow originálu" }
+  ],
+  "extraSections": [
+    { "type": "stats",        "name": "Klíčová čísla",    "reason": "Bílá sekce se 3 statistikami (1600+ klientů / 10+ let / 80+ specialistů) — přímý ekvivalent counter sekce na hp originálu" },
+    { "type": "blog-preview", "name": "Aktuality",        "reason": "3-col blog preview sekce se článkovými kartami — přímý ekvivalent sekce 'Články / Aktuality' na hp originálu" },
+    { "type": "contact",      "name": "Kontaktní formulář","reason": "Tmavě zelená sekce s formulářem a kontaktními info — přímý ekvivalent 'napište nám' na hp originálu" }
+  ],
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "ucetni-02-navbar",   "contentRef": "navbar" },
+        { "type": "hero",         "variant": "ucetni-02-hero",     "contentRef": "hero" },
+        { "type": "stats",        "variant": "ucetni-02-stats",    "contentRef": "stats" },
+        { "type": "services",     "variant": "ucetni-02-services", "contentRef": "services" },
+        { "type": "about",        "variant": "ucetni-02-about",    "contentRef": "about" },
+        { "type": "blog-preview", "variant": "ucetni-02-blog",     "contentRef": "blog" },
+        { "type": "contact",      "variant": "ucetni-02-contact",  "contentRef": "contact" },
+        { "type": "footer",       "variant": "ucetni-02-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "ucetni-02-navbar",  "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",     "contentRef": "pages.o-nas.hero" },
+        { "type": "about",   "variant": "ucetni-02-about",   "contentRef": "about" },
+        { "type": "footer",  "variant": "ucetni-02-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "ucetni-02-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "ucetni-02-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "ucetni-02-footer",  "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "content/cs.json"
+  }
+}

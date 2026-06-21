@@ -1,0 +1,66 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "ucetni-03",
+  "name": "Demo Hypoteční Poradce",
+  "industry": "ucetni",
+  "skeleton": "professional",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Hypoteční poradenství & finance — 2-řádkový sticky navbar (info lišta + bílý nav) s tmavě zeleným (#002000) logem a zeleným (#4caf50) CTA, hero s kalkulačkou hypotéky, stats pás (1 800 makléřů / 161 mld Kč / 20 let), sekce výhod (4-col grid), about sekce, FAQ/poradna, kontakt, footer. Inspirováno gpf.cz (Gepard Finance).",
+  "sectionOrderNote": "Navbar → Hero → Stats → Services → About → FAQ → Contact → Footer",
+  "skippedSections": [
+    { "pos": 4,  "name": "About/Team",   "reason": "Tým není samostatná sekce; obsah o firmě je v about sekci" },
+    { "pos": 5,  "name": "Gallery",      "reason": "Galerie není součástí homepage originálu" },
+    { "pos": 7,  "name": "CTA strip",    "reason": "CTA funkci pokrývá hero sekce" },
+    { "pos": 8,  "name": "Testimonials", "reason": "GPF nepoužívá klasické recenze na homepage; reference jsou integrovány do poradny" },
+    { "pos": 9,  "name": "Blog preview", "reason": "Blog je na podstránce; homepage nevyužívá blog preview" }
+  ],
+  "extraSections": [
+    { "type": "stats", "name": "Klíčová čísla",  "reason": "Pás s počty makléřů / sjednaných hypoték / let praxe — přímý ekvivalent statistik na hp originálu" },
+    { "type": "faq",   "name": "Poradna",         "reason": "Q&A sekce s hypotečními dotazy — přímý ekvivalent 'Poradna' sekce na hp originálu" },
+    { "type": "contact","name": "Kontaktní formulář","reason": "Kontaktní sekce — přímý ekvivalent CTA formuláře na hp originálu" }
+  ],
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "ucetni-03-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "ucetni-03-hero",     "contentRef": "hero" },
+        { "type": "stats",    "variant": "ucetni-03-stats",    "contentRef": "stats" },
+        { "type": "services", "variant": "ucetni-03-services", "contentRef": "services" },
+        { "type": "about",    "variant": "ucetni-03-about",    "contentRef": "about" },
+        { "type": "faq",      "variant": "ucetni-03-faq",      "contentRef": "faq" },
+        { "type": "contact",  "variant": "ucetni-03-contact",  "contentRef": "contact" },
+        { "type": "footer",   "variant": "ucetni-03-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "ucetni-03-navbar",  "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",     "contentRef": "pages.o-nas.hero" },
+        { "type": "about",   "variant": "ucetni-03-about",   "contentRef": "about" },
+        { "type": "footer",  "variant": "ucetni-03-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "ucetni-03-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "ucetni-03-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "ucetni-03-footer",  "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "content/cs.json"
+  }
+}

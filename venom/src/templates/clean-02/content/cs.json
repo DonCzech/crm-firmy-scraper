@@ -1,0 +1,272 @@
+{
+  "navbar": {
+    "siteName": "Clean Garden",
+    "logoUrl": "",
+    "tagline": "Profesionální úklid Praha",
+    "phone": "+420 600 000 000",
+    "email": "info@cleangarden.cz",
+    "ctaText": "Poptat úklid",
+    "ctaHref": "#kontakt",
+    "links": [
+      { "label": "Úvod",             "href": "/"          },
+      { "label": "Úklidové služby",  "href": "#sluzby"    },
+      { "label": "O nás",            "href": "#onas"      },
+      { "label": "Reference",        "href": "#reference" },
+      { "label": "Blog",             "href": "#blog"      },
+      { "label": "Ceník",            "href": "#cenik"     }
+    ]
+  },
+  "hero": {
+    "title": "Profesionální úklidová firma v Praze",
+    "subtitle": "Spolehlivá úklidová firma v Praze, která se postará o vše od A do Z. Uklidíme kanceláře i společné prostory v bytových domech. Pracujeme rychle, pečlivě a bez zbytečných řečí.",
+    "ctaText": "Nezávazně poptat úklid",
+    "ctaHref": "#kontakt",
+    "ctaSecondaryText": "Proč s námi",
+    "ctaSecondaryHref": "#vyhody",
+    "reviewsText": "5,0 — Více než 70+ ověřených recenzí od zákazníků",
+    "backgroundImage": "/assets/clean-02/76f2317bcc-681cb883f075d3dfa070d327_hero_blend_1.webp",
+    "backgroundImage2": "/assets/clean-02/a7541cd9f6-681cb882589f8948a612943b_hero_blend_2.webp"
+  },
+  "stats": {
+    "eyebrow": "Naši zákazníci",
+    "title": "Mezi naše spokojené zákazníky patří 40+ firem a 40+ SVJ",
+    "logos": [
+      { "url": "/assets/clean-02/01e2f6fa46-681cae1b84c6389712b69e54_abuco-footer-logo.svg", "alt": "Abuco" },
+      { "url": "/assets/clean-02/d0f4dac50d-681cae1b4ff9148c562c47b5_datasentics.webp",      "alt": "Datasentics" },
+      { "url": "/assets/clean-02/3592929a66-681cae1b7f06e8c199a80fc9_mavericks.webp",         "alt": "Mavericks" },
+      { "url": "/assets/clean-02/bad9752dd9-681cae1bdcb797cdee4230eb_marinov_partners.webp",  "alt": "Marinov Partners" },
+      { "url": "/assets/clean-02/9eeb005b19-681cae1b3f8047121580dcf9_epico.svg",              "alt": "Epico" },
+      { "url": "/assets/clean-02/1453ad2e18-681cae1bcceed0bfc512074b_Logo_Praha.svg",         "alt": "Praha" }
+    ]
+  },
+  "promo": {
+    "eyebrow": "Naše výhody",
+    "title": "Úklid bez starostí od začátku do konce",
+    "subtitle": "Nemusíte se o nic starat — vše zařídíme za vás. Poctivě, spolehlivě a za férovou cenu.",
+    "items": [
+      {
+        "icon": "/assets/clean-02/620166cbc5-681cb62a932ab6d7b1c3e5c1_spolehlivy-uklid.webp",
+        "title": "Spolehlivý úklid",
+        "description": "Pečlivě a s důrazem na detaily. Dlouhodobě udržujeme kvalitu, díky které se k nám klienti vrací."
+      },
+      {
+        "icon": "/assets/clean-02/ccb59cc9ac-681cb6429e07c9c3fc455fc8_rychla-komunikace.webp",
+        "title": "Rychlá komunikace",
+        "description": "Reagujeme bez zbytečných prodlev. S námi se vždy domluvíte rychle a jasně."
+      },
+      {
+        "icon": "/assets/clean-02/e273831cb5-681cb6421a9f108478d6192b_pojisteni-proti-riziku.webp",
+        "title": "Pojištění proti riziku",
+        "description": "Jsme plně pojištěni. Případnou škodu vždy vyřešíme bez průtahů a bez starostí pro vás."
+      },
+      {
+        "icon": "/assets/clean-02/ea3b5ab208-681cb642a60993ff967557f8_prijedeme-za-vami.webp",
+        "title": "Přijedeme za vámi",
+        "description": "Osobní schůzka přímo u vás. Prohlédneme prostory a domluvíme konkrétní rozsah na míru."
+      }
+    ]
+  },
+  "services": {
+    "eyebrow": "Naše služby",
+    "title": "Clean Garden pro každý prostor",
+    "subtitle": "Poskytujeme kompletní úklidový servis — od kanceláří přes SVJ, generální úklidy, čištění nábytku až po strojové čištění garáží.",
+    "items": [
+      {
+        "image": "/assets/clean-02/1cfa8019eb-681cc6f11e736d773108ab1f_iso_1.webp",
+        "name": "Úklid kanceláří a firem",
+        "title": "Úklid kanceláří a firem",
+        "description": "Zajistíme čisté, reprezentativní a příjemné pracovní prostředí pro zaměstnance i klienty.",
+        "href": "#kontakt"
+      },
+      {
+        "image": "/assets/clean-02/e197257199-681cc6f1fd65e4e44dacf6ec_iso_2.webp",
+        "name": "Úklid panelových domů a SVJ",
+        "title": "Úklid panelových domů a SVJ",
+        "description": "Udržujeme pořádek ve společných prostorách bytových domů — chodby, schody, výtahy.",
+        "href": "#kontakt"
+      },
+      {
+        "image": "/assets/clean-02/c40c3ba339-681cc6f1f3bdd6a71d45a001_iso_3.webp",
+        "name": "Generální úklid",
+        "title": "Generální úklid",
+        "description": "Hloubkový úklid po rekonstrukci, stěhování nebo sezónní generálka — vše do posledního koutu.",
+        "href": "#kontakt"
+      },
+      {
+        "image": "/assets/clean-02/51a4ca55b0-681cc6f19ff6a6863151b676_iso_4.webp",
+        "name": "Čištění koberců a sedaček",
+        "title": "Čištění koberců a sedaček",
+        "description": "Profesionální strojové čištění koberců, čalounění a sedacího nábytku.",
+        "href": "#kontakt"
+      },
+      {
+        "image": "/assets/clean-02/4adc63ddcd-681cc6f159b198f6e59d23d9_iso_5.webp",
+        "name": "Strojové čištění garáží",
+        "title": "Strojové čištění garáží",
+        "description": "Průmyslovým strojovým čištěním odstraníme nečistoty z betonových a epoxidových podlah.",
+        "href": "#kontakt"
+      },
+      {
+        "image": "/clones/modryzralok/cdn/68c8394a4ac3836441b5c2e9_iso_6.avif",
+        "name": "Výškové mytí oken",
+        "title": "Výškové mytí oken",
+        "description": "Čistíme okna ve výškách pomocí teleskopických tyčí a speciální techniky bez lešení.",
+        "href": "#kontakt"
+      }
+    ],
+    "services": []
+  },
+  "about": {
+    "eyebrow": "Poznejte nás",
+    "title": "Lidský přístup a poctivá práce jsou u nás standard",
+    "body": "Za Clean Garden stojí stabilní tým lidí, kteří dělají svou práci poctivě a srdcem. Každý zákazník je pro nás důležitý — přistupujeme k němu individuálně, nasloucháme potřebám a hledáme řešení na míru. Naše práce je kvalitní, komunikace rychlá a ceny férové. A když něco pokazíme, ihned to napravíme. Věříme, že i úklid může být službou, na kterou se dá spolehnout.",
+    "ctaText": "Nezávazně poptat úklid",
+    "ctaHref": "#kontakt",
+    "image": "/assets/clean-02/86fd6e1d73-6839af21457c3480d654bb81_modry_zralok_onas_spolecne.webp",
+    "feat1Title": "Zkušený tým",
+    "feat1Desc": "Naše dámy na úklid mají praxi, oko pro detail a práci berou s maximální zodpovědností.",
+    "feat2Title": "Osobní přístup",
+    "feat2Desc": "Přijedeme za Vámi osobně, probereme vaše potřeby a navrhneme řešení na míru."
+  },
+  "blog": {
+    "eyebrow": "Média a publikace",
+    "title": "Napsali o nás",
+    "items": [
+      {
+        "date": "27. ledna 2026",
+        "title": "Neviditelná práce, která drží Prahu v chodu: Jak se mění úklid bytových domů",
+        "href": "#blog",
+        "image": "/assets/clean-02/2a5a4536ce-6980de5f0ac51c789eac79a1_modryzralok-eurocz.png",
+        "source": "euro.cz",
+        "imageType": "logo"
+      },
+      {
+        "date": "15. února 2026",
+        "title": "Tisíce nových bytů, tisíce metrů chodeb a schodišť — neviditelná práce úklidu",
+        "href": "#blog",
+        "image": "/assets/clean-02/2079c82cca-6980de5f9878e93a1738015e_modryzralok-metro.png",
+        "source": "metro.cz",
+        "imageType": "logo"
+      },
+      {
+        "date": "3. března 2026",
+        "title": "PODCAST: Clean Garden — po 5 letech v úklidu více než 100 spokojených zákazníků",
+        "href": "#blog",
+        "image": "/clones/modryzralok/cdn/68cd09bcf8df338f0c53590b_David.avif",
+        "source": "Podcast",
+        "imageType": "photo"
+      }
+    ]
+  },
+  "cta": {
+    "eyebrow": "Postup spolupráce",
+    "title": "Jak probíhá spolupráce s námi?",
+    "ctaText": "Nezávazně poptat úklid",
+    "ctaHref": "#kontakt",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Kontaktujte nás",
+        "description": "V co nejkratší době vám zavoláme nebo napíšeme e-mail a domluvíme si osobní schůzku, na které probereme podrobnosti úklidu dle vašich představ."
+      },
+      {
+        "number": "02",
+        "title": "Setkáme se osobně",
+        "description": "Přijedeme za vámi na osobní schůzku. Projdeme prostory a domluvíme si konkrétní rozsah služeb."
+      },
+      {
+        "number": "03",
+        "title": "Připravíme nabídku",
+        "description": "Po schůzce vám pošleme přesnou cenovou nabídku. Ceny jsou fixní — bez skrytých poplatků."
+      },
+      {
+        "number": "04",
+        "title": "Začneme pracovat",
+        "description": "Po odsouhlasení nabídky se pustíme do práce. Pravidelně vás informujeme o průběhu."
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Reference",
+    "title": "Co o nás říkají zákazníci",
+    "testimonials": [],
+    "items": [
+      {
+        "rating": 5,
+        "text": "Jsme maximálně spokojeni. Vždycky je vše tak jak má být. Prostory jsou vždy perfektně uklizeny a to vše navíc za skvělou cenu.",
+        "author": "Petra Nováková",
+        "date": "21.01.2026"
+      },
+      {
+        "rating": 5,
+        "text": "Spolupráce s Clean Garden funguje bez komplikací. Tým je profesionální, dochvilný a komunikace je vždy rychlá a jasná.",
+        "author": "Martin Dvořák",
+        "date": "15.03.2026"
+      },
+      {
+        "rating": 5,
+        "text": "Perfektní přístup od prvního kontaktu až po realizaci. Doporučujeme každému správci bytového domu.",
+        "author": "SVJ Ukázková 12",
+        "date": "02.06.2026"
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Nezávazná poptávka",
+    "title": "Připravíme vám cenovou nabídku",
+    "subtitle": "Na zprávy i hovory reagujeme bez zbytečných prodlev. S námi se domluvíte rychle a jasně.",
+    "phone": "+420 600 000 000",
+    "email": "info@cleangarden.cz",
+    "address": "Příkladná 1, 110 00 Praha 1",
+    "openingHours": "Po–Pá 8:00–16:00",
+    "formTitle": "Poptat úklid",
+    "services": [
+      "Všeobecný dotaz",
+      "Úklid kanceláří a firem",
+      "Úklid panelových domů a SVJ",
+      "Úklid po rekonstrukci a stavbě",
+      "Strojové čištění garáží",
+      "Čištění koberců a sedaček"
+    ]
+  },
+  "footer": {
+    "siteName": "Clean Garden s.r.o.",
+    "tagline": "Profesionální úklidová firma Praha",
+    "address": "Příkladná 1, 110 00 Praha 1",
+    "phone": "+420 600 000 000",
+    "email": "info@cleangarden.cz",
+    "web": "https://cleangarden.cz",
+    "ico": "00000000",
+    "facebook": "https://facebook.com/cleangarden",
+    "instagram": "https://instagram.com/cleangarden",
+    "openingHours": "Po–Pá 8:00–16:00",
+    "servicesLabel": "Služby",
+    "infoLabel": "Informace",
+    "links": [
+      { "label": "Úklid kanceláří a firem",        "href": "#sluzby" },
+      { "label": "Úklid panelových domů a SVJ",    "href": "#sluzby" },
+      { "label": "Generální úklid",                "href": "#sluzby" },
+      { "label": "Čištění koberců a sedaček",      "href": "#sluzby" },
+      { "label": "Strojové čištění garáží",        "href": "#sluzby" },
+      { "label": "Výškové mytí oken",              "href": "#sluzby" }
+    ],
+    "linksCol2": [
+      { "label": "O nás",                          "href": "#onas"    },
+      { "label": "Blog",                           "href": "#blog"    },
+      { "label": "Reference",                      "href": "#reference" },
+      { "label": "Kariéra",                        "href": "#kariera" },
+      { "label": "Ochrana osobních údajů",         "href": "#gdpr"    }
+    ],
+    "copyright": "© 2026 Clean Garden s.r.o. Všechna práva vyhrazena."
+  },
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Naše služby — Clean Garden",
+      "seoDescription": "Komplexní úklidové služby v Praze — kanceláře, SVJ, generální úklidy, čištění koberců a garáží."
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Clean Garden",
+      "seoDescription": "Poptejte nezávaznou nabídku úklidu. Reagujeme rychle a bez prodlev."
+    }
+  }
+}

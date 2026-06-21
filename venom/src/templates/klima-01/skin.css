@@ -1,0 +1,17 @@
+/* klima-01 — Demo PragoClima */
+/* Outfit via Google Fonts (loaded in template) */
+
+[data-template="klima-01"] {
+  --color-primary:      #e30016;
+  --color-primary-h:    #b50012;
+  --color-navy:         #182545;
+  --color-navy-2:       #2d4156;
+  --color-dark:         #3d3d3d;
+  --color-muted:        #a1a1a1;
+  --color-light:        #f7f7f7;
+  --color-border:       #e8e8e8;
+  --font-heading:       'Outfit', -apple-system, sans-serif;
+  --font-body:          'Outfit', -apple-system, sans-serif;
+  --radius-btn:         6px;
+  --radius-card:        12px;
+}

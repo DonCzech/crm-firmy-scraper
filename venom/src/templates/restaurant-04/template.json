@@ -1,0 +1,90 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "restaurant-04",
+  "name": "Demo Corleone Pizzeria",
+  "industry": "restaurant",
+  "skeleton": "gastro",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Italská pizzeria & restaurace — tmavý lesní zelený #0d1f0a, červená #c41c1c akcent, Fraunces serif + Nunito Sans; transparent→solid navbar, 5-slide crossfade hero, 2-col about, menu kategorie, polední menu CTA, galerie, 2-location kontakt, footer. Inspirováno corleone.cz (Corleone – italská restaurace Praha).",
+  "sectionOrderNote": "Navbar → Hero → About → Services (menu) → CTA (polední menu) → Gallery → Contact → Footer",
+  "skippedSections": [
+    { "pos": 4,  "name": "Pricing",      "reason": "Restaurace nemá ceník na homepage — ceny jsou součástí menu stránky" },
+    { "pos": 8,  "name": "Testimonials", "reason": "Recenze nejsou na primární homepage originálu" },
+    { "pos": 9,  "name": "Team",         "reason": "Tým není součástí homepage flow originálu" },
+    { "pos": 10, "name": "FAQ",           "reason": "FAQ není v homepage flow originálu" }
+  ],
+  "extraSections": [
+    { "name": "Menu sekce", "type": "services", "variant": "restaurant-04-menu", "reason": "Kategorie menu (pizza/těstoviny/speciality) — klíčová sekce pro restaurant gastro skeleton" },
+    { "name": "Galerie",    "type": "gallery",  "variant": "restaurant-04-gallery", "reason": "Fotogalerie prostředí a jídel" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "restaurant-04-navbar",  "contentRef": "navbar" },
+        { "type": "hero",     "variant": "restaurant-04-hero",    "contentRef": "hero" },
+        { "type": "about",    "variant": "restaurant-04-about",   "contentRef": "about" },
+        { "type": "services", "variant": "restaurant-04-menu",    "contentRef": "services" },
+        { "type": "cta",      "variant": "restaurant-04-cta",     "contentRef": "cta" },
+        { "type": "gallery",  "variant": "restaurant-04-gallery", "contentRef": "gallery" },
+        { "type": "contact",  "variant": "restaurant-04-contact", "contentRef": "contact" },
+        { "type": "footer",   "variant": "restaurant-04-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "menu",
+      "title": "Menu",
+      "seoTitleKey": "pages.menu.seoTitle",
+      "seoDescriptionKey": "pages.menu.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "restaurant-04-navbar",  "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",         "contentRef": "pages.menu.hero" },
+        { "type": "services", "variant": "restaurant-04-menu",    "contentRef": "pages.menu.services" },
+        { "type": "footer",   "variant": "restaurant-04-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "restaurant-04-navbar",  "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",         "contentRef": "pages.o-nas.hero" },
+        { "type": "about",    "variant": "restaurant-04-about",   "contentRef": "pages.o-nas.about" },
+        { "type": "footer",   "variant": "restaurant-04-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "galerie",
+      "title": "Galerie",
+      "seoTitleKey": "pages.galerie.seoTitle",
+      "seoDescriptionKey": "pages.galerie.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "restaurant-04-navbar",  "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",         "contentRef": "pages.galerie.hero" },
+        { "type": "gallery",  "variant": "restaurant-04-gallery", "contentRef": "pages.galerie.gallery" },
+        { "type": "footer",   "variant": "restaurant-04-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt & Rezervace",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "restaurant-04-navbar",  "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",         "contentRef": "pages.kontakt.hero" },
+        { "type": "contact",  "variant": "restaurant-04-contact", "contentRef": "contact" },
+        { "type": "footer",   "variant": "restaurant-04-footer",  "contentRef": "footer" }
+      ]
+    }
+  ]
+}

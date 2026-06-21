@@ -1,0 +1,46 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "solar-03",
+  "name": "Demo AC-Heating",
+  "industry": "solar",
+  "skeleton": "b2b-trade",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Tepelná čerpadla & fotovoltaika — český výrobce. Bílý sticky navbar, oranžový #ff8b00 akcent, 2-col hero s foto vpravo, services karty, 10 důvodů about, 4-step promo, testimonials, stats + footer. Inspirováno ac-heating.cz.",
+  "sectionOrderNote": "Navbar → Hero → Services → About → Process → Testimonials → Stats → Footer",
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "skippedSections": [
+    { "pos": 6,  "name": "Pricing/Estimate", "reason": "AC Heating neposkytuje ceník online — poptávka přes kontaktní formulář" },
+    { "pos": 7,  "name": "Portfolio",        "reason": "Reference jsou na dedikované podstránce /reference, ne na homepage" },
+    { "pos": 9,  "name": "Contact/CTA",      "reason": "CTA je součástí hero sekce a navbaru, standalone contact sekce není v originálním designu" },
+    { "pos": 10, "name": "Service area",     "reason": "AC Heating působí po celé ČR, mapa oblasti není relevantní" },
+    { "pos": 11, "name": "FAQ",              "reason": "FAQ je na dedikované podstránce /faq, ne na homepage" }
+  ],
+  "extraSections": [
+    { "type": "promo",  "reason": "4-kroková sekce 'Postaráme se o Vás' — klíčový prvek homepage ac-heating.cz" },
+    { "type": "stats",  "reason": "Statistiky firmy '20 let / Made in CZE / 12 248 domácností' — brand trust element" }
+  ],
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",       "variant": "solar-03-navbar",       "contentRef": "navbar"       },
+        { "type": "hero",         "variant": "solar-03-hero",         "contentRef": "hero"         },
+        { "type": "services",     "variant": "solar-03-services",     "contentRef": "services"     },
+        { "type": "about",        "variant": "solar-03-about",        "contentRef": "about"        },
+        { "type": "promo",        "variant": "solar-03-process",      "contentRef": "process"      },
+        { "type": "testimonials", "variant": "solar-03-testimonials", "contentRef": "testimonials" },
+        { "type": "stats",        "variant": "solar-03-stats",        "contentRef": "stats"        },
+        { "type": "footer",       "variant": "solar-03-footer",       "contentRef": "footer"       }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

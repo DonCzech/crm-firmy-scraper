@@ -1,0 +1,140 @@
+{
+  "navbar": {
+    "siteName": "Demo Zrno Zrnko",
+    "logoUrl": "/templates/bakery-01/logo.svg",
+    "fbHref": "https://facebook.com/demo",
+    "igHref": "https://instagram.com/demo",
+    "links": [
+      { "label": "O NÁS",      "href": "/o-nas" },
+      { "label": "PEKÁRNA",    "href": "/pekarna" },
+      { "label": "KÁVA",       "href": "/kava" },
+      { "label": "AKCE",       "href": "#akce" },
+      { "label": "DODÁVÁME",   "href": "#dodavame" },
+      { "label": "KONTAKT",    "href": "#kontakt" }
+    ]
+  },
+
+  "hero": {
+    "heading": "PEČEME S LÁSKOU OD ROKU 2016",
+    "backgroundImage": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1920&q=80"
+  },
+
+  "about": {
+    "heading": "Zrno Zrnko",
+    "subheading": "Řemeslná pekárna a kavárna v srdci Prahy",
+    "body": "Každé ráno vstáváme se sluníčkem, protože dobrý chléb počká jen na ty, kdo mu dají čas. Pracujeme s prověřenými českými mlýny, pečeme na kvásku a kávu pražíme ze zrn, která si sami vybíráme. Žádné zkratky — jen řemeslo, poctivé suroviny a radost z dobré práce.",
+    "col1Image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80",
+    "col1Text": "Kvasový chléb s křupavou kůrkou, másové croissanty, bagely, venkovský bochník nebo švestkový koláč — každý den čerstvé a bez kompromisů.",
+    "col1Cta": "NAŠE PEČIVO",
+    "col1CtaHref": "/pekarna",
+    "col2Image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+    "col2Text": "Výběrová espresso směs, filtrovaná single origin nebo ledový cold brew — káva, která se hodí ke všemu, co upečeme.",
+    "col2Cta": "NAŠE KÁVA",
+    "col2CtaHref": "/kava"
+  },
+
+  "services": {
+    "heading": "Přijďte, je tu vždy co zažít",
+    "items": [
+      {
+        "image": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=800&q=80",
+        "heading": "Víkendový brunch",
+        "text": "Každou sobotu a neděli otevíráme brunchové menu — snídaňové talíře, avokádové toasty na domácím chlebu a čerstvě mačkané džusy. Rezervace doporučujeme.",
+        "cta": "ZJISTIT VÍCE",
+        "ctaHref": "/pekarna"
+      },
+      {
+        "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80",
+        "heading": "Degustace & workshopy",
+        "text": "Naučte se upéct svůj první kvasový bochník nebo ochutnajte sezónní single origin kávy v naší kavárně. Termíny akcí najdete na Instagramu.",
+        "cta": "AKTUÁLNÍ AKCE",
+        "ctaHref": "/o-nas"
+      }
+    ]
+  },
+
+  "footer": {
+    "siteName": "Demo Zrno Zrnko",
+    "links": [
+      { "label": "O NÁS",    "href": "/o-nas" },
+      { "label": "PEKÁRNA",  "href": "/pekarna" },
+      { "label": "KÁVA",     "href": "/kava" },
+      { "label": "KONTAKT",  "href": "#kontakt" }
+    ],
+    "copyright": "© 2026 Demo Zrno Zrnko s.r.o.  |  Náměstí Míru 12, 120 00 Praha 2  |  IČO: 12345678  |  info@zrno-zrnko.cz"
+  },
+
+  "pages": {
+    "o-nas": {
+      "seoTitle": "O nás — Demo Zrno Zrnko",
+      "seoDescription": "Příběh pražské řemeslné pekárny a kavárny Zrno Zrnko — od prvního bochníku až po dnešek.",
+      "about": {
+        "heading": "Náš příběh",
+        "subheading": "Malá pekárna s velkou vizí — od roku 2016",
+        "body": "Začínalo to v pronajatém sklepě v Nuslích, s jednou pecí a snem o chlebu, který chutná jako u babičky. Dnes máme čtyři kavárny po Praze, vlastní pražírnu a tým třiceti lidí, kteří sdílejí stejnou posedlost kvalitou. Nezměnilo se jediné: každý bochník pečeme ručně, každé ráno znovu.",
+        "col1Image": "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
+        "col1Text": "Mouka pochází z rodinného mlýna v jižních Čechách, bio máslo z moravské farmy a kvas pečlivě živíme přes deset let. Chuť se nedá podvést.",
+        "col1Cta": "NAŠE PEKÁRNA",
+        "col1CtaHref": "/pekarna",
+        "col2Image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+        "col2Text": "Ke kávě přistupujeme stejně jako k chlebu — s respektem k surovině a k lidem, kteří ji pěstují. Pražíme sami, v malých šaržích.",
+        "col2Cta": "NAŠE KÁVA",
+        "col2CtaHref": "/kava"
+      }
+    },
+    "pekarna": {
+      "seoTitle": "Pekárna — Demo Zrno Zrnko",
+      "seoDescription": "Řemeslné kvasové pečivo z Prahy — kvasový chléb, bagety, croissanty a sezónní koláče.",
+      "hero": {
+        "heading": "Pekárna",
+        "subheading": "Čerstvé každý den od čtyř ráno"
+      },
+      "services": {
+        "heading": "Co u nás najdete",
+        "items": [
+          {
+            "image": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=800&q=80",
+            "heading": "Kvasový chléb & bochníky",
+            "text": "Základ naší nabídky — venkovský kvas, žitný bochník, celozrnná ciabatta. Fermentace přes noc, pečení ráno. Kůrka praská, střída voní.",
+            "cta": "OBJEDNAT",
+            "ctaHref": "#kontakt"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1530648831902-9519384de5b5?w=800&q=80",
+            "heading": "Viennoiserie & sladké",
+            "text": "Máslové croissanty laminované přes tři dny, pain au chocolat, kouign-amann a sezónní ovocné koláče. Každý den limitované množství — kdo dřív přijde...",
+            "cta": "CELÁ NABÍDKA",
+            "ctaHref": "#kontakt"
+          }
+        ]
+      }
+    },
+    "kava": {
+      "seoTitle": "Káva — Demo Zrno Zrnko",
+      "seoDescription": "Výběrová káva z vlastní pražírny — espresso, pour over, cold brew a sezónní single origin.",
+      "hero": {
+        "heading": "Káva",
+        "subheading": "Pražíme sami, vaříme s péčí"
+      },
+      "services": {
+        "heading": "Jak podáváme kávu",
+        "items": [
+          {
+            "image": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80",
+            "heading": "Espresso & milk drinks",
+            "text": "Naše espresso směs kombinuje praženky ze dvou kontinentů — sametové tělo, červené ovoce, čistý závěr. Ideální do latté i na espresso solo.",
+            "cta": "O NAŠÍ PRAŽÍRNĚ",
+            "ctaHref": "#kontakt"
+          },
+          {
+            "image": "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=800&q=80",
+            "heading": "Pour over & cold brew",
+            "text": "Pro ty, kdo chtějí víc — každý týden nová single origin na filtru. Cold brew zraje 18 hodin a přes léto ho nestíháme vyrábět dost.",
+            "cta": "AKTUÁLNÍ NABÍDKA",
+            "ctaHref": "#kontakt"
+          }
+        ]
+      }
+    }
+  }
+}

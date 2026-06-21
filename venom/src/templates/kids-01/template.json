@@ -1,0 +1,82 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "kids-01",
+  "name": "Demo Kroužky",
+  "industry": "kids",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Dětské kroužky & vzdělávání — modrý #009BDE primary, žlutý #ffc107 akcent CTA, zelené sekce #2d7a4d, Nunito+Roboto fonty. Sticky modrá navbar, full-bleed hero s přírodou, 3 pilíře POHYB/ZÁŽITKY/VOLNOST, about sekce zelená (70-30), aktivity 3-col, tým průvodců zelená, testimonials, harmonogram stats, benefity, kontakt, footer. Inspirováno scioles.cz.",
+  "sectionOrderNote": "Navbar → Hero → Pillars → About → Services → Team → CTA → Testimonials → Stats → Benefits → Contact → Footer",
+  "skippedSections": [
+    { "pos": 5,  "name": "Pricing",   "reason": "Cena je součástí contact sekce jako jednoduchý textový blok" },
+    { "pos": 6,  "name": "Gallery",   "reason": "Scioles nemá galerii jako samostatnou sekci na homepage" },
+    { "pos": 7,  "name": "Video",     "reason": "YouTube embed — není standardní section type; CTA sekce ho nahrazuje" },
+    { "pos": 11, "name": "Documents", "reason": "Dokumenty sekce specifická pro scioles — vynechána v generické šabloně" }
+  ],
+  "extraSections": [
+    { "type": "promo",  "reason": "3 pilíře kroužku (POHYB/ZÁŽITKY/VOLNOST) — klíčový USP blok" },
+    { "type": "promo",  "reason": "Benefity (Skutečné benefity + Praktické informace) — 2. promo sekce" },
+    { "type": "stats",  "reason": "Harmonogram (Kdy/Jak/Co) — info blok pro rodiče" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "kids-01-navbar",       "contentRef": "navbar" },
+        { "type": "hero",         "variant": "kids-01-hero",         "contentRef": "hero" },
+        { "type": "promo",        "variant": "kids-01-pillars",      "contentRef": "pillars" },
+        { "type": "about",        "variant": "kids-01-about",        "contentRef": "about" },
+        { "type": "services",     "variant": "kids-01-services",     "contentRef": "services" },
+        { "type": "team",         "variant": "kids-01-team",         "contentRef": "team" },
+        { "type": "cta",          "variant": "kids-01-cta",          "contentRef": "cta" },
+        { "type": "testimonials", "variant": "kids-01-testimonials", "contentRef": "testimonials" },
+        { "type": "stats",        "variant": "kids-01-stats",        "contentRef": "stats" },
+        { "type": "promo",        "variant": "kids-01-benefits",     "contentRef": "benefits" },
+        { "type": "contact",      "variant": "kids-01-contact",      "contentRef": "contact" },
+        { "type": "footer",       "variant": "kids-01-footer",       "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "aktivity",
+      "title": "Aktivity",
+      "seoTitleKey": "pages.aktivity.seoTitle",
+      "seoDescriptionKey": "pages.aktivity.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "kids-01-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",    "contentRef": "pages.aktivity.hero" },
+        { "type": "services", "variant": "kids-01-services", "contentRef": "services" },
+        { "type": "footer",   "variant": "kids-01-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "nas-tym",
+      "title": "Náš tým",
+      "seoTitleKey": "pages.nas-tym.seoTitle",
+      "seoDescriptionKey": "pages.nas-tym.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "kids-01-navbar",  "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",   "contentRef": "pages.nas-tym.hero" },
+        { "type": "team",    "variant": "kids-01-team",    "contentRef": "team" },
+        { "type": "footer",  "variant": "kids-01-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "kids-01-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "kids-01-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "kids-01-footer",  "contentRef": "footer" }
+      ]
+    }
+  ]
+}

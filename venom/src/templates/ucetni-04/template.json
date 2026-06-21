@@ -1,0 +1,64 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "ucetni-04",
+  "name": "Demo Finanční Poradce",
+  "industry": "ucetni",
+  "skeleton": "professional",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Finanční poradenství & investice — sticky bílý navbar s navy (#1B3A6B) logem a zlatým (#C8923A) CTA, hero tmavě navy bg 2-col (text + ilustrace), stats pás (3 čísla), services 4-col karty, about 2-col, testimonials slider, blog preview 3-col, kontakt, footer. Inspirováno brokerconsulting.cz.",
+  "sectionOrderNote": "Navbar → Hero → Stats → Services → About → Testimonials → Blog → Contact → Footer",
+  "skippedSections": [
+    { "pos": 7,  "name": "Gallery",    "reason": "Galerie není součástí homepage flow originálu" },
+    { "pos": 10, "name": "FAQ",        "reason": "FAQ je na podstránce; homepage používá testimonials a blog místo FAQ" }
+  ],
+  "extraSections": [
+    { "type": "stats",        "name": "Klíčová čísla",    "reason": "3 statistiky (30k klientů / 790+ poradců / 20 let praxe) — přímý ekvivalent counter sekce na hp originálu" },
+    { "type": "blog-preview", "name": "Vzdělávání",       "reason": "3-col karty s články/průvodci/videi — přímý ekvivalent sekce 'Vědět víc' na hp originálu" },
+    { "type": "contact",      "name": "Kontaktní formulář","reason": "Navy sekce s formulářem — ekvivalent 'Chcete se nás zeptat' na hp originálu" }
+  ],
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "ucetni-04-navbar",   "contentRef": "navbar" },
+        { "type": "hero",         "variant": "ucetni-04-hero",     "contentRef": "hero" },
+        { "type": "stats",        "variant": "ucetni-04-stats",    "contentRef": "stats" },
+        { "type": "services",     "variant": "ucetni-04-services", "contentRef": "services" },
+        { "type": "about",        "variant": "ucetni-04-about",    "contentRef": "about" },
+        { "type": "testimonials", "variant": "ucetni-04-testimonials", "contentRef": "testimonials" },
+        { "type": "blog-preview", "variant": "ucetni-04-blog",     "contentRef": "blog" },
+        { "type": "contact",      "variant": "ucetni-04-contact",  "contentRef": "contact" },
+        { "type": "footer",       "variant": "ucetni-04-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "ucetni-04-navbar",  "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",     "contentRef": "pages.o-nas.hero" },
+        { "type": "about",   "variant": "ucetni-04-about",   "contentRef": "about" },
+        { "type": "footer",  "variant": "ucetni-04-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "ucetni-04-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "ucetni-04-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "ucetni-04-footer",  "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "content/cs.json"
+  }
+}

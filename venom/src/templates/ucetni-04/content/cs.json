@@ -1,0 +1,188 @@
+{
+  "navbar": {
+    "siteName": "Prosperita Finance",
+    "logoUrl": "",
+    "ctaText": "Sjednat schůzku",
+    "ctaHref": "#kontakt",
+    "links": [
+      { "label": "Úvod",           "href": "/" },
+      { "label": "Služby",         "href": "/" },
+      { "label": "Poradci",        "href": "/" },
+      { "label": "O společnosti",  "href": "/o-nas" },
+      { "label": "Partnerství",    "href": "/" },
+      { "label": "Kariéra",        "href": "/" },
+      { "label": "Pro média",      "href": "/" },
+      { "label": "Kontakt",        "href": "/kontakt" }
+    ]
+  },
+  "hero": {
+    "headline": "Vaše budoucnost si zaslouží chytrá rozhodnutí",
+    "headlineEm": "chytrá rozhodnutí",
+    "subheadline": "Spojte se s nezávislými finančními poradci, kteří staví vaše zájmy na první místo. Bez skrytých provizí, bez zbytečných kompromisů.",
+    "ctaPrimaryText": "Domluvit konzultaci",
+    "ctaPrimaryHref": "#kontakt",
+    "ctaSecondaryText": "Co nabízíme",
+    "ctaSecondaryHref": "#sluzby",
+    "img1Url": "/templates/ucetni-04/hero/h1.webp",
+    "img2Url": "/templates/ucetni-04/hero/h4.webp",
+    "img3Url": "/templates/ucetni-04/hero/h3.webp",
+    "img4Url": "/templates/ucetni-04/hero/h2.webp",
+    "img5Url": "/templates/ucetni-04/hero/h5.webp"
+  },
+  "stats": {
+    "heading": "Čísla, která hovoří za nás",
+    "items": [
+      { "value": "12 400+", "label": "spokojených klientů" },
+      { "value": "340+",    "label": "certifikovaných poradců" },
+      { "value": "15",      "label": "let zkušeností" }
+    ]
+  },
+  "services": {
+    "heading": "Jak vám pomůžeme?",
+    "subheading": "Každá životní situace je jiná. Proto nabízíme řešení přesně na míru – od prvního rozhovoru až po dlouhodobý finanční plán.",
+    "items": [
+      {
+        "icon": "Home",
+        "title": "Hypotéky a bydlení",
+        "description": "Vyjednáme pro vás nejvýhodnější hypotéku a provedeme vás celým procesem od výběru nemovitosti až po podpis smlouvy."
+      },
+      {
+        "icon": "Shield",
+        "title": "Životní pojištění",
+        "description": "Ochráníme vás i vaše blízké před nečekanými událostmi. Porovnáme nabídky trhu a doporučíme jen to, co skutečně potřebujete."
+      },
+      {
+        "icon": "TrendingUp",
+        "title": "Investice a důchod",
+        "description": "Pomůžeme vám budovat majetek s rozumem. Nastavíme investiční strategii, která odpovídá vašim cílům, horizontu a toleranci rizika."
+      },
+      {
+        "icon": "FileText",
+        "title": "Finanční plán",
+        "description": "Sestavíme komplexní rodinný finanční plán – spoření pro děti, zajištění na stáří i ochrana příjmu v případě pracovní neschopnosti."
+      }
+    ]
+  },
+  "about": {
+    "kicker": "O nás",
+    "heading": "Nezávislost, která se vyplácí",
+    "body1": "Prosperita Finance vznikla s jedním cílem: dávat lidem přístup ke kvalitnímu finančnímu poradenství bez střetu zájmů. Nejsme svázáni žádnou bankou ani pojišťovnou – porovnáváme celý trh a doporučujeme to, co je nejlepší pro vás.",
+    "body2": "Náš tým tvoří zkušení poradci s licencí ČNB, kteří jsou k dispozici osobně i online. Věříme, že dobrý poradce se pozná podle toho, jak moc mu záleží na výsledku klienta – ne na výši provize.",
+    "ctaText": "Poznejte náš tým",
+    "ctaHref": "/o-nas",
+    "imageUrl": "/templates/ucetni-04/about.webp"
+  },
+  "testimonials": {
+    "kicker": "Co říkají naši klienti",
+    "heading": "Jejich slova mluví za vše",
+    "items": [
+      {
+        "quote": "Konečně poradce, který mi naslouchal. Pomohl mi refinancovat hypotéku a ušetřit přes 3 000 Kč měsíčně. Doporučuji každému.",
+        "name": "Radek Blažek",
+        "role": "Klient od roku 2022",
+        "imageUrl": "/templates/ucetni-04/testimonials/t1.jpg"
+      },
+      {
+        "quote": "Díky finančnímu plánu od Prosperity vím, kde přesně budu za 20 let. Mám konečně klid a jistotu, že o rodinu postarám.",
+        "name": "Lenka Horáková",
+        "role": "Klientka od roku 2020",
+        "imageUrl": "/templates/ucetni-04/testimonials/t2.jpg"
+      },
+      {
+        "quote": "Oceňuji hlavně upřímnost – poradkyně mi řekla i to, co jsem nechtěl slyšet. Ale měla pravdu a dnes mi moje peníze skutečně pracují.",
+        "name": "Ondřej Škoda",
+        "role": "Klient od roku 2021",
+        "imageUrl": "/templates/ucetni-04/testimonials/t3.jpg"
+      }
+    ]
+  },
+  "blog": {
+    "heading": "Vzdělávejte se s námi",
+    "subheading": "Finanční gramotnost je základ dobrých rozhodnutí. Čtěte naše články, sledujte videa a využívejte kalkulačky – zdarma a bez registrace.",
+    "ctaText": "Všechny materiály",
+    "ctaHref": "/",
+    "items": [
+      {
+        "type": "Článek",
+        "typeColor": "#1B3A6B",
+        "title": "Jak vybrat hypotéku v roce 2025: na co si dát pozor",
+        "excerpt": "Úrokové sazby klesají, ale podmínky bank se liší. Poradíme vám, jak porovnat nabídky a na co si dát skutečně pozor.",
+        "href": "/",
+        "imageUrl": "/templates/ucetni-04/blog/a1.webp"
+      },
+      {
+        "type": "Video",
+        "typeColor": "#E52713",
+        "title": "Spoření na důchod: začít ve 30, nebo ve 40?",
+        "excerpt": "Každý rok zpoždění vás stojí desetitisíce. Podívejte se, jak velký rozdíl dělá včasný start a jaké nástroje máte k dispozici.",
+        "href": "/",
+        "imageUrl": "/templates/ucetni-04/blog/a2.webp"
+      },
+      {
+        "type": "Průvodce",
+        "typeColor": "#C8923A",
+        "title": "DIP krok za krokem: státní podpora, kterou nevyužíváte",
+        "excerpt": "Dlouhodobý investiční produkt přináší daňové výhody až 48 000 Kč ročně. Tady je přehledný průvodce, jak ho správně nastavit.",
+        "href": "/",
+        "imageUrl": "/templates/ucetni-04/blog/a3.jpg"
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Pojďme si promluvit",
+    "subheading": "Úvodní konzultace je zcela zdarma a bez závazků. Stačí vyplnit formulář a ozveme se vám do 24 hodin.",
+    "phone": "777 234 567",
+    "email": "info@prosperita-finance.cz",
+    "address": "Václavské náměstí 47, 110 00 Praha 1",
+    "hours": "Po–Pá 8:00–18:00, So 9:00–13:00",
+    "formNameLabel": "Jméno a příjmení",
+    "formEmailLabel": "E-mailová adresa",
+    "formPhoneLabel": "Telefonní číslo",
+    "formMessageLabel": "O čem chcete mluvit?",
+    "formSubmitText": "Chci konzultaci zdarma"
+  },
+  "footer": {
+    "siteName": "Prosperita Finance, a.s.",
+    "logoUrl": "/templates/ucetni-04/logo.svg",
+    "tagline": "Nezávislé finanční poradenství pro každou životní etapu.",
+    "facebook": "https://facebook.com/prosperitafinance",
+    "instagram": "https://instagram.com/prosperitafinance",
+    "linkedin": "https://linkedin.com/company/prosperitafinance",
+    "navHeading": "Důležité odkazy",
+    "links": [
+      { "label": "Úvod",          "href": "/" },
+      { "label": "Naše služby",   "href": "/" },
+      { "label": "O společnosti", "href": "/o-nas" },
+      { "label": "Vzdělávání",    "href": "/" },
+      { "label": "Kariéra",       "href": "/" },
+      { "label": "Kontakt",       "href": "/kontakt" }
+    ],
+    "contactHeading": "Kontakt",
+    "address": "Václavské náměstí 47",
+    "city": "110 00 Praha 1",
+    "phone": "777 234 567",
+    "email": "info@prosperita-finance.cz",
+    "ico": "06712345",
+    "web": "https://prosperita-finance.cz",
+    "copyright": "© 2025 Prosperita Finance, a.s. Všechna práva vyhrazena.",
+    "legal": [
+      { "label": "Ochrana osobních údajů", "href": "/" },
+      { "label": "Podmínky použití",       "href": "/" },
+      { "label": "Cookies",                "href": "/" }
+    ]
+  },
+  "pages": {
+    "o-nas": {
+      "seoTitle": "O nás | Prosperita Finance",
+      "seoDescription": "Poznajte tým Prosperita Finance – nezávislí finanční poradci s licencí ČNB, kteří staví váš zájem na první místo.",
+      "hero": {
+        "heading": "O společnosti",
+        "subheading": "Nezávislí poradci, kteří stojí na vaší straně."
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt | Prosperita Finance",
+      "seoDescription": "Domluvte si bezplatnou konzultaci s poradcem Prosperita Finance. Jsme k dispozici osobně i online."
+    }
+  }
+}

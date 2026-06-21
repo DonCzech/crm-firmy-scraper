@@ -1,0 +1,69 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "reality-01",
+  "name": "Demo Norton Realty",
+  "industry": "reality",
+  "skeleton": "real-estate",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Prémiová realitní kancelář Praha — čistý bílý sticky navbar s ikonkovými linky 'Najít'/'Nabídnout nemovitost', fullscreen hero s brand claim '33 let spojujeme lidi a nemovitosti', featured listings carousel, about sekce s dark-teal bg, dark footer. Inspirováno lexxusnorton.cz.",
+  "sectionOrderNote": "Navbar → Hero → Listings → About → CTA → Contact → Footer",
+  "skippedSections": [
+    { "pos": 3, "name": "Listings (gallery)", "reason": "Nahrazeno custom services reality-01-listings (grid karet s fotem+cenou)" },
+    { "pos": 4, "name": "About/Team",         "reason": "Tým není součástí primárního homepage originálu lexxusnorton.cz" },
+    { "pos": 6, "name": "Process (about)",    "reason": "Process sekce nahrazena about-stats sekcí reality-01-about" },
+    { "pos": 7, "name": "Testimonials",       "reason": "Reference nejsou součástí primárního homepage flow" },
+    { "pos": 9, "name": "FAQ",                "reason": "FAQ není v homepage flow originálu" }
+  ],
+  "extraSections": [
+    { "name": "Featured listings",  "type": "services", "variant": "reality-01-listings", "reason": "Výpis vybraných nemovitostí — grid 3-col karet s fotem, cenou a parametry; náhrada gallery pos=3" },
+    { "name": "O nás + statistiky", "type": "about",    "variant": "reality-01-about",    "reason": "Tmavá teal sekce se 4 statistikami a CTA; náhrada process pos=6" },
+    { "name": "Kontakt + mapa",     "type": "contact",  "variant": "reality-01-contact",  "reason": "2-col kontaktní sekce s mapou — je součástí homepage originálu lexxusnorton.cz" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "reality-01-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "reality-01-hero",     "contentRef": "hero" },
+        { "type": "services", "variant": "reality-01-listings", "contentRef": "listings" },
+        { "type": "about",    "variant": "reality-01-about",    "contentRef": "about" },
+        { "type": "cta",      "variant": "reality-01-cta",      "contentRef": "cta" },
+        { "type": "contact",  "variant": "reality-01-contact",  "contentRef": "contact" },
+        { "type": "footer",   "variant": "reality-01-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "reality-01-navbar",  "contentRef": "navbar" },
+        { "type": "hero",    "variant": "hero-centered",       "contentRef": "pages.o-nas.hero" },
+        { "type": "about",   "variant": "reality-01-about",   "contentRef": "about" },
+        { "type": "footer",  "variant": "reality-01-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",  "variant": "reality-01-navbar",  "contentRef": "navbar" },
+        { "type": "contact", "variant": "reality-01-contact", "contentRef": "contact" },
+        { "type": "footer",  "variant": "reality-01-footer",  "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

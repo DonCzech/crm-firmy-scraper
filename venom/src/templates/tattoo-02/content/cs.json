@@ -1,0 +1,120 @@
+{
+  "navbar": {
+    "siteName": "Demo Homie Tattoo",
+    "logoUrl": "/templates/tattoo-02/logo.svg",
+    "ctaText": "Objednat se",
+    "ctaHref": "#kontakt",
+    "links": [
+      { "label": "O nás",      "href": "#o-nas" },
+      { "label": "Portfolio",  "href": "#galerie" },
+      { "label": "Recenze",    "href": "#recenze" },
+      { "label": "Kontakt",    "href": "#kontakt" }
+    ]
+  },
+
+  "hero": {
+    "title": "Prémiové tetovací studio Praha",
+    "subtitle": "Tetování jakékoliv složitosti a stylu od 1 800 Kč. Bezplatná konzultace.",
+    "cta1Text": "Bezplatná konzultace",
+    "cta1Href": "#kontakt",
+    "cta2Text": "Naše portfolio",
+    "cta2Href": "#galerie",
+    "backgroundImage": "/templates/tattoo-02/hero-bg.jpg",
+    "bullets": [
+      "Tetování jakékoliv složitosti a stylu",
+      "Konzultace zdarma",
+      "Individuální design",
+      "Rychlé termíny walk-in"
+    ]
+  },
+
+  "about": {
+    "heading": "Nejlepší tetovací salon v Praze",
+    "text": "Demo Homie Tattoo Studio jsme v Praze otevřeli v roce 2016 a s každým rokem se zlepšujeme, rosteme a rozšiřujeme. Nabízíme širokou škálu tetování od zkušených a profesionálních tatérů s vystudovanými uměleckými školami a příslušnými certifikáty.",
+    "text2": "Pokud zrovna nemáte konkrétní představu o tetování, během bezplatné konzultace se náš tým postará o perfektní zhmotnění Vašich ideálů. Zkušení tatéři Vám nakreslí návrh, který spolu můžete pozměnit dle Vašich přání.",
+    "ctaText": "Objednat se na konzultaci",
+    "ctaHref": "#kontakt",
+    "image": "/templates/tattoo-02/about.jpg",
+    "stats": [
+      { "number": "500+", "label": "Spokojených zákazníků" },
+      { "number": "15+",  "label": "Tatérů" },
+      { "number": "8+",   "label": "Let zkušeností" },
+      { "number": "1 800", "label": "Kč od / tetování" }
+    ]
+  },
+
+  "gallery": {
+    "heading": "Portfolio",
+    "subheading": "Ukázka naší práce",
+    "tabs": ["Tattoo", "Piercing"],
+    "images": [
+      { "url": "/templates/tattoo-02/gallery-1.jpg",  "alt": "Tetování – ukázka 1",  "tab": "Tattoo" },
+      { "url": "/templates/tattoo-02/gallery-2.jpg",  "alt": "Tetování – ukázka 2",  "tab": "Tattoo" },
+      { "url": "/templates/tattoo-02/gallery-3.jpg",  "alt": "Tetování – ukázka 3",  "tab": "Tattoo" },
+      { "url": "/templates/tattoo-02/gallery-4.jpg",  "alt": "Tetování – ukázka 4",  "tab": "Tattoo" },
+      { "url": "/templates/tattoo-02/gallery-5.jpg",  "alt": "Tetování – ukázka 5",  "tab": "Tattoo" },
+      { "url": "/templates/tattoo-02/gallery-6.jpg",  "alt": "Tetování – ukázka 6",  "tab": "Tattoo" },
+      { "url": "/templates/tattoo-02/gallery-7.jpg",  "alt": "Piercing – ukázka 1",  "tab": "Piercing" },
+      { "url": "/templates/tattoo-02/gallery-8.jpg",  "alt": "Piercing – ukázka 2",  "tab": "Piercing" },
+      { "url": "/templates/tattoo-02/gallery-9.jpg",  "alt": "Piercing – ukázka 3",  "tab": "Piercing" },
+      { "url": "/templates/tattoo-02/gallery-10.jpg", "alt": "Piercing – ukázka 4",  "tab": "Piercing" }
+    ]
+  },
+
+  "testimonials": {
+    "heading": "Co říkají naši zákazníci",
+    "items": [
+      {
+        "author": "Tereza M.",
+        "role": "Zákaznice",
+        "text": "Skvělé studio! Atmosféra profesionální, tatér byl velmi trpělivý a výsledek předčil moje očekávání. Určitě se vrátím.",
+        "rating": 5,
+        "photo": "/templates/tattoo-02/review-1.webp"
+      },
+      {
+        "author": "Martin K.",
+        "role": "Zákazník",
+        "text": "Konzultace zdarma byla skvělý nápad. Přesně vysvětlili celý postup, design byl přesně to, co jsem si přál. Top service!",
+        "rating": 5,
+        "photo": "/templates/tattoo-02/review-2.webp"
+      },
+      {
+        "author": "Jana P.",
+        "role": "Zákaznice",
+        "text": "Piercing provedený čistě a bez bolesti. Studio je výborně hygienicky zajištěno a personál moc příjemný.",
+        "rating": 5,
+        "photo": "/templates/tattoo-02/review-3.webp"
+      }
+    ]
+  },
+
+  "contact": {
+    "heading": "Kontakty",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "hours": "Po–Pá 9:00–18:00, So 9:00–14:00",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "mapUrl": "/templates/tattoo-02/map.webp",
+    "siteName": "Demo Homie Tattoo"
+  },
+
+  "footer": {
+    "siteName": "Demo Homie Tattoo",
+    "logoUrl": "/templates/tattoo-02/logo-white.svg",
+    "tagline": "Prémiové tetovací & piercing studio v srdci Prahy.",
+    "links": [
+      { "label": "O nás",     "href": "#o-nas" },
+      { "label": "Portfolio", "href": "#galerie" },
+      { "label": "Recenze",   "href": "#recenze" },
+      { "label": "Kontakt",   "href": "#kontakt" }
+    ],
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "+420 704 123 456",
+    "email": "email@demo.cz",
+    "facebook": "https://facebook.com/demo",
+    "instagram": "https://instagram.com/demo",
+    "copyright": "© 2025 Demo Homie Tattoo. Všechna práva vyhrazena."
+  }
+}

@@ -1,0 +1,215 @@
+{
+  "siteName": "Tlapka & Styl",
+  "siteDescription": "Prémiový grooming salon pro psy a kočky v Brně.",
+
+  "navbar": {
+    "siteName": "Tlapka & Styl",
+    "logoUrl": "",
+    "phone": "603 987 654",
+    "ctaText": "Rezervovat",
+    "ctaHref": "#kontakt",
+    "links": [
+      { "label": "Úvod",            "href": "#uvod" },
+      { "label": "Salón",           "href": "#salon" },
+      { "label": "Služby & ceník",  "href": "#sluzby-a-cenik" },
+      { "label": "Rezervace",       "href": "#kontakt" },
+      { "label": "Klub",            "href": "#klub" },
+      { "label": "FAQ",             "href": "#faq" },
+      { "label": "Kontakt",         "href": "#kontakt" }
+    ],
+    "socials": [
+      { "icon": "facebook",  "label": "Facebook",  "href": "https://facebook.com" },
+      { "icon": "instagram", "label": "Instagram", "href": "https://instagram.com" }
+    ]
+  },
+
+  "hero": {
+    "title": "Váš mazlíček si zaslouží to nejlepší",
+    "heading": "Váš mazlíček si zaslouží to nejlepší",
+    "subheading": "Prémiový psí salón",
+    "body": "Profesionální péče o srst vašeho čtyřnohého přítele v centru Brna.",
+    "ctaText": "Více o nás",
+    "ctaHref": "#salon",
+    "slides": [
+      { "imageUrl": "/assets/grooming-01/e68f15155b-promo_img02-min.jpg", "imageAlt": "Tlapka & Styl — grooming studio" },
+      { "imageUrl": "/assets/grooming-01/5bce68026a-promo_img01.jpg",     "imageAlt": "Tlapka & Styl — péče o psy" }
+    ]
+  },
+
+  "about": {
+    "title": "O nás",
+    "heading": "O nás",
+    "kicker": "Kdo jsme",
+    "body": "Tlapka & Styl je rodinný grooming salon v centru Brna. Každého mazlíčka bereme jako svého vlastního a věnujeme mu péči, kterou si zaslouží.",
+    "bodyExtra": "Naše útulné studio nabízí klidné prostředí, kde se váš pes či kočka budou cítit bezpečně a pohodlně. Pracujeme s přírodní prémiovou kosmetikou bez sulfátů.",
+    "badge": "Certifikovaní groomers — 10 let zkušeností",
+    "bgImage": "/assets/grooming-01/c58ebe75ea-about_bg.jpg",
+    "address": {
+      "street": "Moravská 45",
+      "city": "602 00 Brno"
+    },
+    "images": [
+      { "url": "/assets/grooming-01/33a314d053-gallery_img02-min-1.jpg", "alt": "Grooming v akci 01" },
+      { "url": "/assets/grooming-01/b6d36c6d2d-gallery_img01.jpg",       "alt": "Grooming v akci 02" }
+    ]
+  },
+
+  "pricing": {
+    "heading": "Služby a ceník",
+    "kicker": "Ceník",
+    "services": [],
+    "serviceTypes": [
+      { "label": "Full service" },
+      { "label": "Trimování" }
+    ],
+    "cols": [
+      {
+        "heading": "Malá plemena",
+        "items": [
+          { "num": "01", "name": "Bišon",    "price": "1 590 Kč", "imageUrl": "/assets/grooming-01/85cc357d4b-bison.png" },
+          { "num": "02", "name": "York",     "price": "1 590 Kč", "imageUrl": "/assets/grooming-01/e0de145b67-york.png" },
+          { "num": "03", "name": "West",     "price": "1 590 Kč", "imageUrl": "/assets/grooming-01/f1b542d694-west.png" },
+          { "num": "04", "name": "Pomerián", "price": "1 590 Kč", "imageUrl": "/assets/grooming-01/be59a77018-pomerian.png" }
+        ]
+      },
+      {
+        "heading": "Střední plemena",
+        "items": [
+          { "num": "05", "name": "Pudl",          "price": "1 890 Kč",    "imageUrl": "/assets/grooming-01/ff4b30775d-dog_01.png" },
+          { "num": "06", "name": "Knírač",         "price": "1 890 Kč",    "imageUrl": "/assets/grooming-01/4c1ad98766-knirac.png" },
+          { "num": "07", "name": "Americký kokr",  "price": "od 2 100 Kč", "imageUrl": "/assets/grooming-01/68a8931b80-kokr.png" },
+          { "num": "08", "name": "Anglický kokr",  "price": "od 2 100 Kč", "imageUrl": "/assets/grooming-01/4ca9a269ae-kokr_1.png" }
+        ]
+      },
+      {
+        "heading": "Velká plemena",
+        "items": [
+          { "num": "09", "name": "Shi-tzu",        "price": "2 090 Kč",    "imageUrl": "/assets/grooming-01/d7237a71b1-shitzu.png" },
+          { "num": "10", "name": "Retrívr",        "price": "2 090 Kč",    "imageUrl": "/assets/grooming-01/b1ac235803-retrivr.png" },
+          { "num": "11", "name": "Kolie",           "price": "2 090 Kč",    "imageUrl": "/assets/grooming-01/23fc210d26-kolie.png" },
+          { "num": "12", "name": "Královský pudl",  "price": "od 3 800 Kč", "imageUrl": "/assets/grooming-01/c5897b8c86-krizenci.png" }
+        ]
+      }
+    ],
+    "trimCols": [
+      {
+        "heading": "Malý pes",
+        "items": [
+          { "name": "Malý pes", "price": "1 390 Kč" }
+        ]
+      },
+      {
+        "heading": "Střední pes",
+        "items": [
+          { "name": "Střední pes", "price": "1 690 Kč" }
+        ]
+      },
+      {
+        "heading": "Kočka",
+        "items": [
+          { "name": "Střih / úprava kočky", "price": "890 Kč" }
+        ]
+      }
+    ],
+    "tabs": []
+  },
+
+  "gallery": {
+    "heading": "Naše výsledky",
+    "kicker": "proměna k nepoznání",
+    "items": [
+      { "name": "Bella",   "breed": "Yorkshire teriér",     "imageUrl": "/assets/grooming-01/7afbe56c9d-Po-21-scaled.jpeg" },
+      { "name": "Max",     "breed": "Yorkshire teriér",     "imageUrl": "/assets/grooming-01/32c08d3aea-Po-20-scaled.jpeg" },
+      { "name": "Luna",    "breed": "Westhajlandský teriér","imageUrl": "/assets/grooming-01/b358785d56-Po-19-scaled.jpeg" },
+      { "name": "Rocky",   "breed": "Jezevčík",             "imageUrl": "/assets/grooming-01/29a65c99a7-Po-18.jpeg" },
+      { "name": "Coco",    "breed": "Jack Russel",          "imageUrl": "/assets/grooming-01/4cb09e7ce6-Po-17.jpeg" },
+      { "name": "Milo",    "breed": "Belgický grifonek",    "imageUrl": "/assets/grooming-01/acf2b458fa-Po-16-scaled.jpeg" },
+      { "name": "Zara",    "breed": "Špic",                 "imageUrl": "/assets/grooming-01/b24f455a5f-Po-15-scaled.jpeg" },
+      { "name": "Teddy",   "breed": "Shih Tzu",             "imageUrl": "/assets/grooming-01/23bd6ec320-Po-14-scaled.jpeg" },
+      { "name": "Nala",    "breed": "Shih Tzu",             "imageUrl": "/assets/grooming-01/977b50f32b-Po-13-scaled.jpeg" }
+    ]
+  },
+
+  "club": {
+    "heading": "Tlapka & Styl Klub",
+    "kicker": "Výhody členství",
+    "body": "Staňte se členem našeho věrnostního klubu a užívejte si exkluzivní výhody při každé návštěvě. Čím více přicházíte, tím více šetříte.",
+    "benefits": [
+      { "title": "Sleva 10 %",        "description": "Na všechny služby po celý rok" },
+      { "title": "Přednostní termín", "description": "Rezervujete dřív než ostatní" },
+      { "title": "Narozeninový bonus","description": "Dárková poukázka 400 Kč k narozeninám mazlíčka" }
+    ],
+    "ctaText": "Chci se přidat",
+    "ctaHref": "#kontakt"
+  },
+
+  "faq": {
+    "heading": "Časté dotazy",
+    "kicker": "FAQ",
+    "items": [
+      {
+        "question": "Jak dlouho trvá celkový grooming?",
+        "answer": "Záleží na velikosti psa a stavu jeho srsti. Malá plemena obvykle 1,5–2 hodiny, střední 2–3 hodiny a velká plemena 3–5 hodin."
+      },
+      {
+        "question": "Je nutné se předem objednat?",
+        "answer": "Ano, pracujeme výhradně na objednávku. Termíny bývají obsazeny 1–3 týdny dopředu, doporučujeme rezervovat s předstihem."
+      },
+      {
+        "question": "Jakou kosmetiku používáte?",
+        "answer": "Používáme přírodní prémiovou kosmetiku bez sulfátů a parabenů, šetrnou ke kůži i srsti. Na vyžádání pracujeme i s kosmetikou od majitele."
+      },
+      {
+        "question": "Groomujete i kočky?",
+        "answer": "Ano, specializujeme se i na kočičí grooming. Střih a úprava srsti kočky od 890 Kč."
+      }
+    ]
+  },
+
+  "contact": {
+    "heading": "Rezervace",
+    "kicker": "Napište nám",
+    "subheading": "Objednejte svého mazlíčka online",
+    "phone": "603 987 654",
+    "email": "info@tlapkastyl.cz",
+    "address": "Moravská 45, 602 00 Brno",
+    "hours": "Po–Pá 8:00–18:00, So 9:00–14:00",
+    "socials": [
+      { "icon": "facebook",  "label": "Facebook",  "href": "https://facebook.com" },
+      { "icon": "instagram", "label": "Instagram", "href": "https://instagram.com" }
+    ]
+  },
+
+  "footer": {
+    "siteName": "Tlapka & Styl",
+    "tagline": "Profesionální péče s láskou",
+    "phone": "603 987 654",
+    "email": "info@tlapkastyl.cz",
+    "address": "Moravská 45, 602 00 Brno",
+    "ico": "87654321",
+    "hours": "Po–Pá 8:00–18:00, So 9:00–14:00",
+    "links": [
+      { "label": "Salón",          "href": "#salon" },
+      { "label": "Služby & ceník", "href": "#sluzby-a-cenik" },
+      { "label": "Klub",           "href": "#klub" },
+      { "label": "FAQ",            "href": "#faq" },
+      { "label": "Kontakt",        "href": "#kontakt" }
+    ],
+    "socials": [
+      { "icon": "facebook",  "label": "Facebook",  "href": "https://facebook.com" },
+      { "icon": "instagram", "label": "Instagram", "href": "https://instagram.com" }
+    ],
+    "copyright": "© 2025 Tlapka & Styl. Všechna práva vyhrazena."
+  },
+
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Služby a ceník — Tlapka & Styl",
+      "seoDescription": "Ceník grooming služeb pro psy a kočky v Brně. Stříhání, koupání, vyčesávání a další."
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Tlapka & Styl",
+      "seoDescription": "Objednejte svého mazlíčka. Moravská 45, Brno. Tel: 603 987 654."
+    }
+  }
+}

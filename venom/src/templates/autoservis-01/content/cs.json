@@ -1,0 +1,145 @@
+{
+  "navbar": {
+    "siteName": "APEX Autoservis",
+    "logoUrl": "/templates/autoservis-01/logo.svg",
+    "ctaText": "Objednat online",
+    "ctaHref": "#kontakt",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "announcementText": "Vyrazte na cesty bez starostí",
+    "announcementSubtext": "Kontrola vozidla před dovolenou za 99 Kč",
+    "announcementCta": "Objednat kontrolu",
+    "announcementCtaHref": "#kontakt",
+    "links": [
+      { "label": "Domů",      "href": "/" },
+      { "label": "Služby",    "href": "/sluzby" },
+      { "label": "O nás",     "href": "/o-nas" },
+      { "label": "Kontakt",   "href": "/kontakt" }
+    ]
+  },
+
+  "hero": {
+    "title": "Prémiový autoservis\npro Vaši bezpečnou jízdu",
+    "subtitle": "Vy jezdíte, my se staráme",
+    "ctaText": "Objednat servis",
+    "ctaHref": "#kontakt",
+    "ctaSecondaryText": "Naše služby",
+    "ctaSecondaryHref": "/sluzby",
+    "bullets": [
+      "Nejširší síť autoservisů a pneuservisů",
+      "Komplexní péče o Vaše vozidlo",
+      "Tisíce pneumatik všech rozměrů skladem",
+      "Pohodlné objednání servisu online"
+    ],
+    "image": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=1200&h=900&fit=crop&fm=webp&q=85"
+  },
+
+  "services": {
+    "id": "sluzby",
+    "tagline": "Naše nabídka",
+    "title": "Nejoblíbenější služby\nnaších zákazníků",
+    "items": [
+      {
+        "name": "Seřízení geometrie",
+        "description": "Správné nastavení geometrie kol přispívá k delší životnosti pneumatik a bezpečné jízdě. Zkontrolujeme a seřídíme sbíhavost, odklon i náklon.",
+        "image": "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Více info",
+        "ctaHref": "/sluzby"
+      },
+      {
+        "name": "Výměna motorového oleje",
+        "description": "Nechejte starosti s výběrem oleje a filtru na nás! Garantovaná fixní cena balíčků zahrnuje olej, olejový filtr i práci. Rychle a bez čekání.",
+        "image": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Více info",
+        "ctaHref": "/sluzby"
+      },
+      {
+        "name": "Servis klimatizace",
+        "description": "Doporučujeme provádět servis klimatizace každý rok pro optimální výkon a hygienické prostředí v kabině. Doplnění chladiva, čištění a dezinfekce.",
+        "image": "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=600&h=400&fit=crop&fm=webp&q=85",
+        "ctaText": "Více info",
+        "ctaHref": "/sluzby"
+      }
+    ]
+  },
+
+  "about": {
+    "id": "o-nas",
+    "tagline": "Výhody členství",
+    "title": "Věrnostní klub —\nvyužijte výhod",
+    "body": "Staňte se členem věrnostního klubu a získejte slevy na autoservis, pneuservis i autodíly. Hlídáme za vás servisní termíny a garantujeme špičkovou kvalitu.",
+    "bullets": [
+      "Sleva 10 % na autoservis a pneuservis",
+      "Sleva 5 % na nákup pneumatik",
+      "Sleva 10 % na autodíly",
+      "Hlídání servisních termínů"
+    ],
+    "ctaText": "Zjistit více o klubu",
+    "ctaHref": "#kontakt",
+    "image": "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&h=600&fit=crop&fm=webp&q=85"
+  },
+
+  "contact": {
+    "id": "kontakt",
+    "tagline": "Kde nás najdete",
+    "title": "Kontakt\na objednávka",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "hours": "Po–Pá 7:00–17:00, So 8:00–12:00",
+    "mapEmbedUrl": "",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo"
+  },
+
+  "footer": {
+    "siteName": "APEX Autoservis",
+    "logoUrl": "/templates/autoservis-01/logo-light.svg",
+    "tagline": "Prémiový autoservis pro Vaši bezpečnou jízdu",
+    "email": "info@demo.cz",
+    "phone": "704 123 456",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "links": [
+      { "label": "Domů",    "href": "/" },
+      { "label": "Služby",  "href": "/sluzby" },
+      { "label": "O nás",   "href": "/o-nas" },
+      { "label": "Kontakt", "href": "/kontakt" }
+    ],
+    "legalLinks": [
+      { "label": "Obchodní podmínky", "href": "#" },
+      { "label": "Ochrana soukromí",  "href": "#" }
+    ],
+    "facebookUrl":  "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "copyright": "© 2025 APEX Autoservis s.r.o. Všechna práva vyhrazena."
+  },
+
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Služby — APEX Autoservis",
+      "seoDescription": "Kompletní přehled autoservisních a pneuservisních služeb.",
+      "hero": {
+        "title": "Naše služby",
+        "subtitle": "Komplexní péče o Vaše vozidlo"
+      },
+      "services": {
+        "id": "sluzby",
+        "tagline": "Kompletní nabídka",
+        "title": "Všechny naše služby",
+        "items": []
+      }
+    },
+    "o-nas": {
+      "seoTitle": "O nás — APEX Autoservis",
+      "seoDescription": "Prémiový autoservis & pneuservis — o naší síti prodejen.",
+      "hero": {
+        "title": "O nás",
+        "subtitle": "Prémiový autoservis pro Vaši bezpečnou jízdu"
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — APEX Autoservis",
+      "seoDescription": "Kontaktujte nás nebo se objednejte online."
+    }
+  }
+}

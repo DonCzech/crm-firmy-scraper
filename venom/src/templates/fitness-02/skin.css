@@ -1,0 +1,14 @@
+/* fitness-02 — Power Fitness */
+/* Arch: black bg + electric orange #FF5500 accent + Archivo Black headings */
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Montserrat:wght@300;400;600;700&display=swap');
+
+[data-template="fitness-02"] {
+  --color-bg:      #000000;
+  --color-surface: #181818;
+  --color-accent:  #FF5500;
+  --color-text:    #DBDBDB;
+  --color-muted:   #C3C3C3;
+  --color-white:   #FFFFFF;
+  --font-heading:  'Archivo Black', sans-serif;
+  --font-body:     'Montserrat', sans-serif;
+}

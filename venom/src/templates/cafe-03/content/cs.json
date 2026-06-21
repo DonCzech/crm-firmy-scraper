@@ -1,0 +1,236 @@
+{
+  "siteName": "Demo Cathedral Café",
+  "tagline": "Kavárna & restaurace v srdci Prahy",
+  "description": "Vítáme Vás v naší kavárně a restauraci Cathedral Café s jedinečným interiérem a s letní i zimní zahrádkou. Najdete nás v srdci Prahy, nedaleko Staroměstského náměstí.",
+
+  "navbar": {
+    "siteName": "Demo Cathedral Café",
+    "logoUrl": "/templates/cafe-03/logo.svg",
+    "ctaText": "Rezervace",
+    "ctaHref": "/kontakt",
+    "phone": "704 123 456",
+    "links": [
+      { "label": "Naše menu",     "href": "/nase-menu" },
+      { "label": "Rezervace",     "href": "/kontakt" },
+      { "label": "Akce",          "href": "/" },
+      { "label": "Galerie",       "href": "/galerie" },
+      { "label": "Kontakt",       "href": "/kontakt" }
+    ]
+  },
+
+  "hero": {
+    "title": "Vítáme Vás v Cathedral Café",
+    "subtitle": "Rádi Vás přivítáme každý den od 9:00 do 21:00 hod.",
+    "ctaText": "Rezervace",
+    "ctaHref": "/kontakt",
+    "slides": [
+      { "url": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&h=1080&fit=crop&fm=webp&q=85", "alt": "Interiér kavárny" },
+      { "url": "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1920&h=1080&fit=crop&fm=webp&q=85", "alt": "Letní zahrada" },
+      { "url": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1920&h=1080&fit=crop&fm=webp&q=85", "alt": "Kavárna & restaurace" }
+    ],
+    "slides.1.title": "Letní i zimní zahrada",
+    "slides.1.subtitle": "K posezení u nás můžete využít nádhernou letní i zimní zahrádku.",
+    "slides.2.title": "Cathedral Prague Apartments",
+    "slides.2.subtitle": "Pokud budete unaveni, ubytujte se u nás."
+  },
+
+  "about": {
+    "id": "o-nas",
+    "tagline": "O NÁS",
+    "title": "Cathedral Café Lounge & Restaurant",
+    "body": "Vítáme Vás v naší kavárně a restauraci Cathedral Café s jedinečným interiérem a s letní i zimní zahrádkou a la provance. Najdete nás v srdci Prahy, nedaleko Staroměstského náměstí.",
+    "body2": "Pochutnejte si u nás na skvělé snídani, obědu či večeři a dejte si k tomu domácí limonádu, koktejl, vynikající kávu či sklenku vína. Objevte u nás oázu klidu a relaxu a nebudete litovat.",
+    "image": "https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=900&h=1125&fit=crop&fm=webp&q=85"
+  },
+
+  "promo": {
+    "id": "directory",
+    "tagline": "Co o nás musíte vědět",
+    "title": "Nepřehlédněte",
+    "items": [
+      {
+        "label": "Akce",
+        "href": "/",
+        "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=600&fit=crop&fm=webp&q=85"
+      },
+      {
+        "label": "Menu",
+        "href": "/nase-menu",
+        "image": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&h=600&fit=crop&fm=webp&q=85"
+      },
+      {
+        "label": "Rezervace",
+        "href": "/kontakt",
+        "image": "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=600&h=600&fit=crop&fm=webp&q=85"
+      }
+    ]
+  },
+
+  "gallery": {
+    "id": "galerie",
+    "title": "Jak to u nás vypadá",
+    "images": [
+      { "url": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Kavárna interiér" },
+      { "url": "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Interiér" },
+      { "url": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Kavárna detail" },
+      { "url": "https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Podávání kávy" },
+      { "url": "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Venkovní posezení" },
+      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Jídlo" },
+      { "url": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Snídaně" },
+      { "url": "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Restaurace" },
+      { "url": "https://images.unsplash.com/photo-1547592180-85f173990554?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Polední menu" },
+      { "url": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Večeře" }
+    ]
+  },
+
+  "cta": {
+    "id": "rezervace",
+    "title": "Zarezervujte si stůl",
+    "subtitle": "Otevřeno každý den od 9:00 do 21:00 hod.",
+    "ctaText": "Zarezervovat stůl",
+    "ctaHref": "/kontakt",
+    "backgroundImage": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1920&h=800&fit=crop&fm=webp&q=80"
+  },
+
+  "contact": {
+    "id": "kontakt",
+    "title": "Kontaktujte nás",
+    "subtitle": "Máte na nás otázku? Neváhejte nás kontaktovat.",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "hoursText": "Otevřeno máme každý den od 09:00 do 21:00 hod",
+    "groups": [
+      {
+        "heading": "Rezervace",
+        "phone": "704 123 456",
+        "address": "Ukázková 123, 110 00 Praha 1"
+      },
+      {
+        "heading": "Manažer",
+        "phone": "704 654 321",
+        "email": "email@demo.cz"
+      }
+    ],
+    "socialFacebook": "https://facebook.com/demo",
+    "socialInstagram": "https://instagram.com/demo"
+  },
+
+  "footer": {
+    "siteName": "Demo Cathedral Café",
+    "logoUrl": "/templates/cafe-03/logo.svg",
+    "tagline": "Kavárna & restaurace v srdci Prahy",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "hours": "Po–Ne 9:00–21:00",
+    "socialFacebook": "https://facebook.com/demo",
+    "socialInstagram": "https://instagram.com/demo",
+    "links": [
+      { "label": "Naše menu",  "href": "/nase-menu" },
+      { "label": "Galerie",    "href": "/galerie" },
+      { "label": "Kontakt",    "href": "/kontakt" },
+      { "label": "Rezervace",  "href": "/kontakt" }
+    ],
+    "copyright": "© 2025 Demo Cathedral Café. Všechna práva vyhrazena.",
+    "ico": "12345678"
+  },
+
+  "pages": {
+    "nase-menu": {
+      "seoTitle": "Naše menu — Demo Cathedral Café",
+      "seoDescription": "Snídaně, obědy a večeře v kavárně a restauraci Cathedral Café v centru Prahy.",
+      "hero": {
+        "title": "Naše menu",
+        "subtitle": "Snídaně, obědy, večeře a nápojový lístek",
+        "backgroundImage": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=1920&h=600&fit=crop&fm=webp&q=85"
+      },
+      "services": {
+        "title": "Jídelní & nápojový lístek",
+        "services": [],
+        "tabs": [
+          {
+            "label": "Snídaně",
+            "number": "01",
+            "subtitle": "Každý den do 12:00 hodin",
+            "items": [
+              { "name": "Anglická snídaně", "description": "grilovaná klobása, fazole, rajče, sázené vejce, anglická slanina, toast, máslo", "price": "289 Kč" },
+              { "name": "Bagel s uzeným lososem", "description": "bagel, avokádo, uzený losos, salát, sázené vejce", "price": "249 Kč" },
+              { "name": "Vejce Benedikt", "description": "bagel se šunkou zapečený sýrem, dvě sázené vejce, jemně pikantní holandská omáčka", "price": "239 Kč" },
+              { "name": "Zdravá snídaně", "description": "bílý řecký jogurt, domácí müsli, sezónní ovoce, med", "price": "199 Kč" },
+              { "name": "Croissant s džemem a máslem", "description": "", "price": "159 Kč" },
+              { "name": "Omeleta se šunkou a sýrem", "description": "3 vejce, salát, toast, máslo", "price": "199 Kč" },
+              { "name": "Míchaná vejce Klasik", "description": "3 vejce, salát, toast, máslo", "price": "189 Kč" }
+            ]
+          },
+          {
+            "label": "Menu",
+            "number": "02",
+            "subtitle": "Denní nabídka oběd & večeře",
+            "items": [
+              { "name": "Polévka dne", "description": "čerstvá domácí polévka", "price": "79 Kč" },
+              { "name": "Svíčková na smetaně", "description": "hovězí svíčková, housový knedlík, brusinky, šlehačka", "price": "289 Kč" },
+              { "name": "Smažený sýr", "description": "tatarská omáčka, hranolky", "price": "229 Kč" },
+              { "name": "Grilovaný losos", "description": "sezónní zelenina, citronové máslo, rýže", "price": "349 Kč" },
+              { "name": "Burger Cathedral", "description": "hovězí patty, cheddar, karamelizovaná cibulka, BBQ omáčka, brioche bun", "price": "299 Kč" },
+              { "name": "Rizoto se šafránem", "description": "parmezán, čerstvé bylinky", "price": "249 Kč" }
+            ]
+          },
+          {
+            "label": "Nápojový lístek",
+            "number": "03",
+            "subtitle": "Káva, čaj, nealko & koktejly",
+            "items": [
+              { "name": "Espresso", "description": "", "price": "59 Kč" },
+              { "name": "Cappuccino", "description": "", "price": "79 Kč" },
+              { "name": "Flat White", "description": "", "price": "79 Kč" },
+              { "name": "Domácí limonáda", "description": "citron, máta, bezový sirup", "price": "99 Kč" },
+              { "name": "Fresh pomerančový džus", "description": "", "price": "89 Kč" },
+              { "name": "Aperol Spritz", "description": "", "price": "149 Kč" },
+              { "name": "Mojito", "description": "", "price": "159 Kč" }
+            ]
+          },
+          {
+            "label": "Vinný lístek",
+            "number": "04",
+            "subtitle": "Výběr vín z českých i zahraničních vinařství",
+            "items": [
+              { "name": "Veltlínské zelené, Moravská zemská", "description": "sklenka / lahev", "price": "89 / 349 Kč" },
+              { "name": "Chardonnay, Château Bzenec", "description": "sklenka / lahev", "price": "99 / 389 Kč" },
+              { "name": "Frankovka rosé, Vinařství Volařík", "description": "sklenka / lahev", "price": "89 / 349 Kč" },
+              { "name": "Cabernet Sauvignon, Vinné sklepy Lechovice", "description": "sklenka / lahev", "price": "109 / 429 Kč" },
+              { "name": "Prosecco DOC Treviso", "description": "sklenka", "price": "129 Kč" }
+            ]
+          }
+        ]
+      }
+    },
+    "galerie": {
+      "seoTitle": "Galerie — Demo Cathedral Café",
+      "seoDescription": "Fotogalerie interiéru a exteriéru kavárny a restaurace Cathedral Café v centru Prahy.",
+      "hero": {
+        "title": "Galerie",
+        "subtitle": "Nahlédněte do naší kavárny a restaurace",
+        "backgroundImage": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&h=600&fit=crop&fm=webp&q=85"
+      },
+      "gallery": {
+        "title": "Jak to u nás vypadá",
+        "images": [
+          { "url": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Kavárna interiér" },
+          { "url": "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Interiér" },
+          { "url": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Kavárna detail" },
+          { "url": "https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Podávání kávy" },
+          { "url": "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Venkovní posezení" },
+          { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Jídlo" },
+          { "url": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Snídaně" },
+          { "url": "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Restaurace" },
+          { "url": "https://images.unsplash.com/photo-1547592180-85f173990554?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Polední menu" },
+          { "url": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Večeře" }
+        ]
+      }
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt & Rezervace — Demo Cathedral Café",
+      "seoDescription": "Rezervace, kontakt a otevírací doba kavárny a restaurace Cathedral Café, Praha 1."
+    }
+  }
+}

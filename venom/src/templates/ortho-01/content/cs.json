@@ -1,0 +1,140 @@
+{
+  "navbar": {
+    "siteName":  "Neviditelná Rovnátka",
+    "logoLine1": "Neviditelná",
+    "logoLine2": "Rovnátka",
+    "ctaText":   "Konzultace zdarma",
+    "ctaHref":   "#kontakt",
+    "links": [
+      { "label": "Pro děti",       "href": "#sluzby" },
+      { "label": "Pro teenagery",  "href": "#sluzby" },
+      { "label": "Smile Makeover", "href": "#sluzby" },
+      { "label": "Financování",    "href": "#financovani" },
+      { "label": "FAQ",            "href": "#faq" },
+      { "label": "Kontakt",        "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "title":       "Začněte se usmívat",
+    "subtitle":    "Neviditelná rovnátka změní váš úsměv, a tím i život. V jakémkoli věku.",
+    "bgImage":     "/clones/svetrov/cdn/611f682cc4f792d63b03fe16/692fd8825f36c8de4acaac01_Mlada zena + pozadi.avif",
+    "ctaText":     "Objednat se",
+    "ctaHref":     "#kontakt",
+    "googleRating":     "4,8 z 5",
+    "googleReviewCount": "5 100+ recenzí"
+  },
+  "promo": {
+    "title":   "Objednejte se na konzultaci zdarma",
+    "message": "Uděláme scan vašich zubů, navrhneme vám možnosti léčby a stanovíme cenu.",
+    "ctaText": "Objednat se",
+    "ctaHref": "#kontakt"
+  },
+  "services": {
+    "title": "5 důvodů, proč chtít naše neviditelná rovnátka",
+    "items": [
+      {
+        "number":    "1.",
+        "name":      "Jsou opravdu neviditelná",
+        "description": "Na rozdíl od klasických rovnátek si u těch našich nikdo nevšimne, že je máte.",
+        "imageUrl":  "/clones/svetrov/cdn/611f682cc4f792d63b03fe16/667a83e5a366fad631cc2133_rovnatka%20pul_pul_kovova.avif"
+      },
+      {
+        "number":    "2.",
+        "name":      "Můžete v klidu jíst i pít",
+        "description": "Kdykoliv je bezbolestně sundáte.",
+        "imageUrl":  "/clones/svetrov/cdn/611f682cc4f792d63b03fe16/681225251b182f857c22b49f_foto_obsah%201.avif"
+      },
+      {
+        "number":    "3.",
+        "name":      "3D vizualizaci máte zdarma",
+        "description": "Uvidíte budoucí výsledek léčby.",
+        "imageUrl":  "/clones/svetrov/cdn/611f682cc4f792d63b03fe16/611fa86ba50dbf5b2b1f87dd_animace.avif"
+      },
+      {
+        "number":    "4.",
+        "name":      "Kontrolu zvládnete i online",
+        "description": "Díky aplikaci Virtual Care.",
+        "imageUrl":  "/clones/svetrov/cdn/611f682cc4f792d63b03fe16/68ecce875e27801e271be7df_virtual-care.avif"
+      },
+      {
+        "number":    "5.",
+        "name":      "Můžete je mít na splátky",
+        "description": "Nový úsměv už od 625 Kč měsíčně.",
+        "imageUrl":  "/assets/ortho-01/a89e699812-69cd3592a6ce2c6453a6bb97_svet-rovnatek_splatky.webp"
+      }
+    ]
+  },
+  "testimonials": {
+    "quote":     "Moderní ortodoncie dnes umožňuje dosáhnout krásného a zdravého úsměvu šetrněji, přesněji a komfortněji než kdy dříve.",
+    "authorName": "Dr. Jan Demo, Dr. h. c.",
+    "authorRole": "Zakladatel a mezinárodně uznávaný odborník v ortodoncii.",
+    "authorBio":  "Dr. Jan Demo patří mezi přední evropské kapacity na moderní ortodoncii s více než 30 lety klinické praxe. Dlouhodobě se podílí na vývoji a inovacích v oblasti estetického rovnání zubů.",
+    "imageUrl":   "/assets/ortho-01/9466218ec6-69df99a0572bbed527c90bbb_91bfbdeb8562bccfa0fc9ef3db389f1b_doktor-raiman_svet-rovnatek.webp"
+  },
+  "faq": {
+    "title": "Nejčastější otázky",
+    "items": [
+      { "question": "Jak dlouho trvá léčba neviditelnými rovnátky?",     "answer": "Délka léčby závisí na rozsahu korekce. Průměrně trvá 12–24 měsíců. Na první konzultaci vám stanovíme přesný odhad." },
+      { "question": "Je léčba bolestivá?",                               "answer": "Neviditelná rovnátka jsou výrazně komfortnější než klasická. Po nasazení nové sady může být mírný tlak 1–2 dny, pak je vše v pořádku." },
+      { "question": "Kolik stojí neviditelná rovnátka?",                 "answer": "Cena závisí na rozsahu léčby a zvolené metodě. Na konzultaci zdarma vám připravíme přesnou cenovou nabídku. Nabízíme splátkový program od 625 Kč/měsíc." },
+      { "question": "Mohu mít rovnátka v každém věku?",                  "answer": "Ano! Neviditelná rovnátka jsou vhodná pro děti, teenagery i dospělé. Léčit lze prakticky v každém věku." },
+      { "question": "Co je součástí konzultace zdarma?",                 "answer": "Konzultace zahrnuje prohlídku, 3D sken zubů a návrh léčby včetně vizualizace výsledku a cenové nabídky. Vše zdarma a nezávazně." }
+    ]
+  },
+  "contact": {
+    "title":   "Kde nás najdete",
+    "kicker":  "Jsme v Praze a v Brně",
+    "ctaText": "Objednat se online",
+    "ctaHref": "#kontakt",
+    "branches": [
+      {
+        "city":    "Praha",
+        "address": "Ukázková 123",
+        "zip":     "110 00 Praha 1",
+        "phone":   "+420 704 123 456",
+        "email":   "info@demo.cz",
+        "hours": [
+          { "days": "Po–Pá", "time": "8:00–20:00" },
+          { "days": "So",    "time": "9:00–14:00" },
+          { "days": "Ne",    "time": "Zavřeno" }
+        ]
+      },
+      {
+        "city":    "Brno",
+        "address": "Ukázková 456",
+        "zip":     "602 00 Brno",
+        "phone":   "+420 704 654 321",
+        "email":   "brno@demo.cz",
+        "hours": [
+          { "days": "Po–Pá", "time": "8:00–20:00" },
+          { "days": "So",    "time": "9:00–14:00" },
+          { "days": "Ne",    "time": "Zavřeno" }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "siteName":    "Neviditelná Rovnátka",
+    "logoLine1":   "Neviditelná",
+    "logoLine2":   "Rovnátka",
+    "contactLabel": "Kontakt",
+    "navLabel":    "Navigace",
+    "tagline":     "Krásný úsměv bez kompromisů — moderní ortodoncie pro děti, teenagery i dospělé.",
+    "googleRating": "4,8 z 5 · 5 100+ recenzí",
+    "address":     "Ukázková 123, 110 00 Praha 1",
+    "phone":       "+420 704 123 456",
+    "email":       "info@demo.cz",
+    "facebook":    "https://facebook.com/demo",
+    "instagram":   "https://instagram.com/demo",
+    "whatsapp":    "https://wa.me/420704123456",
+    "links": [
+      { "label": "Pro děti",               "href": "#sluzby" },
+      { "label": "Pro teenagery",           "href": "#sluzby" },
+      { "label": "Smile Makeover",          "href": "#sluzby" },
+      { "label": "Financování",             "href": "#financovani" },
+      { "label": "FAQ",                     "href": "#faq" },
+      { "label": "Ochrana osobních údajů", "href": "#" }
+    ],
+    "copyright": "© 2025 Neviditelná Rovnátka s.r.o. Všechna práva vyhrazena."
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "navbar": {
+    "siteName": "Demo Escape Massage",
+    "announcementText": "⚡ Omezená kapacita! Rezervujte online, než bude plno!",
+    "ctaText": "Rezervace",
+    "ctaHref": "#kontakt",
+    "voucherText": "Dárkové poukazy",
+    "voucherHref": "#voucher",
+    "links": [
+      { "label": "Masáže",           "href": "#sluzby" },
+      { "label": "Dárkové poukazy",  "href": "#voucher" },
+      { "label": "Ceník",            "href": "#cenik" },
+      { "label": "O nás",            "href": "#proc-my" },
+      { "label": "Kontakt",          "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "headline": "Nejlepší thajské masáže v Praze",
+    "subline": "Certifikované masérky · Otevřeno denně 10–22h · Online rezervace",
+    "ctaText": "Online rezervace",
+    "ctaHref": "#kontakt",
+    "voucherText": "Dárkové poukazy",
+    "voucherHref": "#voucher",
+    "bgImage": "/assets/tawan-02/b0b57527bc-Escape-14-2000x1200.jpg",
+    "bgVideo": "/assets/tawan-02/285192def6-homepage-desktop-2.mp4",
+    "bgVideoMobile": "/assets/tawan-02/dc8771569a-homepage-mobile-2.mp4"
+  },
+  "boxes": {
+    "items": [
+      {
+        "title": "Masáže",
+        "desc": "Prozkoumejte nabídku relaxačních masáží.",
+        "href": "#sluzby"
+      },
+      {
+        "title": "Dárkové poukazy",
+        "desc": "Darujte únik od stresu a napětí svým blízkým.",
+        "href": "#voucher"
+      },
+      {
+        "title": "Rezervace",
+        "desc": "Naplánujte si chvíle odpočinku ještě dnes.",
+        "href": "#kontakt"
+      }
+    ]
+  },
+  "services": {
+    "title": "Oblíbené masáže",
+    "items": [
+      {
+        "title": "Aromaterapeutická masáž",
+        "desc": "Relaxační thajská masáž s využitím esenciálních olejů dle vlastního výběru.",
+        "image": "/assets/tawan-02/0fc4de4ced-Escape_websize-54-1536x1024.jpg",
+        "duration": "60–120 min",
+        "price": "Od 1 490 Kč",
+        "badges": ["Doporučujeme", "Oblíbené"]
+      },
+      {
+        "title": "Masáž kokosovým olejem",
+        "desc": "Výjimečné spojení relaxační thajské masáže a panenského kokosového oleje.",
+        "image": "/assets/tawan-02/b0b57527bc-Escape-14-2000x1200.jpg",
+        "duration": "60–120 min",
+        "price": "Od 1 590 Kč",
+        "badges": ["Doporučujeme", "Oblíbené"]
+      },
+      {
+        "title": "Rituál klidu",
+        "desc": "Uklidňující rituál s nádechem lotosového květu uvolní tělo i mysl.",
+        "image": "/assets/tawan-02/c05ea674f1-Escape_websize-56-1536x1024.jpg",
+        "duration": "60–120 min",
+        "price": "Od 1 690 Kč",
+        "badges": ["Doporučujeme"]
+      },
+      {
+        "title": "Sportovní masáž",
+        "desc": "Sportovní masáž zajišťující hloubkovou regeneraci svalů po náročném výkonu.",
+        "image": "/assets/tawan-02/ba6b970224-Escape_websize-49-1536x1024.jpg",
+        "duration": "60–120 min",
+        "price": "Od 1 490 Kč",
+        "badges": ["Oblíbené"]
+      },
+      {
+        "title": "Thajská bylinná masáž",
+        "desc": "Tradiční masáž horkými bylinnými váčky s esencemi zázvoru, citronové trávy a kafru.",
+        "image": "/assets/tawan-02/c7a4fd276e-Escape_websize-51-1536x1024.jpg",
+        "duration": "60–90 min",
+        "price": "Od 1 790 Kč",
+        "badges": ["Doporučujeme"]
+      },
+      {
+        "title": "Masáž zad a šíje",
+        "desc": "Cílená úleva pro záda a šíji — ideální po dlouhém dni u počítače nebo v autě.",
+        "image": "/assets/tawan-02/1b6824732b-Escape_websize-46-1536x1024.jpg",
+        "duration": "30–60 min",
+        "price": "Od 890 Kč",
+        "badges": []
+      },
+      {
+        "title": "Lávové kameny",
+        "desc": "Luxusní masáž horkými lávovými kameny pro hlubokou svalovou relaxaci a detoxikaci.",
+        "image": "/assets/tawan-02/b152b5fedd-Escape_websize-47-1536x1024.jpg",
+        "duration": "75–120 min",
+        "price": "Od 1 990 Kč",
+        "badges": ["Doporučujeme"]
+      },
+      {
+        "title": "Thajská královská masáž",
+        "desc": "Prémiový rituál kombinující tradiční thajské techniky s esenciálními oleji a stretching.",
+        "image": "/assets/tawan-02/752bda17b1-Escape_websize-66-1536x1024.jpg",
+        "duration": "90–120 min",
+        "price": "Od 2 190 Kč",
+        "badges": ["Doporučujeme"]
+      }
+    ]
+  },
+  "why": {
+    "title": "Proč k nám?",
+    "body": "Naše studio je ideálním místem pro ty, kdo hledají autentickou thajskou masáž a chtějí si odpočinout od stresu a napětí. S profesionálními masérkami, které využívají tradiční thajské techniky, vám pomohou uvolnit svaly, zlepšit flexibilitu a obnovit energii. Klidné a útulné prostředí salonu nabízí dokonalý únik od každodenního shonu, kde si můžete dopřát zasloužený relax.",
+    "ctaText": "Více o nás",
+    "ctaHref": "#kontakt",
+    "images": [
+      "/assets/tawan-02/80169c80d5-1.png",
+      "/assets/tawan-02/b198226c95-Escape_websize-2.jpg",
+      "/assets/tawan-02/a34e0554aa-2.png"
+    ]
+  },
+  "testimonials": {
+    "title": "Reference návštěvníků",
+    "items": [
+      {
+        "text": "Dostala jsem dárkový poukaz k narozeninám. Byla to moje první zkušenost s thajskou masáží. Odcházela jsem spokojená a zrelaxovaná. Oceňuji hlavně individuální přístup a čisté prostředí.",
+        "author": "Kateřina Š."
+      },
+      {
+        "text": "Pravidelně chodím na sportovní masáž, která mi pomáhá s regenerací po tréninku. Se službami jsem spokojený. Vyhovuje mi snadná rezervace online a umístění v centru Prahy.",
+        "author": "Pavel V."
+      },
+      {
+        "text": "Krásný salon se zkušenými masérkami. S dcerou sem pravidelně chodíme na aroma masáž. Líbí se nám, že používají kvalitní přírodní produkty.",
+        "author": "Valentina V."
+      },
+      {
+        "text": "V salonu jsem vyzkoušel několik masáží, ale thajská masáž mi sedí nejvíc. Masérky umí na požádání pořádně přitlačit. Pěkné prostředí, uklidňující hudba, na závěr šálek čaje.",
+        "author": "Robert S."
+      },
+      {
+        "text": "V salonu jsem si nejvíce oblíbila rituály. Podle aktuální nálady střídám různé procedury. Masérky jsou milé a usměvavé, stejně jako personál na recepci.",
+        "author": "Markéta H."
+      }
+    ]
+  },
+  "gift": {
+    "title": "Darujte odpočinek",
+    "body": "Chcete dopřát únik od stresu a napětí svým blízkým? Potěšte je dárkovým poukazem do našeho salonu. Poukazy jsou zabalené v elegantních obálkách. Doručíme je kamkoliv po ČR.",
+    "ctaText": "Zjistit více",
+    "ctaHref": "#voucher",
+    "image": "/assets/tawan-02/f83b25fe29-special-offer1.png"
+  },
+  "footer": {
+    "siteName": "Demo Escape Massage",
+    "tagline": "Thajské masáže",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "+420 704 123 456",
+    "email": "email@demo.cz",
+    "hours": "Po–Ne: 10:00–22:00",
+    "copyright": "© 2024 Demo Escape Massage",
+    "social": {
+      "instagram": "https://instagram.com/demo"
+    },
+    "navGroups": {
+      "services": [
+        { "label": "Masáže",              "href": "#sluzby" },
+        { "label": "Dárkové poukazy",     "href": "#voucher" },
+        { "label": "Ceník",               "href": "#cenik" },
+        { "label": "Párové masáže",       "href": "#sluzby" },
+        { "label": "Firemní balíčky",     "href": "#kontakt" }
+      ],
+      "info": [
+        { "label": "O nás",               "href": "#proc-my" },
+        { "label": "Časté dotazy",        "href": "#faq" },
+        { "label": "Blog",                "href": "#blog" },
+        { "label": "Kontakt",             "href": "#kontakt" }
+      ]
+    }
+  }
+}

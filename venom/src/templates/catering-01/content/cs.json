@@ -1,0 +1,187 @@
+{
+  "navbar": {
+    "siteName": "Saveur & Co.",
+    "logoUrl": "/templates/catering-01/logo.svg",
+    "ctaText": "Kontakt",
+    "ctaHref": "#kontakt",
+    "phone": "775 288 400",
+    "email": "info@saveur.cz",
+    "links": [
+      { "label": "Domů",       "href": "/" },
+      { "label": "Služby",     "href": "/#sluzby" },
+      { "label": "Kdo jsme",   "href": "/#o-nas" },
+      { "label": "Naše práce", "href": "/#galerie" },
+      { "label": "Kontakt",    "href": "/#kontakt" },
+      { "label": "Kariéra",    "href": "/#kariera" }
+    ]
+  },
+  "hero": {
+    "title": "Fine-dine catering",
+    "subtitle": "Gastronomické umění pro chvíle, na které se nezapomíná",
+    "badge": "od roku 2007",
+    "tagline": "Chuť,\nkterá\nosloví",
+    "ctaText": "Nezávazná poptávka",
+    "ctaHref": "#kontakt",
+    "bgImage": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1600&h=1000&fit=crop&fm=webp&q=80",
+    "slides": [
+      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=1000&fit=crop&fm=webp&q=85", "alt": "Slavnostní tabule" },
+      { "url": "https://images.unsplash.com/photo-1555244162-803834f70033?w=800&h=1000&fit=crop&fm=webp&q=85", "alt": "Příprava cateringu" },
+      { "url": "https://images.unsplash.com/photo-1547592180-85f173990554?w=800&h=1000&fit=crop&fm=webp&q=85", "alt": "Gala večeře" }
+    ]
+  },
+  "partners": {
+    "heading": "Věří nám přední značky",
+    "items": [
+      { "name": "ŠKODA AUTO" },
+      { "name": "ČESKÁ SPOŘITELNA" },
+      { "name": "MICROSOFT CZ" },
+      { "name": "KOMERČNÍ BANKA" },
+      { "name": "MONETA MONEY" },
+      { "name": "ORACLE ČESKO" },
+      { "name": "AVAST SOFTWARE" },
+      { "name": "ZENTIVA GROUP" },
+      { "name": "PHOENIX LÉKÁRNY" },
+      { "name": "MANNHEIM EVENTS" },
+      { "name": "PORSCHE Praha" },
+      { "name": "BMW GROUP CZ" },
+      { "name": "T-MOBILE CZ" },
+      { "name": "ALZA.CZ" },
+      { "name": "ROHLÍK GROUP" },
+      { "name": "NATLAND GROUP" }
+    ]
+  },
+  "services": {
+    "kicker": "co umíme",
+    "description": "Každá akce je pro nás uměleckým dílem. Přinášíme preciznost, kreativitu a chuť, která překvapí i nejnáročnější hosty.",
+    "ctaText": "Poptat catering",
+    "ctaHref": "#kontakt",
+    "image": "https://images.unsplash.com/photo-1600891964092-4316c288032e?w=600&h=900&fit=crop&fm=webp&q=85",
+    "items": [
+      {
+        "name": "firemní akce",
+        "title": "firemní akce",
+        "description": "Konference, produktová launch party nebo vánoční večírek — přicházíme připraveni na každý scénář. Zajistíme kompletní obsluhu, menu šité na míru a elegantní prezentaci, která posílí image vaší firmy."
+      },
+      {
+        "name": "společenské události",
+        "title": "společenské události",
+        "description": "Gala večeře, módní přehlídky, charitativní aukce nebo vernisáže. Víme, že atmosféra i chuť jsou součástí příběhu, který chcete vyprávět. Staráme se o každý talíř, sklenici i okamžik."
+      },
+      {
+        "name": "zážitková gastronomie",
+        "title": "zážitková gastronomie",
+        "description": "Dáme nám volnou ruku a my vytvoříme multisenzorický gastronomický koncept. Živé kuchyně, párování s vínem, tematické degustace — kulinářský zážitek, který si hosté odnesou v paměti."
+      },
+      {
+        "name": "soukromé oslavy",
+        "title": "soukromé oslavy",
+        "description": "Narozeniny, výročí, svatební recepce nebo rodinné slavnosti. Každou oslavu pojmeme jako výjimečný moment. Přizpůsobíme menu, styl servisu i dekoraci přesně vašim představám."
+      }
+    ]
+  },
+  "team": {
+    "heading": "lidé za\nSaveur & Co.",
+    "members": [
+      { "name": "Ondřej Král",        "role": "Zakladatel & Executive Chef",   "image": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&fm=webp&q=80" },
+      { "name": "Karolína Blažková",  "role": "Ředitelka operací",             "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop&fm=webp&q=80" },
+      { "name": "Filip Šorm",         "role": "Šéfkuchař — kreativní menu",   "image": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&fm=webp&q=80" },
+      { "name": "Marek Dvořáček",     "role": "Vedoucí servisu",               "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&fm=webp&q=80" },
+      { "name": "Jakub Říha",         "role": "Logistika & koordinace",        "image": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&h=300&fit=crop&fm=webp&q=80" },
+      { "name": "Radek Procházka",    "role": "Sous Chef",                     "image": "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=300&h=300&fit=crop&fm=webp&q=80" },
+      { "name": "Tomáš Jirka",        "role": "Event manažer",                 "image": "https://images.unsplash.com/photo-1480455624313-e29b44bbfde1?w=300&h=300&fit=crop&fm=webp&q=80" },
+      { "name": "Lucie Marková",      "role": "Klientský servis",              "image": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&fm=webp&q=80" }
+    ]
+  },
+  "timeline": {
+    "heading": "Náš příběh",
+    "items": [
+      { "year": "2007", "text": "Ondřej Král otevřel ateliér Saveur & Co. v jednom pražském podkroví. První zakázkou byl soukromý večírek pro třicet hostů — a zákazník se vrátil dvacetkrát." },
+      { "year": "2011", "text": "Vstup do světa korporátního cateringu. Uzavřeli jsme první roční smlouvy s třemi nadnárodními firmami a rozšířili tým na deset lidí." },
+      { "year": "2015", "text": "Přišly první gala večeře pro 400 hostů. Přivítali jsme Karolínu Blažkovou jako ředitelku operací — a catering povýšil na skutečné umění." },
+      { "year": "2018", "text": "Otevření vlastní přípravné kuchyně v Holešovicích. Zavedení konceptu zážitkové gastronomie, živých kuchyní a degustačních menu na akcích." },
+      { "year": "2021", "text": "Přes lockdowny jsme se přeorientovali na exkluzivní soukromé evening-for-two koncepty a krabicová degustační menu s osobní doručením po Praze." },
+      { "year": "2024", "text": "Více než 300 akcí ročně, tým 65 profesionálů a nový ateliér v Praze 7. Saveur & Co. patří k nejžádanějším cateringovým značkám v České republice." }
+    ]
+  },
+  "gallery": {
+    "heading": "Naše realizace",
+    "images": [
+      { "url": "https://images.unsplash.com/photo-1530062845289-9109b2c9c868?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Slavnostní tabule pro gala večeři" },
+      { "url": "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Firemní raut v historickém sále" },
+      { "url": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Svatební recepce v zahradě" },
+      { "url": "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Fine dining – degustační menu" },
+      { "url": "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Koktejlový bufet — produktový launch" },
+      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop&fm=webp&q=80", "alt": "Večerní gala v historickém paláci" }
+    ]
+  },
+  "about": {
+    "kicker": "kdo stojí za Saveur & Co.",
+    "title": "Vaříme s vášní,\nservírujeme s pokorou",
+    "text": "Saveur & Co. vzniklo z prosté přesvědčení, že jídlo je víc než sustráva — je to jazyk, kterým sdělujeme péči, respekt a radost. Od prvního večírku v pražském podkroví jsme vyrostli v tým šedesáti profesionálů, kteří se ke každé akci staví jako k premiéře.",
+    "text2": "Naši kuchaři čerpají z francouzské klasiky i ze sezónní české produkce. Neignorujeme diety ani kulturní preference hostů. Přizpůsobíme se každému briefinku — a pak ho ještě překonáme.",
+    "ctaText": "Poznat tým",
+    "ctaHref": "/o-nas"
+  },
+  "contact": {
+    "heading": "Rádi se ozveme",
+    "subheading": "Napište nám",
+    "namePlaceholder": "Jméno a příjmení",
+    "phonePlaceholder": "Telefon",
+    "emailPlaceholder": "E-mail",
+    "messagePlaceholder": "Popište svou akci — termín, počet hostů, typ události…",
+    "submitText": "Odeslat poptávku",
+    "careerHeading": "Baví vás gastronomie?",
+    "careerText": "Hledáme kuchaře, číšníky, hostesky i event koordinátory, kteří chtějí pracovat na akcích, o nichž se mluví. Přidejte se k týmu, ve kterém se každý den naučíte něco nového.",
+    "careerCta": "Přidat se k týmu",
+    "phone": "775 288 400",
+    "email": "info@saveur.cz",
+    "address": "Dělnická 12, 170 00 Praha 7 — Holešovice"
+  },
+  "footer": {
+    "siteName": "Saveur & Co.",
+    "logoUrl": "/templates/catering-01/logo.svg",
+    "company": "Saveur & Co. s.r.o.",
+    "address": "Dělnická 12, 170 00 Praha 7",
+    "ico": "09341872",
+    "dic": "CZ09341872",
+    "phone": "775 288 400",
+    "email": "info@saveur.cz",
+    "copyright": "© 2025 Saveur & Co. s.r.o. Všechna práva vyhrazena."
+  },
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Služby — Saveur & Co. Praha",
+      "seoDescription": "Firemní akce, gala večeře, zážitková gastronomie a soukromé oslavy. Prémiový catering na míru od Saveur & Co.",
+      "hero": {
+        "title": "Naše služby",
+        "subtitle": "Prémiový catering pro každou příležitost"
+      },
+      "services": {}
+    },
+    "o-nas": {
+      "seoTitle": "O nás — Saveur & Co. Praha",
+      "seoDescription": "Jsme pražská cateringová značka s 17 lety zkušeností. Vaříme s vášní a servírujeme s pokorou.",
+      "hero": {
+        "title": "Kdo jsme",
+        "subtitle": "Sedmnáct let vášně pro gastronomii"
+      }
+    },
+    "galerie": {
+      "seoTitle": "Galerie — Saveur & Co. Praha",
+      "seoDescription": "Prohlédněte si naše realizace — firemní rauty, gala večeře, svatební recepce a zážitkové koncepty.",
+      "hero": {
+        "title": "Naše realizace",
+        "subtitle": "Každá akce je jedinečná"
+      },
+      "gallery": {}
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — Saveur & Co. Praha",
+      "seoDescription": "Napište nebo zavolejte. Rádi připravíme nezávaznou nabídku cateringu přesně pro vaši akci.",
+      "hero": {
+        "title": "Kontaktujte nás",
+        "subtitle": "Rádi se ozveme do 24 hodin"
+      }
+    }
+  }
+}

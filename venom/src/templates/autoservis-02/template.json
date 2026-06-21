@@ -1,0 +1,81 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "autoservis-02",
+  "name": "Demo GARANT Autoservis",
+  "industry": "autoservis",
+  "skeleton": "b2b-trade",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Expres autoservis Praha — červený #d82a2a akcent, bílé bg, tmavý #1a1a1a text, Open Sans; top-bar navbar s tel/email/hodiny + sticky nav s červeným CTA; hero s tmavým overlay + bullet USP; 4 service karty s ikonami; about se stats; kontakt formulář; tmavý footer. Inspirováno autoservis-garant.cz.",
+  "sectionOrderNote": "Navbar → Hero → Services → About → Contact → Footer",
+  "skippedSections": [
+    { "pos": 4,  "name": "Gallery",      "reason": "Originál nemá dedikovanou galerii na homepage" },
+    { "pos": 5,  "name": "Testimonials", "reason": "Hodnocení nejsou součástí homepage flow originálu" },
+    { "pos": 6,  "name": "Pricing",      "reason": "Ceník není na homepage" },
+    { "pos": 7,  "name": "FAQ",          "reason": "FAQ není v homepage flow originálu" },
+    { "pos": 8,  "name": "Team",         "reason": "Tým není součástí homepage flow originálu" },
+    { "pos": 9,  "name": "Contact/CTA",  "reason": "Kontaktní CTA je sloučeno do Contact sekce" },
+    { "pos": 10, "name": "Service area", "reason": "Geografická mapa není součástí homepage flow originálu" },
+    { "pos": 11, "name": "FAQ",          "reason": "FAQ není v homepage flow originálu" }
+  ],
+  "extraSections": [
+    { "type": "contact", "reason": "Kontaktní sekce s formulářem — klíčový konverzní prvek autoservisu" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",   "variant": "autoservis-02-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "autoservis-02-hero",     "contentRef": "hero" },
+        { "type": "services", "variant": "autoservis-02-services", "contentRef": "services" },
+        { "type": "about",    "variant": "autoservis-02-about",    "contentRef": "about" },
+        { "type": "contact",  "variant": "autoservis-02-contact",  "contentRef": "contact" },
+        { "type": "footer",   "variant": "autoservis-02-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "title": "Služby",
+      "seoTitleKey": "pages.sluzby.seoTitle",
+      "seoDescriptionKey": "pages.sluzby.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "autoservis-02-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",          "contentRef": "pages.sluzby.hero" },
+        { "type": "services", "variant": "autoservis-02-services", "contentRef": "pages.sluzby.services" },
+        { "type": "footer",   "variant": "autoservis-02-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "seoTitleKey": "pages.o-nas.seoTitle",
+      "seoDescriptionKey": "pages.o-nas.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "autoservis-02-navbar",   "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",          "contentRef": "pages.o-nas.hero" },
+        { "type": "about",    "variant": "autoservis-02-about",    "contentRef": "about" },
+        { "type": "footer",   "variant": "autoservis-02-footer",   "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "autoservis-02-navbar",   "contentRef": "navbar" },
+        { "type": "contact",  "variant": "autoservis-02-contact",  "contentRef": "contact" },
+        { "type": "footer",   "variant": "autoservis-02-footer",   "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

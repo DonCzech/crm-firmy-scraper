@@ -1,0 +1,12 @@
+/* cafe-04 — Demo Coffee Room — Specialty kavárna */
+:root {
+  --color-primary:   #1d1f2e;
+  --color-accent:    #b79570;
+  --color-secondary: #a25f4b;
+  --color-bg:        #fafafa;
+  --color-text:      #1d1f2e;
+  --color-muted:     #6b6b6b;
+  --color-border:    #ececed;
+  --font-heading:    'Montserrat', sans-serif;
+  --font-body:       'Karla', sans-serif;
+}

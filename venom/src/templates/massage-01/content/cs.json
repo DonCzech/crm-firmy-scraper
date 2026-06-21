@@ -1,0 +1,130 @@
+{
+  "navbar": {
+    "siteName": "Demo Masáže",
+    "siteTagline": "Masážní studio Praha",
+    "logoUrl": "",
+    "phone": "704 123 456",
+    "ctaText": "REZERVOVAT",
+    "ctaHref": "#rezervace",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "tiktokUrl": "https://tiktok.com/@demo",
+    "links": [
+      { "label": "Masáže",    "href": "#sluzby" },
+      { "label": "Terapeut",  "href": "#terapeut" },
+      { "label": "Reference", "href": "#reference" },
+      { "label": "Galerie",   "href": "#galerie" },
+      { "label": "Kontakt",   "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "tag": "Rodinné studio krásy a zdraví",
+    "headline": "Tady se maká na úlevě",
+    "subline": "Odborná terapeutická masáž v intimním a příjemném prostředí.\nUvolněte napětí. Obnovte rovnováhu. Znovuobjevte sebe.",
+    "ctaText": "Rezervovat masáž",
+    "ctaHref": "#rezervace",
+    "bgImage": "/assets/massage-01/581afcce4d-250866ee-3e29-4830-80c7-7e68a6571b64-1024x683.png"
+  },
+  "services": {
+    "sectionTag": "Naše služby",
+    "heading": "Masážní terapie",
+    "subtitle": "Každé sezení je přizpůsobeno jedinečným potřebám vašeho těla",
+    "items": [
+      {
+        "image": "/assets/massage-01/917675c966-a5466b94-fb28-4a38-9ea7-f0ec5ce92b83-1024x683.jpg",
+        "title": "Klasická masáž",
+        "description": "Patří mezi manuální relaxační techniky působící okamžitě a jednorázově nejen na tělesný, ale i duševní stav masírované osoby.",
+        "price": "od 520 Kč"
+      },
+      {
+        "image": "/assets/massage-01/3a3654c97f-57864c29-644a-4248-87b1-8bc848518527-1024x683.jpg",
+        "title": "Intenzivní hloubková masáž",
+        "description": "Tvoří důležitou součást přípravy amatérských i vrcholových sportovců, kteří chtějí opakovaně podávat sportovní výkony a předcházet trvalému poškození organismu.",
+        "price": "od 580 Kč"
+      },
+      {
+        "image": "/assets/massage-01/7778d59ea0-8f0d2845-5d3c-487d-bd8f-22e45c5204a4-1024x683.jpg",
+        "title": "Regenerační masáž",
+        "description": "Masáž, která odstraňuje únavu a posiluje regeneraci organismu. Zbavuje tělo ochablosti a ztuhlosti, obnovuje vitalitu.",
+        "price": "od 540 Kč"
+      }
+    ],
+    "ctaText": "Zobrazit kompletní nabídku",
+    "ctaHref": "#rezervace"
+  },
+  "about": {
+    "tag": "O mně",
+    "name": "Demo Masér",
+    "role": "Certifikovaný masér & terapeut",
+    "bio1": "S více než 12 lety zkušeností se věnuji terapeutické masáži jako cestě k celkovému zdraví a rovnováze. Každé sezení přizpůsobuji individuálním potřebám klienta — ať už hledáte úlevu od bolesti, regeneraci po sportu, nebo prostě chvíli ticha pro sebe.",
+    "bio2": "Mým cílem je vytvořit prostor, kde se můžete plně uvolnit a kde se vaše tělo i mysl dostanou do harmonie.",
+    "stats": [
+      { "number": "12+", "label": "let praxe" },
+      { "number": "500+", "label": "spokojených klientů" },
+      { "number": "15", "label": "masážních technik" }
+    ],
+    "image": "/assets/massage-01/648ab317d8-fc683be2-37c4-4f44-82a6-2fa514836c5e-683x1024.jpg"
+  },
+  "testimonials": {
+    "sectionTag": "Reference",
+    "heading": "Co říkají naši klienti",
+    "googleRating": "4.9",
+    "googleCount": "80 recenzí",
+    "items": [
+      {
+        "text": "Nejlepší masáž, jakou jsem kdy zažila. Přesně věděl, kde mám napětí. Odešla jsem jako znovuzrozená a bolest zad, se kterou jsem přišla, úplně zmizela.",
+        "author": "Petra K.",
+        "stars": 5
+      },
+      {
+        "text": "Pravidelně chodím na klasickou masáž — je to pro mě nezbytná součást regenerace. Profesionální přístup, příjemné prostředí a vždy odcházím odpočatý.",
+        "author": "Martin H.",
+        "stars": 5
+      },
+      {
+        "text": "Výborná hloubková masáž. Chronická ztuhlost šíje po prvním sezení výrazně ustoupila. Vřele doporučuji každému, kdo hledá skutečnou úlevu.",
+        "author": "Lucie M.",
+        "stars": 5
+      }
+    ]
+  },
+  "gallery": {
+    "sectionTag": "Galerie",
+    "heading": "Naše prostředí",
+    "instagramHandle": "@demomasaze",
+    "instagramUrl": "https://instagram.com/demo",
+    "images": [
+      { "url": "/templates/massage-01/gallery-1.webp", "alt": "Masážní studio" },
+      { "url": "/templates/massage-01/gallery-2.webp", "alt": "Relaxační pokoj" },
+      { "url": "/templates/massage-01/gallery-3.webp", "alt": "Aromatické oleje" },
+      { "url": "/templates/massage-01/gallery-4.webp", "alt": "Masáž" },
+      { "url": "/templates/massage-01/gallery-5.webp", "alt": "Wellness prostor" },
+      { "url": "/templates/massage-01/gallery-6.webp", "alt": "Smyslová masáž" },
+      { "url": "/templates/massage-01/gallery-7.webp", "alt": "Regenerace" },
+      { "url": "/templates/massage-01/gallery-8.webp", "alt": "Relaxace" }
+    ]
+  },
+  "contact": {
+    "heading": "Přijďte k nám",
+    "description": "Jsme pro vás k dispozici každý den. Rezervujte si termín telefonicky nebo přes email — rádi se vám přizpůsobíme.",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "hours": "Po–Pá 9:00–20:00, So 9:00–18:00, Ne 10:00–16:00",
+    "mapEmbedUrl": ""
+  },
+  "footer": {
+    "siteName": "Demo Masáže",
+    "siteTagline": "Masážní studio Praha",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "copyright": "© 2025 Demo Masáže Praha. Všechna práva vyhrazena.",
+    "legalLinks": [
+      { "label": "Ochrana osobních údajů", "href": "#gdpr" },
+      { "label": "Obchodní podmínky", "href": "#podminky" }
+    ]
+  }
+}

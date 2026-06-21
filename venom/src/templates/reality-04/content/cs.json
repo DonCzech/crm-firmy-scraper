@@ -1,0 +1,154 @@
+{
+  "navbar": {
+    "siteName": "Fox Reality",
+    "logoUrl": "/templates/reality-04/logo.svg",
+    "ctaText": "Kontakty",
+    "ctaHref": "#kontakt",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "links": [
+      { "label": "Nemovitosti",  "href": "#nabidka" },
+      { "label": "Reference",    "href": "#recenze" },
+      { "label": "Služby",       "href": "#sluzby" },
+      { "label": "Online odhad", "href": "#kontakt" },
+      { "label": "O mně",        "href": "#o-nas" },
+      { "label": "Kontakt",      "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "title": "Vaše nemovitost v dobrých rukou",
+    "subtitle": "Realitní kancelář s osobním přístupem. Přes 20 000 spokojených klientů v Praze a okolí.",
+    "panel1Title": "Nabízíte nemovitost?",
+    "panel1Subtitle": "Prodej a pronájem nemovitosti, odhad ceny zdarma",
+    "panel1CtaText": "Chci více informací",
+    "panel1CtaHref": "#kontakt",
+    "panel1Image": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=700&h=500&fit=crop&q=80",
+    "panel2Title": "Hledáte nemovitost?",
+    "panel2Subtitle": "Koupě a pronájem nemovitosti, finanční služby",
+    "panel2CtaText": "Chci více informací",
+    "panel2CtaHref": "#nabidka",
+    "panel2Image": "https://images.unsplash.com/photo-1582407947304-fd86f028f716?w=700&h=500&fit=crop&q=80"
+  },
+  "ratings": {
+    "title": "Hodnocení našich klientů",
+    "ctaText": "Chci být dalším spokojeným zákazníkem",
+    "ctaHref": "#kontakt",
+    "items": [
+      { "platform": "Google",  "score": "4.9", "count": "387 recenzí",  "color": "#ea4335" },
+      { "platform": "Seznam",  "score": "4.9", "count": "361 recenzí",  "color": "#e4521e" },
+      { "platform": "Facebook","score": "4.9", "count": "54 hodnocení", "color": "#1877f2" }
+    ]
+  },
+  "whyUs": {
+    "id": "sluzby",
+    "title": "Proč právě my?",
+    "items": [
+      {
+        "title": "Naše služby máte zdarma",
+        "subtitle": "Provizi z pronájmu nemovitosti hradí nájemce",
+        "body": "Jako vlastník nemovitosti máte naše služby při pronájmu zcela zdarma. Provizi z pronájmu nemovitosti hradí nájemce. Sami si zajistíme nezbytné podklady pro přípravu prezentace nemovitosti a postaráme se o prohlídky.",
+        "image": "https://images.unsplash.com/photo-1556155092-490a1ba16284?w=600&h=400&fit=crop&q=80"
+      },
+      {
+        "title": "Garantujeme kvalitu",
+        "subtitle": "Náš tým má více než 20 000 spokojených klientů",
+        "body": "Víme, že každý klient má specifické požadavky a odlišné potřeby. Zakládáme si na osobním přístupu ke svým klientům a klademe důraz i na ty nejmenší detaily během celého obchodního procesu.",
+        "image": "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop&q=80"
+      },
+      {
+        "title": "Respektujeme vaše rozhodnutí",
+        "subtitle": "Po nezávazné konzultaci se sami rozhodnete, zda nás chcete",
+        "body": "Pokud nás oslovíte s prodejem Vaší nemovitosti, k ničemu se nezavazujete. Začneme tím, že si po telefonu s naším makléřem proberete vše, co Vás zajímá. Rozhodnutí, zda s námi nemovitost budete prodávat, je jen na Vás.",
+        "image": "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&h=400&fit=crop&q=80"
+      },
+      {
+        "title": "Pečujeme o vás po celou dobu nájmu",
+        "subtitle": "Během trvání nájemního vztahu i po něm jsme vám k dispozici",
+        "body": "Pronájmem Vaší nemovitosti to pro nás nekončí. Po celou dobu nájemního vztahu jsme Vám plně k dispozici – například Vám poradíme s vyúčtováním či případnými změnami v zákoně.",
+        "image": "https://images.unsplash.com/photo-1560472355-536de3962603?w=600&h=400&fit=crop&q=80"
+      }
+    ]
+  },
+  "testimonials": {
+    "id": "recenze",
+    "title": "Napsali o nás",
+    "items": [
+      {
+        "name": "Klára B.",
+        "rating": 5,
+        "text": "Naprosto perfektní dlouhodobá spolupráce! Není co dodat. Velké díky!!!"
+      },
+      {
+        "name": "Miriam L.",
+        "rating": 5,
+        "text": "Moc rádi bychom poděkovali za veškerý servis a milé a profesionální jednání naší makléřce. Skvělá komunikace a přístup."
+      },
+      {
+        "name": "Hana B.",
+        "rating": 5,
+        "text": "Moc děkuji za opakovanou velmi milou a profesionální spolupráci. Skvělá komunikace a bezchybný průběh celého procesu."
+      }
+    ]
+  },
+  "hotline": {
+    "phone": "704 123 456",
+    "claim": "Zeptejte se na cokoliv, jsme tu pro Vás.",
+    "claimAccent": "cokoliv",
+    "ctaText": "Chci více informací",
+    "ctaHref": "#kontakt"
+  },
+  "contact": {
+    "id": "kontakt",
+    "title": "Chci nezávazně poradit s prodejem / pronájmem",
+    "mapTitle": "Kde nás najdete",
+    "companyName": "Demo Reality s.r.o.",
+    "address": "Ukázková 123",
+    "city": "110 00 Praha 1",
+    "ico": "12345678",
+    "hours": "Pracovní dny: 9:00 – 18:00 hod",
+    "phone": "704 123 456",
+    "phone2": "704 654 321",
+    "email": "info@demo.cz",
+    "mapLat": 50.076,
+    "mapLng": 14.434
+  },
+  "about": {
+    "id": "o-nas",
+    "title": "Demo Reality – Realitní kancelář Praha",
+    "body": "Náš tým Demo Reality – Realitní kancelář Praha má za sebou již více než 20 000 spokojených klientů v Praze a nejbližším okolí. Víme, že každý klient má specifické požadavky, klademe proto důraz i na ty nejmenší detaily a zakládáme si na osobním přístupu.",
+    "referralTitle": "Odměníme vás za doporučení nemovitosti",
+    "referralBody": "Znáte někoho, kdo chce prodat či pronajmout nemovitost? Doporučte nás, rádi Vás odměníme. Po zrealizování obchodu Vám vyplatíme odměnu.",
+    "legalTitle": "Právní jistota",
+    "legalBody": "Vlastní právní oddělení zaručuje našim zákazníkům profesionální zpracování smluvních dokumentů i související poradenství.",
+    "freeEstimateTitle": "Odhad nemovitosti i určení výše nájmu zdarma",
+    "freeEstimateBody": "Stanovení správné tržní ceny je základním předpokladem úspěšného prodeje. Nabízíme bezplatný online odhad ceny nemovitosti."
+  },
+  "footer": {
+    "siteName": "Demo Reality s.r.o.",
+    "logoUrl": "/templates/reality-04/logo.svg",
+    "address": "Ukázková 123",
+    "city": "110 00 Praha 1",
+    "ico": "12345678",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "youtubeUrl": "https://youtube.com/demo",
+    "copyright": "Demo Reality 2010 – 2026, všechna práva vyhrazena.",
+    "links": [
+      { "label": "Kontakty",       "href": "#kontakt" },
+      { "label": "Blog",           "href": "#blog" },
+      { "label": "O nás",          "href": "#o-nas" },
+      { "label": "GDPR",           "href": "#gdpr" }
+    ],
+    "servicesLinks": [
+      { "label": "Nabízím nemovitost",  "href": "#kontakt" },
+      { "label": "Poptávám nemovitost", "href": "#nabidka" },
+      { "label": "Dědické řízení",      "href": "#kontakt" },
+      { "label": "Odhad zdarma",        "href": "#kontakt" },
+      { "label": "Hypoteční centrum",   "href": "#kontakt" }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "fitness-01",
+  "name": "Demo Linda Fitness",
+  "industry": "fitness",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Fitness & fyzioterapie — osobní trenérka, cream #FFF9F7 paleta, Inter bold wordmark, warm brown #AD8A72 accent — split hero, icon-box benefits bar, bio sekce, carousel specialit, 3× pricing plán, testimonials, FAQ accordion, kontakt. Inspirováno lindasikorova.com.",
+  "sectionOrderNote": "Navbar → Hero → About (benefits bar) → About (trainer bio) → Services (carousel) → Pricing (3 plány) → Testimonials → FAQ → Contact → Footer",
+  "skippedSections": [
+    { "pos": 6,  "name": "Gallery",     "reason": "Originál lindasikorova.cz nemá galerii na homepage" },
+    { "pos": 7,  "name": "Team",        "reason": "Linda je solo fyzioterapeutka a trenérka — profil je součástí About sekce" },
+    { "pos": 9,  "name": "Booking/CTA", "reason": "Rezervace probíhá přes isportsystem.cz — CTA je v navbar a hero; pricing má vlastní CTA" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "fitness-01-navbar",              "contentRef": "navbar" },
+        { "type": "hero",         "variant": "hero-fitness-01-split",          "contentRef": "hero" },
+        { "type": "about",        "variant": "about-fitness-01-trainer",       "contentRef": "about" },
+        { "type": "services",     "variant": "fitness-01-services-carousel",   "contentRef": "services" },
+        { "type": "pricing",      "variant": "fitness-01-pricing-3col",        "contentRef": "pricing" },
+        { "type": "testimonials", "variant": "fitness-01-testimonials-2col",   "contentRef": "testimonials" },
+        { "type": "faq",          "variant": "faq-fitness-01",                 "contentRef": "faq" },
+        { "type": "contact",      "variant": "contact-fitness-01",             "contentRef": "contact" },
+        { "type": "footer",       "variant": "fitness-01-footer",              "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

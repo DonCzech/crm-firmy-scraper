@@ -1,0 +1,21 @@
+/* fitness-01 skin — Demo Linda Fitness */
+/* Warm cream palette: #FFF9F7 bg, #AD8A72 brand accent, Inter headings */
+
+[data-template="fitness-01"] {
+  --f01-bg:        #FFF9F7;
+  --f01-surface:   #F5EDE6;
+  --f01-accent:    #AD8A72;
+  --f01-accent2:   #C1A598;
+  --f01-border:    #E5D9D1;
+  --f01-mid:       #D9C6B9;
+  --f01-text:      #000000;
+  --f01-muted:     #54595F;
+  --f01-white:     #FFFFFF;
+  font-family: 'Roboto', sans-serif;
+}
+
+[data-template="fitness-01"] h1,
+[data-template="fitness-01"] h2,
+[data-template="fitness-01"] h3 {
+  font-family: 'Inter', sans-serif;
+}

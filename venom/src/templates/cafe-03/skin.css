@@ -1,0 +1,30 @@
+/* cafe-03 — Demo Cathedral Café
+   Gothic-arch motif, gold accent #C69C60, Great Vibes decorative headings,
+   Open Sans body, white + cream surfaces.
+   Ref: design reference (Kavárna & Restaurace) */
+
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:ital,wght@0,300..700;1,300..700&display=swap');
+
+[data-template="cafe-03"] {
+  --c3-gold:       #C69C60;
+  --c3-gold-dk:    #A07840;
+  --c3-dark:       #1a1a1a;
+  --c3-white:      #ffffff;
+  --c3-cream:      #F8F5F0;
+  --c3-border:     #E8E2D8;
+  --c3-muted:      #6b6b6b;
+  --c3-overlay:    rgba(0,0,0,0.30);
+  --c3-serif:      'Great Vibes', cursive;
+  --c3-sans:       'Open Sans', sans-serif;
+}
+
+[data-template="cafe-03"] *,
+[data-template="cafe-03"] *::before,
+[data-template="cafe-03"] *::after {
+  box-sizing: border-box;
+}
+
+[data-template="cafe-03"] img {
+  max-width: 100%;
+  display: block;
+}

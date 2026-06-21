@@ -1,0 +1,83 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "florist-01",
+  "name": "Demo Květinářství",
+  "industry": "florist",
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Floristický e-shop — rozvoz kytek po Praze. Tmavý charcoal topbar se 3 rotujícími zprávami, bílá sticky navbar, 2-slide hero slideshow, 4 USP boxy, kolekce + bestsellery grid, 3-krokový návod, recenze, 2 prodejny + mapa, patička. Inspirováno freja.cz / Kvety Svet.",
+  "sectionOrderNote": "Navbar → Hero → Stats → Gallery(collections) → Products(bestsellers) → About(process) → Testimonials → Contact(stores+map) → Footer",
+  "skippedSections": [
+    { "pos": 3,  "name": "Categories",      "reason": "Kategorie kytek jsou zobrazeny v sekci Gallery (florist-01-collections), ne přes sekci Services" },
+    { "pos": 6,  "name": "Services",        "reason": "Floristický e-shop nemá seznam služeb — klíčovým obsahem jsou produktové kategorie a bestsellery" },
+    { "pos": 8,  "name": "CTA/Newsletter",  "reason": "Newsletter CTA je nahrazeno sociálními ikonami v patičce" },
+    { "pos": 9,  "name": "Name Day promo bar", "reason": "Sezónní prvek specifický pro Shopify — není součástí standardního homepage flow" },
+    { "pos": 10, "name": "Instagram feed",  "reason": "Vyžaduje API token — nahrazeno statickým CTA v patičce" }
+  ],
+  "extraSections": [
+    { "type": "stats",    "reason": "USP trust bar (4 ikonové boxy: Doručení / 2 prodejny / 4.9 Google / Foto) je klíčovým prvkem floristického e-shopu" },
+    { "type": "gallery",  "reason": "Kolekce (kategorie kytek) jako vizuální navigace mezi produktovými skupinami" },
+    { "type": "products", "reason": "Bestsellery — product grid 8 karet s cenami, klíčový prvek floristického e-shopu" }
+  ],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Úvod",
+      "sections": [
+        { "type": "navbar",       "variant": "florist-01-navbar",       "contentRef": "navbar" },
+        { "type": "hero",         "variant": "florist-01-hero",         "contentRef": "hero" },
+        { "type": "stats",        "variant": "florist-01-stats",        "contentRef": "stats" },
+        { "type": "gallery",      "variant": "florist-01-collections",  "contentRef": "collections" },
+        { "type": "products",     "variant": "florist-01-products",     "contentRef": "products" },
+        { "type": "about",        "variant": "florist-01-process",      "contentRef": "process" },
+        { "type": "testimonials", "variant": "florist-01-testimonials", "contentRef": "testimonials" },
+        { "type": "contact",      "variant": "florist-01-contact",      "contentRef": "contact" },
+        { "type": "footer",       "variant": "florist-01-footer",       "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "katalog",
+      "title": "Katalog",
+      "seoTitleKey": "pages.katalog.seoTitle",
+      "seoDescriptionKey": "pages.katalog.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "florist-01-navbar",      "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",          "contentRef": "pages.katalog.hero" },
+        { "type": "gallery",  "variant": "florist-01-collections", "contentRef": "collections" },
+        { "type": "footer",   "variant": "florist-01-footer",      "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "doruceni",
+      "title": "Doručení",
+      "seoTitleKey": "pages.doruceni.seoTitle",
+      "seoDescriptionKey": "pages.doruceni.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "florist-01-navbar",  "contentRef": "navbar" },
+        { "type": "hero",     "variant": "hero-centered",      "contentRef": "pages.doruceni.hero" },
+        { "type": "about",    "variant": "florist-01-process", "contentRef": "process" },
+        { "type": "footer",   "variant": "florist-01-footer",  "contentRef": "footer" }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "seoTitleKey": "pages.kontakt.seoTitle",
+      "seoDescriptionKey": "pages.kontakt.seoDescription",
+      "sections": [
+        { "type": "navbar",   "variant": "florist-01-navbar",  "contentRef": "navbar" },
+        { "type": "contact",  "variant": "florist-01-contact", "contentRef": "contact" },
+        { "type": "footer",   "variant": "florist-01-footer",  "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

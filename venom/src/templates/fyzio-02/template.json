@@ -1,0 +1,44 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "fyzio-02",
+  "name": "Demo Reset Fyzio",
+  "industry": "fyzio",
+  "skeleton": "service-personal",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Fyzioterapeutická klinika s funkční neurologií — světlé pozadí #f1f6f6, dark navy #092029 brand, teal #29a3a4 akcent, light teal #a1d5cf sekundární, DM Serif Display headings + Plus Jakarta Sans body — sticky bílý navbar bez topbaru, split hero (text vlevo + foto vpravo), about benefits, services icon-list, CTA booking, team, testimonials, kontakt. Inspirováno resetclinic.cz.",
+  "sectionOrderNote": "Navbar → Hero → About → Services → CTA → Team → Testimonials → Contact → Footer",
+  "skippedSections": [
+    { "pos": 5,  "name": "Gallery",   "reason": "Originál resetclinic.cz nemá klasickou galerii na homepage — fotky jsou součástí hero a services sekcí" },
+    { "pos": 6,  "name": "Gallery",   "reason": "Originál resetclinic.cz nemá klasickou galerii na homepage" },
+    { "pos": 8,  "name": "FAQ",       "reason": "FAQ je ve vedlejší sekci originálu, ne na primární homepage" },
+    { "pos": 9,  "name": "Pricing",   "reason": "Ceník je na samostatné stránce /cenik, ne na homepage" },
+    { "pos": 11, "name": "FAQ",       "reason": "FAQ je ve vedlejší sekci originálu, ne na primární homepage" }
+  ],
+  "extraSections": [],
+  "i18n": {
+    "default": "cs",
+    "supported": ["cs"]
+  },
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        { "type": "navbar",       "variant": "fyzio-02-navbar",         "contentRef": "navbar" },
+        { "type": "hero",         "variant": "hero-fyzio-02-split",      "contentRef": "hero" },
+        { "type": "about",        "variant": "about-fyzio-02-features",  "contentRef": "about" },
+        { "type": "services",     "variant": "fyzio-02-services-list",   "contentRef": "services" },
+        { "type": "cta",          "variant": "fyzio-02-cta-booking",     "contentRef": "cta" },
+        { "type": "team",         "variant": "fyzio-02-team-grid",       "contentRef": "team" },
+        { "type": "testimonials", "variant": "fyzio-02-testimonials",    "contentRef": "testimonials" },
+        { "type": "contact",      "variant": "contact-fyzio-02",         "contentRef": "contact" },
+        { "type": "footer",       "variant": "fyzio-02-footer",          "contentRef": "footer" }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  }
+}

@@ -1,0 +1,30 @@
+/* fyzio-02 — Demo Reset Fyzio
+   Navy #1a2e4a · Gold #c9a84c · Surface #f5f3ee
+   DM Serif Display headings + Plus Jakarta Sans body
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --color-primary:    #1a2e4a;
+  --color-secondary:  #c9a84c;
+  --color-background: #ffffff;
+  --color-surface:    #f5f3ee;
+  --color-text:       #1a2e4a;
+  --color-text-muted: #6b7280;
+  --color-accent:     #c9a84c;
+  --color-border:     #e0ddd5;
+
+  --font-heading: 'DM Serif Display', serif;
+  --font-body:    'Plus Jakarta Sans', sans-serif;
+
+  --radius:      8px;
+  --radius-sm:   4px;
+  --radius-lg:   16px;
+  --radius-pill: 32px;
+}
+
+[data-template="fyzio-02"] {
+  font-family: var(--font-body);
+  color: var(--color-text);
+}

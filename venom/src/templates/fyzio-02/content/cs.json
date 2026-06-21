@@ -1,0 +1,195 @@
+{
+  "navbar": {
+    "siteName": "American Clinic",
+    "logoUrl": "/templates/fyzio-02/logo.svg",
+    "ctaText": "Objednat se",
+    "ctaHref": "#rezervace",
+    "phone": "704 123 456",
+    "email": "info@demo.cz",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "links": [
+      { "label": "O nás",    "href": "#o-nas" },
+      { "label": "Terapie",  "href": "#sluzby" },
+      { "label": "Ceník",    "href": "#cenik" },
+      { "label": "Tým",      "href": "#tym" },
+      { "label": "Kontakt",  "href": "#kontakt" }
+    ]
+  },
+  "hero": {
+    "title": "Pohyb bez bolesti.\nZačíná tady.",
+    "tagline": "Prémiová fyzioterapie amerického standardu",
+    "body": "Kombinujeme nejnovější poznatky americké sportovní medicíny s individuálním přístupem. Pomáháme sportovcům, manažerům i seniorům vrátit se k tomu, co mají rádi.",
+    "ctaText": "Objednat se online",
+    "ctaHref": "#rezervace",
+    "ctaSecondaryText": "Jak probíhá návštěva",
+    "ctaSecondaryHref": "#o-nas",
+    "image": "/clones/resetclinic/67eae6b510b7940c86a01571_DSC01862.avif",
+    "statsCount": "1 200+",
+    "statsLabel": "ošetřených pacientů",
+    "badge1": "15 let praxe",
+    "badge2": "Certifikace USA & EU"
+  },
+  "about": {
+    "id": "o-nas",
+    "tagline": "Náš přístup",
+    "title": "Fyzioterapie na úrovni světových standardů.",
+    "body": "V American Clinic vycházíme z amerického systému péče o pohybový aparát — přesná diagnostika, měřitelné cíle a transparentní plán léčby. Žádné dohady, jen fakta.",
+    "benefits": [
+      {
+        "icon": "check",
+        "title": "Přesná diagnostika",
+        "body": "Každé ošetření začíná důkladným vyšetřením. Nenacházíme jen symptomy — hledáme příčiny, aby se problém skutečně vyřešil."
+      },
+      {
+        "icon": "brain",
+        "title": "Americké metody",
+        "body": "Pracujeme s technikami SFMA, DNS a Dry Needling certifikovanými v USA. Výsledky, které se měří, ne jen cítí."
+      },
+      {
+        "icon": "user",
+        "title": "Plán šitý na míru",
+        "body": "Každý klient odchází s písemným plánem terapie a jasným harmonogramem. Víte přesně, co a proč děláte."
+      }
+    ]
+  },
+  "services": {
+    "id": "sluzby",
+    "tagline": "Naše terapie",
+    "title": "Co pro vás uděláme",
+    "body": "Specializujeme se na bolesti pohybového aparátu, rehabilitaci po zranění i výkonnostní fyzioterapii pro sportovce.",
+    "ctaText": "Objednat se",
+    "ctaHref": "#rezervace",
+    "services": [],
+    "items": [
+      {
+        "name": "Sportovní fyzioterapie",
+        "icon": "activity",
+        "title": "Sportovní fyzioterapie",
+        "description": "Návrat k výkonu po zranění nebo operaci. Pracujeme s amatérskými i profesionálními sportovci — rychle, bezpečně a měřitelně.",
+        "image": "/assets/fyzio-02/98639bc800-6970a373111eabcd2492d8b9_DSC01930.jpg"
+      },
+      {
+        "name": "Manuální terapie",
+        "icon": "hand",
+        "title": "Manuální terapie",
+        "description": "Mobilizace kloubů, měkké techniky a myofasciální uvolnění podle amerického protokolu SFMA. Okamžitá úleva, dlouhodobý efekt.",
+        "image": "/clones/resetclinic/6970a4bd96de12e5e6f27139_RESET FYZIO8707.jpg"
+      },
+      {
+        "name": "Dry Needling",
+        "icon": "zap",
+        "title": "Dry Needling",
+        "description": "Účinná metoda pro uvolnění trigger points a chronického svalového napětí. Certifikovaný postup, viditelné výsledky od první návštěvy.",
+        "image": "/clones/resetclinic/67eae6b510b7940c86a0155d_DSC01799.avif"
+      },
+      {
+        "name": "Online konzultace",
+        "icon": "monitor",
+        "title": "Online konzultace",
+        "description": "Konzultace pohybových problémů nebo cvičebního plánu na dálku. Ideální pro klienty z celé republiky nebo ze zahraničí.",
+        "image": "/clones/resetclinic/67eae6b510b7940c86a01570_DSC01829.avif"
+      }
+    ]
+  },
+  "cta": {
+    "id": "rezervace",
+    "title": "Připraveni udělat první krok?",
+    "body": "Vstupní vyšetření trvá 60 minut. Odejdete s jasným plánem, ne jen s doporučením na volné prodejné léky.",
+    "ctaText": "Objednat se online",
+    "ctaHref": "https://demo.cz/rezervace",
+    "ctaSecondaryText": "Zavolat nám",
+    "ctaSecondaryHref": "tel:+420704123456",
+    "statsCount": "1 200+",
+    "statsLabel": "úspěšně ošetřených pacientů"
+  },
+  "team": {
+    "id": "tym",
+    "tagline": "Náš tým",
+    "title": "Terapeuti, kteří vás vrátí do pohybu",
+    "body": "Každý člen týmu prošel certifikacemi v USA nebo Velké Británii. Neustále se vzdělávají, abyste vy měli přístup k nejmodernějším metodám.",
+    "ctaText": "O nás",
+    "ctaHref": "#o-nas",
+    "members": [
+      {
+        "name": "Mgr. Jakub Horák",
+        "role": "Hlavní terapeut — SFMA, DNS",
+        "bio": "15 let zkušeností v sportovní fyzioterapii. Absolvoval postgraduální kurzy v New Yorku a Londýně. Pracoval s olympijskými sportovci.",
+        "image": "/assets/fyzio-02/1bab8f1bc1-68ed06c64cf4c5b1fded8098_Stefan1.jpeg"
+      },
+      {
+        "name": "Bc. Lucie Marková",
+        "role": "Fyzioterapeut — Dry Needling, McKenzie",
+        "bio": "Specialistka na chronické bolesti páteře a kloubů. Certifikovaná McKenzie terapeutka s praxí v rehabilitačních centrech v ČR i Německu.",
+        "image": "/assets/fyzio-02/ac76ed7f34-68ed0acc428edc78da214216_Stepan2.jpeg"
+      },
+      {
+        "name": "Mgr. Ondřej Šimánek",
+        "role": "Fyzioterapeut — Sportovní medicina",
+        "bio": "Specializace na návrat sportovců po operacích kolenního kloubu a ramene. Spolupracuje s několika prvoligovými fotbalovými kluby.",
+        "image": "/clones/resetclinic/67eae6b510b7940c86a01571_DSC01862.avif"
+      }
+    ]
+  },
+  "testimonials": {
+    "id": "reference",
+    "tagline": "Co říkají klienti",
+    "title": "Výsledky mluví za vše",
+    "body": "Přes 1 200 spokojených klientů. Přečtěte si, co přinesla terapie v American Clinic do jejich života.",
+    "rating": "4.9",
+    "ratingLabel": "Průměrné hodnocení na Google",
+    "testimonials": [],
+    "items": [
+      {
+        "author": "Radek N.",
+        "role": "Amatérský cyklista",
+        "text": "Po operaci kolena jsem nevěřil, že se vrátím na kolo. Díky Jakubovi a jeho týmu jsem po čtyřech měsících absolvoval svůj první závod. Profesionální přístup na každém kroku.",
+        "rating": 5
+      },
+      {
+        "author": "Veronika H.",
+        "role": "Manažerka",
+        "text": "Chronická bolest krční páteře mě trápila roky. Tři sezení a byl to jiný svět. Konečně někdo, kdo vysvětlí příčinu — ne jen doporučí prohřívání.",
+        "rating": 5
+      },
+      {
+        "author": "Pavel K.",
+        "role": "Fotbalový trenér",
+        "text": "Posílám sem své svěřence a chodím sám. Dry Needling na spouštěcí body funguje lépe než cokoliv, co jsem dříve zkoušel. Rychle, efektivně, bez planých slibů.",
+        "rating": 5
+      }
+    ]
+  },
+  "contact": {
+    "id": "kontakt",
+    "tagline": "Kontakt",
+    "title": "Objednejte se nebo se zeptejte",
+    "body": "Rádi zodpovíme jakékoliv dotazy ještě před první návštěvou. Stačí zavolat nebo napsat.",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "address": "Ukázková 123",
+    "city": "110 00 Praha 1",
+    "hours": "Po–Pá 7:00–20:00",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo"
+  },
+  "footer": {
+    "siteName": "American Clinic",
+    "logoUrl": "/templates/fyzio-02/logo.svg",
+    "tagline": "Fyzioterapie světové úrovně. V Praze.",
+    "phone": "704 123 456",
+    "email": "email@demo.cz",
+    "address": "Ukázková 123, 110 00 Praha 1",
+    "hours": "Po–Pá 7:00–20:00, So 8:00–12:00",
+    "facebookUrl": "https://facebook.com/demo",
+    "instagramUrl": "https://instagram.com/demo",
+    "copyright": "© 2026 American Clinic. Všechna práva vyhrazena.",
+    "links": [
+      { "label": "O nás",   "href": "#o-nas" },
+      { "label": "Terapie", "href": "#sluzby" },
+      { "label": "Tým",     "href": "#tym" },
+      { "label": "Ceník",   "href": "#cenik" },
+      { "label": "Kontakt", "href": "#kontakt" }
+    ]
+  }
+}

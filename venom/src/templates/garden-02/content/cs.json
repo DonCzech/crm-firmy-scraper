@@ -1,0 +1,140 @@
+{
+  "navbar": {
+    "siteName": "FreshGarden",
+    "logoUrl": "",
+    "tagline": "Realizace zahrad Praha a okolí",
+    "phone": "+420 777 234 567",
+    "ctaText": "Kontaktujte nás",
+    "ctaHref": "/kontakt",
+    "links": [
+      { "label": "Úvod",          "href": "/" },
+      { "label": "Nabízíme",      "href": "/sluzby" },
+      { "label": "Návrhy zahrad", "href": "/sluzby" },
+      { "label": "Naše realizace","href": "/sluzby" },
+      { "label": "Další",         "href": "/sluzby" },
+      { "label": "Kontakt",       "href": "/kontakt" }
+    ]
+  },
+  "hero": {
+    "title": "Zahrady, které potěší na první pohled",
+    "subtitle": "Navrhujeme a realizujeme zahrady v Praze a okolí. Od prvního nákresu až po finální výsadbu — vše v jedněch rukách.",
+    "ctaText": "Zjistit více",
+    "ctaHref": "#nabizime",
+    "cta2Text": "Kontaktujte nás",
+    "cta2Href": "/kontakt",
+    "backgroundImage": "/assets/garden-02/3adbdae4cf-hero-poster.jpg",
+    "videoUrl": "/assets/garden-02/9251e23401-hero.mp4"
+  },
+  "tv": {
+    "title": "Natočila o nás Česká televize",
+    "subtitle": "Podívejte se na reportáž z oblíbeného pořadu Polopatě, kde předvádíme, jak vzniká zahrada snů od návrhu až po dokončení.",
+    "videoUrl": "https://player.vimeo.com/video/1163733907?badge=0&autopause=0&player_id=0&app_id=58479",
+    "videoTitle": "Reportáž ČT — FreshGarden",
+    "thumbnailUrl": "/assets/garden-02/8d4f4a7db4-ct.jpg",
+    "thumbnailAlt": "Reportáž České televize — FreshGarden"
+  },
+  "about": {
+    "title": "Ahoj, já jsem Tomáš Veselý",
+    "body": "Zahradničení mě chytlo za srdce před více než dvaceti lety, kdy jsem pomáhal tátovi upravovat zahradu u našeho domu. Dnes vedu tým zkušených zahradníků a architektů, kteří sdílejí stejnou vášeň — vytvářet zahrady, do kterých se lidé každý den rádi vrací.",
+    "body2": "Za tu dobu jsme zrealizovali přes 300 zahrad napříč Prahou a Středočeským krajem. Každý projekt bereme jako jedinečnou výzvu a jsme tu pro vás od prvního telefonátu až po závěrečné předání hotové zahrady.",
+    "photos": [
+      { "url": "/assets/garden-02/4b6eee69f3-filip.jpg", "alt": "Tomáš Veselý — zahradní architekt a majitel FreshGarden" },
+      { "url": "/assets/garden-02/9c586e6646-auto.jpg",  "alt": "Firemní vozidlo FreshGarden" },
+      { "url": "/assets/garden-02/2215580aaf-tym.jpg",   "alt": "Tým FreshGarden" }
+    ],
+    "cta1Text": "Prohlédněte si naše realizace",
+    "cta1Sub":  "Galerie dokončených zahrad v Praze a okolí",
+    "cta1Href": "/sluzby",
+    "cta2Text": "Co pro vás uděláme",
+    "cta2Sub":  "Kompletní přehled našich zahradnických služeb",
+    "cta2Href": "/sluzby"
+  },
+  "media": {
+    "title": "Psali a mluvili o nás",
+    "subtitle": "FreshGarden se objevil v tuzemských médiích — podívejte se sami",
+    "items": [
+      {
+        "badge": "TV Nova & Bieno",
+        "badgeColor": "#111111",
+        "thumbnailUrl": "/assets/garden-02/cb0af6504c-nova.jpg",
+        "thumbnailAlt": "Reportáž TV Nova a Bieno — FreshGarden",
+        "videoUrl": "https://www.youtube.com/embed/vrqUMjfd4Hg",
+        "videoTitle": "Rozhovor pro TV Nova a Bieno"
+      },
+      {
+        "badge": "Česká televize",
+        "badgeColor": "#e3001b",
+        "thumbnailUrl": "/assets/garden-02/8d4f4a7db4-ct.jpg",
+        "thumbnailAlt": "Reportáž České televize — FreshGarden",
+        "videoUrl": "https://www.ceskatelevize.cz/porady/10116288835-z-metropole/221411058230041/cast/868288/",
+        "videoTitle": "Reportáž České televize"
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Co říkají naši klienti",
+    "subtitle": "Přes 300 spokojených zákazníků v Praze a okolí — přečtěte si jejich zkušenosti",
+    "testimonials": [
+      {
+        "rating": 5,
+        "text": "S FreshGarden jsme byli nadmíru spokojeni. Pan Veselý přišel s návrhem, který přesně odpovídal naší představě i rozpočtu. Zahrada vypadá skvěle a sousedé se pořád ptají, kdo nám ji dělal.",
+        "author": "Lenka Horáčková",
+        "source": "Google"
+      },
+      {
+        "rating": 5,
+        "text": "Profesionální přístup od prvního kontaktu až po předání. Termíny dodrželi na den přesně, komunikace byla výborná a výsledek předčil naše očekávání. Vřele doporučuji!",
+        "author": "Martin Blažek",
+        "source": "Google"
+      },
+      {
+        "rating": 5,
+        "text": "Konečně zahrada, ve které se chce sedět. FreshGarden navrhli krásné pergoly, osázeli záhony a poradili s automatickým zavlažováním. Oceňuji hlavně jejich trpělivost a ochotu vše vysvětlit.",
+        "author": "Petra Šimková",
+        "source": "Google"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Chcete zahradou, která ohromí?",
+    "subtitle": "Ozvěte se nám — první konzultace a návrh zdarma. Rádi se přijedeme podívat a poradíme, co je pro váš pozemek nejlepší.",
+    "ctaText": "Kontaktujte nás",
+    "ctaHref": "/kontakt"
+  },
+  "footer": {
+    "siteName": "FreshGarden s.r.o.",
+    "tagline": "Realizace zahrad — Praha a Středočeský kraj",
+    "phone": "+420 777 234 567",
+    "email": "info@freshgarden.cz",
+    "address": "Zahradní 48, 150 00 Praha 5",
+    "ico": "09876543",
+    "facebook": "https://facebook.com/freshgarden",
+    "instagram": "https://instagram.com/freshgarden",
+    "hours": "Po–Pá 7:30–17:00",
+    "copyright": "© 2026 FreshGarden s.r.o. Všechna práva vyhrazena.",
+    "linksCol1Title": "Naše služby",
+    "linksCol1": [
+      { "label": "Realizace zahrad",      "href": "/sluzby" },
+      { "label": "Zahradní architektura", "href": "/sluzby" },
+      { "label": "Údržba a sekání",       "href": "/sluzby" },
+      { "label": "Kácení a výsadba",      "href": "/sluzby" }
+    ],
+    "linksCol2Title": "Navigace",
+    "linksCol2": [
+      { "label": "Úvod",         "href": "/" },
+      { "label": "O nás",        "href": "/#about" },
+      { "label": "Realizace",    "href": "/sluzby" },
+      { "label": "Kontakt",      "href": "/kontakt" }
+    ]
+  },
+  "pages": {
+    "sluzby": {
+      "seoTitle": "Naše služby — FreshGarden",
+      "seoDescription": "Realizace zahrad, zahradní architektura, údržba zeleně a výsadba v Praze a Středočeském kraji. FreshGarden s.r.o."
+    },
+    "kontakt": {
+      "seoTitle": "Kontakt — FreshGarden",
+      "seoDescription": "Kontaktujte FreshGarden pro nezávaznou konzultaci zdarma. Realizace zahrad Praha a okolí."
+    }
+  }
+}
