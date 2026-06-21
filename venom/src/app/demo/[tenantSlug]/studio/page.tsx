@@ -7,14 +7,16 @@ import type { Metadata } from "next";
 
 interface Props {
   params: Promise<{ tenantSlug: string }>;
+  searchParams: Promise<{ page?: string }>;
 }
 
 export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function TenantStudioPage({ params }: Props) {
+export default async function TenantStudioPage({ params, searchParams }: Props) {
   const { tenantSlug } = await params;
+  const { page: pageSlug } = await searchParams;
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || tenant.status === "suspended") return notFound();
 
@@ -25,8 +27,16 @@ export default async function TenantStudioPage({ params }: Props) {
     redirect(`/demo/${tenantSlug}/login`);
   }
 
-  const page = await getTenantPage(tenant.id, "home");
-  if (!page) return notFound();
+  // F2 Sprint 3 multi-page: load requested page (default = homepage).
+  const targetSlug = pageSlug?.trim() || "home";
+  const page = await getTenantPage(tenant.id, targetSlug);
+  if (!page) {
+    // Requested non-existent page → fall back to homepage instead of 404
+    if (targetSlug !== "home") {
+      redirect(`/demo/${tenantSlug}/studio`);
+    }
+    return notFound();
+  }
 
   const [rawSections, overrides] = await Promise.all([
     getPageSections(tenant.id, page.id),

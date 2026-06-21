@@ -142,7 +142,19 @@ export function PagesPanel({ state }: { state: StudioState }) {
                   : "border-[#27272a] bg-[#1a1a1c] hover:border-[#3f3f46]"
               }`}
             >
-              <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => {
+                  if (p.id === state.page.id) return;
+                  const url = p.slug === "home"
+                    ? `/demo/${state.tenant.slug}/studio`
+                    : `/demo/${state.tenant.slug}/studio?page=${encodeURIComponent(p.slug)}`;
+                  window.location.href = url;
+                }}
+                className="flex w-full items-center gap-1.5 text-left disabled:cursor-default"
+                disabled={p.id === state.page.id}
+                title={p.id === state.page.id ? "Tato stránka se právě edituje" : `Editovat ${p.title}`}
+              >
                 <FileText className="h-3 w-3 text-[#a1a1aa]" strokeWidth={1.75} />
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-[12px] font-medium text-white">{p.title}</div>
@@ -160,7 +172,7 @@ export function PagesPanel({ state }: { state: StudioState }) {
                     koncept
                   </span>
                 )}
-              </div>
+              </button>
               <div className="mt-1.5 flex items-center gap-1">
                 <a
                   href={`/demo/${state.tenant.slug}${p.slug === "home" ? "" : `/${p.slug}`}`}

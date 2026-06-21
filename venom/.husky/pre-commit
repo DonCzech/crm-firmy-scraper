@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# F4 — residue regression gate
+node venom/scripts/precommit-residue-check.mjs || exit 1
