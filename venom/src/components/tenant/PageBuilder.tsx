@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import {
   X, ArrowLeft, Plus, Search, Eye, EyeOff, Copy, Trash2,
   ArrowUp, ArrowDown, Pencil, Layers, Sparkles, Lock,
+  PanelRightClose, PanelRightOpen,
 } from "lucide-react";
 import type { Section } from "@/lib/db";
 import { SectionEditor } from "./SectionEditor";
@@ -42,6 +43,7 @@ const TYPE_ORDER = [
 export function PageBuilder({ sections, tenantSlug, onChange, onClose, onJumpToSection }: Props) {
   const [editing, setEditing] = useState<Section | null>(null);
   const [showLibrary, setShowLibrary] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   const [libraryFilter, setLibraryFilter] = useState("");
   const [libraryType, setLibraryType] = useState<string | null>(null);
 
@@ -113,6 +115,28 @@ export function PageBuilder({ sections, tenantSlug, onChange, onClose, onJumpToS
     return () => window.removeEventListener("keydown", onKey);
   }, [editing, showLibrary, onClose]);
 
+  // Collapsed mode — render only a slim tab on the right edge. Click to
+  // restore the full panel without losing the editing / library sub-view
+  // state because we don't unmount.
+  if (collapsed) {
+    return (
+      <button
+        type="button"
+        onClick={() => setCollapsed(false)}
+        aria-label="Vysunout Page Builder"
+        title="Vysunout Page Builder"
+        className="vs-grad-accent pointer-events-auto fixed right-0 top-32 z-[99998] inline-flex flex-col items-center gap-1.5 rounded-l-xl px-2 py-3 text-white shadow-[0_20px_40px_rgba(99,102,241,0.35),0_8px_18px_rgba(15,23,42,0.20)]"
+        style={{ fontFamily: "var(--vs-font-sans)" }}
+      >
+        <Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} />
+        <span className="block text-[10.5px] font-semibold tracking-wide [writing-mode:vertical-rl]">
+          Page Builder
+        </span>
+        <PanelRightOpen className="h-3 w-3 opacity-80" strokeWidth={2} />
+      </button>
+    );
+  }
+
   return (
     <div
       className="pointer-events-none fixed inset-0 z-[99998] flex"
@@ -136,10 +160,41 @@ export function PageBuilder({ sections, tenantSlug, onChange, onClose, onJumpToS
         className="pointer-events-auto ml-auto flex h-full flex-col"
         style={{
           width: "min(420px, 92vw)",
-          background: "var(--vs-bg)",
-          boxShadow: "var(--vs-shadow-xl), -1px 0 0 0 var(--vs-border-strong)",
+          // Light theme override — replaces the cinematic dark tokens with
+          // a luminous slate palette for this panel only. The cascade keeps
+          // every nested primitive (badge / chip / row / footer) consistent
+          // because they all consume var(--vs-*).
+          "--vs-bg":            "#ffffff",
+          "--vs-bg-soft":       "#f8fafc",
+          "--vs-surface":       "#ffffff",
+          "--vs-surface-2":     "#f1f5f9",
+          "--vs-surface-3":     "#e2e8f0",
+          "--vs-border":        "#e5e7eb",
+          "--vs-border-strong": "#cbd5e1",
+          "--vs-text":          "#0f172a",
+          "--vs-text-soft":     "#334155",
+          "--vs-text-muted":    "#64748b",
+          "--vs-text-dim":      "#94a3b8",
+          "--vs-text-disabled": "#cbd5e1",
+          "--vs-accent-bg":     "rgba(99,102,241,0.10)",
+          "--vs-accent-ring":   "rgba(99,102,241,0.32)",
+          "--vs-success-bg":    "rgba(16,185,129,0.10)",
+          "--vs-warning-bg":    "rgba(245,158,11,0.10)",
+          "--vs-warning":       "#b45309",
+          "--vs-danger-bg":     "rgba(239,68,68,0.10)",
+          "--vs-danger":        "#b91c1c",
+          "--vs-shadow-md":
+            "0 1px 2px rgba(15,23,42,0.06), 0 4px 12px rgba(15,23,42,0.06)",
+          "--vs-shadow-lg":
+            "0 12px 24px rgba(15,23,42,0.08), 0 4px 10px rgba(15,23,42,0.06)",
+          "--vs-shadow-xl":
+            "0 24px 48px rgba(15,23,42,0.12), 0 10px 22px rgba(15,23,42,0.08)",
+          background: "#ffffff",
+          color: "#0f172a",
+          boxShadow:
+            "0 24px 48px rgba(15,23,42,0.14), 0 8px 18px rgba(15,23,42,0.08), -1px 0 0 0 #e5e7eb",
           animation: "vs-pb-in 320ms var(--vs-ease-out)",
-        }}
+        } as React.CSSProperties}
       >
         <style>{`@keyframes vs-pb-in {
           from { transform: translateX(24px); opacity: 0; }
@@ -174,15 +229,26 @@ export function PageBuilder({ sections, tenantSlug, onChange, onClose, onJumpToS
               </div>
             </div>
           </div>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Zavřít (Esc)"
-            title="Zavřít (Esc)"
-            className="inline-flex h-7 w-7 items-center justify-center rounded-md text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
-          >
-            <X className="h-3.5 w-3.5" strokeWidth={1.75} />
-          </button>
+          <div className="flex items-center gap-0.5">
+            <button
+              type="button"
+              onClick={() => setCollapsed(true)}
+              aria-label="Zasunout do strany"
+              title="Zasunout do strany"
+              className="inline-flex h-7 w-7 items-center justify-center rounded-md text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
+            >
+              <PanelRightClose className="h-3.5 w-3.5" strokeWidth={1.75} />
+            </button>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Zavřít (Esc)"
+              title="Zavřít (Esc)"
+              className="inline-flex h-7 w-7 items-center justify-center rounded-md text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
+            >
+              <X className="h-3.5 w-3.5" strokeWidth={1.75} />
+            </button>
+          </div>
         </header>
 
         {editing ? (

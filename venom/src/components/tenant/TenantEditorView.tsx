@@ -474,7 +474,12 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
         backgroundColor: designTokens?.colorBackground ?? "#ffffff",
         color: designTokens?.colorText ?? "#111827",
         fontFamily: designTokens?.fontBody ?? "Inter, sans-serif",
-        transition: "background-color 0.3s ease",
+        // Reserve room at the top so the floating dock (46 px tall + 12 px
+        // top offset + 14 px breathing room) never overlaps the navbar /
+        // hero section of the live page. When collapsed only the slim tab
+        // remains on the right edge, so no offset is needed.
+        paddingTop: adminBarCollapsed ? 0 : 72,
+        transition: "background-color 0.3s ease, padding-top 0.32s cubic-bezier(0.18,0.89,0.32,1)",
       } as React.CSSProperties}
     >
       {/* Editor dock — replaces the legacy pill bar with a compact floating
@@ -526,18 +531,33 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
           browser's own media queries respond accurately and you see the real
           mobile layout — not the desktop layout squashed into 390px. */}
       {viewport === "desktop" ? (
-        <div>
-          {/* Navbar — singleton */}
+        <div
+          onClickCapture={(e) => {
+            const t = e.target as HTMLElement;
+            if (!t.closest("[data-editor-section]")) setSelectedSectionId(null);
+          }}
+        >
+          {/* Navbar — wrapped so PageBuilder jump + pulse can target it */}
           {navbarSections.length > 0 && (
-            <SectionRenderer section={navbarSections[0]} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
+            <SectionFrame
+              key={navbarSections[0].id}
+              sectionId={navbarSections[0].id}
+              selected={selectedSectionId === navbarSections[0].id}
+              hover={hoverSectionId === navbarSections[0].id}
+              hidden={false}
+              pulseToken={pulseTokens[navbarSections[0].id]}
+              onSelect={() => setSelectedSectionId(navbarSections[0].id)}
+              onHover={(h) => setHoverSectionId(h ? navbarSections[0].id : null)}
+              onMount={setSectionRef(navbarSections[0].id)}
+              label={SECTION_LABELS["navbar"] ?? "Navbar"}
+            >
+              <SectionRenderer section={navbarSections[0]} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
+            </SectionFrame>
           )}
 
           {/* Main sections — wrapped in SectionFrame so the editor overlay can
               attach selection ring + micro-rail. */}
-          <main onClickCapture={(e) => {
-            const t = e.target as HTMLElement;
-            if (!t.closest("[data-editor-section]")) setSelectedSectionId(null);
-          }}>
+          <main>
             {mainSections.map((section) => {
               const baseContent = (section.settings?.content ?? {}) as Record<string, unknown>;
               const overriddenContent = applyOverrides(baseContent, overrides, section.id);
@@ -564,9 +584,22 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
             })}
           </main>
 
-          {/* Footer — singleton */}
+          {/* Footer — wrapped so PageBuilder jump + pulse can target it */}
           {footerSections.length > 0 && (
-            <SectionRenderer section={footerSections[0]} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
+            <SectionFrame
+              key={footerSections[0].id}
+              sectionId={footerSections[0].id}
+              selected={selectedSectionId === footerSections[0].id}
+              hover={hoverSectionId === footerSections[0].id}
+              hidden={false}
+              pulseToken={pulseTokens[footerSections[0].id]}
+              onSelect={() => setSelectedSectionId(footerSections[0].id)}
+              onHover={(h) => setHoverSectionId(h ? footerSections[0].id : null)}
+              onMount={setSectionRef(footerSections[0].id)}
+              label={SECTION_LABELS["footer"] ?? "Footer"}
+            >
+              <SectionRenderer section={footerSections[0]} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
+            </SectionFrame>
           )}
         </div>
       ) : (
