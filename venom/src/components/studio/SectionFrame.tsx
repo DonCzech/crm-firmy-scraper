@@ -1,7 +1,7 @@
 "use client";
 
 import { useStudio } from "./StudioContext";
-import { ArrowUp, ArrowDown, Copy, Trash2 } from "lucide-react";
+import { ArrowUp, ArrowDown, Copy, Trash2, Eye, EyeOff } from "lucide-react";
 import clsx from "clsx";
 import { getSectionLabel } from "./studio-icons";
 import type { Section } from "@/lib/db";
@@ -18,7 +18,7 @@ export function SectionFrame({
   const studio = useStudio();
   const selected = studio.selectedSectionId === section.id;
   const hover = studio.hoverSectionId === section.id;
-  const label = getSectionLabel(section.section_type);
+  const label = getSectionLabel(section.section_type, section.section_variant);
 
   const sorted = [...state.sections].sort((a, b) => a.order_index - b.order_index);
   const idx = sorted.findIndex(s => s.id === section.id);
@@ -50,6 +50,10 @@ export function SectionFrame({
       }}
     >
       {children}
+      {/* Hidden-section dim overlay */}
+      {!section.is_visible && (
+        <div className="pointer-events-none absolute inset-0 z-[5] bg-[var(--vs-bg-soft)]/60 backdrop-grayscale" />
+      )}
       <div
         className={clsx(
           "pointer-events-none absolute inset-0 transition-colors duration-150",
@@ -58,13 +62,18 @@ export function SectionFrame({
         )}
       />
       {(selected || hover) && (
-        <div className="pointer-events-none absolute left-0 top-0 z-10 flex">
+        <div className="pointer-events-none absolute left-0 top-0 z-10 flex items-center gap-1.5">
           <span className={clsx(
             "rounded-br-md px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-wide text-white",
             selected ? "bg-blue-600" : "bg-blue-400/80"
           )}>
             {label}
           </span>
+          {!section.is_visible && (
+            <span className="rounded px-1.5 py-0.5 text-[9.5px] font-semibold uppercase tracking-wide bg-amber-500/90 text-white">
+              Skryto
+            </span>
+          )}
         </div>
       )}
       {selected && (
@@ -75,9 +84,19 @@ export function SectionFrame({
           <FrameBtn label="Posunout dolů" disabled={!canDown} onClick={() => move(1)}>
             <ArrowDown className="h-3.5 w-3.5" strokeWidth={1.75} />
           </FrameBtn>
+          <div className="mx-0.5 h-4 w-px bg-[#27272a]" />
+          <FrameBtn
+            label={section.is_visible ? "Skrýt sekci" : "Zobrazit sekci"}
+            onClick={() => void state.patchSection(section.id, { is_visible: !section.is_visible })}
+          >
+            {section.is_visible
+              ? <Eye className="h-3.5 w-3.5" strokeWidth={1.75} />
+              : <EyeOff className="h-3.5 w-3.5 text-amber-400" strokeWidth={1.75} />}
+          </FrameBtn>
           <FrameBtn label="Duplikovat" onClick={() => void state.duplicateSection(section.id)}>
             <Copy className="h-3.5 w-3.5" strokeWidth={1.75} />
           </FrameBtn>
+          <div className="mx-0.5 h-4 w-px bg-[#27272a]" />
           <FrameBtn label="Smazat" onClick={() => void state.deleteSection(section.id)} danger>
             <Trash2 className="h-3.5 w-3.5" strokeWidth={1.75} />
           </FrameBtn>

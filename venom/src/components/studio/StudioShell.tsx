@@ -22,6 +22,7 @@ export function StudioShell({ state }: { state: StudioState }) {
   useHotkey("M", () => studio.setLeftPanel(studio.leftPanel === "modules"  ? null : "modules"));
   useHotkey("L", () => studio.setLeftPanel(studio.leftPanel === "layers"   ? null : "layers"));
   useHotkey("A", () => studio.setLeftPanel(studio.leftPanel === "add"      ? null : "add"));
+  useHotkey("B", () => studio.setLeftPanel(studio.leftPanel === "brand"    ? null : "brand"));
 
   return (
     <div

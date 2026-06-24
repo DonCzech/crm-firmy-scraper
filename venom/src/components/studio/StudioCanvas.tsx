@@ -64,8 +64,9 @@ export function StudioCanvas({ state }: { state: StudioState }) {
   }, [studio.cloneScrollTarget]);
 
   const designTokens = state.sections[0]?.settings?.designTokens as Record<string, string> | undefined;
-  const visible = [...state.sections].filter(s => s.is_visible).sort((a, b) => a.order_index - b.order_index);
-  const renderOrder: Section[] = visible;
+  // In studio: show ALL sections (incl. hidden) so user can toggle visibility.
+  // Hidden sections get a dim overlay via SectionFrame.
+  const renderOrder = [...state.sections].sort((a, b) => a.order_index - b.order_index);
   const width = WIDTHS[studio.breakpoint] ?? 1280;
   const isDesktop = studio.breakpoint === "desktop";
 

@@ -94,28 +94,41 @@ export function LayersPanel({ state }: { state: StudioState }) {
   };
 
   return (
-    <div className="p-2">
-      {navbar.map(s => (
-        <LockedRow key={s.id} section={s} selected={studio.selectedSectionId === s.id} onSelect={() => studio.setSelection(s.id)} state={state} />
-      ))}
-      {navbar.length > 0 && <div className="my-1.5 h-px bg-[var(--vs-surface-3)]" />}
-      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
-        <SortableContext items={middle.map(s => s.id)} strategy={verticalListSortingStrategy}>
-          {middle.map(s => (
-            <SortableRow
-              key={s.id}
-              section={s}
-              selected={studio.selectedSectionId === s.id}
-              onSelect={() => studio.setSelection(s.id)}
-              state={state}
-            />
-          ))}
-        </SortableContext>
-      </DndContext>
-      {footer.length > 0 && <div className="my-1.5 h-px bg-[var(--vs-surface-3)]" />}
-      {footer.map(s => (
-        <LockedRow key={s.id} section={s} selected={studio.selectedSectionId === s.id} onSelect={() => studio.setSelection(s.id)} state={state} />
-      ))}
+    <div className="flex h-full flex-col">
+      <div className="flex-1 overflow-y-auto p-2 vs-scroll">
+        {navbar.map(s => (
+          <LockedRow key={s.id} section={s} selected={studio.selectedSectionId === s.id} onSelect={() => studio.setSelection(s.id)} state={state} />
+        ))}
+        {navbar.length > 0 && <div className="my-1.5 h-px bg-[var(--vs-surface-3)]" />}
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+          <SortableContext items={middle.map(s => s.id)} strategy={verticalListSortingStrategy}>
+            {middle.map(s => (
+              <SortableRow
+                key={s.id}
+                section={s}
+                selected={studio.selectedSectionId === s.id}
+                onSelect={() => studio.setSelection(s.id)}
+                state={state}
+              />
+            ))}
+          </SortableContext>
+        </DndContext>
+        {footer.length > 0 && <div className="my-1.5 h-px bg-[var(--vs-surface-3)]" />}
+        {footer.map(s => (
+          <LockedRow key={s.id} section={s} selected={studio.selectedSectionId === s.id} onSelect={() => studio.setSelection(s.id)} state={state} />
+        ))}
+      </div>
+      {/* Quick add button */}
+      <div className="shrink-0 border-t border-[var(--vs-border)] p-2">
+        <button
+          type="button"
+          onClick={() => studio.setLeftPanel("add")}
+          className="flex w-full items-center justify-center gap-1.5 rounded-md border border-dashed border-[var(--vs-border)] px-3 py-2 text-[11.5px] font-medium text-[var(--vs-text-muted)] transition-colors duration-100 hover:border-[var(--vs-accent-hi)] hover:bg-[var(--vs-accent-bg)] hover:text-[var(--vs-accent-hi)]"
+        >
+          <LayersIcon className="h-3.5 w-3.5" strokeWidth={1.75} />
+          Přidat sekci
+        </button>
+      </div>
     </div>
   );
 }
@@ -139,12 +152,13 @@ function RowInner({
         "group flex h-8 cursor-pointer items-center gap-1.5 rounded-md px-1.5 text-xs transition-colors duration-150",
         selected
           ? "bg-[var(--vs-accent-bg)] text-[var(--vs-text)] ring-1 ring-inset ring-[var(--vs-accent-ring)]"
-          : "text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)]"
+          : "text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)]",
+        !section.is_visible && "opacity-50"
       )}
     >
       {dragHandle ?? <span className="h-4 w-4" />}
       <Icon className="h-3.5 w-3.5 shrink-0 text-[var(--vs-text-muted)]" strokeWidth={1.75} />
-      <span className="flex-1 truncate">{label}</span>
+      <span className={clsx("flex-1 truncate", !section.is_visible && "line-through decoration-[var(--vs-text-muted)]")}>{label}</span>
       <button
         type="button"
         aria-label={section.is_visible ? "Skrýt" : "Zobrazit"}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Feather, Settings2, AlignJustify, LayoutGrid, Search, Bell, Images } from "lucide-react";
+import { Feather, Settings2, AlignJustify, LayoutGrid, Search, Bell, Images, Layers, PlusSquare, Briefcase } from "lucide-react";
 import { useStudio, type StudioLeftPanel } from "./StudioContext";
 import { Tooltip } from "./ui";
 import clsx from "clsx";
@@ -25,12 +25,15 @@ export const RAIL_ITEMS: Array<{
   tourId: string;
   Icon: (p: IconProps) => React.ReactElement;
 }> = [
-  { id: "pages",    label: "Stránky",   tourId: "rail-pages",    Icon: ({ size }) => <PagesIcon size={size} /> },
-  { id: "design",   label: "Design",    tourId: "rail-design",   Icon: ({ size, strokeWidth }) => <Feather size={size} strokeWidth={strokeWidth} /> },
-  { id: "settings", label: "Nastavení", tourId: "rail-settings", Icon: ({ size, strokeWidth }) => <Settings2 size={size} strokeWidth={strokeWidth} /> },
-  { id: "articles", label: "Články",    tourId: "rail-articles", Icon: ({ size, strokeWidth }) => <LayoutGrid size={size} strokeWidth={strokeWidth} /> },
-  { id: "modules",  label: "Moduly",    tourId: "rail-modules",  Icon: ({ size, strokeWidth }) => <AlignJustify size={size} strokeWidth={strokeWidth} /> },
-  { id: "assets",   label: "Soubory",   tourId: "rail-assets",   Icon: ({ size, strokeWidth }) => <Images size={size} strokeWidth={strokeWidth} /> },
+  { id: "add",      label: "Přidat sekci", tourId: "rail-add",      Icon: ({ size, strokeWidth }) => <PlusSquare size={size} strokeWidth={strokeWidth} /> },
+  { id: "layers",   label: "Vrstvy",       tourId: "rail-layers",   Icon: ({ size, strokeWidth }) => <Layers size={size} strokeWidth={strokeWidth} /> },
+  { id: "pages",    label: "Stránky",      tourId: "rail-pages",    Icon: ({ size }) => <PagesIcon size={size} /> },
+  { id: "design",   label: "Design",       tourId: "rail-design",   Icon: ({ size, strokeWidth }) => <Feather size={size} strokeWidth={strokeWidth} /> },
+  { id: "brand",    label: "Identita",     tourId: "rail-brand",    Icon: ({ size, strokeWidth }) => <Briefcase size={size} strokeWidth={strokeWidth} /> },
+  { id: "assets",   label: "Soubory",      tourId: "rail-assets",   Icon: ({ size, strokeWidth }) => <Images size={size} strokeWidth={strokeWidth} /> },
+  { id: "settings", label: "Nastavení",    tourId: "rail-settings", Icon: ({ size, strokeWidth }) => <Settings2 size={size} strokeWidth={strokeWidth} /> },
+  { id: "modules",  label: "Moduly",       tourId: "rail-modules",  Icon: ({ size, strokeWidth }) => <AlignJustify size={size} strokeWidth={strokeWidth} /> },
+  { id: "articles", label: "Články",       tourId: "rail-articles", Icon: ({ size, strokeWidth }) => <LayoutGrid size={size} strokeWidth={strokeWidth} /> },
 ];
 
 export function StudioLeftRail() {

@@ -14,13 +14,13 @@ import { ArticlesPanel } from "./panels/ArticlesPanel";
 import type { StudioState } from "./TenantStudioView";
 
 const TITLES: Record<string, string> = {
-  layers:   "Vrstvy",
   add:      "Přidat sekci",
+  layers:   "Vrstvy",
   pages:    "Stránky",
-  assets:   "Soubory",
-  brand:    "Identita firmy",
-  settings: "Nastavení",
   design:   "Design",
+  brand:    "Identita firmy",
+  assets:   "Soubory",
+  settings: "Nastavení",
   modules:  "Moduly",
   articles: "Články",
 };

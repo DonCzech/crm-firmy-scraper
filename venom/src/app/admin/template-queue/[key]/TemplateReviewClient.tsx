@@ -5,7 +5,7 @@ import Link from "next/link";
 import {
   ArrowLeft, Monitor, Smartphone, RefreshCw, ExternalLink, CheckCircle2,
   AlertTriangle, Loader2, Rocket, Edit3, Image as ImageIcon, Type, FileText,
-  ChevronDown, Copy, Check, KeyRound, Wand2, AlertCircle, Lightbulb,
+  ChevronDown, Copy, Check, KeyRound, Wand2, AlertCircle, Lightbulb, Camera,
 } from "lucide-react";
 
 interface TemplateRow {
@@ -34,6 +34,13 @@ interface AuditNotes {
   generatedAt: string;
 }
 
+interface StudioIssue {
+  severity: "critical" | "warning" | "info";
+  code: string;
+  message: string;
+  detail?: string;
+}
+
 interface ScanReport {
   key: string;
   tenant: string | null;
@@ -58,19 +65,33 @@ interface ScanReport {
     score?: number;
     error?: string;
   } | null;
+  studio?: {
+    score: number;
+    issues: StudioIssue[];
+    summary: Record<string, unknown>;
+  };
 }
 
 const CHECKLIST_ITEMS = [
-  { id: "desktop_rendering", label: "Desktop renderování OK",        Icon: Monitor },
-  { id: "mobile_rendering",  label: "Mobile renderování OK",         Icon: Smartphone },
-  { id: "no_original_text",  label: "Žádný původní text z konkurence", Icon: Type },
-  { id: "no_original_imgs",  label: "Obrázky unikátní (žádné z konkurence)", Icon: ImageIcon },
-  { id: "sections_work",     label: "Všechny sekce fungují",          Icon: CheckCircle2 },
-  { id: "sections_toggle",   label: "Sekce lze vypínat a zapínat",    Icon: Edit3 },
-  { id: "sections_reorder",  label: "Sekce lze přesouvat",            Icon: Edit3 },
-  { id: "editor_clickable",  label: "Klikací editor funguje",         Icon: Edit3 },
-  { id: "pagespeed_ok",      label: "PageSpeed score ≥ 80",           Icon: Rocket },
-  { id: "seo_complete",      label: "SEO (title, meta, JSON-LD, h1)", Icon: FileText },
+  // ── Visual QA ─────────────────────────────────────────────────────────────
+  { id: "desktop_rendering",   group: "visual",  label: "Desktop renderování OK",                   Icon: Monitor },
+  { id: "mobile_rendering",    group: "visual",  label: "Mobile renderování OK (390px)",            Icon: Smartphone },
+  { id: "no_original_text",    group: "visual",  label: "Žádný původní text z konkurence",          Icon: Type },
+  { id: "no_original_imgs",    group: "visual",  label: "Obrázky unikátní (žádné z konkurence)",    Icon: ImageIcon },
+  // ── Studio editor ─────────────────────────────────────────────────────────
+  { id: "sections_work",       group: "studio",  label: "Všechny sekce se renderují bez chyb",      Icon: CheckCircle2 },
+  { id: "sections_toggle",     group: "studio",  label: "Sekce lze vypínat/zapínat (is_visible)",   Icon: Edit3 },
+  { id: "sections_reorder",    group: "studio",  label: "Drag & drop / ↑↓ přesouvání funguje",     Icon: Edit3 },
+  { id: "sections_add_delete", group: "studio",  label: "Přidat sekci + Smazat sekci funguje",      Icon: Edit3 },
+  { id: "editor_clickable",    group: "studio",  label: "Klikací editor — Inspector se otevírá",    Icon: Edit3 },
+  { id: "editor_inline_text",  group: "studio",  label: "Inline editace textu funguje a ukládá",    Icon: Edit3 },
+  { id: "editor_images",       group: "studio",  label: "Výměna obrázků funguje a uloží se",       Icon: ImageIcon },
+  { id: "data_slots",          group: "studio",  label: "Data Slots (tel/email/firma) propagují",   Icon: KeyRound },
+  { id: "no_placeholder_imgs", group: "studio",  label: "Žádné __placeholder obrázky v produkci",  Icon: ImageIcon },
+  { id: "contentref_valid",    group: "studio",  label: "Všechny contentRef existují v cs.json",    Icon: FileText },
+  // ── Perf & SEO ────────────────────────────────────────────────────────────
+  { id: "pagespeed_ok",        group: "perf",    label: "Perf score ≥ 80",                          Icon: Rocket },
+  { id: "seo_complete",        group: "seo",     label: "SEO (title, meta, JSON-LD, h1)",           Icon: FileText },
 ];
 
 export function TemplateReviewClient({ templateKey }: { templateKey: string }) {
@@ -128,9 +149,11 @@ export function TemplateReviewClient({ templateKey }: { templateKey: string }) {
       // Scan in background — display results when ready
       const tenantRes = await fetch(`/api/admin/template-queue/${templateKey}/scan`, { method: "POST" });
       if (tenantRes.ok) {
-        const sc = await tenantRes.json() as ScanReport;
+        const sc = await tenantRes.json() as ScanReport & { notes?: AuditNotes };
         setScan(sc);
         if (sc.tenant && !found.primary_tenant_slug) setPreviewSlug(sc.tenant);
+        // Auto-notes from scan (only if not already set by stored review_notes)
+        if (sc.notes && !found.review_notes) setAuditNotes(sc.notes);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Chyba načtení");
@@ -169,6 +192,7 @@ export function TemplateReviewClient({ templateKey }: { templateKey: string }) {
         tenant: json.tenantSlug,
         residue: { diskCount: json.scan.residueDisk, diskFindings: [], renderFindings: [] },
         perf: { score: json.scan.perfScore, bytesKb: json.scan.bytesKb, elapsed: json.scan.elapsedMs, issues: json.scan.perfIssues, h1Count: json.scan.hasH1 ? 1 : 0, jsonLd: json.scan.jsonLdCount },
+        studio: json.studio,
       } as ScanReport);
       if (json.notes) setAuditNotes(json.notes);
       if (json.checklist) setChecklist(json.checklist);
@@ -322,9 +346,20 @@ export function TemplateReviewClient({ templateKey }: { templateKey: string }) {
             </a>
           )}
           {tpl.review_status === "approved" ? (
-            <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-100 px-3 py-1.5 text-xs font-semibold text-emerald-700">
-              <CheckCircle2 className="h-3.5 w-3.5" /> Publikováno
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-100 px-3 py-1.5 text-xs font-semibold text-emerald-700">
+                <CheckCircle2 className="h-3.5 w-3.5" /> Publikováno
+              </span>
+              <a
+                href={`/ukazka-sablon/${tpl.key}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-md bg-indigo-50 px-3 py-1.5 text-xs font-semibold text-indigo-700 ring-1 ring-indigo-200 hover:bg-indigo-100"
+                title="Otevřít prodejní ukázku šablony"
+              >
+                Showcase ↗
+              </a>
+            </div>
           ) : (
             <button
               onClick={publishToCatalog}
@@ -424,29 +459,44 @@ export function TemplateReviewClient({ templateKey }: { templateKey: string }) {
           {/* Scan result */}
           {scan && <ScanSummary scan={scan} />}
 
+          {/* Studio audit panel (from scan) */}
+          {scan?.studio && <StudioAuditPanel studio={scan.studio} />}
+
           {/* Checklist */}
           <Section title={`QA Checklist · ${completedCount}/${CHECKLIST_ITEMS.length}`}>
-            {CHECKLIST_ITEMS.map((c) => {
-              const checked = !!checklist[c.id];
+            {(["visual", "studio", "perf", "seo"] as const).map((group) => {
+              const groupItems = CHECKLIST_ITEMS.filter((c) => c.group === group);
+              if (groupItems.length === 0) return null;
+              const groupLabel = { visual: "Vizuální", studio: "Studio editor", perf: "Výkon", seo: "SEO" }[group];
               return (
-                <button
-                  key={c.id}
-                  type="button"
-                  onClick={() => setChecklist((prev) => ({ ...prev, [c.id]: !prev[c.id] }))}
-                  className={`flex w-full items-center gap-2 rounded-md border px-2.5 py-2 text-left text-[12px] transition-colors ${
-                    checked
-                      ? "border-emerald-300 bg-emerald-50 text-emerald-200"
-                      : "border-gray-200 bg-gray-50 text-gray-700 hover:border-gray-200"
-                  }`}
-                >
-                  <div className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
-                    checked ? "border-emerald-500 bg-emerald-500/30 text-emerald-700" : "border-gray-600"
-                  }`}>
-                    {checked && <CheckCircle2 className="h-3 w-3" strokeWidth={3} />}
+                <div key={group} className="mb-3">
+                  <div className="mb-1 px-1 text-[9.5px] font-bold uppercase tracking-widest text-gray-400">{groupLabel}</div>
+                  <div className="space-y-1">
+                    {groupItems.map((c) => {
+                      const checked = !!checklist[c.id];
+                      return (
+                        <button
+                          key={c.id}
+                          type="button"
+                          onClick={() => setChecklist((prev) => ({ ...prev, [c.id]: !prev[c.id] }))}
+                          className={`flex w-full items-center gap-2 rounded-md border px-2.5 py-2 text-left text-[12px] transition-colors ${
+                            checked
+                              ? "border-emerald-300 bg-emerald-50 text-emerald-200"
+                              : "border-gray-200 bg-gray-50 text-gray-700 hover:border-gray-200"
+                          }`}
+                        >
+                          <div className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
+                            checked ? "border-emerald-500 bg-emerald-500/30 text-emerald-700" : "border-gray-600"
+                          }`}>
+                            {checked && <CheckCircle2 className="h-3 w-3" strokeWidth={3} />}
+                          </div>
+                          <c.Icon className="h-3.5 w-3.5 text-gray-400" />
+                          <span className="flex-1">{c.label}</span>
+                        </button>
+                      );
+                    })}
                   </div>
-                  <c.Icon className="h-3.5 w-3.5 text-gray-400" />
-                  <span className="flex-1">{c.label}</span>
-                </button>
+                </div>
               );
             })}
           </Section>
@@ -666,3 +716,110 @@ function ScanSummary({ scan }: { scan: ScanReport }) {
     </Section>
   );
 }
+
+function StudioAuditPanel({ studio }: { studio: NonNullable<ScanReport["studio"]> }) {
+  const criticals = studio.issues.filter((i) => i.severity === "critical");
+  const warnings  = studio.issues.filter((i) => i.severity === "warning");
+  const infos     = studio.issues.filter((i) => i.severity === "info");
+  const scoreColor = studio.score >= 90 ? "text-emerald-600" : studio.score >= 70 ? "text-amber-600" : "text-red-600";
+
+  return (
+    <Section title="Studio Kompatibilita">
+      <div className="flex items-center gap-3">
+        <div className={`text-2xl font-black ${scoreColor}`}>{studio.score}/100</div>
+        {criticals.length === 0 && warnings.length === 0 && (
+          <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-bold text-emerald-700">Plně kompatibilní</span>
+        )}
+        {criticals.length > 0 && (
+          <span className="rounded-full bg-red-100 px-2 py-0.5 text-[10px] font-bold text-red-700">{criticals.length} kritické</span>
+        )}
+        {warnings.length > 0 && (
+          <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-bold text-amber-700">{warnings.length} varování</span>
+        )}
+      </div>
+
+      {/* Summary stats */}
+      {studio.summary && (
+        <div className="mt-2 grid grid-cols-3 gap-1 text-[10px]">
+          {typeof studio.summary.pagesCount === "number" && (
+            <div className="rounded bg-gray-100 px-1.5 py-1 text-center">
+              <div className="font-bold text-gray-900">{studio.summary.pagesCount}</div>
+              <div className="text-gray-500">stránek</div>
+            </div>
+          )}
+          {typeof studio.summary.sectionsTotal === "number" && (
+            <div className="rounded bg-gray-100 px-1.5 py-1 text-center">
+              <div className="font-bold text-gray-900">{studio.summary.sectionsTotal}</div>
+              <div className="text-gray-500">sekcí celkem</div>
+            </div>
+          )}
+          {typeof studio.summary.placeholderCount === "number" && studio.summary.placeholderCount > 0 && (
+            <div className="rounded bg-amber-100 px-1.5 py-1 text-center">
+              <div className="font-bold text-amber-800">{studio.summary.placeholderCount}</div>
+              <div className="text-amber-700">placeholder</div>
+            </div>
+          )}
+          {typeof studio.summary.missingImages === "number" && studio.summary.missingImages > 0 && (
+            <div className="rounded bg-red-100 px-1.5 py-1 text-center">
+              <div className="font-bold text-red-800">{studio.summary.missingImages}</div>
+              <div className="text-red-700">chybí obrázků</div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Critical issues */}
+      {criticals.length > 0 && (
+        <div className="mt-2 space-y-1">
+          {criticals.map((issue, i) => (
+            <div key={i} className="rounded border border-red-200 bg-red-50 p-2">
+              <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-red-700">
+                <AlertCircle className="h-3 w-3 shrink-0" />
+                <code className="text-[9px]">{issue.code}</code>
+                <span>{issue.message}</span>
+              </div>
+              {issue.detail && (
+                <div className="mt-1 whitespace-pre-wrap text-[9.5px] text-red-600 opacity-80">
+                  {issue.detail.slice(0, 200)}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Warnings */}
+      {warnings.length > 0 && (
+        <div className="mt-2 space-y-1">
+          {warnings.map((issue, i) => (
+            <div key={i} className="rounded border border-amber-200 bg-amber-50 p-2">
+              <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-amber-700">
+                <AlertTriangle className="h-3 w-3 shrink-0" />
+                <code className="text-[9px]">{issue.code}</code>
+                <span>{issue.message}</span>
+              </div>
+              {issue.detail && (
+                <div className="mt-1 whitespace-pre-wrap text-[9.5px] text-amber-600 opacity-80">
+                  {issue.detail.slice(0, 200)}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Info */}
+      {infos.length > 0 && (
+        <div className="mt-2 space-y-1">
+          {infos.map((issue, i) => (
+            <div key={i} className="flex items-start gap-1.5 text-[10.5px] text-gray-500">
+              <Lightbulb className="mt-0.5 h-3 w-3 shrink-0 text-gray-400" />
+              <span>{issue.message}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </Section>
+  );
+}
+
