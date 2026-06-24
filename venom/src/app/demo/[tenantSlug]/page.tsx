@@ -3,11 +3,12 @@ import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
-import { getTenantBySlug, getTenantPage, getPageSections, getTenantOverrides } from "@/lib/db";
+import { getTenantBySlug, getTenantPage, getPageSections, getTenantOverrides, getSubscriptionByTenantId, queryOne } from "@/lib/db";
 import { resolveAllSections } from "@/lib/section-resolver";
 import { buildTenantSEO } from "@/lib/tenant-seo";
 import { TenantPublicView } from "@/components/tenant/TenantPublicView";
 import { ClonedSiteRenderer } from "@/components/tenant/ClonedSiteRenderer";
+import { PublicTrialLock } from "@/components/tenant/PublicTrialLock";
 import { TenantAnalytics, GtmNoScript } from "@/components/tenant/TenantAnalytics";
 import { loadTemplate } from "@/lib/templates/loader";
 import type { Metadata, Viewport } from "next";
@@ -17,7 +18,7 @@ interface Props {
   searchParams: Promise<{ studio?: string }>;
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://venom-saas.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://webero.co";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3015";
 
 export async function generateViewport({ params }: Props): Promise<Viewport> {
@@ -51,6 +52,22 @@ export default async function TenantDemoPage({ params, searchParams }: Props) {
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || tenant.status === "suspended") return notFound();
 
+  // Trial gate: visitors can't see the actual site once the trial has expired
+  // and the subscription is not active. The studio (?studio=1) bypasses this
+  // — the tenant owner still needs to see what's locked in order to pay.
+  // The TrialLockOverlay in TenantEditorView handles the studio side.
+  if (studio !== "1") {
+    const sub = await getSubscriptionByTenantId(tenant.id);
+    const expired = sub && sub.status !== "active" && sub.trial_ends_at && new Date(sub.trial_ends_at) < new Date();
+    if (expired) {
+      const extra = await queryOne<{ business_name: string | null }>(
+        "SELECT business_name FROM tenants WHERE id = $1",
+        [tenant.id]
+      );
+      return <PublicTrialLock tenantSlug={tenant.slug} businessName={extra?.business_name ?? null} />;
+    }
+  }
+
   const page = await getTenantPage(tenant.id, "home");
   if (!page) return notFound();
 
@@ -70,7 +87,7 @@ export default async function TenantDemoPage({ params, searchParams }: Props) {
   let isAdmin = false;
   if (studio === "1") {
     const cookieStore = await cookies();
-    const accessCookie = cookieStore.get(`venom_access_${tenantSlug}`)?.value;
+    const accessCookie = cookieStore.get(`webero_access_${tenantSlug}`)?.value;
     if (tenant.access_token && accessCookie === tenant.access_token) {
       isAdmin = true;
     }
@@ -99,8 +116,19 @@ export default async function TenantDemoPage({ params, searchParams }: Props) {
   const gtmId = tenant.analytics_config?.gtm_id;
   // F3: emit JSON-LD structured data (LocalBusiness/Organization based on industry)
   const { jsonLd } = await buildTenantSEO(tenant, { page: page ?? undefined });
+
+  // LCP preload: grab first visible hero section's background image (local paths only)
+  const heroSection = sections.find((s) => s.is_visible && s.section_type === "hero");
+  const heroContent = heroSection?.settings?.content as Record<string, unknown> | undefined;
+  const lcpImage = typeof heroContent?.backgroundImage === "string" && heroContent.backgroundImage.startsWith("/")
+    ? heroContent.backgroundImage as string
+    : null;
+
   return (
     <>
+      {lcpImage && (
+        <link rel="preload" as="image" href={lcpImage} fetchPriority="high" />
+      )}
       <TenantAnalytics tenant={tenant} />
       {gtmId && <GtmNoScript gtmId={gtmId} />}
       <script

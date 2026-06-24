@@ -13,7 +13,7 @@ interface Props {
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://venom-saas.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://webero.co";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3015";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title,
       description,
       url: canonicalUrl,
-      siteName: "Venom SaaS",
+      siteName: "Webero",
       images: [ogImage],
     },
     twitter: {
@@ -69,14 +69,24 @@ export default async function TenantAsteraSubPage({ params }: Props) {
       return <ClonedSiteRenderer html={html} cssUrls={cssUrls} jsUrls={jsUrls} />;
     }
 
+    // LCP preload for hero section background image (local paths only)
+    const heroSec = pageSections.find((s) => s.is_visible && s.section_type === "hero");
+    const heroContent = heroSec?.settings?.content as Record<string, unknown> | undefined;
+    const lcpImage = typeof heroContent?.backgroundImage === "string" && heroContent.backgroundImage.startsWith("/")
+      ? heroContent.backgroundImage as string
+      : null;
+
     return (
-      <TenantPublicView
-        tenant={tenant}
-        page={tenantPage}
-        sections={pageSections}
-        overrides={overrides}
-        isAdmin={false}
-      />
+      <>
+        {lcpImage && <link rel="preload" as="image" href={lcpImage} fetchPriority="high" />}
+        <TenantPublicView
+          tenant={tenant}
+          page={tenantPage}
+          sections={pageSections}
+          overrides={overrides}
+          isAdmin={false}
+        />
+      </>
     );
   }
 
