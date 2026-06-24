@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SectionRenderer } from "@/components/tenant/SectionRenderer";
 import { applyOverrides } from "@/lib/overrides";
 import { useStudio } from "./StudioContext";
@@ -16,9 +16,22 @@ const WIDTHS: Record<string, number> = {
   mobile: 390,
 };
 
+const PAD_TOP = 0; // template starts flush at top
+
 export function StudioCanvas({ state }: { state: StudioState }) {
   const studio = useStudio();
-  const ref = useRef<HTMLDivElement>(null);
+  const outerRef = useRef<HTMLDivElement>(null);
+  const [canvasW, setCanvasW] = useState(0);
+
+  // Track outer container width so we can scale the template to fit.
+  useEffect(() => {
+    const el = outerRef.current;
+    if (!el) return;
+    setCanvasW(el.clientWidth);
+    const ro = new ResizeObserver(() => setCanvasW(el.clientWidth));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   // Click outside any frame deselects
   useEffect(() => {
@@ -28,7 +41,7 @@ export function StudioCanvas({ state }: { state: StudioState }) {
       if (t.closest("[data-section-frame]")) return;
       studio.setSelection(null);
     }
-    const el = ref.current;
+    const el = outerRef.current;
     el?.addEventListener("click", onClick);
     return () => el?.removeEventListener("click", onClick);
   }, [studio]);
@@ -36,8 +49,8 @@ export function StudioCanvas({ state }: { state: StudioState }) {
   // Scroll to sub-layer target (full-page-clone only)
   useEffect(() => {
     const sel = studio.cloneScrollTarget;
-    if (!sel || !ref.current) return;
-    const el = ref.current.querySelector(sel) as HTMLElement | null;
+    if (!sel || !outerRef.current) return;
+    const el = outerRef.current.querySelector(sel) as HTMLElement | null;
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "start" });
     const prev = el.style.outline;
@@ -52,10 +65,17 @@ export function StudioCanvas({ state }: { state: StudioState }) {
 
   const designTokens = state.sections[0]?.settings?.designTokens as Record<string, string> | undefined;
   const visible = [...state.sections].filter(s => s.is_visible).sort((a, b) => a.order_index - b.order_index);
-  // Resolve full insertion order based on order_index — single source of truth
-  // for both render and inline-insertion gap indices.
   const renderOrder: Section[] = visible;
-  const width = WIDTHS[studio.breakpoint];
+  const width = WIDTHS[studio.breakpoint] ?? 1280;
+  const isDesktop = studio.breakpoint === "desktop";
+
+  const available = canvasW > 0 ? canvasW : width;
+  const scale = Math.min(1, available / width);
+
+  // Page URL for iframe preview
+  const pageUrl = state.page && !state.page.is_homepage
+    ? `/demo/${state.tenant.slug}/${state.page.slug}`
+    : `/demo/${state.tenant.slug}`;
 
   function renderOne(section: Section) {
     if (section.section_type === "full-page-clone") {
@@ -81,51 +101,74 @@ export function StudioCanvas({ state }: { state: StudioState }) {
     );
   }
 
-  // Unified canvas: render navbar (if any), then main sections in order, then footer.
-  // full-page-clone is rendered via iframe in place — width same as device preset.
-  // JSON sections rendered via SectionRenderer with Tailwind responsive classes.
+  const templateStyle = {
+    "--color-primary": designTokens?.colorPrimary ?? "#6366f1",
+    "--color-secondary": designTokens?.colorSecondary ?? "#4f46e5",
+    "--color-bg": designTokens?.colorBackground ?? "#ffffff",
+    "--color-surface": designTokens?.colorSurface ?? "#f9fafb",
+    "--color-text": designTokens?.colorText ?? "#111827",
+    "--color-text-muted": designTokens?.colorTextMuted ?? "#6b7280",
+    "--color-accent": designTokens?.colorAccent ?? "#6366f1",
+    "--color-border": designTokens?.colorBorder ?? "#e5e7eb",
+    "--font-heading": designTokens?.fontHeading ?? "Inter, sans-serif",
+    "--font-body": designTokens?.fontBody ?? "Inter, sans-serif",
+    "--radius": designTokens?.borderRadius ?? "8px",
+    backgroundColor: designTokens?.colorBackground ?? "#ffffff",
+    color: designTokens?.colorText ?? "#111827",
+    fontFamily: designTokens?.fontBody ?? "Inter, sans-serif",
+    overflow: "hidden",
+    transform: "translate3d(0,0,0)",
+    position: "relative",
+  } as React.CSSProperties;
+
   return (
-    <div ref={ref} className="h-full overflow-auto p-6 bg-[#0a0a0b]">
-      <div className="mx-auto" style={{ width }}>
+    <div
+      ref={outerRef}
+      className="h-full overflow-y-auto overflow-x-hidden bg-[var(--vs-bg-soft)]"
+    >
+      {isDesktop ? (
+        /* Desktop — flush to right edge, scales to fill canvas width */
         <div
-          data-breakpoint={studio.breakpoint}
+          data-breakpoint="desktop"
           data-studio-canvas-preview
-          className="rounded-md bg-white text-black shadow-[0_0_0_1px_rgba(255,255,255,0.06),0_20px_60px_rgba(0,0,0,0.5)] ring-1 ring-black/10"
-          style={{
-            "--color-primary": designTokens?.colorPrimary ?? "#6366f1",
-            "--color-secondary": designTokens?.colorSecondary ?? "#4f46e5",
-            "--color-bg": designTokens?.colorBackground ?? "#ffffff",
-            "--color-surface": designTokens?.colorSurface ?? "#f9fafb",
-            "--color-text": designTokens?.colorText ?? "#111827",
-            "--color-text-muted": designTokens?.colorTextMuted ?? "#6b7280",
-            "--color-accent": designTokens?.colorAccent ?? "#6366f1",
-            "--color-border": designTokens?.colorBorder ?? "#e5e7eb",
-            "--font-heading": designTokens?.fontHeading ?? "Inter, sans-serif",
-            "--font-body": designTokens?.fontBody ?? "Inter, sans-serif",
-            "--radius": designTokens?.borderRadius ?? "8px",
-            backgroundColor: designTokens?.colorBackground ?? "#ffffff",
-            color: designTokens?.colorText ?? "#111827",
-            fontFamily: designTokens?.fontBody ?? "Inter, sans-serif",
-            overflow: "hidden",
-            // Containing block for `position:fixed` descendants — per CSS spec, any
-            // element with `transform` becomes the containing block for fixed children.
-            // This prevents template navbars / sticky CTAs from escaping the preview
-            // and overlapping the studio left/right panels.
-            transform: "translate3d(0,0,0)",
-            position: "relative",
-          } as React.CSSProperties}
+          className="ml-auto"
+          style={{ width, zoom: scale, ...templateStyle, backgroundColor: "transparent" }}
         >
-          {/* Gap above the first section */}
-          <InsertionGap insertAtIndex={0} state={state} />
           {renderOrder.map((section, i) => (
             <div key={section.id}>
               {renderOne(section)}
-              {/* Gap below this section / above the next */}
-              <InsertionGap insertAtIndex={i + 1} state={state} />
+              {i < renderOrder.length - 1 && (
+                <InsertionGap insertAtIndex={i + 1} state={state} />
+              )}
             </div>
           ))}
         </div>
-      </div>
+      ) : (
+        /* Tablet / Mobile — iframe so vw units use correct viewport */
+        <div className="flex justify-center items-start py-8 px-4 min-h-full">
+          <div
+            style={{
+              borderRadius: studio.breakpoint === "mobile" ? "44px" : "22px",
+              border: "8px solid #1c1c1e",
+              boxShadow: "0 0 0 1px #3a3a3c, 0 40px 80px -16px rgba(0,0,0,0.8)",
+              overflow: "hidden",
+              zoom: scale,
+              width,
+            }}
+          >
+            <iframe
+              title={`${studio.breakpoint} preview`}
+              src={pageUrl}
+              style={{
+                width: "100%",
+                height: studio.breakpoint === "mobile" ? 844 : 1024,
+                border: "none",
+                display: "block",
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

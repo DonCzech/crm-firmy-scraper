@@ -1,13 +1,11 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import { useStudio } from "./StudioContext";
 import { StudioTopBar } from "./StudioTopBar";
 import { StudioLeftRail } from "./StudioLeftRail";
 import { StudioLeftPanel } from "./StudioLeftPanel";
 import { StudioCanvas } from "./StudioCanvas";
-import { StudioRightPanel } from "./StudioRightPanel";
 import { KeyboardShortcutsOverlay } from "./KeyboardShortcuts";
 import { OnboardingTour } from "./OnboardingTour";
 import { useHotkey } from "./ui";
@@ -19,62 +17,65 @@ export function StudioShell({ state }: { state: StudioState }) {
   const [helpOpen, setHelpOpen] = useState(false);
 
   useHotkey("?", () => setHelpOpen(true));
-  useHotkey("L", () => studio.setLeftPanel(studio.leftPanel === "layers" ? null : "layers"));
-  useHotkey("A", () => studio.setLeftPanel(studio.leftPanel === "add" ? null : "add"));
-  useHotkey("P", () => studio.setLeftPanel(studio.leftPanel === "pages" ? null : "pages"));
-  useHotkey("I", () => studio.setLeftPanel(studio.leftPanel === "assets" ? null : "assets"));
-  useHotkey("B", () => studio.setLeftPanel(studio.leftPanel === "brand" ? null : "brand"));
+  useHotkey("P", () => studio.setLeftPanel(studio.leftPanel === "pages"    ? null : "pages"));
+  useHotkey("D", () => studio.setLeftPanel(studio.leftPanel === "design"   ? null : "design"));
+  useHotkey("M", () => studio.setLeftPanel(studio.leftPanel === "modules"  ? null : "modules"));
+  useHotkey("L", () => studio.setLeftPanel(studio.leftPanel === "layers"   ? null : "layers"));
+  useHotkey("A", () => studio.setLeftPanel(studio.leftPanel === "add"      ? null : "add"));
 
   return (
     <div
       data-studio
-      className="fixed inset-0 flex flex-col"
+      className="fixed inset-0 flex flex-col bg-[var(--vs-bg-soft)]"
       onKeyDown={(e) => {
         if (e.key === "Escape") studio.setSelection(null);
       }}
     >
       <StudioTopBar state={state} onHelp={() => setHelpOpen(true)} />
       <SaveErrorBanner state={state} />
+
       <div className="flex flex-1 min-h-0">
+        {/* Rail — always 55px, icons only, never moves */}
         <StudioLeftRail />
-        <AnimatePresence initial={false}>
-          {studio.leftPanel && (
-            <motion.div
-              key={studio.leftPanel}
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ width: 296, opacity: 1 }}
-              exit={{ width: 0, opacity: 0 }}
-              transition={{ duration: 0.22, ease: [0.18, 0.89, 0.32, 1] }}
-              className="overflow-hidden border-r border-[var(--vs-border)] bg-[var(--vs-surface)]"
-            >
-              <div className="w-[296px] h-full">
-                <StudioLeftPanel state={state} />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <div data-tour-id="canvas" className="flex-1 min-w-0 bg-[var(--vs-bg)]">
+
+        {/* Panel — always visible flex sibling, shows Overview or specific panel */}
+        <div className="w-[220px] shrink-0 bg-[var(--vs-bg-soft)] border-r border-[var(--vs-border)] overflow-hidden">
+          <StudioLeftPanel state={state} />
+        </div>
+
+        {/* Canvas — always flex-1, never shrinks, template goes to right edge */}
+        <div data-tour-id="canvas" className="flex-1 min-w-0 bg-[var(--vs-bg-soft)]">
           <StudioCanvas state={state} />
         </div>
-        <AnimatePresence initial={false}>
-          {studio.rightPanel && (
-            <motion.div
-              data-tour-id="inspector"
-              initial={{ width: 0, opacity: 0 }}
-              animate={{ width: 332, opacity: 1 }}
-              exit={{ width: 0, opacity: 0 }}
-              transition={{ duration: 0.22, ease: [0.18, 0.89, 0.32, 1] }}
-              className="overflow-hidden border-l border-[var(--vs-border)] bg-[var(--vs-surface)]"
-            >
-              <div className="w-[332px] h-full">
-                <StudioRightPanel state={state} />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
+
+      {/* Trial banner */}
+      <TrialBanner />
+
       <KeyboardShortcutsOverlay open={helpOpen} onClose={() => setHelpOpen(false)} />
       <OnboardingTour tenantSlug={state.tenant.slug} />
+    </div>
+  );
+}
+
+function TrialBanner() {
+  return (
+    <div className="shrink-0 flex border-t border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
+      {/* Sidebar spacer — extends the separator line through the footer */}
+      <div className="w-[275px] shrink-0 border-r border-[var(--vs-border)]" />
+      {/* Content lives in the canvas column only */}
+      <div className="flex flex-1 items-center justify-center gap-4 px-4 py-2.5">
+        <span className="text-[12px] text-[var(--vs-text-muted)] text-center">
+          Vaše bezplatná zkušební verze končí za <strong className="text-[var(--vs-text-soft)]">15 dní</strong>.
+          Upgrade na některý z našich plánů vám umožní naplno využít potenciál vašich webových stránek.
+        </span>
+        <button
+          type="button"
+          className="shrink-0 rounded-md bg-[#2563eb] px-3.5 py-1.5 text-[12px] font-semibold text-white hover:bg-[#1d4ed8] transition-colors duration-100"
+        >
+          Předplatit plán
+        </button>
+      </div>
     </div>
   );
 }
