@@ -412,8 +412,6 @@ function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }
     };
     return (
       <>
-      <link rel="preload" as="font" href="/assets/fonts-barber04/BebasNeue-400.woff2" type="font/woff2" crossOrigin="" />
-      <link rel="preload" as="font" href="/assets/fonts-barber04/Lato-400.woff2" type="font/woff2" crossOrigin="" />
       <nav
         className="fixed top-0 left-0 right-0 z-50 w-full"
         data-template="barber-04"
@@ -649,7 +647,6 @@ function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }
       : "none";
     return (
       <>
-      <link rel="preload" as="font" href="/assets/fonts-barber01/Montserrat-var.woff2" type="font/woff2" crossOrigin="" />
       <nav
         className="fixed top-0 z-30 w-full"
         style={{

@@ -285,7 +285,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
               aria-label={siteName}
             >
               {logoUrl
-                ? <img src={logoUrl} alt={siteName} style={{ maxHeight: 80, display: "block" }} />
+                ? <img loading="eager" src={logoUrl} alt={siteName} style={{ maxHeight: 80, display: "block" }} />
                 : logoEl
               }
             </a>
@@ -321,7 +321,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           <div className="flex lg:hidden items-center justify-between" style={{ padding: "0 20px", height: 64 }}>
             <a href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/"} style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
               {logoUrl
-                ? <img src={logoUrl} alt={siteName} style={{ maxWidth: 100, maxHeight: 50, objectFit: "contain" }} />
+                ? <img loading="eager" src={logoUrl} alt={siteName} style={{ maxWidth: 100, maxHeight: 50, objectFit: "contain" }} />
                 : (
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <span style={{ fontFamily: LATO, fontSize: 38, fontWeight: 900, color: WHITE, lineHeight: 1 }}>A</span>
@@ -480,7 +480,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           minHeight: "clamp(480px, 75vh, 100dvh)",
         }}
       >
-        <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage ?? ""} overlayColor="rgba(0,0,0,0.55)" priority={true} />
+        <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage ?? ""} overlayColor="rgba(0,0,0,0.55)" priority={true} isAdmin={isAdmin} />
         <div className="relative z-10 text-center px-6 max-w-3xl mx-auto w-full">
           <h1
             className="text-4xl md:text-7xl font-bold mb-6 whitespace-pre-line leading-tight"
@@ -614,12 +614,14 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
 
   if (variant === "hero-full-bleed") {
     return (
+      <>
+      <link rel="stylesheet" href="/clones/peak-cut/fonts/fonts.css" />
       <section
         className="relative min-h-dvh flex items-end md:items-center overflow-hidden"
         style={{ backgroundColor: "#111" }}
       >
         {c.backgroundImage && (
-          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage} overlayColor="rgba(0,0,0,0.6)" priority={true} />
+          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage} overlayColor="rgba(0,0,0,0.6)" priority={true} isAdmin={isAdmin} />
         )}
         <div
           className="relative z-10 w-full px-6 md:px-16 pb-16 pt-32 md:py-0 max-w-3xl"
@@ -658,6 +660,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           )}
         </div>
       </section>
+      </>
     );
   }
 
@@ -757,6 +760,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
             src={c.backgroundImage}
             overlayColor="transparent"
             priority={true}
+            isAdmin={isAdmin}
           />
         )}
         {/* Hero gradient overlay — over BackgroundEditableImage, under content.
@@ -877,7 +881,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
       >
         <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ backgroundColor: "#1c1410", zIndex: 0 }} />
         {c.backgroundImage && (
-          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage} overlayColor="transparent" priority={true} />
+          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage} overlayColor="transparent" priority={true} isAdmin={isAdmin} />
         )}
         <div
           aria-hidden
@@ -1687,7 +1691,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     >
       {hasBg && (
         <>
-          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage!} priority={true} />
+          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage!} priority={true} isAdmin={isAdmin} />
           <div className="absolute inset-0 z-10" style={{ backgroundColor: "rgba(0,0,0,0.45)" }} aria-hidden />
         </>
       )}
@@ -1950,6 +1954,7 @@ function HeroBarber04Slider({
   }, [count, interval, isAdmin, hovered]);
 
   return (
+    <>
     <section
       className="relative overflow-hidden"
       style={{ minHeight: "100svh", backgroundColor: "#000" }}
@@ -1965,29 +1970,39 @@ function HeroBarber04Slider({
           style={{ opacity: i === idx ? 1 : 0, zIndex: i === idx ? 2 : 0 }}
           aria-hidden={i !== idx}
         >
-          <GenericEditableImage
-            sectionId={sectionId}
-            field={`slides.${i}.backgroundImage`}
-            src={String(s.backgroundImage ?? "")}
-            alt=""
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
-            dimensions="hero"
-            priority={i === 0}
-          >
-            {s.backgroundImage ? (
-              <Image
-                src={String(s.backgroundImage)}
-                alt=""
-                fill
-                priority={i === 0}
-                sizes="100vw"
-                className="object-cover"
-                unoptimized={shouldSkipNextImageOptimization(String(s.backgroundImage))}
-              />
-            ) : (
-              <div className="absolute inset-0" style={{ backgroundColor: "#1a1a1a" }} />
-            )}
-          </GenericEditableImage>
+          {!isAdmin && i === 0 && s.backgroundImage ? (
+            <img
+              src={String(s.backgroundImage)}
+              alt=""
+              fetchPriority="high"
+              decoding="async"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+            />
+          ) : (
+            <GenericEditableImage
+              sectionId={sectionId}
+              field={`slides.${i}.backgroundImage`}
+              src={String(s.backgroundImage ?? "")}
+              alt=""
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}
+              dimensions="hero"
+              priority={i === 0}
+            >
+              {s.backgroundImage ? (
+                <Image
+                  src={String(s.backgroundImage)}
+                  alt=""
+                  fill
+                  priority={i === 0}
+                  sizes="100vw"
+                  className="object-cover"
+                  unoptimized={shouldSkipNextImageOptimization(String(s.backgroundImage))}
+                />
+              ) : (
+                <div className="absolute inset-0" style={{ backgroundColor: "#1a1a1a" }} />
+              )}
+            </GenericEditableImage>
+          )}
         </div>
       ))}
 
@@ -2187,6 +2202,7 @@ function HeroBarber04Slider({
         </button>
       )}
     </section>
+    </>
   );
 }
 
@@ -2321,7 +2337,23 @@ function HeroHair02Slider({ content, sectionId }: { content: Record<string, unkn
   );
 }
 
-function BackgroundEditableImage({ sectionId, src, overlayColor, priority }: { sectionId: number; src: string; overlayColor?: string; priority?: boolean }) {
+function BackgroundEditableImage({ sectionId, src, overlayColor, priority, isAdmin }: { sectionId: number; src: string; overlayColor?: string; priority?: boolean; isAdmin?: boolean }) {
+  // Public view with priority: use plain <img> so the URL stays clean (no ?dpl= added by Next.js Image).
+  // This makes the src match the static <link rel="preload"> emitted by the server component → cache hit.
+  if (!isAdmin && priority && src) {
+    return (
+      <div className="absolute inset-0 z-0" style={{ position: "absolute" }}>
+        <img
+          src={src}
+          alt=""
+          fetchPriority="high"
+          decoding="async"
+          style={{ position: "absolute", height: "100%", width: "100%", inset: 0, objectFit: "cover" }}
+        />
+        {overlayColor && <div className="absolute inset-0" style={{ backgroundColor: overlayColor, pointerEvents: "none" }} />}
+      </div>
+    );
+  }
   return (
     <GenericEditableImage
       sectionId={sectionId}
@@ -2518,9 +2550,10 @@ function HeroAnanda01({
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;600&display=swap');
-        .ananda-hero-btn {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;600&display=swap" />
+      <style>{`        .ananda-hero-btn {
           font-family: ${FONT}; font-size: 11px; font-weight: 600;
           letter-spacing: 3px; text-transform: uppercase; text-decoration: none;
           color: ${WHITE}; display: inline-flex; align-items: center;
@@ -2554,7 +2587,7 @@ function HeroAnanda01({
 
         {/* Centrovaný obsah */}
         <div style={{ position: "relative", zIndex: 2, textAlign: "center", padding: "0 24px", maxWidth: 700 }}>
-          <img src={symbolUrl} alt="" aria-hidden style={{ width: 56, height: 63, display: "block", margin: "0 auto 28px" }} />
+          <img loading="eager" src={symbolUrl} alt="" aria-hidden style={{ width: 56, height: 63, display: "block", margin: "0 auto 28px" }} />
           <h1 style={{ fontFamily: FONT, fontWeight: 300, fontSize: "clamp(32px, 5vw, 58px)", color: WHITE, margin: "0 0 40px", lineHeight: 1.2, letterSpacing: 1, whiteSpace: "pre-line" }}>
             <GenericEditableText sectionId={sectionId} field="headline" value={headline} tag="span" />
           </h1>
@@ -2937,7 +2970,7 @@ function HeroTattoo03({ content, sectionId, tenantSlug, isAdmin }: {
       }}>
         {/* Background foto — zIndex: 1; content wrapper má pointerEvents:none → klik na prázdnou plochu jde sem */}
         <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" className="absolute inset-0 w-full h-full" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1 }}>
-          <img src={bgImage} alt="" aria-hidden style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+          <img loading="eager" src={bgImage} alt="" aria-hidden style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
         </GenericEditableImage>
 
         {/* Tmavé overlaye — 3 vrstvy (pointerEvents: none → nekradou kliky od GenericEditableText) */}
@@ -3131,7 +3164,7 @@ function HeroNails01({
           <div style={{ flex: "0 0 24%", alignSelf: "flex-end" }}>
             <GenericEditableImage sectionId={sectionId} field="imgLeft" src={imgLeft} alt="Salon" className="w-full">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={imgLeft} alt="Salon" style={{ width: "100%", height: "auto", objectFit: "cover", display: "block", borderRadius: "4px 4px 0 0" }} />
+              <img loading="eager" src={imgLeft} alt="Salon" style={{ width: "100%", height: "auto", objectFit: "cover", display: "block", borderRadius: "4px 4px 0 0" }} />
             </GenericEditableImage>
           </div>
 
@@ -3139,7 +3172,7 @@ function HeroNails01({
           <div style={{ flex: "0 0 29%", transform: "scale(1.08)", transformOrigin: "bottom center", zIndex: 2 }}>
             <GenericEditableImage sectionId={sectionId} field="imgCenter" src={imgCenter} alt="Salon studio" className="w-full">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={imgCenter} alt="Salon studio" style={{ width: "100%", height: "auto", objectFit: "cover", display: "block", borderRadius: "4px 4px 0 0" }} />
+              <img loading="eager" src={imgCenter} alt="Salon studio" style={{ width: "100%", height: "auto", objectFit: "cover", display: "block", borderRadius: "4px 4px 0 0" }} />
             </GenericEditableImage>
           </div>
 
@@ -3147,7 +3180,7 @@ function HeroNails01({
           <div style={{ flex: "0 0 24%", alignSelf: "flex-end" }}>
             <GenericEditableImage sectionId={sectionId} field="imgRight" src={imgRight} alt="Salon services" className="w-full">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={imgRight} alt="Salon services" style={{ width: "100%", height: "auto", objectFit: "cover", display: "block", borderRadius: "4px 4px 0 0" }} />
+              <img loading="eager" src={imgRight} alt="Salon services" style={{ width: "100%", height: "auto", objectFit: "cover", display: "block", borderRadius: "4px 4px 0 0" }} />
             </GenericEditableImage>
           </div>
         </div>
@@ -3202,7 +3235,7 @@ function HeroNails01({
       <div className="md:hidden" style={{ width: "100%", paddingTop: 80 }}>
         <GenericEditableImage sectionId={sectionId} field="imgCenter" src={imgCenter} alt="Salon studio" className="w-full">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={imgCenter} alt="Salon studio" style={{ width: "100%", height: 360, objectFit: "cover", objectPosition: "center top" }} />
+          <img loading="eager" src={imgCenter} alt="Salon studio" style={{ width: "100%", height: 360, objectFit: "cover", objectPosition: "center top" }} />
         </GenericEditableImage>
         <div style={{ padding: "24px 20px 32px" }}>
           <h2 style={{ fontFamily: "Georgia, serif", fontSize: "28px", fontWeight: 400, color: BURGUNDY, margin: "0 0 12px" }}>
@@ -3289,7 +3322,7 @@ function HeroNails03({
         justifyContent: "center",
       }}
     >
-      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} />
+      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} />
       {/* Dark overlay */}
       <div
         aria-hidden="true"
@@ -3410,7 +3443,7 @@ function HeroNails02({
         // navbar (absolute) ramps over the top of this hero
       }}
     >
-      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} />
+      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} />
       {/* Dark gradient overlay — bottom-heavy for text contrast */}
       <div
         aria-hidden="true"
@@ -4974,9 +5007,10 @@ function HeroCafe03({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
         </div>
       )}
 
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400;600&display=swap');
-      `}</style>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400;600&display=swap" />
+      <style>{`      `}</style>
     </section>
   );
 }
@@ -5050,7 +5084,7 @@ function HeroCafe04({ content, sectionId }: { content: Record<string, unknown>; 
               alt={slide.alt ?? `Slide ${i + 1}`}
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             >
-              <img src={slide.imageUrl} alt={slide.alt ?? `Slide ${i + 1}`} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              <img src={slide.imageUrl} alt={slide.alt ?? `Slide ${i + 1}`} loading={i === 0 ? "eager" : "lazy"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </GenericEditableImage>
           </div>
         ))}
@@ -5357,7 +5391,7 @@ function HeroReality02({ content, sectionId, tenantSlug, isAdmin }: { content: R
           style={{ gridColumn: 2, gridRow: "1 / 3", borderRadius: 20, overflow: "hidden", minHeight: 400 }}
         >
           <GenericEditableImage sectionId={sectionId} field="heroImage" src={imgSrc} alt="Prodej nemovitosti" style={{ width: "100%", height: "100%", objectFit: "cover" }}>
-            <img src={imgSrc} alt="Prodej nemovitosti" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            <img loading="eager" src={imgSrc} alt="Prodej nemovitosti" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
           </GenericEditableImage>
         </div>
 
@@ -5440,7 +5474,7 @@ function HeroReality04Split({ content, sectionId, tenantSlug, isAdmin }: { conte
       {/* Foto */}
       <div style={{ marginBottom: 24 }}>
         <GenericEditableImage sectionId={sectionId} field={imageField} src={image} alt={title} style={{ display: "block", borderRadius: 4, overflow: "hidden" }}>
-          <img src={image} alt={title} style={{ width: "100%", height: "auto", display: "block", borderRadius: 4 }} />
+          <img loading="eager" src={image} alt={title} style={{ width: "100%", height: "auto", display: "block", borderRadius: 4 }} />
         </GenericEditableImage>
       </div>
       {/* H2 */}
@@ -5527,7 +5561,7 @@ function HeroReality01({ content, sectionId, tenantSlug, isAdmin }: { content: R
         }}>
           {/* Poster / fallback image */}
           <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}>
-            <img src={bgImage} alt="" aria-hidden="true" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+            <img loading="eager" src={bgImage} alt="" aria-hidden="true" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
           </GenericEditableImage>
 
           {/* Autoplay video */}
@@ -5723,7 +5757,7 @@ function HeroReality03({ content, sectionId, tenantSlug, isAdmin }: { content: R
           <div data-r03-portrait style={{ display: "flex", justifyContent: "center" }}>
             <div style={{ width: "clamp(260px, 32vw, 420px)", aspectRatio: "3/4", borderRadius: 12, overflow: "hidden", boxShadow: "0 24px 64px rgba(0,0,0,0.45)", border: "3px solid rgba(227,138,106,0.35)" }}>
               <GenericEditableImage sectionId={sectionId} field="agentImage" src={agentImage} alt="Realitní makléř" style={{ width: "100%", height: "100%" }}>
-                <img src={agentImage} alt="Realitní makléř" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block" }} />
+                <img loading="eager" src={agentImage} alt="Realitní makléř" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", display: "block" }} />
               </GenericEditableImage>
             </div>
           </div>
@@ -5908,7 +5942,7 @@ function HeroReality06Agent({ content, sectionId, tenantSlug, isAdmin }: { conte
       {/* Background image — vlastní overflow:hidden wrapper aby bg nepřetékalo */}
       <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
         <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-          <img src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "left center", opacity: 0.8, pointerEvents: "none" }} />
+          <img loading="eager" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "left center", opacity: 0.8, pointerEvents: "none" }} />
         </GenericEditableImage>
       </div>
 
@@ -5929,7 +5963,7 @@ function HeroReality06Agent({ content, sectionId, tenantSlug, isAdmin }: { conte
       {/* Agent photo + H1 + stats */}
       <div className="r06h-content">
         <GenericEditableImage sectionId={sectionId} field="agentImage" src={agentImage} alt={agentName} style={{ position: "relative", zIndex: 2, flexShrink: 0 }}>
-          <img src={agentImage} alt={agentName} className="r06h-photo" />
+          <img loading="eager" src={agentImage} alt={agentName} className="r06h-photo" />
         </GenericEditableImage>
 
         <div className="r06h-right">
@@ -6323,7 +6357,7 @@ function HeroAutoservis02({ content, sectionId, tenantSlug, isAdmin }: { content
     <section style={{ position: "relative", width: "100%", minHeight: 560, display: "flex", alignItems: "center" }} data-template="autoservis-02-hero">
       {/* Background image */}
       <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{ position: "absolute", inset: "0" as unknown as number }}>
-        <img src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+        <img loading="eager" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
       </GenericEditableImage>
 
       {/* Dark overlay */}
@@ -8971,7 +9005,7 @@ function HeroGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content: 
       {!offerDismissed && (
         <div className={`gr01hero-offer${offerHidden ? " hidden" : ""}`} role="complementary" aria-label="Nabídka">
           <div style={{ position: "relative" }}>
-            <img src={offerImg} alt="Aktuální nabídka" className="gr01hero-offer-img" />
+            <img loading="eager" src={offerImg} alt="Aktuální nabídka" className="gr01hero-offer-img" />
             <button className="gr01hero-offer-close" onClick={() => setOfferDismissed(true)} aria-label="Zavřít nabídku">×</button>
           </div>
           <div style={{ padding: "16px 24px", color: "rgba(255,255,255,0.65)", fontSize: 13, fontFamily: FONT }}>Aktuální akce pro členy klubu</div>
@@ -9055,7 +9089,7 @@ function HeroPethotel01({
 
       <section className="ph01hero" data-template="pethotel-01-hero">
         <div className="ph01hero-bg">
-          <img src={bgUrl} alt="" aria-hidden="true" />
+          <img loading="eager" src={bgUrl} alt="" aria-hidden="true" />
         </div>
         <div className="ph01hero-overlay" aria-hidden="true" />
 
@@ -9096,7 +9130,7 @@ function HeroPethotel01({
           >
             {imageUrl && (
               <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt="Maskot">
-                <img src={imageUrl} alt="Maskot psí školky" />
+                <img loading="eager" src={imageUrl} alt="Maskot psí školky" />
               </GenericEditableImage>
             )}
           </div>
@@ -10427,7 +10461,6 @@ function HeroUcetni04({ content, sectionId, tenantSlug, isAdmin }: {
     : "";
 
   const styles = `
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap');
     .ucn04hero {
       background: ${WHITE};
       font-family: ${FONT};
@@ -10550,6 +10583,9 @@ function HeroUcetni04({ content, sectionId, tenantSlug, isAdmin }: {
 
   return (
     <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" />
       <style>{styles}</style>
       <section className="ucn04hero" data-template="ucetni-04-hero">
         <div className="ucn04hero-inner">
@@ -11570,7 +11606,7 @@ function HeroFloors01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
             {slides.map((slide, i) => (
               <div key={i} className="f01h-slide" style={{ opacity: i === current ? 1 : 0, pointerEvents: i === current ? "auto" : "none" }}>
                 <GenericEditableImage sectionId={sectionId} field={`slides.${i}.image`} src={slide.image} alt={slide.alt} style={{ position: "absolute", inset: 0 }}>
-                  <img src={slide.image} alt={slide.alt} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                  <img src={slide.image} alt={slide.alt} loading={i === 0 ? "eager" : "lazy"} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                 </GenericEditableImage>
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.08) 55%, transparent 100%)" }} />
                 <div style={{ position: "absolute", bottom: 56, left: 40, right: 40 }}>
@@ -11598,7 +11634,7 @@ function HeroFloors01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
             {sidePosts.slice(0, 2).map((post, i) => (
               <a key={i} href={resolve(post.href)} className="f01h-side-post" style={{ textDecoration: "none", borderTop: i === 1 ? "2px solid #fff" : undefined }}>
                 <GenericEditableImage sectionId={sectionId} field={`sidePosts.${i}.image`} src={post.image} alt={post.alt} style={{ position: "absolute", inset: 0 }}>
-                  <img src={post.image} alt={post.alt} />
+                  <img src={post.image} alt={post.alt} loading="lazy" />
                 </GenericEditableImage>
                 <div className="f01h-side-label"><GenericEditableText sectionId={sectionId} field={`sidePosts.${i}.label`} value={post.label} tag="span">{post.label}</GenericEditableText></div>
               </a>
@@ -11712,7 +11748,7 @@ function HeroKlempir01({ content, sectionId, tenantSlug, isAdmin }: HeroProps) {
               className="k01-hero-video"
             >
               <source src={bgVideo} type={bgVideo.endsWith(".webm") ? "video/webm" : "video/mp4"} />
-              <img src={bgImage} alt="Klempíř z Prahy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img loading="eager" src={bgImage} alt="Klempíř z Prahy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </video>
           ) : (
             <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="Hero background" style={{ position: "absolute", inset: 0 }}>
@@ -11838,9 +11874,10 @@ function HeroMalir01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Raleway:wght@400;600&display=swap');
-        .m01h-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 3s ease; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Raleway:wght@400;600&display=swap" />
+      <style>{`        .m01h-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 3s ease; }
         .m01h-slide.active { opacity: 1; }
         .m01h-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
         .m01h-btn {
@@ -11866,7 +11903,7 @@ function HeroMalir01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
         {images.map((src, i) => (
           <div key={i} className={`m01h-slide${i === current ? " active" : ""}`}>
             <GenericEditableImage sectionId={sectionId} field={`images.${i}`} src={src} alt={`Slide ${i + 1}`}>
-              <img src={src} alt={`Slide ${i + 1}`} />
+              <img loading="eager" src={src} alt={`Slide ${i + 1}`} />
             </GenericEditableImage>
           </div>
         ))}
@@ -12327,8 +12364,8 @@ function HeroClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
 
       <section className="c02h-section" id="uvod" data-template="clean-02-hero">
         <div className="c02h-blends" aria-hidden>
-          <img src={BLEND_L} alt="" className="c02h-bl" />
-          <img src={BLEND_R} alt="" className="c02h-br" />
+          <img loading="eager" src={BLEND_L} alt="" className="c02h-bl" />
+          <img loading="eager" src={BLEND_R} alt="" className="c02h-br" />
         </div>
 
         <div className="c02h-content">
@@ -12373,12 +12410,12 @@ function HeroClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
           </div>
 
           <div className="c02h-review-card">
-            <img src={GOOGLE} alt="Google recenze" className="c02h-gimg" />
+            <img loading="eager" src={GOOGLE} alt="Google recenze" className="c02h-gimg" />
             <div className="c02h-review-divider" aria-hidden />
             <div className="c02h-stars">
-              <img src={STAR} alt="" className="c02h-simg" aria-hidden />
+              <img loading="eager" src={STAR} alt="" className="c02h-simg" aria-hidden />
               <span className="c02h-score">5,0</span>
-              <img src={STAR} alt="" className="c02h-simg" aria-hidden />
+              <img loading="eager" src={STAR} alt="" className="c02h-simg" aria-hidden />
             </div>
             <div className="c02h-review-divider" aria-hidden />
             <span className="c02h-rtxt">
@@ -12726,7 +12763,7 @@ function HeroArbo01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
           {/* Right: single image */}
           <div className="arbo01-hero-right">
             <GenericEditableImage sectionId={sectionId} field="slides.0.url" src={heroImg.url} alt={heroImg.alt ?? "Arboristické práce"} style={{}}>
-              <img src={heroImg.url} alt={heroImg.alt ?? "Arboristické práce"} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              <img loading="eager" src={heroImg.url} alt={heroImg.alt ?? "Arboristické práce"} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </GenericEditableImage>
           </div>
         </div>
@@ -12896,7 +12933,7 @@ function HeroDdd01({ content, sectionId }: Omit<Props, "variant">) {
         {/* Neviditelný img pro editovatelnost bg obrázku ve studiu */}
         <div className="ddd01h-bg-edit" aria-hidden="true">
           <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{}}>
-            <img src={bgImage} alt="" />
+            <img loading="eager" src={bgImage} alt="" />
           </GenericEditableImage>
         </div>
 
@@ -12960,9 +12997,10 @@ function HeroHotel01({ content, sectionId, isAdmin }: { content: SectionContent;
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Poppins:wght@300;400&display=swap');
-        .h01hero {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Poppins:wght@300;400&display=swap" />
+      <style>{`        .h01hero {
           position: relative; width: 100%; height: 100vh; min-height: 600px;
           overflow: hidden; background: #2a2520;
         }
@@ -13180,9 +13218,10 @@ function HeroHotel02({ content, sectionId, isAdmin }: { content: SectionContent;
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
-        .h02hero {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" />
+      <style>{`        .h02hero {
           position: relative; width: 100%; height: 100vh; min-height: 620px;
           overflow: hidden; background: #1a2332;
         }
@@ -13466,9 +13505,10 @@ function HeroChalet01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap');
-        .ch01hero {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap" />
+      <style>{`        .ch01hero {
           position: relative;
           width: 100%;
           height: 100vh;
@@ -13702,9 +13742,10 @@ function HeroMalir02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap');
-        .m02h-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap" />
+      <style>{`        .m02h-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease; }
         .m02h-slide.active { opacity: 1; }
         .m02h-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
         .m02h-cta {
@@ -13734,7 +13775,7 @@ function HeroMalir02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
           <div key={i} className={`m02h-slide${i === current ? " active" : ""}`}>
             <GenericEditableImage sectionId={sectionId} field={`slides.${i}.image`} src={s.image} alt={s.heading}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={s.image} alt={s.heading} />
+              <img loading="eager" src={s.image} alt={s.heading} />
             </GenericEditableImage>
           </div>
         ))}
@@ -14563,7 +14604,7 @@ function HeroDj01({ content, sectionId, tenantSlug, isAdmin }: { content: Record
       <section className="dj01-hero" data-template="dj-01-hero">
         {bgImage && (
           <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 0 }}>
-            <img src={bgImage} alt="" className="dj01-hero-bg" />
+            <img src={bgImage} alt="" loading="eager" className="dj01-hero-bg" />
           </GenericEditableImage>
         )}
         <div className="dj01-hero-overlay" aria-hidden />
@@ -14723,8 +14764,8 @@ function HeroVideo01({ content, sectionId, isAdmin }: {
       <div className="vd01h-photo-outer">
         <div className="vd01h-photo">
           {imageUrl && (isAdmin
-            ? <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={imageAlt}><img src={imageUrl} alt={imageAlt} /></GenericEditableImage>
-            : <img src={imageUrl} alt={imageAlt} />)}
+            ? <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={imageAlt}><img loading="eager" src={imageUrl} alt={imageAlt} /></GenericEditableImage>
+            : <img loading="eager" src={imageUrl} alt={imageAlt} />)}
           {/* inline per-line highlight — br forces two-line split, each line gets own dark bg */}
           <div className="vd01h-quote-row">
             {(() => {
