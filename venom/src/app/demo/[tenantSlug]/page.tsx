@@ -85,8 +85,17 @@ export default async function TenantDemoPage({ params }: Props) {
   const gtmId = tenant.analytics_config?.gtm_id;
   const { jsonLd } = await buildTenantSEO(tenant, { page: page ?? undefined });
 
+  // LCP preload: emit a high-priority <link> for the hero background image so
+  // the browser discovers it from static HTML (before React hydration).
+  const heroSection = sections.find(s => s.section_type === "hero");
+  const lcpImageUrl = (heroSection?.settings?.content as Record<string, string> | undefined)?.backgroundImage ?? null;
+
   return (
     <>
+      {lcpImageUrl && (
+        // eslint-disable-next-line react/jsx-no-literals
+        <link rel="preload" as="image" href={lcpImageUrl} fetchPriority="high" />
+      )}
       <TenantAnalytics tenant={tenant} />
       {gtmId && <GtmNoScript gtmId={gtmId} />}
       <script
