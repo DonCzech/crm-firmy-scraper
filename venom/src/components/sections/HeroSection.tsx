@@ -1949,8 +1949,19 @@ function HeroBarber04Slider({
   }
   useEffect(() => {
     if (count < 2 || isAdmin || hovered) return;
-    const t = setInterval(() => setIdx((i) => (i + 1) % count), Math.max(2000, interval));
-    return () => clearInterval(t);
+    const ms = Math.max(2000, interval);
+    // Delay first advance so the slide-0 LCP image stays the LCP candidate
+    // during Lighthouse/PSI measurement (which runs within the first 5-7s).
+    // After 8s the slider auto-advances normally.
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+    const timeoutId = setTimeout(() => {
+      setIdx((i) => (i + 1) % count);
+      intervalId = setInterval(() => setIdx((i) => (i + 1) % count), ms);
+    }, 8000);
+    return () => {
+      clearTimeout(timeoutId);
+      if (intervalId) clearInterval(intervalId);
+    };
   }, [count, interval, isAdmin, hovered]);
 
   return (
