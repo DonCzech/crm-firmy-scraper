@@ -85,22 +85,8 @@ export default async function TenantDemoPage({ params }: Props) {
   const gtmId = tenant.analytics_config?.gtm_id;
   const { jsonLd } = await buildTenantSEO(tenant, { page: page ?? undefined });
 
-  // LCP preload: generate proper /_next/image srcset URLs (not the raw path)
-  // so browser preloads the same optimized image that <Image priority> will request.
-  const heroSection = sections.find((s) => s.is_visible && s.section_type === "hero");
-  const heroContent = heroSection?.settings?.content as Record<string, unknown> | undefined;
-  const lcpSrc = typeof heroContent?.backgroundImage === "string" && heroContent.backgroundImage.startsWith("/")
-    ? (heroContent.backgroundImage as string)
-    : null;
-  const lcpSrcset = lcpSrc
-    ? [640, 828, 1080, 1200].map(w => `/_next/image?url=${encodeURIComponent(lcpSrc)}&w=${w}&q=75 ${w}w`).join(", ")
-    : null;
-
   return (
     <>
-      {lcpSrcset && (
-        <link rel="preload" as="image" imageSrcSet={lcpSrcset} imageSizes="100vw" fetchPriority="high" />
-      )}
       <TenantAnalytics tenant={tenant} />
       {gtmId && <GtmNoScript gtmId={gtmId} />}
       <script

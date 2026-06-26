@@ -130,11 +130,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="cs" className={`${libreBaskerville.variable} ${sourceSans.variable}`}>
       <head>
-        {/* Early connection hints — resolved before any render */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        {/* next/font self-hosts all font files — no runtime Google Fonts requests */}
+        {/* arch-01 LCP preload moved to src/app/page.tsx (landing only, not demo pages) */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaWebsite) }}
@@ -147,8 +144,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaProduct) }}
         />
-        {/* Preload hero poster for fastest LCP */}
-        <link rel="preload" as="image" href="/templates/arch-01/hero-1.webp" fetchPriority="high" />
+
       </head>
       <body className="min-h-screen">
         {children}

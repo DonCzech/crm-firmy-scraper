@@ -380,8 +380,9 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
               <GenericEditableText sectionId={sectionId} field="title" value={c.title} tag="span" />
             </h2>
           )}
+          <style>{`.pc-mosaic-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; } @media (min-width: 640px) { .pc-mosaic-grid { grid-template-columns: repeat(3, 1fr); } }`}</style>
           {/* Řádek 1: 3 stejně velké | Řádek 2: 1 velký (2/3) + 1 menší (1/3) */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6 }}>
+          <div className="pc-mosaic-grid">
             {images.slice(0, 5).map((img, i) => {
               const isBottomLarge = i === 3;
               return (
@@ -443,6 +444,10 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
         }}
         data-template={contained ? "barber-03" : undefined}
       >
+        <style>{`
+          [data-four-col-gallery] { grid-template-columns: repeat(2, 1fr) !important; }
+          @media (min-width: 640px) { [data-four-col-gallery] { grid-template-columns: repeat(4, 1fr) !important; } }
+        `}</style>
         {contained && <style>{`
           @keyframes b03FadeUp { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:translateY(0); } }
           .b03g-reveal { opacity: 0; }
@@ -2253,9 +2258,10 @@ function GalleryCafe03({ content, sectionId, images }: { content: Record<string,
         ))}
       </div>
 
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400&display=swap');
-        .c3-gallery-track { -ms-overflow-style: none; scrollbar-width: none; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400&display=swap" />
+      <style>{`        .c3-gallery-track { -ms-overflow-style: none; scrollbar-width: none; }
         .c3-gallery-track::-webkit-scrollbar { display: none; }
       `}</style>
     </section>
@@ -3919,9 +3925,10 @@ function GalleryInstala02({ content, sectionId, tenantSlug, isAdmin }: { content
       data-template="instala-02-gallery"
       style={{ backgroundColor: DARK, fontFamily: FONT_B }}
     >
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500&display=swap" />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500&display=swap');
-
         /* ── header ── */
         .i2gx-head   { max-width: 1280px; margin: 0 auto; padding: 88px 48px 56px; }
         .i2gx-kicker { font-family: ${FONT_H}; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: ${RED}; margin: 0 0 16px; display: flex; align-items: center; gap: 12px; }
@@ -4981,9 +4988,10 @@ function GalleryChalet01({ content, sectionId }: { content: Record<string, unkno
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
-        .ch01gl {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" />
+      <style>{`        .ch01gl {
           background: #ffffff;
           padding: clamp(4rem, 8vw, 7rem) 0;
         }
@@ -5237,9 +5245,10 @@ function GalleryHotel01Offers({ content, sectionId, isAdmin }: { content: Record
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Poppins:wght@300;400;500&display=swap');
-        .h01offers {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Poppins:wght@300;400;500&display=swap" />
+      <style>{`        .h01offers {
           background: #fff;
           padding: clamp(60px,8vw,110px) clamp(20px,5vw,80px);
           font-family: 'Poppins', sans-serif;
@@ -5385,9 +5394,10 @@ function GalleryHotel02({ content, sectionId }: { content: Record<string, unknow
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@400;500&display=swap');
-        .h02gl {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@400;500&display=swap" />
+      <style>{`        .h02gl {
           background: #1a2332;
           padding: clamp(60px,8vw,100px) clamp(20px,4vw,60px);
           font-family: 'Montserrat', sans-serif;
@@ -5685,9 +5695,10 @@ function GalleryPhoto01({ content, sectionId }: { content: Record<string, unknow
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
-        .ph01gl {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" />
+      <style>{`        .ph01gl {
           background: #fff;
           padding: 64px 0 80px;
         }
@@ -6365,7 +6376,7 @@ function GalleryBarberDark({
                 style={{ position: "absolute" }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img.url!} alt={img.alt ?? `Foto ${i + 1}`} loading={i < 6 ? "eager" : "lazy"} />
+                <img src={img.url!} alt={img.alt ?? `Foto ${i + 1}`} loading="lazy" />
               </GenericEditableImage>
               <div className="bc-gallery-overlay">
                 <div className="bc-gallery-overlay-line" />
