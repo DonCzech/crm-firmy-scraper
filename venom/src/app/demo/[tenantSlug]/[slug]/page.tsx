@@ -10,8 +10,7 @@ interface Props {
   params: Promise<{ tenantSlug: string; slug: string }>;
 }
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 60;
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://webero.co";
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3015";
@@ -69,16 +68,19 @@ export default async function TenantAsteraSubPage({ params }: Props) {
       return <ClonedSiteRenderer html={html} cssUrls={cssUrls} jsUrls={jsUrls} />;
     }
 
-    // LCP preload for hero section background image (local paths only)
     const heroSec = pageSections.find((s) => s.is_visible && s.section_type === "hero");
     const heroContent = heroSec?.settings?.content as Record<string, unknown> | undefined;
-    const lcpImage = typeof heroContent?.backgroundImage === "string" && heroContent.backgroundImage.startsWith("/")
-      ? heroContent.backgroundImage as string
+    const lcpSrc = typeof heroContent?.backgroundImage === "string" && heroContent.backgroundImage.startsWith("/")
+      ? (heroContent.backgroundImage as string) : null;
+    const lcpSrcset = lcpSrc
+      ? [640, 828, 1080, 1200].map(w => `/_next/image?url=${encodeURIComponent(lcpSrc)}&w=${w}&q=75 ${w}w`).join(", ")
       : null;
 
     return (
       <>
-        {lcpImage && <link rel="preload" as="image" href={lcpImage} fetchPriority="high" />}
+        {lcpSrcset && (
+          <link rel="preload" as="image" imageSrcSet={lcpSrcset} imageSizes="100vw" fetchPriority="high" />
+        )}
         <TenantPublicView
           tenant={tenant}
           page={tenantPage}

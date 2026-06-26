@@ -3,6 +3,7 @@ import { z } from "zod";
 import { query, queryOne, auditLog, type Section } from "@/lib/db";
 import { assertSameOrigin, requireTenantAdmin } from "@/lib/demo-auth";
 import { computeOverridesForSubmit } from "@/lib/section-resolver";
+import { revalidatePath } from "next/cache";
 
 const BodySchema = z.object({
   settings: z.record(z.unknown()).optional(),
@@ -79,6 +80,8 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
   );
 
   await auditLog("section_updated", { tenantId: tenant.id, targetType: "section", targetId: String(sid) });
+  revalidatePath(`/demo/${tenantSlug}`);
+  revalidatePath(`/demo/${tenantSlug}`, "layout");
   return Response.json({ ok: true });
 }
 
@@ -101,5 +104,6 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
   if (!res.length) return Response.json({ error: "Section not found" }, { status: 404 });
 
   await auditLog("section_deleted", { tenantId: tenant.id, targetType: "section", targetId: String(sid) });
+  revalidatePath(`/demo/${tenantSlug}`);
   return Response.json({ ok: true });
 }

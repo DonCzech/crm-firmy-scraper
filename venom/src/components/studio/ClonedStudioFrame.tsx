@@ -29,8 +29,8 @@ export function ClonedStudioFrame({ tenantSlug, width, scrollTo }: Props) {
   setCloneSelectedRef.current = studio.setCloneSelected;
   useEffect(() => {
     function onMsg(ev: MessageEvent) {
-      const d = ev.data as { __venomStudio?: boolean; type?: string; payload?: CloneSelection };
-      if (!d || !d.__venomStudio) return;
+      const d = ev.data as { __weberoStudio?: boolean; type?: string; payload?: CloneSelection };
+      if (!d || !d.__weberoStudio) return;
       if (d.type === "select" && d.payload) {
         setCloneSelectedRef.current(d.payload);
       } else if (d.type === "deselect") {
@@ -51,7 +51,7 @@ export function ClonedStudioFrame({ tenantSlug, width, scrollTo }: Props) {
     const sender = (cmd: CloneCommand) => {
       const win = ref.current?.contentWindow;
       if (!win) return;
-      win.postMessage({ __venomStudioCmd: true, ...cmd }, "*");
+      win.postMessage({ __weberoStudioCmd: true, ...cmd }, "*");
     };
     studio.setCloneCommand(sender);
     return () => studio.setCloneCommand(null);
@@ -83,13 +83,13 @@ export function ClonedStudioFrame({ tenantSlug, width, scrollTo }: Props) {
   }, [scrollTo, loaded]);
 
   // Selection state is now driven by postMessage from inside the iframe
-  // (ClonedSiteRenderer emits `__venomStudio: select/deselect`).
+  // (ClonedSiteRenderer emits `__weberoStudio: select/deselect`).
 
   return (
     <iframe
       ref={ref}
       title="Cloned site preview"
-      src={`/demo/${tenantSlug}?studio=1`}
+      src={`/demo/${tenantSlug}/edit-frame`}
       onLoad={() => setLoaded(true)}
       style={{
         width,
