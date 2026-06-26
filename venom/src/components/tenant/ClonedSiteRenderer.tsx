@@ -13,8 +13,10 @@ interface Props {
 }
 
 function extractHeroImage(html: string): string | null {
-  const m = html.match(/url\(['"]?([^'")]+\.(jpg|jpeg|webp|png))['"]?\)/i);
-  return m ? m[1] : null;
+  const bg = html.match(/url\(['"]?([^'")]+\.(jpg|jpeg|webp|png))['"]?\)/i);
+  if (bg) return bg[1];
+  const img = html.match(/<img[^>]+src=['"]([^'"]+\.(jpg|jpeg|webp|png))['"][^>]*>/i);
+  return img ? img[1] : null;
 }
 
 // Strip contentEditable artifacts from a cloned DOM tree before saving
@@ -86,12 +88,12 @@ export function ClonedSiteRenderer({
     function postSelection(el: HTMLElement | null) {
       if (!inStudio) return;
       if (!el) {
-        window.parent.postMessage({ __venomStudio: true, type: "deselect" }, "*");
+        window.parent.postMessage({ __weberoStudio: true, type: "deselect" }, "*");
         return;
       }
       const editId = ensureEditId(el);
       window.parent.postMessage({
-        __venomStudio: true,
+        __weberoStudio: true,
         type: "select",
         payload: {
           editId,
@@ -104,8 +106,8 @@ export function ClonedSiteRenderer({
     }
     // Listen for inspector commands → apply + save
     function onStudioCommand(ev: MessageEvent) {
-      const d = ev.data as { __venomStudioCmd?: boolean; type?: string; editId?: string; selector?: string; patch?: Record<string,string>; text?: string; src?: string };
-      if (!d || !d.__venomStudioCmd) return;
+      const d = ev.data as { __weberoStudioCmd?: boolean; type?: string; editId?: string; selector?: string; patch?: Record<string,string>; text?: string; src?: string };
+      if (!d || !d.__weberoStudioCmd) return;
 
       // ── Select-by-selector (clicked sub-layer in left panel) ──────────────
       if (d.type === "selectBySelector" && d.selector) {
@@ -267,7 +269,7 @@ export function ClonedSiteRenderer({
     const fileInput = document.createElement("input");
     fileInput.setAttribute("data-admin-ui", "1");
     fileInput.type = "file";
-    fileInput.accept = "image/jpeg,image/png,image/webp";
+    fileInput.accept = "image/jpeg,image/png,image/webp,image/svg+xml";
     fileInput.style.display = "none";
 
     const uploadBtn = ui("button", `

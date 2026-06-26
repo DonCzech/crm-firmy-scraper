@@ -9,7 +9,7 @@ import { TenantAnalytics, GtmNoScript } from "@/components/tenant/TenantAnalytic
 import { loadTemplate } from "@/lib/templates/loader";
 import type { Metadata, Viewport } from "next";
 
-export const revalidate = 60;
+export const revalidate = 300;
 
 interface Props {
   params: Promise<{ tenantSlug: string }>;
@@ -79,7 +79,18 @@ export default async function TenantDemoPage({ params }: Props) {
       cssUrls?: string[];
       jsUrls?: string[];
     };
-    return <ClonedSiteRenderer html={html} cssUrls={cssUrls} jsUrls={jsUrls} />;
+    // Extract LCP hero image URL server-side so preload is in SSR HTML (no hydration delay)
+    const cloneLcpMatch = html.match(/<img[^>]+src=['"]([^'"]+\.(jpg|jpeg|webp|png))['"][^>]*>/i)
+      ?? html.match(/url\(['"]?([^'")]+\.(jpg|jpeg|webp|png))['"]?\)/i);
+    const clonePreloadImages = cloneLcpMatch ? [cloneLcpMatch[1]] : undefined;
+    return (
+      <>
+        {clonePreloadImages?.[0] && (
+          <link rel="preload" as="image" href={clonePreloadImages[0]} fetchPriority="high" />
+        )}
+        <ClonedSiteRenderer html={html} cssUrls={cssUrls} jsUrls={jsUrls} preloadImages={clonePreloadImages} />
+      </>
+    );
   }
 
   const gtmId = tenant.analytics_config?.gtm_id;
@@ -88,7 +99,10 @@ export default async function TenantDemoPage({ params }: Props) {
   // LCP preload: emit a high-priority <link> for the hero background image so
   // the browser discovers it from static HTML (before React hydration).
   const heroSection = sections.find(s => s.section_type === "hero");
-  const lcpImageUrl = (heroSection?.settings?.content as Record<string, string> | undefined)?.backgroundImage ?? null;
+  const heroContent = heroSection?.settings?.content as Record<string, unknown> | undefined;
+  const lcpImageUrl = (heroContent?.backgroundImage as string | undefined)
+    ?? ((heroContent?.slides as Array<{ backgroundImage?: string }> | undefined)?.[0]?.backgroundImage)
+    ?? null;
 
   return (
     <>
