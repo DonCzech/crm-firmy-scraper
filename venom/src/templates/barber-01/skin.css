@@ -1,5 +1,12 @@
 /* barber-01 skin — scoped to [data-industry="barber"] */
-/* Loads Montserrat for headings via Google Fonts preconnect */
+/* Montserrat self-hosted — eliminates Google Fonts CDN round-trip (~450ms on mobile) */
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/assets/fonts-barber01/Montserrat-var.woff2') format('woff2');
+}
 
 [data-industry="barber"] {
   --color-primary:     #C9A84C;
@@ -20,9 +27,15 @@
   border-top: 1px solid var(--color-border);
 }
 
-/* Navbar: opaque dark on scroll */
-[data-industry="barber"] nav {
-  border-bottom: 1px solid var(--color-border);
+/* Navbar nav link hover underline */
+[data-template="barber-01"] a:hover .barber-nav-underline,
+[data-template="barber-01"] a:focus-visible .barber-nav-underline {
+  transform: scaleX(1) !important;
+}
+
+[data-template="barber-01"] a:hover {
+  color: var(--color-text, #F5F5F5) !important;
+  transition: color 0.2s ease;
 }
 
 /* Buttons use gold fill, dark text */
