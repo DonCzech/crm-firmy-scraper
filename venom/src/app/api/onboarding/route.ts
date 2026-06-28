@@ -2,10 +2,12 @@ import { NextRequest } from "next/server";
 import { z } from "zod";
 import { assertSameOrigin } from "@/lib/demo-auth";
 import { createDemoTenantFromTemplate } from "@/lib/tenant-factory";
+import { getTemplate } from "@/lib/templates";
+import { seedDemoMedia } from "@/lib/seed-demo-media";
 
 const BodySchema = z.object({
   email: z.string().email("Neplatný e-mail"),
-  templateKey: z.enum(["barber-01", "barber-02", "barber-03", "barber-04", "barber", "wellness", "lawyer", "astera", "cafe-01", "the-barber", "peak-cut", "fade-room", "hair-01", "hair-02", "hair-03", "hair-04", "beauty-01"]),
+  templateKey: z.string().min(1).max(100).regex(/^[a-z0-9-]+$/, "Neplatný klíč šablony"),
   industry: z.string().max(100).optional(),
   slug: z.string().regex(/^[a-z0-9-]+$/).min(3).max(60).optional(),
 });
@@ -51,6 +53,12 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: parsed.error.issues[0]?.message ?? "Neplatná data" }, { status: 400 });
   }
 
+  // Validate template exists as a loadable template definition
+  const tpl = await getTemplate(parsed.data.templateKey);
+  if (!tpl) {
+    return Response.json({ error: "Šablona neexistuje nebo není dostupná." }, { status: 400 });
+  }
+
   try {
     const result = await createDemoTenantFromTemplate({
       email: parsed.data.email,
@@ -59,7 +67,12 @@ export async function POST(req: NextRequest) {
       slug: parsed.data.slug,
     });
 
-    const cookieName = `venom_access_${result.slug}`;
+    // Fire-and-forget demo media seed (non-blocking)
+    seedDemoMedia(result.tenantId).catch((e) =>
+      console.error("[onboarding] seedDemoMedia failed:", e)
+    );
+
+    const cookieName = `webero_access_${result.slug}`;
     const cookieValue = result.accessToken;
     const maxAge = 60 * 60 * 24 * 30; // 30 days
 

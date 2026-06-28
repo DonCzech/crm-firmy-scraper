@@ -21,6 +21,7 @@ interface MediaRow {
   width: number | null;
   height: number | null;
   alt_text: string | null;
+  folder: string | null;
   created_at: string;
 }
 
@@ -37,7 +38,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
 
   const rows = await query<MediaRow>(
     `SELECT id, url, filename, original_name, mime_type, size_bytes,
-            width, height, alt_text, created_at
+            width, height, alt_text, folder, created_at
        FROM media
       WHERE tenant_id = $1
       ORDER BY created_at DESC
@@ -49,14 +50,40 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
     items: rows.map((r) => ({
       id: r.id,
       url: r.url,
-      filename: r.original_name ?? r.filename,
+      filename: r.filename,
       width: r.width,
       height: r.height,
       mime_type: r.mime_type,
       size_bytes: r.size_bytes,
       alt_text: r.alt_text,
+      folder: r.folder,
       created_at: r.created_at,
     })),
     count: rows.length,
   });
+}
+
+/**
+ * DELETE /api/demo/:tenantSlug/media?folder=Demo+obrázky
+ *   Bulk-deletes all media in a given folder for this tenant.
+ */
+export async function DELETE(req: NextRequest, { params }: RouteParams) {
+  if (!assertSameOrigin(req)) return Response.json({ error: "Invalid origin" }, { status: 403 });
+  const { tenantSlug } = await params;
+  const { ok, tenant } = await requireTenantAdmin(tenantSlug);
+  if (!tenant) return Response.json({ error: "Tenant not found" }, { status: 404 });
+  if (!ok) return Response.json({ error: "Unauthorized" }, { status: 401 });
+
+  const url = new URL(req.url);
+  const folder = url.searchParams.get("folder");
+  if (!folder) return Response.json({ error: "folder param required" }, { status: 400 });
+
+  const result = await query<{ count: string }>(
+    `WITH deleted AS (
+       DELETE FROM media WHERE tenant_id = $1 AND folder = $2 RETURNING id
+     ) SELECT COUNT(*)::text AS count FROM deleted`,
+    [tenant.id, folder]
+  );
+  const count = parseInt(result[0]?.count ?? "0", 10);
+  return Response.json({ ok: true, deleted: count });
 }

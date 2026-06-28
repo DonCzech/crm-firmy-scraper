@@ -11,25 +11,64 @@ type SectionWithMeta = Section & {
   content_source?: string | null;
 };
 
-const ARRAY_KEYS: Record<string, { key: string; itemLabel: string }> = {
-  services: { key: "services", itemLabel: "name" },
-  pricing: { key: "services", itemLabel: "name" },
-  testimonials: { key: "testimonials", itemLabel: "name" },
-  gallery: { key: "images", itemLabel: "alt" },
-  faq: { key: "faq", itemLabel: "question" },
-  team: { key: "members", itemLabel: "name" },
+// Preferred array field name per section type — used when the key actually exists in content.
+// Multiple candidates can be listed (first match wins).
+const ARRAY_KEYS: Record<string, { keys: string[]; itemLabel: string }> = {
+  services:     { keys: ["services", "items", "cards"],                   itemLabel: "name" },
+  pricing:      { keys: ["plans", "packages", "items", "services"],       itemLabel: "name" },
+  testimonials: { keys: ["testimonials", "reviews", "items"],             itemLabel: "name" },
+  gallery:      { keys: ["images"],                                       itemLabel: "alt" },
+  faq:          { keys: ["faq", "items", "faqs"],                         itemLabel: "question" },
+  team:         { keys: ["members", "team", "items"],                     itemLabel: "name" },
 };
 
 // Variant-specific overrides — checked before section_type lookup
-const ARRAY_KEYS_BY_VARIANT: Record<string, { key: string; itemLabel: string }> = {
-  "reality-03-navbar":         { key: "links",       itemLabel: "label" },
-  "hero-reality-03-video":     { key: "stats",        itemLabel: "number" },
-  "reality-03-services-4grid": { key: "items",        itemLabel: "name" },
-  "reality-03-listings":       { key: "items",        itemLabel: "title" },
-  "reality-03-testimonials":   { key: "items",        itemLabel: "author" },
-  "reality-03-blog":           { key: "items",        itemLabel: "title" },
-  "reality-03-footer":         { key: "agents",       itemLabel: "name" },
+const ARRAY_KEYS_BY_VARIANT: Record<string, { keys: string[]; itemLabel: string }> = {
+  "reality-03-navbar":         { keys: ["links"],   itemLabel: "label" },
+  "hero-reality-03-video":     { keys: ["stats"],   itemLabel: "number" },
+  "reality-03-services-4grid": { keys: ["items"],   itemLabel: "name" },
+  "reality-03-listings":       { keys: ["items"],   itemLabel: "title" },
+  "reality-03-testimonials":   { keys: ["items"],   itemLabel: "author" },
+  "reality-03-blog":           { keys: ["items"],   itemLabel: "title" },
+  "reality-03-footer":         { keys: ["agents"],  itemLabel: "name" },
 };
+
+// Auto-detect the first array-of-objects field in content (skip internal + gallery images).
+function autoDetectArrayField(
+  content: Record<string, unknown>,
+  sectionType: string
+): { key: string; itemLabel: string } | null {
+  // Skip gallery's images array — handled by GalleryInspectorPanel
+  const skipKeys = new Set(sectionType === "gallery" ? ["images"] : []);
+
+  for (const [k, v] of Object.entries(content)) {
+    if (k.startsWith("__") || skipKeys.has(k)) continue;
+    if (Array.isArray(v) && v.length > 0 && typeof v[0] === "object" && v[0] !== null && !Array.isArray(v[0])) {
+      const first = v[0] as Record<string, unknown>;
+      // Pick a human-readable label key
+      const labelKey = (["name", "title", "question", "label", "text", "author"] as const)
+        .find((lk) => typeof first[lk] === "string") ?? Object.keys(first)[0] ?? "0";
+      return { key: k, itemLabel: labelKey };
+    }
+  }
+  return null;
+}
+
+// Resolve the actual array definition: try registry first (matching key in content), then auto-detect.
+function resolveArrayDef(
+  content: Record<string, unknown>,
+  sectionType: string,
+  sectionVariant: string
+): { key: string; itemLabel: string } | null {
+  const registered = ARRAY_KEYS_BY_VARIANT[sectionVariant] ?? ARRAY_KEYS[sectionType];
+  if (registered) {
+    // Try each candidate key and return the first that actually exists in content
+    const match = registered.keys.find((k) => Array.isArray(content[k]) && (content[k] as unknown[]).length >= 0);
+    if (match) return { key: match, itemLabel: registered.itemLabel };
+  }
+  // Fall back to auto-detection for any section type
+  return autoDetectArrayField(content, sectionType);
+}
 
 const ITEM_FIELDS: Record<string, Array<{ key: string; label: string; type: "text" | "textarea" | "url" | "number" }>> = {
   services: [
@@ -143,7 +182,7 @@ const HIDDEN_SCALAR_KEYS = new Set(["id", "logoUrl"]);
 export function ContentInspectorTab({ section, state }: { section: Section; state: StudioState }) {
   const sec = section as SectionWithMeta;
   const content = (section.settings?.content ?? {}) as Record<string, unknown>;
-  const arrayDef = ARRAY_KEYS_BY_VARIANT[section.section_variant] ?? ARRAY_KEYS[section.section_type];
+  const arrayDef = resolveArrayDef(content, section.section_type, section.section_variant);
   const scalarEntries = Object.entries(content).filter(([k, v]) => (
     !k.startsWith("__") &&
     !HIDDEN_SCALAR_KEYS.has(k) &&
@@ -264,6 +303,26 @@ function Field({
   );
 }
 
+function inferItemFields(
+  item: Record<string, unknown>
+): Array<{ key: string; label: string; type: "text" | "textarea" | "url" | "number" }> {
+  return Object.keys(item)
+    .filter((k) => !k.startsWith("__") && typeof item[k] !== "object")
+    .map((k) => ({
+      key: k,
+      label: SCALAR_LABELS[k] ?? k,
+      type: (
+        k.includes("Href") || k.includes("href") || k.includes("Url") || k.includes("url") || k.includes("link") || k.includes("Link")
+          ? "url"
+          : k === "description" || k === "text" || k === "body" || k === "bio" || k === "answer" || k === "quote"
+          ? "textarea"
+          : typeof item[k] === "number"
+          ? "number"
+          : "text"
+      ) as "text" | "textarea" | "url" | "number",
+    }));
+}
+
 function ArraySection({
   section, state, arrayKey, itemLabelKey,
 }: {
@@ -274,7 +333,9 @@ function ArraySection({
 }) {
   const content = (section.settings?.content ?? {}) as Record<string, unknown>;
   const items = (content[arrayKey] ?? []) as Record<string, unknown>[];
-  const fields = ITEM_FIELDS[section.section_variant] ?? ITEM_FIELDS[section.section_type] ?? [];
+  // Use registered fields, or auto-infer from first item
+  const registeredFields = ITEM_FIELDS[section.section_variant] ?? ITEM_FIELDS[section.section_type];
+  const fields = registeredFields ?? (items[0] ? inferItemFields(items[0]) : []);
   const [expanded, setExpanded] = useState<number | null>(null);
 
   function commit(next: Record<string, unknown>[]) {
@@ -363,8 +424,11 @@ function ArraySection({
       <button
         type="button"
         onClick={() => {
-          const blank = Object.fromEntries(fields.map(f => [f.key, f.type === "number" ? 5 : ""]));
-          commit([...items, blank]);
+          // Clone last item (preserves structure) or create blank from fields
+          const template = items.length > 0
+            ? Object.fromEntries(Object.entries(items[items.length - 1]).map(([k, v]) => [k, typeof v === "number" ? v : ""]))
+            : Object.fromEntries(fields.map(f => [f.key, f.type === "number" ? 5 : ""]));
+          commit([...items, template]);
           setExpanded(items.length);
         }}
         className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-md border border-dashed border-[var(--vs-border-strong)] py-2 text-xs text-[var(--vs-text-muted)] hover:border-[var(--vs-accent-ring)] hover:text-[var(--vs-text)]"

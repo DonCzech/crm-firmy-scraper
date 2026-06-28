@@ -1,11 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useStudio } from "./StudioContext";
 import { StudioTopBar } from "./StudioTopBar";
 import { StudioLeftRail } from "./StudioLeftRail";
 import { StudioLeftPanel } from "./StudioLeftPanel";
+import { StudioRightPanel } from "./StudioRightPanel";
 import { StudioCanvas } from "./StudioCanvas";
+import { StudioSettingsCanvas } from "./StudioSettingsCanvas";
+import { StudioModulesCanvas } from "./StudioModulesCanvas";
+import { StudioArticlesCanvas } from "./StudioArticlesCanvas";
+import { AssetsGallery } from "./AssetsGallery";
+import { ImageFloatingPanel } from "./ImageFloatingPanel";
 import { KeyboardShortcutsOverlay } from "./KeyboardShortcuts";
 import { OnboardingTour } from "./OnboardingTour";
 import { useHotkey } from "./ui";
@@ -15,6 +21,33 @@ import type { StudioState } from "./TenantStudioView";
 export function StudioShell({ state }: { state: StudioState }) {
   const studio = useStudio();
   const [helpOpen, setHelpOpen] = useState(false);
+
+  // Right panel drag state — null = anchored to right edge, {x,y} = freely floating
+  const rpDrag = useRef<{ mx: number; my: number; px: number; py: number } | null>(null);
+  const [rpPos, setRpPos] = useState<{ x: number; y: number } | null>(null);
+
+  // Reset to anchored position when section selection changes
+  useEffect(() => { setRpPos(null); }, [studio.selectedSectionId]);
+
+  function startRpDrag(e: React.PointerEvent) {
+    if ((e.target as HTMLElement).closest("button,input,select,textarea,a")) return;
+    const startX = rpPos?.x ?? Math.max(0, window.innerWidth - 264);
+    const startY = rpPos?.y ?? 44;
+    rpDrag.current = { mx: e.clientX, my: e.clientY, px: startX, py: startY };
+    e.currentTarget.setPointerCapture(e.pointerId);
+    const move = (ev: PointerEvent) => {
+      if (!rpDrag.current) return;
+      setRpPos({
+        x: Math.max(0, Math.min(window.innerWidth - 264, rpDrag.current.px + ev.clientX - rpDrag.current.mx)),
+        y: Math.max(44, Math.min(window.innerHeight - 120, rpDrag.current.py + ev.clientY - rpDrag.current.my)),
+      });
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", () => {
+      rpDrag.current = null;
+      window.removeEventListener("pointermove", move);
+    }, { once: true });
+  }
 
   useHotkey("?", () => setHelpOpen(true));
   useHotkey("P", () => studio.setLeftPanel(studio.leftPanel === "pages"    ? null : "pages"));
@@ -35,26 +68,57 @@ export function StudioShell({ state }: { state: StudioState }) {
       <StudioTopBar state={state} onHelp={() => setHelpOpen(true)} />
       <SaveErrorBanner state={state} />
 
-      <div className="flex flex-1 min-h-0">
+      <div className="relative flex flex-1 min-h-0">
         {/* Rail — always 55px, icons only, never moves */}
         <StudioLeftRail />
 
-        {/* Panel — always visible flex sibling, shows Overview or specific panel */}
-        <div className="w-[220px] shrink-0 bg-[var(--vs-bg-soft)] border-r border-[var(--vs-border)] overflow-hidden">
+        {/* Panel — scrollable, only the rail stays fixed */}
+        <div className="w-[220px] shrink-0 flex flex-col bg-[var(--vs-bg-soft)] border-r border-[var(--vs-border)] overflow-hidden">
           <StudioLeftPanel state={state} />
         </div>
 
-        {/* Canvas — always flex-1, never shrinks, template goes to right edge */}
+        {/* Canvas — always flex-1, never shrinks. Shows settings overlay when a settings view is active. */}
         <div data-tour-id="canvas" className="flex-1 min-w-0 bg-[var(--vs-bg-soft)]">
-          <StudioCanvas state={state} />
+          {studio.settingsView
+            ? <StudioSettingsCanvas state={state} />
+            : studio.leftPanel === "modules"
+            ? <StudioModulesCanvas state={state} />
+            : studio.leftPanel === "articles"
+            ? <StudioArticlesCanvas state={state} />
+            : <StudioCanvas state={state} />
+          }
         </div>
+
+        {/* Right inspector panel — anchored right OR freely draggable when moved */}
+        {studio.rightPanel && !rpPos && (
+          <div className="absolute right-0 top-0 bottom-0 w-[260px] z-[50] border-l border-[var(--vs-border)] bg-[var(--vs-bg-soft)] overflow-hidden shadow-[-4px_0_16px_rgba(0,0,0,.25)]">
+            <StudioRightPanel state={state} onStartDrag={startRpDrag} />
+          </div>
+        )}
       </div>
+
+      {/* Floating right panel (detached after first drag) */}
+      {studio.rightPanel && rpPos && (
+        <div
+          className="fixed z-[150] flex flex-col w-[260px] rounded-xl border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] shadow-[0_8px_40px_rgba(0,0,0,.5)] overflow-hidden"
+          style={{ left: rpPos.x, top: rpPos.y, maxHeight: `calc(100vh - ${rpPos.y + 16}px)` }}
+        >
+          <StudioRightPanel state={state} onStartDrag={startRpDrag} isFloating />
+        </div>
+      )}
 
       {/* Trial banner */}
       <TrialBanner />
 
       <KeyboardShortcutsOverlay open={helpOpen} onClose={() => setHelpOpen(false)} />
       <OnboardingTour tenantSlug={state.tenant.slug} />
+
+      {studio.assetsOpen && (
+        <AssetsGallery state={state} onClose={() => studio.setAssetsOpen(false)} />
+      )}
+
+      {/* Floating image inspector — rendered as portal inside shell */}
+      {studio.imagePanel && <ImageFloatingPanel state={state} />}
     </div>
   );
 }

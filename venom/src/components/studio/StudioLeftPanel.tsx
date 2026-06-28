@@ -62,8 +62,8 @@ export function StudioLeftPanel({ state }: { state: StudioState }) {
         </div>
       )}
 
-      {/* Panel content */}
-      <div className="flex-1 min-h-0">
+      {/* overflow-hidden creates a well-defined height so child panels' h-full resolves correctly */}
+      <div className="flex-1 min-h-0 overflow-hidden">
         {which === "layers"   && <LayersPanel   state={state} />}
         {which === "add"      && <AddSectionPanel state={state} />}
         {which === "pages"    && <PagesPanel    state={state} />}

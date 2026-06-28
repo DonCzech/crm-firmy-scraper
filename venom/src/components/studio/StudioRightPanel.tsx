@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type React from "react";
 import { X } from "lucide-react";
 import clsx from "clsx";
 import { useStudio } from "./StudioContext";
@@ -10,12 +11,22 @@ import { ContentInspectorTab } from "./inspector/ContentInspectorTab";
 import { StyleInspectorTab } from "./inspector/StyleInspectorTab";
 import { LayoutInspectorTab } from "./inspector/LayoutInspectorTab";
 import { CloneInspector } from "./CloneInspector";
+import { HeroInspectorPanel } from "./inspector/HeroInspectorPanel";
+import { GalleryInspectorPanel } from "./inspector/GalleryInspectorPanel";
 import { Pill, IconButton } from "./ui";
 import type { StudioState } from "./TenantStudioView";
 
 type Tab = "content" | "style" | "layout";
 
-export function StudioRightPanel({ state }: { state: StudioState }) {
+export function StudioRightPanel({
+  state,
+  onStartDrag,
+  isFloating,
+}: {
+  state: StudioState;
+  onStartDrag?: (e: React.PointerEvent<HTMLElement>) => void;
+  isFloating?: boolean;
+}) {
   const studio = useStudio();
   const [tab, setTab] = useState<Tab>("content");
   const section = state.sections.find(s => s.id === studio.selectedSectionId) ?? null;
@@ -24,7 +35,10 @@ export function StudioRightPanel({ state }: { state: StudioState }) {
 
   return (
     <div className="flex h-full flex-col vs-enter">
-      <header className="flex h-11 shrink-0 items-center gap-2 border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-3">
+      <header
+        className={`flex h-11 shrink-0 items-center gap-2 border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-3 select-none ${onStartDrag ? "cursor-grab active:cursor-grabbing" : ""}`}
+        onPointerDown={onStartDrag}
+      >
         {isClonePanel && cloneSelected ? (
           <>
             <Pill tone="accent" size="xs">{`<${cloneSelected.tag}>`}</Pill>
@@ -59,6 +73,15 @@ export function StudioRightPanel({ state }: { state: StudioState }) {
           <CloneInspector selected={cloneSelected} />
         </div>
       ) : section ? (
+        section.section_type === "hero" ? (
+          <div className="flex-1 min-h-0 overflow-hidden">
+            <HeroInspectorPanel section={section} state={state} />
+          </div>
+        ) : (section.section_type === "gallery" || Array.isArray((section.settings?.content as Record<string, unknown> | undefined)?.images)) ? (
+          <div className="flex-1 min-h-0 overflow-hidden">
+            <GalleryInspectorPanel section={section} state={state} />
+          </div>
+        ) : (
         <>
           <div className="flex shrink-0 border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-1">
             {(["content", "style", "layout"] as Tab[]).map((t) => (
@@ -86,6 +109,7 @@ export function StudioRightPanel({ state }: { state: StudioState }) {
             {tab === "layout"  && <LayoutInspectorTab  section={section} state={state} />}
           </div>
         </>
+        )
       ) : (
         <EmptySelectionState />
       )}

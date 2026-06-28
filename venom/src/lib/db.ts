@@ -408,6 +408,47 @@ export async function initDb(): Promise<void> {
     ALTER TABLE tenants ADD COLUMN IF NOT EXISTS analytics_config JSONB DEFAULT '{}';
     ALTER TABLE tenants ADD COLUMN IF NOT EXISTS search_console_verification TEXT;
     ALTER TABLE tenants ADD COLUMN IF NOT EXISTS business_name TEXT;
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS seo_default_title TEXT;
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS seo_title_prefix TEXT;
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS seo_title_suffix TEXT;
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS seo_default_description TEXT;
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS allow_indexing BOOLEAN DEFAULT true;
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS canonical_enabled BOOLEAN DEFAULT true;
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS maintenance_mode BOOLEAN DEFAULT false;
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS maintenance_message TEXT DEFAULT 'Na stránkách právě probíhá aktualizace';
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS cookie_enabled BOOLEAN DEFAULT false;
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS cookie_text TEXT;
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS cookie_show_more BOOLEAN DEFAULT true;
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS gtm_id TEXT;
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS ga_measurement_id TEXT;
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS billing_data JSONB DEFAULT '{}';
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS email_settings JSONB DEFAULT '{}';
+    ALTER TABLE tenants ADD COLUMN IF NOT EXISTS brand_data JSONB DEFAULT '{}';
+
+    CREATE TABLE IF NOT EXISTS tenant_css_classes (
+      id SERIAL PRIMARY KEY,
+      tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+      name TEXT NOT NULL,
+      css_class TEXT NOT NULL,
+      description TEXT,
+      created_at TIMESTAMPTZ DEFAULT now()
+    );
+    CREATE TABLE IF NOT EXISTS tenant_http_headers (
+      id SERIAL PRIMARY KEY,
+      tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+      name TEXT NOT NULL,
+      value TEXT NOT NULL,
+      created_at TIMESTAMPTZ DEFAULT now()
+    );
+    CREATE TABLE IF NOT EXISTS tenant_redirects (
+      id SERIAL PRIMARY KEY,
+      tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+      from_path TEXT NOT NULL,
+      to_path TEXT NOT NULL,
+      status_code INTEGER NOT NULL DEFAULT 301,
+      created_at TIMESTAMPTZ DEFAULT now()
+    );
+
     ALTER TABLE tenants ADD COLUMN IF NOT EXISTS last_activity_at TIMESTAMPTZ DEFAULT now();
     ALTER TABLE tenants ADD COLUMN IF NOT EXISTS lifecycle_status TEXT NOT NULL DEFAULT 'active';
     ALTER TABLE tenants ADD COLUMN IF NOT EXISTS deletion_scheduled_at TIMESTAMPTZ;
@@ -434,6 +475,68 @@ export async function initDb(): Promise<void> {
     ALTER TABLE templates ADD COLUMN IF NOT EXISTS last_perf_at TIMESTAMPTZ;
     ALTER TABLE templates ADD COLUMN IF NOT EXISTS last_residue_count INTEGER;
     ALTER TABLE templates ADD COLUMN IF NOT EXISTS last_residue_at TIMESTAMPTZ;
+
+    CREATE TABLE IF NOT EXISTS psi_audit_results (
+      id SERIAL PRIMARY KEY,
+      template_slug TEXT NOT NULL,
+      strategy TEXT NOT NULL CHECK (strategy IN ('desktop','mobile')),
+      score INTEGER,
+      lcp TEXT,
+      cls TEXT,
+      tbt TEXT,
+      fcp TEXT,
+      si TEXT,
+      raw_url TEXT,
+      error TEXT,
+      audited_at TIMESTAMPTZ DEFAULT now(),
+      UNIQUE (template_slug, strategy)
+    );
+  `);
+
+  // Add new columns to blog_posts if they don't exist yet
+  await pool.query(`
+    ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS annotation TEXT;
+    ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS allow_indexing BOOLEAN DEFAULT false;
+    ALTER TABLE blog_posts ADD COLUMN IF NOT EXISTS reading_time_min INTEGER;
+  `);
+
+  // Add folder column to media table
+  await pool.query(`
+    ALTER TABLE media ADD COLUMN IF NOT EXISTS folder TEXT;
+  `);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS form_leads (
+      id SERIAL PRIMARY KEY,
+      tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+      form_name TEXT,
+      data JSONB NOT NULL DEFAULT '{}',
+      source_url TEXT,
+      ip_address TEXT,
+      created_at TIMESTAMPTZ DEFAULT now()
+    );
+    CREATE TABLE IF NOT EXISTS tenant_contacts (
+      id SERIAL PRIMARY KEY,
+      tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+      first_name TEXT,
+      last_name TEXT,
+      email TEXT,
+      phone TEXT,
+      note TEXT,
+      tags TEXT[] DEFAULT '{}',
+      created_at TIMESTAMPTZ DEFAULT now()
+    );
+    CREATE TABLE IF NOT EXISTS tenant_events (
+      id SERIAL PRIMARY KEY,
+      tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+      title TEXT NOT NULL,
+      start_at TIMESTAMPTZ,
+      end_at TIMESTAMPTZ,
+      location TEXT,
+      description TEXT,
+      status TEXT DEFAULT 'draft',
+      created_at TIMESTAMPTZ DEFAULT now()
+    );
   `);
 
   await pool.query(`
@@ -658,6 +761,23 @@ export interface Tenant {
   access_token: string | null;
   analytics_config: Record<string, string> | null;
   search_console_verification: string | null;
+  business_name: string | null;
+  seo_default_title: string | null;
+  seo_title_prefix: string | null;
+  seo_title_suffix: string | null;
+  seo_default_description: string | null;
+  allow_indexing: boolean | null;
+  canonical_enabled: boolean | null;
+  maintenance_mode: boolean | null;
+  maintenance_message: string | null;
+  cookie_enabled: boolean | null;
+  cookie_text: string | null;
+  cookie_show_more: boolean | null;
+  gtm_id: string | null;
+  ga_measurement_id: string | null;
+  billing_data: Record<string, unknown> | null;
+  email_settings: Record<string, unknown> | null;
+  brand_data: Record<string, unknown> | null;
   created_at: string;
   updated_at: string;
 }
