@@ -380,7 +380,7 @@ export const asteraTemplate: TemplateDefinition = {
   demoContent: {
     siteName: "Petra Studio",
     tagline: "Profesionální demo šablona",
-    description: "Fiktivní demo obsah pro jemnou konzultační šablonu ve Venom SaaS.",
+    description: "Fiktivní demo obsah pro jemnou konzultační šablonu ve Webero.",
     seo: {
       title: demoContent.siteSettings.metaTitle,
       description: demoContent.siteSettings.metaDescription,

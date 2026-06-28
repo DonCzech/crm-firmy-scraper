@@ -1,5 +1,5 @@
 {
-  "name": "venom-saas",
+  "name": "webero",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -42,6 +42,20 @@
     "react-easy-crop": "^5.5.7",
     "sharp": "^0.34.5",
     "zod": "^3.24.2"
+  },
+  "browserslist": {
+    "production": [
+      "chrome >= 93",
+      "firefox >= 90",
+      "safari >= 15.4",
+      "edge >= 93",
+      "opera >= 79"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.0",

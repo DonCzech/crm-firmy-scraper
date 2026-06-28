@@ -1,0 +1,618 @@
+Jsi senior full-stack engineer pro projekt Venom – SaaS platformu pro tvorbu webů pro lokální podnikatele.
+
+CÍL:
+Vytvoř automatizovaný systém “Template Intelligence Lab”, který bude umět analyzovat referenční weby z různých oborů, vytěžit jejich strukturu, UX vzory, sekce, typ obsahu, barevné schéma, rozložení, mobilní chování a následně vytvořit originální Venom šablony plně kompatibilní s naším live editorem a klikacím live editorem.
+
+Důležité - udělej full scrapping - pixel perfekt. Musí to být 1:1 jak homepage, tak všechny ostatní podstránky!
+
+REFERENČNÍ WEBY K ANALÝZE:
+
+Barber shopy:
+- https://barbershopurban.cz
+- https://barbershop-buddy.cz
+- https://www.thebarber.cz/home-cs
+- https://barberpraha.online
+
+Kadeřnictví:
+- https://jarkacechova.cz
+- https://hairsalon-no1.cz/cs/domu/
+- https://www.petramechurova.cz/cs/
+- https://www.selfbeautystudio.com
+
+Masáže / wellness:
+- https://www.prahamasaze.com
+- https://anandaspa.cz
+- https://www.tawan.cz
+- https://www.escapemassage.cz
+
+Tetovací studia:
+- https://www.tribo.cz
+- https://homietattoo.cz
+- https://www.magictattoo.cz
+
+Fitness trenéři / gym:
+- https://johnreed.fitness/cz
+- https://www.maxfitness.cz
+- https://fitnessvictory.cz
+- https://lindasikorova.com
+
+Kosmetické salony:
+- https://www.yesvisage.cz
+- https://www.bomtonclinic.cz
+- https://esthesia.cz
+
+Nehtová studia:
+- https://www.maidenstudio.cz
+- https://www.celebratesalon.cz
+- https://sohosalon.cz
+
+Fyzioterapie:
+- https://fyzioklinika.cz
+- https://fyziovsem.cz
+- https://www.resetclinic.cz
+
+Restaurace:
+- https://www.ambi.cz
+- https://www.restauracehybernska.cz
+- https://www.lacasalatina.cz/cs/uvod/
+- https://www.cafesavoy.ambi.cz/
+
+Kavárny:
+- https://www.zrnozrnko.cz
+- https://www.costa-coffee.cz
+- https://www.coffeeroom.cz
+- https://www.cathedralcafe.cz
+
+Realitní kanceláře:
+- https://www.lexxusnorton.cz
+- https://www.engelvoelkers.com/cz/cs
+- https://fermakleri.cz
+- https://www.realityskutovi.cz
+- https://www.quantumreality.cz
+- https://jansrubar.cz/cs
+- https://ondrejkucera.com
+
+Autoservisy:
+- https://www.bestdrive.cz
+- https://www.autoservis-garant.cz
+- https://autoservistomas.cz
+
+Zubaři:
+- https://magicsmile.cz
+- https://usmevneboli.cz
+- https://www.svetrovnatek.cz
+- https://perfect-smile.cz
+
+Advokáti:
+- https://www.havelpartners.cz
+- https://rowan.legal
+- https://www.prkpartners.com/cs
+
+Řemeslníci:
+- https://obfacility.cz/malirske-prace/
+
+ARCHITEKTURA SYSTÉMU:
+
+Vytvoř modul:
+
+/template-intelligence-lab
+
+Musí obsahovat:
+
+1. Scraper/analyzer
+2. Industry classifier
+3. Page structure extractor
+4. Screenshot capture desktop/mobile
+5. Design token extractor
+6. Content model generator
+7. Venom template generator
+8. AI text replacement pipeline
+9. AI image replacement pipeline
+10. Live editor compatibility layer
+11. Admin review laboratory
+12. Publish-to-template workflow
+
+WORKFLOW:
+
+KROK 1 – ANALÝZA REFERENČNÍHO WEBU:
+Pro každý web proveď samostatnou analýzu.
+
+Zjisti:
+- hlavní navigaci
+- všechny veřejně dostupné podstránky
+- strukturu homepage
+- strukturu každé podstránky
+- sekce
+- CTA prvky
+- formuláře
+- ceníky
+- služby
+- galerie
+- recenze
+- kontakty
+- opening hours
+- mapy
+- rezervace
+- typografii
+- barvy
+- spacing
+- layout grid
+- animace
+- breakpointy
+- mobilní verzi
+- SEO metadata
+- schema.org struktury, pokud existují
+- OpenGraph data
+- rychlostní problémy
+- UX prvky vhodné pro daný obor
+
+Výstup ulož do JSON souboru:
+
+/template-lab/research/{industry}/{domain}/analysis.json
+
+KROK 2 – SCREENSHOTY:
+Pro každý web vytvoř screenshoty:
+- desktop homepage
+- mobile homepage
+- desktop každé důležité podstránky
+- mobile každé důležité podstránky
+
+Ulož do:
+
+/template-lab/research/{industry}/{domain}/screenshots/
+
+KROK 3 – EXTRAKCE STRUKTURY:
+udělej kompletní scrappng kodu
+
+Například:
+
+{
+  "industry": "barber",
+  "pages": [
+    {
+      "slug": "home",
+      "sections": [
+        "hero",
+        "services",
+        "pricing",
+        "team",
+        "gallery",
+        "reviews",
+        "booking",
+        "contact"
+      ]
+    }
+  ]
+}
+
+KROK 4 – GENEROVÁNÍ ORIGINÁLNÍ ŠABLONY:
+Na základě analýzy vytvoř 1:1 šablonu pro Venom
+
+KROK 5 – TEXTY:
+Pomocí OpenAI API vygeneruj originální texty pro každou šablonu.
+
+inspiruj se šablonou Petra a to tak, že tam je například "Interaktivní demo nástroj
+
+Tento blok ukazuje, jak může šablona nabídnout jednoduchý interaktivní prvek: výběr karty, krátký dotazník nebo doporučení služby."
+
+Každý textový prvek musí být napojený na live editor.
+
+KROK 6 – OBRÁZKY:
+Pomocí OpenAI Image 2:0 API - nutná verze 2:0 !! vygeneruj nebo připrav placeholder obrázky pro daný obor.
+
+Obrázky musí být:
+- originální
+- bez cizích log
+- bez reálných značek
+- tématicky odpovídající oboru
+- optimalizované do WebP/AVIF
+- responzivní
+- vyměnitelné přes live editor
+
+KROK 7 – LIVE EDITOR KOMPATIBILITA:
+Každý prvek šablony musí být editovatelný.
+
+Nutně editovatelné:
+- texty
+- nadpisy
+- podnadpisy
+- tlačítka
+- odkazy
+- obrázky
+- galerie
+- služby
+- ceníky
+- členové týmu
+- recenze
+- formuláře
+- kontakty
+- barvy
+- fonty
+- spacing
+- pozadí
+- sekce
+- pořadí sekcí
+- viditelnost sekcí
+- animace
+- SEO metadata
+- schema.org data
+
+Každý prvek musí mít unikátní editable ID.
+
+Například:
+data-editable-id="hero.title"
+data-editable-type="text"
+
+KROK 8 – LABORATOŘ:
+Vytvoř interní admin prostředí:
+
+/admin/template-lab
+
+Funkce:
+- seznam analyzovaných webů
+- stav: queued / analyzing / generated / ready-for-review / approved / published / failed
+- náhled desktop
+- náhled mobile
+- možnost otevřít v live editoru
+- možnost upravit šablonu
+- možnost schválit
+- možnost publikovat mezi veřejné šablony
+- možnost zamítnout
+- log celého procesu
+
+Běžný uživatel tyto šablony neuvidí, dokud nebudou schválené.
+
+KROK 9 – PUBLIKACE:
+Po mém manuálním schválení se šablona přesune do veřejného katalogu šablon na frontendu.
+
+Aktuální frontend běží na:
+http://localhost:3015
+
+Po publikaci musí být šablona dostupná ve výběru šablon pro uživatele.
+
+KROK 10 – POSTUPNÉ ZPRACOVÁNÍ:
+Nezpracovávej vše najednou chaoticky.
+
+Postup:
+1. Vezmi první web.
+2. Proveď analýzu a full scrapping
+3. Vytvoř z ní naší šablonu kterou vhodně pojmenuješ
+4. Vlož ji do laboratoře.
+5. Oznam, kde je uložená.
+6. Počkej na manuální schválení.
+7. Teprve potom pokračuj na další web.
+
+TECHNICKÉ POŽADAVKY:
+
+- Next.js / React kompatibilita podle aktuálního projektu
+- TypeScript
+- Tailwind CSS, pokud je v projektu
+- žádné hardcoded texty mimo template data
+- žádné inline needitovatelné prvky
+- optimalizace obrázků
+- lazy loading
+- responsive design
+- mobile-first
+- SEO metadata
+- OpenGraph
+- schema.org podle oboru
+- Lighthouse cíl: 100/100 desktop i mobile
+- žádný zbytečný JavaScript
+- server components tam, kde dávají smysl
+- SSG/ISR podle architektury projektu
+- clean component architecture
+- auditovatelné logy
+
+VÝSTUPNÍ STRUKTURA:
+
+/template-lab
+  /research
+    /{industry}
+      /{domain}
+        analysis.json
+        pages.json
+        design-tokens.json
+        content-model.json
+        seo.json
+        screenshots/
+  /generated
+    /{industry}
+      /{templateSlug}
+        template.json
+        components/
+        assets/
+        preview/
+  /approved
+  /published
+
+DATABÁZE:
+Navrhni a vytvoř tabulky podle aktuální databázové architektury projektu.
+
+Minimálně:
+- template_sources
+- template_analysis_jobs
+- template_research_snapshots
+- template_design_tokens
+- template_generated_templates
+- template_versions
+- template_review_status
+- template_publish_logs
+
+Každý template musí mít:
+- industry
+- source_reference
+- template_slug
+- status
+- preview_desktop
+- preview_mobile
+- editable_schema
+- content_schema
+- design_tokens
+- created_at
+- updated_at
+- approved_at
+- published_at
+
+ADMIN UI:
+Vytvoř profesionální UI pro /admin/template-lab:
+
+- sidebar s obory
+- tabulka webů
+- stav zpracování
+- detail analýzy
+- screenshoty
+- generated template preview
+- desktop/mobile toggle
+- open in live editor
+- approve
+- publish
+- regenerate
+- logs
+
+LIVE EDITOR:
+Zkontroluj aktuální implementaci live editoru v projektu a napoj šablony tak, aby každý prvek byl klikací a editovatelný.
+
+Pokud live editor aktuálně neumí některé typy prvků, rozšiř ho.
+
+Nutné typy editace:
+- text
+- rich text
+- image
+- link
+- button
+- color
+- font
+- spacing
+- section visibility
+- repeater list
+- gallery
+- pricing item
+- service item
+- review item
+- contact block
+- form fields
+
+SEO:
+Každá šablona musí mít:
+- title
+- description
+- H1 pouze jeden
+- správnou heading strukturu
+- canonical
+- OpenGraph
+- Twitter cards
+- schema.org LocalBusiness podle oboru
+- FAQ schema, pokud šablona obsahuje FAQ
+- Breadcrumb schema, pokud má více podstránek
+- sitemap kompatibilitu
+- robots kompatibilitu
+
+PERFORMANCE:
+Optimalizuj:
+- images
+- fonts
+- JS bundle
+- CSS
+- lazy loading
+- preloading kritických assetů
+- minimal animations
+- reduced motion support
+- CLS
+- LCP
+- INP
+
+Cíl:
+- Lighthouse Performance 100 desktop
+- Lighthouse Performance 95–100 mobile
+- SEO 100
+- Best Practices 100
+- Accessibility minimálně 95+
+
+BEZPEČNOST:
+- žádný automatický deploy bez mého schválení
+- rate limituj requesty
+- loguj chyby
+- odstraň všechny původní externí odkazy kromě neutrálních placeholderů
+
+PRVNÍ ÚKOL:
+Nejdříve projdi aktuální projekt Venom.
+
+Zjisti:
+1. framework
+2. strukturu složek
+3. live editor architekturu
+4. template systém
+5. databázové schéma
+6. admin routy
+7. frontend na localhost:3015
+8. jak se aktuálně ukládají šablony
+9. jak se publikují šablony
+10. co je potřeba doplnit
+
+Poté vytvoř implementační plán.
+
+Následně začni pilotem na prvním webu:
+
+https://barbershopurban.cz
+
+PERSISTENTNÍ PAMĚŤ WORKFLOWU (VELMI DŮLEŽITÉ):
+
+Vytvoř persistentní workflow systém, aby bylo možné pokračovat v práci i po:
+- restartu VS Code
+- otevření nového VS Code okna
+- restartu Sonnet session
+- pádu procesu
+- změně chatu
+- změně AI modelu
+- přerušení práce
+
+Systém musí vždy přesně vědět:
+- kde skončil
+- co už bylo hotové
+- co čeká na schválení
+- co se právě generuje
+- co selhalo
+- jaký byl poslední krok
+- jaké soubory byly vytvořené
+- jaké API kroky byly dokončené
+- jaký web je právě ve zpracování
+- jaká šablona je rozpracovaná
+- jaký je další krok
+
+Vytvoř persistentní storage:
+
+/template-lab/system/
+
+Povinné soubory:
+
+workflow-state.json
+jobs.json
+template-queue.json
+current-task.json
+completed-tasks.json
+failed-tasks.json
+review-queue.json
+publish-queue.json
+session-memory.md
+progress-log.md
+
+workflow-state.json musí obsahovat například:
+
+{
+  "currentIndustry": "barber",
+  "currentWebsite": "https://barbershopurban.cz",
+  "currentStage": "template_generation",
+  "status": "ready-for-review",
+  "lastCompletedStep": "mobile_template_generated",
+  "nextStep": "waiting_for_manual_review",
+  "generatedFiles": [],
+  "startedAt": "",
+  "updatedAt": "",
+  "requiresHumanApproval": true
+}
+
+PŘI KAŽDÉM KROKU:
+- okamžitě ulož stav
+- loguj změny
+- loguj chyby
+- loguj poslední úspěšný krok
+- loguj další plánovaný krok
+
+PŘI STARTU SYSTÉMU:
+Nejdříve:
+1. načti workflow-state.json
+2. načti queue
+3. zjisti poslední rozpracovaný task
+4. zjisti, zda čeká na review
+5. zjisti, zda je něco rozbité
+6. pokračuj přesně od posledního bezpečného checkpointu
+
+Vytvoř systém checkpointů:
+
+- scraping_completed
+- analysis_completed
+- screenshots_completed
+- content_model_completed
+- template_generated
+- desktop_completed
+- mobile_completed
+- live_editor_mapping_completed
+- seo_completed
+- performance_completed
+- ready_for_review
+- approved
+- published
+
+Každý checkpoint:
+- timestamp
+- log
+- generated files
+- duration
+- error count
+- warning count
+
+Vytvoř také:
+session-memory.md
+
+Do něj ukládej:
+- aktuální architekturu
+- důležité poznámky
+- rozhodnutí
+- pravidla
+- naming conventions
+- editor conventions
+- databázové vazby
+- TODO
+- known issues
+- performance issues
+- pending reviews
+
+Tento soubor musí být napsaný tak, aby když otevřu nové VS Code okno a napíšu:
+“pokračuj”
+
+tak Sonnet okamžitě pochopil:
+- stav projektu
+- kde skončil
+- co má dělat dál
+- co nesmí rozbít
+- co čeká na schválení
+
+DŮLEŽITÉ:
+Nikdy nezačínej znovu od začátku, pokud existuje uložený workflow state.
+
+Nejdříve vždy:
+- obnov session state
+- obnov queue
+- obnov checkpoints
+- obnov pending review items
+- až poté pokračuj.
+
+Pokud dojde k chybě:
+- zapiš detailní error log
+- zapiš stack trace
+- označ task jako failed
+- neukončuj celý systém
+- pokračuj dalším bezpečným krokem nebo čekej na manuální zásah
+
+Vytvoř také:
+RECOVERY MODE
+
+Pokud systém detekuje:
+- poškozený state
+- nekompletní template
+- chybějící assety
+- nedokončené generování
+- nedokončené API volání
+
+tak:
+1. oprav poslední bezpečný checkpoint
+2. obnov konzistenci dat
+3. pokračuj bez ztráty práce
+
+V adminu vytvoř:
+“Resume last session”
+“Recover failed task”
+“Open latest generated template”
+“Continue processing”
+
+Celý systém musí fungovat jako dlouhodobá produkční pipeline, ne jako jednorázový script.

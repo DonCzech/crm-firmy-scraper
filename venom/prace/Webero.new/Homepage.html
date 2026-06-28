@@ -1,0 +1,1555 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1280" />
+<title>Webero — Profesionální web bez programování</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* =========================================================
+   Webero — Homepage redesign
+   Design tokens
+   ========================================================= */
+:root{
+  --bg:           #FBFBF9;          /* near-white page background, very subtle warm tint */
+  --bg-soft:      #ECF5EC;          /* mint-tinted panel */
+  --bg-lavender:  #EDE9F7;          /* footer CTA panel */
+  --surface:      #FFFFFF;
+  --ink:          #0F1B14;          /* near-black, slight green */
+  --ink-2:        #2A3A30;
+  --muted:        #6B7B72;
+  --line:         #EAEAE4;
+  --line-2:       #F0F0EB;
+
+  --brand:        #1FAE5E;          /* primary green */
+  --brand-600:    #18A055;
+  --brand-700:    #128A47;
+  --brand-50:     #E6F6EC;
+  --brand-100:    #D4EFDD;
+
+  --radius-sm:    10px;
+  --radius:       14px;
+  --radius-lg:    20px;
+  --radius-xl:    28px;
+
+  --shadow-sm:    0 1px 2px rgba(15,27,20,.04), 0 1px 1px rgba(15,27,20,.03);
+  --shadow:       0 8px 24px -12px rgba(15,27,20,.18), 0 2px 6px rgba(15,27,20,.05);
+  --shadow-lg:    0 30px 60px -30px rgba(15,27,20,.25), 0 10px 24px -12px rgba(15,27,20,.10);
+
+  --container:    1180px;
+  --font:         "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono:         "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+html,body{ margin:0; padding:0; }
+body{
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img{ max-width:100%; display:block; }
+button{ font-family: inherit; cursor: pointer; border: 0; background: none; }
+a{ color: inherit; text-decoration: none; }
+
+.container{
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* =========================================================
+   Buttons & shared atoms
+   ========================================================= */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  height: 46px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14.5px;
+  letter-spacing: -0.005em;
+  transition: transform .15s ease, background .15s ease, box-shadow .15s ease, color .15s ease, border-color .15s ease;
+  white-space: nowrap;
+}
+.btn-primary{
+  background: var(--brand);
+  color: #fff;
+  box-shadow: 0 6px 16px -6px rgba(31,174,94,.55);
+}
+.btn-primary:hover{ background: var(--brand-600); transform: translateY(-1px); }
+.btn-ghost{
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.btn-ghost:hover{ border-color: var(--ink-2); }
+.btn-white{
+  background:#fff;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+.btn-white:hover{ border-color: var(--ink-2); }
+.btn-sm{ height: 38px; padding: 0 16px; font-size: 13.5px; }
+
+.eyebrow{
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand-700);
+  font-weight: 500;
+}
+
+.section-title{
+  font-size: 38px;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  margin: 0 0 10px;
+  text-wrap: balance;
+}
+.section-sub{
+  color: var(--muted);
+  font-size: 15.5px;
+  max-width: 640px;
+  margin: 0 auto 36px;
+  text-align: center;
+  text-wrap: pretty;
+}
+.section-head{ text-align: center; margin-bottom: 34px; }
+
+/* =========================================================
+   Header
+   ========================================================= */
+.site-header{
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: saturate(180%) blur(10px);
+  background: rgba(251,251,249,0.82);
+  border-bottom: 1px solid rgba(234,234,228,0.7);
+}
+.header-inner{
+  display: flex; align-items: center; justify-content: space-between;
+  height: 76px;
+}
+.brand{
+  display:inline-flex; align-items:center; gap: 8px;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+.brand .logo-mark{
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  background: var(--brand);
+  display:inline-grid; place-items:center;
+  color: #fff;
+  box-shadow: 0 4px 12px -4px rgba(31,174,94,.55);
+}
+.brand .logo-mark svg{ width: 16px; height: 16px; }
+.nav{ display:flex; align-items:center; gap: 30px; }
+.nav a{
+  color: var(--ink-2);
+  font-size: 14.5px;
+  font-weight: 500;
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+  transition: color .15s ease, border-color .15s ease;
+}
+.nav a:hover{ color: var(--ink); border-bottom-color: var(--brand); }
+.header-cta{ display:flex; align-items:center; gap: 18px; }
+.header-cta .login{
+  font-weight: 500;
+  font-size: 14.5px;
+  color: var(--ink-2);
+}
+.header-cta .login:hover{ color: var(--ink); }
+
+/* =========================================================
+   Hero
+   ========================================================= */
+.hero{ padding: 56px 0 64px; position: relative; }
+.hero-grid{
+  display: grid;
+  grid-template-columns: 1.05fr 1.25fr;
+  gap: 56px;
+  align-items: center;
+}
+.hero h1{
+  font-size: 56px;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+  margin: 8px 0 22px;
+  text-wrap: balance;
+}
+.hero h1 .accent{ color: var(--brand); }
+.hero p.lede{
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.65;
+  max-width: 460px;
+  margin: 0 0 30px;
+}
+.hero-actions{ display:flex; gap: 12px; }
+
+.hero-visual{
+  position: relative;
+  filter: drop-shadow(0 30px 60px rgba(15,27,20,.10));
+}
+.hero-mockup{
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid var(--line-2);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.hero-mockup .topbar{
+  display:flex; align-items:center; gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line-2);
+  background: #fff;
+}
+.hero-mockup .topbar .brand-sm{
+  display:inline-flex; align-items:center; gap: 6px;
+  font-weight: 700; font-size: 14px; letter-spacing: -0.02em;
+}
+.hero-mockup .topbar .brand-sm .dot{
+  width: 16px; height: 16px; border-radius: 5px; background: var(--brand);
+}
+.hero-mockup .topbar .crumb{
+  color: var(--muted); font-size: 12px;
+}
+.hero-mockup .topbar .icons{
+  margin-left: auto; display:flex; align-items:center; gap: 10px;
+  color: var(--muted);
+}
+.hero-mockup .topbar .icons svg{ width: 16px; height: 16px; }
+.hero-mockup .topbar .pub{
+  margin-left: 6px;
+  background: var(--brand); color:#fff;
+  font-size: 11.5px; font-weight: 600;
+  padding: 6px 10px; border-radius: 8px;
+}
+
+.hero-mockup .body{
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  min-height: 320px;
+}
+.hero-mockup .side{
+  border-right: 1px solid var(--line-2);
+  padding: 14px 12px;
+  display:flex; flex-direction: column; gap: 4px;
+  background: #fff;
+}
+.hero-mockup .side .item{
+  display:flex; align-items:center; gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.hero-mockup .side .item.active{ background: var(--bg); color: var(--ink); font-weight: 600; }
+.hero-mockup .side .item svg{ width: 14px; height: 14px; color: var(--muted); }
+
+.hero-mockup .canvas{
+  position: relative;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0) 30%),
+    #F2EEE6;
+  padding: 16px;
+}
+.hero-mockup .canvas .photo{
+  position: relative;
+  height: 240px;
+  border-radius: 10px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 80% 30%, #f3e3d3 0%, #d9b291 45%, #8c6b53 100%);
+}
+.hero-mockup .canvas .photo::after{
+  content: "";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(60% 50% at 30% 60%, rgba(255,255,255,0.55), rgba(255,255,255,0) 60%),
+    radial-gradient(40% 30% at 70% 40%, rgba(0,0,0,0.18), rgba(0,0,0,0) 60%);
+}
+.hero-mockup .canvas .overlay{
+  position: absolute;
+  left: 30px; top: 50px;
+  color: #fff;
+  text-shadow: 0 1px 12px rgba(0,0,0,.25);
+  max-width: 260px;
+}
+.hero-mockup .canvas .overlay .ttl{
+  font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15;
+}
+.hero-mockup .canvas .overlay .btn-rsv{
+  display:inline-block;
+  margin-top: 14px;
+  background: rgba(255,255,255,0.92); color: var(--ink);
+  font-size: 12px; font-weight: 600;
+  padding: 8px 12px; border-radius: 8px;
+}
+.hero-mockup .canvas .tray{
+  margin-top: 12px;
+  display:flex; align-items:center; gap: 14px;
+  color: var(--muted);
+}
+.hero-mockup .canvas .tray svg{ width: 16px; height: 16px; }
+
+/* PageSpeed badge */
+.hero-badge{
+  position: absolute;
+  right: -10px;
+  bottom: -34px;
+  background: #fff;
+  border: 1px solid var(--line-2);
+  border-radius: 16px;
+  padding: 14px 16px 14px 14px;
+  box-shadow: var(--shadow-lg);
+  display:flex; flex-direction: column; gap: 6px;
+  width: 230px;
+}
+.hero-badge .h{
+  display:flex; align-items:center; gap: 6px;
+  font-size: 12px; color: var(--muted); font-weight: 500;
+}
+.hero-badge .h::before{
+  content: ""; width: 8px; height: 8px; border-radius:50%; background: var(--brand);
+  box-shadow: 0 0 0 3px rgba(31,174,94,.18);
+}
+.hero-badge .ring{
+  display:flex; align-items:center; gap: 14px;
+  padding: 6px 0 4px;
+}
+.hero-badge .ring svg{ width: 76px; height: 76px; }
+.hero-badge .ring .val{
+  font-size: 28px; font-weight: 700; letter-spacing: -0.02em;
+}
+.hero-badge .ring .val small{ color: var(--muted); font-size: 13px; font-weight: 500; }
+.hero-badge .rows{
+  border-top: 1px dashed var(--line);
+  padding-top: 10px;
+  display: grid; gap: 4px;
+  font-size: 12px;
+}
+.hero-badge .rows .row{ display:flex; justify-content: space-between; color: var(--ink-2); }
+.hero-badge .rows .row b{ color: var(--ink); font-weight: 600; }
+
+/* =========================================================
+   Stats strip (4 mini-cards)
+   ========================================================= */
+.stats{ padding: 24px 0 8px; }
+.stats-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.stat{
+  display:flex; align-items:center; gap: 14px;
+  padding: 18px 20px;
+  background: transparent;
+  border-bottom: 1px solid var(--line);
+}
+.stat .ic{
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: var(--brand-50);
+  color: var(--brand-700);
+  display:grid; place-items:center;
+  flex: 0 0 auto;
+}
+.stat .ic svg{ width: 18px; height: 18px; }
+.stat .lbl{ font-size: 14.5px; font-weight: 600; color: var(--ink); line-height: 1.2; }
+.stat .sub{ font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+
+/* =========================================================
+   Feature row (4 cards)
+   ========================================================= */
+.features{ padding: 56px 0 24px; }
+.features-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+.feature{
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: var(--shadow-sm);
+}
+.feature .ic{
+  width: 36px; height: 36px;
+  display:grid; place-items:center;
+  border-radius: 10px;
+  background: var(--brand-50);
+  color: var(--brand-700);
+  margin-bottom: 14px;
+}
+.feature .ic svg{ width: 18px; height: 18px; }
+.feature h3{ font-size: 16px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.015em; }
+.feature p{ color: var(--muted); font-size: 13.5px; line-height: 1.55; margin: 0; }
+
+/* =========================================================
+   Templates section
+   ========================================================= */
+.templates{ padding: 64px 0; }
+.tabs{
+  display:flex; justify-content:center; gap: 8px;
+  margin-bottom: 28px;
+}
+.tab{
+  padding: 9px 18px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink-2);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.tab:hover{ background: rgba(0,0,0,0.04); }
+.tab.is-active{
+  background: var(--brand);
+  color: #fff;
+}
+.templates-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.tmpl{
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.tmpl:hover{ transform: translateY(-2px); box-shadow: var(--shadow); }
+.tmpl .thumb{
+  position: relative;
+  aspect-ratio: 16/9;
+  background: #d8d3c8;
+  overflow: hidden;
+}
+.tmpl .thumb .tag{
+  position: absolute; top: 12px; right: 12px;
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.9);
+  display:grid; place-items:center;
+  color: var(--brand-700);
+  backdrop-filter: blur(4px);
+}
+.tmpl .thumb .tag svg{ width: 14px; height: 14px; }
+.tmpl .body{ padding: 16px 18px 18px; }
+.tmpl h4{ margin: 0 0 4px; font-size: 16px; font-weight: 600; letter-spacing: -0.015em; }
+.tmpl p{ margin: 0; color: var(--muted); font-size: 13px; }
+
+/* Thumbnail "photo" placeholders - subtle gradients evoking each category */
+.thumb-barber{ background:
+  radial-gradient(80% 60% at 30% 30%, #4a3a30 0%, #221915 60%, #110b08 100%); }
+.thumb-wellness{ background:
+  radial-gradient(80% 60% at 50% 40%, #f1d6c2 0%, #d9a98a 60%, #8b5a3c 100%); }
+.thumb-law{ background:
+  radial-gradient(80% 60% at 50% 50%, #d6cebc 0%, #aea48b 55%, #6c6450 100%); }
+.thumb-realestate{ background:
+  linear-gradient(180deg, #97a6ad 0%, #7a8a91 100%); }
+.thumb-resto{ background:
+  radial-gradient(80% 60% at 50% 50%, #4f3324 0%, #2b1a11 60%, #150b06 100%); }
+.thumb-coach{ background:
+  radial-gradient(80% 60% at 50% 40%, #efe1c8 0%, #c9a577 60%, #6b4a26 100%); }
+.thumb::after{
+  content:"";
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(70% 50% at 30% 70%, rgba(255,255,255,0.18), rgba(255,255,255,0) 60%),
+    radial-gradient(60% 40% at 70% 30%, rgba(0,0,0,0.18), rgba(0,0,0,0) 60%);
+  pointer-events: none;
+}
+
+.templates-cta{ display:flex; justify-content:center; margin-top: 28px; }
+
+/* =========================================================
+   Live editor showcase
+   ========================================================= */
+.editor-block{
+  background: var(--bg-soft);
+  border-radius: var(--radius-xl);
+  padding: 56px 48px;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 48px;
+  align-items: center;
+  margin: 36px 0;
+}
+.editor-block .eyebrow{ display:block; margin-bottom: 10px; }
+.editor-block h2{
+  font-size: 38px; line-height: 1.08; letter-spacing: -0.03em; font-weight: 700;
+  margin: 0 0 14px;
+}
+.editor-block p.lede{
+  color: var(--muted); font-size: 15px; line-height: 1.65; margin: 0 0 22px; max-width: 420px;
+}
+.bullets{ list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.bullets li{
+  display:flex; align-items: flex-start; gap: 12px;
+  font-size: 14px; color: var(--ink-2);
+}
+.bullets li .chk{
+  width: 22px; height: 22px; border-radius: 7px;
+  background: var(--brand-50); color: var(--brand-700);
+  display:grid; place-items:center; flex: 0 0 auto;
+  margin-top: 1px;
+}
+.bullets li .chk svg{ width: 12px; height: 12px; }
+
+/* Editor mock */
+.editor-mock{
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid var(--line-2);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+.editor-mock .topbar{
+  display:flex; align-items:center; gap: 10px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line-2);
+}
+.editor-mock .topbar .brand-sm{
+  display:inline-flex; align-items:center; gap: 6px;
+  font-weight: 700; font-size: 14px; letter-spacing: -0.02em;
+}
+.editor-mock .topbar .brand-sm .dot{ width: 16px; height: 16px; border-radius: 5px; background: var(--brand); }
+.editor-mock .topbar .crumb{ color: var(--muted); font-size: 12px; }
+.editor-mock .topbar .icons{ margin-left: auto; display:flex; gap: 10px; color: var(--muted); }
+.editor-mock .topbar .icons svg{ width: 16px; height: 16px; }
+.editor-mock .topbar .pub{
+  background: var(--brand); color:#fff; font-size: 11.5px; font-weight: 600;
+  padding: 6px 10px; border-radius: 8px; margin-left: 6px;
+}
+
+.editor-mock .grid{
+  display: grid;
+  grid-template-columns: 150px 1fr 170px;
+  min-height: 360px;
+}
+.editor-mock .panel{
+  padding: 14px 12px;
+  display:flex; flex-direction: column; gap: 4px;
+  border-right: 1px solid var(--line-2);
+}
+.editor-mock .panel.right{ border-right: 0; border-left: 1px solid var(--line-2); }
+.editor-mock .panel .row{
+  display:flex; align-items: center; gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+}
+.editor-mock .panel .row svg{ width: 14px; height: 14px; color: var(--muted); }
+.editor-mock .panel .row.active{ background: var(--bg); color: var(--ink); font-weight: 600; }
+.editor-mock .panel .group-label{
+  font-size: 11px; color: var(--muted); margin: 10px 6px 4px;
+  text-transform: uppercase; letter-spacing: 0.1em;
+}
+.editor-mock .panel .field{
+  display:flex; align-items: center; gap: 8px;
+  margin: 6px 6px 0;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 12px;
+  color: var(--ink-2);
+  background: #fff;
+}
+.editor-mock .panel .field.flat{ border: 0; padding: 6px 6px; }
+.editor-mock .panel .field .pill{
+  width: 18px; height: 18px; border-radius: 6px;
+  background: var(--brand); margin-left: auto;
+}
+.editor-mock .panel .btn-row{
+  display:flex; gap: 6px; margin: 6px 6px 0;
+}
+.editor-mock .panel .btn-row .b{
+  flex:1; height: 30px; border-radius: 7px; border:1px solid var(--line);
+  background: #fff; font-size: 12px; font-weight: 600; color: var(--ink-2);
+  display:grid; place-items: center;
+}
+.editor-mock .panel .btn-row .b.on{ background: var(--bg); }
+
+.editor-mock .canvas{
+  background:
+    radial-gradient(120% 80% at 80% 30%, rgba(0,0,0,0.04), rgba(0,0,0,0) 30%),
+    #E9E2D2;
+  padding: 26px;
+  position: relative;
+}
+.editor-mock .canvas .scene{
+  position: relative;
+  height: 320px;
+  border-radius: 12px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, #e7dcc7 0%, #cdbf9f 100%);
+}
+.editor-mock .canvas .scene .chair{
+  position: absolute; right: 30px; bottom: 0; width: 240px; height: 250px;
+  background:
+    radial-gradient(50% 60% at 50% 50%, #b58a4e 0%, #6a4a25 80%);
+  border-radius: 50% 50% 12px 12px / 30% 30% 12px 12px;
+  filter: drop-shadow(0 18px 14px rgba(0,0,0,.2));
+}
+.editor-mock .canvas .scene .plant{
+  position: absolute; right: 280px; bottom: -10px; width: 90px; height: 200px;
+  background:
+    radial-gradient(30% 50% at 50% 30%, #3f6a3a 0%, #1f3b1f 80%);
+  border-radius: 50% 50% 12px 12px;
+}
+.editor-mock .canvas .scene .copy{
+  position: absolute; left: 28px; top: 36px; max-width: 280px;
+}
+.editor-mock .canvas .scene .copy .h{
+  font-size: 26px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; color: var(--ink);
+}
+.editor-mock .canvas .scene .copy .sub{
+  margin-top: 8px; color: var(--ink-2); font-size: 13px; max-width: 230px;
+}
+.editor-mock .canvas .scene .copy .btn-cta{
+  display:inline-block; margin-top: 16px;
+  background: var(--brand); color:#fff;
+  font-size: 12.5px; font-weight: 600;
+  padding: 9px 14px; border-radius: 999px;
+}
+.editor-mock .canvas .tray{
+  margin-top: 14px;
+  display:flex; gap: 14px; color: var(--muted);
+}
+.editor-mock .canvas .tray svg{ width: 16px; height: 16px; }
+
+/* =========================================================
+   Mini-feature ring strip
+   ========================================================= */
+.ring-strip{
+  background: var(--bg-soft);
+  border-radius: var(--radius-xl);
+  padding: 36px 28px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin: 24px 0 18px;
+}
+.ring-item{ text-align: center; padding: 12px; }
+.ring-item .ic{
+  width: 56px; height: 56px; border-radius: 16px;
+  background: #fff; color: var(--brand-700);
+  display:grid; place-items: center;
+  margin: 0 auto 14px;
+  border: 1px solid var(--line-2);
+  box-shadow: var(--shadow-sm);
+}
+.ring-item .ic svg{ width: 22px; height: 22px; }
+.ring-item h4{ font-size: 14.5px; margin: 0 0 4px; font-weight: 600; }
+.ring-item p{ font-size: 12.5px; color: var(--muted); margin: 0; line-height: 1.45; }
+
+/* Integration logos strip */
+.logos{
+  display:flex; align-items:center; justify-content:space-between;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 14px 28px;
+  margin: 18px 0 0;
+  box-shadow: var(--shadow-sm);
+}
+.logos .lbl{
+  font-size: 12.5px; color: var(--muted); font-weight: 500;
+  padding-right: 16px; border-right: 1px solid var(--line); margin-right: 6px;
+}
+.logo-item{
+  display:inline-flex; align-items:center; gap: 8px;
+  font-size: 13.5px; font-weight: 600; color: var(--ink-2);
+  opacity: 0.85;
+}
+.logo-item svg{ width: 18px; height: 18px; }
+.logo-item .swatch{ width: 18px; height: 18px; border-radius: 4px; }
+
+/* =========================================================
+   Pricing
+   ========================================================= */
+.pricing{ padding: 64px 0 32px; }
+.pricing-grid{
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 26px;
+  align-items: stretch;
+}
+.price-card{
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 28px 28px 24px;
+  box-shadow: var(--shadow-sm);
+}
+.price-card .ribbon{
+  position: absolute; top: -10px; left: 22px;
+  background: var(--brand-50); color: var(--brand-700);
+  font-family: var(--mono);
+  font-size: 10.5px; font-weight: 600; letter-spacing: 0.12em;
+  padding: 5px 10px; border-radius: 6px;
+  text-transform: uppercase;
+}
+.price-card h3{
+  margin: 6px 0 4px; font-size: 17px; font-weight: 600; letter-spacing: -0.01em;
+}
+.price-card .price{
+  display:flex; align-items: baseline; gap: 8px;
+  margin: 6px 0 4px;
+}
+.price-card .price .amt{ font-size: 52px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
+.price-card .price .per{ color: var(--muted); font-size: 14px; }
+.price-card .desc{ color: var(--muted); font-size: 13.5px; margin: 0 0 18px; }
+.price-card .features{
+  list-style: none; padding: 0; margin: 0 0 22px;
+  display: grid; gap: 10px;
+  padding: 0;
+}
+.price-card .features li{
+  display:flex; align-items: center; gap: 10px;
+  font-size: 13.5px; color: var(--ink-2);
+}
+.price-card .features li .chk{
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--brand-50); color: var(--brand-700);
+  display:grid; place-items: center;
+  flex: 0 0 auto;
+}
+.price-card .features li .chk svg{ width: 10px; height: 10px; }
+.price-card .actions{ display:flex; flex-direction:column; gap: 8px; }
+.price-card .actions .btn{ width: 100%; }
+.price-card .note{ text-align:center; color: var(--muted); font-size: 12.5px; }
+.price-card.is-feature{ background: linear-gradient(180deg, #FFFFFF 0%, #FAFFFB 100%); }
+.price-card.alt h3{ font-size: 17px; }
+.price-card.alt .sub{ color: var(--muted); font-size: 13.5px; margin-bottom: 18px; }
+
+/* =========================================================
+   Testimonials
+   ========================================================= */
+.testimonials{ padding: 48px 0; }
+.testimonials-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.quote{
+  position: relative;
+  padding: 26px 24px 22px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.quote .mark{
+  position: absolute; left: 18px; top: 14px;
+  font-family: Georgia, serif;
+  font-size: 36px; line-height: 1; color: var(--brand);
+}
+.quote p{
+  font-size: 14px; color: var(--ink-2); margin: 22px 0 18px; line-height: 1.6;
+}
+.quote .who{ display:flex; align-items:center; gap: 12px; margin-top: 14px; }
+.quote .who .ava{
+  width: 42px; height: 42px; border-radius: 50%;
+  background: linear-gradient(135deg, #d8c5a8 0%, #a98a6a 100%);
+  flex: 0 0 auto;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px var(--line);
+}
+.quote .who .ava.b{ background: linear-gradient(135deg, #e8d3c3 0%, #c19a82 100%); }
+.quote .who .ava.c{ background: linear-gradient(135deg, #cdd5d8 0%, #8a98a0 100%); }
+.quote .who .meta .name{ font-weight: 600; font-size: 14px; }
+.quote .who .meta .role{ font-size: 12.5px; color: var(--muted); }
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+.faq{ padding: 32px 0 64px; }
+.faq-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 22px;
+}
+.faq-item{
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  display:flex; align-items:center; justify-content:space-between;
+  gap: 16px;
+  cursor: pointer;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.faq-item:hover{ border-color: var(--ink-2); }
+.faq-item .q{ font-size: 14px; font-weight: 500; }
+.faq-item .chev{
+  width: 26px; height: 26px; display:grid; place-items:center;
+  color: var(--muted);
+}
+.faq-item .chev svg{ width: 14px; height: 14px; }
+
+/* =========================================================
+   Final CTA
+   ========================================================= */
+.cta{
+  background: var(--bg-lavender);
+  border-radius: var(--radius-xl);
+  padding: 36px 40px;
+  margin: 16px 0 56px;
+  display:flex; align-items: center; justify-content: space-between;
+  gap: 30px;
+}
+.cta .left{ display:flex; align-items:center; gap: 20px; }
+.cta .badge{
+  width: 56px; height: 56px;
+  border-radius: 16px;
+  background: #fff;
+  display:grid; place-items: center;
+  color: var(--brand-700);
+  box-shadow: var(--shadow-sm);
+  flex: 0 0 auto;
+}
+.cta .badge svg{ width: 26px; height: 26px; }
+.cta h3{
+  margin: 0;
+  font-size: 24px; line-height: 1.15; letter-spacing: -0.02em; font-weight: 700;
+  max-width: 360px;
+}
+.cta p{
+  margin: 6px 0 0; color: var(--muted); font-size: 13.5px; max-width: 420px;
+}
+.cta .actions{ display:flex; gap: 10px; }
+
+/* =========================================================
+   Footer
+   ========================================================= */
+.site-footer{
+  border-top: 1px solid var(--line);
+  padding: 44px 0 26px;
+  color: var(--ink-2);
+}
+.footer-grid{
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+  gap: 24px;
+}
+.footer-col h5{
+  font-size: 13px; font-weight: 600; margin: 0 0 14px;
+  color: var(--ink);
+}
+.footer-col ul{ list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.footer-col a{ color: var(--muted); font-size: 13px; }
+.footer-col a:hover{ color: var(--ink); }
+.footer-brand p{ color: var(--muted); font-size: 13px; margin: 12px 0 16px; max-width: 240px; }
+.socials{ display:flex; gap: 10px; }
+.socials a{
+  width: 30px; height: 30px; border-radius: 8px;
+  background: #fff; border: 1px solid var(--line);
+  display:grid; place-items:center; color: var(--ink-2);
+}
+.socials a:hover{ border-color: var(--ink-2); }
+.socials svg{ width: 14px; height: 14px; }
+.footer-bottom{
+  margin-top: 32px; padding-top: 18px;
+  border-top: 1px solid var(--line);
+  display:flex; justify-content: space-between; align-items:center;
+  font-size: 12.5px; color: var(--muted);
+}
+.footer-bottom .meta{ display:flex; align-items:center; gap: 16px; }
+.flag{
+  width: 22px; height: 14px; border-radius: 2px;
+  background:
+    linear-gradient(180deg, #fff 0% 50%, #D7141A 50% 100%);
+  position: relative; overflow: hidden;
+  border: 1px solid rgba(0,0,0,.08);
+}
+.flag::before{
+  content: ""; position: absolute; left:0; top:0; bottom: 0;
+  width: 40%;
+  background: #11457E;
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+</style>
+</head>
+<body>
+
+<!-- ====================================================================
+     HEADER
+     ==================================================================== -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#" class="brand" aria-label="Webero">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 7l3 10 3-7 3 7 3-10" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span>webero</span>
+    </a>
+    <nav class="nav" aria-label="Hlavní">
+      <a href="Funkce.html">Funkce</a>
+      <a href="Sablony.html">Šablony</a>
+      <a href="Integrace.html">Integrace</a>
+      <a href="Cenik.html">Ceník</a>
+      <a href="Reference.html">Reference</a>
+      <a href="Podpora.html">Podpora</a>
+    </nav>
+    <div class="header-cta">
+      <a href="#" class="login">Přihlásit se</a>
+      <a href="#" class="btn btn-primary">Vyzkoušet zdarma</a>
+    </div>
+  </div>
+</header>
+
+<!-- ====================================================================
+     HERO
+     ==================================================================== -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <h1>
+        Profesionální web<br/>
+        bez programování.<br/>
+        <span class="accent">Rychlý, přehledný</span><br/>
+        <span class="accent">a připravený růst.</span>
+      </h1>
+      <p class="lede">
+        Vytvořte moderní web během pár minut. S live editorem,
+        profesionálními šablonami, špičkovým výkonem
+        a napojením na doplňky jako Rezora.
+      </p>
+      <div class="hero-actions">
+        <a href="#" class="btn btn-primary">Vyzkoušet zdarma</a>
+        <a href="Sablony.html" class="btn btn-ghost">Prohlédnout šablony</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-mockup" aria-hidden="true">
+        <div class="topbar">
+          <span class="brand-sm"><span class="dot"></span> webero</span>
+          <span class="crumb">/Wellness</span>
+          <span class="icons">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="3" width="12" height="18" rx="2"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 12l5 5L20 7"/></svg>
+            <span class="pub">Publikovat</span>
+          </span>
+        </div>
+        <div class="body">
+          <aside class="side">
+            <div class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M4 12h10M4 17h16"/></svg>
+              Text
+            </div>
+            <div class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/></svg>
+              Obrázek
+            </div>
+            <div class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 10h16"/></svg>
+              Tlačítko
+            </div>
+            <div class="item active">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
+              Sekce
+            </div>
+            <div class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 12l4 4 12-12"/></svg>
+              Rozdělovač
+            </div>
+            <div class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="6" width="16" height="4" rx="1"/><rect x="4" y="14" width="10" height="4" rx="1"/></svg>
+              Formulář
+            </div>
+            <div class="item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="6" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="18" cy="12" r="1.5"/></svg>
+              Více
+            </div>
+          </aside>
+          <div class="canvas">
+            <div class="photo"></div>
+            <div class="overlay">
+              <div class="ttl">Dopřejte si čas<br/>jen pro sebe</div>
+              <a href="#" class="btn-rsv">Rezervovat nyní</a>
+            </div>
+            <div class="tray">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 18l-6-6 6-6"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M15 18l6-6-6-6"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M4 12h10"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v16M4 12h16"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-badge" aria-label="Výkon webu 99/100">
+        <div class="h">Výkon webu</div>
+        <div class="ring">
+          <svg viewBox="0 0 80 80">
+            <circle cx="40" cy="40" r="32" fill="none" stroke="#E6F6EC" stroke-width="8"/>
+            <circle cx="40" cy="40" r="32" fill="none" stroke="#1FAE5E" stroke-width="8"
+                    stroke-dasharray="201" stroke-dashoffset="2" stroke-linecap="round"
+                    transform="rotate(-90 40 40)"/>
+          </svg>
+          <div class="val">99<small>/100</small></div>
+        </div>
+        <div class="rows">
+          <div class="row"><span>Performance</span><b>99</b></div>
+          <div class="row"><span>Accessibility</span><b>95</b></div>
+          <div class="row"><span>Best Practices</span><b>100</b></div>
+          <div class="row"><span>SEO</span><b>99</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     STATS STRIP
+     ==================================================================== -->
+<section class="stats">
+  <div class="container stats-grid">
+    <div class="stat">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l-6-6 6-6M15 6l6 6-6 6"/></svg></div>
+      <div><div class="lbl">Bez kódu</div><div class="sub">Tvořte snadno</div></div>
+    </div>
+    <div class="stat">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.5 8.5 0 1 1-3.5-6.9M22 4l-8.5 8.5L10 9"/></svg></div>
+      <div><div class="lbl">Česká podpora</div><div class="sub">Jsme tu pro vás</div></div>
+    </div>
+    <div class="stat">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></div>
+      <div><div class="lbl">99/100</div><div class="sub">Google PageSpeed</div></div>
+    </div>
+    <div class="stat">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21V10l9-6 9 6v11M9 21v-7h6v7"/></svg></div>
+      <div><div class="lbl">Hosting v EU</div><div class="sub">Bezpečný a spolehlivý</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     FEATURE ROW
+     ==================================================================== -->
+<section class="features" id="funkce">
+  <div class="container features-grid">
+    <article class="feature">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div>
+      <h3>Live editor bez omezení</h3>
+      <p>Upravujte texty, obrázky i sekce přímo na stránce. Přesné tak, jak to vidíte.</p>
+    </article>
+    <article class="feature">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+      <h3>Šablony pro každý obor</h3>
+      <p>Vyberte z více než 100 profesionálních šablon a přizpůsobte si je.</p>
+    </article>
+    <article class="feature">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h3l2-7 4 14 2-7h7"/></svg></div>
+      <h3>Výkon a SEO na prvním místě</h3>
+      <p>Google PageSpeed 99/100, rychlý hosting v EU a nástroje, které vám pomáhají růst.</p>
+    </article>
+    <article class="feature">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 11.5a8.5 8.5 0 11-7.3-7.3M14 4a6 6 0 016 6"/></svg></div>
+      <h3>Napojení na doplňky</h3>
+      <p>Snadno propojte Rezora, formuláře, analytiku, blog a další služby.</p>
+    </article>
+  </div>
+</section>
+
+<!-- ====================================================================
+     TEMPLATES
+     ==================================================================== -->
+<section class="templates" id="sablony">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Více než 100 profesionálních šablon</h2>
+      <p class="section-sub">Moderní, responzivní a připravené k úpravám. Vyberte si tu pravou pro váš projekt.</p>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab is-active">Všechny</button>
+      <button class="tab">Byznys</button>
+      <button class="tab">Služby</button>
+      <button class="tab">Zdraví a krása</button>
+      <button class="tab">Gastronomie</button>
+      <button class="tab">Osobní</button>
+      <button class="tab">Reality</button>
+      <button class="tab">Ostatní</button>
+    </div>
+
+    <div class="templates-grid">
+      <article class="tmpl">
+        <div class="thumb thumb-barber">
+          <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l5 5L20 7"/></svg></span>
+        </div>
+        <div class="body">
+          <h4>Barber &amp; Salon</h4>
+          <p>Elegantní styl pro moderní salony a holičství.</p>
+        </div>
+      </article>
+      <article class="tmpl">
+        <div class="thumb thumb-wellness">
+          <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l5 5L20 7"/></svg></span>
+        </div>
+        <div class="body">
+          <h4>Wellness &amp; Masáže</h4>
+          <p>Klidné a harmonické šablony pro wellness a masážní služby.</p>
+        </div>
+      </article>
+      <article class="tmpl">
+        <div class="thumb thumb-law">
+          <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l5 5L20 7"/></svg></span>
+        </div>
+        <div class="body">
+          <h4>Advokát &amp; Poradce</h4>
+          <p>Důstojný a profesionální vzhled pro právníky a poradce.</p>
+        </div>
+      </article>
+      <article class="tmpl">
+        <div class="thumb thumb-realestate">
+          <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l5 5L20 7"/></svg></span>
+        </div>
+        <div class="body">
+          <h4>Reality &amp; Developer</h4>
+          <p>Prezentujte nemovitosti přehledně a atraktivně.</p>
+        </div>
+      </article>
+      <article class="tmpl">
+        <div class="thumb thumb-resto">
+          <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l5 5L20 7"/></svg></span>
+        </div>
+        <div class="body">
+          <h4>Restaurace &amp; Kavárna</h4>
+          <p>Lákavé šablony pro restaurace, kavárny a bistra.</p>
+        </div>
+      </article>
+      <article class="tmpl">
+        <div class="thumb thumb-coach">
+          <span class="tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12l5 5L20 7"/></svg></span>
+        </div>
+        <div class="body">
+          <h4>Osobní značka / Kouč</h4>
+          <p>Budujte svou značku a oslovte správné publikum.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="templates-cta">
+      <a href="Sablony.html" class="btn btn-white">Prohlédnout všechny šablony</a>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     LIVE EDITOR
+     ==================================================================== -->
+<section class="container">
+  <div class="editor-block">
+    <div>
+      <span class="eyebrow">Live editor</span>
+      <h2>Tvořte přesně tak,<br/>jak chcete</h2>
+      <p class="lede">Náš live editor vám dává naprostou svobodu. Bez kódu, bez omezení.</p>
+      <ul class="bullets">
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Drag &amp; Drop — přetahujte prvky jednoduše</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Klikněte a upravte — texty, obrázky, barvy</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Responzivní náhled pro mobil, tablet i desktop</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Sekce, rozložení, typografie, galerie a další</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Rychlé úpravy a okamžité výsledky</li>
+      </ul>
+    </div>
+
+    <div class="editor-mock" aria-hidden="true">
+      <div class="topbar">
+        <span class="brand-sm"><span class="dot"></span> webero</span>
+        <span class="crumb">/Hlavní</span>
+        <span class="icons" style="display:flex; align-items:center; gap:10px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="3" width="12" height="18" rx="2"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 11l3 3L22 4"/></svg>
+          <span class="pub">Publikovat</span>
+        </span>
+      </div>
+
+      <div class="grid">
+        <aside class="panel">
+          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M4 12h10M4 17h16"/></svg>Text</div>
+          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/></svg>Obrázek</div>
+          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 10h16"/></svg>Tlačítko</div>
+          <div class="row active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="5" width="18" height="14" rx="2"/></svg>Sekce</div>
+          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M5 8l4 4-4 4M13 6l6 6-6 6"/></svg>Rozdělovač</div>
+          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="6" width="16" height="4" rx="1"/><rect x="4" y="14" width="10" height="4" rx="1"/></svg>Formulář</div>
+          <div class="row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="6" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="18" cy="12" r="1.5"/></svg>Více</div>
+        </aside>
+
+        <div class="canvas">
+          <div class="scene">
+            <div class="plant"></div>
+            <div class="chair"></div>
+            <div class="copy">
+              <div class="h">Zážitky, které<br/>zůstávají</div>
+              <div class="sub">Vytváříme nezapomenutelné chvíle pro vaše klienty.</div>
+              <a href="#" class="btn-cta">Objevte více</a>
+            </div>
+          </div>
+          <div class="tray">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 18l-6-6 6-6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M15 18l6-6-6-6"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M4 12h10"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v16M4 12h16"/></svg>
+          </div>
+        </div>
+
+        <aside class="panel right">
+          <div class="group-label">Text</div>
+          <div class="field">Plyne <span style="margin-left:auto; color: var(--muted);">▾</span></div>
+          <div class="group-label">Velikost</div>
+          <div class="field">B <span style="margin-left:auto; color: var(--muted);">♪</span></div>
+          <div class="btn-row">
+            <div class="b on"><b>B</b></div>
+            <div class="b"><i>I</i></div>
+            <div class="b"><u>U</u></div>
+          </div>
+          <div class="group-label">Barva</div>
+          <div class="field flat" style="border:1px solid var(--line);"><span class="pill"></span></div>
+          <div class="group-label">Zarovnání</div>
+          <div class="btn-row">
+            <div class="b on">≡</div>
+            <div class="b">≡</div>
+            <div class="b">≡</div>
+            <div class="b">≡</div>
+          </div>
+          <div class="group-label">Mezery</div>
+          <div class="field">12 <span style="margin-left:auto; color: var(--muted);">▾</span></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     RING STRIP + LOGOS
+     ==================================================================== -->
+<section class="container" id="integrace">
+  <div class="ring-strip">
+    <div class="ring-item">
+      <div class="ic">
+        <svg viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="28" fill="none" stroke="#D4EFDD" stroke-width="7"/>
+          <circle cx="40" cy="40" r="28" fill="none" stroke="#1FAE5E" stroke-width="7"
+                  stroke-dasharray="176" stroke-dashoffset="3" stroke-linecap="round"
+                  transform="rotate(-90 40 40)"/>
+          <text x="40" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#0F1B14" font-family="Inter">99</text>
+          <text x="40" y="52" text-anchor="middle" font-size="9" fill="#6B7B72" font-family="Inter">/100</text>
+        </svg>
+      </div>
+      <h4>Google PageSpeed</h4>
+      <p>Špičkový výkon<br/>pro lepší pozice</p>
+    </div>
+    <div class="ring-item">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21V10l9-6 9 6v11M9 21v-7h6v7"/></svg></div>
+      <h4>Rychlý hosting v EU</h4>
+      <p>Výkonné servery<br/>a vysoká dostupnost</p>
+    </div>
+    <div class="ring-item">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
+      <h4>SEO nástroje</h4>
+      <p>Title, meta popisy,<br/>sitemap, 301 a další</p>
+    </div>
+    <div class="ring-item">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M11 18h2"/></svg></div>
+      <h4>Mobilní verze automaticky</h4>
+      <p>Vypadá skvěle na<br/>každém zařízení</p>
+    </div>
+    <div class="ring-item">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="9" r="3"/><circle cx="16" cy="9" r="3"/><path d="M2 20c1-3 4-5 6-5s5 2 6 5M14 20c1-3 4-5 6-5s5 2 6 5"/></svg></div>
+      <h4>Integrace</h4>
+      <p>Rezora, formuláře,<br/>analytika, blog a další</p>
+    </div>
+  </div>
+
+  <div class="logos">
+    <span class="lbl">Oblíbené integrace</span>
+    <span class="logo-item"><span class="swatch" style="background:#1FAE5E;"></span> Rezora</span>
+    <span class="logo-item">
+      <svg viewBox="0 0 24 24"><circle cx="6" cy="12" r="3" fill="#F9AB00"/><circle cx="12" cy="12" r="3" fill="#34A853"/><circle cx="18" cy="12" r="3" fill="#4285F4"/></svg>
+      Google Analytics
+    </span>
+    <span class="logo-item">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3" fill="#1877F2"/><path d="M14 8h-2c-1.5 0-2 .5-2 2v2H8v3h2v6h3v-6h2l1-3h-3v-2c0-.5.3-1 1-1h2V8z" fill="#fff"/></svg>
+      Meta Pixel
+    </span>
+    <span class="logo-item"><span class="swatch" style="background:#FFE01B; border:1px solid #d4b910;"></span> Mailchimp</span>
+    <span class="logo-item">
+      <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="3" fill="#FF0000"/><path d="M10 9.5v5L15 12z" fill="#fff"/></svg>
+      YouTube
+    </span>
+    <span class="logo-item">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M12 22s7-7.5 7-12.5a7 7 0 10-14 0C5 14.5 12 22 12 22z" fill="#34A853" stroke="#0F8E3A"/><circle cx="12" cy="9.5" r="2.5" fill="#fff"/></svg>
+      Google Maps
+    </span>
+    <span class="logo-item" style="color: var(--muted);">+ další</span>
+  </div>
+</section>
+
+<!-- ====================================================================
+     PRICING
+     ==================================================================== -->
+<section class="pricing" id="cenik">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Jednoduché a férové ceny</h2>
+      <p class="section-sub">Vše, co potřebujete pro úspěšný web. Bez skrytých poplatků.</p>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card is-feature">
+        <span class="ribbon">Nejoblíbenější</span>
+        <h3>Pronájem webu</h3>
+        <div class="price">
+          <span class="amt">500 Kč</span>
+          <span class="per">/ měsíčně</span>
+        </div>
+        <p class="desc">Vše pro váš profesionální web v jednom balíčku.</p>
+        <ul class="features">
+          <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>Live editor stránek</li>
+          <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>100+ profesionálních šablon</li>
+          <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>Rychlý hosting v EU</li>
+          <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>SSL certifikát zdarma</li>
+          <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>Základní SEO nástroje</li>
+          <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>Česká podpora</li>
+        </ul>
+        <div class="actions">
+          <a href="#" class="btn btn-primary">Vyzkoušet zdarma</a>
+          <div class="note">Bez závazků. Zrušíte kdykoli.</div>
+        </div>
+      </div>
+
+      <div class="price-card alt">
+        <h3>Doplňky a rozšíření</h3>
+        <p class="sub">Podle vašich potřeb</p>
+        <ul class="features">
+          <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>Rezora — rezervační systém</li>
+          <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>Pokročilé formuláře</li>
+          <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>Vícejazyčné verze</li>
+          <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>E-shopy a platby online</li>
+          <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg></span>Vlastní doména</li>
+        </ul>
+        <div class="actions" style="margin-top: 24px;">
+          <a href="#" class="btn btn-white">Zjistit více</a>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center; color: var(--muted); font-size: 12.5px; margin-top: 22px;">
+      Všechny ceny jsou bez DPH.
+    </p>
+  </div>
+</section>
+
+<!-- ====================================================================
+     TESTIMONIALS
+     ==================================================================== -->
+<section class="testimonials" id="reference">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Co o Webereu říkají naši zákazníci</h2>
+    </div>
+    <div class="testimonials-grid">
+      <article class="quote">
+        <span class="mark">“</span>
+        <p>Web jsem měl hotový za jeden večer. Editor je intuitivní a šablony jsou opravdu profesionální.</p>
+        <div class="who">
+          <div class="ava"></div>
+          <div class="meta"><div class="name">Jan Dvořák</div><div class="role">Majitel salonu</div></div>
+        </div>
+      </article>
+      <article class="quote">
+        <span class="mark">“</span>
+        <p>Rychlost webu je skvělá a podpora vždy rychle poradí. Rezora integrace funguje bezchybně.</p>
+        <div class="who">
+          <div class="ava b"></div>
+          <div class="meta"><div class="name">Petra Novotná</div><div class="role">Wellness centrum</div></div>
+        </div>
+      </article>
+      <article class="quote">
+        <span class="mark">“</span>
+        <p>Konečně nástroj, kde nepotřebuju programátora. Vše upravím sám během pár kliknutí.</p>
+        <div class="who">
+          <div class="ava c"></div>
+          <div class="meta"><div class="name">Tomáš K.</div><div class="role">Kouč a mentor</div></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     FAQ
+     ==================================================================== -->
+<section class="faq" id="podpora">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Často kladené dotazy</h2>
+    </div>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <span class="q">Je Webero opravdu bez programování?</span>
+        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+      </div>
+      <div class="faq-item">
+        <span class="q">Jak funguje integrace s Rezora?</span>
+        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+      </div>
+      <div class="faq-item">
+        <span class="q">Mohu si web vyzkoušet zdarma?</span>
+        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+      </div>
+      <div class="faq-item">
+        <span class="q">Je můj web optimalizovaný pro Google?</span>
+        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+      </div>
+      <div class="faq-item">
+        <span class="q">Je hosting zahrnutý v ceně?</span>
+        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+      </div>
+      <div class="faq-item">
+        <span class="q">Co když potřebuji pomoc?</span>
+        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+      </div>
+      <div class="faq-item">
+        <span class="q">Mohu připojit vlastní doménu?</span>
+        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+      </div>
+      <div class="faq-item">
+        <span class="q">Mohu kdykoli změnit nebo zrušit tarif?</span>
+        <span class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     FINAL CTA
+     ==================================================================== -->
+<section class="container">
+  <div class="cta">
+    <div class="left">
+      <div class="badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>
+      </div>
+      <div>
+        <h3>Připraveni vytvořit web,<br/>který vás posune dál?</h3>
+        <p>Vyzkoušejte Webero zdarma a přesvědčte se, jak snadné je mít profesionální web bez kompromisů.</p>
+      </div>
+    </div>
+    <div class="actions">
+      <a href="#" class="btn btn-primary">Vyzkoušet zdarma</a>
+      <a href="Sablony.html" class="btn btn-white">Prohlédnout šablony</a>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================================
+     FOOTER
+     ==================================================================== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <a href="#" class="brand">
+          <span class="logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M3 7l3 10 3-7 3 7 3-10" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span>webero</span>
+        </a>
+        <p>Moderní weby bez programování.<br/>Rychlý, jednoduché a profesionální.</p>
+        <div class="socials">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 22v-8h3l1-4h-4V7.5c0-1 .3-1.5 1.5-1.5H17V2.5c-.5-.1-1.5-.2-2.5-.2-2.5 0-4 1.5-4 4.2V10H7v4h3v8h3z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 8s-.2-1.4-.8-2c-.7-.8-1.5-.8-1.9-.8C16.4 5 12 5 12 5s-4.4 0-7.3.2c-.4 0-1.2 0-1.9.8-.6.6-.8 2-.8 2S2 9.7 2 11.4v1.2C2 14.3 2 16 2 16s.2 1.4.8 2c.7.8 1.7.8 2.1.9 1.5.1 6.4.2 6.4.2s4.4 0 7.3-.2c.4 0 1.2 0 1.9-.8.6-.6.8-2 .8-2s.2-1.7.2-3.4v-1.2C22.2 9.7 22 8 22 8zM10 14.5v-5l4.5 2.5L10 14.5z"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h4v4H4zM4 10h4v10H4zM10 10h4v1.5c.7-1 1.8-1.8 3.5-1.8 2.8 0 3.5 1.8 3.5 4.3V20h-4v-4.8c0-1.1-.4-1.8-1.4-1.8-.9 0-1.6.6-1.6 1.8V20h-4V10z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Produkt</h5>
+        <ul>
+          <li><a href="Funkce.html">Funkce</a></li>
+          <li><a href="Sablony.html">Šablony</a></li>
+          <li><a href="Integrace.html">Integrace</a></li>
+          <li><a href="Cenik.html">Ceník</a></li>
+          <li><a href="Reference.html">Reference</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Společnost</h5>
+        <ul>
+          <li><a href="#">O nás</a></li>
+          <li><a href="Reference.html">Reference</a></li>
+          <li><a href="#">Kariéra</a></li>
+          <li><a href="Podpora.html">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Podpora</h5>
+        <ul>
+          <li><a href="Podpora.html">Nápověda</a></li>
+          <li><a href="Podpora.html">Videonávody</a></li>
+          <li><a href="Podpora.html">Komunita</a></li>
+          <li><a href="Podpora.html">Stav systému</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Právní informace</h5>
+        <ul>
+          <li><a href="#">Obchodní podmínky</a></li>
+          <li><a href="#">Ochrana osobních údajů</a></li>
+          <li><a href="#">Cookies</a></li>
+          <li><a href="#">Licenční ujednání</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2025 Webero s.r.o. Všechna práva vyhrazena.</div>
+      <div class="meta">
+        <span>Český produkt</span>
+        <span>•</span>
+        <span>Podpora v češtině</span>
+        <span>•</span>
+        <span>Hosting v EU</span>
+        <span class="flag" aria-label="Čeština"></span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

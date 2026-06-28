@@ -1,6 +1,6 @@
 "use client";
 
-import { Feather, Settings2, AlignJustify, LayoutGrid, Search, Bell, Images, Layers, PlusSquare, Briefcase } from "lucide-react";
+import { Feather, Settings2, AlignJustify, LayoutGrid, Search, Bell, Images, Briefcase } from "lucide-react";
 import { useStudio, type StudioLeftPanel } from "./StudioContext";
 import { Tooltip } from "./ui";
 import clsx from "clsx";
@@ -25,8 +25,6 @@ export const RAIL_ITEMS: Array<{
   tourId: string;
   Icon: (p: IconProps) => React.ReactElement;
 }> = [
-  { id: "add",      label: "Přidat sekci", tourId: "rail-add",      Icon: ({ size, strokeWidth }) => <PlusSquare size={size} strokeWidth={strokeWidth} /> },
-  { id: "layers",   label: "Vrstvy",       tourId: "rail-layers",   Icon: ({ size, strokeWidth }) => <Layers size={size} strokeWidth={strokeWidth} /> },
   { id: "pages",    label: "Stránky",      tourId: "rail-pages",    Icon: ({ size }) => <PagesIcon size={size} /> },
   { id: "design",   label: "Design",       tourId: "rail-design",   Icon: ({ size, strokeWidth }) => <Feather size={size} strokeWidth={strokeWidth} /> },
   { id: "brand",    label: "Identita",     tourId: "rail-brand",    Icon: ({ size, strokeWidth }) => <Briefcase size={size} strokeWidth={strokeWidth} /> },
@@ -48,7 +46,8 @@ export function StudioLeftRail() {
       {/* Icons only — labels are shown in the panel area */}
       <nav className="flex flex-col items-center py-2 w-full gap-0.5">
         {RAIL_ITEMS.map((item) => {
-          const active = studio.leftPanel === item.id;
+          const isAssets = item.id === "assets";
+          const active = isAssets ? studio.assetsOpen : studio.leftPanel === item.id;
           const sw = active ? 1.8 : 1.5;
 
           return (
@@ -64,7 +63,13 @@ export function StudioLeftRail() {
                 <button
                   type="button"
                   aria-label={item.label}
-                  onClick={() => studio.setLeftPanel(active ? null : item.id)}
+                  onClick={() => {
+                    if (isAssets) {
+                      studio.setAssetsOpen(!studio.assetsOpen);
+                    } else {
+                      studio.setLeftPanel(active ? null : item.id);
+                    }
+                  }}
                   className={clsx(
                     "flex h-11 w-11 items-center justify-center rounded-xl transition-[background,color] duration-100",
                     active

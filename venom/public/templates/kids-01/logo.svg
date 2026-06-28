@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="48" viewBox="0 0 180 48" fill="none" aria-label="Demo Kroužky">
+  <!-- Tree icon -->
+  <g>
+    <polygon points="18,4 30,22 6,22" fill="#ffc107"/>
+    <polygon points="18,12 32,32 4,32" fill="#009BDE"/>
+    <rect x="15" y="32" width="6" height="8" fill="#009BDE"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="40" y="20" font-family="'Nunito','Roboto',sans-serif" font-size="11" font-weight="800" letter-spacing="2" fill="#009BDE" text-anchor="start">DEMO</text>
+  <text x="40" y="38" font-family="'Nunito','Roboto',sans-serif" font-size="16" font-weight="800" letter-spacing="-0.3" fill="#1a2d1a" text-anchor="start">Kroužky</text>
+</svg>

@@ -1,0 +1,355 @@
+{
+  "when": "2026-06-20T23:29:23.066Z",
+  "scanned": 92,
+  "withFindings": 13,
+  "totalFindings": 21,
+  "reports": [
+    {
+      "key": "bakery-01",
+      "hosts": [
+        "zrnozrnko.cz"
+      ],
+      "brands": [
+        "zrnozrnko.cz"
+      ],
+      "findings": [
+        {
+          "file": "disk:content/cs.json",
+          "findings": [
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host zrnozrnko.cz",
+              "count": 1,
+              "sample": "zrnozrnko.cz"
+            },
+            {
+              "kind": "origin-brand",
+              "desc": "Reference to original brand \"zrnozrnko.cz\"",
+              "count": 1,
+              "sample": "zrnozrnko.cz"
+            }
+          ]
+        },
+        {
+          "file": "render:bakery-01-v2",
+          "findings": [
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host zrnozrnko.cz",
+              "count": 2,
+              "sample": "zrnozrnko.cz"
+            },
+            {
+              "kind": "origin-brand",
+              "desc": "Reference to original brand \"zrnozrnko.cz\"",
+              "count": 2,
+              "sample": "zrnozrnko.cz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "beauty-01",
+      "hosts": [
+        "selfbeauty.cz"
+      ],
+      "brands": [],
+      "findings": [
+        {
+          "file": "disk:skin.css",
+          "findings": [
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host selfbeauty.cz",
+              "count": 1,
+              "sample": "selfbeauty.cz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "cafe-03",
+      "hosts": [
+        "cathedral.cz"
+      ],
+      "brands": [
+        "cathedral.cz."
+      ],
+      "findings": [
+        {
+          "file": "disk:skin.css",
+          "findings": [
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host cathedral.cz",
+              "count": 1,
+              "sample": "cathedral.cz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "dental-01",
+      "hosts": [
+        "magicsmile.cz"
+      ],
+      "brands": [
+        "magicsmile.cz."
+      ],
+      "findings": [
+        {
+          "file": "render:dental-01-v2",
+          "findings": [
+            {
+              "kind": "wordpress",
+              "desc": "WordPress artifact",
+              "count": 14,
+              "sample": "/wp-content/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fitness-01",
+      "hosts": [
+        "lindasikorova.com"
+      ],
+      "brands": [
+        "lindasikorova.com."
+      ],
+      "findings": [
+        {
+          "file": "render:fitness-01-v2",
+          "findings": [
+            {
+              "kind": "wordpress",
+              "desc": "WordPress artifact",
+              "count": 9,
+              "sample": "/wp-content/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "fyzio-01",
+      "hosts": [
+        "fyziovsem.cz"
+      ],
+      "brands": [
+        "fyziovsem.cz."
+      ],
+      "findings": [
+        {
+          "file": "render:fyzio-01-v2",
+          "findings": [
+            {
+              "kind": "wordpress",
+              "desc": "WordPress artifact",
+              "count": 4,
+              "sample": "/wp-content/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "hair-02",
+      "hosts": [
+        "hairsalon-no1.cz"
+      ],
+      "brands": [
+        "hairsalon-no1.cz."
+      ],
+      "findings": [
+        {
+          "file": "disk:content/cs.json",
+          "findings": [
+            {
+              "kind": "wordpress",
+              "desc": "WordPress artifact",
+              "count": 1,
+              "sample": "/wp-content/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "hair-04",
+      "hosts": [
+        "kim-impressive.cz"
+      ],
+      "brands": [
+        "kim-impressive.cz."
+      ],
+      "findings": [
+        {
+          "file": "disk:content/cs.json",
+          "findings": [
+            {
+              "kind": "wordpress",
+              "desc": "WordPress artifact",
+              "count": 1,
+              "sample": "/wp-content/"
+            },
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host kim-impressive.cz",
+              "count": 1,
+              "sample": "kim-impressive.cz"
+            }
+          ]
+        },
+        {
+          "file": "disk:skin.css",
+          "findings": [
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host kim-impressive.cz",
+              "count": 1,
+              "sample": "kim-impressive.cz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "hotel-01",
+      "hosts": [
+        "palacehotel.cz"
+      ],
+      "brands": [
+        "palacehotel.cz."
+      ],
+      "findings": [
+        {
+          "file": "disk:content/cs.json",
+          "findings": [
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host palacehotel.cz",
+              "count": 18,
+              "sample": "palacehotel.cz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "instala-01",
+      "hosts": [
+        "instalateritopenari.cz"
+      ],
+      "brands": [
+        "instalateritopenari.cz."
+      ],
+      "findings": [
+        {
+          "file": "render:instala-01-v2",
+          "findings": [
+            {
+              "kind": "wordpress",
+              "desc": "WordPress artifact",
+              "count": 8,
+              "sample": "/wp-content/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "massage-01",
+      "hosts": [
+        "praha-masaze.cz"
+      ],
+      "brands": [
+        "praha-masaze.cz."
+      ],
+      "findings": [
+        {
+          "file": "disk:skin.css",
+          "findings": [
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host praha-masaze.cz",
+              "count": 1,
+              "sample": "praha-masaze.cz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "solar-02",
+      "hosts": [
+        "greensie.cz"
+      ],
+      "brands": [
+        "greensie.cz."
+      ],
+      "findings": [
+        {
+          "file": "disk:content/cs.json",
+          "findings": [
+            {
+              "kind": "wordpress",
+              "desc": "WordPress artifact",
+              "count": 1,
+              "sample": "/wp-content/"
+            },
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host greensie.cz",
+              "count": 1,
+              "sample": "greensie.cz"
+            }
+          ]
+        },
+        {
+          "file": "render:solar-02-v2",
+          "findings": [
+            {
+              "kind": "wordpress",
+              "desc": "WordPress artifact",
+              "count": 2,
+              "sample": "/wp-content/"
+            },
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host greensie.cz",
+              "count": 2,
+              "sample": "greensie.cz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "video-01",
+      "hosts": [
+        "honzakamenar.cz"
+      ],
+      "brands": [
+        "honzakamenar.cz."
+      ],
+      "findings": [
+        {
+          "file": "disk:content/cs.json",
+          "findings": [
+            {
+              "kind": "wix",
+              "desc": "Wix artifact",
+              "count": 1,
+              "sample": "static.wixstatic.com"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

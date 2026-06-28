@@ -27,7 +27,7 @@ const LOCAL_CLONE_PATTERNS = [
 ];
 
 const EXTERNAL_URL_RE = /https?:\/\/[^"']+?\.(?:jpe?g|png|gif|webp|svg|mp4|webm|mov|m4v|woff2?|ttf|otf)/gi;
-const SKIP_HOSTS = ["localhost", "127.0.0.1", "webero.co", "venom-saas.vercel.app"];
+const SKIP_HOSTS = ["localhost", "127.0.0.1", "webero.co", "webero.co"];
 
 export interface AutoFixSummary {
   key: string;
@@ -88,7 +88,7 @@ async function downloadExternalAsset(url: string, templateKey: string): Promise<
     const targetRel = `/assets/${templateKey}/${targetName}`;
     if (existsSync(targetAbs)) return { targetRel, downloaded: false };
 
-    const res = await fetch(url, { headers: { "user-agent": "venom-auto-fix/1.0" } });
+    const res = await fetch(url, { headers: { "user-agent": "webero-auto-fix/1.0" } });
     if (!res.ok) return null;
     const buf = Buffer.from(await res.arrayBuffer());
     await fs.mkdir(path.dirname(targetAbs), { recursive: true });

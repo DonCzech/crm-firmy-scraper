@@ -194,7 +194,7 @@ export default function TemplateLabPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-xl font-bold text-white">🧬 Template Intelligence Lab</h1>
-            <p className="text-sm text-gray-400">Automatizovaný systém pro tvorbu Venom šablon</p>
+            <p className="text-sm text-gray-400">Automatizovaný systém pro tvorbu Webero šablon</p>
           </div>
           <div className="flex items-center gap-3">
             {status?.state.currentWebsite && (

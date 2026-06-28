@@ -45,7 +45,21 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
     return Response.json({ error: parsed.error.issues[0]?.message }, { status: 400 });
   }
 
-  const sections = parsed.data.sections;
+  // Repair: new (id <= 0) sections may come through with tenant_id/page_id = 0
+  // when the page had no prior sections to copy IDs from. Backfill from the
+  // tenant context and a sibling page_id in the batch before the security
+  // check so legitimate empty-page adds don't fail with "tenant mismatch".
+  const fallbackPageId = parsed.data.sections.find((s) => s.page_id > 0)?.page_id ?? 0;
+  const sections = parsed.data.sections.map((s) => {
+    if (s.id <= 0 && s.tenant_id === 0) {
+      return {
+        ...s,
+        tenant_id: tenant.id,
+        page_id: s.page_id || fallbackPageId,
+      };
+    }
+    return s;
+  });
 
   // Security: all sections must belong to this tenant
   for (const s of sections) {

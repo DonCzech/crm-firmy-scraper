@@ -4,7 +4,7 @@ import { useEffect, useState, useMemo, useCallback } from "react";
 import Link from "next/link";
 import {
   Calendar, Plus, CheckCircle2, AlertTriangle, Clock, ChevronRight,
-  Search, RefreshCw, ExternalLink,
+  Search, RefreshCw, ExternalLink, Camera, Loader2,
 } from "lucide-react";
 
 interface TemplateRow {
@@ -46,6 +46,9 @@ export function TemplateQueueClient() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [assigning, setAssigning] = useState(false);
+  const [assignMsg, setAssignMsg] = useState<string | null>(null);
+  const [backfilling, setBackfilling] = useState(false);
+  const [backfillMsg, setBackfillMsg] = useState<string | null>(null);
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -72,8 +75,30 @@ export function TemplateQueueClient() {
 
   useEffect(() => { void reload(); }, [reload]);
 
+  async function backfillScreenshots(mode: "missing" | "all") {
+    if (mode === "all" && !confirm("Přegenerovat náhledy pro VŠECHNY schválené šablony? Bude to trvat několik minut.")) return;
+    setBackfilling(true);
+    setBackfillMsg(null);
+    try {
+      const res = await fetch("/api/admin/template-queue/backfill-screenshots", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ mode }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      setBackfillMsg(`Hotovo: ${json.success}/${json.processed} OK${json.failed.length ? ` · selhalo ${json.failed.length}` : ""}`);
+      await reload();
+    } catch (err) {
+      setBackfillMsg(`Chyba: ${err instanceof Error ? err.message : "neznámá"}`);
+    } finally {
+      setBackfilling(false);
+    }
+  }
+
   async function assignToday() {
     setAssigning(true);
+    setAssignMsg(null);
     try {
       const res = await fetch("/api/admin/template-queue", {
         method: "POST",
@@ -81,7 +106,15 @@ export function TemplateQueueClient() {
         body: JSON.stringify({ date, count: 3 }),
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
       await reload();
+      if (json.assigned > 0) {
+        setAssignMsg(`✓ Přiřazeno ${json.assigned} šablon. Auto-fix + Studio audit běží na pozadí (~1–2 min) — výsledky se objeví po otevření šablony.`);
+        setTimeout(() => setAssignMsg(null), 12000);
+      } else {
+        setAssignMsg(json.reason === "already assigned" ? "Šablony na dnes jsou již přiřazeny." : "Žádné čekající šablony.");
+        setTimeout(() => setAssignMsg(null), 5000);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Přiřazení selhalo");
     } finally {
@@ -145,9 +178,14 @@ export function TemplateQueueClient() {
               disabled={assigning}
               className="inline-flex items-center gap-1.5 rounded-md bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-indigo-500 disabled:opacity-60"
             >
-              <Plus className="h-3.5 w-3.5" />
-              {assigning ? "Přiřazuji…" : "Auto-přiřadit 3"}
+              {assigning ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
+              {assigning ? "Přiřazuji + spouštím auto-fix…" : "Auto-přiřadit 3"}
             </button>
+            {assignMsg && (
+              <span className="rounded-md bg-indigo-50 px-2.5 py-1.5 text-[11px] text-indigo-700">
+                {assignMsg}
+              </span>
+            )}
           </>
         )}
 
@@ -161,6 +199,29 @@ export function TemplateQueueClient() {
               placeholder="Hledat (key, name, industry)…"
               className="w-full rounded-md border border-gray-300 bg-white py-1.5 pl-7 pr-2 text-xs text-gray-900 placeholder-gray-400 focus:border-indigo-500 focus:outline-none"
             />
+          </div>
+        )}
+
+        {view === "approved" && (
+          <div className="ml-auto flex items-center gap-2">
+            {backfillMsg && <span className="text-[11px] text-gray-500">{backfillMsg}</span>}
+            <button
+              onClick={() => backfillScreenshots("missing")}
+              disabled={backfilling}
+              className="inline-flex items-center gap-1.5 rounded-md bg-emerald-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-500 disabled:opacity-60"
+              title="Vygenerovat preview.png + showcase shots pro šablony, které je nemají"
+            >
+              {backfilling ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Camera className="h-3.5 w-3.5" />}
+              Doplnit chybějící náhledy
+            </button>
+            <button
+              onClick={() => backfillScreenshots("all")}
+              disabled={backfilling}
+              className="inline-flex items-center gap-1.5 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-50 disabled:opacity-60"
+              title="Přegenerovat všechny náhledy (i ty existující)"
+            >
+              <RefreshCw className="h-3.5 w-3.5" /> Vše znovu
+            </button>
           </div>
         )}
       </div>

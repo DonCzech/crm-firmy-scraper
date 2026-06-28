@@ -114,7 +114,7 @@ export function PreviewGrid({ items }: Props) {
 
       {/* Footer */}
       <div className="text-center pb-10 pt-4 text-xs text-zinc-600">
-        Webero · interní přehled šablon engine v2 · <a href="/preview" className="text-zinc-400 hover:text-zinc-200">starý katalog (clone-based)</a> · <a href="/admin" className="text-zinc-400 hover:text-zinc-200">Platform Admin</a>
+        Webero · interní přehled šablon engine v2 · <a href="/admin" className="text-zinc-400 hover:text-zinc-200">Platform Admin</a>
       </div>
     </div>
   );

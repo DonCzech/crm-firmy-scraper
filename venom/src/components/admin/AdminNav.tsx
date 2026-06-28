@@ -34,6 +34,7 @@ export function AdminNav() {
     { href: "/admin/users", label: "Uživatelé" },
     { href: "/admin/template-queue", label: "Review fronta" },
     { href: "/admin/template-lab", label: "Template Lab" },
+    { href: "/admin/psi-audit", label: "PageSpeed audit" },
   ];
 
   async function handleLogout() {
@@ -48,7 +49,7 @@ export function AdminNav() {
           <div className="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-xs">V</span>
           </div>
-          <span className="font-semibold text-gray-900 text-sm">Venom Admin</span>
+          <span className="font-semibold text-gray-900 text-sm">Webero Admin</span>
         </div>
       </div>
       <nav className="flex-1 p-3 space-y-0.5">

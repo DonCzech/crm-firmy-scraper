@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import {
   X, ArrowLeft, Plus, Search, Eye, EyeOff, Copy, Trash2,
-  ArrowUp, ArrowDown, Pencil, Layers, Sparkles, Lock,
-  PanelRightClose, PanelRightOpen,
+  GripVertical, Pencil, Layers, Sparkles, Lock,
+  PanelRightClose, PanelRightOpen, RotateCcw,
 } from "lucide-react";
 import type { Section } from "@/lib/db";
 import { SectionEditor } from "./SectionEditor";
@@ -86,10 +86,14 @@ export function PageBuilder({ sections, tenantSlug, onChange, onClose, onJumpToS
   function addSection(type: string, variant: string) {
     const footerIdx = sorted.findIndex(s => s.section_type === "footer");
     const insertOrder = footerIdx >= 0 ? sorted[footerIdx].order_index : sorted.length;
+    // Tenant + page id must match an existing row in this batch; without them
+    // the API rejects the save as "tenant mismatch" and the new section is
+    // lost on refresh. Borrow from any existing section.
+    const ref = sorted[0];
     const newSection: Section = {
       id: -Date.now(),
-      tenant_id: 0,
-      page_id: 0,
+      tenant_id: ref?.tenant_id ?? 0,
+      page_id: ref?.page_id ?? 0,
       section_type: type,
       section_variant: variant,
       order_index: insertOrder,
@@ -277,6 +281,8 @@ export function PageBuilder({ sections, tenantSlug, onChange, onClose, onJumpToS
             onOpenLibrary={() => setShowLibrary(true)}
             sorted={sorted}
             onJumpToSection={onJumpToSection}
+            tenantSlug={tenantSlug}
+            onChange={onChange}
           />
         )}
 
@@ -294,7 +300,7 @@ export function PageBuilder({ sections, tenantSlug, onChange, onClose, onJumpToS
 }
 
 function PageView({
-  navbar, main, footer, sorted, onMoveUp, onMoveDown, onToggleVisible, onDuplicate, onEdit, onRemove, onOpenLibrary, onJumpToSection,
+  navbar, main, footer, sorted, onMoveUp, onMoveDown, onToggleVisible, onDuplicate, onEdit, onRemove, onOpenLibrary, onJumpToSection, tenantSlug, onChange,
 }: {
   navbar: Section[]; main: Section[]; footer: Section[]; sorted: Section[];
   onMoveUp: (id: number) => void;
@@ -305,7 +311,60 @@ function PageView({
   onRemove: (id: number) => void;
   onOpenLibrary: () => void;
   onJumpToSection?: (id: number) => void;
+  tenantSlug: string;
+  onChange: (sections: Section[]) => void;
 }) {
+  const [resetting, setResetting] = useState(false);
+  const [dragSrcId, setDragSrcId] = useState<number | null>(null);
+  const [dragOverId, setDragOverId] = useState<number | null>(null);
+  const [dragEdge, setDragEdge] = useState<"top" | "bottom">("bottom");
+
+  function handleDragStart(id: number) {
+    setDragSrcId(id);
+  }
+  function handleDragOver(e: React.DragEvent, id: number) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    setDragOverId(id);
+    setDragEdge(e.clientY < rect.top + rect.height / 2 ? "top" : "bottom");
+  }
+  function handleDragEnd() {
+    setDragSrcId(null);
+    setDragOverId(null);
+  }
+  function handleDrop(e: React.DragEvent, targetId: number) {
+    e.preventDefault();
+    if (dragSrcId === null || dragSrcId === targetId) { handleDragEnd(); return; }
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const edge = e.clientY < rect.top + rect.height / 2 ? "top" : "bottom";
+
+    // Build new ordered list by removing src and inserting at target position
+    const ordered = [...sorted].sort((a, b) => a.order_index - b.order_index);
+    const srcIdx = ordered.findIndex(s => s.id === dragSrcId);
+    const tgtIdx = ordered.findIndex(s => s.id === targetId);
+    if (srcIdx < 0 || tgtIdx < 0) { handleDragEnd(); return; }
+
+    const [src] = ordered.splice(srcIdx, 1);
+    const insertAt = ordered.findIndex(s => s.id === targetId);
+    ordered.splice(edge === "top" ? insertAt : insertAt + 1, 0, src);
+
+    // Reassign order_index preserving navbar=0 and footer=last
+    onChange(ordered.map((s, i) => ({ ...s, order_index: i })));
+    handleDragEnd();
+  }
+
+  async function handleReset() {
+    if (resetting) return;
+    if (!window.confirm("Pořadí sekcí se vrátí do výchozího stavu podle šablony. Obsah sekcí zůstane zachován.\n\nPokračovat?")) return;
+    setResetting(true);
+    try {
+      const res = await fetch(`/api/demo/${tenantSlug}/sections/reset-order`, { method: "POST", credentials: "same-origin" });
+      if (!res.ok) { const j = await res.json().catch(() => ({})); alert(`Reset selhal: ${j.error ?? res.status}`); setResetting(false); return; }
+      window.location.reload();
+    } catch (err) { alert(`Reset selhal: ${(err as Error).message}`); setResetting(false); }
+  }
+
   return (
     <>
       <div className="flex-1 overflow-y-auto vs-scroll p-3 space-y-3">
@@ -329,28 +388,23 @@ function PageView({
           title="Obsah"
           subtitle={`${main.length} ${main.length === 1 ? "sekce" : main.length < 5 ? "sekce" : "sekcí"}`}
         >
-          {main.map((s) => {
-            const idx = sorted.findIndex(x => x.id === s.id);
-            const prev = sorted[idx - 1];
-            const next = sorted[idx + 1];
-            const canUp = !!prev && prev.section_type !== "navbar";
-            const canDown = !!next && next.section_type !== "footer";
-            return (
-              <Row
-                key={s.id}
-                section={s}
-                canMoveUp={canUp}
-                canMoveDown={canDown}
-                onMoveUp={() => onMoveUp(s.id)}
-                onMoveDown={() => onMoveDown(s.id)}
-                onToggleVisible={() => onToggleVisible(s.id)}
-                onDuplicate={() => onDuplicate(s)}
-                onEdit={() => onEdit(s)}
-                onRemove={() => onRemove(s.id)}
-                onJump={onJumpToSection ? () => onJumpToSection(s.id) : undefined}
-              />
-            );
-          })}
+          {main.map((s) => (
+            <Row
+              key={s.id}
+              section={s}
+              isDragging={dragSrcId === s.id}
+              dropIndicator={dragOverId === s.id && dragSrcId !== s.id ? dragEdge : null}
+              onDragStart={() => handleDragStart(s.id)}
+              onDragOver={(e) => handleDragOver(e, s.id)}
+              onDragEnd={handleDragEnd}
+              onDrop={(e) => handleDrop(e, s.id)}
+              onToggleVisible={() => onToggleVisible(s.id)}
+              onDuplicate={() => onDuplicate(s)}
+              onEdit={() => onEdit(s)}
+              onRemove={() => onRemove(s.id)}
+              onJump={onJumpToSection ? () => onJumpToSection(s.id) : undefined}
+            />
+          ))}
           {main.length === 0 && (
             <div className="rounded-md border border-dashed border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-4 py-6 text-center">
               <p className="text-[11.5px] text-[var(--vs-text-muted)]">Tato stránka zatím nemá žádný obsah.</p>
@@ -370,14 +424,14 @@ function PageView({
         {footer.length > 0 && (
           <Group title="Patička" icon={<Lock className="h-3 w-3" />} subtitle="Chráněná sekce">
             {footer.map(s => (
-              <RowLocked key={s.id} section={s} onToggleVisible={() => onToggleVisible(s.id)} onEdit={() => onEdit(s)} />
+              <RowLocked key={s.id} section={s} onToggleVisible={() => onToggleVisible(s.id)} onEdit={() => onEdit(s)} onJump={onJumpToSection ? () => onJumpToSection(s.id) : undefined} />
             ))}
           </Group>
         )}
       </div>
 
       {/* Add CTA */}
-      <div className="shrink-0 border-t border-[var(--vs-border)] bg-[var(--vs-bg-soft)] p-3">
+      <div className="shrink-0 space-y-2 border-t border-[var(--vs-border)] bg-[var(--vs-bg-soft)] p-3">
         <button
           type="button"
           onClick={onOpenLibrary}
@@ -385,6 +439,16 @@ function PageView({
         >
           <Plus className="h-4 w-4" strokeWidth={2.5} />
           Přidat sekci
+        </button>
+        <button
+          type="button"
+          onClick={handleReset}
+          disabled={resetting}
+          title="Vrátí pořadí sekcí podle výchozí šablony. Obsah zůstane."
+          className="flex w-full items-center justify-center gap-1.5 rounded-lg border border-[var(--vs-border)] bg-[var(--vs-surface)] py-2 text-[11.5px] font-medium text-[var(--vs-text-muted)] transition-colors hover:bg-[var(--vs-surface-hover)] hover:text-[var(--vs-text)] disabled:opacity-50"
+        >
+          <RotateCcw className={`h-3.5 w-3.5 ${resetting ? "animate-spin" : ""}`} strokeWidth={2} />
+          {resetting ? "Resetuji…" : "Resetovat pořadí sekcí"}
         </button>
       </div>
     </>
@@ -407,13 +471,17 @@ function Group({ title, subtitle, icon, children }: { title: string; subtitle?: 
 }
 
 function Row({
-  section, canMoveUp, canMoveDown, onMoveUp, onMoveDown, onToggleVisible, onDuplicate, onEdit, onRemove, onJump,
+  section, isDragging, dropIndicator,
+  onDragStart, onDragOver, onDragEnd, onDrop,
+  onToggleVisible, onDuplicate, onEdit, onRemove, onJump,
 }: {
   section: Section;
-  canMoveUp: boolean;
-  canMoveDown: boolean;
-  onMoveUp: () => void;
-  onMoveDown: () => void;
+  isDragging: boolean;
+  dropIndicator: "top" | "bottom" | null;
+  onDragStart: () => void;
+  onDragOver: (e: React.DragEvent) => void;
+  onDragEnd: () => void;
+  onDrop: (e: React.DragEvent) => void;
   onToggleVisible: () => void;
   onDuplicate: () => void;
   onEdit: () => void;
@@ -422,64 +490,85 @@ function Row({
 }) {
   const label = SECTION_LABELS[section.section_type] ?? section.section_type;
   const typeLabel = TYPE_LABEL[section.section_type] ?? section.section_type;
+  const rowRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div
-      className={`vs-lift group flex items-center gap-2 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-2 py-2 transition-colors hover:border-[var(--vs-accent-ring)] ${
-        !section.is_visible ? "opacity-55" : ""
-      }`}
-    >
-      <div className="flex flex-col gap-0.5">
-        <IconBtn label="Posunout nahoru" disabled={!canMoveUp} onClick={onMoveUp}>
-          <ArrowUp className="h-3 w-3" strokeWidth={2} />
-        </IconBtn>
-        <IconBtn label="Posunout dolů" disabled={!canMoveDown} onClick={onMoveDown}>
-          <ArrowDown className="h-3 w-3" strokeWidth={2} />
-        </IconBtn>
-      </div>
+    <div className="relative">
+      {/* Drop indicator — top */}
+      {dropIndicator === "top" && (
+        <div className="pointer-events-none absolute -top-px left-2 right-2 z-10 h-0.5 rounded-full bg-indigo-500 shadow-[0_0_6px_2px_rgba(99,102,241,0.5)]" />
+      )}
 
-      <button
-        type="button"
-        onClick={(e) => { e.stopPropagation(); onJump?.(); }}
-        disabled={!onJump}
-        className="vs-focus-ring flex flex-1 min-w-0 items-center gap-2 rounded-md py-0.5 text-left transition-colors disabled:cursor-default"
-        title={onJump ? "Skočit na sekci v náhledu" : undefined}
+      <div
+        ref={rowRef}
+        draggable
+        onDragStart={(e) => { e.dataTransfer.effectAllowed = "move"; onDragStart(); }}
+        onDragOver={onDragOver}
+        onDragEnd={onDragEnd}
+        onDrop={onDrop}
+        className={`vs-lift group flex items-center gap-2 rounded-lg border bg-[var(--vs-surface)] px-2 py-2 transition-all duration-150 ${
+          isDragging
+            ? "scale-[0.98] opacity-40 shadow-none border-[var(--vs-border)]"
+            : "border-[var(--vs-border-strong)] hover:border-[var(--vs-accent-ring)] hover:shadow-[0_2px_8px_rgba(99,102,241,0.12)]"
+        } ${!section.is_visible ? "opacity-55" : ""}`}
       >
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[var(--vs-surface-2)] text-[var(--vs-text-muted)] group-hover:bg-[var(--vs-accent-bg)] group-hover:text-[var(--vs-accent-hi)]">
-          <Layers className="h-4 w-4" strokeWidth={1.75} />
+        {/* Drag handle */}
+        <div
+          className="flex h-8 w-5 shrink-0 cursor-grab items-center justify-center rounded text-[var(--vs-text-dim)] opacity-0 transition-opacity group-hover:opacity-100 active:cursor-grabbing"
+          title="Přetáhnout pro přeřazení"
+        >
+          <GripVertical className="h-4 w-4" strokeWidth={1.75} />
         </div>
 
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-1.5">
-            <span className="truncate text-[12px] font-medium text-[var(--vs-text)]">{label}</span>
-            <span className="shrink-0 rounded-full bg-[var(--vs-surface-2)] px-1.5 py-px text-[9px] font-medium uppercase tracking-[var(--vs-tracking-wide)] text-[var(--vs-text-muted)]">
-              {typeLabel}
-            </span>
-            {!section.is_visible && (
-              <span className="shrink-0 rounded-full bg-[var(--vs-warning-bg)] px-1.5 py-px text-[9px] font-medium uppercase tracking-[var(--vs-tracking-wide)] text-[var(--vs-warning)]">
-                skrytá
-              </span>
-            )}
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onJump?.(); }}
+          disabled={!onJump}
+          className="vs-focus-ring flex flex-1 min-w-0 items-center gap-2 rounded-md py-0.5 text-left transition-colors disabled:cursor-default"
+          title={onJump ? "Skočit na sekci v náhledu" : undefined}
+        >
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[var(--vs-surface-2)] text-[var(--vs-text-muted)] group-hover:bg-[var(--vs-accent-bg)] group-hover:text-[var(--vs-accent-hi)]">
+            <Layers className="h-4 w-4" strokeWidth={1.75} />
           </div>
-          <div className="truncate text-[10px] text-[var(--vs-text-dim)]">{section.section_variant}</div>
-        </div>
-      </button>
 
-      <div className="flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
-        <IconBtn label="Upravit obsah" onClick={onEdit}>
-          <Pencil className="h-3.5 w-3.5 text-[var(--vs-accent-hi)]" strokeWidth={1.75} />
-        </IconBtn>
-        <IconBtn label={section.is_visible ? "Skrýt" : "Zobrazit"} onClick={onToggleVisible}>
-          {section.is_visible
-            ? <Eye className="h-3.5 w-3.5" strokeWidth={1.75} />
-            : <EyeOff className="h-3.5 w-3.5 text-[var(--vs-warning)]" strokeWidth={1.75} />}
-        </IconBtn>
-        <IconBtn label="Duplikovat" onClick={onDuplicate}>
-          <Copy className="h-3.5 w-3.5" strokeWidth={1.75} />
-        </IconBtn>
-        <IconBtn label="Smazat" danger onClick={onRemove}>
-          <Trash2 className="h-3.5 w-3.5" strokeWidth={1.75} />
-        </IconBtn>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5">
+              <span className="truncate text-[12px] font-medium text-[var(--vs-text)]">{label}</span>
+              <span className="shrink-0 rounded-full bg-[var(--vs-surface-2)] px-1.5 py-px text-[9px] font-medium uppercase tracking-[var(--vs-tracking-wide)] text-[var(--vs-text-muted)]">
+                {typeLabel}
+              </span>
+              {!section.is_visible && (
+                <span className="shrink-0 rounded-full bg-[var(--vs-warning-bg)] px-1.5 py-px text-[9px] font-medium uppercase tracking-[var(--vs-tracking-wide)] text-[var(--vs-warning)]">
+                  skrytá
+                </span>
+              )}
+            </div>
+            <div className="truncate text-[10px] text-[var(--vs-text-dim)]">{section.section_variant}</div>
+          </div>
+        </button>
+
+        <div className="flex items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+          <IconBtn label="Upravit obsah" onClick={onEdit}>
+            <Pencil className="h-3.5 w-3.5 text-[var(--vs-accent-hi)]" strokeWidth={1.75} />
+          </IconBtn>
+          <IconBtn label={section.is_visible ? "Skrýt" : "Zobrazit"} onClick={onToggleVisible}>
+            {section.is_visible
+              ? <Eye className="h-3.5 w-3.5" strokeWidth={1.75} />
+              : <EyeOff className="h-3.5 w-3.5 text-[var(--vs-warning)]" strokeWidth={1.75} />}
+          </IconBtn>
+          <IconBtn label="Duplikovat" onClick={onDuplicate}>
+            <Copy className="h-3.5 w-3.5" strokeWidth={1.75} />
+          </IconBtn>
+          <IconBtn label="Smazat" danger onClick={onRemove}>
+            <Trash2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+          </IconBtn>
+        </div>
       </div>
+
+      {/* Drop indicator — bottom */}
+      {dropIndicator === "bottom" && (
+        <div className="pointer-events-none absolute -bottom-px left-2 right-2 z-10 h-0.5 rounded-full bg-indigo-500 shadow-[0_0_6px_2px_rgba(99,102,241,0.5)]" />
+      )}
     </div>
   );
 }

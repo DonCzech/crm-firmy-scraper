@@ -23,6 +23,7 @@ export function InsertionGap({
   state: StudioState;
 }) {
   const [open, setOpen] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
   const popoverRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,33 +44,70 @@ export function InsertionGap({
     };
   }, [open]);
 
+  function dropSection(e: React.DragEvent) {
+    e.preventDefault();
+    setDragOver(false);
+    const raw = e.dataTransfer.getData("text/x-venom-section");
+    if (!raw) return;
+    try {
+      const { type, variant } = JSON.parse(raw) as { type: string; variant: string };
+      void state.addSection(type, variant ?? "default", insertAtIndex);
+    } catch { /* malformed drag data — ignore */ }
+  }
+
   return (
-    <div className="group relative z-20 h-2 select-none">
-      {/* Hover hairline */}
+    <div
+      className={clsx(
+        "group relative z-20 select-none transition-[height,background] duration-150",
+        dragOver ? "h-20 bg-blue-500/10" : "h-3 hover:h-5"
+      )}
+      onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = "copy"; setDragOver(true); }}
+      onDragLeave={(e) => {
+        // only clear when leaving the gap element itself (not a child)
+        if (!e.currentTarget.contains(e.relatedTarget as Node)) setDragOver(false);
+      }}
+      onDrop={dropSection}
+    >
+      {/* Drop indicator line */}
       <div
         className={clsx(
-          "absolute inset-x-0 top-1/2 h-px -translate-y-1/2 transition-colors duration-150",
-          open ? "bg-blue-500" : "bg-transparent group-hover:bg-blue-500/60"
+          "absolute inset-x-0 top-1/2 -translate-y-1/2 transition-all duration-150",
+          dragOver
+            ? "h-0.5 bg-blue-500 shadow-[0_0_8px_2px_rgba(59,130,246,0.5)]"
+            : "h-px bg-transparent group-hover:bg-blue-500/60"
         )}
       />
-      {/* Centered + button */}
-      <button
-        type="button"
-        aria-label="Přidat sekci sem"
-        title="Přidat sekci sem"
-        onClick={(e) => {
-          e.stopPropagation();
-          setOpen((v) => !v);
-        }}
-        className={clsx(
-          "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
-          "flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg",
-          "transition-opacity duration-150",
-          open ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-        )}
-      >
-        <Plus className="h-4 w-4" strokeWidth={2.5} />
-      </button>
+
+      {/* Drop label */}
+      {dragOver && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <span className="rounded-full bg-blue-600 px-3 py-1 text-[11px] font-semibold text-white shadow-lg">
+            Pustit sem
+          </span>
+        </div>
+      )}
+
+      {/* Centered + button (click to open popup) */}
+      {!dragOver && (
+        <button
+          type="button"
+          aria-label="Přidat sekci sem"
+          title="Přidat sekci sem"
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpen((v) => !v);
+          }}
+          className={clsx(
+            "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+            "flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg",
+            "transition-opacity duration-150",
+            open ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+          )}
+        >
+          <Plus className="h-4 w-4" strokeWidth={2.5} />
+        </button>
+      )}
+
       {open && (
         <div
           ref={popoverRef}

@@ -5,6 +5,7 @@ import { SectionRenderer } from "./SectionRenderer";
 import type { Tenant, Page, Section, TenantOverride } from "@/lib/db";
 import type { SiteContent } from "@/lib/content-types";
 import { applyOverrides } from "@/lib/overrides";
+import { DesignOverrides } from "@/components/studio/design/DesignOverrides";
 import { GenericInlineEditorProvider, type GenericHighlightChange, type GenericTextStyle } from "./GenericInlineEditorContext";
 import { buildLocalBusiness, buildFAQPage } from "@/lib/schema-org";
 import { assertHeadingHierarchy } from "@/lib/seo-guards";
@@ -117,7 +118,7 @@ function buildLocalBusinessSchema(tenant: Tenant, sections: Section[]) {
     email: contact.email,
     address: contact.address ? { street: contact.address } : undefined,
     openingHours: openingHoursText.length ? openingHoursText : undefined,
-    url: `https://venom-saas.vercel.app/demo/${tenant.slug}`,
+    url: `https://webero.co/demo/${tenant.slug}`,
   });
 }
 
@@ -312,11 +313,27 @@ export function TenantPublicView({ tenant, page: _page, sections: initialSection
     getStyle: (sectionId: number, field: string) => getSectionStyle(sections, sectionId, field),
   }), [genericEditorEnabled, highlighted, sections, updateGenericField, updateGenericStyle, reorderArrayField]);
 
+  // Extended design tokens from the Studio Design panel are saved with dotted
+  // keys (header.bg.desktop, h1.size.desktop, …). Mirror them as CSS variables
+  // with dashes so templates can opt-in via `var(--header-bg-desktop)`.
+  // Only dotted keys are spread — flat keys (spacing, colorPrimary, fontBody)
+  // are either handled explicitly below or reserved by Tailwind v4 (--spacing).
+  const extendedTokenVars: Record<string, string> = {};
+  if (designTokens) {
+    for (const [k, v] of Object.entries(designTokens)) {
+      if (!k.includes(".")) continue;
+      if (v === null || v === undefined || v === "") continue;
+      const cssKey = "--" + k.replace(/\./g, "-");
+      extendedTokenVars[cssKey] = typeof v === "number" ? `${v}px` : String(v);
+    }
+  }
+
   return (
     <GenericInlineEditorProvider value={genericEditorValue}>
     <div
       className="min-h-screen"
       data-industry={tenant.industry}
+      data-design-host
       style={{
         "--color-primary": designTokens?.colorPrimary ?? "#6366f1",
         "--color-secondary": designTokens?.colorSecondary ?? "#4f46e5",
@@ -329,6 +346,7 @@ export function TenantPublicView({ tenant, page: _page, sections: initialSection
         "--font-heading": designTokens?.fontHeading ?? "Inter, sans-serif",
         "--font-body": designTokens?.fontBody ?? "Inter, sans-serif",
         "--radius": designTokens?.borderRadius ?? "8px",
+        ...extendedTokenVars,
         backgroundColor: designTokens?.colorBackground ?? "#ffffff",
         color: designTokens?.colorText ?? "#111827",
         fontFamily: designTokens?.fontBody ?? "Inter, sans-serif",
@@ -345,45 +363,100 @@ export function TenantPublicView({ tenant, page: _page, sections: initialSection
         />
       )}
 
+      <DesignOverrides tokens={designTokens} hostSelector="[data-design-host]" />
+
+      {/*
+        SEO + Studio compatibility safety net: visually-hidden `<h1>` rendered
+        only when the page would otherwise have none. Many templates (e.g.
+        cafe-04, vet-01) use purely visual heroes without a text title — this
+        keeps the page accessible and lets Studio's "Typografie → Nadpis 1"
+        panel target *something* on every template. JS at first paint removes
+        the fallback if a real `<h1>` exists elsewhere on the page.
+      */}
+      <h1
+        data-design-h1-fallback
+        style={{
+          position: "absolute",
+          width: 1,
+          height: 1,
+          padding: 0,
+          margin: -1,
+          overflow: "hidden",
+          clip: "rect(0,0,0,0)",
+          whiteSpace: "nowrap",
+          border: 0,
+        }}
+      >
+        {_page?.title ?? tenant.slug ?? "Úvod"}
+      </h1>
+      <script
+        // Runs after hydration; if another <h1> exists in the document, remove
+        // the fallback to keep a single semantic main heading per page.
+        dangerouslySetInnerHTML={{
+          __html: `(function(){var f=document.querySelector('h1[data-design-h1-fallback]');var n=document.querySelectorAll('h1');if(f&&n.length>1)f.remove();})();`,
+        }}
+      />
+
       {/* Navbar — singleton, never rendered through section loop */}
       {navbarSections.length > 0 && (
-        <SectionRenderer
-          section={navbarSections[0]}
-          tenantId={tenant.id}
-          tenantSlug={tenant.slug}
-          isAdmin={genericEditorEnabled}
-        />
+        <div data-design-scope="header">
+          <SectionRenderer
+            section={navbarSections[0]}
+            tenantId={tenant.id}
+            tenantSlug={tenant.slug}
+            isAdmin={genericEditorEnabled}
+          />
+        </div>
       )}
 
       {/* Main content sections */}
       <main>
-        {mainSections.map((section) => {
-          const baseContent = (section.settings?.content ?? {}) as Record<string, unknown>;
-          const overriddenContent = applyOverrides(baseContent, overrides, section.id);
-          const patchedSection = overriddenContent !== baseContent
-            ? { ...section, settings: { ...section.settings, content: overriddenContent } }
-            : section;
-          return (
-            <SectionRenderer
-              key={section.id}
-              section={patchedSection}
-              tenantId={tenant.id}
-              tenantSlug={tenant.slug}
-              isAdmin={section.section_type === "astera-home" ? isAdmin : genericEditorEnabled}
-              onSaveAsteraContent={saveAsteraContent}
-            />
-          );
-        })}
+        {mainSections.length === 0 ? (
+          <EmptyPageSkeleton
+            tenantSlug={tenant.slug}
+            pageTitle={_page?.title}
+            pageSlug={_page?.slug}
+            isHomepage={_page?.is_homepage}
+          />
+        ) : (
+          mainSections.map((section) => {
+            const baseContent = (section.settings?.content ?? {}) as Record<string, unknown>;
+            const overriddenContent = applyOverrides(baseContent, overrides, section.id);
+            const patchedSection = overriddenContent !== baseContent
+              ? { ...section, settings: { ...section.settings, content: overriddenContent } }
+              : section;
+            const hiddenOn = ((section.settings?.hiddenOn as string[] | undefined) ?? []);
+            const animation = (section.settings?.animation as string | undefined) ?? "none";
+            const classes = [
+              hiddenOn.includes("mobile") ? "vs-hide-mobile" : "",
+              hiddenOn.includes("tablet") ? "vs-hide-tablet" : "",
+              animation !== "none" ? `vs-anim-${animation}` : "",
+            ].filter(Boolean).join(" ");
+            return (
+              <AnimatedWrapper key={section.id} className={classes}>
+                <SectionRenderer
+                  section={patchedSection}
+                  tenantId={tenant.id}
+                  tenantSlug={tenant.slug}
+                  isAdmin={section.section_type === "astera-home" ? isAdmin : genericEditorEnabled}
+                  onSaveAsteraContent={saveAsteraContent}
+                />
+              </AnimatedWrapper>
+            );
+          })
+        )}
       </main>
 
       {/* Footer — singleton, never rendered through section loop */}
       {footerSections.length > 0 && (
-        <SectionRenderer
-          section={footerSections[0]}
-          tenantId={tenant.id}
-          tenantSlug={tenant.slug}
-          isAdmin={genericEditorEnabled}
-        />
+        <div data-design-scope="footer">
+          <SectionRenderer
+            section={footerSections[0]}
+            tenantId={tenant.id}
+            tenantSlug={tenant.slug}
+            isAdmin={genericEditorEnabled}
+          />
+        </div>
       )}
       {genericEditorEnabled && (
         <div className="fixed bottom-6 left-1/2 z-[9997] flex -translate-x-1/2 items-center gap-2 rounded-full bg-gray-900 px-3 py-2 text-xs text-white shadow-2xl">
@@ -399,4 +472,128 @@ export function TenantPublicView({ tenant, page: _page, sections: initialSection
     </div>
     </GenericInlineEditorProvider>
   );
+}
+
+function EmptyPageSkeleton({
+  tenantSlug, pageTitle, pageSlug, isHomepage,
+}: { tenantSlug: string; pageTitle?: string; pageSlug?: string; isHomepage?: boolean }) {
+  const editorBase = isHomepage || !pageSlug
+    ? `/demo/${tenantSlug}/admin`
+    : `/demo/${tenantSlug}/admin/${pageSlug}`;
+  const editorHref = `${editorBase}?addSection=1`;
+  return (
+    <section className="relative isolate flex min-h-[70vh] items-center justify-center overflow-hidden px-6 py-24">
+      {/* Decorative grid */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(15,23,42,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(15,23,42,0.06) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+          maskImage: "radial-gradient(ellipse at center, black 35%, transparent 75%)",
+          WebkitMaskImage: "radial-gradient(ellipse at center, black 35%, transparent 75%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute left-1/2 top-1/4 -z-10 h-[420px] w-[680px] -translate-x-1/2 rounded-full opacity-50 blur-3xl"
+        style={{ background: "radial-gradient(circle, var(--color-accent, #818cf8) 0%, transparent 70%)" }}
+      />
+
+      <div className="mx-auto max-w-xl text-center">
+        <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-[0_10px_30px_rgba(15,23,42,0.10)] ring-1 ring-slate-200">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-slate-500">
+            <rect x="3" y="4" width="18" height="4" rx="1" />
+            <rect x="3" y="11" width="11" height="9" rx="1" />
+            <rect x="16" y="11" width="5" height="9" rx="1" />
+          </svg>
+        </div>
+        <p className="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+          Prázdná stránka
+        </p>
+        <h1
+          className="mt-1 text-[28px] font-semibold tracking-tight text-slate-900 sm:text-[34px]"
+          style={{ fontFamily: "var(--font-heading, inherit)" }}
+        >
+          {pageTitle ?? "Tato stránka se připravuje"}
+        </h1>
+        <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-slate-600">
+          Stránka byla vytvořena, ale zatím nemá žádný obsah. Otevři editor a přidej
+          první sekci — hero, text, galerii, ceník nebo cokoliv dalšího.
+        </p>
+
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+          <a
+            href={editorHref}
+            className="inline-flex h-10 items-center gap-1.5 rounded-lg px-4 text-[13px] font-semibold text-white shadow-[0_8px_22px_rgba(99,102,241,0.32)] transition-transform hover:scale-[1.02]"
+            style={{ background: "linear-gradient(135deg, #818cf8 0%, #6366f1 100%)" }}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            Přidat sekci
+          </a>
+          <a
+            href={`/demo/${tenantSlug}`}
+            className="inline-flex h-10 items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-4 text-[13px] font-medium text-slate-700 hover:bg-slate-50"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+              <path d="M9 18l-6-6 6-6M3 12h18" />
+            </svg>
+            Zpět na úvodní stránku
+          </a>
+        </div>
+
+        {/* Skeleton preview blocks */}
+        <div className="mx-auto mt-12 grid max-w-md grid-cols-3 gap-3 opacity-50">
+          {["w-3/4", "w-full", "w-2/3"].map((w, i) => (
+            <div key={i} className="space-y-2">
+              <div className="h-20 rounded-lg bg-slate-200" />
+              <div className={`h-2 rounded-full bg-slate-200 ${w}`} />
+              <div className="h-2 w-1/2 rounded-full bg-slate-200" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+/**
+ * AnimatedWrapper — IntersectionObserver-driven entrance animation. Adds
+ * `vs-anim-active` to the wrapping div the first time it enters the viewport
+ * with rootMargin so the animation runs slightly before the section is fully
+ * visible. Respects prefers-reduced-motion via CSS.
+ */
+function AnimatedWrapper({ className, children }: { className?: string; children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    // Only animate when className contains an anim preset.
+    if (!className || !/vs-anim-/.test(className)) return;
+    if (typeof IntersectionObserver === "undefined") {
+      el.classList.add("vs-anim-active");
+      return;
+    }
+    const obs = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            el.classList.add("vs-anim-active");
+            obs.disconnect();
+            break;
+          }
+        }
+      },
+      { rootMargin: "0px 0px -80px 0px", threshold: 0.05 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [className]);
+
+  return <div ref={ref} className={className}>{children}</div>;
 }

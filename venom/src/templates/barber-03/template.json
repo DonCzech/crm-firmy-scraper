@@ -1,7 +1,7 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "barber-03",
-  "name": "Studio Břitva",
+  "name": "Barbery",
   "industry": "barber",
   "skeleton": "service-personal",
   "version": "0.1.0",

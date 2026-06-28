@@ -18,7 +18,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
   if (!tenant) return Response.json({ error: "Not found" }, { status: 404 });
 
   const cookieStore = await cookies();
-  const token = cookieStore.get(`venom_access_${tenantSlug}`)?.value;
+  const token = cookieStore.get(`webero_access_${tenantSlug}`)?.value;
   if (!tenant.access_token || !token) return Response.json({ error: "Unauthorized" }, { status: 401 });
   try {
     const a = Buffer.from(token);

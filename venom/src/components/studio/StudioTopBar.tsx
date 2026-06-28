@@ -7,6 +7,7 @@ import clsx from "clsx";
 import { useStudio, type StudioBreakpoint } from "./StudioContext";
 import type { StudioState } from "./TenantStudioView";
 import { GoLiveButton } from "./GoLiveButton";
+import { PublishButton } from "./PublishButton";
 import { useHotkey } from "./ui";
 
 export function StudioTopBar({ state, onHelp: _onHelp }: { state: StudioState; onHelp: () => void }) {
@@ -32,10 +33,13 @@ export function StudioTopBar({ state, onHelp: _onHelp }: { state: StudioState; o
         />
         {/* Panel sub-zone (220px) — Overview back button when panel is open */}
         <div className="flex flex-1 items-center px-3">
-          {studio.leftPanel && (
+          {(studio.leftPanel || studio.settingsView) && (
             <button
               type="button"
-              onClick={() => studio.setLeftPanel(null)}
+              onClick={() => {
+                if (studio.settingsView) { studio.setSettingsView(null); return; }
+                studio.goBack();
+              }}
               className="flex items-center gap-1.5 text-[13px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] transition-colors duration-100"
             >
               <ChevronLeft className="h-4 w-4" strokeWidth={1.75} />
@@ -114,8 +118,9 @@ export function StudioTopBar({ state, onHelp: _onHelp }: { state: StudioState; o
 
           <div className="h-[22px] w-px bg-[var(--vs-border)] mx-1" />
 
-          <div className="flex items-center" data-tour-id="topbar-publish">
+          <div className="flex items-center gap-2" data-tour-id="topbar-publish">
             <GoLiveButton state={state} />
+            <PublishButton state={state} />
           </div>
         </div>
 

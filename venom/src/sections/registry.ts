@@ -26,7 +26,10 @@ export const SECTION_RENDERERS: Record<string, AnyComp> = {
   "blog-preview": dynamic(() => import("@/components/sections/BlogPreviewSection").then((m) => m.BlogPreviewSection), { ssr: true }) as AnyComp,
   map: dynamic(() => import("@/components/sections/MapSection").then((m) => m.MapSection), { ssr: true }) as AnyComp,
   promo: dynamic(() => import("@/components/sections/PromoSection").then((m) => m.PromoSection), { ssr: true }) as AnyComp,
+  products: dynamic(() => import("@/components/sections/PromoSection").then((m) => m.PromoSection), { ssr: true }) as AnyComp,
   stats: dynamic(() => import("@/components/sections/StatsSection").then((m) => m.StatsSection), { ssr: true }) as AnyComp,
+  embed: dynamic(() => import("@/components/sections/EmbedSection").then((m) => m.EmbedSection), { ssr: true }) as AnyComp,
+  freeform: dynamic(() => import("@/components/sections/FreeformSection").then((m) => m.FreeformSection), { ssr: false }) as AnyComp,
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 

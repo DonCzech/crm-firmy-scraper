@@ -2139,6 +2139,7 @@ function GalleryRestaurant03({ content, sectionId, images }: { content: Record<s
           <div style={{ textAlign: "center", marginTop: 40 }}>
             <a
               href={ctaHref}
+              data-btn="primary"
               style={{
                 fontFamily: SANS, fontSize: 11, fontWeight: 700,
                 letterSpacing: "0.14em", textTransform: "uppercase",
@@ -2599,6 +2600,7 @@ function GalleryStavba02({ content, sectionId }: { content: Record<string, unkno
         <div style={{ textAlign: "center", marginTop: 40 }}>
           <a
             href={ctaHref}
+            data-btn="primary"
             style={{ display: "inline-flex", alignItems: "center", gap: 8, backgroundColor: BROWN, color: "#fff", fontFamily: FONT, fontSize: "0.9rem", fontWeight: 600, padding: "13px 32px", borderRadius: 6, textDecoration: "none", transition: "opacity 0.18s" }}
             onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; }}
             onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}
@@ -2732,6 +2734,7 @@ function GalleryStavba03({ content, sectionId, tenantSlug, isAdmin }: { content:
         <div style={{ textAlign: "center", marginTop: 44 }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             style={{ display: "inline-flex", alignItems: "center", gap: 8, backgroundColor: ORANGE, color: "#fff", fontFamily: FONT, fontSize: "0.9rem", fontWeight: 700, padding: "14px 32px", textDecoration: "none", borderRadius: 2, letterSpacing: "0.3px", transition: "opacity 0.18s" }}
             onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; }}
             onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}
@@ -4243,6 +4246,7 @@ function GalleryKlima01({ content, sectionId, tenantSlug, isAdmin }: { content: 
       <div style={{ textAlign: "center" }}>
         <a
           href={resolve(ctaHref)}
+          data-btn="primary"
           style={{
             display: "inline-block",
             backgroundColor: NAVY, color: "#fff",
@@ -4810,7 +4814,7 @@ function GalleryArbo01({ content, sectionId }: { content: Record<string, unknown
             ))}
           </div>
           <div className="arbo01-gl-cta-wrap">
-            <a href={ctaHref} className="arbo01-gl-cta">
+            <a href={ctaHref} data-btn="primary" className="arbo01-gl-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
               <span aria-hidden="true">→</span>
             </a>
@@ -5956,6 +5960,7 @@ function GalleryRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { cont
         {ctaText && ctaHref && (
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             style={{
               display: "inline-block", fontFamily: SANS, fontSize: 11, fontWeight: 700,
               letterSpacing: "0.14em", textTransform: "uppercase",
@@ -6269,7 +6274,7 @@ function GalleryVideo01({ content, sectionId, isAdmin }: {
         </div>
 
         <div className="vd01gl-footer">
-          <a href={ctaHref} className="vd01gl-cta">
+          <a href={ctaHref} data-btn="primary" className="vd01gl-cta">
             {isAdmin ? <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /> : ctaText}
             <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </a>

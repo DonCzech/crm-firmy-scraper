@@ -1,0 +1,16 @@
+{
+  "status": "ready-for-review",
+  "templateSlug": "barber-barbershopurban",
+  "templateName": "Barber Shop — Barbershop Praha pánský střih - Barbershop URBAN",
+  "sourceUrl": "https://barbershopurban.cz",
+  "screenshotDesktop": "/Users/apple/DEV/CRM/venom/template-lab/research/barber/barbershopurban.cz/screenshots/desktop.png",
+  "screenshotMobile": "/Users/apple/DEV/CRM/venom/template-lab/research/barber/barbershopurban.cz/screenshots/mobile.png",
+  "generatedAt": "2026-05-09T08:33:27.385Z",
+  "pagesScraped": 5,
+  "sectionsGenerated": 12,
+  "files": {
+    "template": "/Users/apple/DEV/CRM/venom/template-lab/generated/barber/barber-barbershopurban/template.json",
+    "research": "/Users/apple/DEV/CRM/venom/template-lab/research/barber/barbershopurban.cz/analysis.json",
+    "pages": "/Users/apple/DEV/CRM/venom/template-lab/research/barber/barbershopurban.cz/pages.json"
+  }
+}

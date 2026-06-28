@@ -1,10 +1,48 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="176" height="44" viewBox="0 0 176 44" role="img" aria-labelledby="title">
-  <title id="title">Vaše demo</title>
-  <rect width="176" height="44" rx="4" fill="#111111"/>
-  <rect x="1" y="1" width="174" height="42" rx="3" fill="none" stroke="#C9A84C" stroke-width="1.4"/>
-  <circle cx="24" cy="22" r="12" fill="#C9A84C"/>
-  <path d="M18 22.2l4.1 4.2 8.1-10" fill="none" stroke="#111111" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M42 13h72" stroke="#C9A84C" stroke-width="1" opacity=".55"/>
-  <text x="42" y="27" fill="#F7F0DE" font-family="Georgia, 'Times New Roman', serif" font-size="14" font-weight="700" letter-spacing="1.35">VAŠE DEMO</text>
-  <text x="126" y="27" fill="#C9A84C" font-family="Arial, sans-serif" font-size="6.6" font-weight="700" letter-spacing=".9">WEB</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="50" viewBox="0 0 200 50" role="img" aria-labelledby="barber-logo-title">
+  <title id="barber-logo-title">The Barber Studio</title>
+
+  <!-- Razor blade icon -->
+  <g transform="translate(4, 7)">
+    <!-- Handle grip lines -->
+    <rect x="0" y="16.5" width="12" height="1.4" rx="0.7" fill="#C9A84C" opacity="0.6"/>
+    <rect x="0" y="19.5" width="12" height="1.4" rx="0.7" fill="#C9A84C" opacity="0.6"/>
+    <!-- Blade body -->
+    <path d="M12 12 L30 8 L32 21 L30 28 L12 24 Z" fill="none" stroke="#C9A84C" stroke-width="1.2" stroke-linejoin="round"/>
+    <!-- Blade edge shine -->
+    <path d="M12 12 L30 8 L32 21" fill="none" stroke="#E8C97A" stroke-width="0.6" opacity="0.8"/>
+    <!-- Spine detail -->
+    <line x1="12" y1="12" x2="12" y2="24" stroke="#C9A84C" stroke-width="1.2"/>
+    <!-- Blade guard -->
+    <rect x="10" y="10" width="3" height="16" rx="1" fill="#C9A84C" opacity="0.9"/>
+  </g>
+
+  <!-- Vertical separator -->
+  <line x1="44" y1="10" x2="44" y2="40" stroke="#C9A84C" stroke-width="0.8" opacity="0.5"/>
+
+  <!-- THE BARBER text -->
+  <text
+    x="52"
+    y="26"
+    fill="#F5F0E8"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="15"
+    font-weight="700"
+    letter-spacing="3.5"
+    dominant-baseline="middle"
+  >THE BARBER</text>
+
+  <!-- Gold underline accent -->
+  <line x1="52" y1="31" x2="185" y2="31" stroke="#C9A84C" stroke-width="0.7" opacity="0.6"/>
+
+  <!-- STUDIO tagline -->
+  <text
+    x="53"
+    y="39"
+    fill="#C9A84C"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="6.5"
+    font-weight="400"
+    letter-spacing="4.2"
+    dominant-baseline="middle"
+  >STUDIO</text>
 </svg>

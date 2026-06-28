@@ -1,10 +1,10 @@
 {
-  "siteName": "Studio Břitva",
+  "siteName": "Barbery",
   "tagline": "Pánský barbershop v centru Prahy — řemeslný střih a tradiční holení.",
 
   "navbar": {
     "logoUrl": "/templates/barber-03/logo.svg",
-    "siteName": "Studio Břitva",
+    "siteName": "Barbery",
     "links": [
       { "label": "Služby",   "href": "#sluzby" },
       { "label": "O nás",    "href": "#onas" },
@@ -40,7 +40,7 @@
 
   "footer": {
     "logoUrl": "/templates/barber-03/logo.svg",
-    "siteName": "Studio Břitva",
+    "siteName": "Barbery",
     "address": "Ukázková 123\n110 00 Praha 1",
     "phone": "+420 704 123 456",
     "email": "info@demo.cz",
@@ -54,7 +54,7 @@
     "socials": [
       { "label": "Instagram", "href": "https://instagram.com/demo" }
     ],
-    "legal": "Studio Břitva s.r.o. · IČO 12345678 · DIČ CZ12345678 · Ukázková 123, 110 00 Praha 1"
+    "legal": "Barbery s.r.o. · IČO 12345678 · DIČ CZ12345678 · Ukázková 123, 110 00 Praha 1"
   },
 
   "gallery": {
@@ -72,7 +72,7 @@
   },
 
   "pricing": {
-    "leftTitle": "O salónu Břitva",
+    "leftTitle": "O Barbery",
     "rightTitle": "Holičské služby",
     "videoPoster": { "__placeholder": [1200, 675, "Video — holičské studio"] },
     "columns": ["Junior", "Barber / Pro", "Senior / Top"],
@@ -96,7 +96,7 @@
 
   "about": {
     "title": "O nás",
-    "lead": "Pánská péče je řemeslo. Ve Studiu Břitva věnujeme každému zákazníkovi tolik času, kolik si zaslouží — bez spěchu, s důrazem na detail a tradiční techniky.",
+    "lead": "Pánská péče je řemeslo. V Barbery věnujeme každému zákazníkovi tolik času, kolik si zaslouží — bez spěchu, s důrazem na detail a tradiční techniky.",
     "body": "Tým holičů, kteří chápou, že střih není jen účes, ale součást vašeho stylu. Pracujeme s klasickými břitvami, horkým ručníkem a kvalitní kosmetikou. Atmosféra teplých tónů, dřeva a kůže vám dovolí na chvíli vypnout.",
     "image": { "__placeholder": [1200, 900, "About — interiér holičství"] }
   },
@@ -122,7 +122,7 @@
       {
         "bgImage": { "__placeholder": [800, 600, "Promo karta 2"] },
         "bullets": ["Dárek"],
-        "desc": "Každá 5. návštěva — věrnostní dárek od Studia Břitva."
+        "desc": "Každá 5. návštěva — věrnostní dárek od Barbery."
       }
     ]
   }

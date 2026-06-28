@@ -1,0 +1,98 @@
+{
+  "templateId": "cafe-01",
+  "category": "cafe",
+  "originalSlug": "costa",
+  "phase": "research",
+  "version": 1,
+  "createdAt": "2026-05-23",
+  "designSystem": {
+    "colors": {
+      "primary": "#6d1f37",
+      "primaryLight": "#b51144",
+      "primaryAccent": "#f4f3ef",
+      "almostBlack": "#222322",
+      "gray": "#404042",
+      "grayLight": "#747474",
+      "secondary1": "#095b3a",
+      "secondary2": "#ce4b27",
+      "secondary3": "#175259",
+      "white": "#ffffff",
+      "black": "#000000"
+    },
+    "typography": {
+      "display": {
+        "originalFamily": "CostaDisplayWave",
+        "originalNote": "proprietary, must replace",
+        "replacementCandidates": ["Caveat Brush", "Permanent Marker"],
+        "weights": [700]
+      },
+      "body": {
+        "originalFamily": "CostaText",
+        "originalNote": "proprietary, must replace",
+        "replacementCandidates": ["Manrope"],
+        "weights": [300, 400, 700]
+      }
+    },
+    "breakpoints": { "md": "768px", "lg": "1024px", "xl": "1392px" },
+    "decorations": {
+      "waveMask": true,
+      "wavesBgPattern": true,
+      "roundedShapes": false,
+      "buttonShape": "rounded-full",
+      "headingStyle": "display-wavy-with-tight-leading"
+    }
+  },
+  "pages": [
+    { "slug": "home",     "sourceHtml": "pages/home.html",     "size": "35 KB", "sections": 6 },
+    { "slug": "kavarny",  "sourceHtml": "pages/kavarny.html",  "size": "225 KB", "sections": 4, "note": "dlouhý seznam kaváren — paginate" },
+    { "slug": "nabidka",  "sourceHtml": "pages/nabidka.html",  "size": "37 KB", "sections": 5 },
+    { "slug": "historie", "sourceHtml": "pages/historie.html", "size": "35 KB", "sections": 4 }
+  ],
+  "sectionMap": {
+    "home": [
+      { "type": "site-header",         "variant": "logo-center-burger-left-actions-right", "stickyOnScroll": false, "darkMode": false },
+      { "type": "hero-fullbleed",      "variant": "image-bg-headline-left-cta-light",      "waveMask": "bottom" },
+      { "type": "split-promo",         "variant": "image-left-text-right-tilted",          "tilt": "-6deg" },
+      { "type": "card-grid-3",         "variant": "filled-bg-image-top-cta-bottom",        "cardBg": "primary" },
+      { "type": "split-feature",       "variant": "text-left-magazine-cover-right" },
+      { "type": "site-footer",         "variant": "6col-nav-bottom-socials", "darkPrimary": true }
+    ],
+    "kavarny": [
+      { "type": "site-header" },
+      { "type": "page-hero",           "variant": "centered-title-subtitle-image" },
+      { "type": "list-locations",      "variant": "filter-map-grid", "note": "list všech kaváren — paginate/filter" },
+      { "type": "site-footer" }
+    ],
+    "nabidka": [
+      { "type": "site-header" },
+      { "type": "page-hero" },
+      { "type": "menu-categories",     "variant": "tabs-or-anchor-nav" },
+      { "type": "menu-grid",           "variant": "image-card-with-price" },
+      { "type": "site-footer" }
+    ],
+    "historie": [
+      { "type": "site-header" },
+      { "type": "page-hero" },
+      { "type": "timeline-vertical",   "variant": "alternating-left-right" },
+      { "type": "site-footer" }
+    ]
+  },
+  "newCatalogSectionsNeeded": [
+    "hero-fullbleed (varianta image-bg-headline-left-cta-light + wave-mask)",
+    "split-promo (image tilted + text)",
+    "card-grid-3 (filled-bg-image-top-cta-bottom)",
+    "split-feature (text + magazine/PDF cover preview)",
+    "site-footer (6col + bottom bar)",
+    "site-header (logo-center varianta)",
+    "list-locations (mapa + grid s filtrem)",
+    "menu-categories (anchor nav)",
+    "menu-grid (price card)",
+    "timeline-vertical (alternating)"
+  ],
+  "cleanupBudget": {
+    "jsToRemoveKb": 280,
+    "cssToRemoveKb": 30,
+    "expectedPageWeightTargetKb": 500,
+    "expectedSavingsKb": 340
+  }
+}

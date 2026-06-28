@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 44" fill="none" aria-label="Demo Akademie">
+  <!-- Book icon -->
+  <rect x="2" y="8" width="26" height="28" rx="3" fill="#0059df"/>
+  <rect x="6" y="4" width="26" height="28" rx="3" fill="#132339" stroke="#0059df" stroke-width="1.5"/>
+  <line x1="12" y1="12" x2="26" y2="12" stroke="#91bae4" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="12" y1="17" x2="26" y2="17" stroke="#91bae4" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="12" y1="22" x2="20" y2="22" stroke="#91bae4" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Wordmark -->
+  <text x="40" y="16" font-family="'Libre Franklin', Arial, sans-serif" font-size="9" font-weight="600" letter-spacing="2" fill="#0059df" text-transform="uppercase">DEMO</text>
+  <text x="40" y="33" font-family="'Libre Franklin', Arial, sans-serif" font-size="18" font-weight="800" fill="#132339">Akademie</text>
+</svg>

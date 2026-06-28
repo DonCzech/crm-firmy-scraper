@@ -45,8 +45,8 @@ export async function GET(req: NextRequest) {
     const userAccounts = userAccountsRes.rows[0];
 
     return NextResponse.json({
-      project: "venom",
-      name: "Venom SaaS",
+      project: "webero",
+      name: "Webero",
       stats: {
         totalTenants: parseInt(tenants.total),
         activeTenants: parseInt(tenants.active),

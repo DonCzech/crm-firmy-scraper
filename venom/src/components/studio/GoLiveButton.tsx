@@ -87,21 +87,27 @@ export function GoLiveButton({ state }: { state: StudioState }) {
         type="button"
         onClick={() => (blocked ? setShowMissing((v) => !v) : void publish())}
         disabled={publishing}
-        className={`inline-flex h-8 items-center gap-1.5 rounded-md px-3 text-xs font-semibold transition-colors duration-150 ${
+        // Blocked = icon-only amber alert (the verbose label has moved into
+        // the popover, the bar stays compact next to the new Publikovat
+        // dropdown). Ready = full "Spustit web" pill with rocket.
+        className={
           blocked
-            ? "bg-amber-500/15 text-amber-300 hover:bg-amber-500/25"
-            : "bg-emerald-600 text-white hover:bg-emerald-500"
-        } disabled:opacity-60`}
+            ? `grid h-8 w-8 place-items-center rounded-md bg-amber-500/15 text-amber-300 hover:bg-amber-500/25 transition-colors disabled:opacity-60`
+            : `inline-flex h-8 items-center gap-1.5 rounded-md px-3 text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-500 transition-colors duration-150 disabled:opacity-60`
+        }
+        aria-label={blocked ? "Před spuštěním vyplň povinné údaje" : "Spustit web do produkce"}
         title={blocked ? "Před spuštěním vyplň povinné údaje" : "Spustit web do produkce"}
       >
         {publishing ? (
           <Loader2 className="h-3.5 w-3.5 animate-spin" />
         ) : blocked ? (
-          <AlertCircle className="h-3.5 w-3.5" strokeWidth={2.25} />
+          <AlertCircle className="h-4 w-4" strokeWidth={2.25} />
         ) : (
-          <Rocket className="h-3.5 w-3.5" strokeWidth={2.25} />
+          <>
+            <Rocket className="h-3.5 w-3.5" strokeWidth={2.25} />
+            Spustit web
+          </>
         )}
-        {blocked ? "Před spuštěním…" : "Spustit web"}
       </button>
 
       {blocked && showMissing && (

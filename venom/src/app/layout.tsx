@@ -4,18 +4,17 @@ import { CookieConsent } from "@/components/CookieConsent";
 import "./globals.css";
 
 const libreBaskerville = Libre_Baskerville({
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
   weight: ["400", "700"],
-  style: ["normal", "italic"],
   variable: "--font-libre-baskerville",
-  display: "swap",
+  display: "optional",
 });
 
 const sourceSans = Source_Sans_3({
-  subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "600", "700"],
+  subsets: ["latin"],
+  weight: ["400", "600"],
   variable: "--font-source-sans",
-  display: "swap",
+  display: "optional",
 });
 
 const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://webero.co";

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 48" fill="none">
+  <!-- Coffee ring emblem (inspired by coffeeroom.cz circular mark) -->
+  <g transform="translate(0,4)">
+    <!-- Outer ring -->
+    <circle cx="20" cy="20" r="18.5" stroke="white" stroke-width="1.6" fill="none"/>
+    <!-- Inner partial arc (coffee c-shape) -->
+    <path d="M20 6 A14 14 0 1 0 20 34" stroke="white" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+    <!-- Inner small circle -->
+    <circle cx="20" cy="20" r="5" stroke="white" stroke-width="1.4" fill="none"/>
+  </g>
+
+  <!-- Two-line wordmark -->
+  <!-- Line 1: FRESH — lighter, letter-spaced -->
+  <text
+    x="50" y="22"
+    font-family="'Montserrat','Helvetica Neue',Arial,sans-serif"
+    font-size="15"
+    font-weight="300"
+    letter-spacing="5"
+    fill="white"
+    text-anchor="start"
+  >FRESH</text>
+  <!-- Line 2: COFFEE — bold, matching width -->
+  <text
+    x="50" y="40"
+    font-family="'Montserrat','Helvetica Neue',Arial,sans-serif"
+    font-size="15"
+    font-weight="700"
+    letter-spacing="3.5"
+    fill="white"
+    text-anchor="start"
+  >COFFEE</text>
+</svg>

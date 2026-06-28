@@ -108,14 +108,22 @@ function TemplateCard({ row }: { row: TemplateRow }) {
       <div className="flex flex-1 flex-col p-4">
         <div className="text-[10.5px] font-bold uppercase tracking-wide text-[#14532d]">{industryLabel}</div>
         <h3 className="mt-1 text-base font-black text-slate-950">{row.name}</h3>
-        <div className="mt-auto flex items-center justify-between pt-4">
-          <code className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-500">{row.key}</code>
+        <div className="mt-auto flex flex-col gap-2 pt-4">
           <Link
             href={`/sablony/${row.key}`}
-            className="text-[12px] font-bold text-[#14532d] hover:underline"
+            className="block w-full rounded bg-[#14532d] px-4 py-2 text-center text-sm font-black text-white transition hover:bg-[#0f3f23]"
           >
-            Detail →
+            Aktivovat šablonu →
           </Link>
+          <div className="flex items-center justify-between">
+            <code className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] text-slate-500">{row.key}</code>
+            <Link
+              href={`/sablony/${row.key}`}
+              className="text-[11px] text-slate-400 hover:text-[#14532d] hover:underline"
+            >
+              Detail
+            </Link>
+          </div>
         </div>
       </div>
     </article>

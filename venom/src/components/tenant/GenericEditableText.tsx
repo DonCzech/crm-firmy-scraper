@@ -96,9 +96,13 @@ export function GenericEditableText({
     const update = () => {
       if (!ref.current) return;
       const rect = ref.current.getBoundingClientRect();
+      const isNarrow = window.innerWidth < 640;
+      const toolbarW = isNarrow ? Math.min(window.innerWidth - 16, 320) : 360;
       setToolbarPos({
         top: Math.max(8, rect.top - 54),
-        left: Math.max(8, Math.min(rect.left, window.innerWidth - 360)),
+        left: isNarrow
+          ? Math.max(8, Math.min((window.innerWidth - toolbarW) / 2, window.innerWidth - toolbarW - 8))
+          : Math.max(8, Math.min(rect.left, window.innerWidth - toolbarW - 8)),
       });
     };
     update();
@@ -125,6 +129,7 @@ export function GenericEditableText({
             zIndex: 100000,
             display: "flex",
             alignItems: "center",
+            flexWrap: "wrap",
             gap: 4,
             padding: "6px 8px",
             borderRadius: 10,
@@ -132,6 +137,7 @@ export function GenericEditableText({
             boxShadow: "0 10px 30px rgba(0,0,0,0.32)",
             color: "#fff",
             fontFamily: "Inter, sans-serif",
+            maxWidth: "min(360px, calc(100vw - 16px))",
           }}
         >
           {[

@@ -23,7 +23,7 @@ interface RouteParams {
 async function checkAuth(tenantSlug: string, accessToken: string | null): Promise<boolean> {
   if (!accessToken) return false;
   const cookieStore = await cookies();
-  const cookie = cookieStore.get(`venom_access_${tenantSlug}`)?.value;
+  const cookie = cookieStore.get(`webero_access_${tenantSlug}`)?.value;
   return cookie === accessToken;
 }
 

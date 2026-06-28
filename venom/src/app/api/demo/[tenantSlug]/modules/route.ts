@@ -14,7 +14,7 @@ async function checkAuth(tenantSlug: string): Promise<{ ok: boolean; tenantId?: 
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant?.access_token) return { ok: false };
   const cookieStore = await cookies();
-  const token = cookieStore.get(`venom_access_${tenantSlug}`)?.value;
+  const token = cookieStore.get(`webero_access_${tenantSlug}`)?.value;
   if (!token) return { ok: false };
   try {
     const a = Buffer.from(token);

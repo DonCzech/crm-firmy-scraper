@@ -1,7 +1,8 @@
 import { notFound, redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { getTenantBySlug, getTenantPage, getPageSections, getTenantOverrides } from "@/lib/db";
-import { TenantEditorView } from "@/components/tenant/TenantEditorView";
+import { TenantStudioView } from "@/components/studio/TenantStudioView";
+import { resolveAllSections } from "@/lib/section-resolver";
 import type { Metadata } from "next";
 
 interface Props {
@@ -18,19 +19,21 @@ export default async function TenantAdminSubPage({ params }: Props) {
   if (!tenant || tenant.status === "suspended") return notFound();
 
   const cookieStore = await cookies();
-  const accessCookie = cookieStore.get(`venom_access_${tenantSlug}`)?.value;
+  const accessCookie = cookieStore.get(`webero_access_${tenantSlug}`)?.value;
 
   if (!tenant.access_token || accessCookie !== tenant.access_token) {
     redirect(`/demo/${tenantSlug}/login`);
   }
 
   const page = await getTenantPage(tenant.id, slug);
-  if (!page || page.is_homepage) return notFound();
+  if (!page) return notFound();
 
-  const [sections, overrides] = await Promise.all([
+  const [rawSections, overrides] = await Promise.all([
     getPageSections(tenant.id, page.id),
     getTenantOverrides(tenant.id),
   ]);
 
-  return <TenantEditorView tenant={tenant} page={page} sections={sections} overrides={overrides} />;
+  const sections = await resolveAllSections(tenant, rawSections);
+
+  return <TenantStudioView tenant={tenant} page={page} sections={sections} overrides={overrides} />;
 }

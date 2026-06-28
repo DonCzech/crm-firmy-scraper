@@ -16,7 +16,7 @@ async function checkAuth(tenantSlug: string): Promise<boolean> {
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant?.access_token) return false;
   const cookieStore = await cookies();
-  const token = cookieStore.get(`venom_access_${tenantSlug}`)?.value;
+  const token = cookieStore.get(`webero_access_${tenantSlug}`)?.value;
   if (!token) return false;
   try {
     const a = Buffer.from(token);
@@ -25,6 +25,43 @@ async function checkAuth(tenantSlug: string): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+/**
+ * GET /api/demo/<slug>/analytics
+ *   Returns the analytics_config + search_console_verification + a 30-day
+ *   activity series derived from audit_log (used as a proxy for "site
+ *   editing volume" in the Analytics panel until per-page-view tracking is
+ *   implemented).
+ */
+export async function GET(
+  req: NextRequest,
+  { params }: { params: Promise<{ tenantSlug: string }> }
+) {
+  if (!assertSameOrigin(req)) return Response.json({ error: "Invalid request origin" }, { status: 403 });
+  const { tenantSlug } = await params;
+  if (!(await checkAuth(tenantSlug))) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const tenant = await getTenantBySlug(tenantSlug);
+  if (!tenant) return Response.json({ error: "Not found" }, { status: 404 });
+
+  const activity = await query<{ day: string; count: string; action: string }>(
+    `SELECT to_char(created_at, 'YYYY-MM-DD') AS day,
+            COUNT(*)::text AS count,
+            action
+       FROM audit_log
+      WHERE tenant_id = $1 AND created_at >= now() - interval '30 days'
+      GROUP BY day, action
+      ORDER BY day ASC`,
+    [tenant.id]
+  );
+
+  return Response.json({
+    config: tenant.analytics_config ?? {},
+    searchConsole: tenant.search_console_verification ?? null,
+    activity: activity.map((a) => ({ day: a.day, count: parseInt(a.count, 10), action: a.action })),
+  });
 }
 
 export async function PUT(

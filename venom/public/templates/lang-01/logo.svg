@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" fill="none" role="img" aria-label="Demo Jazykové kurzy">
+  <!-- Speech bubble icon -->
+  <rect x="2" y="4" width="22" height="16" rx="4" fill="#e63946"/>
+  <polygon points="8,20 14,28 14,20" fill="#e63946"/>
+  <!-- Dots inside bubble -->
+  <circle cx="8"  cy="12" r="2" fill="#fff"/>
+  <circle cx="13" cy="12" r="2" fill="#fff"/>
+  <circle cx="18" cy="12" r="2" fill="#fff"/>
+  <!-- Text: DEMO -->
+  <text x="30" y="16" font-family="Inter, Arial, sans-serif" font-size="9" font-weight="700" fill="#e63946" letter-spacing="2">DEMO</text>
+  <!-- Text: Jazykové kurzy -->
+  <text x="30" y="30" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="800" fill="#1a1a2e" letter-spacing="-0.3">Jazykové kurzy</text>
+</svg>

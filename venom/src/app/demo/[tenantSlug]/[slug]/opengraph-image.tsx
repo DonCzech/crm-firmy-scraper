@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getTenantBySlug, getTenantPage } from "@/lib/db";
 
-export const alt = "Venom SaaS";
+export const alt = "Webero";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -14,7 +14,7 @@ export default async function Image({ params }: Props) {
   const tenant = await getTenantBySlug(tenantSlug);
   const page = tenant ? await getTenantPage(tenant.id, slug) : null;
 
-  const title = page?.seo_title ?? slug ?? tenantSlug ?? "Venom SaaS";
+  const title = page?.seo_title ?? slug ?? tenantSlug ?? "Webero";
   const subtitle = tenant?.slug ?? "Vytvořeno na Webero";
   const background = "#0f172a";
 

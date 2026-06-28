@@ -21,45 +21,33 @@ html {
 
 @font-face {
   font-family: 'Oswald';
-  src: url('/clones/peak-cut/fonts/oswald-v53-latin-regular.woff2') format('woff2');
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Oswald';
-  src: url('/clones/peak-cut/fonts/oswald-v53-latin-500.woff2') format('woff2');
-  font-weight: 500;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Oswald';
-  src: url('/clones/peak-cut/fonts/oswald-v53-latin-600.woff2') format('woff2');
-  font-weight: 600;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Oswald';
-  src: url('/clones/peak-cut/fonts/oswald-v53-latin-700.woff2') format('woff2');
-  font-weight: 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Overpass';
-  src: url('/clones/peak-cut/fonts/overpass-v13-latin-regular.woff2') format('woff2');
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Overpass';
-  src: url('/clones/peak-cut/fonts/overpass-v13-latin-200.woff2') format('woff2');
+  src: url('/clones/peak-cut/fonts/Oswald-200.woff2') format('woff2');
   font-weight: 200;
-  font-display: swap;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Oswald';
+  src: url('/clones/peak-cut/fonts/Oswald-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Oswald';
+  src: url('/clones/peak-cut/fonts/Oswald-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: optional;
 }
 @font-face {
   font-family: 'Overpass';
-  src: url('/clones/peak-cut/fonts/overpass-v13-latin-700.woff2') format('woff2');
-  font-weight: 700;
-  font-display: swap;
+  src: url('/clones/peak-cut/fonts/Overpass-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Overpass';
+  src: url('/clones/peak-cut/fonts/Overpass-500.woff2') format('woff2');
+  font-weight: 500;
+  font-display: optional;
 }
 
 [data-template="peak-cut"] {

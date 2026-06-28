@@ -1,0 +1,75 @@
+{
+  "when": "2026-06-20T23:53:09.036Z",
+  "scanned": 92,
+  "withFindings": 2,
+  "totalFindings": 5,
+  "reports": [
+    {
+      "key": "bakery-01",
+      "hosts": [
+        "zrnozrnko.cz"
+      ],
+      "brands": [
+        "zrnozrnko.cz"
+      ],
+      "findings": [
+        {
+          "file": "disk:content/cs.json",
+          "findings": [
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host zrnozrnko.cz",
+              "count": 1,
+              "sample": "zrnozrnko.cz"
+            },
+            {
+              "kind": "origin-brand",
+              "desc": "Reference to original brand \"zrnozrnko.cz\"",
+              "count": 1,
+              "sample": "zrnozrnko.cz"
+            }
+          ]
+        },
+        {
+          "file": "render:bakery-01-v2",
+          "findings": [
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host zrnozrnko.cz",
+              "count": 2,
+              "sample": "zrnozrnko.cz"
+            },
+            {
+              "kind": "origin-brand",
+              "desc": "Reference to original brand \"zrnozrnko.cz\"",
+              "count": 2,
+              "sample": "zrnozrnko.cz"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "hair-02",
+      "hosts": [
+        "hairsalon-no1.cz"
+      ],
+      "brands": [
+        "hairsalon-no1.cz."
+      ],
+      "findings": [
+        {
+          "file": "disk:content/cs.json",
+          "findings": [
+            {
+              "kind": "wordpress",
+              "desc": "WordPress artifact",
+              "count": 1,
+              "sample": "/wp-content/"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

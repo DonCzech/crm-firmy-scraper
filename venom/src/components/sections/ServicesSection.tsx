@@ -268,6 +268,7 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
               {it.ctaText && (
                 <a
                   href={it.ctaHref ?? "#rezervace"}
+                  data-btn="inverse"
                   style={{
                     display: "inline-block",
                     marginTop: 8,
@@ -628,6 +629,10 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
   if (variant === "peak-cut-pricing") {
     // peak-cut Minimal — bezserif kapitálky, tenké linky mezi položkami, černé ceny vpravo.
     return (
+      <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Overpass:wght@300;400&display=swap" />
       <section className="py-16 px-6" style={{ backgroundColor: "#ffffff" }} data-template="peak-cut">
         <div className="max-w-[1180px] mx-auto">
           <h2
@@ -702,6 +707,7 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
           </div>
         </div>
       </section>
+      </>
     );
   }
 
@@ -892,6 +898,7 @@ export function ServicesSection({ content, variant, sectionId, tenantSlug, isAdm
                     <a
                       key={ci}
                       href={cta.href}
+                      data-btn={isPrimary ? "primary" : "inverse"}
                       className="inline-block uppercase no-underline transition-colors"
                       style={{
                         border: isPrimary ? "1.5px solid #c8a96e" : "1.5px solid rgba(255,255,255,0.8)",
@@ -1166,6 +1173,7 @@ function Massage01Services3col({ content, sectionId }: { content: Record<string,
         <div style={{ display: "flex", justifyContent: "center" }}>
           <a
             href={ctaHref}
+            data-btn="primary"
             style={{ display: "inline-flex", alignItems: "center", padding: "18px 40px", fontFamily: FONT, fontSize: 14, fontWeight: 500, color: GOLD, border: `1px solid ${GOLDDIM}`, textDecoration: "none", transition: "border-color 0.25s" }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = GOLD; }}
             onMouseLeave={e => { e.currentTarget.style.borderColor = GOLDDIM; }}
@@ -1260,7 +1268,7 @@ function ServicesTawan01({ content, sectionId }: { content: Record<string, unkno
                 <span style={{ fontFamily: FONT, fontSize: 15, fontWeight: 700, color: BRONZE, letterSpacing: 0.5 }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.price`} value={item.price} tag="span" />
                 </span>
-                <a href={ctaHref} style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: PURPLE, textDecoration: "none", opacity: 0.6, transition: "opacity 0.2s" }}
+                <a href={ctaHref} data-btn="primary" style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: PURPLE, textDecoration: "none", opacity: 0.6, transition: "opacity 0.2s" }}
                   onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
                   onMouseLeave={e => (e.currentTarget.style.opacity = "0.6")}
                 >
@@ -1276,6 +1284,7 @@ function ServicesTawan01({ content, sectionId }: { content: Record<string, unkno
       <div style={{ textAlign: "center" }}>
         <a
           href={ctaHref}
+          data-btn="primary"
           style={{
             fontFamily: FONT, fontSize: 13, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase",
             color: "#fff", textDecoration: "none",
@@ -2284,6 +2293,7 @@ function ServicesClinic03({ content, sectionId }: { content: Record<string,unkno
               <a
                 key={i}
                 href={s.ctaHref ?? "#kontakt"}
+                data-btn="primary"
                 style={{ textDecoration: "none", display: "flex", flexDirection: "column", cursor: "pointer", flexShrink: 0, width: cardW > 0 ? cardW : `calc((100% - ${GAP * (visible - 1)}px) / ${visible})` }}
               >
                 {/* Photo 3:4 */}
@@ -2434,7 +2444,7 @@ function ServicesClinic02({ content, sectionId }: { content: Record<string, unkn
               )}
               {current.ctaHref && (
                 <div>
-                  <a href={current.ctaHref} style={{
+                  <a href={current.ctaHref} data-btn="primary" style={{
                     display: "inline-block", padding: "13px 36px",
                     backgroundColor: AMBER, color: NAVY,
                     fontFamily: FONT_H, fontSize: "0.82rem", fontWeight: 700,
@@ -2629,6 +2639,7 @@ function ServicesFitness02({ content, sectionId }: { content: Record<string, unk
         <div style={{ textAlign: "center" }}>
           <a
             href={ctaHref}
+            data-btn="inverse"
             style={{
               display: "inline-flex", alignItems: "center",
               background: "transparent", color: ACCENT,
@@ -2733,7 +2744,7 @@ function ServicesFitness01Carousel({ content, sectionId }: { content: Record<str
         </div>
 
         <div style={{ textAlign: "center", marginTop: 48 }}>
-          <a href={ctaHref} style={{
+          <a href={ctaHref} data-btn="primary" style={{
             display: "inline-flex", alignItems: "center", gap: 10,
             background: ACCENT, color: "#fff",
             padding: "15px 36px", borderRadius: 9999,
@@ -2820,7 +2831,7 @@ function PricingFitness01({ content, sectionId }: { content: Record<string, unkn
                     ))}
                   </ul>
                 )}
-                <a href={plan.ctaHref ?? "#kontakt"} style={{
+                <a href={plan.ctaHref ?? "#kontakt"} data-btn="primary" style={{
                   display: "block", textAlign: "center",
                   background: plan.featured ? ACCENT : "transparent",
                   color: plan.featured ? "#fff" : ACCENT,
@@ -2958,6 +2969,7 @@ function ServicesFyzio01({ content, sectionId }: { content: Record<string, unkno
           <div style={{ textAlign: "center", marginTop: 52 }}>
             <a
               href={ctaHref}
+              data-btn="primary"
               style={{ display: "inline-block", backgroundColor: NAVY, color: WHITE, fontFamily: MONT, fontSize: 15, fontWeight: 700, padding: "15px 40px", borderRadius: 4, textDecoration: "none", letterSpacing: "0.05em", textTransform: "uppercase", transition: "background 0.2s" }}
               onMouseEnter={e => (e.currentTarget.style.backgroundColor = GREEN)}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = NAVY)}
@@ -3070,6 +3082,7 @@ function ServicesFyzio02({ content, sectionId }: { content: Record<string, unkno
           <div style={{ textAlign: "center", marginTop: 52 }}>
             <a
               href={ctaHref}
+              data-btn="primary"
               style={{ display: "inline-block", backgroundColor: GOLD, color: WHITE, fontFamily: SANS, fontSize: "0.95rem", fontWeight: 600, padding: "0.9rem 2.2rem", borderRadius: 8, textDecoration: "none", transition: "background 0.15s" }}
               onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#b8943d")}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
@@ -3184,7 +3197,7 @@ function ServicesCafe02({ content, sectionId }: { content: Record<string, unknow
 
         {/* Hlavní CTA */}
         <div style={{ textAlign: "center" }}>
-          <a href={ctaHref} style={{
+          <a href={ctaHref} data-btn="primary" style={{
             fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.1em",
             textTransform: "uppercase", color: BURG, textDecoration: "none",
             padding: "14px 36px", border: `1.5px solid ${BURG}`, borderRadius: 2,
@@ -3317,7 +3330,7 @@ function ServicesRestaurant01({ content, sectionId }: { content: Record<string, 
 
         {/* Hlavní CTA */}
         <div style={{ textAlign: "center" }}>
-          <a href={ctaHref} style={{
+          <a href={ctaHref} data-btn="primary" style={{
             fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.1em",
             textTransform: "uppercase", color: CREAM, textDecoration: "none",
             padding: "14px 36px", border: `1px solid ${AMBER}`, borderRadius: 3,
@@ -3394,6 +3407,7 @@ function ServicesRestaurant02({ content, sectionId }: { content: Record<string, 
           </div>
           <a
             href={ctaHref}
+            data-btn="primary"
             style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: RED, textDecoration: "none", borderBottom: `1.5px solid ${RED}`, paddingBottom: 2, whiteSpace: "nowrap", transition: "opacity 0.2s", flexShrink: 0 }}
             onMouseEnter={e => (e.currentTarget.style.opacity = "0.7")}
             onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
@@ -3438,6 +3452,7 @@ function ServicesRestaurant02({ content, sectionId }: { content: Record<string, 
               {item.ctaText && (
                 <a
                   href={item.ctaHref ?? ctaHref}
+                  data-btn="primary"
                   style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: RED, textDecoration: "none", borderBottom: `1px solid ${RED}`, paddingBottom: 1, transition: "opacity 0.2s" }}
                   onMouseEnter={e => (e.currentTarget.style.opacity = "0.7")}
                   onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
@@ -3571,6 +3586,7 @@ function ServicesRestaurant03({ content, sectionId }: { content: Record<string, 
         <div style={{ textAlign: "center", marginTop: 56 }}>
           <a
             href={ctaHref}
+            data-btn="primary"
             style={{ display: "inline-block", fontSize: 12, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: WHITE, textDecoration: "none", border: `2px solid ${GOLD}`, padding: "14px 40px", transition: "background 0.25s, color 0.25s" }}
             onMouseEnter={e => { e.currentTarget.style.backgroundColor = GOLD; e.currentTarget.style.color = DARK; }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = WHITE; }}
@@ -3674,9 +3690,10 @@ function ServicesCafe03({ content, sectionId }: { content: Record<string, unknow
           </div>
         )}
       </div>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400;600&display=swap');
-      `}</style>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400;600&display=swap" />
+      <style>{`      `}</style>
     </section>
   );
 }
@@ -3735,6 +3752,7 @@ function ServicesBakery01({ content, sectionId }: { content: Record<string, unkn
                   {cta && (
                     <a
                       href={ctaHref}
+                      data-btn="primary"
                       style={{
                         display: "inline-block",
                         fontFamily: SERIF,
@@ -4102,6 +4120,7 @@ function ServicesReality03Grid({ content, sectionId }: { content: Record<string,
                 {item.ctaText && item.ctaHref && (
                   <a
                     href={item.ctaHref}
+                    data-btn="primary"
                     style={{
                       display: "inline-flex", alignItems: "center", gap: 8,
                       fontSize: 12, fontWeight: 700, color: OCHRE,
@@ -4289,7 +4308,7 @@ function ServicesReality01Listings({ content, sectionId }: { content: Record<str
 
         {/* CTA */}
         <div style={{ textAlign: "center", marginTop: 52 }}>
-          <a href={ctaHref} style={{
+          <a href={ctaHref} data-btn="primary" style={{
             display: "inline-flex", alignItems: "center", gap: 8,
             border: `1.5px solid ${DARK}`, color: DARK, backgroundColor: WHITE,
             fontFamily: MONTSERRAT, fontSize: 14, fontWeight: 600, letterSpacing: "0.04em",
@@ -4520,7 +4539,7 @@ function ServicesAutoservis03({ content, sectionId }: { content: Record<string, 
                 <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description ?? ""} tag="span" />
               </p>
               {item.ctaText && (
-                <a href={item.ctaHref ?? "#"} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: SANS, fontSize: 13, fontWeight: 600, color: ORANGE, textDecoration: "none", marginTop: 4, transition: "gap 0.18s" }}
+                <a href={item.ctaHref ?? "#"} data-btn="primary" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: SANS, fontSize: 13, fontWeight: 600, color: ORANGE, textDecoration: "none", marginTop: 4, transition: "gap 0.18s" }}
                   onMouseEnter={e => (e.currentTarget.style.gap = "10px")}
                   onMouseLeave={e => (e.currentTarget.style.gap = "6px")}
                 >
@@ -4600,7 +4619,7 @@ function PricingAutoservis03({ content, sectionId }: { content: Record<string, u
         </div>
         <div style={{ textAlign: "center" }}>
           <p style={{ fontFamily: SANS, fontSize: 12, color: MUTED, marginBottom: 24 }}>{vatNote}</p>
-          <a href={ctaHref} style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 32px", background: "linear-gradient(to right,#f97316,#ea6c08)", color: WHITE, fontFamily: SANS, fontSize: 15, fontWeight: 700, textDecoration: "none", borderRadius: 12, boxShadow: "0 4px 20px rgba(249,115,22,0.3)", transition: "opacity 0.18s" }}
+          <a href={ctaHref} data-btn="primary" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 32px", background: "linear-gradient(to right,#f97316,#ea6c08)", color: WHITE, fontFamily: SANS, fontSize: 15, fontWeight: 700, textDecoration: "none", borderRadius: 12, boxShadow: "0 4px 20px rgba(249,115,22,0.3)", transition: "opacity 0.18s" }}
             onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
             onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
           >
@@ -4683,7 +4702,7 @@ function ServicesAutoservis02({ content, sectionId }: { content: Record<string, 
               </p>
               {/* CTA */}
               {item.ctaText && (
-                <a href={item.ctaHref ?? "#"}
+                <a href={item.ctaHref ?? "#"} data-btn="primary"
                   style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: SANS, fontSize: 13, fontWeight: 700, color: RED, textDecoration: "none", marginTop: 4 }}
                   onMouseEnter={e => (e.currentTarget.style.opacity = "0.75")}
                   onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
@@ -4756,7 +4775,7 @@ function ServicesAutoservis01({ content, sectionId }: { content: Record<string, 
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description ?? ""} tag="span" />
                 </p>
                 {item.ctaText && (
-                  <a href={item.ctaHref ?? "#"} className="a01-svc-cta" style={{ fontFamily: SANS, fontSize: 14, color: ORANGE }}>
+                  <a href={item.ctaHref ?? "#"} data-btn="primary" className="a01-svc-cta" style={{ fontFamily: SANS, fontSize: 14, color: ORANGE }}>
                     <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={item.ctaText} tag="span" />
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                   </a>
@@ -5302,6 +5321,7 @@ function ServicesStavba01({ content, sectionId }: { content: Record<string, unkn
                 {item.ctaText && item.ctaHref && (
                   <a
                     href={item.ctaHref}
+                    data-btn="primary"
                     style={{ display: "inline-flex", alignItems: "center", gap: 5, color: ORANGE, fontSize: "0.82rem", fontWeight: 700, letterSpacing: "0.04em", textTransform: "uppercase", textDecoration: "none", marginTop: 6, transition: "gap 0.15s" }}
                     onMouseEnter={e => { e.currentTarget.style.gap = "9px"; }}
                     onMouseLeave={e => { e.currentTarget.style.gap = "5px"; }}
@@ -5391,13 +5411,13 @@ function ServicesLegal02({ content, sectionId }: { content: Record<string, unkno
               <ul style={{ listStyle: "none", margin: "0 0 16px", padding: 0 }}>
                 {group.items.map((item, ii) => (
                   <li key={ii} className="l02s-item" style={{ background: "#ECEFF4", marginBottom: 8 }}>
-                    <a href={ctaHref}>{item}</a>
+                    <a href={ctaHref} data-btn="primary">{item}</a>
                   </li>
                 ))}
               </ul>
               {/* CTA only on last group */}
               {gi === groups.length - 1 && (
-                <a href={ctaHref} className="l02s-cta">
+                <a href={ctaHref} data-btn="primary" className="l02s-cta">
                   {ctaText}
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -5492,6 +5512,7 @@ function ServicesElektro01({ content, sectionId, tenantSlug, isAdmin }: { conten
               {item.ctaText && (
                 <a
                   href={resolve(item.ctaHref ?? "/")}
+                  data-btn="primary"
                   style={{ display: "inline-flex", alignItems: "center", gap: 8, color: RED, textDecoration: "none", fontFamily: FONT, fontSize: "0.8rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", borderBottom: `1px solid ${RED}`, paddingBottom: 2, transition: "opacity 0.2s" }}
                   onMouseEnter={e => { e.currentTarget.style.opacity = "0.75"; }}
                   onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}
@@ -5837,6 +5858,7 @@ function ServicesInstala01({ content, sectionId, tenantSlug, isAdmin }: { conten
                   </p>
                   <a
                     href={resolveHref(item.ctaHref)}
+                    data-btn="primary"
                     style={{ display: "inline-flex", alignItems: "center", gap: 6, color: DARK, fontWeight: 600, fontSize: "15px", textDecoration: "none", borderBottom: `2px solid ${YELLOW}`, paddingBottom: 2, width: "fit-content", transition: "color 0.18s" }}
                     onMouseEnter={e => { e.currentTarget.style.color = "#7a4800"; }}
                     onMouseLeave={e => { e.currentTarget.style.color = DARK; }}
@@ -6027,7 +6049,7 @@ function ServicesCatering01({ content, sectionId, tenantSlug, isAdmin }: { conte
             ))}
           </div>
 
-          <a href={resolveDemoHref(ctaHref)} className="c01sv-cta">
+          <a href={resolveDemoHref(ctaHref)} data-btn="primary" className="c01sv-cta">
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           </a>
         </div>
@@ -6144,6 +6166,7 @@ function ServicesAutoskola01({ content, sectionId, tenantSlug, isAdmin }: { cont
                   </div>
                   <a
                     href={resolve(ctaHref)}
+                    data-btn="primary"
                     style={{ display: "block", textAlign: "center", padding: "12px 24px", backgroundColor: highlighted ? "#fff" : ORANGE, color: highlighted ? ORANGE : "#fff", fontFamily: FONT, fontSize: 14, fontWeight: 600, letterSpacing: "0.04em", textDecoration: "none", borderRadius: 4, transition: "opacity 0.2s" }}
                     onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "0.85"; }}
                     onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.opacity = "1"; }}
@@ -6921,7 +6944,7 @@ function ServicesVet01({ content, sectionId }: { content: Record<string, unknown
             <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
           </p>
           <div className="vet01srv-cta-wrap">
-            <a href={ctaHref} className="vet01srv-cta">
+            <a href={ctaHref} data-btn="primary" className="vet01srv-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
           </div>
@@ -8010,9 +8033,10 @@ function ServicesInstala02({ content, sectionId, tenantSlug, isAdmin }: { conten
       data-template="instala-02-services"
       style={{ backgroundColor: "#0e0e0e", fontFamily: FONT_B, padding: "96px 0" }}
     >
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500&display=swap');
-        .i2s-outer   { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500&display=swap" />
+      <style>{`        .i2s-outer   { max-width: 1280px; margin: 0 auto; padding: 0 48px; }
         .i2s-header  { text-align: center; margin-bottom: 56px; }
         .i2s-kicker  { font-family: ${FONT_H}; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: ${RED}; margin: 0 0 14px; display: flex; align-items: center; justify-content: center; gap: 12px; }
         .i2s-kicker::before, .i2s-kicker::after { content: ''; display: inline-block; width: 32px; height: 2px; background: ${RED}; }
@@ -8094,7 +8118,7 @@ function ServicesInstala02({ content, sectionId, tenantSlug, isAdmin }: { conten
                 <p className="i2s-card-desc">
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
                 </p>
-                <a href={item.ctaHref} className="i2s-card-cta">
+                <a href={item.ctaHref} data-btn="primary" className="i2s-card-cta">
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={item.ctaText} tag="span" />
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -8219,9 +8243,10 @@ function ServicesSolar03({ content, sectionId }: { content: Record<string, unkno
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
-        .s03svc-section { background: #fff; padding: 72px 0 80px; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" />
+      <style>{`        .s03svc-section { background: #fff; padding: 72px 0 80px; }
         .s03svc-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
         .s03svc-h2 { font-family: ${FONT_M}; font-weight: 800; font-size: clamp(22px,2.4vw,34px); color: ${DARK}; text-align: center; margin: 0 0 48px; text-transform: uppercase; letter-spacing: 0.02em; }
         .s03svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
@@ -8270,7 +8295,7 @@ function ServicesSolar03({ content, sectionId }: { content: Record<string, unkno
                         </li>
                       ))}
                     </ul>
-                    <a className="s03svc-cta" href={String(card.ctaHref ?? "#")}>
+                    <a className="s03svc-cta" href={String(card.ctaHref ?? "#")} data-btn="primary">
                       <GenericEditableText sectionId={sectionId} field={`cards.${i}.ctaText`} value={String(card.ctaText ?? "Podrobnosti")} tag="span" />
                     </a>
                   </div>
@@ -8312,9 +8337,10 @@ function SegmentsSolar02({ content, sectionId }: { content: Record<string, unkno
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
-        .s02seg { background: #0a2535; padding: 80px 0; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" />
+      <style>{`        .s02seg { background: #0a2535; padding: 80px 0; }
         .s02seg-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
         .s02seg-head { text-align: center; margin-bottom: 56px; }
         .s02seg-h2 { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 38px; color: #fff; margin: 0 0 14px; letter-spacing: -0.5px; line-height: 1.15; }
@@ -8350,7 +8376,7 @@ function SegmentsSolar02({ content, sectionId }: { content: Record<string, unkno
                 <p className="s02seg-p">
                   <GenericEditableText sectionId={sectionId} field={`segments.${i}.description`} value={seg.description} tag="span" />
                 </p>
-                <a className="s02seg-link" href={String(seg.ctaHref ?? "#kontakt")}>
+                <a className="s02seg-link" href={String(seg.ctaHref ?? "#kontakt")} data-btn="primary">
                   <GenericEditableText sectionId={sectionId} field={`segments.${i}.ctaText`} value={String(seg.ctaText ?? "Zjistit více →")} tag="span" />
                 </a>
               </div>
@@ -8386,9 +8412,10 @@ function ServicesSolar02({ content, sectionId }: { content: Record<string, unkno
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
-        .s02svc { background: #fff; padding: 80px 0; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" />
+      <style>{`        .s02svc { background: #fff; padding: 80px 0; }
         .s02svc-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
         .s02svc-head { text-align: center; margin-bottom: 56px; }
         .s02svc-h2 { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 38px; color: #0b0f14; margin: 0 0 14px; letter-spacing: -0.5px; line-height: 1.15; }
@@ -8560,9 +8587,10 @@ function ServicesMalir01({ content, sectionId, tenantSlug, isAdmin }: ServicesMa
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Raleway:wght@600&display=swap');
-        .m01s-wrap { display: flex; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Raleway:wght@600&display=swap" />
+      <style>{`        .m01s-wrap { display: flex; }
         .m01s-card { position: relative; flex: 1; height: 320px; overflow: hidden; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; }
         .m01s-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
         .m01s-card:hover img { transform: scale(1.04); }
@@ -8590,7 +8618,7 @@ function ServicesMalir01({ content, sectionId, tenantSlug, isAdmin }: ServicesMa
                 <p className="m01s-desc">
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span">{item.description}</GenericEditableText>
                 </p>
-                <a href={resolve(item.ctaHref)} className="m01s-btn">
+                <a href={resolve(item.ctaHref)} data-btn="primary" className="m01s-btn">
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={item.ctaText} tag="span">{item.ctaText}</GenericEditableText>
                 </a>
               </div>
@@ -9090,9 +9118,10 @@ function ServicesHotel01Rooms({ content, sectionId, isAdmin }: { content: Sectio
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Poppins:wght@300;400;500&display=swap');
-        .h01rooms {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Poppins:wght@300;400;500&display=swap" />
+      <style>{`        .h01rooms {
           background: #f9f6f2;
           padding: clamp(60px,8vw,110px) 0;
           font-family: 'Poppins', sans-serif;
@@ -9321,9 +9350,10 @@ function AmenitiesChalet01({ content, sectionId }: { content: Record<string, unk
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
-        .ch01am {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" />
+      <style>{`        .ch01am {
           background: ${DARK};
           padding: clamp(4rem, 8vw, 7rem) 1.5rem;
         }
@@ -9649,7 +9679,7 @@ function PricingMalir02({ content, sectionId }: { content: Record<string, unknow
             <p className="m02pr-sub">
               <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span">{subheading}</GenericEditableText>
             </p>
-            <a href={ctaHref} className="m02pr-cta">
+            <a href={ctaHref} data-btn="primary" className="m02pr-cta">
               <GenericEditableText sectionId={sectionId} field="ctaLabel" value={ctaLabel} tag="span">{ctaLabel}</GenericEditableText>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
@@ -9690,7 +9720,7 @@ function PricingMalir02({ content, sectionId }: { content: Record<string, unknow
                 <GenericEditableText sectionId={sectionId} field="barTitle" value={barTitle} tag="span">{barTitle}</GenericEditableText>
                 <span><GenericEditableText sectionId={sectionId} field="barSub" value={barSub} tag="span">{barSub}</GenericEditableText></span>
               </div>
-              <a href={ctaHref} className="m02pr-bar-btn"><GenericEditableText sectionId={sectionId} field="barLabel" value={barLabel} tag="span">{barLabel}</GenericEditableText></a>
+              <a href={ctaHref} data-btn="primary" className="m02pr-bar-btn"><GenericEditableText sectionId={sectionId} field="barLabel" value={barLabel} tag="span">{barLabel}</GenericEditableText></a>
             </div>
           </div>
 
@@ -9712,9 +9742,10 @@ function ServicesHotel02Rooms({ content, sectionId, isAdmin }: { content: Sectio
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;500;600&display=swap');
-        .h02rooms {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;500;600&display=swap" />
+      <style>{`        .h02rooms {
           background: #fff;
           padding: clamp(70px,9vw,110px) 0;
           font-family: 'Montserrat', sans-serif;
@@ -10085,7 +10116,7 @@ function ServicesDj01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
           {ctaText && (
             <div className="dj01svc-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="a" className="">
-                <a href={resolve(ctaHref)}>{ctaText}</a>
+                <a href={resolve(ctaHref)} data-btn="primary">{ctaText}</a>
               </GenericEditableText>
             </div>
           )}
@@ -10153,6 +10184,7 @@ function ServicesRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { con
             )}
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               style={{
                 display: "inline-block", fontFamily: SANS, fontSize: 11, fontWeight: 700,
                 letterSpacing: "0.14em", textTransform: "uppercase",
@@ -10227,6 +10259,7 @@ function ServicesRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { con
               {item.ctaText && item.ctaHref && (
                 <a
                   href={resolve(item.ctaHref)}
+                  data-btn="primary"
                   style={{
                     display: "inline-flex", alignItems: "center", gap: 6,
                     fontFamily: SANS, fontSize: 11, fontWeight: 700,

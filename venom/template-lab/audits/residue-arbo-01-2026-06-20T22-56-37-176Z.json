@@ -1,0 +1,30 @@
+{
+  "when": "2026-06-20T22:56:37.177Z",
+  "scanned": 1,
+  "withFindings": 1,
+  "totalFindings": 1,
+  "reports": [
+    {
+      "key": "arbo-01",
+      "hosts": [
+        "lesarb.cz"
+      ],
+      "brands": [
+        "lesarb.cz."
+      ],
+      "findings": [
+        {
+          "file": "disk:template.json",
+          "findings": [
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host lesarb.cz",
+              "count": 3,
+              "sample": "lesarb.cz"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

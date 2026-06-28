@@ -1,58 +1,22 @@
-import { notFound, redirect } from "next/navigation";
-import { cookies } from "next/headers";
-import { getTenantBySlug, getTenantPage, getPageSections, getTenantOverrides } from "@/lib/db";
-import { resolveAllSections } from "@/lib/section-resolver";
-import { TenantStudioView } from "@/components/studio/TenantStudioView";
-import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 interface Props {
   params: Promise<{ tenantSlug: string }>;
   searchParams: Promise<{ page?: string }>;
 }
 
-export const metadata: Metadata = {
-  robots: { index: false, follow: false },
-};
-
-export default async function TenantStudioPage({ params, searchParams }: Props) {
+/**
+ * The legacy /studio route is folded into the unified editor at
+ * /demo/<slug>/admin (homepage) or /demo/<slug>/admin/<slug> (subpage).
+ * Both surface the dock, builder side-panel and full AdminConsole — so this
+ * stub only forwards the request and preserves the ?page= query.
+ */
+export default async function StudioRedirect({ params, searchParams }: Props) {
   const { tenantSlug } = await params;
-  const { page: pageSlug } = await searchParams;
-  const tenant = await getTenantBySlug(tenantSlug);
-  if (!tenant || tenant.status === "suspended") return notFound();
-
-  const cookieStore = await cookies();
-  const accessCookie = cookieStore.get(`venom_access_${tenantSlug}`)?.value;
-
-  if (!tenant.access_token || accessCookie !== tenant.access_token) {
-    redirect(`/demo/${tenantSlug}/login`);
-  }
-
-  // F2 Sprint 3 multi-page: load requested page (default = homepage).
-  const targetSlug = pageSlug?.trim() || "home";
-  const page = await getTenantPage(tenant.id, targetSlug);
-  if (!page) {
-    // Requested non-existent page → fall back to homepage instead of 404
-    if (targetSlug !== "home") {
-      redirect(`/demo/${tenantSlug}/studio`);
-    }
-    return notFound();
-  }
-
-  const [rawSections, overrides] = await Promise.all([
-    getPageSections(tenant.id, page.id),
-    getTenantOverrides(tenant.id),
-  ]);
-
-  // F1: hydrate v2 sections with resolved content (template default + slots + sparse overrides)
-  // so Inspector has editable values to show. Legacy sections pass through untouched.
-  const sections = await resolveAllSections(tenant, rawSections);
-
-  return (
-    <TenantStudioView
-      tenant={tenant}
-      page={page}
-      sections={sections}
-      overrides={overrides}
-    />
-  );
+  const { page } = await searchParams;
+  const target =
+    page && page !== "home"
+      ? `/demo/${tenantSlug}/admin/${page}`
+      : `/demo/${tenantSlug}/admin`;
+  redirect(target);
 }

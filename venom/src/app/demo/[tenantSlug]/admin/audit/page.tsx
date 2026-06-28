@@ -23,7 +23,7 @@ export default async function AuditLogPage({ params }: Props) {
   if (!tenant) return notFound();
 
   const cookieStore = await cookies();
-  const token = cookieStore.get(`venom_access_${tenantSlug}`)?.value;
+  const token = cookieStore.get(`webero_access_${tenantSlug}`)?.value;
   if (!tenant.access_token || !token) redirect(`/demo/${tenantSlug}/admin`);
   try {
     const a = Buffer.from(token);

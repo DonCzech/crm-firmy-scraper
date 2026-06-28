@@ -1,5 +1,83 @@
 @import "tailwindcss";
 
+/* ── Mobile/touch optimizations ────────────────────────────────────── */
+html {
+  /* Smooth anchor scroll */
+  scroll-behavior: smooth;
+  /* Prevent iOS auto font-size adjustment when device rotates */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+body {
+  /* Disable overscroll glow on iOS */
+  overscroll-behavior-y: none;
+  /* Better text rendering on mobile */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Safety: prevent stray horizontal overflow from oversized iframes/transforms */
+  overflow-x: hidden;
+}
+button, a {
+  /* No tap highlight on mobile */
+  -webkit-tap-highlight-color: transparent;
+  /* Touch-action for better gesture handling */
+  touch-action: manipulation;
+}
+input, textarea, select {
+  /* Prevent iOS zoom on input focus (font must be ≥ 16px) */
+  font-size: 16px;
+}
+
+/* ── Scroll-hint pill animation (for live device previews) ───────────── */
+@keyframes scrollHintBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(4px); }
+}
+@keyframes scrollHintReveal {
+  0%   { opacity: 0; transform: translateY(8px); }
+  15%  { opacity: 1; transform: translateY(0); }
+  85%  { opacity: 1; }
+  100% { opacity: 0.55; }
+}
+.scroll-hint-arrow  { animation: scrollHintBounce 1.4s ease-in-out infinite; }
+.scroll-hint-pill   { animation: scrollHintReveal 4s ease-out 0.3s both; }
+
+
+/* ── Device frame loading screen animations ──────────────────────────────── */
+@keyframes loadDot {
+  0%, 100% { opacity: 0.25; transform: scale(0.75); }
+  50%       { opacity: 1;    transform: scale(1); }
+}
+@keyframes progressBar {
+  0%   { transform: translateX(-100%); }
+  40%  { transform: translateX(-20%); }
+  70%  { transform: translateX(0%); }
+  100% { transform: translateX(100%); }
+}
+@keyframes frameLogoFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Reduced-motion preference — disable autoplay video + decorative animations ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  video[autoplay] {
+    /* Force still poster frame */
+    animation: none !important;
+  }
+  .webero-marquee-l,
+  .webero-marquee-r {
+    animation-play-state: paused !important;
+  }
+}
+
+
 /* ── Costa template wave mask (cafe-01 master template) ───────────────────── */
 .hero-wave-mask {
   -webkit-mask-image: url("/clones/costa/src/themes/template/build/bg-wave-mask.svg");
@@ -71,6 +149,45 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ── Webero homepage effects ──────────────────────────────────────────────── */
+.webero-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  will-change: transform;
+}
+
+/* Marquee — infinite horizontal scroll */
+@keyframes weberoMarqueeL {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes weberoMarqueeR {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+.webero-marquee-track {
+  overflow: hidden;
+  /* fade edges */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+.webero-marquee-l {
+  display: flex;
+  width: max-content;
+  animation: weberoMarqueeL 44s linear infinite;
+}
+.webero-marquee-r {
+  display: flex;
+  width: max-content;
+  animation: weberoMarqueeR 38s linear infinite;
+}
+.webero-marquee-track:hover .webero-marquee-l,
+.webero-marquee-track:hover .webero-marquee-r {
+  animation-play-state: paused;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   font-size: 15px;
@@ -81,15 +198,16 @@ body {
   padding: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
-  color: #1f1f1f;
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+    color: #1f1f1f;
+  }
+  h1 { font-size: 38px; line-height: 45px; letter-spacing: 1px; font-weight: 700; }
+  h2 { font-size: 32px; line-height: 40px; font-weight: 700; }
+  h3 { font-size: 20px; line-height: 26px; font-weight: 600; }
+  h4 { font-size: 20px; line-height: 30px; font-weight: 500; }
 }
-
-h1 { font-size: 38px; line-height: 45px; letter-spacing: 1px; font-weight: 700; }
-h2 { font-size: 32px; line-height: 40px; font-weight: 700; }
-h3 { font-size: 20px; line-height: 26px; font-weight: 600; }
-h4 { font-size: 20px; line-height: 30px; font-weight: 500; }
 
 .btn-primary {
   display: inline-block;
@@ -196,6 +314,16 @@ h4 { font-size: 20px; line-height: 30px; font-weight: 500; }
   height: 2px;
   background: var(--color-accent);
   margin: 0.6rem auto 0;
+}
+
+/* barber-dark navbar — nav link hover underline reveal */
+nav[data-template="barber-01"] a:hover .barber-nav-underline,
+nav[data-template="barber-01"] a:focus-visible .barber-nav-underline {
+  transform: scaleX(1) !important;
+}
+nav[data-template="barber-01"] a:hover {
+  color: #F5F5F5 !important;
+  transition: color 0.2s ease;
 }
 
 /* barber-01 mobile (§11) */

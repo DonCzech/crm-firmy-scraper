@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { query, queryOne, auditLog } from "@/lib/db";
+import { query, queryOne, withTransaction, auditLog } from "@/lib/db";
 import { assertSameOrigin, requireTenantAdmin } from "@/lib/demo-auth";
 
 /**
@@ -28,6 +28,8 @@ interface PageRow {
   status: string;
   seo_title: string | null;
   seo_description: string | null;
+  og_title: string | null;
+  og_description: string | null;
   noindex: boolean | null;
   updated_at: string;
   sections_count: string;
@@ -42,7 +44,8 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
 
   const rows = await query<PageRow>(
     `SELECT p.id, p.slug, p.title, p.is_homepage, p.status,
-            p.seo_title, p.seo_description, p.noindex, p.updated_at,
+            p.seo_title, p.seo_description, p.og_title, p.og_description,
+            p.noindex, p.updated_at,
             (SELECT COUNT(*)::text FROM sections s WHERE s.page_id = p.id) AS sections_count
        FROM pages p
       WHERE p.tenant_id = $1
@@ -81,18 +84,47 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
   );
   if (dupe) return Response.json({ error: "Stránka se stejným URL již existuje" }, { status: 409 });
 
-  const inserted = await queryOne<{ id: number }>(
-    `INSERT INTO pages (tenant_id, slug, title, is_homepage, status, seo_title, seo_description)
-     VALUES ($1, $2, $3, false, 'draft', $4, $5)
-     RETURNING id`,
-    [
-      tenant.id,
-      parsed.data.slug,
-      parsed.data.title,
-      parsed.data.seo_title ?? null,
-      parsed.data.seo_description ?? null,
-    ]
-  );
+  // Create the page and clone navbar/footer from homepage in one transaction so
+  // the new page already has navigation chrome when first opened.
+  const inserted = await withTransaction(async (client) => {
+    const ins = await client.query<{ id: number }>(
+      `INSERT INTO pages (tenant_id, slug, title, is_homepage, status, seo_title, seo_description)
+       VALUES ($1, $2, $3, false, 'draft', $4, $5)
+       RETURNING id`,
+      [
+        tenant.id,
+        parsed.data.slug,
+        parsed.data.title,
+        parsed.data.seo_title ?? null,
+        parsed.data.seo_description ?? null,
+      ]
+    );
+    const newPageId = ins.rows[0]?.id;
+    if (!newPageId) return null;
+
+    // Copy navbar + footer sections from homepage so the new page has the same
+    // chrome. Section content is cloned 1:1 (content_overrides + settings) so
+    // future menu edits stay consistent via the resolver.
+    const home = await client.query<{ id: number }>(
+      "SELECT id FROM pages WHERE tenant_id = $1 AND is_homepage = true LIMIT 1",
+      [tenant.id]
+    );
+    if (home.rows[0]?.id) {
+      await client.query(
+        `INSERT INTO sections (
+           tenant_id, page_id, section_type, section_variant, order_index,
+           is_visible, settings, content_overrides, content_source
+         )
+         SELECT tenant_id, $1, section_type, section_variant, order_index,
+                is_visible, settings, content_overrides, content_source
+           FROM sections
+          WHERE tenant_id = $2 AND page_id = $3
+            AND section_type IN ('navbar', 'footer')`,
+        [newPageId, tenant.id, home.rows[0].id]
+      );
+    }
+    return { id: newPageId };
+  });
 
   await auditLog("page_created", {
     tenantId: tenant.id,

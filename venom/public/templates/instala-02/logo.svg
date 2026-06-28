@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 44" fill="none" aria-label="Demo Vestop">
+  <!-- Red flame/pipe icon -->
+  <rect x="0" y="0" width="44" height="44" rx="4" fill="#ee4036"/>
+  <!-- Wrench icon (white) -->
+  <path d="M28 12a6 6 0 0 0-5.83 7.41L12 29.59 14.41 32l10.18-10.17A6 6 0 1 0 28 12zm0 10a4 4 0 1 1 0-8 4 4 0 0 1 0 8z" fill="#ffffff"/>
+  <!-- Pipe icon detail -->
+  <rect x="12" y="27" width="4" height="5" rx="1" fill="#ffffff" opacity="0.7"/>
+  <!-- Wordmark -->
+  <text font-family="'Montserrat',Arial,sans-serif" font-weight="800" font-size="17" fill="#111111" letter-spacing="0.5">
+    <tspan x="54" y="20">DEMO</tspan>
+  </text>
+  <text font-family="'Montserrat',Arial,sans-serif" font-weight="700" font-size="13" fill="#ee4036" letter-spacing="2">
+    <tspan x="54" y="37">VESTOP</tspan>
+  </text>
+  <!-- Vertical divider -->
+  <rect x="49" y="10" width="1.5" height="24" rx="0.75" fill="#e0e0e0"/>
+</svg>

@@ -1,0 +1,2196 @@
+{
+  "slug": "barber-barbershopurban",
+  "name": "Barber Shop — Barbershop Praha pánský střih - Barbershop URBAN",
+  "industry": "barber",
+  "sourceUrl": "https://barbershopurban.cz",
+  "definition": {
+    "key": "barber-barbershopurban",
+    "name": "Barber Shop — Barbershop Praha pánský střih - Barbershop URBAN",
+    "industry": "barber",
+    "version": "1.0.0",
+    "designTokens": {
+      "colorPrimary": "#1c84c6",
+      "colorSecondary": "#1a1a1a",
+      "colorBackground": "#111111",
+      "colorSurface": "#1E1E1E",
+      "colorText": "#F5F5F5",
+      "colorTextMuted": "#A0A0A0",
+      "colorAccent": "#C9A96E",
+      "colorBorder": "#333333",
+      "fontHeading": "Montserrat",
+      "fontBody": "Inter",
+      "borderRadius": "0.25rem",
+      "spacing": "normal"
+    },
+    "defaultSections": [
+      {
+        "type": "navbar",
+        "variant": "default",
+        "order": 0,
+        "visible": true
+      },
+      {
+        "type": "hero",
+        "variant": "default",
+        "order": 1,
+        "visible": true
+      },
+      {
+        "type": "services",
+        "variant": "grid",
+        "order": 2,
+        "visible": true
+      },
+      {
+        "type": "pricing",
+        "variant": "table",
+        "order": 3,
+        "visible": true
+      },
+      {
+        "type": "gallery",
+        "variant": "masonry",
+        "order": 4,
+        "visible": true
+      },
+      {
+        "type": "team",
+        "variant": "cards",
+        "order": 5,
+        "visible": true
+      },
+      {
+        "type": "testimonials",
+        "variant": "carousel",
+        "order": 6,
+        "visible": true
+      },
+      {
+        "type": "opening-hours",
+        "variant": "default",
+        "order": 7,
+        "visible": true
+      },
+      {
+        "type": "rezora-cta",
+        "variant": "default",
+        "order": 8,
+        "visible": true
+      },
+      {
+        "type": "faq",
+        "variant": "accordion",
+        "order": 9,
+        "visible": true
+      },
+      {
+        "type": "contact",
+        "variant": "split",
+        "order": 10,
+        "visible": true
+      },
+      {
+        "type": "footer",
+        "variant": "default",
+        "order": 11,
+        "visible": true
+      }
+    ],
+    "pages": [
+      {
+        "slug": "home",
+        "title": "Domů",
+        "seoTitle": "Barbershop Praha pánský střih - Barbershop URBAN",
+        "seoDescription": "Profesionální barber studio v Praze.",
+        "sections": [
+          {
+            "type": "navbar",
+            "variant": "default",
+            "order": 0,
+            "visible": true,
+            "settings": {
+              "logo": "Barbershop Praha pánský střih - Barbershop URBAN",
+              "links": [
+                {
+                  "label": "+ 420 773 096 906",
+                  "href": "#+-420-773-096-906"
+                },
+                {
+                  "label": "Služby",
+                  "href": "#sluzby"
+                },
+                {
+                  "label": "O nás",
+                  "href": "#o-nas"
+                },
+                {
+                  "label": "Akce",
+                  "href": "#akce"
+                },
+                {
+                  "label": "Ceník",
+                  "href": "#cenik"
+                },
+                {
+                  "label": "FAQ",
+                  "href": "#faq"
+                }
+              ],
+              "cta": {
+                "text": "Rezervovat",
+                "href": "#rezervace"
+              },
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            },
+            "content": {
+              "logo": "Barbershop Praha pánský střih - Barbershop URBAN",
+              "links": [
+                {
+                  "label": "+ 420 773 096 906",
+                  "href": "#+-420-773-096-906"
+                },
+                {
+                  "label": "Služby",
+                  "href": "#sluzby"
+                },
+                {
+                  "label": "O nás",
+                  "href": "#o-nas"
+                },
+                {
+                  "label": "Akce",
+                  "href": "#akce"
+                },
+                {
+                  "label": "Ceník",
+                  "href": "#cenik"
+                },
+                {
+                  "label": "FAQ",
+                  "href": "#faq"
+                }
+              ],
+              "cta": {
+                "text": "Rezervovat",
+                "href": "#rezervace"
+              },
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            }
+          },
+          {
+            "type": "hero",
+            "variant": "default",
+            "order": 1,
+            "visible": true,
+            "settings": {
+              "title": "Nejlepší místo pro pánský střih",
+              "subtitle": "Přijďte zažít tu nejlepší péči v Praze",
+              "cta": {
+                "primary": {
+                  "text": "Rezervovat online",
+                  "href": "#rezervace"
+                },
+                "secondary": {
+                  "text": "Ceník",
+                  "href": "#cenik"
+                }
+              },
+              "backgroundImage": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_cz.png",
+              "overlay": true,
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            },
+            "content": {
+              "title": "Nejlepší místo pro pánský střih",
+              "subtitle": "Přijďte zažít tu nejlepší péči v Praze",
+              "cta": {
+                "primary": {
+                  "text": "Rezervovat online",
+                  "href": "#rezervace"
+                },
+                "secondary": {
+                  "text": "Ceník",
+                  "href": "#cenik"
+                }
+              },
+              "backgroundImage": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_cz.png",
+              "overlay": true,
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            }
+          },
+          {
+            "type": "services",
+            "variant": "grid",
+            "order": 2,
+            "visible": true,
+            "settings": {
+              "title": "Naše Služby",
+              "subtitle": "Profesionální péče pro každého",
+              "items": [
+                {
+                  "id": "s1",
+                  "title": "Střih vlasů",
+                  "description": "Klasický nebo moderní střih podle vašeho stylu.",
+                  "icon": "scissors",
+                  "price": "od 350 Kč"
+                },
+                {
+                  "id": "s2",
+                  "title": "Holení břitvou",
+                  "description": "Tradiční holení s teplým ručníkem.",
+                  "icon": "blade",
+                  "price": "od 450 Kč"
+                },
+                {
+                  "id": "s3",
+                  "title": "Úprava vousů",
+                  "description": "Precizní tvarování a úprava vousů.",
+                  "icon": "beard",
+                  "price": "od 250 Kč"
+                },
+                {
+                  "id": "s4",
+                  "title": "Kompletní servis",
+                  "description": "Střih + holení + styling v jednom.",
+                  "icon": "star",
+                  "price": "od 699 Kč"
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            },
+            "content": {
+              "title": "Naše Služby",
+              "subtitle": "Profesionální péče pro každého",
+              "items": [
+                {
+                  "id": "s1",
+                  "title": "Střih vlasů",
+                  "description": "Klasický nebo moderní střih podle vašeho stylu.",
+                  "icon": "scissors",
+                  "price": "od 350 Kč"
+                },
+                {
+                  "id": "s2",
+                  "title": "Holení břitvou",
+                  "description": "Tradiční holení s teplým ručníkem.",
+                  "icon": "blade",
+                  "price": "od 450 Kč"
+                },
+                {
+                  "id": "s3",
+                  "title": "Úprava vousů",
+                  "description": "Precizní tvarování a úprava vousů.",
+                  "icon": "beard",
+                  "price": "od 250 Kč"
+                },
+                {
+                  "id": "s4",
+                  "title": "Kompletní servis",
+                  "description": "Střih + holení + styling v jednom.",
+                  "icon": "star",
+                  "price": "od 699 Kč"
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            }
+          },
+          {
+            "type": "pricing",
+            "variant": "table",
+            "order": 3,
+            "visible": true,
+            "settings": {
+              "title": "Ceník",
+              "subtitle": "Transparentní ceny bez skrytých poplatků",
+              "currency": "Kč",
+              "items": [
+                {
+                  "id": "p1",
+                  "name": "Střih vlasů",
+                  "price": "350",
+                  "unit": "od",
+                  "description": ""
+                },
+                {
+                  "id": "p2",
+                  "name": "Střih + Vousy",
+                  "price": "550",
+                  "unit": "od",
+                  "description": ""
+                },
+                {
+                  "id": "p3",
+                  "name": "Holení břitvou",
+                  "price": "450",
+                  "unit": "od",
+                  "description": ""
+                },
+                {
+                  "id": "p4",
+                  "name": "Úprava vousů",
+                  "price": "250",
+                  "unit": "od",
+                  "description": ""
+                },
+                {
+                  "id": "p5",
+                  "name": "Kompletní servis",
+                  "price": "699",
+                  "unit": "od",
+                  "description": "Střih + holení + styling"
+                },
+                {
+                  "id": "p6",
+                  "name": "Dětský střih",
+                  "price": "250",
+                  "unit": "od",
+                  "description": "Do 12 let"
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            },
+            "content": {
+              "title": "Ceník",
+              "subtitle": "Transparentní ceny bez skrytých poplatků",
+              "currency": "Kč",
+              "items": [
+                {
+                  "id": "p1",
+                  "name": "Střih vlasů",
+                  "price": "350",
+                  "unit": "od",
+                  "description": ""
+                },
+                {
+                  "id": "p2",
+                  "name": "Střih + Vousy",
+                  "price": "550",
+                  "unit": "od",
+                  "description": ""
+                },
+                {
+                  "id": "p3",
+                  "name": "Holení břitvou",
+                  "price": "450",
+                  "unit": "od",
+                  "description": ""
+                },
+                {
+                  "id": "p4",
+                  "name": "Úprava vousů",
+                  "price": "250",
+                  "unit": "od",
+                  "description": ""
+                },
+                {
+                  "id": "p5",
+                  "name": "Kompletní servis",
+                  "price": "699",
+                  "unit": "od",
+                  "description": "Střih + holení + styling"
+                },
+                {
+                  "id": "p6",
+                  "name": "Dětský střih",
+                  "price": "250",
+                  "unit": "od",
+                  "description": "Do 12 let"
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            }
+          },
+          {
+            "type": "gallery",
+            "variant": "masonry",
+            "order": 4,
+            "visible": true,
+            "settings": {
+              "title": "Galerie",
+              "subtitle": "Naše práce mluví za nás",
+              "images": [
+                {
+                  "id": "g0",
+                  "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_cz.png",
+                  "alt": "Práce 1"
+                },
+                {
+                  "id": "g1",
+                  "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_uk.png",
+                  "alt": "Práce 2"
+                },
+                {
+                  "id": "g2",
+                  "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_en.png",
+                  "alt": "Práce 3"
+                },
+                {
+                  "id": "g3",
+                  "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_ru.png",
+                  "alt": "Práce 4"
+                },
+                {
+                  "id": "g4",
+                  "src": "https://barbershopurban.cz/assets/templates/barbershop/img/logo-1.png",
+                  "alt": "Práce 5"
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            },
+            "content": {
+              "title": "Galerie",
+              "subtitle": "Naše práce mluví za nás",
+              "images": [
+                {
+                  "id": "g0",
+                  "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_cz.png",
+                  "alt": "Práce 1"
+                },
+                {
+                  "id": "g1",
+                  "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_uk.png",
+                  "alt": "Práce 2"
+                },
+                {
+                  "id": "g2",
+                  "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_en.png",
+                  "alt": "Práce 3"
+                },
+                {
+                  "id": "g3",
+                  "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_ru.png",
+                  "alt": "Práce 4"
+                },
+                {
+                  "id": "g4",
+                  "src": "https://barbershopurban.cz/assets/templates/barbershop/img/logo-1.png",
+                  "alt": "Práce 5"
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            }
+          },
+          {
+            "type": "team",
+            "variant": "cards",
+            "order": 5,
+            "visible": true,
+            "settings": {
+              "title": "Náš Tým",
+              "subtitle": "Mistři svého řemesla",
+              "members": [
+                {
+                  "id": "m1",
+                  "name": "Milan Novák",
+                  "role": "Master Barber",
+                  "bio": "15 let zkušeností v barberskills.",
+                  "photo": ""
+                },
+                {
+                  "id": "m2",
+                  "name": "Jakub Procházka",
+                  "role": "Senior Barber",
+                  "bio": "Specialista na holení břitvou.",
+                  "photo": ""
+                },
+                {
+                  "id": "m3",
+                  "name": "Ondřej Šimánek",
+                  "role": "Barber",
+                  "bio": "Milovník klasického barberstyle.",
+                  "photo": ""
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            },
+            "content": {
+              "title": "Náš Tým",
+              "subtitle": "Mistři svého řemesla",
+              "members": [
+                {
+                  "id": "m1",
+                  "name": "Milan Novák",
+                  "role": "Master Barber",
+                  "bio": "15 let zkušeností v barberskills.",
+                  "photo": ""
+                },
+                {
+                  "id": "m2",
+                  "name": "Jakub Procházka",
+                  "role": "Senior Barber",
+                  "bio": "Specialista na holení břitvou.",
+                  "photo": ""
+                },
+                {
+                  "id": "m3",
+                  "name": "Ondřej Šimánek",
+                  "role": "Barber",
+                  "bio": "Milovník klasického barberstyle.",
+                  "photo": ""
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            }
+          },
+          {
+            "type": "testimonials",
+            "variant": "carousel",
+            "order": 6,
+            "visible": true,
+            "settings": {
+              "title": "Co říkají zákazníci",
+              "reviews": [
+                {
+                  "id": "r1",
+                  "author": "Martin K.",
+                  "rating": 5,
+                  "text": "Nejlepší barber v Praze! Profesionální přístup a skvělý výsledek.",
+                  "date": "2025-03-15"
+                },
+                {
+                  "id": "r2",
+                  "author": "Tomáš V.",
+                  "rating": 5,
+                  "text": "Vždy odcházím spokojený. Určitě doporučuji!",
+                  "date": "2025-02-28"
+                },
+                {
+                  "id": "r3",
+                  "author": "Pavel M.",
+                  "rating": 5,
+                  "text": "Příjemné prostředí, precizní práce. Má oblíbená barbershop.",
+                  "date": "2025-04-01"
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            },
+            "content": {
+              "title": "Co říkají zákazníci",
+              "reviews": [
+                {
+                  "id": "r1",
+                  "author": "Martin K.",
+                  "rating": 5,
+                  "text": "Nejlepší barber v Praze! Profesionální přístup a skvělý výsledek.",
+                  "date": "2025-03-15"
+                },
+                {
+                  "id": "r2",
+                  "author": "Tomáš V.",
+                  "rating": 5,
+                  "text": "Vždy odcházím spokojený. Určitě doporučuji!",
+                  "date": "2025-02-28"
+                },
+                {
+                  "id": "r3",
+                  "author": "Pavel M.",
+                  "rating": 5,
+                  "text": "Příjemné prostředí, precizní práce. Má oblíbená barbershop.",
+                  "date": "2025-04-01"
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            }
+          },
+          {
+            "type": "opening-hours",
+            "variant": "default",
+            "order": 7,
+            "visible": true,
+            "settings": {
+              "title": "Otevírací Doba",
+              "hours": [
+                {
+                  "day": "Pondělí – Pátek",
+                  "time": "9:00 – 19:00"
+                },
+                {
+                  "day": "Sobota",
+                  "time": "9:00 – 16:00"
+                },
+                {
+                  "day": "Neděle",
+                  "time": "Zavřeno"
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            },
+            "content": {
+              "title": "Otevírací Doba",
+              "hours": [
+                {
+                  "day": "Pondělí – Pátek",
+                  "time": "9:00 – 19:00"
+                },
+                {
+                  "day": "Sobota",
+                  "time": "9:00 – 16:00"
+                },
+                {
+                  "day": "Neděle",
+                  "time": "Zavřeno"
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            }
+          },
+          {
+            "type": "rezora-cta",
+            "variant": "default",
+            "order": 8,
+            "visible": true,
+            "settings": {
+              "title": "Rezervujte si termín online",
+              "subtitle": "Rychlá rezervace bez telefonování",
+              "buttonText": "Rezervovat nyní",
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            },
+            "content": {
+              "title": "Rezervujte si termín online",
+              "subtitle": "Rychlá rezervace bez telefonování",
+              "buttonText": "Rezervovat nyní",
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            }
+          },
+          {
+            "type": "faq",
+            "variant": "accordion",
+            "order": 9,
+            "visible": true,
+            "settings": {
+              "title": "Časté dotazy",
+              "items": [
+                {
+                  "q": "Jak si rezervuji termín?",
+                  "a": "Termín lze rezervovat online přes náš systém, telefonicky nebo osobně v barbershopu."
+                },
+                {
+                  "q": "Jak dlouho trvá návštěva?",
+                  "a": "Střih vlasů trvá přibližně 30–45 minut, kompletní servis 60–90 minut."
+                },
+                {
+                  "q": "Přijímáte platby kartou?",
+                  "a": "Ano, přijímáme hotovost i platby kartou."
+                },
+                {
+                  "q": "Potřebuji se předem objednat?",
+                  "a": "Doporučujeme rezervaci předem, ale přijímáme i klienty bez objednání, pokud je volná kapacita."
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            },
+            "content": {
+              "title": "Časté dotazy",
+              "items": [
+                {
+                  "q": "Jak si rezervuji termín?",
+                  "a": "Termín lze rezervovat online přes náš systém, telefonicky nebo osobně v barbershopu."
+                },
+                {
+                  "q": "Jak dlouho trvá návštěva?",
+                  "a": "Střih vlasů trvá přibližně 30–45 minut, kompletní servis 60–90 minut."
+                },
+                {
+                  "q": "Přijímáte platby kartou?",
+                  "a": "Ano, přijímáme hotovost i platby kartou."
+                },
+                {
+                  "q": "Potřebuji se předem objednat?",
+                  "a": "Doporučujeme rezervaci předem, ale přijímáme i klienty bez objednání, pokud je volná kapacita."
+                }
+              ],
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            }
+          },
+          {
+            "type": "contact",
+            "variant": "split",
+            "order": 10,
+            "visible": true,
+            "settings": {
+              "title": "Kontakt",
+              "subtitle": "Rádi vás uvítáme",
+              "phone": "420 773 096",
+              "email": "info@barbershop.cz",
+              "address": "Praha, Česká republika",
+              "openingHours": "Po–Pá: 9:00–19:00 | So: 9:00–16:00",
+              "socialLinks": [
+                "https://www.instagram.com/barbershop_urban_prague/"
+              ],
+              "form": {
+                "enabled": true,
+                "fields": [
+                  "name",
+                  "email",
+                  "phone",
+                  "message"
+                ]
+              },
+              "map": {
+                "enabled": false,
+                "lat": 50.0755,
+                "lng": 14.4378
+              },
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            },
+            "content": {
+              "title": "Kontakt",
+              "subtitle": "Rádi vás uvítáme",
+              "phone": "420 773 096",
+              "email": "info@barbershop.cz",
+              "address": "Praha, Česká republika",
+              "openingHours": "Po–Pá: 9:00–19:00 | So: 9:00–16:00",
+              "socialLinks": [
+                "https://www.instagram.com/barbershop_urban_prague/"
+              ],
+              "form": {
+                "enabled": true,
+                "fields": [
+                  "name",
+                  "email",
+                  "phone",
+                  "message"
+                ]
+              },
+              "map": {
+                "enabled": false,
+                "lat": 50.0755,
+                "lng": 14.4378
+              },
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            }
+          },
+          {
+            "type": "footer",
+            "variant": "default",
+            "order": 11,
+            "visible": true,
+            "settings": {
+              "logo": "Barbershop Praha pánský střih - Barbershop URBAN",
+              "tagline": "Profesionální barbershop v Praze",
+              "links": [
+                {
+                  "label": "+ 420 773 096 906",
+                  "href": "#+ 420 773 096 906"
+                },
+                {
+                  "label": "Služby",
+                  "href": "#služby"
+                },
+                {
+                  "label": "O nás",
+                  "href": "#o nás"
+                },
+                {
+                  "label": "Akce",
+                  "href": "#akce"
+                },
+                {
+                  "label": "Ceník",
+                  "href": "#ceník"
+                }
+              ],
+              "socialLinks": [
+                "https://www.instagram.com/barbershop_urban_prague/"
+              ],
+              "copyright": "© 2026 Barbershop Praha pánský střih - Barbershop URBAN. Všechna práva vyhrazena.",
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            },
+            "content": {
+              "logo": "Barbershop Praha pánský střih - Barbershop URBAN",
+              "tagline": "Profesionální barbershop v Praze",
+              "links": [
+                {
+                  "label": "+ 420 773 096 906",
+                  "href": "#+ 420 773 096 906"
+                },
+                {
+                  "label": "Služby",
+                  "href": "#služby"
+                },
+                {
+                  "label": "O nás",
+                  "href": "#o nás"
+                },
+                {
+                  "label": "Akce",
+                  "href": "#akce"
+                },
+                {
+                  "label": "Ceník",
+                  "href": "#ceník"
+                }
+              ],
+              "socialLinks": [
+                "https://www.instagram.com/barbershop_urban_prague/"
+              ],
+              "copyright": "© 2026 Barbershop Praha pánský střih - Barbershop URBAN. Všechna práva vyhrazena.",
+              "designTokens": {
+                "colorPrimary": "#1c84c6",
+                "colorSecondary": "#1a1a1a",
+                "colorBackground": "#111111",
+                "colorSurface": "#1E1E1E",
+                "colorText": "#F5F5F5",
+                "colorTextMuted": "#A0A0A0",
+                "colorAccent": "#C9A96E",
+                "colorBorder": "#333333",
+                "fontHeading": "Montserrat",
+                "fontBody": "Inter",
+                "borderRadius": "0.25rem",
+                "spacing": "normal"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "demoContent": {
+      "navbar": {
+        "logo": "Barbershop Praha pánský střih - Barbershop URBAN",
+        "links": [
+          {
+            "label": "+ 420 773 096 906",
+            "href": "#+-420-773-096-906"
+          },
+          {
+            "label": "Služby",
+            "href": "#sluzby"
+          },
+          {
+            "label": "O nás",
+            "href": "#o-nas"
+          },
+          {
+            "label": "Akce",
+            "href": "#akce"
+          },
+          {
+            "label": "Ceník",
+            "href": "#cenik"
+          },
+          {
+            "label": "FAQ",
+            "href": "#faq"
+          }
+        ],
+        "cta": {
+          "text": "Rezervovat",
+          "href": "#rezervace"
+        },
+        "designTokens": {
+          "colorPrimary": "#1c84c6",
+          "colorSecondary": "#1a1a1a",
+          "colorBackground": "#111111",
+          "colorSurface": "#1E1E1E",
+          "colorText": "#F5F5F5",
+          "colorTextMuted": "#A0A0A0",
+          "colorAccent": "#C9A96E",
+          "colorBorder": "#333333",
+          "fontHeading": "Montserrat",
+          "fontBody": "Inter",
+          "borderRadius": "0.25rem",
+          "spacing": "normal"
+        }
+      },
+      "hero": {
+        "title": "Nejlepší místo pro pánský střih",
+        "subtitle": "Přijďte zažít tu nejlepší péči v Praze",
+        "cta": {
+          "primary": {
+            "text": "Rezervovat online",
+            "href": "#rezervace"
+          },
+          "secondary": {
+            "text": "Ceník",
+            "href": "#cenik"
+          }
+        },
+        "backgroundImage": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_cz.png",
+        "overlay": true,
+        "designTokens": {
+          "colorPrimary": "#1c84c6",
+          "colorSecondary": "#1a1a1a",
+          "colorBackground": "#111111",
+          "colorSurface": "#1E1E1E",
+          "colorText": "#F5F5F5",
+          "colorTextMuted": "#A0A0A0",
+          "colorAccent": "#C9A96E",
+          "colorBorder": "#333333",
+          "fontHeading": "Montserrat",
+          "fontBody": "Inter",
+          "borderRadius": "0.25rem",
+          "spacing": "normal"
+        }
+      },
+      "services": {
+        "title": "Naše Služby",
+        "subtitle": "Profesionální péče pro každého",
+        "items": [
+          {
+            "id": "s1",
+            "title": "Střih vlasů",
+            "description": "Klasický nebo moderní střih podle vašeho stylu.",
+            "icon": "scissors",
+            "price": "od 350 Kč"
+          },
+          {
+            "id": "s2",
+            "title": "Holení břitvou",
+            "description": "Tradiční holení s teplým ručníkem.",
+            "icon": "blade",
+            "price": "od 450 Kč"
+          },
+          {
+            "id": "s3",
+            "title": "Úprava vousů",
+            "description": "Precizní tvarování a úprava vousů.",
+            "icon": "beard",
+            "price": "od 250 Kč"
+          },
+          {
+            "id": "s4",
+            "title": "Kompletní servis",
+            "description": "Střih + holení + styling v jednom.",
+            "icon": "star",
+            "price": "od 699 Kč"
+          }
+        ],
+        "designTokens": {
+          "colorPrimary": "#1c84c6",
+          "colorSecondary": "#1a1a1a",
+          "colorBackground": "#111111",
+          "colorSurface": "#1E1E1E",
+          "colorText": "#F5F5F5",
+          "colorTextMuted": "#A0A0A0",
+          "colorAccent": "#C9A96E",
+          "colorBorder": "#333333",
+          "fontHeading": "Montserrat",
+          "fontBody": "Inter",
+          "borderRadius": "0.25rem",
+          "spacing": "normal"
+        }
+      },
+      "pricing": {
+        "title": "Ceník",
+        "subtitle": "Transparentní ceny bez skrytých poplatků",
+        "currency": "Kč",
+        "items": [
+          {
+            "id": "p1",
+            "name": "Střih vlasů",
+            "price": "350",
+            "unit": "od",
+            "description": ""
+          },
+          {
+            "id": "p2",
+            "name": "Střih + Vousy",
+            "price": "550",
+            "unit": "od",
+            "description": ""
+          },
+          {
+            "id": "p3",
+            "name": "Holení břitvou",
+            "price": "450",
+            "unit": "od",
+            "description": ""
+          },
+          {
+            "id": "p4",
+            "name": "Úprava vousů",
+            "price": "250",
+            "unit": "od",
+            "description": ""
+          },
+          {
+            "id": "p5",
+            "name": "Kompletní servis",
+            "price": "699",
+            "unit": "od",
+            "description": "Střih + holení + styling"
+          },
+          {
+            "id": "p6",
+            "name": "Dětský střih",
+            "price": "250",
+            "unit": "od",
+            "description": "Do 12 let"
+          }
+        ],
+        "designTokens": {
+          "colorPrimary": "#1c84c6",
+          "colorSecondary": "#1a1a1a",
+          "colorBackground": "#111111",
+          "colorSurface": "#1E1E1E",
+          "colorText": "#F5F5F5",
+          "colorTextMuted": "#A0A0A0",
+          "colorAccent": "#C9A96E",
+          "colorBorder": "#333333",
+          "fontHeading": "Montserrat",
+          "fontBody": "Inter",
+          "borderRadius": "0.25rem",
+          "spacing": "normal"
+        }
+      },
+      "gallery": {
+        "title": "Galerie",
+        "subtitle": "Naše práce mluví za nás",
+        "images": [
+          {
+            "id": "g0",
+            "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_cz.png",
+            "alt": "Práce 1"
+          },
+          {
+            "id": "g1",
+            "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_uk.png",
+            "alt": "Práce 2"
+          },
+          {
+            "id": "g2",
+            "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_en.png",
+            "alt": "Práce 3"
+          },
+          {
+            "id": "g3",
+            "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_ru.png",
+            "alt": "Práce 4"
+          },
+          {
+            "id": "g4",
+            "src": "https://barbershopurban.cz/assets/templates/barbershop/img/logo-1.png",
+            "alt": "Práce 5"
+          }
+        ],
+        "designTokens": {
+          "colorPrimary": "#1c84c6",
+          "colorSecondary": "#1a1a1a",
+          "colorBackground": "#111111",
+          "colorSurface": "#1E1E1E",
+          "colorText": "#F5F5F5",
+          "colorTextMuted": "#A0A0A0",
+          "colorAccent": "#C9A96E",
+          "colorBorder": "#333333",
+          "fontHeading": "Montserrat",
+          "fontBody": "Inter",
+          "borderRadius": "0.25rem",
+          "spacing": "normal"
+        }
+      },
+      "team": {
+        "title": "Náš Tým",
+        "subtitle": "Mistři svého řemesla",
+        "members": [
+          {
+            "id": "m1",
+            "name": "Milan Novák",
+            "role": "Master Barber",
+            "bio": "15 let zkušeností v barberskills.",
+            "photo": ""
+          },
+          {
+            "id": "m2",
+            "name": "Jakub Procházka",
+            "role": "Senior Barber",
+            "bio": "Specialista na holení břitvou.",
+            "photo": ""
+          },
+          {
+            "id": "m3",
+            "name": "Ondřej Šimánek",
+            "role": "Barber",
+            "bio": "Milovník klasického barberstyle.",
+            "photo": ""
+          }
+        ],
+        "designTokens": {
+          "colorPrimary": "#1c84c6",
+          "colorSecondary": "#1a1a1a",
+          "colorBackground": "#111111",
+          "colorSurface": "#1E1E1E",
+          "colorText": "#F5F5F5",
+          "colorTextMuted": "#A0A0A0",
+          "colorAccent": "#C9A96E",
+          "colorBorder": "#333333",
+          "fontHeading": "Montserrat",
+          "fontBody": "Inter",
+          "borderRadius": "0.25rem",
+          "spacing": "normal"
+        }
+      },
+      "testimonials": {
+        "title": "Co říkají zákazníci",
+        "reviews": [
+          {
+            "id": "r1",
+            "author": "Martin K.",
+            "rating": 5,
+            "text": "Nejlepší barber v Praze! Profesionální přístup a skvělý výsledek.",
+            "date": "2025-03-15"
+          },
+          {
+            "id": "r2",
+            "author": "Tomáš V.",
+            "rating": 5,
+            "text": "Vždy odcházím spokojený. Určitě doporučuji!",
+            "date": "2025-02-28"
+          },
+          {
+            "id": "r3",
+            "author": "Pavel M.",
+            "rating": 5,
+            "text": "Příjemné prostředí, precizní práce. Má oblíbená barbershop.",
+            "date": "2025-04-01"
+          }
+        ],
+        "designTokens": {
+          "colorPrimary": "#1c84c6",
+          "colorSecondary": "#1a1a1a",
+          "colorBackground": "#111111",
+          "colorSurface": "#1E1E1E",
+          "colorText": "#F5F5F5",
+          "colorTextMuted": "#A0A0A0",
+          "colorAccent": "#C9A96E",
+          "colorBorder": "#333333",
+          "fontHeading": "Montserrat",
+          "fontBody": "Inter",
+          "borderRadius": "0.25rem",
+          "spacing": "normal"
+        }
+      },
+      "opening-hours": {
+        "title": "Otevírací Doba",
+        "hours": [
+          {
+            "day": "Pondělí – Pátek",
+            "time": "9:00 – 19:00"
+          },
+          {
+            "day": "Sobota",
+            "time": "9:00 – 16:00"
+          },
+          {
+            "day": "Neděle",
+            "time": "Zavřeno"
+          }
+        ],
+        "designTokens": {
+          "colorPrimary": "#1c84c6",
+          "colorSecondary": "#1a1a1a",
+          "colorBackground": "#111111",
+          "colorSurface": "#1E1E1E",
+          "colorText": "#F5F5F5",
+          "colorTextMuted": "#A0A0A0",
+          "colorAccent": "#C9A96E",
+          "colorBorder": "#333333",
+          "fontHeading": "Montserrat",
+          "fontBody": "Inter",
+          "borderRadius": "0.25rem",
+          "spacing": "normal"
+        }
+      },
+      "rezora-cta": {
+        "title": "Rezervujte si termín online",
+        "subtitle": "Rychlá rezervace bez telefonování",
+        "buttonText": "Rezervovat nyní",
+        "designTokens": {
+          "colorPrimary": "#1c84c6",
+          "colorSecondary": "#1a1a1a",
+          "colorBackground": "#111111",
+          "colorSurface": "#1E1E1E",
+          "colorText": "#F5F5F5",
+          "colorTextMuted": "#A0A0A0",
+          "colorAccent": "#C9A96E",
+          "colorBorder": "#333333",
+          "fontHeading": "Montserrat",
+          "fontBody": "Inter",
+          "borderRadius": "0.25rem",
+          "spacing": "normal"
+        }
+      },
+      "faq": {
+        "title": "Časté dotazy",
+        "items": [
+          {
+            "q": "Jak si rezervuji termín?",
+            "a": "Termín lze rezervovat online přes náš systém, telefonicky nebo osobně v barbershopu."
+          },
+          {
+            "q": "Jak dlouho trvá návštěva?",
+            "a": "Střih vlasů trvá přibližně 30–45 minut, kompletní servis 60–90 minut."
+          },
+          {
+            "q": "Přijímáte platby kartou?",
+            "a": "Ano, přijímáme hotovost i platby kartou."
+          },
+          {
+            "q": "Potřebuji se předem objednat?",
+            "a": "Doporučujeme rezervaci předem, ale přijímáme i klienty bez objednání, pokud je volná kapacita."
+          }
+        ],
+        "designTokens": {
+          "colorPrimary": "#1c84c6",
+          "colorSecondary": "#1a1a1a",
+          "colorBackground": "#111111",
+          "colorSurface": "#1E1E1E",
+          "colorText": "#F5F5F5",
+          "colorTextMuted": "#A0A0A0",
+          "colorAccent": "#C9A96E",
+          "colorBorder": "#333333",
+          "fontHeading": "Montserrat",
+          "fontBody": "Inter",
+          "borderRadius": "0.25rem",
+          "spacing": "normal"
+        }
+      },
+      "contact": {
+        "title": "Kontakt",
+        "subtitle": "Rádi vás uvítáme",
+        "phone": "420 773 096",
+        "email": "info@barbershop.cz",
+        "address": "Praha, Česká republika",
+        "openingHours": "Po–Pá: 9:00–19:00 | So: 9:00–16:00",
+        "socialLinks": [
+          "https://www.instagram.com/barbershop_urban_prague/"
+        ],
+        "form": {
+          "enabled": true,
+          "fields": [
+            "name",
+            "email",
+            "phone",
+            "message"
+          ]
+        },
+        "map": {
+          "enabled": false,
+          "lat": 50.0755,
+          "lng": 14.4378
+        },
+        "designTokens": {
+          "colorPrimary": "#1c84c6",
+          "colorSecondary": "#1a1a1a",
+          "colorBackground": "#111111",
+          "colorSurface": "#1E1E1E",
+          "colorText": "#F5F5F5",
+          "colorTextMuted": "#A0A0A0",
+          "colorAccent": "#C9A96E",
+          "colorBorder": "#333333",
+          "fontHeading": "Montserrat",
+          "fontBody": "Inter",
+          "borderRadius": "0.25rem",
+          "spacing": "normal"
+        }
+      },
+      "footer": {
+        "logo": "Barbershop Praha pánský střih - Barbershop URBAN",
+        "tagline": "Profesionální barbershop v Praze",
+        "links": [
+          {
+            "label": "+ 420 773 096 906",
+            "href": "#+ 420 773 096 906"
+          },
+          {
+            "label": "Služby",
+            "href": "#služby"
+          },
+          {
+            "label": "O nás",
+            "href": "#o nás"
+          },
+          {
+            "label": "Akce",
+            "href": "#akce"
+          },
+          {
+            "label": "Ceník",
+            "href": "#ceník"
+          }
+        ],
+        "socialLinks": [
+          "https://www.instagram.com/barbershop_urban_prague/"
+        ],
+        "copyright": "© 2026 Barbershop Praha pánský střih - Barbershop URBAN. Všechna práva vyhrazena.",
+        "designTokens": {
+          "colorPrimary": "#1c84c6",
+          "colorSecondary": "#1a1a1a",
+          "colorBackground": "#111111",
+          "colorSurface": "#1E1E1E",
+          "colorText": "#F5F5F5",
+          "colorTextMuted": "#A0A0A0",
+          "colorAccent": "#C9A96E",
+          "colorBorder": "#333333",
+          "fontHeading": "Montserrat",
+          "fontBody": "Inter",
+          "borderRadius": "0.25rem",
+          "spacing": "normal"
+        }
+      }
+    }
+  },
+  "pagesData": [
+    {
+      "slug": "home",
+      "title": "Domů",
+      "seoTitle": "Barbershop Praha pánský střih - Barbershop URBAN",
+      "seoDescription": "",
+      "isHomepage": true,
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "default",
+          "order": 0,
+          "visible": true,
+          "settings": {
+            "logo": "Barbershop Praha pánský střih - Barbershop URBAN",
+            "links": [
+              {
+                "label": "+ 420 773 096 906",
+                "href": "#+-420-773-096-906"
+              },
+              {
+                "label": "Služby",
+                "href": "#sluzby"
+              },
+              {
+                "label": "O nás",
+                "href": "#o-nas"
+              },
+              {
+                "label": "Akce",
+                "href": "#akce"
+              },
+              {
+                "label": "Ceník",
+                "href": "#cenik"
+              },
+              {
+                "label": "FAQ",
+                "href": "#faq"
+              }
+            ],
+            "cta": {
+              "text": "Rezervovat",
+              "href": "#rezervace"
+            },
+            "designTokens": {
+              "colorPrimary": "#1c84c6",
+              "colorSecondary": "#1a1a1a",
+              "colorBackground": "#111111",
+              "colorSurface": "#1E1E1E",
+              "colorText": "#F5F5F5",
+              "colorTextMuted": "#A0A0A0",
+              "colorAccent": "#C9A96E",
+              "colorBorder": "#333333",
+              "fontHeading": "Montserrat",
+              "fontBody": "Inter",
+              "borderRadius": "0.25rem",
+              "spacing": "normal"
+            }
+          }
+        },
+        {
+          "type": "hero",
+          "variant": "default",
+          "order": 1,
+          "visible": true,
+          "settings": {
+            "title": "Nejlepší místo pro pánský střih",
+            "subtitle": "Přijďte zažít tu nejlepší péči v Praze",
+            "cta": {
+              "primary": {
+                "text": "Rezervovat online",
+                "href": "#rezervace"
+              },
+              "secondary": {
+                "text": "Ceník",
+                "href": "#cenik"
+              }
+            },
+            "backgroundImage": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_cz.png",
+            "overlay": true,
+            "designTokens": {
+              "colorPrimary": "#1c84c6",
+              "colorSecondary": "#1a1a1a",
+              "colorBackground": "#111111",
+              "colorSurface": "#1E1E1E",
+              "colorText": "#F5F5F5",
+              "colorTextMuted": "#A0A0A0",
+              "colorAccent": "#C9A96E",
+              "colorBorder": "#333333",
+              "fontHeading": "Montserrat",
+              "fontBody": "Inter",
+              "borderRadius": "0.25rem",
+              "spacing": "normal"
+            }
+          }
+        },
+        {
+          "type": "services",
+          "variant": "grid",
+          "order": 2,
+          "visible": true,
+          "settings": {
+            "title": "Naše Služby",
+            "subtitle": "Profesionální péče pro každého",
+            "items": [
+              {
+                "id": "s1",
+                "title": "Střih vlasů",
+                "description": "Klasický nebo moderní střih podle vašeho stylu.",
+                "icon": "scissors",
+                "price": "od 350 Kč"
+              },
+              {
+                "id": "s2",
+                "title": "Holení břitvou",
+                "description": "Tradiční holení s teplým ručníkem.",
+                "icon": "blade",
+                "price": "od 450 Kč"
+              },
+              {
+                "id": "s3",
+                "title": "Úprava vousů",
+                "description": "Precizní tvarování a úprava vousů.",
+                "icon": "beard",
+                "price": "od 250 Kč"
+              },
+              {
+                "id": "s4",
+                "title": "Kompletní servis",
+                "description": "Střih + holení + styling v jednom.",
+                "icon": "star",
+                "price": "od 699 Kč"
+              }
+            ],
+            "designTokens": {
+              "colorPrimary": "#1c84c6",
+              "colorSecondary": "#1a1a1a",
+              "colorBackground": "#111111",
+              "colorSurface": "#1E1E1E",
+              "colorText": "#F5F5F5",
+              "colorTextMuted": "#A0A0A0",
+              "colorAccent": "#C9A96E",
+              "colorBorder": "#333333",
+              "fontHeading": "Montserrat",
+              "fontBody": "Inter",
+              "borderRadius": "0.25rem",
+              "spacing": "normal"
+            }
+          }
+        },
+        {
+          "type": "pricing",
+          "variant": "table",
+          "order": 3,
+          "visible": true,
+          "settings": {
+            "title": "Ceník",
+            "subtitle": "Transparentní ceny bez skrytých poplatků",
+            "currency": "Kč",
+            "items": [
+              {
+                "id": "p1",
+                "name": "Střih vlasů",
+                "price": "350",
+                "unit": "od",
+                "description": ""
+              },
+              {
+                "id": "p2",
+                "name": "Střih + Vousy",
+                "price": "550",
+                "unit": "od",
+                "description": ""
+              },
+              {
+                "id": "p3",
+                "name": "Holení břitvou",
+                "price": "450",
+                "unit": "od",
+                "description": ""
+              },
+              {
+                "id": "p4",
+                "name": "Úprava vousů",
+                "price": "250",
+                "unit": "od",
+                "description": ""
+              },
+              {
+                "id": "p5",
+                "name": "Kompletní servis",
+                "price": "699",
+                "unit": "od",
+                "description": "Střih + holení + styling"
+              },
+              {
+                "id": "p6",
+                "name": "Dětský střih",
+                "price": "250",
+                "unit": "od",
+                "description": "Do 12 let"
+              }
+            ],
+            "designTokens": {
+              "colorPrimary": "#1c84c6",
+              "colorSecondary": "#1a1a1a",
+              "colorBackground": "#111111",
+              "colorSurface": "#1E1E1E",
+              "colorText": "#F5F5F5",
+              "colorTextMuted": "#A0A0A0",
+              "colorAccent": "#C9A96E",
+              "colorBorder": "#333333",
+              "fontHeading": "Montserrat",
+              "fontBody": "Inter",
+              "borderRadius": "0.25rem",
+              "spacing": "normal"
+            }
+          }
+        },
+        {
+          "type": "gallery",
+          "variant": "masonry",
+          "order": 4,
+          "visible": true,
+          "settings": {
+            "title": "Galerie",
+            "subtitle": "Naše práce mluví za nás",
+            "images": [
+              {
+                "id": "g0",
+                "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_cz.png",
+                "alt": "Práce 1"
+              },
+              {
+                "id": "g1",
+                "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_uk.png",
+                "alt": "Práce 2"
+              },
+              {
+                "id": "g2",
+                "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_en.png",
+                "alt": "Práce 3"
+              },
+              {
+                "id": "g3",
+                "src": "https://barbershopurban.cz/assets/snippets/evoBabel/config/images/lang_ru.png",
+                "alt": "Práce 4"
+              },
+              {
+                "id": "g4",
+                "src": "https://barbershopurban.cz/assets/templates/barbershop/img/logo-1.png",
+                "alt": "Práce 5"
+              }
+            ],
+            "designTokens": {
+              "colorPrimary": "#1c84c6",
+              "colorSecondary": "#1a1a1a",
+              "colorBackground": "#111111",
+              "colorSurface": "#1E1E1E",
+              "colorText": "#F5F5F5",
+              "colorTextMuted": "#A0A0A0",
+              "colorAccent": "#C9A96E",
+              "colorBorder": "#333333",
+              "fontHeading": "Montserrat",
+              "fontBody": "Inter",
+              "borderRadius": "0.25rem",
+              "spacing": "normal"
+            }
+          }
+        },
+        {
+          "type": "team",
+          "variant": "cards",
+          "order": 5,
+          "visible": true,
+          "settings": {
+            "title": "Náš Tým",
+            "subtitle": "Mistři svého řemesla",
+            "members": [
+              {
+                "id": "m1",
+                "name": "Milan Novák",
+                "role": "Master Barber",
+                "bio": "15 let zkušeností v barberskills.",
+                "photo": ""
+              },
+              {
+                "id": "m2",
+                "name": "Jakub Procházka",
+                "role": "Senior Barber",
+                "bio": "Specialista na holení břitvou.",
+                "photo": ""
+              },
+              {
+                "id": "m3",
+                "name": "Ondřej Šimánek",
+                "role": "Barber",
+                "bio": "Milovník klasického barberstyle.",
+                "photo": ""
+              }
+            ],
+            "designTokens": {
+              "colorPrimary": "#1c84c6",
+              "colorSecondary": "#1a1a1a",
+              "colorBackground": "#111111",
+              "colorSurface": "#1E1E1E",
+              "colorText": "#F5F5F5",
+              "colorTextMuted": "#A0A0A0",
+              "colorAccent": "#C9A96E",
+              "colorBorder": "#333333",
+              "fontHeading": "Montserrat",
+              "fontBody": "Inter",
+              "borderRadius": "0.25rem",
+              "spacing": "normal"
+            }
+          }
+        },
+        {
+          "type": "testimonials",
+          "variant": "carousel",
+          "order": 6,
+          "visible": true,
+          "settings": {
+            "title": "Co říkají zákazníci",
+            "reviews": [
+              {
+                "id": "r1",
+                "author": "Martin K.",
+                "rating": 5,
+                "text": "Nejlepší barber v Praze! Profesionální přístup a skvělý výsledek.",
+                "date": "2025-03-15"
+              },
+              {
+                "id": "r2",
+                "author": "Tomáš V.",
+                "rating": 5,
+                "text": "Vždy odcházím spokojený. Určitě doporučuji!",
+                "date": "2025-02-28"
+              },
+              {
+                "id": "r3",
+                "author": "Pavel M.",
+                "rating": 5,
+                "text": "Příjemné prostředí, precizní práce. Má oblíbená barbershop.",
+                "date": "2025-04-01"
+              }
+            ],
+            "designTokens": {
+              "colorPrimary": "#1c84c6",
+              "colorSecondary": "#1a1a1a",
+              "colorBackground": "#111111",
+              "colorSurface": "#1E1E1E",
+              "colorText": "#F5F5F5",
+              "colorTextMuted": "#A0A0A0",
+              "colorAccent": "#C9A96E",
+              "colorBorder": "#333333",
+              "fontHeading": "Montserrat",
+              "fontBody": "Inter",
+              "borderRadius": "0.25rem",
+              "spacing": "normal"
+            }
+          }
+        },
+        {
+          "type": "opening-hours",
+          "variant": "default",
+          "order": 7,
+          "visible": true,
+          "settings": {
+            "title": "Otevírací Doba",
+            "hours": [
+              {
+                "day": "Pondělí – Pátek",
+                "time": "9:00 – 19:00"
+              },
+              {
+                "day": "Sobota",
+                "time": "9:00 – 16:00"
+              },
+              {
+                "day": "Neděle",
+                "time": "Zavřeno"
+              }
+            ],
+            "designTokens": {
+              "colorPrimary": "#1c84c6",
+              "colorSecondary": "#1a1a1a",
+              "colorBackground": "#111111",
+              "colorSurface": "#1E1E1E",
+              "colorText": "#F5F5F5",
+              "colorTextMuted": "#A0A0A0",
+              "colorAccent": "#C9A96E",
+              "colorBorder": "#333333",
+              "fontHeading": "Montserrat",
+              "fontBody": "Inter",
+              "borderRadius": "0.25rem",
+              "spacing": "normal"
+            }
+          }
+        },
+        {
+          "type": "rezora-cta",
+          "variant": "default",
+          "order": 8,
+          "visible": true,
+          "settings": {
+            "title": "Rezervujte si termín online",
+            "subtitle": "Rychlá rezervace bez telefonování",
+            "buttonText": "Rezervovat nyní",
+            "designTokens": {
+              "colorPrimary": "#1c84c6",
+              "colorSecondary": "#1a1a1a",
+              "colorBackground": "#111111",
+              "colorSurface": "#1E1E1E",
+              "colorText": "#F5F5F5",
+              "colorTextMuted": "#A0A0A0",
+              "colorAccent": "#C9A96E",
+              "colorBorder": "#333333",
+              "fontHeading": "Montserrat",
+              "fontBody": "Inter",
+              "borderRadius": "0.25rem",
+              "spacing": "normal"
+            }
+          }
+        },
+        {
+          "type": "faq",
+          "variant": "accordion",
+          "order": 9,
+          "visible": true,
+          "settings": {
+            "title": "Časté dotazy",
+            "items": [
+              {
+                "q": "Jak si rezervuji termín?",
+                "a": "Termín lze rezervovat online přes náš systém, telefonicky nebo osobně v barbershopu."
+              },
+              {
+                "q": "Jak dlouho trvá návštěva?",
+                "a": "Střih vlasů trvá přibližně 30–45 minut, kompletní servis 60–90 minut."
+              },
+              {
+                "q": "Přijímáte platby kartou?",
+                "a": "Ano, přijímáme hotovost i platby kartou."
+              },
+              {
+                "q": "Potřebuji se předem objednat?",
+                "a": "Doporučujeme rezervaci předem, ale přijímáme i klienty bez objednání, pokud je volná kapacita."
+              }
+            ],
+            "designTokens": {
+              "colorPrimary": "#1c84c6",
+              "colorSecondary": "#1a1a1a",
+              "colorBackground": "#111111",
+              "colorSurface": "#1E1E1E",
+              "colorText": "#F5F5F5",
+              "colorTextMuted": "#A0A0A0",
+              "colorAccent": "#C9A96E",
+              "colorBorder": "#333333",
+              "fontHeading": "Montserrat",
+              "fontBody": "Inter",
+              "borderRadius": "0.25rem",
+              "spacing": "normal"
+            }
+          }
+        },
+        {
+          "type": "contact",
+          "variant": "split",
+          "order": 10,
+          "visible": true,
+          "settings": {
+            "title": "Kontakt",
+            "subtitle": "Rádi vás uvítáme",
+            "phone": "420 773 096",
+            "email": "info@barbershop.cz",
+            "address": "Praha, Česká republika",
+            "openingHours": "Po–Pá: 9:00–19:00 | So: 9:00–16:00",
+            "socialLinks": [
+              "https://www.instagram.com/barbershop_urban_prague/"
+            ],
+            "form": {
+              "enabled": true,
+              "fields": [
+                "name",
+                "email",
+                "phone",
+                "message"
+              ]
+            },
+            "map": {
+              "enabled": false,
+              "lat": 50.0755,
+              "lng": 14.4378
+            },
+            "designTokens": {
+              "colorPrimary": "#1c84c6",
+              "colorSecondary": "#1a1a1a",
+              "colorBackground": "#111111",
+              "colorSurface": "#1E1E1E",
+              "colorText": "#F5F5F5",
+              "colorTextMuted": "#A0A0A0",
+              "colorAccent": "#C9A96E",
+              "colorBorder": "#333333",
+              "fontHeading": "Montserrat",
+              "fontBody": "Inter",
+              "borderRadius": "0.25rem",
+              "spacing": "normal"
+            }
+          }
+        },
+        {
+          "type": "footer",
+          "variant": "default",
+          "order": 11,
+          "visible": true,
+          "settings": {
+            "logo": "Barbershop Praha pánský střih - Barbershop URBAN",
+            "tagline": "Profesionální barbershop v Praze",
+            "links": [
+              {
+                "label": "+ 420 773 096 906",
+                "href": "#+ 420 773 096 906"
+              },
+              {
+                "label": "Služby",
+                "href": "#služby"
+              },
+              {
+                "label": "O nás",
+                "href": "#o nás"
+              },
+              {
+                "label": "Akce",
+                "href": "#akce"
+              },
+              {
+                "label": "Ceník",
+                "href": "#ceník"
+              }
+            ],
+            "socialLinks": [
+              "https://www.instagram.com/barbershop_urban_prague/"
+            ],
+            "copyright": "© 2026 Barbershop Praha pánský střih - Barbershop URBAN. Všechna práva vyhrazena.",
+            "designTokens": {
+              "colorPrimary": "#1c84c6",
+              "colorSecondary": "#1a1a1a",
+              "colorBackground": "#111111",
+              "colorSurface": "#1E1E1E",
+              "colorText": "#F5F5F5",
+              "colorTextMuted": "#A0A0A0",
+              "colorAccent": "#C9A96E",
+              "colorBorder": "#333333",
+              "fontHeading": "Montserrat",
+              "fontBody": "Inter",
+              "borderRadius": "0.25rem",
+              "spacing": "normal"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "generatedAt": "2026-05-09T08:33:27.385Z"
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" fill="none">
+  <!-- Decorative arch / cathedral motif -->
+  <path d="M18 48 L18 22 Q18 10 30 10 Q42 10 42 22 L42 48" stroke="#C69C60" stroke-width="1.5" fill="none"/>
+  <path d="M22 48 L22 24 Q22 14 30 14 Q38 14 38 24 L38 48" stroke="#C69C60" stroke-width="0.75" fill="none" opacity="0.5"/>
+  <!-- Cross at top -->
+  <line x1="30" y1="6" x2="30" y2="14" stroke="#C69C60" stroke-width="1.2"/>
+  <line x1="26" y1="9" x2="34" y2="9" stroke="#C69C60" stroke-width="1.2"/>
+  <!-- Text: Imperial -->
+  <text x="55" y="28" font-family="Georgia, serif" font-size="18" font-weight="400" fill="#1a1a1a" letter-spacing="3">IMPERIAL</text>
+  <!-- Text: Café -->
+  <text x="56" y="46" font-family="Georgia, serif" font-size="13" font-weight="300" fill="#C69C60" letter-spacing="6">C A F É</text>
+</svg>

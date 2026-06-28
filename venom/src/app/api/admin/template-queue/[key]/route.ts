@@ -4,6 +4,137 @@ import { cookies } from "next/headers";
 import { query, queryOne, auditLog } from "@/lib/db";
 import { verifyToken, COOKIE_NAME } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { promises as fs } from "fs";
+import path from "path";
+
+interface CaptureResult {
+  preview: boolean;
+  desktopFull: boolean;
+  mobileHero: boolean;
+  mobileFull: boolean;
+  sections: number;
+  errors: string[];
+}
+
+export async function captureTemplateScreenshot(
+  templateKey: string,
+  tenantSlug: string
+): Promise<CaptureResult> {
+  const result: CaptureResult = {
+    preview: false,
+    desktopFull: false,
+    mobileHero: false,
+    mobileFull: false,
+    sections: 0,
+    errors: [],
+  };
+
+  let browser: Awaited<ReturnType<typeof import("playwright-core").chromium.launch>> | null = null;
+  try {
+    const { chromium } = await import("playwright-core");
+    const executablePath =
+      process.env.CHROME_EXECUTABLE_PATH ??
+      "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+    const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3015";
+
+    browser = await chromium.launch({ executablePath, headless: true });
+
+    const outDir = path.join(process.cwd(), "public", "templates", templateKey);
+    const showcaseDir = path.join(outDir, "showcase");
+    await fs.mkdir(outDir, { recursive: true });
+    await fs.mkdir(showcaseDir, { recursive: true });
+
+    // STEP 1 — preview.png (homepage/catalog thumbnail). Highest priority,
+    // isolated try so a later failure can't wipe it.
+    try {
+      const page = await browser.newPage();
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await page.goto(`${base}/demo/${tenantSlug}`, { waitUntil: "networkidle", timeout: 30000 });
+      await page.screenshot({
+        path: path.join(outDir, "preview.png"),
+        clip: { x: 0, y: 0, width: 1280, height: 800 },
+      });
+      await page.screenshot({
+        path: path.join(showcaseDir, "desktop-hero.png"),
+        clip: { x: 0, y: 0, width: 1280, height: 800 },
+      });
+      result.preview = true;
+
+      // Desktop full page — best-effort
+      try {
+        await page.screenshot({
+          path: path.join(showcaseDir, "desktop-full.png"),
+          fullPage: true,
+        });
+        result.desktopFull = true;
+      } catch (err) {
+        result.errors.push(`desktop-full: ${(err as Error).message}`);
+      }
+
+      // Section walk — best-effort
+      try {
+        const totalHeight = await page.evaluate(() => document.body.scrollHeight);
+        const stops = [0.25, 0.5, 0.78];
+        for (let i = 0; i < stops.length; i++) {
+          const y = Math.max(0, Math.floor(totalHeight * stops[i]!) - 100);
+          await page.evaluate((scrollY) => window.scrollTo(0, scrollY), y);
+          await page.waitForTimeout(400);
+          await page.screenshot({
+            path: path.join(showcaseDir, `section-${i + 1}.png`),
+            clip: { x: 0, y: 0, width: 1280, height: 800 },
+          });
+          result.sections++;
+        }
+      } catch (err) {
+        result.errors.push(`sections: ${(err as Error).message}`);
+      }
+
+      await page.close();
+    } catch (err) {
+      result.errors.push(`preview: ${(err as Error).message}`);
+    }
+
+    // STEP 2 — mobile shots (separate page, doesn't affect preview success)
+    try {
+      const page = await browser.newPage();
+      await page.setViewportSize({ width: 390, height: 844 });
+      await page.goto(`${base}/demo/${tenantSlug}`, { waitUntil: "networkidle", timeout: 30000 });
+      try {
+        await page.screenshot({
+          path: path.join(showcaseDir, "mobile-hero.png"),
+          clip: { x: 0, y: 0, width: 390, height: 844 },
+        });
+        result.mobileHero = true;
+      } catch (err) {
+        result.errors.push(`mobile-hero: ${(err as Error).message}`);
+      }
+      try {
+        await page.screenshot({
+          path: path.join(showcaseDir, "mobile-full.png"),
+          fullPage: true,
+        });
+        result.mobileFull = true;
+      } catch (err) {
+        result.errors.push(`mobile-full: ${(err as Error).message}`);
+      }
+      await page.close();
+    } catch (err) {
+      result.errors.push(`mobile-goto: ${(err as Error).message}`);
+    }
+  } catch (err) {
+    result.errors.push(`launch: ${(err as Error).message}`);
+    console.error(`[screenshot] failed for ${templateKey}:`, err instanceof Error ? err.message : err);
+  } finally {
+    if (browser) {
+      try {
+        await browser.close();
+      } catch {
+        /* ignore */
+      }
+    }
+  }
+  return result;
+}
 
 interface RouteParams { params: Promise<{ key: string }> }
 
@@ -78,10 +209,12 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
     extra: parsed.data as Record<string, unknown>,
   });
 
-  // Approved → publish to homepage + /sablony catalog
+  // Approved → publish to homepage + /sablony catalog + showcase
   if (parsed.data.review_status === "approved") {
     revalidatePath("/");
     revalidatePath("/sablony");
+    revalidatePath("/ukazka-sablon");
+    revalidatePath(`/ukazka-sablon/${key}`);
   }
 
   return Response.json({ ok: true });
@@ -120,8 +253,30 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
     targetId: key,
   });
 
+  // Take screenshot of demo tenant and save as preview.png
+  const tenant = await queryOne<{ slug: string }>(
+    `SELECT t.slug FROM tenants t
+       JOIN sections s ON s.tenant_id = t.id AND s.content_source = 'v2'
+      WHERE t.template_id = $1
+      ORDER BY t.id LIMIT 1`,
+    [tplRow.id]
+  ).catch(() => null);
+
+  let screenshot: Awaited<ReturnType<typeof captureTemplateScreenshot>> | null = null;
+  if (tenant) {
+    screenshot = await captureTemplateScreenshot(key, tenant.slug);
+  }
+
   revalidatePath("/");
   revalidatePath("/sablony");
+  revalidatePath("/ukazka-sablon");
+  revalidatePath(`/ukazka-sablon/${key}`);
 
-  return Response.json({ ok: true, key, status: "approved" });
+  return Response.json({
+    ok: true,
+    key,
+    status: "approved",
+    tenantFound: !!tenant,
+    screenshot,
+  });
 }

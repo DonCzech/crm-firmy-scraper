@@ -60,7 +60,7 @@ const STEPS: Step[] = [
   },
 ];
 
-const LS_KEY = "venom-studio-onboarding-done";
+const LS_KEY = "webero-studio-onboarding-done";
 
 export function OnboardingTour({ tenantSlug }: { tenantSlug: string }) {
   const [open, setOpen] = useState(false);

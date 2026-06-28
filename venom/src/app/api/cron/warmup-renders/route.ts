@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
     try {
       const res = await fetch(url, {
         method: "HEAD",
-        headers: { "user-agent": "venom-cron-warmup/1.0" },
+        headers: { "user-agent": "webero-cron-warmup/1.0" },
       });
       if (res.ok) warmed++;
       else failed++;

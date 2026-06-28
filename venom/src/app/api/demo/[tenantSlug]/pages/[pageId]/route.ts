@@ -17,6 +17,8 @@ const PatchBodySchema = z.object({
   status: z.enum(["draft", "published"]).optional(),
   seo_title: z.string().max(160).nullable().optional(),
   seo_description: z.string().max(320).nullable().optional(),
+  og_title: z.string().max(160).nullable().optional(),
+  og_description: z.string().max(320).nullable().optional(),
   noindex: z.boolean().optional(),
 });
 
@@ -63,7 +65,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
 
   const updates: string[] = ["updated_at = now()"];
   const values: unknown[] = [];
-  for (const key of ["slug", "title", "status", "seo_title", "seo_description", "noindex"] as const) {
+  for (const key of ["slug", "title", "status", "seo_title", "seo_description", "og_title", "og_description", "noindex"] as const) {
     if (parsed.data[key] !== undefined) {
       updates.push(`${key} = $${values.length + 1}`);
       values.push(parsed.data[key]);

@@ -1,168 +1,220 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Search, Plus } from "lucide-react";
-import { getSectionIcon } from "../studio-icons";
-import { Input, EmptyState, Pill } from "../ui";
+import type React from "react";
 import type { StudioState } from "../TenantStudioView";
-import { buildSectionLibrary } from "@/sections/variants";
 
-interface LibraryEntry {
-  type: string;
-  variant: string;
-  label: string;
-  description: string;
-}
+/* ── Inline SVG icons — exact shapes from solidpixels reference ─────────── */
 
-const ALL_LIBRARY: LibraryEntry[] = buildSectionLibrary().filter(
-  (e) => e.type !== "navbar" && e.type !== "footer" && e.type !== "full-page-clone" && e.type !== "astera-home"
-);
-
-const TYPE_LABEL: Record<string, string> = {
-  hero: "Hero",
-  services: "Služby",
-  pricing: "Ceník",
-  testimonials: "Recenze",
-  gallery: "Galerie",
-  contact: "Kontakt",
-  "opening-hours": "Otevírací doba",
-  faq: "Časté dotazy",
-  cta: "CTA",
-  team: "Tým",
-  about: "O nás",
-  "blog-preview": "Blog",
-  map: "Mapa",
-  promo: "Promo",
-  stats: "Statistiky",
-  products: "Produkty",
-};
-
-// Default category tab order
-const TYPE_ORDER = [
-  "hero", "about", "services", "pricing", "gallery", "testimonials",
-  "team", "stats", "cta", "promo", "faq", "blog-preview",
-  "contact", "opening-hours", "map", "products",
-];
-
-export function AddSectionPanel({ state }: { state: StudioState }) {
-  const [q, setQ] = useState("");
-  const [activeType, setActiveType] = useState<string | null>(null);
-
-  const groupedTypes = useMemo(() => {
-    const set = new Set(ALL_LIBRARY.map((e) => e.type));
-    return TYPE_ORDER.filter((t) => set.has(t)).concat(
-      [...set].filter((t) => !TYPE_ORDER.includes(t))
-    );
-  }, []);
-
-  const filtered = useMemo(() => {
-    const needle = q.trim().toLowerCase();
-    return ALL_LIBRARY.filter((e) => {
-      if (activeType && e.type !== activeType) return false;
-      if (!needle) return true;
-      return (
-        e.label.toLowerCase().includes(needle) ||
-        e.description.toLowerCase().includes(needle) ||
-        e.variant.toLowerCase().includes(needle) ||
-        TYPE_LABEL[e.type]?.toLowerCase().includes(needle)
-      );
-    });
-  }, [q, activeType]);
-
+function IcoText() {
   return (
-    <div className="flex h-full flex-col vs-enter">
-      {/* Search */}
-      <div className="shrink-0 border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] p-2">
-        <Input
-          iconLeft={<Search className="h-3.5 w-3.5" />}
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Hledat sekci…"
-          autoFocus
-        />
-      </div>
-
-      {/* Type tabs */}
-      <nav className="shrink-0 overflow-x-auto border-b border-[var(--vs-border)] vs-scroll">
-        <div className="flex gap-0.5 px-2 py-1.5">
-          <CategoryButton active={activeType === null} onClick={() => setActiveType(null)}>
-            Vše
-          </CategoryButton>
-          {groupedTypes.map((t) => (
-            <CategoryButton key={t} active={activeType === t} onClick={() => setActiveType(t)}>
-              {TYPE_LABEL[t] ?? t}
-            </CategoryButton>
-          ))}
-        </div>
-      </nav>
-
-      {/* Cards */}
-      <div className="flex-1 overflow-y-auto vs-scroll">
-        {filtered.length === 0 ? (
-          <EmptyState
-            illustration="search"
-            title="Nic nenalezeno"
-            description="Zkus jiná klíčová slova nebo vyber jinou kategorii."
-          />
-        ) : (
-          <div className="grid grid-cols-2 gap-2 p-2.5">
-            {filtered.map((item) => {
-              const Icon = getSectionIcon(item.type);
-              return (
-                <button
-                  key={`${item.type}-${item.variant}`}
-                  type="button"
-                  onClick={() => void state.addSection(item.type, item.variant)}
-                  className="vs-lift group relative flex flex-col items-start gap-1.5 overflow-hidden rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] p-2.5 text-left transition-[border-color] duration-150 hover:border-[var(--vs-accent-ring)] hover:shadow-[var(--vs-shadow-md)] vs-focus-ring"
-                  aria-label={`Přidat ${item.label}`}
-                  title={item.description}
-                >
-                  <span
-                    aria-hidden
-                    className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--vs-border-strong)] to-transparent opacity-60"
-                  />
-                  <div className="flex w-full items-center gap-1.5">
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[var(--vs-surface-2)] text-[var(--vs-text-muted)] transition-colors group-hover:bg-[var(--vs-accent-bg)] group-hover:text-[var(--vs-accent-hi)]">
-                      <Icon className="h-3.5 w-3.5" strokeWidth={1.75} />
-                    </div>
-                    <Pill tone="neutral" size="xs">{TYPE_LABEL[item.type] ?? item.type}</Pill>
-                    <Plus className="ml-auto h-3 w-3 text-[var(--vs-text-dim)] opacity-0 transition-opacity group-hover:opacity-100" />
-                  </div>
-                  <div className="text-[11.5px] font-medium leading-tight text-[var(--vs-text)] line-clamp-2">
-                    {item.label}
-                  </div>
-                  <div className="line-clamp-2 text-[10.5px] leading-snug text-[var(--vs-text-muted)]">
-                    {item.description}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Footer count */}
-      <div className="shrink-0 border-t border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-3 py-1.5 text-[10.5px] text-[var(--vs-text-dim)]">
-        {filtered.length} variant{filtered.length === 1 ? "a" : filtered.length < 5 ? "y" : ""}
-      </div>
-    </div>
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M5 7h18M14 7v14M10 21h8" />
+    </svg>
+  );
+}
+function IcoImage() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="6" width="22" height="16" rx="2" />
+      <path d="M3 18l5-5 4 4 4-4 9 7" />
+      <circle cx="9" cy="11" r="1.5" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+function IcoGallery() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="10" height="10" rx="1.5" />
+      <rect x="15" y="3" width="10" height="10" rx="1.5" />
+      <rect x="3" y="15" width="10" height="10" rx="1.5" />
+      <rect x="15" y="15" width="10" height="10" rx="1.5" />
+    </svg>
+  );
+}
+function IcoMap() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 4C10.13 4 7 7.13 7 11c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+      <circle cx="14" cy="11" r="2.5" />
+    </svg>
+  );
+}
+function IcoVideo() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="14" cy="14" r="11" />
+      <polygon points="11,9 21,14 11,19" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+function IcoButton() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="10" width="20" height="8" rx="4" />
+      <line x1="10" y1="14" x2="18" y2="14" />
+    </svg>
+  );
+}
+function IcoQuote() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="currentColor">
+      <text x="2" y="22" fontSize="22" fontFamily="Georgia,serif" fontWeight="700" opacity="0.85">"</text>
+      <text x="14" y="22" fontSize="22" fontFamily="Georgia,serif" fontWeight="700" opacity="0.85">"</text>
+    </svg>
+  );
+}
+function IcoSpacer() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+      <line x1="4" y1="6" x2="24" y2="6" />
+      <line x1="4" y1="22" x2="24" y2="22" />
+      <line x1="14" y1="9" x2="14" y2="19" strokeDasharray="2 2" />
+      <path d="M11 11l3-3 3 3M11 17l3 3 3-3" />
+    </svg>
+  );
+}
+function IcoDivider() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+      <line x1="4" y1="14" x2="24" y2="14" />
+    </svg>
+  );
+}
+function IcoBox() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="5" width="22" height="6" rx="1.5" />
+      <rect x="3" y="17" width="22" height="6" rx="1.5" />
+    </svg>
+  );
+}
+function IcoLayout() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="3" width="9" height="22" rx="1.5" />
+      <rect x="16" y="3" width="9" height="10" rx="1.5" />
+      <rect x="16" y="17" width="9" height="8" rx="1.5" />
+    </svg>
+  );
+}
+function IcoAccordion() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="5" width="22" height="5" rx="1.5" />
+      <rect x="3" y="13" width="22" height="5" rx="1.5" />
+      <rect x="3" y="21" width="22" height="5" rx="1.5" />
+      <path d="M22 7.5l-2 2-2-2" />
+    </svg>
+  );
+}
+function IcoTabs() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 12h8V7H3v5zM11 12h14v12H3V12" />
+    </svg>
+  );
+}
+function IcoPricing() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="5" width="22" height="18" rx="2" />
+      <line x1="3" y1="11" x2="25" y2="11" />
+      <line x1="14" y1="5" x2="14" y2="23" />
+    </svg>
+  );
+}
+function IcoTeam() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="10" cy="10" r="4" />
+      <circle cx="20" cy="10" r="4" />
+      <path d="M3 24c0-4.4 3.1-8 7-8h8c3.9 0 7 3.6 7 8" />
+    </svg>
+  );
+}
+function IcoStats() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 22V14h5v8M12 22V8h5v14M20 22V4h5v18" />
+    </svg>
   );
 }
 
-function CategoryButton({
-  active, onClick, children,
-}: { active: boolean; onClick: () => void; children: React.ReactNode }) {
+/* ── Element definitions ─────────────────────────────────────────────────── */
+
+export interface Elem {
+  sectionType: string;
+  variant?: string;
+  label: string;
+  Icon: React.FC;
+}
+
+const ZAKLADNI: Elem[] = [
+  { sectionType: "hero",         label: "Text",         Icon: IcoText },
+  { sectionType: "gallery",      label: "Obrázek",      Icon: IcoImage },
+  { sectionType: "gallery",      variant: "grid", label: "Galerie", Icon: IcoGallery },
+  { sectionType: "map",          label: "Mapa",         Icon: IcoMap },
+  { sectionType: "hero",         variant: "video", label: "Video", Icon: IcoVideo },
+  { sectionType: "cta",          label: "Tlačítko",     Icon: IcoButton },
+  { sectionType: "testimonials", label: "Citace",       Icon: IcoQuote },
+  { sectionType: "promo",        label: "Mezera",       Icon: IcoSpacer },
+  { sectionType: "stats",        label: "Dělící čára",  Icon: IcoDivider },
+];
+
+const LAYOUT: Elem[] = [
+  { sectionType: "about",     label: "Box",       Icon: IcoBox },
+  { sectionType: "services",  label: "Layout",    Icon: IcoLayout },
+  { sectionType: "faq",       label: "Harmonika", Icon: IcoAccordion },
+  { sectionType: "pricing",   label: "Záložky",   Icon: IcoTabs },
+];
+
+const POKROCILE: Elem[] = [
+  { sectionType: "pricing",      label: "Ceník",      Icon: IcoPricing },
+  { sectionType: "team",         label: "Tým",        Icon: IcoTeam },
+  { sectionType: "stats",        label: "Statistiky", Icon: IcoStats },
+  { sectionType: "contact",      label: "Kontakt",    Icon: IcoMap },
+  { sectionType: "testimonials", label: "Recenze",    Icon: IcoQuote },
+  { sectionType: "blog-preview", label: "Blog",       Icon: IcoText },
+];
+
+export const GROUPS: Array<{ title: string; items: Elem[] }> = [
+  { title: "ZÁKLADNÍ",  items: ZAKLADNI },
+  { title: "LAYOUT",    items: LAYOUT },
+  { title: "POKROČILÉ", items: POKROCILE },
+];
+
+export function AddSectionPanel({ state }: { state: StudioState }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`shrink-0 rounded-md px-2 py-1 text-[10.5px] font-medium tracking-tight transition-[background,color,box-shadow] duration-100 vs-focus-ring ${
-        active
-          ? "bg-[var(--vs-surface-3)] text-[var(--vs-text)] shadow-[inset_0_0_0_1px_var(--vs-border-strong)]"
-          : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
-      }`}
-    >
-      {children}
-    </button>
+    <div className="flex h-full flex-col overflow-y-auto vs-scroll">
+      {GROUPS.map((group) => (
+        <div key={group.title} className="px-3 pt-4 pb-2">
+          {/* Category header */}
+          <p className="mb-2 text-[10px] font-bold tracking-[0.12em] text-[var(--vs-text-dim)] uppercase px-1">
+            {group.title}
+          </p>
+
+          {/* 2-column icon grid */}
+          <div className="grid grid-cols-2 gap-1.5">
+            {group.items.map((item, i) => (
+              <button
+                key={`${item.sectionType}-${item.label}-${i}`}
+                type="button"
+                onClick={() => void state.addSection(item.sectionType, item.variant ?? "default")}
+                className="group flex flex-col items-center gap-2 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-2 py-4 transition-[border-color,background] duration-100 hover:border-[rgba(59,130,246,0.45)] hover:bg-[var(--vs-surface-2)] focus:outline-none focus:ring-2 focus:ring-[rgba(59,130,246,0.4)] focus:ring-offset-1 focus:ring-offset-[var(--vs-bg-soft)]"
+                aria-label={item.label}
+              >
+                <span className="text-[var(--vs-text-muted)] transition-colors duration-100 group-hover:text-[var(--vs-text-soft)]">
+                  <item.Icon />
+                </span>
+                <span className="text-[11.5px] font-medium text-[var(--vs-text-muted)] group-hover:text-[var(--vs-text-soft)] leading-none transition-colors duration-100">
+                  {item.label}
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+      <div className="h-4" />
+    </div>
   );
 }

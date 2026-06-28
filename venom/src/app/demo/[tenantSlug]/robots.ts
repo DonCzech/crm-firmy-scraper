@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getTenantBySlug } from "@/lib/db";
 
-const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://venom-saas.vercel.app";
+const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://webero.co";
 
 export default async function robots({
   params,

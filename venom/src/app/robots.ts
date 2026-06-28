@@ -16,7 +16,7 @@ export const revalidate = 3600;
 interface TenantSlugRow { slug: string }
 
 export default async function robots(): Promise<MetadataRoute.Robots> {
-  const allow: string[] = ["/", "/cenik", "/o-nas", "/preview"];
+  const allow: string[] = ["/", "/cenik", "/o-nas"];
   try {
     const tenants = await query<TenantSlugRow>(
       `SELECT slug FROM tenants

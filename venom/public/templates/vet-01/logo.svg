@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 56" width="270" height="56" role="img" aria-label="VET CLINIC">
+  <!-- Paw icon -->
+  <g transform="translate(3, 5)">
+    <ellipse cx="22" cy="31" rx="9.5" ry="8.5" fill="#286C7E"/>
+    <ellipse cx="11" cy="21" rx="5" ry="5.5" fill="#286C7E"/>
+    <ellipse cx="20" cy="16.5" rx="5" ry="5.5" fill="#286C7E"/>
+    <ellipse cx="29.5" cy="18.5" rx="5" ry="5.5" fill="#286C7E"/>
+    <ellipse cx="37" cy="25" rx="4.5" ry="5" fill="#286C7E"/>
+    <path d="M19.5 29.5 Q19.5 27.2 21.5 27.2 Q23 27.2 23 29 Q23 27.2 24.5 27.2 Q26.5 27.2 26.5 29.5 Q26.5 32 23 34.5 Q19.5 32 19.5 29.5Z" fill="#ffffff" opacity="0.92"/>
+  </g>
+
+  <!-- Accent bar -->
+  <rect x="53" y="9" width="3" height="38" rx="1.5" fill="#42aaba"/>
+
+  <!-- Text: VET CLINIC -->
+  <text x="66" y="37" font-family="'Georgia', 'Times New Roman', serif" font-size="26" font-weight="700" fill="#286C7E" letter-spacing="1.5">VET CLINIC</text>
+</svg>

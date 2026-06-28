@@ -1,43 +1,63 @@
 "use client";
 
-import { ExternalLink, FileText, MessageSquare, BarChart3, Puzzle, History, ShieldCheck, User } from "lucide-react";
+import { ChevronRight } from "lucide-react";
+import { useStudio } from "../StudioContext";
 import type { StudioState } from "../TenantStudioView";
 
-interface Item {
-  href: string;
+interface SettingsItem {
   label: string;
-  desc: string;
-  Icon: React.ComponentType<{ className?: string }>;
+  view: string;
+  hasChevron?: boolean;
 }
 
-export function SettingsPanel({ state }: { state: StudioState }) {
-  const items: Item[] = [
-    { href: `/demo/${state.tenant.slug}/admin/seo`,       label: "SEO",        desc: "Title, popis, sitemap",  Icon: FileText },
-    { href: `/demo/${state.tenant.slug}/admin/blog`,      label: "Blog",       desc: "Články a publikace",     Icon: FileText },
-    { href: `/demo/${state.tenant.slug}/admin/contact`,   label: "Zprávy",     desc: "Příchozí formuláře",     Icon: MessageSquare },
-    { href: `/demo/${state.tenant.slug}/admin/analytics`, label: "Analytics",  desc: "Návštěvy a konverze",    Icon: BarChart3 },
-    { href: `/demo/${state.tenant.slug}/admin/modules`,   label: "Moduly",     desc: "Aktivní funkce",         Icon: Puzzle },
-    { href: `/demo/${state.tenant.slug}/admin/revisions`, label: "Verze",      desc: "Historie změn",          Icon: History },
-    { href: `/demo/${state.tenant.slug}/admin/audit`,     label: "Audit",      desc: "Záznamy úprav",          Icon: ShieldCheck },
-    { href: `/account/dashboard`,                          label: "Můj účet",  desc: "Profil a předplatné",    Icon: User },
-  ];
+const OBECNE: SettingsItem[] = [
+  { label: "Identita",               view: "identita" },
+  { label: "Web",                    view: "web" },
+  { label: "SEO",                    view: "seo" },
+  { label: "Cookie lišta",           view: "cookies" },
+  { label: "Uživatelské přístupy",   view: "access",    hasChevron: true },
+  { label: "Jazyky",                 view: "languages" },
+  { label: "E-maily",                view: "emails",    hasChevron: true },
+  { label: "Fakturace a platby",     view: "billing",   hasChevron: true },
+];
+
+const POKROCILE: SettingsItem[] = [
+  { label: "Integrace a API",   view: "api" },
+  { label: "Záznam aktivity",   view: "activity" },
+  { label: "CSS třídy",         view: "css" },
+  { label: "HTTP Hlavičky",     view: "headers" },
+  { label: "Přesměrování",      view: "redirects" },
+];
+
+export function SettingsPanel({ state: _state }: { state: StudioState }) {
+  const studio = useStudio();
   return (
-    <div className="vs-enter p-2">
-      {items.map(({ href, label, desc, Icon }) => (
-        <a
-          key={href}
-          href={href}
-          className="group mb-0.5 flex items-center gap-2.5 rounded-md px-2 py-2 text-xs transition-colors duration-100 hover:bg-[var(--vs-surface-2)]"
+    <div className="vs-enter flex-1 overflow-y-auto vs-scroll">
+      <Group label="OBECNÉ" items={OBECNE} onOpen={(v) => studio.setSettingsView(v)} />
+      <Group label="POKROČILÉ" items={POKROCILE} onOpen={(v) => studio.setSettingsView(v)} />
+      <div className="h-4" />
+    </div>
+  );
+}
+
+function Group({ label, items, onOpen }: { label: string; items: SettingsItem[]; onOpen: (v: string) => void }) {
+  return (
+    <div className="pt-4 pb-1">
+      <div className="px-4 pb-1.5 text-[10px] font-bold tracking-[0.10em] text-[var(--vs-text-dim)] uppercase">
+        {label}
+      </div>
+      {items.map((item) => (
+        <button
+          key={item.label}
+          type="button"
+          onClick={() => onOpen(item.view)}
+          className="flex w-full items-center justify-between px-4 py-[7px] text-[13px] text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
         >
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-[var(--vs-surface-2)] text-[var(--vs-text-muted)] transition-colors group-hover:bg-[var(--vs-accent-bg)] group-hover:text-[var(--vs-accent-hi)]">
-            <Icon className="h-3.5 w-3.5" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="truncate text-[12.5px] font-medium text-[var(--vs-text)]">{label}</div>
-            <div className="truncate text-[10.5px] text-[var(--vs-text-muted)]">{desc}</div>
-          </div>
-          <ExternalLink className="h-3.5 w-3.5 text-[var(--vs-text-dim)] group-hover:text-[var(--vs-text-soft)]" strokeWidth={1.75} />
-        </a>
+          {item.label}
+          {item.hasChevron && (
+            <ChevronRight className="h-3.5 w-3.5 text-[var(--vs-text-dim)] shrink-0" strokeWidth={2} />
+          )}
+        </button>
       ))}
     </div>
   );

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" fill="none">
+  <rect x="0" y="4" width="40" height="40" rx="8" fill="#1B3A6B"/>
+  <text x="20" y="30" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#ffffff">FP</text>
+  <text x="52" y="22" font-family="Inter, Arial, sans-serif" font-size="13" font-weight="700" fill="#1B3A6B" letter-spacing="1">FINANČNÍ</text>
+  <text x="52" y="37" font-family="Inter, Arial, sans-serif" font-size="9" font-weight="500" fill="#C8923A" letter-spacing="2.5">PORADCE</text>
+</svg>

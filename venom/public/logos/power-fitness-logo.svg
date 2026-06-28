@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 56" fill="none">
+  <!-- Lightning bolt -->
+  <polygon points="19,3 9,28 18,28 12,53 31,25 21,25 30,3" fill="#FF5500"/>
+  <!-- Power -->
+  <text x="42" y="41"
+    font-family="'Arial Black', 'Impact', sans-serif"
+    font-size="34"
+    font-weight="900"
+    fill="#FF5500">Power</text>
+  <!-- Fitness -->
+  <text x="164" y="41"
+    font-family="'Arial Black', 'Impact', sans-serif"
+    font-size="34"
+    font-weight="900"
+    fill="#FFFFFF">Fitness</text>
+</svg>

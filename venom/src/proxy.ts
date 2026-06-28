@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const PLATFORM_DOMAINS = new Set([
-  "venom-saas.vercel.app",
+  "webero.co",
   "localhost",
   "127.0.0.1",
 ]);
 
 // Edge-compatible cookie name (must match @/lib/auth COOKIE_NAME)
-const ADMIN_COOKIE_NAME = "venom_admin_token";
+const ADMIN_COOKIE_NAME = "webero_admin_token";
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;

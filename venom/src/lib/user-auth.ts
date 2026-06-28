@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET || "astera-admin-secret-do-not-use-in-prod";
-export const USER_COOKIE_NAME = "venom_user_token";
+export const USER_COOKIE_NAME = "webero_user_token";
 export const USER_COOKIE_MAX_AGE = 60 * 60 * 24 * 30; // 30 days
 
 export interface UserPayload {

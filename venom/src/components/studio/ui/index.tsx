@@ -5,7 +5,7 @@ import { forwardRef, useEffect, useRef, useState, type ButtonHTMLAttributes, typ
 import { Loader2 } from "lucide-react";
 
 /* ============================================================================
-   Venom Studio UI primitives. All consume design tokens from design-tokens.css.
+   Webero Studio UI primitives. All consume design tokens from design-tokens.css.
    Import via `import { Button, Input, Panel, EmptyState, Pill, Tooltip, Spinner } from "@/components/studio/ui"`.
    ============================================================================ */
 

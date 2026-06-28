@@ -4,7 +4,7 @@ import { getTenantBySlug, getTenantPages, query } from "@/lib/db";
 // force-dynamic: tenant slugs are not statically enumerable at build time
 export const dynamic = "force-dynamic";
 
-const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://venom-saas.vercel.app";
+const BASE = process.env.NEXT_PUBLIC_BASE_URL ?? "https://webero.co";
 
 interface BlogPost {
   slug: string;

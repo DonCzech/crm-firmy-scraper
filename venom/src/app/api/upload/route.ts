@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     if (!rows.length) {
       return Response.json({ error: "Tenant not found" }, { status: 404 });
     }
-    const tenantAccess = cookieStore.get(`venom_access_${tenantSlug}`)?.value;
+    const tenantAccess = cookieStore.get(`webero_access_${tenantSlug}`)?.value;
     const isTenantAdmin = Boolean(rows[0].access_token && tenantAccess === rows[0].access_token);
     if (!isPlatformAdmin && !isTenantAdmin) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });

@@ -472,7 +472,7 @@ function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }
                 alt={siteName}
                 className="relative overflow-hidden shrink-0 w-[140px] h-[36px] md:w-[200px] md:h-[56px]"
               >
-                <OptimizedPicture src={logoSrc} alt={siteName} imgStyle={{ width: "100%", height: "100%", objectFit: "contain", filter: "brightness(0) invert(1)" }} />
+                <OptimizedPicture src={logoSrc} alt={siteName} imgStyle={{ width: "100%", height: "100%", objectFit: "contain", filter: "brightness(0) invert(1)" }} fetchPriority="high" />
               </GenericEditableImage>
             ) : (
               <span style={{
@@ -761,6 +761,7 @@ function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }
               {ctaText && (
                 <a
                   href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+                  data-btn="inverse"
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -895,6 +896,7 @@ function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }
               <div style={{ padding: "16px 20px 0" }}>
                 <a
                   href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+                  data-btn="primary"
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -1114,6 +1116,7 @@ function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }
             {ctaText && (
               <a
                 href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+                data-btn="primary"
                 className="hidden md:inline-block px-4 py-2 rounded-full text-sm font-semibold text-white"
                 style={{ backgroundColor: "var(--color-primary, #6d1f37)" }}
               >
@@ -1186,6 +1189,7 @@ function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }
           {ctaText && (
             <a
               href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+              data-btn="primary"
               className="px-4 py-2 rounded-lg text-sm font-semibold text-white transition-opacity hover:opacity-90"
               style={{ backgroundColor: "var(--color-primary, #6366f1)" }}
             >
@@ -1226,6 +1230,7 @@ function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }
           {ctaText && (
             <a
               href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+              data-btn="primary"
               className="block text-center px-4 py-2 rounded-lg text-sm font-semibold text-white"
               style={{ backgroundColor: "var(--color-primary, #6366f1)" }}
             >
@@ -1954,6 +1959,7 @@ function NavbarBeauty01({ content, variant: _v, isAdmin, tenantSlug, sectionId }
           )}
           <a
             href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            data-btn="primary"
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -2021,6 +2027,7 @@ function NavbarBeauty01({ content, variant: _v, isAdmin, tenantSlug, sectionId }
           ))}
           <a
             href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            data-btn="primary"
             style={{
               backgroundColor: SAND, color: TEXT, fontFamily: FONT,
               fontSize: 13, fontWeight: 500, padding: "12px 32px",
@@ -2311,6 +2318,7 @@ function NavbarFitness01({ content, isAdmin, tenantSlug, sectionId }: Props) {
           {/* CTA vpravo */}
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             style={{
               display: "inline-flex", alignItems: "center", gap: 8,
               background: ACCENT, color: "#fff",
@@ -2388,6 +2396,7 @@ function NavbarFitness01({ content, isAdmin, tenantSlug, sectionId }: Props) {
           <div style={{ marginTop: 36 }}>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               onClick={() => setOpen(false)}
               style={{
                 display: "block", textAlign: "center",
@@ -3412,6 +3421,7 @@ function NavbarTawan01(props: Props) {
             </a>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               style={{
                 fontFamily: FONT, fontSize: 13, fontWeight: 700, letterSpacing: 1,
                 color: WHITE, textDecoration: "none",
@@ -3478,7 +3488,7 @@ function NavbarTawan01(props: Props) {
             style={{ fontFamily: FONT, fontSize: 13, fontWeight: 700, color: WHITE, textDecoration: "none", padding: "0 24px", height: 44, lineHeight: "44px", display: "inline-block", backgroundColor: BRONZE, borderRadius: btnRadius }}>
             {voucherText}
           </a>
-            <a href={resolve(ctaHref)} onClick={() => setMenuOpen(false)}
+            <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setMenuOpen(false)}
               style={{ fontFamily: FONT, fontSize: 12, fontWeight: 600, letterSpacing: 2, textTransform: "uppercase", color: PURPLE, textDecoration: "none", padding: "12px 24px", backgroundColor: BRONZE }}>
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
@@ -3594,6 +3604,7 @@ function NavbarAnanda01(props: Props) {
           <a
             className="ananda-nav-cta-desktop"
             href={resolve(ctaHref)}
+            data-btn="primary"
             style={{
               fontFamily: FONT, fontSize: 12, fontWeight: 600, letterSpacing: 2,
               textTransform: "uppercase", color: WHITE, textDecoration: "none",
@@ -3653,6 +3664,7 @@ function NavbarAnanda01(props: Props) {
         {/* Rezervovat CTA */}
         <a
           href={resolve(ctaHref)}
+          data-btn="primary"
           onClick={() => setMenuOpen(false)}
           style={{ marginTop: 36, fontFamily: FONT, fontSize: 12, fontWeight: 600, letterSpacing: 3, textTransform: "uppercase", color: GOLD, backgroundColor: WHITE, textDecoration: "none", padding: "14px 36px", borderRadius: 999 }}
         >
@@ -3811,6 +3823,7 @@ function NavbarTawan02(props: Props) {
             </a>
             <a
               href={resolve(ctaHref)}
+              data-btn="inverse"
               style={{
                 fontFamily: FONT, fontSize: 12, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase",
                 color: scrolled ? ACCENT : CREAM, textDecoration: "none",
@@ -3877,7 +3890,7 @@ function NavbarTawan02(props: Props) {
             style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: BROWN, textDecoration: "none", padding: "0 24px", height: 44, lineHeight: "44px", display: "inline-block", backgroundColor: CREAM, borderRadius: "4px" }}>
             {voucherText}
           </a>
-          <a href={resolve(ctaHref)} onClick={() => setMenuOpen(false)}
+          <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setMenuOpen(false)}
             style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: WHITE, textDecoration: "none", padding: "0 24px", height: 44, lineHeight: "44px", display: "inline-block", backgroundColor: ACCENT, borderRadius: "4px" }}>
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           </a>
@@ -4007,6 +4020,7 @@ function NavbarTattoo01(props: Props) {
             {/* Objednat se — červená filled */}
             <a
               href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+              data-btn="primary"
               style={{
                 display: "inline-flex", alignItems: "center",
                 backgroundColor: ACCENT,
@@ -4108,6 +4122,7 @@ function NavbarTattoo01(props: Props) {
             <div style={{ marginTop: "auto", paddingTop: 32, display: "flex", flexDirection: "column", gap: 12 }}>
               <a
                 href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+                data-btn="primary"
                 onClick={() => setOpen(false)}
                 style={{
                   display: "block", padding: "16px 24px",
@@ -4224,6 +4239,7 @@ function NavbarTattoo02(props: Props) {
           {/* CTA — zlaté */}
           <a
             href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            data-btn="primary"
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -4324,6 +4340,7 @@ function NavbarTattoo02(props: Props) {
             <div style={{ marginTop: "auto", paddingTop: 32 }}>
               <a
                 href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+                data-btn="primary"
                 onClick={() => setOpen(false)}
                 style={{
                   display: "block", padding: "16px 24px",
@@ -4499,6 +4516,7 @@ function NavbarNails01(props: Props) {
             {/* CTA button */}
             <a
               href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+              data-btn="primary"
               style={{
                 display: "inline-flex", alignItems: "center", gap: 6,
                 backgroundColor: BURGUNDY, color: "#ffffff",
@@ -4582,6 +4600,7 @@ function NavbarNails01(props: Props) {
           <div style={{ marginTop: "auto", paddingTop: 32 }}>
             <a
               href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+              data-btn="primary"
               onClick={() => setOpen(false)}
               style={{
                 display: "block", padding: "16px 24px",
@@ -4709,6 +4728,7 @@ function NavbarTattoo03(props: Props) {
           {/* Červené CTA */}
           <a
             href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            data-btn="primary"
             style={{
               display: "inline-flex", alignItems: "center",
               backgroundColor: ACCENT, color: "#ffffff",
@@ -4784,6 +4804,7 @@ function NavbarTattoo03(props: Props) {
             <div style={{ marginTop: "auto", paddingTop: 32 }}>
               <a
                 href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+                data-btn="primary"
                 onClick={() => setOpen(false)}
                 style={{
                   display: "block", padding: "16px 24px",
@@ -4988,6 +5009,7 @@ function NavbarNails02(props: Props) {
             {/* CTA filled taupe pill */}
             <a
               href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+              data-btn="primary"
               style={{
                 marginLeft: 4,
                 display: "inline-flex",
@@ -5071,6 +5093,7 @@ function NavbarNails02(props: Props) {
           ))}
           <a
             href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            data-btn="primary"
             onClick={() => setOpen(false)}
             style={{
               marginTop: 32,
@@ -5215,6 +5238,7 @@ function NavbarNails03(props: Props) {
             </a>
             <a
               href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+              data-btn="primary"
               style={{
                 padding: "10px 24px",
                 backgroundColor: BROWN,
@@ -5302,6 +5326,7 @@ function NavbarNails03(props: Props) {
           ))}
           <a
             href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            data-btn="primary"
             onClick={() => setOpen(false)}
             style={{
               marginTop: 40,
@@ -5649,6 +5674,7 @@ function NavbarClinic03({ content, isAdmin, tenantSlug, sectionId }: Props) {
           <div className="c03-cta-desktop" style={{ position: "absolute", right: 32, top: "50%", transform: "translateY(-50%)", display: "flex", alignItems: "center", gap: 12 }}>
             <a
               href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+              data-btn="primary"
               style={{
                 backgroundColor: GOLD,
                 color: WHITE,
@@ -5774,6 +5800,7 @@ function NavbarClinic03({ content, isAdmin, tenantSlug, sectionId }: Props) {
           ))}
           <a
             href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            data-btn="primary"
             onClick={() => setOpen(false)}
             style={{ display: "block", marginTop: 24, padding: "14px 24px", backgroundColor: GOLD, color: WHITE, fontFamily: FONT, fontSize: "1rem", fontWeight: 500, textDecoration: "none", textAlign: "center" }}
           >
@@ -5900,6 +5927,7 @@ function NavbarFyzio01({ content, isAdmin, tenantSlug, sectionId }: Props) {
             {/* CTA — desktop — navy s phone ikonou */}
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               className="hidden md:inline-flex items-center"
               style={{
                 backgroundColor: NAVY,
@@ -5976,6 +6004,7 @@ function NavbarFyzio01({ content, isAdmin, tenantSlug, sectionId }: Props) {
           <div style={{ marginTop: 32 }}>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               onClick={() => setOpen(false)}
               style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: NAVY, color: WHITE, fontFamily: MONT, fontSize: 15, fontWeight: 600, padding: "14px 24px", borderRadius: 4, textDecoration: "none", letterSpacing: "0.03em" }}
             >
@@ -6108,6 +6137,7 @@ function NavbarFitness02({ content, isAdmin, tenantSlug, sectionId }: Props) {
           {/* CTA outlined vpravo */}
           <a
             href={resolve(ctaHref)}
+            data-btn="inverse"
             style={{
               display: "inline-flex", alignItems: "center",
               background: "transparent", color: ACCENT,
@@ -6210,6 +6240,7 @@ function NavbarFitness02({ content, isAdmin, tenantSlug, sectionId }: Props) {
           <div style={{ marginTop: 36 }}>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               onClick={() => setOpen(false)}
               style={{
                 display: "block", textAlign: "center",
@@ -6344,6 +6375,7 @@ function NavbarFyzio02({ content, isAdmin, tenantSlug, sectionId }: Props) {
           <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               className="hidden md:inline-flex items-center"
               style={{
                 backgroundColor: TEAL,
@@ -6399,7 +6431,7 @@ function NavbarFyzio02({ content, isAdmin, tenantSlug, sectionId }: Props) {
             ))}
           </nav>
           <div style={{ marginTop: 32 }}>
-            <a href={resolve(ctaHref)} onClick={() => setOpen(false)}
+            <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setOpen(false)}
               style={{ display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: TEAL, color: WHITE, fontFamily: SANS, fontSize: 16, fontWeight: 600, padding: "16px 24px", borderRadius: 8, textDecoration: "none" }}>
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
@@ -6507,6 +6539,7 @@ function NavbarRestaurant01(props: Props) {
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               style={{
                 fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.1em",
                 textTransform: "uppercase", color: WHITE, textDecoration: "none",
@@ -6599,6 +6632,7 @@ function NavbarRestaurant01(props: Props) {
         <div style={{ padding: "18px 20px 32px" }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             onClick={() => setMenuOpen(false)}
             style={{
               fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.1em",
@@ -6827,6 +6861,7 @@ function NavbarRestaurant03(props: Props) {
             {/* CTA — desktop */}
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               className="r03-nav-cta"
               style={{
                 fontFamily: SANS, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em",
@@ -6883,6 +6918,7 @@ function NavbarRestaurant03(props: Props) {
               <li style={{ marginTop: 16 }}>
                 <a
                   href={resolve(ctaHref)}
+                  data-btn="primary"
                   style={{
                     display: "inline-block", padding: "12px 28px",
                     fontFamily: SANS, fontSize: 12, fontWeight: 700,
@@ -6998,6 +7034,7 @@ function NavbarCafe02(props: Props) {
           {/* Zlaté CTA */}
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: WHITE, textDecoration: "none", padding: "10px 22px", backgroundColor: GOLD, transition: "background-color 0.2s", whiteSpace: "nowrap" }}
             onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_DK)}
             onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
@@ -7040,6 +7077,7 @@ function NavbarCafe02(props: Props) {
         <div style={{ padding: "20px 24px 36px" }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             onClick={() => setMenuOpen(false)}
             style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: WHITE, textDecoration: "none", padding: "13px 28px", backgroundColor: GOLD, display: "inline-block", transition: "background-color 0.2s" }}
             onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_DK)}
@@ -7146,6 +7184,7 @@ function NavbarCafe03(props: Props) {
             {/* Desktop CTA */}
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               style={{ fontFamily: SANS, fontSize: 13, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: WHITE, textDecoration: "none", padding: "10px 22px", backgroundColor: GOLD, transition: "background-color 0.2s", whiteSpace: "nowrap", display: "block" }}
               onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_DK)}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
@@ -7199,6 +7238,7 @@ function NavbarCafe03(props: Props) {
         <div style={{ padding: "20px 24px 40px" }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             onClick={() => setMenuOpen(false)}
             style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: WHITE, textDecoration: "none", padding: "13px 28px", backgroundColor: GOLD, display: "inline-block", transition: "background-color 0.2s" }}
             onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_DK)}
@@ -7833,6 +7873,7 @@ function NavbarReality02({ content, isAdmin, tenantSlug, sectionId }: Props) {
         <div style={{ padding: "20px 24px 32px" }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             onClick={() => setOpen(false)}
             style={{ display: "block", padding: "12px 20px", backgroundColor: GREEN, color: WHITE, fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", borderRadius: 24, textAlign: "center", transition: "background 0.2s" }}
           >
@@ -7935,6 +7976,7 @@ function NavbarReality03({ content, isAdmin, tenantSlug, sectionId }: Props) {
             {/* KONTAKT — pill button, přesně jako originál */}
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               className="r03-nav-cta"
               style={{ marginLeft: 8, padding: "12px 30px", border: `2px solid ${DARK}`, backgroundColor: DARK, color: WHITE, fontFamily: SANS, fontSize: 14, fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase", textDecoration: "none", borderRadius: "99rem", transition: "all 0.2s", whiteSpace: "nowrap", flexShrink: 0 }}
               onMouseEnter={e => { e.currentTarget.style.backgroundColor = WHITE; e.currentTarget.style.color = DARK; }}
@@ -7999,6 +8041,7 @@ function NavbarReality03({ content, isAdmin, tenantSlug, sectionId }: Props) {
         <div style={{ padding: "20px 24px 32px" }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             onClick={() => setOpen(false)}
             style={{ display: "block", padding: "12px 28px", border: `2px solid ${DARK}`, backgroundColor: DARK, color: WHITE, fontFamily: SANS, fontSize: 13, fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase", textDecoration: "none", borderRadius: "99rem", textAlign: "center", transition: "all 0.2s" }}
           >
@@ -8121,6 +8164,7 @@ function NavbarReality04({ content, isAdmin, tenantSlug, sectionId }: Props) {
             )}
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               className="r04-nav-cta"
               style={{ marginLeft: 8, padding: "10px 28px", backgroundColor: GREEN, color: WHITE, fontFamily: SANS, fontSize: LINK_FS, fontWeight: 400, textDecoration: "none", borderRadius: 50, boxShadow: `inset 0px 0px 0px 2px ${GREEN}`, transition: "all 350ms ease", whiteSpace: "nowrap" }}
               onMouseEnter={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = GREEN; }}
@@ -8205,6 +8249,7 @@ function NavbarReality04({ content, isAdmin, tenantSlug, sectionId }: Props) {
         <div style={{ padding: "16px 24px 40px" }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             onClick={() => setOpen(false)}
             style={{ display: "block", padding: "14px 28px", backgroundColor: GREEN, color: WHITE, fontFamily: SANS, fontSize: LINK_FS, fontWeight: 400, textDecoration: "none", borderRadius: 50, textAlign: "center" }}
           >
@@ -8645,7 +8690,7 @@ function NavbarReality06({ content, isAdmin, tenantSlug, sectionId }: Props) {
           </nav>
 
           {/* CTA button — desktop */}
-          <a href={resolve(ctaHref)} className="r06-nav-links"
+          <a href={resolve(ctaHref)} data-btn="primary" className="r06-nav-links"
             style={{ display: "inline-flex", alignItems: "center", marginLeft: 16, padding: "9px 20px", backgroundColor: PRIMARY, color: WHITE, fontFamily: SANS, fontSize: 14, fontWeight: 600, textDecoration: "none", borderRadius: 99, whiteSpace: "nowrap", flexShrink: 0, transition: "opacity 0.18s" }}
             onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
             onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
@@ -8770,7 +8815,7 @@ function NavbarReality06({ content, isAdmin, tenantSlug, sectionId }: Props) {
           </ul>
         </nav>
         <div style={{ padding: "16px 24px", borderTop: `1px solid ${BORDER}` }}>
-          <a href={resolve(ctaHref)} onClick={() => setOpen(false)}
+          <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setOpen(false)}
             style={{ display: "block", textAlign: "center", padding: "12px 20px", backgroundColor: PRIMARY, color: WHITE, fontFamily: SANS, fontSize: 14, fontWeight: 600, textDecoration: "none", borderRadius: 99 }}
           >
             {String(content.ctaText ?? "Nezávazná konzultace")}
@@ -8961,7 +9006,7 @@ function NavbarAutoservis01({ content, isAdmin, tenantSlug, sectionId }: Props) 
           </a>
 
           {/* CTA button — desktop */}
-          <a href={resolve(ctaHref)} className="a01-nav-links"
+          <a href={resolve(ctaHref)} data-btn="primary" className="a01-nav-links"
             style={{ display: "inline-flex", alignItems: "center", marginLeft: 12, padding: "10px 22px", backgroundColor: ORANGE, color: DARK, fontFamily: SANS, fontSize: 14, fontWeight: 700, textDecoration: "none", borderRadius: 6, whiteSpace: "nowrap", flexShrink: 0, transition: "opacity 0.18s" }}
             onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
             onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
@@ -9025,7 +9070,7 @@ function NavbarAutoservis01({ content, isAdmin, tenantSlug, sectionId }: Props) 
             </a>
           </div>
           <div style={{ padding: "0 24px 32px" }}>
-            <a href={resolve(ctaHref)} onClick={() => setOpen(false)}
+            <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setOpen(false)}
               style={{ display: "block", textAlign: "center", padding: "14px 20px", backgroundColor: ORANGE, color: DARK, fontFamily: SANS, fontSize: 15, fontWeight: 700, textDecoration: "none", borderRadius: 6 }}
             >
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
@@ -9119,7 +9164,7 @@ function NavbarAutoservis03({ content, isAdmin, tenantSlug, sectionId }: Props) 
           </nav>
 
           {/* CTA rounded-full orange gradient — REZERVACE */}
-          <a href={resolve(ctaHref)} className="a03-nav-links"
+          <a href={resolve(ctaHref)} data-btn="primary" className="a03-nav-links"
             style={{
               display: "inline-flex", alignItems: "center", marginLeft: 12, padding: "8px 22px",
               background: "linear-gradient(to right, #f97316, #ea6c08)",
@@ -9186,7 +9231,7 @@ function NavbarAutoservis03({ content, isAdmin, tenantSlug, sectionId }: Props) 
             </a>
           </div>
           <div style={{ padding: "0 24px 32px" }}>
-            <a href={resolve(ctaHref)} onClick={() => setOpen(false)}
+            <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setOpen(false)}
               style={{ display: "block", textAlign: "center", padding: "14px 20px", background: "linear-gradient(to right,#f97316,#ea6c08)", color: WHITE, fontFamily: SANS, fontSize: 15, fontWeight: 700, textDecoration: "none", borderRadius: 999, letterSpacing: "0.5px" }}
             >
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
@@ -9578,6 +9623,7 @@ function NavbarDental01({ content, isAdmin, tenantSlug, sectionId }: Props) {
             {/* CTA */}
             <a
               href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+              data-btn="primary"
               className="d01-cta"
               style={{
                 display: "inline-flex", alignItems: "center", justifyContent: "center",
@@ -9663,6 +9709,7 @@ function NavbarDental01({ content, isAdmin, tenantSlug, sectionId }: Props) {
           </div>
           <a
             href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            data-btn="primary"
             onClick={() => setOpen(false)}
             style={{
               display: "inline-flex", alignItems: "center", justifyContent: "center",
@@ -9789,6 +9836,7 @@ function NavbarOrtho01({ content, isAdmin, tenantSlug, sectionId }: Props) {
           {/* CTA */}
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             className="o01-cta"
             style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, backgroundColor: TEAL, color: WHITE, fontFamily: FONT, fontSize: "0.91rem", fontWeight: 600, padding: "11px 22px", borderRadius: 999, textDecoration: "none", transition: "opacity 0.18s" }}
             onMouseEnter={e => { e.currentTarget.style.opacity = "0.85"; }}
@@ -9835,6 +9883,7 @@ function NavbarOrtho01({ content, isAdmin, tenantSlug, sectionId }: Props) {
           ))}
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             onClick={() => setOpen(false)}
             style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, padding: "14px 28px", backgroundColor: TEAL, color: WHITE, fontFamily: FONT, fontSize: "0.95rem", fontWeight: 600, borderRadius: 999, textDecoration: "none", alignSelf: "flex-start" }}
           >
@@ -10190,6 +10239,7 @@ function NavbarLegal02({ content, isAdmin, tenantSlug, sectionId }: Props) {
           <div className="l02-right" style={{ display: "flex", alignItems: "center", gap: 0, flexShrink: 0, marginLeft: "auto" }}>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               className="l02-cta"
             >
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
@@ -10254,6 +10304,7 @@ function NavbarLegal02({ content, isAdmin, tenantSlug, sectionId }: Props) {
           ))}
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             onClick={() => setOpen(false)}
             style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", marginTop: 32, color: WHITE, fontFamily: FONT, fontSize: "1rem", fontWeight: 700, textDecoration: "none", border: `2px solid ${ORANGE}`, borderRadius: 64, padding: "12px 28px" }}
           >
@@ -10464,6 +10515,7 @@ function NavbarLawyer01({ content, isAdmin, tenantSlug, sectionId }: Props) {
             {/* CTA button */}
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               className="l01-cta"
               style={{
                 display: "inline-flex", alignItems: "center", flexShrink: 0, marginLeft: 20,
@@ -10524,6 +10576,7 @@ function NavbarLawyer01({ content, isAdmin, tenantSlug, sectionId }: Props) {
           ))}
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             onClick={() => setOpen(false)}
             style={{ display: "inline-block", marginTop: 28, backgroundColor: CRIMSON, color: WHITE, fontFamily: FONT, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "12px 28px", textDecoration: "none" }}
           >
@@ -10658,6 +10711,7 @@ function NavbarStavba01(props: Props) {
             </a>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               style={{ display: "inline-flex", alignItems: "center", backgroundColor: ORANGE, color: WHITE, fontFamily: FONT, fontSize: "0.9rem", fontWeight: 600, padding: "11px 26px", borderRadius: 8, textDecoration: "none", whiteSpace: "nowrap", letterSpacing: "0.01em", boxShadow: "0 2px 12px rgba(255,111,13,0.30)", transition: "opacity 0.15s, transform 0.15s, box-shadow 0.15s" }}
               onMouseEnter={e => { e.currentTarget.style.opacity = "0.9"; e.currentTarget.style.transform = "translateY(-1px)"; e.currentTarget.style.boxShadow = "0 6px 20px rgba(255,111,13,0.40)"; }}
               onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 2px 12px rgba(255,111,13,0.30)"; }}
@@ -10707,6 +10761,7 @@ function NavbarStavba01(props: Props) {
             ))}
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               onClick={() => setOpen(false)}
               style={{ display: "block", marginTop: 28, backgroundColor: ORANGE, color: WHITE, fontFamily: FONT, fontSize: "0.95rem", fontWeight: 600, padding: "14px 0", borderRadius: 8, textAlign: "center", textDecoration: "none", boxShadow: "0 2px 12px rgba(255,111,13,0.30)" }}
             >
@@ -10815,6 +10870,7 @@ function NavbarStavba02(props: Props) {
             </a>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               style={{ display: "inline-flex", alignItems: "center", backgroundColor: BROWN, color: "#fff", fontFamily: FONT, fontSize: "0.79rem", fontWeight: 600, padding: "9px 20px", borderRadius: 6, textDecoration: "none", transition: "opacity 0.18s, transform 0.18s" }}
               onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; e.currentTarget.style.transform = "translateY(-1px)"; }}
               onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
@@ -10871,6 +10927,7 @@ function NavbarStavba02(props: Props) {
               ))}
               <a
                 href={resolve(ctaHref)}
+                data-btn="primary"
                 onClick={() => setOpen(false)}
                 style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", backgroundColor: BROWN, color: "#fff", fontFamily: FONT, fontSize: "0.95rem", fontWeight: 600, padding: "12px 24px", borderRadius: 6, textDecoration: "none", marginTop: 12 }}
               >
@@ -11078,6 +11135,7 @@ function NavbarStavba03(props: Props) {
             ))}
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               onClick={() => setOpen(false)}
               style={{ display: "block", marginTop: 24, backgroundColor: ORANGE, color: WHITE, fontFamily: FONT, fontSize: "0.95rem", fontWeight: 700, padding: "15px 0", borderRadius: 0, textAlign: "center", textDecoration: "none" }}
             >
@@ -11399,7 +11457,7 @@ function NavbarCatering01(props: Props) {
 
           {/* Right: KONTAKT + EN */}
           <div className="c01r">
-            <a href={resolve(ctaHref)} className="c01cta">
+            <a href={resolve(ctaHref)} data-btn="primary" className="c01cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
             <button className="c01en" aria-label="Switch to English" type="button">EN</button>
@@ -11606,6 +11664,7 @@ function NavbarInstala01(props: Props) {
           <div className="hidden lg:flex" style={{ alignItems: "center", gap: 10 }}>
             <a
               href={resolve(ctaHref)}
+              data-btn="inverse"
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -11684,6 +11743,7 @@ function NavbarInstala01(props: Props) {
             ))}
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               onClick={() => setOpen(false)}
               style={{
                 display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
@@ -11778,6 +11838,7 @@ function NavbarSweet01({ content, isAdmin, tenantSlug, sectionId }: Props) {
           <div style={{ display: "flex", alignItems: "center", gap: 16, flexShrink: 0 }}>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               className="sw01-cta"
               style={{ display: "inline-block", padding: "8px 18px", border: `2px solid ${RED}`, color: RED, fontSize: 12, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", textDecoration: "none", transition: "background 0.2s, color 0.2s", whiteSpace: "nowrap", fontFamily: FONT }}
             >
@@ -11841,6 +11902,7 @@ function NavbarSweet01({ content, isAdmin, tenantSlug, sectionId }: Props) {
         <div style={{ padding: "20px 24px", borderTop: `1px solid ${BORDER}` }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             onClick={() => setOpen(false)}
             style={{ display: "block", padding: "12px 0", backgroundColor: RED, color: "#fff", fontSize: 13, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", textDecoration: "none", textAlign: "center", fontFamily: FONT }}
           >
@@ -11992,7 +12054,7 @@ function NavbarAutoskola01(props: Props) {
             ))}
           </nav>
           <div className="hidden lg:flex">
-            <a href={resolve(ctaHref)}
+            <a href={resolve(ctaHref)} data-btn="primary"
               style={{ display: "inline-flex", alignItems: "center", backgroundColor: ORANGE, color: WHITE, fontSize: "0.9rem", fontWeight: 700, padding: "11px 26px", borderRadius: 50, textDecoration: "none", whiteSpace: "nowrap", transition: "background-color 0.2s, transform 0.15s" }}
               onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#d95d18"; e.currentTarget.style.transform = "translateY(-1px)"; }}
               onMouseLeave={e => { e.currentTarget.style.backgroundColor = ORANGE; e.currentTarget.style.transform = "translateY(0)"; }}>
@@ -12024,7 +12086,7 @@ function NavbarAutoskola01(props: Props) {
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
               </a>
             ))}
-            <a href={resolve(ctaHref)} onClick={() => setOpen(false)}
+            <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setOpen(false)}
               style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 28, backgroundColor: ORANGE, color: WHITE, fontFamily: FONT, fontSize: "0.95rem", fontWeight: 700, padding: "14px 0", borderRadius: 50, textAlign: "center", textDecoration: "none" }}>
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
@@ -12122,7 +12184,7 @@ function NavbarLang01(props: Props) {
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
               </a>
             ))}
-            <a href={resolve(ctaHref)} className="lang01nav-cta">
+            <a href={resolve(ctaHref)} data-btn="primary" className="lang01nav-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
           </div>
@@ -12144,7 +12206,7 @@ function NavbarLang01(props: Props) {
             <a key={i} href={resolve(link.href)} onClick={() => setOpen(false)}>{link.label}</a>
           ))}
         </div>
-        <a href={resolve(ctaHref)} className="lang01nav-overlay-cta" onClick={() => setOpen(false)}>{ctaText}</a>
+        <a href={resolve(ctaHref)} data-btn="primary" className="lang01nav-overlay-cta" onClick={() => setOpen(false)}>{ctaText}</a>
       </div>
     </>
   );
@@ -12256,7 +12318,7 @@ function NavbarKids01(props: Props) {
               <LogoMark />
             </a>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <a href={resolve(ctaHref)} className="kids01nav-cta">{ctaText}</a>
+              <a href={resolve(ctaHref)} data-btn="primary" className="kids01nav-cta">{ctaText}</a>
               <button className="kids01nav-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu">
                 <BurgerIcon />
               </button>
@@ -12286,7 +12348,7 @@ function NavbarKids01(props: Props) {
           ))}
         </div>
         <div className="kids01nav-overlay-footer">
-          <a href={resolve(ctaHref)} className="kids01nav-overlay-cta" onClick={() => setOpen(false)}>{ctaText}</a>
+          <a href={resolve(ctaHref)} data-btn="primary" className="kids01nav-overlay-cta" onClick={() => setOpen(false)}>{ctaText}</a>
         </div>
       </div>
     </>
@@ -12394,7 +12456,7 @@ function NavbarEdu01(props: Props) {
                 <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
               </a>
             )}
-            <a href={resolve(ctaHref)} className="edu01nav-cta">
+            <a href={resolve(ctaHref)} data-btn="primary" className="edu01nav-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
             <button className="edu01nav-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu">
@@ -12424,7 +12486,7 @@ function NavbarEdu01(props: Props) {
             <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
           </a>
         )}
-        <a href={resolve(ctaHref)} className="edu01nav-overlay-cta" onClick={() => setOpen(false)}>
+        <a href={resolve(ctaHref)} data-btn="primary" className="edu01nav-overlay-cta" onClick={() => setOpen(false)}>
           <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
         </a>
       </div>
@@ -13363,7 +13425,7 @@ function NavbarUcetni03(props: Props) {
                   <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={cta2Text} tag="span" />
                   <ArrowRight color={TEXT} />
                 </a>
-                <a href={resolve(ctaHref)} className="ucn03-cta-green">
+                <a href={resolve(ctaHref)} data-btn="primary" className="ucn03-cta-green">
                   <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
                   <ArrowRight color={TEXT} />
                 </a>
@@ -13394,7 +13456,7 @@ function NavbarUcetni03(props: Props) {
           {topBarText}
           <a href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a>
         </div>
-        <a href={resolve(ctaHref)} className="ucn03-overlay-cta" onClick={() => setOpen(false)}>
+        <a href={resolve(ctaHref)} data-btn="primary" className="ucn03-overlay-cta" onClick={() => setOpen(false)}>
           {ctaText} <ArrowRight color={TEXT} />
         </a>
       </div>
@@ -13522,6 +13584,7 @@ function NavbarSolar01(props: Props) {
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               className="hidden lg:inline-block"
               style={{
                 padding: "10px 24px",
@@ -13585,6 +13648,7 @@ function NavbarSolar01(props: Props) {
         ))}
         <a
           href={resolve(ctaHref)}
+          data-btn="primary"
           onClick={() => setOpen(false)}
           style={{
             marginTop: 8, padding: "14px 32px",
@@ -14053,7 +14117,7 @@ function NavbarUcetni04(props: Props) {
           </ul>
 
           {/* Přihlásit se */}
-          <a href={resolve(ctaHref)} className="ucn04-login">
+          <a href={resolve(ctaHref)} data-btn="primary" className="ucn04-login">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
@@ -14087,7 +14151,7 @@ function NavbarUcetni04(props: Props) {
             </a>
           ))}
         </div>
-        <a href={resolve(ctaHref)} className="ucn04-overlay-btn" onClick={() => setOpen(false)}>
+        <a href={resolve(ctaHref)} data-btn="primary" className="ucn04-overlay-btn" onClick={() => setOpen(false)}>
           {ctaText}
         </a>
       </div>
@@ -14680,6 +14744,7 @@ function NavbarInstala02(props: Props) {
           {/* Desktop CTA */}
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             className="hidden lg:inline-flex"
             style={{ alignItems: "center", backgroundColor: RED, color: WHITE, fontFamily: FONT, fontSize: "14px", fontWeight: 600, padding: "10px 22px", borderRadius: 4, textDecoration: "none", letterSpacing: "0.3px", whiteSpace: "nowrap", transition: "background-color 0.18s" }}
             onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#c42d2d"; }}
@@ -14721,7 +14786,7 @@ function NavbarInstala02(props: Props) {
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
               </a>
             ))}
-            <a href={resolve(ctaHref)} onClick={() => setOpen(false)}
+            <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setOpen(false)}
               style={{ marginTop: 24, display: "inline-flex", alignItems: "center", justifyContent: "center", backgroundColor: RED, color: WHITE, fontSize: "15px", fontWeight: 700, padding: "14px 28px", borderRadius: 4, textDecoration: "none" }}>
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
@@ -14886,6 +14951,7 @@ function NavbarSolar02(props: Props) {
           <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               className="hidden lg:inline-flex"
               style={{
                 padding: "13px 28px",
@@ -14946,7 +15012,7 @@ function NavbarSolar02(props: Props) {
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
               </a>
             ))}
-            <a href={resolve(ctaHref)} onClick={() => setOpen(false)}
+            <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setOpen(false)}
               style={{ marginTop: 24, display: "inline-flex", alignItems: "center", justifyContent: "center", backgroundColor: GREEN, color: WHITE, fontSize: "15px", fontWeight: 700, padding: "14px 28px", borderRadius: 9999, textDecoration: "none" }}>
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
@@ -15127,6 +15193,7 @@ function NavbarSolar03(props: Props) {
           <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               className="hidden lg:inline-block"
               style={{
                 padding: "10px 23px",
@@ -15189,6 +15256,7 @@ function NavbarSolar03(props: Props) {
         <div style={{ padding: "16px 20px", borderTop: "1px solid #ebebeb" }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             onClick={() => setOpen(false)}
             style={{ display: "block", textAlign: "center", padding: "14px", backgroundColor: ORANGE, color: WHITE, borderRadius: 4, fontWeight: 700, fontSize: 15, textDecoration: "none", fontFamily: FONT_M, textTransform: "uppercase" }}
           >
@@ -15899,7 +15967,7 @@ function NavbarGarden01(props: Props) {
           </ul>
 
           <div className="g01-cta">
-            <a href={resolve(ctaHref)}>
+            <a href={resolve(ctaHref)} data-btn="primary">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
           </div>
@@ -15920,7 +15988,7 @@ function NavbarGarden01(props: Props) {
           <a key={i} href={resolve(link.href)} onClick={() => setOpen(false)}>{link.label}</a>
         ))}
         <div className="g01-ov-cta">
-          <a href={resolve(ctaHref)} onClick={() => setOpen(false)}>{ctaText}</a>
+          <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setOpen(false)}>{ctaText}</a>
         </div>
       </div>
     </>
@@ -16323,7 +16391,7 @@ function NavbarArbo01(props: Props) {
 
           {/* CTA */}
           <div className="arbo01-cta">
-            <a href={resolve(ctaHref)}>
+            <a href={resolve(ctaHref)} data-btn="primary">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
               <span className="arbo01-cta-arrow" aria-hidden="true" />
             </a>
@@ -16357,7 +16425,7 @@ function NavbarArbo01(props: Props) {
           </a>
         ))}
         <div className="arbo01-overlay-cta">
-          <a href={resolve(ctaHref)} onClick={() => setMenuOpen(false)}>
+          <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setMenuOpen(false)}>
             {ctaText}
             <span className="arbo01-cta-arrow" aria-hidden="true" />
           </a>
@@ -16501,7 +16569,7 @@ function NavbarClean02({ content, isAdmin, tenantSlug, sectionId }: Props) {
             <a href={`tel:${phone.replace(/\s/g, "")}`} className="c02-phone">
               <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
             </a>
-            <a href={resolve(ctaHref)} className="c02-cta">
+            <a href={resolve(ctaHref)} data-btn="primary" className="c02-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
           </div>
@@ -16522,7 +16590,7 @@ function NavbarClean02({ content, isAdmin, tenantSlug, sectionId }: Props) {
           <a key={i} href={resolve(link.href)} onClick={() => setOpen(false)}>{link.label}</a>
         ))}
         <a href={`tel:${phone.replace(/\s/g, "")}`} onClick={() => setOpen(false)} style={{ borderBottom: "none" }}>{phone}</a>
-        <a href={resolve(ctaHref)} className="c02-ov-cta" onClick={() => setOpen(false)}>{ctaText}</a>
+        <a href={resolve(ctaHref)} data-btn="primary" className="c02-ov-cta" onClick={() => setOpen(false)}>{ctaText}</a>
       </div>
     </>
   );
@@ -17375,7 +17443,7 @@ function NavbarHotel01(props: Props) {
               </svg>
               <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
             </a>
-            <a href={resolve(ctaHref)} className="h01nav-cta">
+            <a href={resolve(ctaHref)} data-btn="primary" className="h01nav-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
           </div>
@@ -17389,7 +17457,7 @@ function NavbarHotel01(props: Props) {
       {/* Mobile bottom bar */}
       <div className="h01nav-mobile-bar">
         <a href={`tel:${phone.replace(/\s/g, "")}`} className="h01-call">Zavolejte</a>
-        <a href={resolve(ctaHref)} className="h01-book">
+        <a href={resolve(ctaHref)} data-btn="primary" className="h01-book">
           <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
         </a>
       </div>
@@ -17405,7 +17473,7 @@ function NavbarHotel01(props: Props) {
             {l.label}
           </a>
         ))}
-        <a href={resolve(ctaHref)} className="h01nav-ov-cta" onClick={() => setOpen(false)}>
+        <a href={resolve(ctaHref)} data-btn="primary" className="h01nav-ov-cta" onClick={() => setOpen(false)}>
           {ctaText}
         </a>
       </div>
@@ -17604,7 +17672,7 @@ function NavbarHotel02(props: Props) {
           </ul>
 
           <div className="h02nav-right">
-            <a href={resolve(ctaHref)} className="h02nav-cta">
+            <a href={resolve(ctaHref)} data-btn="primary" className="h02nav-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
               <svg className="h02nav-cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
@@ -17623,7 +17691,7 @@ function NavbarHotel02(props: Props) {
         <a href={`tel:${phone.replace(/\s/g, "")}`} className="h02-call">
           <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
         </a>
-        <a href={resolve(ctaHref)} className="h02-book">
+        <a href={resolve(ctaHref)} data-btn="primary" className="h02-book">
           <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
         </a>
       </div>
@@ -17636,7 +17704,7 @@ function NavbarHotel02(props: Props) {
             <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
           </a>
         ))}
-        <a href={resolve(ctaHref)} className="h02nav-ov-cta" onClick={() => setOpen(false)}>
+        <a href={resolve(ctaHref)} data-btn="primary" className="h02nav-ov-cta" onClick={() => setOpen(false)}>
           <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
         </a>
       </div>
@@ -18504,6 +18572,7 @@ function NavbarRestaurant04(props: Props) {
             {/* Filled CTA — desktop */}
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               className="r04-cta1"
               style={{
                 fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: "0.12em",
@@ -18571,7 +18640,7 @@ function NavbarRestaurant04(props: Props) {
               ))}
             </ul>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12, marginTop: 36 }}>
-              <a href={resolve(ctaHref)} onClick={() => setMobileOpen(false)} style={{
+              <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setMobileOpen(false)} style={{
                 fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: "0.14em",
                 textTransform: "uppercase", color: CREAM, textDecoration: "none",
                 padding: "14px 40px", backgroundColor: RED, borderRadius: 2,

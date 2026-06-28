@@ -1,12 +1,15 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import {
   Eye, Save, Undo2, Redo2, Monitor, Smartphone, Tablet, MoreHorizontal,
   Sparkles, Layers, ChevronDown, Rocket, X, Globe, PanelRightClose,
-  LayoutDashboard,
+  LayoutDashboard, Home, FileText, Check, Plus,
+  BarChart3, MessageSquare, Puzzle, History, ShieldCheck, User,
 } from "lucide-react";
 import "../../studio/design-tokens.css";
+import { TrialChip, type TrialStatus } from "./TrialChip";
 
 /**
  * Editor floating top dock — replaces the legacy pill bar on TenantEditorView.
@@ -29,10 +32,23 @@ export type DrawerKey =
   | "blog" | "seo" | "messages" | "analytics"
   | "modules" | "revisions" | "audit" | "account";
 
+export interface DockPage {
+  id: number;
+  slug: string;
+  title: string;
+  is_homepage: boolean;
+  status: string;
+}
+
 export interface EditorDockProps {
   tenantSlug: string;
   pageTitle?: string;
+  pages?: DockPage[];
+  currentPageSlug?: string;
   saveStatus: "idle" | "saving" | "saved" | "error";
+  /** Timestamp (ms) of the most recent successful save — used to render
+      a "Posledně uloženo před Xm" hint when status is idle. */
+  lastSavedAt?: number | null;
   canUndo: boolean;
   canRedo: boolean;
   onUndo: () => void;
@@ -46,6 +62,10 @@ export interface EditorDockProps {
   onToggleAdmin: () => void;
   onOpenDrawer: (k: DrawerKey) => void;
   onCollapse: () => void;
+  /** Open AdminConsole pre-routed to the Pages panel (used by PageSwitcher) */
+  onManagePages?: () => void;
+  /** Current trial / subscription state — rendered as a chip when present. */
+  trialStatus?: TrialStatus | null;
 }
 
 interface MenuGroup {
@@ -59,7 +79,6 @@ interface MenuGroup {
   }>;
 }
 
-import { FileText, BarChart3, MessageSquare, Puzzle, History, ShieldCheck, User } from "lucide-react";
 const MENU: MenuGroup[] = [
   {
     title: "Obsah",
@@ -102,12 +121,13 @@ export function EditorDock(props: EditorDockProps) {
   return (
     <div
       data-studio
-      className="fixed left-1/2 top-3 z-[99999] -translate-x-1/2"
+      className="fixed inset-x-2 top-2 z-[99999] flex justify-center sm:left-1/2 sm:right-auto sm:top-3 sm:inset-x-auto sm:-translate-x-1/2"
       style={{ fontFamily: "var(--vs-font-sans)" }}
     >
       <nav
         aria-label="Editor"
-        className="vs-enter flex h-[46px] items-center gap-1 rounded-2xl px-1.5"
+        data-tour="dock"
+        className="vs-enter flex h-[46px] max-w-full items-center gap-0.5 overflow-x-auto rounded-2xl px-1.5 sm:gap-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         style={{
           background: "linear-gradient(180deg, rgba(18,18,23,0.92) 0%, rgba(13,13,17,0.92) 100%)",
           boxShadow: "var(--vs-shadow-xl), 0 0 0 1px rgba(255,255,255,0.06)",
@@ -115,51 +135,63 @@ export function EditorDock(props: EditorDockProps) {
           WebkitBackdropFilter: "blur(18px) saturate(140%)",
         }}
       >
-        {/* Brand + breadcrumb */}
-        <div className="flex items-center gap-2 px-2">
+        {/* Brand + page switcher */}
+        <div className="flex items-center gap-1.5 pl-1.5 pr-1">
           <div className="vs-grad-accent flex h-7 w-7 items-center justify-center rounded-lg shadow-[0_8px_16px_rgba(99,102,241,0.45)]">
             <span className="text-[11px] font-bold text-white tracking-tight">W</span>
           </div>
-          <div className="hidden flex-col leading-tight md:flex">
-            <span className="text-[11px] font-semibold text-[var(--vs-text)]">Editor</span>
-            <span className="text-[9.5px] text-[var(--vs-text-muted)] uppercase tracking-[var(--vs-tracking-wider)]">
-              {props.tenantSlug}{props.pageTitle ? ` · ${props.pageTitle}` : ""}
-            </span>
-          </div>
+          <span data-tour="pageswitcher">
+            <PageSwitcher
+              tenantSlug={props.tenantSlug}
+              pageTitle={props.pageTitle}
+              pages={props.pages ?? []}
+              currentPageSlug={props.currentPageSlug}
+              onManagePages={props.onManagePages}
+            />
+          </span>
+        </div>
+
+        {/* Viewport switcher — desktop-only (on phones you're already on mobile) */}
+        <div className="hidden sm:flex sm:items-center sm:gap-1">
+          <Divider />
+          <ViewportGroup current={props.viewport} onChange={props.onViewportChange} />
+        </div>
+
+        {/* Undo / Redo — desktop-only (no ⌘ on touch) */}
+        <div className="hidden sm:flex sm:items-center sm:gap-1">
+          <Divider />
+          <DockIconButton title="Zpět (⌘Z)" disabled={!props.canUndo} onClick={props.onUndo}>
+            <Undo2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+          </DockIconButton>
+          <DockIconButton title="Vpřed (⌘⇧Z)" disabled={!props.canRedo} onClick={props.onRedo}>
+            <Redo2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+          </DockIconButton>
         </div>
 
         <Divider />
 
-        {/* Viewport switcher */}
-        <ViewportGroup current={props.viewport} onChange={props.onViewportChange} />
-
-        <Divider />
-
-        {/* Undo / Redo */}
-        <DockIconButton title="Zpět (⌘Z)" disabled={!props.canUndo} onClick={props.onUndo}>
-          <Undo2 className="h-3.5 w-3.5" strokeWidth={1.75} />
-        </DockIconButton>
-        <DockIconButton title="Vpřed (⌘⇧Z)" disabled={!props.canRedo} onClick={props.onRedo}>
-          <Redo2 className="h-3.5 w-3.5" strokeWidth={1.75} />
-        </DockIconButton>
-
-        <Divider />
-
         {/* Save indicator */}
-        <SaveBadge status={props.saveStatus} onSave={props.onFlushSave} />
+        <span data-tour="save">
+          <SaveBadge status={props.saveStatus} onSave={props.onFlushSave} lastSavedAt={props.lastSavedAt ?? null} />
+        </span>
 
-        <Divider />
+        <div className="hidden sm:block"><Divider /></div>
 
-        {/* Náhled */}
+        {/* Náhled — text hidden on mobile to save horizontal real estate */}
         <a
           href={`/demo/${props.tenantSlug}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[11.5px] font-medium tracking-tight text-[var(--vs-text-soft)] transition-colors duration-100 hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
+          data-tour="nahled"
+          className="inline-flex h-7 items-center gap-1.5 rounded-md px-2 sm:px-2.5 text-[11.5px] font-medium tracking-tight text-[var(--vs-text-soft)] transition-colors duration-100 hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
+          title="Veřejný náhled"
         >
           <Eye className="h-3.5 w-3.5" strokeWidth={1.75} />
-          Náhled
+          <span className="hidden sm:inline">Náhled</span>
         </a>
+
+        {/* Trial countdown chip — hidden when subscription is active */}
+        <TrialChip status={props.trialStatus ?? null} />
 
         {/* Twin primary CTAs — Administrace + Builder. The user explicitly
             asked for these to be the most prominent affordance in the dock
@@ -169,6 +201,7 @@ export function EditorDock(props: EditorDockProps) {
         <div className="flex items-center gap-1 rounded-lg p-0.5" style={{ background: "rgba(255,255,255,0.04)" }}>
           <button
             type="button"
+            data-tour="administrace"
             onClick={props.onToggleAdmin}
             aria-pressed={props.adminOpen}
             className="inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[11.5px] font-semibold tracking-tight transition-[background,box-shadow,transform] duration-100 active:translate-y-[0.5px]"
@@ -184,10 +217,11 @@ export function EditorDock(props: EditorDockProps) {
             title="Otevřít administraci"
           >
             <LayoutDashboard className="h-3.5 w-3.5" strokeWidth={2} />
-            Administrace
+            <span className="hidden sm:inline">Administrace</span>
           </button>
           <button
             type="button"
+            data-tour="builder"
             onClick={props.onToggleBuilder}
             aria-pressed={props.builderOpen}
             className="vs-grad-accent inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 text-[11.5px] font-semibold tracking-tight text-white transition-[box-shadow,transform] duration-100 hover:scale-[1.02] active:translate-y-[0.5px]"
@@ -197,12 +231,12 @@ export function EditorDock(props: EditorDockProps) {
             {props.builderOpen ? (
               <>
                 <X className="h-3.5 w-3.5" strokeWidth={2.25} />
-                Zavřít
+                <span className="hidden sm:inline">Zavřít</span>
               </>
             ) : (
               <>
                 <Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} />
-                Builder
+                <span className="hidden sm:inline">Builder</span>
               </>
             )}
           </button>
@@ -215,7 +249,7 @@ export function EditorDock(props: EditorDockProps) {
           onClick={props.onCollapse}
           aria-label="Zasunout dock"
           title="Zasunout dock do strany"
-          className="inline-flex h-7 w-7 items-center justify-center rounded-md text-[var(--vs-text-muted)] transition-colors duration-100 hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
+          className="hidden sm:inline-flex h-7 w-7 items-center justify-center rounded-md text-[var(--vs-text-muted)] transition-colors duration-100 hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
         >
           <PanelRightClose className="h-3.5 w-3.5" strokeWidth={1.75} />
         </button>
@@ -297,9 +331,24 @@ function ViewportGroup({
   );
 }
 
+function formatAgo(ms: number): string {
+  if (ms < 5_000) return "právě teď";
+  if (ms < 60_000) return `před ${Math.floor(ms / 1000)} s`;
+  if (ms < 3_600_000) return `před ${Math.floor(ms / 60_000)} min`;
+  if (ms < 86_400_000) return `před ${Math.floor(ms / 3_600_000)} h`;
+  return `před ${Math.floor(ms / 86_400_000)} dny`;
+}
+
 function SaveBadge({
-  status, onSave,
-}: { status: EditorDockProps["saveStatus"]; onSave: () => void }) {
+  status, onSave, lastSavedAt,
+}: { status: EditorDockProps["saveStatus"]; onSave: () => void; lastSavedAt: number | null }) {
+  // Tick once per ~15 s while idle so the "před Xm" hint stays fresh.
+  const [, force] = useState(0);
+  useEffect(() => {
+    if (status !== "idle" || !lastSavedAt) return;
+    const t = setInterval(() => force((n) => n + 1), 15_000);
+    return () => clearInterval(t);
+  }, [status, lastSavedAt]);
   if (status === "saving") {
     return (
       <span className="inline-flex h-7 items-center gap-1.5 rounded-md bg-[var(--vs-warning-bg)] px-2.5 text-[10.5px] font-medium text-[var(--vs-warning)] ring-1 ring-inset ring-[rgba(251,191,36,0.30)]">
@@ -329,15 +378,16 @@ function SaveBadge({
       </button>
     );
   }
+  const agoLabel = lastSavedAt ? formatAgo(Date.now() - lastSavedAt) : null;
   return (
     <button
       type="button"
       onClick={onSave}
       className="inline-flex h-7 items-center gap-1.5 rounded-md border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-2.5 text-[10.5px] font-medium text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
-      title="Uložit (⌘S)"
+      title={agoLabel ? `Poslední uložení ${agoLabel} · ⌘S pro ruční uložení` : "Uložit (⌘S)"}
     >
       <Save className="h-3 w-3" strokeWidth={2} />
-      Uložit
+      <span className="hidden sm:inline">{agoLabel ? <span className="text-[var(--vs-text-muted)]">Uloženo · {agoLabel}</span> : "Uložit"}</span>
     </button>
   );
 }
@@ -418,5 +468,276 @@ export function EditorCollapsedTab({ onExpand }: { onExpand: () => void }) {
         Editor
       </span>
     </button>
+  );
+}
+
+function PageSwitcher({
+  tenantSlug, pageTitle, pages, currentPageSlug, onManagePages,
+}: {
+  tenantSlug: string;
+  pageTitle?: string;
+  pages: DockPage[];
+  currentPageSlug?: string;
+  onManagePages?: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [adding, setAdding] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [creating, setCreating] = useState(false);
+  const [anchorRect, setAnchorRect] = useState<DOMRect | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const popRef = useRef<HTMLDivElement>(null);
+
+  // Track the trigger button rect so the portal-rendered dropdown can be
+  // positioned absolutely under it (the dropdown lives outside the dock's
+  // overflow-x-auto so it's no longer clipped vertically).
+  useEffect(() => {
+    if (!open) { setAnchorRect(null); return; }
+    function measure() {
+      if (btnRef.current) setAnchorRect(btnRef.current.getBoundingClientRect());
+    }
+    measure();
+    window.addEventListener("scroll", measure, true);
+    window.addEventListener("resize", measure);
+    return () => {
+      window.removeEventListener("scroll", measure, true);
+      window.removeEventListener("resize", measure);
+    };
+  }, [open]);
+
+  function slugify(s: string) {
+    return s
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 60);
+  }
+
+  async function createPage() {
+    const title = newTitle.trim();
+    if (!title) return;
+    const slug = slugify(title);
+    if (!slug) { alert("Zadej alespoň jedno písmeno v názvu."); return; }
+    setCreating(true);
+    try {
+      const r = await fetch(`/api/demo/${tenantSlug}/pages`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ title, slug }),
+      });
+      const json = await r.json().catch(() => ({}));
+      if (!r.ok) { alert(json.error ?? `Chyba ${r.status}`); return; }
+      // Navigate to the new page's editor so the user can start filling it.
+      window.location.href = `/demo/${tenantSlug}/admin/${slug}?addSection=1`;
+    } finally { setCreating(false); }
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    function onDoc(e: MouseEvent) {
+      const t = e.target as Node;
+      // Dropdown is portaled to body, so it's NOT inside `ref.current`. Check
+      // both the trigger wrapper and the popover root to avoid auto-closing
+      // when the user clicks inside the dropdown content.
+      if (ref.current?.contains(t)) return;
+      if (popRef.current?.contains(t)) return;
+      setOpen(false);
+    }
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, [open]);
+
+  const sorted = [...pages].sort((a, b) => {
+    if (a.is_homepage) return -1;
+    if (b.is_homepage) return 1;
+    return a.title.localeCompare(b.title, "cs");
+  });
+
+  function hrefFor(p: DockPage) {
+    return p.is_homepage ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}/admin/${p.slug}`;
+  }
+
+  const label = pageTitle ?? (currentPageSlug === "home" ? "Úvodní stránka" : currentPageSlug ?? tenantSlug);
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        ref={btnRef}
+        type="button"
+        onClick={() => setOpen(o => !o)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        title={`Stránka: ${label} · ${tenantSlug}`}
+        className="inline-flex h-9 items-center gap-1.5 whitespace-nowrap rounded-md px-2 text-left transition-colors duration-100 hover:bg-[var(--vs-surface-2)]"
+      >
+        <span className="max-w-[160px] truncate text-[12px] font-semibold leading-none text-[var(--vs-text)]">
+          {label}
+        </span>
+        <ChevronDown
+          className={`h-3 w-3 shrink-0 text-[var(--vs-text-muted)] transition-transform duration-150 ${open ? "rotate-180" : ""}`}
+          strokeWidth={2}
+        />
+      </button>
+
+      {open && anchorRect && typeof document !== "undefined" && createPortal(
+        <div
+          ref={popRef}
+          role="menu"
+          data-studio
+          className="fixed z-[99998] w-[268px] overflow-hidden rounded-2xl"
+          style={{
+            // Sit directly under the dock with zero gap and a continuous
+            // pill-style background so the dropdown reads as an extension
+            // of the dock, not a separate floating card.
+            top: anchorRect.bottom - 2,
+            left: Math.max(8, Math.min(anchorRect.left - 8, (typeof window !== "undefined" ? window.innerWidth : 1200) - 276)),
+            fontFamily: "var(--vs-font-sans, Inter, sans-serif)",
+            background: "linear-gradient(180deg, rgba(20,20,26,0.96) 0%, rgba(13,13,17,0.96) 100%)",
+            backdropFilter: "blur(18px) saturate(140%)",
+            WebkitBackdropFilter: "blur(18px) saturate(140%)",
+            boxShadow: "0 30px 60px rgba(0,0,0,0.55), 0 12px 28px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.04)",
+            animation: "vs-pageswitcher-in 200ms cubic-bezier(0.18,0.89,0.32,1)",
+            // Force a light palette inside the dark surface so every nested
+            // text/icon uses the cinematic tokens regardless of body context.
+            "--vs-text": "#f8fafc",
+            "--vs-text-soft": "#cbd5e1",
+            "--vs-text-muted": "#94a3b8",
+            "--vs-text-dim": "#64748b",
+            "--vs-border": "rgba(255,255,255,0.08)",
+            "--vs-border-strong": "rgba(255,255,255,0.14)",
+            "--vs-surface": "rgba(255,255,255,0.04)",
+            "--vs-surface-2": "rgba(255,255,255,0.07)",
+            "--vs-surface-3": "rgba(255,255,255,0.10)",
+            color: "#f8fafc",
+          } as React.CSSProperties}
+        >
+          <style>{`@keyframes vs-pageswitcher-in {
+            from { opacity: 0; transform: translateY(-4px) scale(0.985); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+          }`}</style>
+
+          <div className="border-b border-white/5 px-3 py-2">
+            <p className="text-[9.5px] font-semibold uppercase tracking-[0.10em] text-[var(--vs-text-muted)]">
+              Stránky · {sorted.length}
+            </p>
+          </div>
+
+          <div className="max-h-[340px] overflow-y-auto py-1">
+            {sorted.length === 0 ? (
+              <div className="px-3 py-4 text-[11.5px] text-[var(--vs-text-muted)]">
+                Žádné stránky
+              </div>
+            ) : (
+              sorted.map(p => {
+                const isCurrent = p.slug === currentPageSlug;
+                return (
+                  <a
+                    key={p.id}
+                    href={isCurrent ? undefined : hrefFor(p)}
+                    onClick={isCurrent ? (e) => e.preventDefault() : undefined}
+                    className={`flex items-center gap-2.5 px-3 py-2 text-[12px] transition-colors ${
+                      isCurrent
+                        ? "bg-white/5 text-[var(--vs-text)]"
+                        : "text-[var(--vs-text-soft)] hover:bg-white/5 hover:text-[var(--vs-text)]"
+                    }`}
+                  >
+                    <span className="flex h-6 w-6 items-center justify-center rounded-md bg-white/5">
+                      {p.is_homepage ? (
+                        <Home className="h-3 w-3 text-indigo-300" strokeWidth={2} />
+                      ) : (
+                        <FileText className="h-3 w-3 text-[var(--vs-text-muted)]" strokeWidth={1.75} />
+                      )}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-1.5">
+                        <span className="truncate font-medium">{p.title}</span>
+                        {p.status === "draft" && (
+                          <span className="inline-flex h-3.5 items-center rounded-full bg-amber-500/15 px-1.5 text-[8.5px] font-semibold uppercase tracking-wider text-amber-300">
+                            koncept
+                          </span>
+                        )}
+                      </div>
+                      <code className="block truncate font-mono text-[10px] text-[var(--vs-text-dim)]">
+                        /{p.is_homepage ? "" : p.slug}
+                      </code>
+                    </div>
+                    {isCurrent && <Check className="h-3.5 w-3.5 shrink-0 text-indigo-400" strokeWidth={2.5} />}
+                  </a>
+                );
+              })
+            )}
+          </div>
+
+          <div className="border-t border-white/5 p-1.5">
+            {adding ? (
+              <div className="space-y-1.5 p-1">
+                <input
+                  type="text"
+                  value={newTitle}
+                  onChange={(e) => setNewTitle(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") { e.preventDefault(); void createPage(); }
+                    if (e.key === "Escape") { setAdding(false); setNewTitle(""); }
+                  }}
+                  autoFocus
+                  placeholder="Název stránky (např. O nás)"
+                  className="block w-full rounded-md border border-white/10 bg-white/5 px-2 py-1.5 text-[11.5px] text-white placeholder-white/40 focus:border-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400/30"
+                />
+                {newTitle.trim() && (
+                  <p className="px-1 text-[10px] text-white/40">
+                    URL: <code className="font-mono">/{slugify(newTitle.trim())}</code>
+                  </p>
+                )}
+                <div className="flex gap-1">
+                  <button
+                    type="button"
+                    onClick={() => { setAdding(false); setNewTitle(""); }}
+                    className="inline-flex h-7 flex-1 items-center justify-center rounded-md bg-white/5 text-[11px] font-medium text-white/70 hover:bg-white/10"
+                  >Zrušit</button>
+                  <button
+                    type="button"
+                    onClick={() => void createPage()}
+                    disabled={creating || !newTitle.trim()}
+                    className="vs-grad-accent inline-flex h-7 flex-1 items-center justify-center gap-1 rounded-md text-[11px] font-semibold text-white disabled:opacity-50"
+                  >
+                    {creating ? "Vytvářím…" : "Vytvořit a otevřít"}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setAdding(true)}
+                  className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-[11.5px] font-semibold text-[var(--vs-text)] transition-colors hover:bg-white/5"
+                >
+                  <span
+                    className="inline-flex h-5 w-5 items-center justify-center rounded-md"
+                    style={{ background: "linear-gradient(135deg, #818cf8 0%, #6366f1 100%)" }}
+                  >
+                    <Plus className="h-3 w-3 text-white" strokeWidth={2.5} />
+                  </span>
+                  Přidat novou stránku
+                </button>
+                {onManagePages && (
+                  <button
+                    type="button"
+                    onClick={() => { setOpen(false); onManagePages?.(); }}
+                    className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-[10.5px] font-medium text-[var(--vs-text-muted)] transition-colors hover:bg-white/5 hover:text-[var(--vs-text-soft)]"
+                  >
+                    <FileText className="h-3 w-3" strokeWidth={1.75} />
+                    Spravovat všechny stránky
+                  </button>
+                )}
+              </>
+            )}
+          </div>
+        </div>,
+        document.body
+      )}
+    </div>
   );
 }

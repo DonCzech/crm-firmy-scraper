@@ -1,0 +1,17 @@
+{
+  "currentIndustry": "barber",
+  "currentWebsite": "https://barbershopurban.cz",
+  "currentStage": "published",
+  "status": "published",
+  "lastCompletedStep": "template_generated",
+  "nextStep": "waiting_for_manual_review",
+  "generatedFiles": [
+    "/Users/apple/DEV/CRM/venom/template-lab/generated/barber/barber-barbershopurban/template.json"
+  ],
+  "startedAt": "2026-05-09T08:32:33.935Z",
+  "updatedAt": "2026-05-09T09:16:34.132Z",
+  "requiresHumanApproval": false,
+  "checkpoints": {},
+  "queue": [],
+  "pilotWebsite": "https://barbershopurban.cz"
+}

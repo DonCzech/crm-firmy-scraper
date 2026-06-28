@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1280" />
+<title>Funkce — Webero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/webero.css" />
+<style>
+/* Funkce — page-specific */
+.fx-lead{ display:grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items:center; padding: 32px 0; }
+.fx-lead.rev .fx-copy{ order: 2; }
+.fx-copy .eyebrow{ display:block; margin-bottom: 12px; }
+.fx-copy h2{ font-size: 32px; line-height: 1.12; letter-spacing: -0.025em; font-weight: 700; margin: 0 0 14px; }
+.fx-copy p.lede{ color: var(--muted); font-size: 15px; line-height: 1.7; margin: 0 0 22px; max-width: 480px; }
+.fx-visual{
+  background: var(--bg-soft);
+  border-radius: var(--radius-xl);
+  padding: 26px;
+  border: 1px solid var(--line-2);
+}
+.fx-frame{
+  background:#fff; border-radius: 14px; border: 1px solid var(--line-2);
+  box-shadow: var(--shadow); overflow: hidden;
+}
+.fx-frame .bar{ display:flex; align-items:center; gap: 8px; padding: 11px 14px; border-bottom: 1px solid var(--line-2); }
+.fx-frame .bar .brand-sm{ display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:13px; letter-spacing:-0.02em; }
+.fx-frame .bar .brand-sm .dot{ width:14px; height:14px; border-radius:5px; background: var(--brand); }
+.fx-frame .bar .crumb{ color: var(--muted); font-size: 11.5px; }
+.fx-frame .bar .pub{ margin-left:auto; background: var(--brand); color:#fff; font-size:11px; font-weight:600; padding:5px 9px; border-radius:7px; }
+.fx-canvas{ padding: 18px; background: linear-gradient(180deg, #F4F0E8, #ECE6D8); position: relative; }
+.fx-photo{ height: 200px; border-radius: 10px; position: relative; overflow:hidden; }
+.fx-photo::after{ content:""; position:absolute; inset:0;
+  background: radial-gradient(60% 50% at 30% 60%, rgba(255,255,255,.4), transparent 60%); }
+.fx-photo .ov{ position:absolute; left:22px; top:30px; color:#fff; text-shadow:0 1px 10px rgba(0,0,0,.3); }
+.fx-photo .ov .t{ font-size:20px; font-weight:700; letter-spacing:-0.02em; line-height:1.15; }
+.fx-photo .ov .b{ display:inline-block; margin-top:12px; background:rgba(255,255,255,.92); color:var(--ink); font-size:11px; font-weight:600; padding:7px 11px; border-radius:7px; }
+.fx-hint{
+  position:absolute; background:#fff; border:1px solid var(--line); border-radius:10px;
+  box-shadow: var(--shadow); padding:8px 12px; font-size:11.5px; font-weight:600; color:var(--ink-2);
+  display:flex; align-items:center; gap:7px;
+}
+.fx-hint .pulse{ width:9px; height:9px; border-radius:50%; background: var(--brand); box-shadow: 0 0 0 4px rgba(31,174,94,.18); }
+.fx-toolbar{ margin-top:14px; display:flex; gap:6px; }
+.fx-toolbar .t{ width:34px; height:34px; border-radius:8px; background:#fff; border:1px solid var(--line); display:grid; place-items:center; color: var(--muted); }
+.fx-toolbar .t svg{ width:16px; height:16px; }
+.fx-toolbar .t.on{ background: var(--brand-50); color: var(--brand-700); border-color: var(--brand-100); }
+
+/* responsive devices visual */
+.devices{ display:flex; align-items:flex-end; justify-content:center; gap: 22px; }
+.dev{ background:#fff; border:1px solid var(--line-2); border-radius: 16px; box-shadow: var(--shadow); overflow:hidden; }
+.dev .scr{ background: linear-gradient(180deg,#ECE6D8,#d9cfb8); }
+.dev.desktop{ width: 300px; }
+.dev.desktop .scr{ height: 180px; }
+.dev.tablet{ width: 130px; border-radius: 18px; }
+.dev.tablet .scr{ height: 170px; }
+.dev.phone{ width: 84px; border-radius: 18px; }
+.dev.phone .scr{ height: 150px; }
+.dev .tb{ height: 22px; border-bottom:1px solid var(--line-2); display:flex; align-items:center; gap:4px; padding:0 8px; }
+.dev .tb i{ width:6px; height:6px; border-radius:50%; background:#E0DCD2; display:inline-block; }
+
+.seo-card{ background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start; }
+.seo-card .num{ font-family:var(--mono); font-size:11px; color:var(--brand-700); font-weight:600; margin-top:2px; }
+.seo-card .t{ font-size:13.5px; font-weight:600; }
+.seo-card .d{ font-size:12.5px; color:var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="Homepage.html" class="brand" aria-label="Webero">
+      <span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7l3 10 3-7 3 7 3-10" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      <span>webero</span>
+    </a>
+    <nav class="nav" aria-label="Hlavní">
+      <a href="Funkce.html" class="is-active">Funkce</a>
+      <a href="Sablony.html">Šablony</a>
+      <a href="Integrace.html">Integrace</a>
+      <a href="Cenik.html">Ceník</a>
+      <a href="Reference.html">Reference</a>
+      <a href="Podpora.html">Podpora</a>
+    </nav>
+    <div class="header-cta">
+      <a href="#" class="login">Přihlásit se</a>
+      <a href="#" class="btn btn-primary">Vyzkoušet zdarma</a>
+    </div>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="container inner">
+    <span class="eyebrow">Funkce</span>
+    <h1>Vše, co potřebujete<br/>pro <span class="accent">profesionální web</span></h1>
+    <p>Live editor, profesionální šablony, špičkový výkon a desítky nástrojů, které vám pomáhají růst. Bez kódu, bez kompromisů.</p>
+    <div class="actions">
+      <a href="#" class="btn btn-primary">Vyzkoušet zdarma</a>
+      <a href="Sablony.html" class="btn btn-ghost">Prohlédnout šablony</a>
+    </div>
+  </div>
+</section>
+
+<!-- LEAD 1 — Live editor -->
+<section class="container">
+  <div class="fx-lead">
+    <div class="fx-copy">
+      <span class="eyebrow">Live editor</span>
+      <h2>Upravujte web přímo na stránce</h2>
+      <p class="lede">Klikněte na cokoliv a hned to upravte. Texty, obrázky, barvy i celé sekce měníte tak, jak to vidíte — bez nutnosti cokoliv ukládat a obnovovat.</p>
+      <ul class="bullets">
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Drag &amp; drop — přetahujte prvky jednoduše myší</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Klikněte a upravte texty, obrázky i barvy</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Okamžitý náhled změn v reálném čase</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Historie změn a vrácení zpět jedním klikem</li>
+      </ul>
+    </div>
+    <div class="fx-visual">
+      <div class="fx-frame">
+        <div class="bar">
+          <span class="brand-sm"><span class="dot"></span> webero</span>
+          <span class="crumb">/Domů</span>
+          <span class="pub">Publikovat</span>
+        </div>
+        <div class="fx-canvas">
+          <div class="fx-photo" style="background: radial-gradient(120% 80% at 80% 20%, #f3e3d3, #d9b291 45%, #8c6b53);">
+            <div class="ov"><div class="t">Dopřejte si čas<br/>jen pro sebe</div><span class="b">Rezervovat nyní</span></div>
+          </div>
+          <div class="fx-hint" style="right: 30px; top: 30px;"><span class="pulse"></span> Upravit text</div>
+          <div class="fx-toolbar">
+            <span class="t on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 7h16M4 12h10M4 17h16"/></svg></span>
+            <span class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="5" width="16" height="14" rx="2"/><circle cx="9" cy="10" r="1.5"/></svg></span>
+            <span class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M4 10h16"/></svg></span>
+            <span class="t"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEAD 2 — Responsivita -->
+<section class="container">
+  <div class="fx-lead rev">
+    <div class="fx-visual" style="order:1;">
+      <div class="devices">
+        <div class="dev desktop"><div class="tb"><i></i><i></i><i></i></div><div class="scr"></div></div>
+        <div class="dev tablet"><div class="tb"><i></i><i></i></div><div class="scr"></div></div>
+        <div class="dev phone"><div class="tb"><i></i></div><div class="scr"></div></div>
+      </div>
+    </div>
+    <div class="fx-copy" style="order:2;">
+      <span class="eyebrow">Responzivní design</span>
+      <h2>Skvěle vypadá na každém zařízení</h2>
+      <p class="lede">Každá šablona se automaticky přizpůsobí mobilu, tabletu i desktopu. Náhled pro jednotlivá zařízení máte přímo v editoru a doladíte detaily pro každou velikost.</p>
+      <ul class="bullets">
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Automaticky optimalizováno pro mobilní zařízení</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Samostatný náhled mobil / tablet / desktop</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Doladění typografie a mezer pro každou velikost</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- LEAD 3 — SEO & výkon -->
+<section class="container">
+  <div class="fx-lead">
+    <div class="fx-copy">
+      <span class="eyebrow">Výkon &amp; SEO</span>
+      <h2>Rychlost a viditelnost na prvním místě</h2>
+      <p class="lede">Weby na Webereu dosahují skóre 99/100 v Google PageSpeed. Rychlý web znamená spokojenější návštěvníky a lepší pozice ve vyhledávání.</p>
+      <ul class="bullets">
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Automatická optimalizace obrázků a kódu</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Editace title, meta popisů a URL adres</li>
+        <li><span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12l5 5L20 7"/></svg></span>Sitemap, 301 přesměrování a strukturovaná data</li>
+      </ul>
+    </div>
+    <div class="fx-visual">
+      <div style="display:grid; gap:12px;">
+        <div class="fx-frame" style="padding:18px; display:flex; align-items:center; gap:18px;">
+          <svg viewBox="0 0 90 90" style="width:84px;height:84px;flex:0 0 auto;">
+            <circle cx="45" cy="45" r="36" fill="none" stroke="#E6F6EC" stroke-width="9"/>
+            <circle cx="45" cy="45" r="36" fill="none" stroke="#1FAE5E" stroke-width="9" stroke-dasharray="226" stroke-dashoffset="2" stroke-linecap="round" transform="rotate(-90 45 45)"/>
+            <text x="45" y="50" text-anchor="middle" font-size="26" font-weight="700" fill="#0F1B14" font-family="Inter">99</text>
+          </svg>
+          <div>
+            <div style="font-size:14px;font-weight:600;">Google PageSpeed</div>
+            <div style="font-size:12.5px;color:var(--muted);">Performance 99 · SEO 99 · Best Practices 100</div>
+          </div>
+        </div>
+        <div class="seo-card"><span class="num">01</span><div><div class="t">Meta title &amp; popis</div><div class="d">Vlastní text pro každou stránku zvlášť.</div></div></div>
+        <div class="seo-card"><span class="num">02</span><div><div class="t">Sitemap.xml automaticky</div><div class="d">Aktualizuje se při každé změně webu.</div></div></div>
+        <div class="seo-card"><span class="num">03</span><div><div class="t">301 přesměrování</div><div class="d">Snadno přesměrujete staré adresy.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE GRID -->
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Funkce, které oceníte</h2>
+      <p class="section-sub">Vše pohromadě v jednom nástroji — od tvorby přes publikaci až po růst.</p>
+    </div>
+    <div class="grid-3" style="gap:22px;">
+      <article class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 113 3L7 19l-4 1 1-4 12.5-12.5z"/></svg></div><h3>Live editor</h3><p>Upravujte web přímo na stránce, bez kódu a bez omezení.</p></article>
+      <article class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><h3>100+ šablon</h3><p>Profesionální šablony pro každý obor, připravené k úpravám.</p></article>
+      <article class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h3l2-7 4 14 2-7h7"/></svg></div><h3>Špičkový výkon</h3><p>PageSpeed 99/100 a rychlý hosting na serverech v EU.</p></article>
+      <article class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div><h3>SEO nástroje</h3><p>Title, meta popisy, sitemap, 301 a strukturovaná data.</p></article>
+      <article class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M11 18h2"/></svg></div><h3>Mobilní verze</h3><p>Automaticky responzivní na mobilu, tabletu i desktopu.</p></article>
+      <article class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="6" width="16" height="4" rx="1"/><rect x="4" y="14" width="10" height="4" rx="1"/></svg></div><h3>Formuláře</h3><p>Kontaktní i pokročilé formuláře s notifikacemi na e-mail.</p></article>
+      <article class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5a2 2 0 012-2h9l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M8 8h6M8 12h8M8 16h5"/></svg></div><h3>Blog &amp; novinky</h3><p>Publikujte články a budujte si návštěvnost z vyhledávání.</p></article>
+      <article class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3.5 9h17M3.5 15h17M12 3a14 14 0 000 18M12 3a14 14 0 010 18"/></svg></div><h3>Vlastní doména</h3><p>Připojte svou doménu a získejte SSL certifikát zdarma.</p></article>
+      <article class="feature"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4"/></svg></div><h3>Integrace</h3><p>Rezora, Google Analytics, Meta Pixel, Mailchimp a další.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- STEPS -->
+<section class="section" style="padding-top:0;">
+  <div class="container">
+    <div class="section-head">
+      <h2 class="section-title">Jak to funguje</h2>
+      <p class="section-sub">Od nápadu k hotovému webu během jediného odpoledne.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><h3>Vyberte šablonu</h3><p>Zvolte z více než 100 profesionálních šablon tu, která sedí vašemu oboru.</p></div>
+      <div class="step"><div class="num">2</div><h3>Upravte obsah</h3><p>V live editoru doplňte texty, obrázky a barvy podle své značky.</p></div>
+      <div class="step"><div class="num">3</div><h3>Publikujte</h3><p>Připojte doménu a spusťte web jediným kliknutím. Hotovo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RING STRIP -->
+<section class="container">
+  <div class="ring-strip">
+    <div class="ring-item">
+      <div class="ic"><svg viewBox="0 0 80 80"><circle cx="40" cy="40" r="28" fill="none" stroke="#D4EFDD" stroke-width="7"/><circle cx="40" cy="40" r="28" fill="none" stroke="#1FAE5E" stroke-width="7" stroke-dasharray="176" stroke-dashoffset="3" stroke-linecap="round" transform="rotate(-90 40 40)"/><text x="40" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#0F1B14" font-family="Inter">99</text><text x="40" y="52" text-anchor="middle" font-size="9" fill="#6B7B72" font-family="Inter">/100</text></svg></div>
+      <h4>Google PageSpeed</h4><p>Špičkový výkon<br/>pro lepší pozice</p>
+    </div>
+    <div class="ring-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21V10l9-6 9 6v11M9 21v-7h6v7"/></svg></div><h4>Hosting v EU</h4><p>Výkonné servery<br/>a vysoká dostupnost</p></div>
+    <div class="ring-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V8a5 5 0 0110 0v3"/></svg></div><h4>SSL zdarma</h4><p>Zabezpečené<br/>připojení (https)</p></div>
+    <div class="ring-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M11 18h2"/></svg></div><h4>Mobilní verze</h4><p>Skvěle na každém<br/>zařízení</p></div>
+    <div class="ring-item"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.5 8.5 0 11-3.5-6.9M22 4l-8.5 8.5L10 9"/></svg></div><h4>Česká podpora</h4><p>Jsme tu pro vás<br/>v češtině</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="container">
+  <div class="cta">
+    <div class="left">
+      <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></div>
+      <div>
+        <h3>Vyzkoušejte všechny funkce zdarma</h3>
+        <p>Bez závazků a bez platební karty. Web spustíte během pár minut.</p>
+      </div>
+    </div>
+    <div class="actions">
+      <a href="#" class="btn btn-primary">Vyzkoušet zdarma</a>
+      <a href="Cenik.html" class="btn btn-white">Zobrazit ceník</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-brand">
+        <a href="Homepage.html" class="brand"><span class="logo-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 7l3 10 3-7 3 7 3-10" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>webero</span></a>
+        <p>Moderní weby bez programování.<br/>Rychlé, jednoduché a profesionální.</p>
+        <div class="socials">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 22v-8h3l1-4h-4V7.5c0-1 .3-1.5 1.5-1.5H17V2.5c-.5-.1-1.5-.2-2.5-.2-2.5 0-4 1.5-4 4.2V10H7v4h3v8h3z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h4v4H4zM4 10h4v10H4zM10 10h4v1.5c.7-1 1.8-1.8 3.5-1.8 2.8 0 3.5 1.8 3.5 4.3V20h-4v-4.8c0-1.1-.4-1.8-1.4-1.8-.9 0-1.6.6-1.6 1.8V20h-4V10z"/></svg></a>
+        </div>
+      </div>
+      <div class="footer-col"><h5>Produkt</h5><ul><li><a href="Funkce.html">Funkce</a></li><li><a href="Sablony.html">Šablony</a></li><li><a href="Integrace.html">Integrace</a></li><li><a href="Cenik.html">Ceník</a></li><li><a href="Reference.html">Reference</a></li></ul></div>
+      <div class="footer-col"><h5>Společnost</h5><ul><li><a href="#">O nás</a></li><li><a href="Reference.html">Reference</a></li><li><a href="#">Kariéra</a></li><li><a href="Podpora.html">Kontakt</a></li></ul></div>
+      <div class="footer-col"><h5>Podpora</h5><ul><li><a href="Podpora.html">Nápověda</a></li><li><a href="Podpora.html">Videonávody</a></li><li><a href="Podpora.html">Komunita</a></li><li><a href="Podpora.html">Stav systému</a></li></ul></div>
+      <div class="footer-col"><h5>Právní informace</h5><ul><li><a href="#">Obchodní podmínky</a></li><li><a href="#">Ochrana osobních údajů</a></li><li><a href="#">Cookies</a></li><li><a href="#">Licenční ujednání</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2025 Webero s.r.o. Všechna práva vyhrazena.</div>
+      <div class="meta"><span>Český produkt</span><span>•</span><span>Podpora v češtině</span><span>•</span><span>Hosting v EU</span><span class="flag" aria-label="Čeština"></span></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,12 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" role="img" aria-label="Studio Břitva">
-  <defs>
-    <style>
-      .wordmark { font-family: 'Libre Baskerville', Georgia, serif; font-weight: 700; letter-spacing: 0.14em; }
-      .sub { font-family: 'Source Sans Pro', system-ui, sans-serif; font-weight: 400; letter-spacing: 0.42em; }
-    </style>
-  </defs>
-  <line x1="40" y1="22" x2="280" y2="22" stroke="#c8a96e" stroke-width="1"/>
-  <text x="160" y="50" text-anchor="middle" class="wordmark" fill="#c8a96e" font-size="22">BŘITVA</text>
-  <text x="160" y="68" text-anchor="middle" class="sub" fill="#c8a96e" font-size="9" opacity="0.85">STUDIO &#8226; PRAHA</text>
-  <line x1="40" y1="78" x2="280" y2="78" stroke="#c8a96e" stroke-width="1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 44" role="img" aria-label="Barbery">
+  <text x="130" y="30" text-anchor="middle" fill="#ffffff" font-size="22" font-family="'Libre Baskerville','Georgia',serif" font-weight="700" letter-spacing="0.32em">BARBERY</text>
+  <line x1="18" y1="38" x2="242" y2="38" stroke="#c8a96e" stroke-width="0.8" opacity="0.7"/>
 </svg>

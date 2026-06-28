@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
+import { GenericEditableBackground } from "@/components/tenant/GenericEditableBackground";
 import { useGenericInlineEditor } from "@/components/tenant/GenericInlineEditorContext";
 import { shouldSkipNextImageOptimization } from "@/lib/image-source";
 
@@ -45,6 +46,11 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "arbo-01-hero")   return <HeroArbo01   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "clean-02-hero") return <HeroClean02 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "ddd-01-hero")   return <HeroDdd01   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+
+  // Shared focus override — injected by StudioCanvas when user moves focus picker in HeroInspectorPanel.
+  // Applies to all inline hero variants that use BackgroundEditableImage.
+  const _heroBgFocusAny = (content as Record<string, unknown>).__heroBgFocus as { x: number; y: number } | undefined;
+  const bgFocusStyle = _heroBgFocusAny ? `${_heroBgFocusAny.x}% ${_heroBgFocusAny.y}%` : undefined;
 
   // hair-01: full-bleed tmavá foto, bez textu, SCROLL indikátor dole
   if (variant === "hero-hair-fullbleed") {
@@ -146,6 +152,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
             />
             <a
               href={ctaHref}
+              data-btn="primary"
               style={{
                 display: "inline-block",
                 alignSelf: "flex-start",
@@ -199,6 +206,8 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   // Fixed sticky navbar: dark semi-transparent strip (rgba(0,0,0,0.55)), logo vlevo, nav vpravo.
   // bg foto 100vh, overlay rgba(0,0,0,0.24), H1 bílý v tmavém boxu, 2× pill CTA gold border.
   if (variant === "hero-hair-04-with-navbar") {
+    const heroBgTab   = String((content as Record<string,unknown>).__heroBgTab ?? "image");
+    const heroBgColor = String((content as Record<string,unknown>).__heroBgColor ?? "#1a1a1a");
     const bg          = String(content.backgroundImage ?? "");
     const siteName    = String(content.siteName ?? "Impresiv Studio");
     const logoUrl     = String(content.logoUrl ?? "");
@@ -250,12 +259,14 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
         data-template="hair-04"
       >
         {/* Fotografie na pozadí */}
-        {bg ? (
+        {heroBgTab === "color" ? (
+          <div style={{ position: "absolute", inset: 0, backgroundColor: heroBgColor }} />
+        ) : bg ? (
           <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt="hero" className="absolute inset-0 w-full h-full" style={{ position: "absolute" }}>
-            <Image src={bg} alt="hero" fill className="object-cover object-center" priority sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} />
+            <Image src={bg} alt="hero" fill className="object-cover" style={{ objectPosition: bgFocusStyle }} priority sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} />
           </GenericEditableImage>
         ) : (
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #4a6080 0%, #92a8d1 50%, #2c3e50 100%)" }} />
+          <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(135deg, #4a6080 0%, #92a8d1 50%, #2c3e50 100%)" }} />
         )}
 
         {/* Tmavý overlay přes celé hero */}
@@ -472,15 +483,37 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   }
 
   if (variant === "hero-luxury-dark") {
+    const heroBgTab      = String((content as Record<string,unknown>).__heroBgTab ?? "image");
+    const heroBgColor    = String((content as Record<string,unknown>).__heroBgColor ?? "#1a1a1a");
+    const heroBgVideoUrl = String((content as Record<string,unknown>).__heroBgVideoUrl ?? "");
+    const heroBgFocus    = (content as Record<string,unknown>).__heroBgFocus as { x: number; y: number } | undefined;
+    const bgFocusStyle   = heroBgFocus ? `${heroBgFocus.x}% ${heroBgFocus.y}%` : undefined;
+    const bg             = c.backgroundImage ?? "";
+
     return (
       <section
         className="relative flex items-center justify-center text-white overflow-hidden"
         style={{
-          backgroundColor: "var(--color-bg, #111)",
+          backgroundColor: heroBgTab === "color" ? heroBgColor : "var(--color-bg, #111)",
           minHeight: "clamp(480px, 75vh, 100dvh)",
         }}
       >
-        <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage ?? ""} overlayColor="rgba(0,0,0,0.55)" priority={true} isAdmin={isAdmin} />
+        {heroBgTab === "color" ? (
+          <div style={{ position: "absolute", inset: 0, backgroundColor: heroBgColor }} />
+        ) : heroBgTab === "video" && heroBgVideoUrl ? (
+          <>
+            <video
+              src={heroBgVideoUrl}
+              autoPlay muted loop playsInline
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+            />
+            <div aria-hidden style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.45)", zIndex: 1, pointerEvents: "none" }} />
+          </>
+        ) : bg ? (
+          <BackgroundEditableImage sectionId={sectionId} src={bg} overlayColor="rgba(0,0,0,0.55)" priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} />
+        ) : (
+          <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(135deg, #1a1a1a 0%, #333 100%)" }} />
+        )}
         <div className="relative z-10 text-center px-6 max-w-3xl mx-auto w-full">
           <h1
             className="text-4xl md:text-7xl font-bold mb-6 whitespace-pre-line leading-tight"
@@ -494,6 +527,8 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           {c.ctaHref && (
             <a
               href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
+              data-btn="primary"
+
               className="block sm:inline-block w-full sm:w-auto px-8 py-4 rounded font-semibold text-black text-center transition-opacity hover:opacity-90"
               style={{ backgroundColor: "var(--color-accent, #C9A84C)" }}
             >
@@ -525,6 +560,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
             {c.ctaHref && (
               <a
                 href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
+                data-btn="primary"
                 className="inline-block px-8 py-4 rounded-xl font-semibold text-white transition-opacity hover:opacity-90"
                 style={{ backgroundColor: "var(--color-primary, #7B9E87)" }}
               >
@@ -575,6 +611,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
             {c.ctaHref && (
               <a
                 href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
+                data-btn="primary"
                 className="flex sm:inline-flex items-center justify-center gap-2 mt-8 md:mt-14 px-7 py-3 bg-white font-semibold rounded-full transition-opacity hover:opacity-90 text-base w-full sm:w-auto"
                 style={{ color: "var(--color-primary, #6d1f37)", fontFamily: "var(--font-body, 'CostaText', sans-serif)" }}
               >
@@ -621,7 +658,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
         style={{ backgroundColor: "#111" }}
       >
         {c.backgroundImage && (
-          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage} overlayColor="rgba(0,0,0,0.6)" priority={true} isAdmin={isAdmin} />
+          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage} overlayColor="rgba(0,0,0,0.6)" priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} />
         )}
         <div
           className="relative z-10 w-full px-6 md:px-16 pb-16 pt-32 md:py-0 max-w-3xl"
@@ -647,6 +684,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           {c.ctaHref && (
             <a
               href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
+              data-btn="primary"
               className="inline-flex items-center justify-center min-h-[48px] px-8 font-bold uppercase tracking-widest text-white transition-opacity hover:opacity-80 w-full sm:w-auto text-center"
               style={{
                 backgroundColor: "var(--color-primary, #004679)",
@@ -761,6 +799,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
             overlayColor="transparent"
             priority={true}
             isAdmin={isAdmin}
+            focusStyle={bgFocusStyle}
           />
         )}
         {/* Hero gradient overlay — over BackgroundEditableImage, under content.
@@ -802,6 +841,8 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           {c.ctaHref && (
             <a
               href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
+              data-btn="primary"
+
               className="inline-block uppercase no-underline transition-colors"
               style={{
                 border: "1.5px solid rgba(255,255,255,0.8)",
@@ -881,7 +922,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
       >
         <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ backgroundColor: "#1c1410", zIndex: 0 }} />
         {c.backgroundImage && (
-          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage} overlayColor="transparent" priority={true} isAdmin={isAdmin} />
+          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage} overlayColor="transparent" priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} />
         )}
         <div
           aria-hidden
@@ -961,6 +1002,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           {c.ctaHref && (
             <a
               href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
+              data-btn="primary"
               className="inline-flex items-center justify-center self-start min-h-[52px] px-10 font-bold uppercase tracking-widest transition-opacity hover:opacity-80"
               style={{
                 backgroundColor: "var(--color-primary, #ff5268)",
@@ -1218,6 +1260,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
           {/* CTA — outline gold */}
           <a
             href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            data-btn="primary"
             style={{
               display: "inline-flex", alignItems: "center",
               border: `1px solid rgba(201,169,98,0.25)`,
@@ -1691,7 +1734,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     >
       {hasBg && (
         <>
-          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage!} priority={true} isAdmin={isAdmin} />
+          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage!} priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} />
           <div className="absolute inset-0 z-10" style={{ backgroundColor: "rgba(0,0,0,0.45)" }} aria-hidden />
         </>
       )}
@@ -1708,6 +1751,8 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
         {c.ctaHref && (
           <a
             href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
+            data-btn="primary"
+
             className="block sm:inline-block w-full sm:w-auto px-8 py-4 font-semibold text-white text-center transition-opacity hover:opacity-90"
             style={{ backgroundColor: "var(--color-primary, #1B3A6B)", borderRadius: "var(--radius, 4px)" }}
           >
@@ -1829,7 +1874,7 @@ function HeroFitness01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
           )}
 
           <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 8, alignSelf: "flex-start" }}>
-            <a href={resolve(ctaHref)} style={{
+            <a href={resolve(ctaHref)} data-btn="primary" style={{
               display: "inline-flex", alignItems: "center", gap: 12,
               background: ACCENT, color: "#fff",
               padding: "15px 32px", borderRadius: 9999,
@@ -2103,6 +2148,8 @@ function HeroBarber04Slider({
           {ctaText && (
             <a
               href={ctaHref}
+              data-btn="primary"
+
               className="b04-cta inline-block uppercase no-underline transition-colors hover:bg-white hover:text-black b04-anim-3"
               style={{
                 backgroundColor: "#d5b981",
@@ -2271,6 +2318,7 @@ function HeroHair02Slider({ content, sectionId }: { content: Record<string, unkn
       >
         <a
           href={ctaHref}
+          data-btn="primary"
           className="no-underline uppercase tracking-widest transition-opacity hover:opacity-80"
           style={{
             backgroundColor: TEAL,
@@ -2348,7 +2396,7 @@ function HeroHair02Slider({ content, sectionId }: { content: Record<string, unkn
   );
 }
 
-function BackgroundEditableImage({ sectionId, src, overlayColor, priority, isAdmin }: { sectionId: number; src: string; overlayColor?: string; priority?: boolean; isAdmin?: boolean }) {
+function BackgroundEditableImage({ sectionId, src, overlayColor, priority, isAdmin, focusStyle }: { sectionId: number; src: string; overlayColor?: string; priority?: boolean; isAdmin?: boolean; focusStyle?: string }) {
   // Public view with priority: use plain <img> so the URL stays clean (no ?dpl= added by Next.js Image).
   // This makes the src match the static <link rel="preload"> emitted by the server component → cache hit.
   if (!isAdmin && priority && src) {
@@ -2359,7 +2407,7 @@ function BackgroundEditableImage({ sectionId, src, overlayColor, priority, isAdm
           alt=""
           fetchPriority="high"
           decoding="async"
-          style={{ position: "absolute", height: "100%", width: "100%", inset: 0, objectFit: "cover" }}
+          style={{ position: "absolute", height: "100%", width: "100%", inset: 0, objectFit: "cover", objectPosition: focusStyle }}
         />
         {overlayColor && <div className="absolute inset-0" style={{ backgroundColor: overlayColor, pointerEvents: "none" }} />}
       </div>
@@ -2382,6 +2430,7 @@ function BackgroundEditableImage({ sectionId, src, overlayColor, priority, isAdm
             alt=""
             fill
             className="object-cover"
+            style={{ objectPosition: focusStyle }}
             sizes="100vw"
             priority={priority}
             unoptimized={shouldSkipNextImageOptimization(src)}
@@ -2496,6 +2545,7 @@ function HeroTawan01({
         </p>
         <a
           href={resolve(slide.ctaHref)}
+          data-btn="primary"
           style={{
             fontFamily: FONT, fontWeight: 700, fontSize: 14, letterSpacing: 2, textTransform: "uppercase",
             color: "#ffffff", textDecoration: "none",
@@ -2603,7 +2653,7 @@ function HeroAnanda01({
             <GenericEditableText sectionId={sectionId} field="headline" value={headline} tag="span" />
           </h1>
           <div className="ananda-hero-btns" style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href={resolve(ctaHref)} className="ananda-hero-btn"><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></a>
+            <a href={resolve(ctaHref)} data-btn="primary" className="ananda-hero-btn"><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></a>
             <a href={resolve(cta2Href)} className="ananda-hero-btn"><GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" /></a>
           </div>
         </div>
@@ -2727,7 +2777,7 @@ function HeroTawan02({
             <GenericEditableText sectionId={sectionId} field="subline" value={subline} tag="span" />
           </p>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <a href={resolve(ctaHref)} className="t02-hero-cta-btn"><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></a>
+            <a href={resolve(ctaHref)} data-btn="primary" className="t02-hero-cta-btn"><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></a>
           </div>
         </div>
 
@@ -2882,7 +2932,7 @@ function HeroTattoo02({ content, sectionId, tenantSlug, isAdmin }: {
 
           {/* CTA — zlaté tlačítko s bílou šipkou, jako originál */}
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <a href={ctaHref} className="htc-cta-wrap" style={{ textDecoration: "none" }}>
+            <a href={ctaHref} data-btn="primary" className="htc-cta-wrap" style={{ textDecoration: "none" }}>
               <span className="htc-cta-text">
                 <GenericEditableText sectionId={sectionId} field="cta1Text" value={ctaText} tag="span" />
               </span>
@@ -3317,6 +3367,8 @@ function HeroNails03({
   const bgImage = String(content.bgImage ?? "/templates/nails-03/hero-bg.webp");
   const ctaText = String(content.ctaText ?? "Objednat se");
   const ctaHref = String(content.ctaHref ?? "#kontakt");
+  const _nails03Focus = content.__heroBgFocus as { x: number; y: number } | undefined;
+  const bgFocusStyle  = _nails03Focus ? `${_nails03Focus.x}% ${_nails03Focus.y}%` : undefined;
 
   return (
     <section
@@ -3333,7 +3385,7 @@ function HeroNails03({
         justifyContent: "center",
       }}
     >
-      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} />
+      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} />
       {/* Dark overlay */}
       <div
         aria-hidden="true"
@@ -3389,6 +3441,7 @@ function HeroNails03({
         </p>
         <a
           href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+          data-btn="primary"
           style={{
             display: "inline-flex",
             marginTop: 52,
@@ -3438,6 +3491,8 @@ function HeroNails02({
   const bgImage   = String(content.bgImage   ?? "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=2400&q=80");
   const ctaText   = String(content.ctaText   ?? "Objednat se");
   const ctaHref   = String(content.ctaHref   ?? "#kontakt");
+  const _nails02Focus = content.__heroBgFocus as { x: number; y: number } | undefined;
+  const bgFocusStyle  = _nails02Focus ? `${_nails02Focus.x}% ${_nails02Focus.y}%` : undefined;
 
   return (
     <section
@@ -3454,7 +3509,7 @@ function HeroNails02({
         // navbar (absolute) ramps over the top of this hero
       }}
     >
-      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} />
+      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} />
       {/* Dark gradient overlay — bottom-heavy for text contrast */}
       <div
         aria-hidden="true"
@@ -3508,6 +3563,7 @@ function HeroNails02({
         </p>
         <a
           href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+          data-btn="primary"
           style={{
             display: "inline-flex",
             marginTop: 44,
@@ -3675,6 +3731,7 @@ function HeroClinic03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
         {/* CTA */}
         <a
           href={resolveHref(ctaHref)}
+          data-btn="primary"
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -3843,6 +3900,7 @@ function HeroClinic02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
 
           <a
             href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            data-btn="inverse"
             style={{
               display: "inline-block",
               padding: "12px 36px",
@@ -3969,6 +4027,7 @@ function HeroFitness02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
         <div style={{ display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap" }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="inverse"
             style={{
               display: "inline-flex", alignItems: "center",
               background: "transparent", color: ACCENT,
@@ -4154,6 +4213,7 @@ function HeroFyzio01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
           <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               style={{
                 backgroundColor: GREEN,
                 color: WHITE,
@@ -4300,6 +4360,7 @@ function HeroFyzio02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
         <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             style={{
               display: "inline-flex", alignItems: "center",
               backgroundColor: GOLD, color: WHITE,
@@ -4496,6 +4557,7 @@ function HeroRestaurant01({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
           <div className="r01-hero-ctas" style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
             <a
               href={resolve(ctaHref)}
+              data-btn="primary"
               style={{
                 fontFamily: SANS, fontSize: 11, fontWeight: 700, letterSpacing: "0.12em",
                 textTransform: "uppercase", color: "#fff", textDecoration: "none",
@@ -4601,6 +4663,7 @@ function HeroRestaurant02({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
       <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
         <a
           href={resolve(ctaHref)}
+          data-btn="inverse"
           style={{
             fontFamily: POPPINS,
             fontSize: 13,
@@ -4744,6 +4807,7 @@ function HeroCafe02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             style={{
               fontFamily: SANS, fontSize: 12, fontWeight: 600,
               letterSpacing: "0.12em", textTransform: "uppercase",
@@ -4885,6 +4949,7 @@ function HeroRestaurant03({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
         {/* CTA */}
         <a
           href={resolve(ctaHref)}
+          data-btn="primary"
           style={{
             fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: "0.16em",
             textTransform: "uppercase", color: WHITE, textDecoration: "none",
@@ -4996,6 +5061,7 @@ function HeroCafe03({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
         </GenericEditableText>
         <a
           href={resolve(ctaHref)}
+          data-btn="primary"
           style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#fff", textDecoration: "none", padding: "14px 36px", backgroundColor: GOLD, display: "inline-block", transition: "background-color 0.2s" }}
           onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_DK)}
           onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
@@ -5412,6 +5478,7 @@ function HeroReality02({ content, sectionId, tenantSlug, isAdmin }: { content: R
             <a
               key={`r02-pt-${i}`}
               href={resolve(ctaHref)}
+              data-btn="primary"
               style={{ borderRadius: 14, overflow: "hidden", border: "1px solid #ddeae8", textDecoration: "none", display: "flex", flexDirection: "column", background: WHITE, transition: "box-shadow 0.18s, transform 0.18s" }}
               onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 8px 24px rgba(5,48,58,0.12)"; e.currentTarget.style.transform = "translateY(-3px)"; }}
               onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "none"; }}
@@ -5499,6 +5566,7 @@ function HeroReality04Split({ content, sectionId, tenantSlug, isAdmin }: { conte
       {/* btn-success */}
       <a
         href={resolve(ctaHref)}
+        data-btn="primary"
         style={{ display: "inline-block", padding: "6px 20px", backgroundColor: GREEN, color: "#000", fontFamily: SANS, fontSize: 14, fontWeight: 400, textDecoration: "none", borderRadius: 50, boxShadow: `inset 0px 0px 0px 2px ${GREEN}`, transition: "all 350ms ease" }}
         onMouseEnter={e => { e.currentTarget.style.backgroundColor = WHITE; e.currentTarget.style.color = GREEN; }}
         onMouseLeave={e => { e.currentTarget.style.backgroundColor = GREEN; e.currentTarget.style.color = "#000"; }}
@@ -5607,7 +5675,7 @@ function HeroReality01({ content, sectionId, tenantSlug, isAdmin }: { content: R
               />
             </div>
             <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-              <a href={resolve(ctaHref)}
+              <a href={resolve(ctaHref)} data-btn="primary"
                 style={{ display: "inline-flex", alignItems: "center", backgroundColor: GOLD, color: "#1a1a1a", fontFamily: MONTSERRAT, fontSize: 15, fontWeight: 600, letterSpacing: "0.04em", padding: "14px 32px", borderRadius: 4, textDecoration: "none", transition: "background 0.2s" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = "#c49a5e"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = GOLD; }}
@@ -5663,7 +5731,7 @@ function HeroReality01({ content, sectionId, tenantSlug, isAdmin }: { content: R
                     </svg>
                   </button>
                 ))}
-                <a href={resolve(ctaHref)} style={{
+                <a href={resolve(ctaHref)} data-btn="primary" style={{
                   display: "flex", alignItems: "center", gap: 8, flexShrink: 0,
                   backgroundColor: DARK, color: WHITE, borderRadius: 6,
                   padding: "10px 22px", textDecoration: "none",
@@ -5756,7 +5824,7 @@ function HeroReality03({ content, sectionId, tenantSlug, isAdmin }: { content: R
             </div>
           )}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 14 }}>
-            <a href={resolve(ctaHref)} style={{ display: "inline-flex", alignItems: "center", padding: "14px 34px", backgroundColor: WHITE, color: DARK, fontFamily: SANS, fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", borderRadius: "99rem", transition: "all 0.2s", border: `2px solid ${WHITE}` }} onMouseEnter={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = WHITE; }} onMouseLeave={e => { e.currentTarget.style.backgroundColor = WHITE; e.currentTarget.style.color = DARK; }}>
+            <a href={resolve(ctaHref)} data-btn="primary" style={{ display: "inline-flex", alignItems: "center", padding: "14px 34px", backgroundColor: WHITE, color: DARK, fontFamily: SANS, fontSize: 14, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", borderRadius: "99rem", transition: "all 0.2s", border: `2px solid ${WHITE}` }} onMouseEnter={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = WHITE; }} onMouseLeave={e => { e.currentTarget.style.backgroundColor = WHITE; e.currentTarget.style.color = DARK; }}>
               {ctaText}
             </a>
             <a href={resolve(ctaSecHref)} style={{ display: "inline-flex", alignItems: "center", padding: "14px 34px", backgroundColor: "transparent", color: WHITE, fontFamily: SANS, fontSize: 14, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", borderRadius: "99rem", border: "2px solid rgba(255,255,255,0.55)", transition: "all 0.2s" }} onMouseEnter={e => { e.currentTarget.style.borderColor = WHITE; e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.10)"; }} onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.55)"; e.currentTarget.style.backgroundColor = "transparent"; }}>
@@ -5873,6 +5941,7 @@ function HeroReality05({ content, sectionId, tenantSlug, isAdmin }: { content: R
           )}
           <a
             href={resolve(slide.ctaHref)}
+            data-btn="primary"
             style={{ display: "inline-block", padding: "14px 32px", backgroundColor: GOLD, color: WHITE, fontFamily: SANS, fontSize: 15, fontWeight: 600, textDecoration: "none", letterSpacing: "0.02em", transition: "opacity 0.2s" }}
             onMouseEnter={e => { (e.currentTarget as HTMLElement).style.opacity = "0.85"; }}
             onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = "1"; }}
@@ -6113,6 +6182,7 @@ function HeroAutoservis01({ content, sectionId, tenantSlug, isAdmin }: { content
         <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             style={{ display: "inline-flex", alignItems: "center", padding: "14px 28px", backgroundColor: ORANGE, color: DARK, fontFamily: SANS, fontSize: 15, fontWeight: 700, textDecoration: "none", borderRadius: 6, transition: "opacity 0.18s" }}
             onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
             onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
@@ -6292,7 +6362,7 @@ function HeroAutoservis03({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
 
         {/* CTA buttons */}
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
-          <a href={resolve(ctaHref)} style={{
+          <a href={resolve(ctaHref)} data-btn="primary" style={{
             display: "inline-flex", alignItems: "center", gap: 8,
             padding: "14px 32px",
             background: "linear-gradient(to right, #f97316, #ea6c08)",
@@ -6400,7 +6470,7 @@ function HeroAutoservis02({ content, sectionId, tenantSlug, isAdmin }: { content
 
         {/* CTAs */}
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-          <a href={resolve(ctaHref)}
+          <a href={resolve(ctaHref)} data-btn="primary"
             style={{ display: "inline-flex", alignItems: "center", padding: "14px 28px", backgroundColor: RED, color: "#ffffff", fontFamily: SANS, fontSize: 15, fontWeight: 700, textDecoration: "none", borderRadius: 4, transition: "opacity 0.18s", whiteSpace: "nowrap" }}
             onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
             onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
@@ -6791,7 +6861,7 @@ function HeroLegal02({ content, sectionId: _s, tenantSlug, isAdmin: _a }: Omit<P
             }}>
               {subtitle}
             </p>
-            <a href={resolve(ctaHref)} className="l02h-cta">{ctaText}</a>
+            <a href={resolve(ctaHref)} data-btn="primary" className="l02h-cta">{ctaText}</a>
           </div>
 
           {/* Right: YouTube video flush to bottom */}
@@ -6897,7 +6967,7 @@ function HeroLawyer01({ content, sectionId, tenantSlug, isAdmin }: HeroProps) {
         <p style={{ fontFamily:FONT, fontWeight:300, fontSize:"clamp(1rem,1.4vw,1.2rem)", lineHeight:1.7, color:"rgba(255,255,255,0.82)", margin:"0 0 44px", maxWidth:640 }}>
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
         </p>
-        <a href={ctaHref}
+        <a href={ctaHref} data-btn="primary"
           style={{ display:"inline-flex", alignItems:"center", gap:10, backgroundColor:CRIMSON, color:WHITE, fontFamily:FONT, fontWeight:700, fontSize:"0.82rem", letterSpacing:"0.12em", textTransform:"uppercase", padding:"14px 36px", textDecoration:"none", transition:"background-color 0.2s" }}
           onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#870229"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = CRIMSON; }}
@@ -7015,6 +7085,7 @@ function HeroStavba01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
           <a
             href={resolveDemoHref(ctaHref)}
+            data-btn="primary"
             style={{ display: "inline-flex", alignItems: "center", backgroundColor: ORANGE, color: WHITE, fontFamily: FONT, fontSize: "0.95rem", fontWeight: 700, padding: "16px 36px", borderRadius: 8, textDecoration: "none", letterSpacing: "0.01em", boxShadow: "0 4px 20px rgba(255,111,13,0.40)", transition: "opacity 0.18s, transform 0.18s" }}
             onMouseEnter={e => { e.currentTarget.style.opacity = "0.9"; e.currentTarget.style.transform = "translateY(-2px)"; }}
             onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
@@ -7209,7 +7280,7 @@ function HeroStavba02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-            <a href={resolve(ctaHref)} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", backgroundColor: BROWN, color: WHITE, fontFamily: FONT, fontSize: "0.88rem", fontWeight: 600, padding: "12px 28px", borderRadius: 6, textDecoration: "none", whiteSpace: "nowrap", transition: "opacity 0.18s" }} onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; }} onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}>
+            <a href={resolve(ctaHref)} data-btn="primary" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", backgroundColor: BROWN, color: WHITE, fontFamily: FONT, fontSize: "0.88rem", fontWeight: 600, padding: "12px 28px", borderRadius: 6, textDecoration: "none", whiteSpace: "nowrap", transition: "opacity 0.18s" }} onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; }} onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}>
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
             <a href={resolve(ctaSecHref)} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", backgroundColor: WHITE, color: BROWN, fontFamily: FONT, fontSize: "0.88rem", fontWeight: 600, padding: "12px 28px", borderRadius: 8, textDecoration: "none", whiteSpace: "nowrap", boxShadow: "0 2px 10px rgba(0,0,0,0.2)", transition: "opacity 0.18s" }} onMouseEnter={e => { e.currentTarget.style.opacity = "0.9"; }} onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}>
@@ -7490,6 +7561,7 @@ function HeroStavba03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             style={{ display: "inline-flex", alignItems: "center", gap: 8, backgroundColor: ORANGE, color: WHITE, fontFamily: FONT, fontSize: "0.9rem", fontWeight: 600, padding: "14px 30px", borderRadius: 3, textDecoration: "none", letterSpacing: "0.02em", boxShadow: "0 4px 20px rgba(250,125,25,0.40)", transition: "opacity 0.18s, transform 0.18s" }}
             onMouseEnter={e => { e.currentTarget.style.opacity = "0.9"; e.currentTarget.style.transform = "translateY(-2px)"; }}
             onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
@@ -7644,6 +7716,7 @@ function HeroElektro01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
         <div>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             style={{
               display: "inline-flex", alignItems: "center",
               backgroundColor: RED, color: WHITE,
@@ -7823,7 +7896,7 @@ function HeroCatering01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props,
         <p className="c01h3-sub">
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
         </p>
-        <a href={resolveDemoHref(ctaHref)} className="c01h3-cta">
+        <a href={resolveDemoHref(ctaHref)} data-btn="primary" className="c01h3-cta">
           <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
         </a>
         {slides.length > 1 && (
@@ -7913,6 +7986,7 @@ function HeroInstala01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
           <a
             href={resolveHref(ctaHref)}
+            data-btn="primary"
             style={{ display: "inline-flex", alignItems: "center", backgroundColor: YELLOW, color: DARK, fontSize: "17px", fontWeight: 400, padding: "14px 36px", borderRadius: 50, textDecoration: "none", whiteSpace: "nowrap", transition: "opacity 0.18s, transform 0.18s" }}
             onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; e.currentTarget.style.transform = "translateY(-2px)"; }}
             onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
@@ -8042,7 +8116,7 @@ function HeroFlorist01({ content, sectionId, tenantSlug, isAdmin }: { content: R
                     </p>
                   )}
                   {s.ctaText && (
-                    <a href={resolveHref(s.ctaHref ?? "#katalog")}
+                    <a href={resolveHref(s.ctaHref ?? "#katalog")} data-btn="inverse"
                       style={{ display: "inline-flex", alignItems: "center", backgroundColor: "transparent", color: WHITE, border: `1px solid ${WHITE}`, fontSize: 15, fontWeight: 400, padding: "13px 30px", borderRadius: 2, textDecoration: "none", letterSpacing: "0.03em", transition: "background-color 0.2s, color 0.2s" }}
                       onMouseEnter={e => { e.currentTarget.style.backgroundColor = WHITE; e.currentTarget.style.color = FG; }}
                       onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = WHITE; }}
@@ -8140,6 +8214,7 @@ function HeroSweet01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
         )}
         <a
           href={resolve(ctaHref)}
+          data-btn="primary"
           style={{ display: "inline-block", padding: "13px 32px", backgroundColor: RED, color: "#fff", fontFamily: FONT, fontSize: 14, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", textDecoration: "none", transition: "background 0.2s" }}
           onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#f90a18"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = RED; }}
@@ -8285,7 +8360,7 @@ function HeroBakery02Hero({ content, sectionId }: { content: Record<string, unkn
             <GenericEditableText sectionId={sectionId} field={`slides.${idx}.headingLine2`} value={slides[idx]?.headingLine2 ?? ""} tag="span" />
           </h1>
           <div className="b02h-cta">
-            <a href={ctaHref} className="b02h-cta-btn">
+            <a href={ctaHref} data-btn="primary" className="b02h-cta-btn">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
           </div>
@@ -8431,13 +8506,13 @@ function HeroEdu01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "var
                 <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
               </svg>
               <input type="text" placeholder="Co potřebujete doučit?" aria-label="Hledat předmět" />
-              <a href={resolve(ctaHref)} className="edu01h-search-btn">Vyhledat</a>
+              <a href={resolve(ctaHref)} data-btn="primary" className="edu01h-search-btn">Vyhledat</a>
             </div>
 
             {/* Quick subject chips */}
             <div className="edu01h-chips">
               {subjects.map(s => (
-                <a key={s} href={resolve(ctaHref)} className="edu01h-chip">{s}</a>
+                <a key={s} href={resolve(ctaHref)} data-btn="primary" className="edu01h-chip">{s}</a>
               ))}
             </div>
 
@@ -8532,6 +8607,7 @@ function HeroAutoskola01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props
         <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center", marginTop: 8 }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             style={{ display: "inline-block", padding: "14px 36px", backgroundColor: ORANGE, color: "#fff", fontFamily: FONT, fontSize: 15, fontWeight: 600, letterSpacing: "0.04em", textDecoration: "none", borderRadius: 4, transition: "background 0.2s, transform 0.15s" }}
             onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#d85710"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-1px)"; }}
             onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = ORANGE; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)"; }}
@@ -8668,6 +8744,7 @@ function HeroKids01({
 
         <a
           href={resolve(ctaHref)}
+          data-btn="primary"
           style={{
             marginTop: 12,
             display: "inline-block",
@@ -8794,7 +8871,7 @@ function HeroLang01({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
               <GenericEditableText sectionId={sectionId} field="subheading" value={sub} tag="span" />
             </p>
             <div className="lang01hero-btns">
-              <a href={resolve(ctaHref)} className="lang01hero-btn primary">
+              <a href={resolve(ctaHref)} data-btn="primary" className="lang01hero-btn primary">
                 <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
               </a>
               <a href={resolve(ctaSecHref)} className="lang01hero-btn outline">
@@ -8986,7 +9063,7 @@ function HeroGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content: 
             <p className="gr01hero-body">
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
-            <a href={resolve(ctaHref)} className="gr01hero-btn">
+            <a href={resolve(ctaHref)} data-btn="primary" className="gr01hero-btn">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
           </div>
@@ -9472,7 +9549,7 @@ function HeroUcetni01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
             </p>
 
             <div className="ucn01hero-cta-row">
-              <a href={resolveHref(ctaHref)} className="ucn01hero-cta">
+              <a href={resolveHref(ctaHref)} data-btn="primary" className="ucn01hero-cta">
                 <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
               </a>
               <div className="ucn01hero-callout">
@@ -9732,7 +9809,7 @@ function HeroUcetni02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
             </p>
 
             <div className="ucn02hero-ctas">
-              <a href={resolveHref(ctaHref)} className="ucn02hero-cta-primary">
+              <a href={resolveHref(ctaHref)} data-btn="primary" className="ucn02hero-cta-primary">
                 <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <path d="M3 8h10M9 4l4 4-4 4" stroke={WHITE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -10077,7 +10154,7 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
             </p>
 
             <div className="ucn03hero-ctas">
-              <a href={resolveHref(ctaHref)} className="ucn03hero-cta-primary">
+              <a href={resolveHref(ctaHref)} data-btn="primary" className="ucn03hero-cta-primary">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
               </a>
@@ -10737,7 +10814,7 @@ function HeroSolar01({ content, sectionId, tenantSlug, isAdmin }: {
             </p>
 
             <div className="sh-btns">
-              <a href={resolve(ctaHref)} className="sh-btn sh-btn-primary">
+              <a href={resolve(ctaHref)} data-btn="primary" className="sh-btn sh-btn-primary">
                 <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
               </a>
               <a href={resolve(ctaSecHref)} className="sh-btn sh-btn-outline">
@@ -10896,6 +10973,7 @@ function HeroInstala02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
           <a
             href={resolveHref(ctaHref)}
+            data-btn="primary"
             style={{ display: "inline-flex", alignItems: "center", backgroundColor: RED, color: WHITE, fontFamily: FONT, fontSize: "15px", fontWeight: 600, padding: "14px 32px", borderRadius: 4, textDecoration: "none", letterSpacing: "0.2px", whiteSpace: "nowrap", transition: "background-color 0.18s, transform 0.18s" }}
             onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#c42d2d"; e.currentTarget.style.transform = "translateY(-2px)"; }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = RED; e.currentTarget.style.transform = "translateY(0)"; }}
@@ -11060,6 +11138,7 @@ function HeroKlima01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
                   </p>
                   <a
                     href={resolve(slide.ctaHref)}
+                    data-btn="primary"
                     style={{ display: "inline-block", backgroundColor: RED, color: "#fff", textDecoration: "none", fontWeight: 600, fontSize: 15, padding: "13px 32px", borderRadius: 5, transition: "background-color 0.2s" }}
                     onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#b50012")}
                     onMouseLeave={e => (e.currentTarget.style.backgroundColor = RED)}
@@ -11245,7 +11324,7 @@ function HeroClean01({ content, sectionId, tenantSlug: _ts, isAdmin: _ia }: Omit
         <p className="c01h-subtitle">
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
         </p>
-        <a href={ctaHref} className="c01h-cta">
+        <a href={ctaHref} data-btn="primary" className="c01h-cta">
           <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
         </a>
       </div>
@@ -11327,7 +11406,7 @@ function HeroSolar02({ content, sectionId, tenantSlug, isAdmin }: {
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
           <div className="s02h-btns">
-            <a href={resolve(ctaHref)} className="s02h-btn1">
+            <a href={resolve(ctaHref)} data-btn="primary" className="s02h-btn1">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
             <a href={resolve(cta2Href)} className="s02h-btn2">
@@ -11528,7 +11607,7 @@ function HeroSolar03({ content, sectionId, tenantSlug, isAdmin }: {
               ))}
             </ul>
 
-            <a href={resolve(ctaHref)} className="s03h-cta">
+            <a href={resolve(ctaHref)} data-btn="primary" className="s03h-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
 
@@ -11624,7 +11703,7 @@ function HeroFloors01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
                   <p style={{ color: WHITE, fontSize: 22, fontWeight: 700, margin: "0 0 18px", lineHeight: 1.35, textShadow: "0 1px 4px rgba(0,0,0,0.5)", maxWidth: 520 }}>
                     <GenericEditableText sectionId={sectionId} field={`slides.${i}.text`} value={slide.text} tag="span">{slide.text}</GenericEditableText>
                   </p>
-                  <a href={resolve(slide.ctaHref)} style={{ display: "inline-block", padding: "11px 30px", background: GREEN, color: WHITE, borderRadius: 3, fontWeight: 700, fontSize: 13, textDecoration: "none", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                  <a href={resolve(slide.ctaHref)} data-btn="primary" style={{ display: "inline-block", padding: "11px 30px", background: GREEN, color: WHITE, borderRadius: 3, fontWeight: 700, fontSize: 13, textDecoration: "none", letterSpacing: "0.05em", textTransform: "uppercase" }}>
                     <GenericEditableText sectionId={sectionId} field={`slides.${i}.ctaText`} value={slide.ctaText} tag="span">{slide.ctaText}</GenericEditableText>
                   </a>
                 </div>
@@ -11822,7 +11901,7 @@ function HeroKlempir01({ content, sectionId, tenantSlug, isAdmin }: HeroProps) {
           </GenericEditableText>
 
           <div className="k01-hero-btns" style={{ display: "flex", justifyContent: "center", gap: 20, marginTop: 30 }}>
-            <a href={resolve(ctaHref)} className="k01-btn-primary">
+            <a href={resolve(ctaHref)} data-btn="primary" className="k01-btn-primary">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
             <a href={resolve(ctaSecHref)} className="k01-btn-secondary">
@@ -11931,7 +12010,7 @@ function HeroMalir01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span">{subtitle}</GenericEditableText>
           </p>
           <div>
-            <a href={resolve(ctaHref)} className="m01h-btn">
+            <a href={resolve(ctaHref)} data-btn="primary" className="m01h-btn">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span">{ctaText}</GenericEditableText>
             </a>
             <a href={resolve(ctaSecHref)} className="m01h-btn">
@@ -12141,10 +12220,12 @@ function HeroGarden01({
       `}</style>
 
       <section id="uvod" className="g01h-section">
-        <div
-          className="g01h-bg"
-          style={bgImage ? { backgroundImage: `url(${bgImage})` } : { background: "#202714" }}
-        />
+        <GenericEditableBackground sectionId={sectionId} field="bgImage" value={bgImage}>
+          <div
+            className="g01h-bg"
+            style={bgImage ? { backgroundImage: `url(${bgImage})` } : { background: "#202714" }}
+          />
+        </GenericEditableBackground>
         <div className="g01h-overlay" />
         <div className="g01h-inner">
           <GenericEditableText
@@ -12179,7 +12260,7 @@ function HeroGarden01({
               field="phone"
             />
           </a>
-          <a href={ctaHref} className="g01h-cta-mobile">{ctaText}</a>
+          <a href={ctaHref} data-btn="primary" className="g01h-cta-mobile">{ctaText}</a>
         </div>
       </section>
     </>
@@ -12402,7 +12483,7 @@ function HeroClean02({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
           </p>
 
           <div className="c02h-btns">
-            <a href={resolve(ctaHref)} className="c02h-btn1">
+            <a href={resolve(ctaHref)} data-btn="primary" className="c02h-btn1">
               <svg width="14" height="15" viewBox="0 0 14 15" fill="none" aria-hidden>
                 <g clipPath="url(#csp)">
                   <path d="M4.129 9.443H4.949C4.949 8.538 5.685 7.802 6.59 7.802V6.982C5.685 6.982 4.949 6.246 4.949 5.341H4.129C4.129 6.246 3.393 6.982 2.488 6.982V7.802C3.393 7.802 4.129 8.538 4.129 9.443Z" fill="currentColor"/>
@@ -12643,7 +12724,7 @@ function HeroGarden02({
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
           <div className="g02h-ctas">
-            <a href={resolve(ctaHref)} className="g02h-btn-primary">
+            <a href={resolve(ctaHref)} data-btn="primary" className="g02h-btn-primary">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
             <a href={resolve(cta2Href)} className="g02h-btn-outline">
@@ -12956,7 +13037,7 @@ function HeroDdd01({ content, sectionId }: Omit<Props, "variant">) {
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
           <div className="ddd01h-btns">
-            <a href={ctaHref} className="ddd01h-cta">
+            <a href={ctaHref} data-btn="primary" className="ddd01h-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
             <a href={ctaSecondaryHref} className="ddd01h-cta-secondary">
@@ -13134,7 +13215,7 @@ function HeroHotel01({ content, sectionId, isAdmin }: { content: SectionContent;
           <p className="h01hero-subtitle">
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
-          <a href={resolve(ctaHref)} className="h01hero-cta">
+          <a href={resolve(ctaHref)} data-btn="primary" className="h01hero-cta">
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           </a>
         </div>
@@ -13393,7 +13474,7 @@ function HeroHotel02({ content, sectionId, isAdmin }: { content: SectionContent;
           <h1 className="h02hero-title">
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h1>
-          <a href={resolve(ctaHref)} className="h02hero-cta">
+          <a href={resolve(ctaHref)} data-btn="primary" className="h02hero-cta">
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M1 5h14M10 1l5 4-5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -13686,7 +13767,7 @@ function HeroChalet01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
           <div className="ch01hero-ctas">
-            <a href={resolve(ctaHref)} className="ch01hero-cta-primary">
+            <a href={resolve(ctaHref)} data-btn="primary" className="ch01hero-cta-primary">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
             <a href={resolve(cta2Href)} className="ch01hero-cta-secondary">
@@ -13808,7 +13889,7 @@ function HeroMalir02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
             <GenericEditableText sectionId={sectionId} field={`slides.${current}.subheading`} value={slides[current].subheading} tag="span">{slides[current].subheading}</GenericEditableText>
           </p>
           <div>
-            <a href={resolve(slides[current].ctaHref)} className="m02h-cta">
+            <a href={resolve(slides[current].ctaHref)} data-btn="primary" className="m02h-cta">
               <GenericEditableText sectionId={sectionId} field={`slides.${current}.ctaLabel`} value={slides[current].ctaLabel} tag="span">{slides[current].ctaLabel}</GenericEditableText>
             </a>
           </div>
@@ -13962,7 +14043,9 @@ function HeroEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
         }
       `}</style>
       <section className="ev01-hero" data-template="events-01-hero">
-        <div className="ev01-hero-bg" />
+        <GenericEditableBackground sectionId={sectionId} field="imageUrl" value={imageUrl}>
+          <div className="ev01-hero-bg" />
+        </GenericEditableBackground>
         {videoUrl && (
           <video className="ev01-hero-vid" autoPlay loop muted playsInline>
             <source src={videoUrl} type="video/mp4" />
@@ -14463,6 +14546,7 @@ function HeroRestaurant04({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
           <a
             href={resolve(ctaHref)}
+            data-btn="primary"
             style={{
               fontFamily: SANS, fontSize: 11, fontWeight: 700, letterSpacing: "0.14em",
               textTransform: "uppercase", color: CREAM, textDecoration: "none",
@@ -14629,7 +14713,7 @@ function HeroDj01({ content, sectionId, tenantSlug, isAdmin }: { content: Record
           </GenericEditableText>
         </div>
 
-        <a href={resolve(ctaHref)} className="dj01-hero-arrow" aria-label="Přehled nabízených služeb">
+        <a href={resolve(ctaHref)} data-btn="primary" className="dj01-hero-arrow" aria-label="Přehled nabízených služeb">
           <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="40" cy="40" r="38" stroke="currentColor" strokeWidth="2.5"/>
             <path d="M27 35 L40 50 L53 35" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -14813,7 +14897,7 @@ function HeroVideo01({ content, sectionId, isAdmin }: {
               : body}
           </p>
         )}
-        <a href={ctaHref} className="vd01h-cta">
+        <a href={ctaHref} data-btn="primary" className="vd01h-cta">
           {isAdmin
             ? <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             : <span>{ctaText}</span>}

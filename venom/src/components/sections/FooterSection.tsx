@@ -216,6 +216,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
               )}
               <a
                 href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+                data-btn="primary"
                 style={{
                   display: "inline-flex", alignItems: "center", justifyContent: "center",
                   backgroundColor: SAND, color: BG,
@@ -709,7 +710,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
         style={{
           backgroundColor: "#111111",
           color: "rgba(255,255,255,0.65)",
-          padding: "60px 40px",
+          padding: "60px clamp(20px,5vw,40px)",
         }}
       >
         <div
@@ -4096,9 +4097,10 @@ function FooterCafe03({ content, sectionId }: { content: Record<string, unknown>
         )}
       </div>
 
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
-        @media(max-width:768px){ .c3-footer-grid { grid-template-columns: 1fr 1fr !important; } }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" />
+      <style>{`        @media(max-width:768px){ .c3-footer-grid { grid-template-columns: 1fr 1fr !important; } }
         @media(max-width:480px){ .c3-footer-grid { grid-template-columns: 1fr !important; } }
       `}</style>
     </footer>
@@ -6838,9 +6840,10 @@ function FooterFlorist01({ content, sectionId, tenantSlug, isAdmin }: { content:
 
   return (
     <footer style={{ backgroundColor: BG, color: TEXT, fontFamily: FONT, paddingTop: 60, paddingBottom: 0 }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&display=swap');
-        .f01-ft-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&display=swap" />
+      <style>{`        .f01-ft-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
         @media (max-width: 900px) { .f01-ft-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
         @media (max-width: 540px) { .f01-ft-grid { grid-template-columns: 1fr; gap: 28px; } }
         .f01-ft-nav-link { color: rgba(255,255,255,0.65); font-size: 14px; text-decoration: none; display: block; margin-bottom: 10px; font-family: 'Arimo', Arial, sans-serif; transition: color 0.15s; }
@@ -10405,9 +10408,10 @@ function FooterInstala02({ content, sectionId, tenantSlug, isAdmin }: { content:
 
   return (
     <footer data-template="instala-02-footer" style={{ backgroundColor: WHITE, fontFamily: FONT_B }}>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500&display=swap" />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Roboto:wght@400;500&display=swap');
-
         /* ── CTA strip ── */
         .i2ft-strip {
           background: ${RED};
@@ -11261,9 +11265,10 @@ function FooterSolar02({ content, sectionId }: { content: Record<string, unknown
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
-        .s02ft { background: #0b0f14; padding: 60px 0 0; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" />
+      <style>{`        .s02ft { background: #0b0f14; padding: 60px 0 0; }
         .s02ft-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
         .s02ft-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08); }
         .s02ft-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; text-decoration: none; }
@@ -11359,9 +11364,10 @@ function FooterMalir01({ content, sectionId, isAdmin: _isAdmin }: { content: Rec
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap');
-        .m01ft-footer { background: #000000; font-family: ${RALEWAY}; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600&display=swap" />
+      <style>{`        .m01ft-footer { background: #000000; font-family: ${RALEWAY}; }
         .m01ft-inner { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px 20px; max-width: 1230px; margin: 0 auto; gap: 6px; text-align: center; }
         .m01ft-text { font-size: 18px; color: ${WHITE}; margin: 0; line-height: 1.5; }
         @media (min-width: 868px) {
@@ -11683,7 +11689,7 @@ function FooterGarden01({ content, sectionId, tenantSlug, isAdmin }: { content: 
           <div>
             <GenericEditableText tag="h3" className="g01f-col-heading" value={ctaTitle} sectionId={sectionId} field="ctaTitle" />
             <GenericEditableText tag="p" className="g01f-cta-text" value={ctaText} sectionId={sectionId} field="ctaText" />
-            <a href={ctaHref} className="g01f-cta-btn">{ctaBtn}</a>
+            <a href={ctaHref} data-btn="primary" className="g01f-cta-btn">{ctaBtn}</a>
           </div>
         </div>
 
@@ -12048,7 +12054,7 @@ function FooterArbo01({ content, sectionId }: { content: Record<string, unknown>
           {/* Col 4: CTA */}
           <div className="arbo01-ft-cta-col">
             <p className="arbo01-ft-cta-text">Máte zájem o naše služby? Kontaktujte nás pro nezávaznou poptávku.</p>
-            <a href={ctaHref} className="arbo01-ft-cta-btn">
+            <a href={ctaHref} data-btn="primary" className="arbo01-ft-cta-btn">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
               {" →"}
             </a>
@@ -12299,9 +12305,10 @@ function FooterHotel01({ content, sectionId }: { content: Record<string, unknown
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Poppins:wght@300;400;500&display=swap');
-        .h01ft {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Poppins:wght@300;400;500&display=swap" />
+      <style>{`        .h01ft {
           background: #2a2520;
           color: rgba(255,255,255,0.75);
           font-family: 'Poppins', sans-serif;
@@ -12482,9 +12489,10 @@ function FooterChalet01({ content, sectionId }: { content: Record<string, unknow
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap');
-        .ch01ft {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" />
+      <style>{`        .ch01ft {
           background: #111518;
           padding: clamp(3.5rem, 7vw, 6rem) 1.5rem 0;
           font-family: ${FONT_B};
@@ -12747,9 +12755,10 @@ function FooterHotel02({ content, sectionId }: { content: Record<string, unknown
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@300;400;500;600&display=swap');
-        .h02ft {
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@300;400;500;600&display=swap" />
+      <style>{`        .h02ft {
           background: #1a2332;
           color: rgba(255,255,255,0.65);
           font-family: 'Montserrat', sans-serif;
@@ -12962,9 +12971,10 @@ function FooterPhoto01({ content, sectionId }: { content: unknown; sectionId: st
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500&display=swap');
-        .ph01ft { background: #111; color: #bbb; padding: 72px 5% 0; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;500&display=swap" />
+      <style>{`        .ph01ft { background: #111; color: #bbb; padding: 72px 5% 0; }
         .ph01ft-inner {
           max-width: 1100px; margin: 0 auto;
           display: grid; grid-template-columns: 1.4fr 1fr 1fr;
@@ -13284,7 +13294,7 @@ function FooterMalir02({ content, sectionId }: { content: Record<string, unknown
           <div className="m02ft-cta-box">
             <p className="m02ft-cta-title"><GenericEditableText sectionId={sectionId} field="ctaTitle" value={ctaTitle} tag="span">{ctaTitle}</GenericEditableText></p>
             <p className="m02ft-cta-sub"><GenericEditableText sectionId={sectionId} field="ctaSub" value={ctaSub} tag="span">{ctaSub}</GenericEditableText></p>
-            <a href={ctaHref} className="m02ft-cta-btn"><GenericEditableText sectionId={sectionId} field="ctaLabel" value={ctaLabel} tag="span">{ctaLabel}</GenericEditableText></a>
+            <a href={ctaHref} data-btn="primary" className="m02ft-cta-btn"><GenericEditableText sectionId={sectionId} field="ctaLabel" value={ctaLabel} tag="span">{ctaLabel}</GenericEditableText></a>
           </div>
         </div>
 
@@ -13401,9 +13411,10 @@ function FooterDj01({ content, sectionId }: { content: Record<string, unknown>; 
 
   return (
     <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap');
-
         .dj01ft {
           background: #0a0a0a;
           border-top: 3px solid ${ORANGE};

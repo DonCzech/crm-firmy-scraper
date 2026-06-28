@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 40" fill="none" role="img" aria-label="Demo Svět rovnátek">
+  <!-- Tooth icon -->
+  <path d="M14 6C10.5 6 8 8.5 8 11c0 1.5.5 2.8 1.2 4L11 22c.4 1.6 1.2 3 2.5 3s2-.9 2.5-2.5L16.5 22c.5 1.6 1.2 2.5 2.5 2.5s2.1-1.4 2.5-3l1.8-7c.7-1.2 1.2-2.5 1.2-4 0-2.5-2.5-5-6.5-5z" fill="#00b7ad"/>
+  <!-- Bracket accent -->
+  <rect x="9" y="11.5" width="14" height="4" rx="1" fill="#244757" opacity=".15"/>
+  <rect x="11" y="11.5" width="2" height="4" rx=".5" fill="#00b7ad"/>
+  <rect x="14.5" y="11.5" width="3" height="4" rx=".5" fill="#00b7ad"/>
+  <rect x="19" y="11.5" width="2" height="4" rx=".5" fill="#00b7ad"/>
+  <!-- Wordmark -->
+  <text x="30" y="27" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="700" fill="#244757" letter-spacing="-0.3">Demo</text>
+  <text x="68" y="27" font-family="Inter, Arial, sans-serif" font-size="14" font-weight="400" fill="#00b7ad" letter-spacing="-0.3"> rovnátka</text>
+</svg>

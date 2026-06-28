@@ -177,7 +177,7 @@ export function SeoEditor({ tenantSlug, pages }: Props) {
                       {row.seo_title || row.title}
                     </p>
                     <p className="text-green-700 text-xs mb-1">
-                      venom-saas.vercel.app/demo/{tenantSlug}{row.is_homepage ? "" : `/${row.slug}`}
+                      webero.co/demo/{tenantSlug}{row.is_homepage ? "" : `/${row.slug}`}
                     </p>
                     {row.seo_description && (
                       <p className="text-gray-600 text-sm line-clamp-2">{row.seo_description}</p>

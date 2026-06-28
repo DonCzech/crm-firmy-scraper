@@ -17,6 +17,7 @@ import {
   Square,
   type LucideIcon,
 } from "lucide-react";
+import { SECTION_VARIANTS } from "@/sections/variants";
 
 export const SECTION_ICON: Record<string, LucideIcon> = {
   hero: Sparkles,
@@ -64,6 +65,16 @@ export function getSectionIcon(type: string): LucideIcon {
   return SECTION_ICON[type] ?? Square;
 }
 
-export function getSectionLabel(type: string): string {
+export function getSectionLabel(type: string, variant?: string): string {
+  // If a variant is provided, look up its human-readable label in SECTION_VARIANTS
+  if (variant && variant !== "default") {
+    const variantList = SECTION_VARIANTS[type] ?? [];
+    const found = variantList.find(v => v.key === variant);
+    if (found) {
+      // Use the label up to the first " – " or " (" to get a short name
+      const shortLabel = found.label.split(" – ")[0].split(" (")[0].trim();
+      return shortLabel;
+    }
+  }
   return SECTION_TYPE_LABELS[type] ?? type;
 }

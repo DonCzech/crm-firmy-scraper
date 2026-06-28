@@ -1,0 +1,272 @@
+[
+  {
+    "url": "https://barbershopurban.cz",
+    "title": "Barbershop Praha pánský střih - Barbershop URBAN",
+    "description": "",
+    "navigation": [
+      "+ 420 773 096 906",
+      "Služby",
+      "O nás",
+      "Akce",
+      "Ceník",
+      "FAQ",
+      "Blog",
+      "Galerie",
+      "Kontakty",
+      "Online rezervace",
+      "Ochrana osobních údajů"
+    ],
+    "headings": [
+      {
+        "tag": "h1",
+        "text": "Nejlepší místo pro pánský střih"
+      }
+    ],
+    "sections": [
+      "page_content__without_slide",
+      "hero_section hero_section_des hero_section__background",
+      "hero_section hero_section_mob hero_section__background",
+      "ourAkce_section",
+      "ourReviews_section",
+      "aboutUs_section",
+      "ourServices_section",
+      "ourWorks_section",
+      "widget text-4 widget_text"
+    ],
+    "contactInfo": {
+      "phones": [
+        "420 773 096"
+      ],
+      "emails": [],
+      "addresses": []
+    },
+    "openingHours": [],
+    "socialLinks": [
+      "https://www.instagram.com/barbershop_urban_prague/"
+    ],
+    "ogData": {},
+    "schemaOrg": [],
+    "hasMap": false,
+    "hasPricing": true,
+    "hasBooking": true,
+    "hasGallery": true,
+    "imageCount": 5,
+    "loadedAt": "2026-05-09T08:32:34.210Z"
+  },
+  {
+    "url": "https://barbershopurban.cz/uk/",
+    "title": "Barbershop Praha – чоловіча стрижка - Barbershop URBAN",
+    "description": "",
+    "navigation": [
+      "+ 420 773 096 906",
+      "Послуги",
+      "Про нас",
+      "Прайс-лист",
+      "Акції",
+      "FAQ",
+      "Блог",
+      "Галерея",
+      "Контакти",
+      "Онлайн бронювання",
+      "Охорона особистих даних"
+    ],
+    "headings": [
+      {
+        "tag": "h1",
+        "text": "Найкраще місце для чоловічої стрижки"
+      }
+    ],
+    "sections": [
+      "page_content__without_slide",
+      "hero_section hero_section_des hero_section__background",
+      "hero_section hero_section_mob hero_section__background",
+      "ourAkce_section",
+      "ourReviews_section",
+      "aboutUs_section",
+      "ourServices_section",
+      "ourWorks_section",
+      "widget text-4 widget_text"
+    ],
+    "contactInfo": {
+      "phones": [
+        "420 773 096"
+      ],
+      "emails": [],
+      "addresses": []
+    },
+    "openingHours": [],
+    "socialLinks": [
+      "https://www.instagram.com/barbershop_urban_prague/"
+    ],
+    "ogData": {},
+    "schemaOrg": [],
+    "hasMap": false,
+    "hasPricing": true,
+    "hasBooking": false,
+    "hasGallery": false,
+    "imageCount": 5,
+    "loadedAt": "2026-05-09T08:32:35.079Z"
+  },
+  {
+    "url": "https://barbershopurban.cz/en/",
+    "title": "Barbershop Prague - Barbershop URBAN",
+    "description": "Our barbershop – a heaven for those in look for talented barbers, who aims to please the clients with new stunning hairstyles. Your hair deserves the best! It’s not just a haircut – it’s an experience.",
+    "navigation": [
+      "+ 420 773 096 906",
+      "Services",
+      "About us",
+      "Pricelist",
+      "Actions",
+      "FAQ",
+      "Blog",
+      "Gallery",
+      "Contacts",
+      "Online booking",
+      "Privacy policy"
+    ],
+    "headings": [
+      {
+        "tag": "h1",
+        "text": "The best place for a men's haircut"
+      }
+    ],
+    "sections": [
+      "page_content__without_slide",
+      "hero_section hero_section_des hero_section__background",
+      "hero_section hero_section_mob hero_section__background",
+      "ourAkce_section",
+      "ourReviews_section",
+      "aboutUs_section",
+      "ourServices_section",
+      "ourWorks_section",
+      "widget text-4 widget_text"
+    ],
+    "contactInfo": {
+      "phones": [
+        "420 773 096"
+      ],
+      "emails": [],
+      "addresses": []
+    },
+    "openingHours": [],
+    "socialLinks": [
+      "https://www.instagram.com/barbershop_urban_prague/"
+    ],
+    "ogData": {},
+    "schemaOrg": [],
+    "hasMap": false,
+    "hasPricing": true,
+    "hasBooking": true,
+    "hasGallery": true,
+    "imageCount": 5,
+    "loadedAt": "2026-05-09T08:32:35.941Z"
+  },
+  {
+    "url": "https://barbershopurban.cz/ru/",
+    "title": "Барбершоп русскоязычный в Праге - Barbershop URBAN",
+    "description": "",
+    "navigation": [
+      "+ 420 773 096 906",
+      "Услуги",
+      "О нас",
+      "Прайс-лист",
+      "Акции",
+      "FAQ",
+      "Блог",
+      "Галерея",
+      "Контакты",
+      "Онлайн бронирование",
+      "Охрана личных данных"
+    ],
+    "headings": [
+      {
+        "tag": "h1",
+        "text": "Лучшее место для мужской стрижки"
+      }
+    ],
+    "sections": [
+      "page_content__without_slide",
+      "hero_section hero_section_des hero_section__background",
+      "hero_section hero_section_mob hero_section__background",
+      "ourAkce_section",
+      "ourReviews_section",
+      "aboutUs_section",
+      "ourServices_section",
+      "ourWorks_section",
+      "widget text-4 widget_text"
+    ],
+    "contactInfo": {
+      "phones": [
+        "420 773 096"
+      ],
+      "emails": [],
+      "addresses": []
+    },
+    "openingHours": [],
+    "socialLinks": [
+      "https://www.instagram.com/barbershop_urban_prague/"
+    ],
+    "ogData": {},
+    "schemaOrg": [],
+    "hasMap": false,
+    "hasPricing": true,
+    "hasBooking": false,
+    "hasGallery": false,
+    "imageCount": 5,
+    "loadedAt": "2026-05-09T08:32:36.814Z"
+  },
+  {
+    "url": "https://barbershopurban.cz/",
+    "title": "Barbershop Praha pánský střih - Barbershop URBAN",
+    "description": "",
+    "navigation": [
+      "+ 420 773 096 906",
+      "Služby",
+      "O nás",
+      "Akce",
+      "Ceník",
+      "FAQ",
+      "Blog",
+      "Galerie",
+      "Kontakty",
+      "Online rezervace",
+      "Ochrana osobních údajů"
+    ],
+    "headings": [
+      {
+        "tag": "h1",
+        "text": "Nejlepší místo pro pánský střih"
+      }
+    ],
+    "sections": [
+      "page_content__without_slide",
+      "hero_section hero_section_des hero_section__background",
+      "hero_section hero_section_mob hero_section__background",
+      "ourAkce_section",
+      "ourReviews_section",
+      "aboutUs_section",
+      "ourServices_section",
+      "ourWorks_section",
+      "widget text-4 widget_text"
+    ],
+    "contactInfo": {
+      "phones": [
+        "420 773 096"
+      ],
+      "emails": [],
+      "addresses": []
+    },
+    "openingHours": [],
+    "socialLinks": [
+      "https://www.instagram.com/barbershop_urban_prague/"
+    ],
+    "ogData": {},
+    "schemaOrg": [],
+    "hasMap": false,
+    "hasPricing": true,
+    "hasBooking": true,
+    "hasGallery": true,
+    "imageCount": 5,
+    "loadedAt": "2026-05-09T08:32:37.675Z"
+  }
+]

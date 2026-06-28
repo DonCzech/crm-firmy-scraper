@@ -570,6 +570,17 @@ function getFieldsForSection(type: string, _content: Record<string, unknown>): F
         { key: "address", label: "Adresa (zobrazí se pod mapou)", type: "text" },
         { key: "mapEmbed", label: "Google Maps embed URL", type: "url" },
       ];
+    case "embed":
+      return [
+        {
+          key: "html",
+          label: "HTML / Embed kód",
+          type: "textarea",
+          placeholder: "<iframe src=\"https://www.youtube.com/embed/…\"></iframe>\n\nNebo Calendly, Tidio, Mapy.cz iframe…",
+        },
+        { key: "height", label: "Min. výška (např. 480px)", type: "text", placeholder: "480px" },
+        { key: "backgroundColor", label: "Barva pozadí (HEX)", type: "text", placeholder: "#ffffff" },
+      ];
     default:
       return [];
   }

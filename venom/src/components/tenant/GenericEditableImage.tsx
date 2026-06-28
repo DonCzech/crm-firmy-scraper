@@ -1,7 +1,10 @@
 "use client";
 
 import { Children, cloneElement, isValidElement, useEffect, useRef, useState, type ReactElement } from "react";
+import { createPortal } from "react-dom";
 import { useGenericInlineEditor } from "./GenericInlineEditorContext";
+import { useSectionContent } from "./SectionContentContext";
+import { readFocus } from "@/lib/studio-focus";
 import { CropEditor } from "@/components/studio/CropEditor";
 import { getDimensionPreset, type ImageDimensionKey } from "@/lib/image-dimensions";
 
@@ -21,6 +24,8 @@ interface Props {
   children: React.ReactNode;
   dimensions?: ImageDimensionKey | string;
   priority?: boolean;
+  /** Saved focus point — applied as objectPosition to the child img in studio/public render */
+  focus?: { x: number; y: number } | null;
 }
 
 function applyPriority(children: React.ReactNode): React.ReactNode {
@@ -35,9 +40,25 @@ function applyPriority(children: React.ReactNode): React.ReactNode {
   });
 }
 
-export function GenericEditableImage({ sectionId, field, fullField, src: _src, className, style, children, dimensions, priority }: Props) {
+function applyFocusToChildren(children: React.ReactNode, objectPosition: string): React.ReactNode {
+  return Children.map(children, (child) => {
+    if (!isValidElement(child)) return child;
+    const el = child as ReactElement<Record<string, unknown>>;
+    // Apply to plain <img> and Next.js Image (which accepts style prop)
+    if (el.type === "img" || typeof el.type !== "string") {
+      const prevStyle = (el.props.style as React.CSSProperties | undefined) ?? {};
+      return cloneElement(el, { style: { ...prevStyle, objectPosition } });
+    }
+    return child;
+  });
+}
+
+export function GenericEditableImage({ sectionId, field, fullField, src: _src, className, style, children, dimensions, priority, focus: focusProp }: Props) {
   const renderedChildren = priority ? applyPriority(children) : children;
-  const { isAdmin, updateField } = useGenericInlineEditor();
+  const { isAdmin, isStudio, updateField } = useGenericInlineEditor();
+  // Auto-read focus from SectionContentContext if not explicitly provided
+  const sectionContent = useSectionContent();
+  const focus = focusProp ?? (sectionContent ? readFocus(sectionContent, field) : null);
   const inputRef = useRef<HTMLInputElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [hovered, setHovered] = useState(false);
@@ -61,7 +82,7 @@ export function GenericEditableImage({ sectionId, field, fullField, src: _src, c
     const file = event.target.files?.[0];
     if (!file) return;
     event.target.value = "";
-    if (dimensions) {
+    if (dimensions && file.type !== "image/svg+xml") {
       setCropPending(file);
       return;
     }
@@ -107,13 +128,17 @@ export function GenericEditableImage({ sectionId, field, fullField, src: _src, c
     }
   }
 
-  if (!isAdmin) {
+  if (!isAdmin || isStudio) {
+    const objPos = focus ? `${focus.x}% ${focus.y}%` : undefined;
+    const finalChildren = objPos ? applyFocusToChildren(renderedChildren, objPos) : renderedChildren;
     return (
       <div
         className={className}
         style={{ ...style, position: style?.position ?? "relative" }}
+        data-studio-field={field}
+        data-studio-section={sectionId}
       >
-        {renderedChildren}
+        {finalChildren}
       </div>
     );
   }
@@ -177,12 +202,21 @@ export function GenericEditableImage({ sectionId, field, fullField, src: _src, c
       <input
         ref={inputRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp"
+        accept="image/jpeg,image/png,image/webp,image/svg+xml"
         aria-label="Změnit obrázek"
         style={fileInputStyle}
         onClick={(event) => event.stopPropagation()}
         onChange={handleFile}
       />
+      {cropPending && typeof document !== "undefined" && createPortal(
+        <CropEditor
+          file={cropPending}
+          aspect={getDimensionPreset(dimensions)?.aspect ?? null}
+          onConfirm={(croppedFile) => { setCropPending(null); uploadFile(croppedFile); }}
+          onCancel={() => setCropPending(null)}
+        />,
+        document.body
+      )}
     </div>
   );
 }

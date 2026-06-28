@@ -1,0 +1,2109 @@
+Máme již hotový projekt ve VS Code: Astera-web.
+
+DŮLEŽITÉ:
+Nestav nic od nuly.
+Nezakládej nový projekt.
+Nepřepisuj současnou architekturu.
+Použij existující řešení Astera-web jako základní šablonu/platformu.
+
+Současný web je dostupný jako inspirace na:
+https://asteralight.cz
+
+Pokud nemůžeš web procházet, pracuj přímo s lokálním projektem Astera-web ve VS Code.
+
+Projekt už obsahuje:
+- profesionální frontend
+- mobilní optimalizaci
+- SEO
+- live editor
+- editaci homepage
+- editaci podstránek
+- upload fotek
+- možnost upravovat obsah přímo na frontendu
+- hotový designový systém
+- existující strukturu komponent
+- existující logiku webu
+
+CÍL:
+Chci z existujícího projektu Astera-web udělat SaaS platformu pro tvorbu profesionálních webů pro lokální podnikatele.
+
+Typičtí klienti:
+- barbeři
+- maséři
+- advokáti
+- kosmetika
+- realitní makléři
+- restaurace
+- fitness trenéři
+- wellness
+- menší firmy
+
+BUSINESS MODEL:
+Klient nebude stavět web od nuly.
+Klient si vybere šablonu / obor.
+Systém mu vytvoří demo web z existujícího řešení Astera-web.
+Klient si ho následně upraví přes live editor.
+
+Cena základního webu bude cca 500 Kč měsíčně.
+Doména se platí zvlášť.
+Rezervační systém Rezora se bude platit zvlášť a bude napojen později jako externí modul.
+
+HLAVNÍ PRINCIP:
+Astera-web použij jako master template.
+Z něj vytvoř více oborových variant, ale pořád nad stejným jádrem.
+
+Nechci 10 000 různých codebase.
+Chci jeden multi-tenant systém a více šablon/konfigurací.
+
+====================================
+1. NEJDŘÍVE ANALÝZA EXISTUJÍCÍHO PROJEKTU
+====================================
+
+Nejdříve projdi projekt Astera-web a zjisti:
+
+- jak je řešený frontend
+- jak jsou řešené stránky
+- jak funguje live editor
+- jak funguje upload fotek
+- jak jsou uložená data
+- jak je řešené SEO
+- jak jsou řešené komponenty
+- jak se upravuje homepage
+- jak se upravují podstránky
+- jaká je aktuální struktura složek
+- co lze znovu použít
+- co je potřeba pouze rozšířit
+
+Nepiš nový systém od nuly.
+Vše navrhuj jako evoluci současného řešení.
+
+====================================
+2. FREE TRIAL ONBOARDING FLOW
+====================================
+
+Přidej nový onboarding flow.
+
+Na webu bude tlačítko:
+
+"Vyzkoušet zdarma"
+
+Po kliknutí:
+- otevře se moderní pop-up / modal
+- uživatel zadá e-mail
+- případně později i obor podnikání
+- po odeslání se spustí animační obrazovka
+
+Inspirace:
+Shoptet registrační dokončení / stavění e-shopu:
+https://www.shoptet.cz/registrace-dokoncena/
+
+Chci podobný pocit:
+- “Připravujeme váš web”
+- “Kopírujeme šablonu”
+- “Nastavujeme design”
+- “Připravujeme editor”
+- “Optimalizujeme mobilní verzi”
+- “Hotovo”
+
+Po dokončení:
+- systém vytvoří demo web
+- demo web bude kopie vybrané šablony s demo daty
+- uživatel bude přesměrován na svůj demo web / editor
+
+Například:
+- /demo/[tenantSlug]
+- /admin/[tenantSlug]
+- nebo podle aktuální architektury projektu
+
+DŮLEŽITÉ:
+Toto zatím může být připravené i jako lokální/mock implementace, ale architektura musí být připravená na reálné vytvoření tenanta v databázi.
+
+====================================
+3. TEMPLATE CLONING
+====================================
+
+Implementuj logiku, že se při registraci vytvoří nový demo tenant.
+
+Nový tenant vznikne tak, že se zkopíruje master template.
+
+Master template bude vycházet z Astera Light.
+
+Při vytvoření demo webu se zkopíruje:
+- homepage
+- podstránky
+- sekce
+- texty
+- demo obrázky
+- galerie
+- SEO metadata
+- nastavení barev
+- nastavení fontů
+- navigace
+- footer
+- kontaktní údaje
+- ukázkové služby
+- ukázkové recenze
+
+Vytvoř reusable funkci například:
+
+createDemoTenantFromTemplate({
+  email,
+  templateId,
+  industry,
+})
+
+Výstup:
+- nový tenant
+- nový demo web
+- URL do editoru
+- URL veřejného náhledu
+
+====================================
+4. OBOROVÉ ŠABLONY
+====================================
+
+Vytvoř první 3 profesionální oborové varianty.
+
+Použij současné řešení Astera-web, ale uprav vzhled, obsah a rozložení tak, aby vznikly jiné profesionální varianty.
+
+Nejde o úplně nové weby.
+Jde o varianty nad stejným systémem.
+
+Vytvoř tyto 3 template varianty:
+
+1. Barber / salon template
+- luxusní tmavší design
+- výrazné CTA na rezervaci
+- služby
+- ceník
+- galerie
+- recenze
+- kontakt
+- lokální SEO
+
+2. Wellness / masáže template
+- jemný elegantní design
+- klidné barvy
+- služby
+- balíčky
+- galerie
+- recenze
+- FAQ
+- kontakt
+
+3. Advokát / poradce template
+- seriózní profesionální design
+- důvěryhodnost
+- specializace
+- reference
+- konzultace
+- formulář
+- články
+- lokální SEO
+
+Každá šablona musí mít:
+- vlastní demo data
+- vlastní texty
+- vlastní obrázky/placeholders
+- vlastní SEO
+- vlastní sekce
+- vlastní barevnou paletu
+- vlastní typografický feeling
+
+Ale technicky musí běžet na stejném systému.
+
+====================================
+5. LIVE EDITOR ROZŠÍŘENÍ
+====================================
+
+Současný live editor je klíčový.
+Neodstraňuj ho.
+Rozšiř ho.
+
+Chci, aby uživatel mohl přímo na frontendu:
+
+- upravit text
+- upravit obrázky
+- nahrát fotky
+- měnit barvy
+- měnit fonty
+- měnit spacing
+- měnit pořadí sekcí
+- zapnout/vypnout sekce
+- přesouvat elementy nahoru/dolů
+- u vybraných prvků měnit zarovnání vlevo/střed/vpravo
+- u tlačítek měnit text, odkaz, barvu, styl
+- u galerie měnit fotky a pořadí
+- u recenzí měnit text, jméno, hodnocení
+- u služeb měnit název, popis, cenu
+- u SEO upravit title, description, slug
+
+Přidej jednoduchý page builder do live editoru.
+
+Nechci složitý drag-and-drop builder typu Webflow.
+Chci jednoduchý, stabilní a bezpečný builder.
+
+Funkce page builderu:
+- seznam sekcí stránky
+- možnost přesunout sekci nahoru/dolů
+- možnost skrýt/zobrazit sekci
+- možnost duplikovat sekci
+- možnost smazat sekci
+- možnost přidat sekci z knihovny
+- možnost upravit základní layout sekce
+- možnost změnit barvy sekce
+- možnost změnit padding/margin sekce
+- možnost změnit zarovnání obsahu
+
+Sekce musí být ukládány jako konfigurovatelná data, ne jako náhodný custom kód.
+
+====================================
+6. SECTION LIBRARY
+====================================
+
+Vytvoř základní knihovnu sekcí:
+
+- Hero
+- Services
+- Pricing
+- Gallery
+- Testimonials
+- FAQ
+- CTA
+- Contact
+- Blog preview
+- About
+- Opening hours
+- Team
+- Map
+- Footer
+- Navbar
+
+Každá sekce by měla mít alespoň 2–3 varianty, pokud to současná architektura umožňuje.
+
+Například:
+Hero:
+- hero-centered
+- hero-split-image
+- hero-luxury-dark
+
+Gallery:
+- grid
+- masonry
+- slider
+
+Testimonials:
+- static cards
+- slider
+
+Services:
+- cards grid
+- pricing list
+- icon grid
+
+====================================
+7. SLIDERY A FOTKY
+====================================
+
+Přidej podporu pro:
+
+- slider recenzí
+- slider fotek
+- galerie
+- lazy loading obrázků
+- optimalizované obrázky
+- omezení počtu fotek podle šablony
+
+Důležité:
+Slider nesmí dělat DB dotazy při každém posunu.
+Data musí být načtená/cachovaná.
+Slider musí běžet frontendově.
+
+====================================
+8. MEDIA UPLOAD
+====================================
+
+Současný upload fotek zachovej a rozšiř.
+
+Připrav architekturu tak, aby později bylo možné ukládat média mimo Vercel, ideálně:
+
+- Cloudflare R2
+- S3 compatible storage
+- CDN
+
+Zatím můžeš zachovat aktuální implementaci, ale odděl storage vrstvu tak, aby šla snadno přepnout.
+
+Vytvoř abstraction layer například:
+
+mediaStorageProvider
+
+aby šlo později změnit:
+local/vercel → Cloudflare R2
+
+bez přepisování celého editoru.
+
+====================================
+9. MULTI-TENANT ARCHITEKTURA
+====================================
+
+Připrav systém na multi-tenant režim.
+
+Každý web = tenant.
+
+Tenant má:
+- id
+- slug
+- email vlastníka
+- templateId
+- industry
+- status: demo/active/expired
+- createdAt
+- updatedAt
+
+Každý tenant má vlastní:
+- stránky
+- sekce
+- texty
+- obrázky
+- SEO
+- nastavení designu
+- navigaci
+- kontakty
+- recenze
+- služby
+
+Zatím nemusí být vše produkčně hotové, ale datový model a struktura musí být připravená správně.
+
+====================================
+10. DOMAIN ROUTING READY
+====================================
+
+Připrav architekturu na budoucí vlastní domény.
+
+Zatím:
+- demo může běžet na subpath nebo subdomain podle současné architektury
+
+Později:
+- klient si zaplatí vlastní doménu
+- doména se namapuje na tenant
+
+Připrav:
+- tenant lookup podle hostu
+- domain table
+- domain verification placeholder
+- www/non-www handling
+
+====================================
+11. REZORA READY
+====================================
+
+Rezervační systém Rezora bude samostatný produkt a bude placený zvlášť.
+
+Teď ho neimplementuj celý.
+
+Pouze připrav místa pro budoucí napojení:
+
+- CTA tlačítko “Rezervovat”
+- možnost nastavit externí rezervační URL
+- možnost zapnout/vypnout rezervační tlačítka
+- možnost vložit Rezora widget později
+- placeholder komponenta RezoraWidget
+
+Rezora bude pravděpodobně hostovaná také na Vercelu, ale jako oddělená aplikace/služba.
+
+====================================
+12. SEO A BLOG
+====================================
+
+Zachovej současné SEO řešení a rozšiř ho pro tenanty.
+
+Každý tenant musí mít:
+- vlastní metadata
+- vlastní sitemap
+- vlastní robots nastavení
+- vlastní OpenGraph
+- vlastní lokální SEO
+- vlastní schema.org LocalBusiness
+
+Blog:
+- uživatel může přidávat články
+- může nahrát obrázek do článku
+- může upravit SEO title/description
+- články musí být připravené na statické/cachované renderování
+
+====================================
+13. UI/UX PRO REGISTRACI
+====================================
+
+Vytvoř krásný registrační flow:
+
+1. Kliknutí na “Vyzkoušet zdarma”
+2. Modal s e-mailem
+3. Výběr oboru / šablony
+4. Animace vytváření webu
+5. Hotový demo web
+6. Vstup do live editoru
+
+Design:
+- moderní SaaS
+- premium
+- plynulé animace
+- důvěryhodné
+- jednoduché
+- mobilně optimalizované
+
+Použij framer-motion, pokud už v projektu je nebo dává smysl.
+
+====================================
+14. DŮLEŽITÉ TECHNICKÉ PRAVIDLO
+====================================
+
+Nechci, aby AI generovala pro každého klienta celý nový kód.
+
+Chci:
+- jeden systém
+- šablony jako data/config
+- sekce jako reusable komponenty
+- unikátní vzhled přes kombinaci sekcí, barev, textů, obrázků a layout nastavení
+
+To je klíčové kvůli škálování na 10 000 webů.
+
+====================================
+15. CO MÁŠ DODAT
+====================================
+
+Postupuj prakticky.
+
+Nejdříve:
+1. Zanalyzuj současný Astera-web projekt.
+2. Najdi existující live editor.
+3. Najdi strukturu homepage/podstránek.
+4. Najdi upload fotek.
+5. Navrhni nejmenší bezpečný refactor.
+6. Implementuj onboarding “Vyzkoušet zdarma”.
+7. Implementuj demo tenant/template cloning.
+8. Přidej 3 oborové template varianty.
+9. Rozšiř live editor o jednoduchý page builder.
+10. Připrav multi-tenant datový model.
+11. Připrav Rezora placeholder.
+12. Otestuj build.
+
+Nedělej destruktivní změny.
+Neodstraňuj současné funkce.
+Zachovej design kvalitu.
+Zachovej mobilní optimalizaci.
+Zachovej SEO.
+Zachovej live editor.
+
+Každou větší změnu dělej tak, aby šla snadno revertovat.
+
+Výsledkem má být první funkční základ SaaS platformy, která používá Astera-web jako master šablonu pro tvorbu dalších profesionálních webů.
+
+
+====================================
+KRITICKÉ: MULTI-TENANT IZOLACE A DATA SAFETY
+====================================
+
+Už se nám v jiném projektu stalo, že při přidání nového účtu/šablony začaly tenanty přeskakovat:
+- zobrazila se jiná šablona než měla
+- hlavička byla 2×
+- sekce se duplikovaly
+- data jednoho klienta se propsala do jiného klienta
+
+Tomu musíš zabránit.
+
+ZAVEĎ STRIKTNÍ PRAVIDLA:
+
+1. Každý tenant musí mít vlastní tenant_id.
+2. Každý dotaz do DB musí být filtrovaný přes tenant_id.
+3. Nikdy nenačítej stránku, šablonu, sekci, média nebo nastavení pouze podle slug bez tenant_id.
+4. Každá page musí patřit jednomu tenantovi.
+5. Každá section musí patřit jedné page a jednomu tenantovi.
+6. Každý media soubor musí patřit jednomu tenantovi.
+7. Každá template instance musí být po vytvoření demo webu zkopírovaná jako samostatná tenant verze.
+8. Nikdy nesmí více tenantů editovat stejnou shared page instance.
+9. Master templates musí být read-only.
+10. Tenant vždy pracuje pouze s vlastní kopií template dat.
+11. Nikdy nepoužívej shared mutable state mezi tenanty.
+12. Nepoužívej globální frontend state bez tenant namespace.
+13. Cache musí být tenant-aware.
+14. ISR cache musí být invalidovaná per tenant.
+15. Media URL musí obsahovat tenant namespace.
+16. Route resolving musí být tenant-safe.
+17. Domain lookup musí vracet pouze jednoznačný tenant.
+
+====================================
+TEMPLATE CLONING SAFETY
+====================================
+
+Při vytvoření demo webu:
+- vytvoř nový tenant
+- vytvoř nové page records
+- vytvoř nové section records
+- vytvoř nové seo records
+- vytvoř nové settings records
+- vytvoř nové navigation records
+- vytvoř nové media references
+
+Nikdy nesdílej editovatelné records mezi tenanty.
+
+Sdílené mohou být pouze:
+- React komponenty
+- section renderer
+- styling engine
+- reusable frontend logic
+
+Nikdy:
+- content data
+- page config
+- page sections
+- tenant settings
+
+====================================
+SECTION SAFETY
+====================================
+
+Každá sekce musí mít:
+- vlastní unique ID
+- page_id
+- tenant_id
+- order index
+- section type
+- settings JSON
+
+Při přesouvání sekcí:
+- nikdy nevytvářej duplicity
+- vždy přepočítej ordering
+- validuj unique position
+
+Před renderem:
+- validuj duplicity section IDs
+- validuj duplicate navbar/footer rendering
+- validuj recursive rendering
+
+====================================
+NAVBAR/FOOTER PROTECTION
+====================================
+
+Navbar a footer musí být singleton per tenant/layout.
+
+Nikdy:
+- nerenderuj navbar uvnitř page sections
+- nerenderuj footer přes page builder loop
+
+Navbar/footer musí být:
+- oddělené layout komponenty
+- mimo editable section stream
+
+Přidej ochranu proti:
+- double rendering
+- nested layout injection
+- duplicated section mounting
+
+====================================
+CACHE SAFETY
+====================================
+
+Každý cache key musí obsahovat:
+- tenant_id
+- page_id
+- locale
+
+Například:
+
+tenant:15:page:home:cs
+
+Nikdy nepoužívej:
+- shared homepage cache
+- shared section cache
+- shared metadata cache
+
+ISR invalidace:
+- pouze pro konkrétní tenant
+- ne globálně
+
+====================================
+FRONTEND STATE SAFETY
+====================================
+
+Pokud používáš:
+- Zustand
+- Context API
+- Redux
+- local cache
+
+vše musí být tenant-scoped.
+
+Nikdy:
+- nesdílej editor state mezi tenanty
+- nesdílej selected template state globálně
+- nesdílej section state mezi sessions
+
+====================================
+DATABASE SAFETY
+====================================
+
+Přidej:
+- foreign keys
+- cascading rules
+- composite indexes
+- unique constraints
+
+Například:
+- unique(domain)
+- unique(tenant_id, slug)
+- unique(page_id, section_order)
+
+Použij:
+- transaction při clone template
+- rollback při chybě
+- validation layer
+
+====================================
+BACKUP A RECOVERY
+====================================
+
+Připrav architekturu na:
+- automatické databázové zálohy
+- media backup
+- restore tenantu
+- restore jednotlivé stránky
+- restore page versions
+
+Implementuj základ:
+- page revision system
+- autosave draft system
+- undo/restore architecture
+
+Každá důležitá změna:
+- vytvoří revision snapshot
+
+Například:
+- změna homepage
+- změna sekcí
+- změna SEO
+- změna layoutu
+
+====================================
+EDITOR SAFETY
+====================================
+
+Live editor nesmí:
+- rozbít layout
+- odstranit kritické komponenty
+- vytvořit invalid DOM structure
+
+Přidej:
+- editable boundaries
+- section validation
+- schema validation
+- protected layout areas
+
+Například:
+- navbar protected
+- footer protected
+- global scripts protected
+
+====================================
+MULTI-TENANT TESTING
+====================================
+
+Vytvoř test scénáře:
+
+1. Vytvoření 100 tenantů
+2. Každý tenant má jinou šablonu
+3. Editace homepage
+4. Editace sekcí
+5. Upload médií
+6. Publikace blog článku
+7. ISR invalidace
+8. Cache refresh
+9. Přesun sekcí
+10. Přepnutí šablony
+
+Otestuj:
+- že se tenant data nikdy nepromíchají
+- že se sekce neduplikují
+- že navbar/footer nejsou 2×
+- že cache nezobrazuje cizí data
+- že editor zobrazuje správný tenant
+- že media patří správnému tenantovi
+
+====================================
+DŮLEŽITÉ
+====================================
+
+Preferuj:
+- jednoduchou stabilní architekturu
+- explicitní tenant isolation
+- bezpečnost dat
+- predikovatelné renderování
+
+Nepoužívej:
+- magické automatické registry
+- implicit shared state
+- global section pools
+- nevalidované dynamic rendering
+
+====================================
+SECURITY / OBRANA PROTI HACKERŮM
+====================================
+
+Projekt bude multi-tenant SaaS pro tisíce klientských webů.
+Bezpečnost je kritická.
+
+IMPLEMENTUJ TYTO PRINCIPY:
+
+1. AUTHENTICATION
+- bezpečné přihlášení
+- magic link nebo OAuth
+- email verification
+- rate limit na login
+- ochrana proti brute force
+- session expiration
+- secure cookies
+- httpOnly cookies
+- sameSite cookies
+- CSRF protection
+
+2. AUTHORIZATION
+- každý request musí ověřit user_id + tenant_id
+- uživatel smí upravovat pouze svůj tenant
+- admin route nesmí načítat data pouze podle slug
+- všechny API endpointy musí kontrolovat oprávnění
+
+Nikdy:
+- neumožni editovat tenant podle URL bez kontroly vlastníka
+- nevracej data jiného tenantu
+- nepoužívej pouze frontend kontrolu oprávnění
+
+3. TENANT ISOLATION
+- každá DB query musí mít tenant_id
+- media upload musí být tenant-scoped
+- cache key musí obsahovat tenant_id
+- ISR revalidation musí být per tenant
+- editor state musí být per tenant
+
+4. INPUT VALIDATION
+Použij schema validation například Zod.
+
+Validuj:
+- texty
+- URL
+- barvy
+- fonty
+- spacing
+- slugy
+- SEO metadata
+- formuláře
+- upload souborů
+- page builder config
+
+Nikdy nevěř datům z frontendu.
+
+5. XSS PROTECTION
+Live editor je rizikový.
+
+Zakázat:
+- vlastní JavaScript od klienta
+- script tagy
+- iframe bez whitelistu
+- inline event handlers typu onclick
+- nevalidovaný HTML embed
+
+Pokud editor dovolí rich text:
+- sanitizovat HTML
+- povolit pouze bezpečné tagy
+- odstranit scripts
+- odstranit dangerous attributes
+
+6. FILE UPLOAD SECURITY
+Upload fotek musí být bezpečný.
+
+Povolit pouze:
+- jpg
+- jpeg
+- png
+- webp
+- avif
+
+Kontrolovat:
+- MIME type
+- skutečný typ souboru
+- velikost souboru
+- rozměry obrázku
+- počet souborů podle tarifu
+
+Zakázat:
+- SVG upload od klientů, pokud není sanitizovaný
+- PHP/JS/HTML soubory
+- executable files
+- zip upload
+- public write access
+
+Media path musí být:
+tenant_id/media/file_id
+
+7. RATE LIMITING
+Přidej rate limit na:
+- login
+- registraci trialu
+- upload fotek
+- kontaktní formulář
+- API editoru
+- vytvoření demo webu
+- blog publishing
+- newsletter/form submissions
+
+8. FORM SPAM PROTECTION
+Kontaktní formuláře musí mít:
+- honeypot
+- rate limit
+- optional captcha
+- IP throttling
+- email abuse protection
+
+9. API SECURITY
+Každý API endpoint:
+- musí ověřit session
+- musí ověřit tenant access
+- musí validovat payload
+- musí vracet jen nutná data
+- nesmí leakovat interní error stack
+
+10. DATABASE SECURITY
+- používat Prisma parametrizované dotazy
+- žádné raw SQL bez parametrů
+- foreign keys
+- unique constraints
+- transaction při template clone
+- audit log důležitých změn
+- soft delete pro důležitý obsah
+
+11. SECRETS
+Nikdy nedávej secrets do frontendu.
+
+Chránit:
+- DATABASE_URL
+- R2 keys
+- email API keys
+- payment keys
+- JWT/session secrets
+
+Používat pouze:
+- environment variables
+- server-side access
+
+12. SECURITY HEADERS
+Nastav:
+- Content-Security-Policy
+- X-Frame-Options
+- X-Content-Type-Options
+- Referrer-Policy
+- Permissions-Policy
+- Strict-Transport-Security
+
+13. ADMIN PROTECTION
+Admin/live editor:
+- nesmí být indexovaný
+- musí být za auth
+- chránit proti CSRF
+- logovat důležité akce
+- zobrazovat jen data daného tenantu
+
+14. BACKUPS
+Připrav:
+- Neon database backups
+- pravidelné exporty
+- point-in-time recovery, pokud tarif umožňuje
+- media backup pro R2/S3
+- tenant restore
+- page revision restore
+
+15. AUDIT LOG
+Loguj:
+- login
+- failed login
+- upload médií
+- změnu šablony
+- změnu homepage
+- změnu SEO
+- smazání stránky
+- změnu domény
+- změnu billing statusu
+
+16. SECURITY TESTING
+Přidej test scénáře:
+- uživatel A nesmí číst tenant B
+- uživatel A nesmí editovat tenant B
+- nelze nahrát .js/.html/.svg exploit
+- nelze vložit script do editoru
+- nelze přes API změnit cizí stránku
+- cache nikdy neukáže cizí tenant
+- rate limit blokuje spam registrací
+
+====================================
+KRITICKÉ: HROMADNÉ AKTUALIZACE, MODULY A TEMPLATE VERSIONING
+====================================
+
+Projekt musí fungovat podobně jako Shoptet:
+- existuje jeden centrální core systém
+- existují centrální šablony
+- existují moduly
+- klientská data zůstávají odděleně
+- aktualizace core/frontendu/adminu se propisují hromadně
+- zákaznický obsah se nikdy nepřepíše
+
+NESMÍ vzniknout:
+- 1000 samostatných frontendů
+- 1000 samostatných backendů
+- 1000 forků šablony
+- individuální ruční aktualizace každého webu
+
+CÍL:
+Když později přidám například:
+- pokročilé SEO
+- blog modul
+- nový editor
+- novou galerii
+- nový Rezora widget
+- nový typ sekce
+- nové security headers
+- nové UI v administraci
+- nové platební funkce
+
+tak se to musí propsat globálně do všech tenantů nebo jen do tenantů, kteří mají daný modul povolený.
+
+====================================
+ZÁKLADNÍ PRINCIP ARCHITEKTURY
+====================================
+
+Odděl tyto vrstvy:
+
+1. CORE PLATFORM
+Sdílený kód celé aplikace:
+- routing
+- auth
+- admin
+- editor
+- renderer
+- media systém
+- SEO systém
+- billing
+- security
+- API
+- cache
+
+Toto se aktualizuje centrálně.
+
+2. TEMPLATE DEFINITIONS
+Centrální šablony:
+- barber
+- wellness
+- advokát
+- Astera base
+- další obory
+
+Šablony obsahují:
+- default layout
+- default sekce
+- default design tokens
+- default demo content
+- default SEO config
+
+Šablony jsou read-only.
+
+3. TENANT CONTENT
+Data konkrétního klienta:
+- texty
+- obrázky
+- galerie
+- blog články
+- služby
+- recenze
+- kontaktní údaje
+- SEO hodnoty
+- vlastní nastavení
+- vlastní custom HTML bloky
+
+Toto se nikdy nesmí přepsat při aktualizaci šablony.
+
+4. MODULE SYSTEM
+Volitelné funkce:
+- blog
+- advanced SEO
+- gallery
+- testimonials
+- Rezora
+- analytics
+- multilingual
+- AI copywriter
+- forms
+- custom code
+- newsletter
+- CRM
+
+Moduly lze:
+- zapnout/vypnout per tenant
+- zpoplatnit per tenant
+- aktualizovat centrálně
+- verzovat
+- migrovat
+
+====================================
+TEMPLATE VERSIONING
+====================================
+
+Každá šablona musí mít verzi.
+
+Například:
+- barber-template v1.0.0
+- barber-template v1.1.0
+- barber-template v2.0.0
+
+Každý tenant musí vědět:
+- jakou šablonu používá
+- jakou verzi šablony používá
+- jaké custom override má
+- jaké moduly má aktivní
+
+Přidej datový model:
+
+Template:
+- id
+- name
+- industry
+- currentVersion
+- status
+- createdAt
+- updatedAt
+
+TemplateVersion:
+- id
+- templateId
+- version
+- schemaVersion
+- defaultConfig
+- defaultSections
+- defaultDesignTokens
+- migrationNotes
+- createdAt
+
+Tenant:
+- id
+- templateId
+- templateVersion
+- status
+- activeModules
+- createdAt
+- updatedAt
+
+TenantOverride:
+- id
+- tenantId
+- targetType
+- targetId
+- fieldPath
+- value
+- createdAt
+- updatedAt
+
+Module:
+- id
+- key
+- name
+- version
+- pricingTier
+- enabledByDefault
+- createdAt
+- updatedAt
+
+TenantModule:
+- id
+- tenantId
+- moduleKey
+- moduleVersion
+- enabled
+- config
+- createdAt
+- updatedAt
+
+====================================
+DŮLEŽITÉ: NEKOPÍROVAT VŠECHNO NATVRDO
+====================================
+
+Při vytvoření nového tenantu nekopíruj celý frontend ani backend.
+
+Kopíruj pouze klientská data a initial config.
+
+Sdílené zůstává:
+- React komponenty
+- renderer
+- admin
+- editor
+- API
+- moduly
+- šablonové definice
+- sekční komponenty
+
+Tenant vlastní:
+- obsah
+- média
+- nastavení
+- overrides
+- aktivní moduly
+- vlastní custom HTML/CSS bloky
+
+====================================
+OVERRIDE ARCHITEKTURA
+====================================
+
+Aktualizace musí fungovat tak, že:
+
+Centrální šablona má default hodnoty.
+Tenant má jen rozdíly/overrides.
+
+Například:
+
+Template default:
+hero.title = "Luxusní barber v Praze"
+
+Tenant override:
+hero.title = "Barber Studio Novák"
+
+Při renderu:
+finalValue = tenantOverride ?? templateDefault
+
+To znamená:
+- když aktualizuji design šablony, tenant dostane update
+- když má tenant vlastní text, jeho text zůstane
+- když má tenant vlastní fotku, jeho fotka zůstane
+- když má tenant vlastní barvy, jeho barvy zůstanou
+- když přidám novou funkci, tenant ji může dostat bez ztráty dat
+
+====================================
+UPDATE STRATEGY
+====================================
+
+Každá aktualizace musí být rozdělená na:
+
+1. CORE UPDATE
+Například:
+- oprava security
+- nový editor
+- rychlejší renderer
+- lepší caching
+- bugfix
+- nové UI administrace
+
+Propisuje se všem tenantům.
+
+2. TEMPLATE UPDATE
+Například:
+- lepší hero sekce
+- nový design ceníku
+- lepší galerie
+- nové animace
+- lepší mobile layout
+
+Propisuje se tenantům dané šablony, ale nesmí přepsat jejich obsah.
+
+3. MODULE UPDATE
+Například:
+- blog modul v2
+- advanced SEO modul
+- Rezora widget
+- analytics modul
+
+Propisuje se jen tenantům, kteří mají modul aktivní nebo tarif, který modul obsahuje.
+
+4. DATA MIGRATION
+Například:
+- změna schema page sections
+- přidání nového field
+- změna config struktury
+
+Musí být bezpečná, verzovaná a reverzibilní.
+
+====================================
+CUSTOM HTML / CUSTOM CODE SAFETY
+====================================
+
+Pokud uživatel vloží vlastní HTML kód:
+
+- musí být uložen jako tenant-owned custom block
+- nesmí být součástí core šablony
+- nesmí blokovat update šablony
+- nesmí přepsat systémové komponenty
+- musí být sandboxovaný/sanitizovaný
+- musí mít jasné místo v page builderu
+
+Custom HTML blok musí mít:
+- tenant_id
+- page_id
+- section_id
+- content
+- allowed placement
+- enabled/disabled
+- createdAt
+- updatedAt
+
+Důležité:
+Aktualizace šablony nesmí custom HTML smazat.
+
+====================================
+MODULE REGISTRY
+====================================
+
+Vytvoř module registry.
+
+Každý modul musí definovat:
+- key
+- name
+- version
+- routes
+- admin components
+- public components
+- permissions
+- required plan
+- config schema
+- migrations
+- feature flags
+
+Například:
+
+blogModule = {
+  key: "blog",
+  version: "1.0.0",
+  publicRoutes: ["/blog", "/blog/[slug]"],
+  adminRoutes: ["/admin/blog"],
+  requiredPlan: "pro",
+  configSchema: BlogConfigSchema
+}
+
+advancedSeoModule = {
+  key: "advanced-seo",
+  version: "1.0.0",
+  adminRoutes: ["/admin/seo"],
+  requiredPlan: "pro"
+}
+
+rezoraModule = {
+  key: "rezora",
+  version: "1.0.0",
+  publicComponents: ["RezoraWidget"],
+  requiredPlan: "addon"
+}
+
+====================================
+FEATURE FLAGS
+====================================
+
+Přidej feature flag systém.
+
+Použití:
+- zapnout nový editor jen interně
+- zapnout nový blog jen části tenantů
+- testovat novou šablonu
+- rollout po skupinách
+- vypnout problematický modul
+
+Feature flag může být:
+- global
+- per tenant
+- per module
+- per plan
+- per template
+
+====================================
+MIGRACE A BEZPEČNÉ UPDATE
+====================================
+
+Před každým hromadným updatem:
+- vytvořit zálohu
+- spustit validaci
+- spustit migraci na test tenantovi
+- spustit migraci na malé skupině tenantů
+- až potom rollout všem
+
+Implementuj:
+- migration runner
+- migration logs
+- rollback možnost
+- dry-run mode
+- validation report
+
+Každá migrace musí:
+- být idempotentní
+- logovat změny
+- nemazat user content
+- mít rollback plán
+
+====================================
+ADMIN UPDATE LOG
+====================================
+
+Každý tenant by měl mít v administraci možnost vidět:
+- jaké moduly má aktivní
+- jakou šablonu používá
+- kdy proběhla poslední aktualizace
+- jaké nové funkce přibyly
+
+Interní admin musí vidět:
+- verzi šablony u tenantu
+- aktivní moduly
+- poslední migraci
+- chyby migrací
+- custom overrides
+- storage usage
+- traffic usage
+
+====================================
+PRAKTICKÝ PŘÍKLAD
+====================================
+
+Situace:
+Tenant používá barber template v1.0.
+Má vlastní texty, vlastní fotky a vlastní barvy.
+
+Já vydám barber template v1.1:
+- lepší mobile layout
+- nový testimonials slider
+- nový SEO blok
+- rychlejší galerie
+
+Výsledek:
+- tenant dostane lepší layout
+- tenant dostane nový slider
+- tenant dostane nový SEO blok
+- jeho texty zůstanou
+- jeho fotky zůstanou
+- jeho barvy zůstanou
+- custom HTML zůstane
+- nic se neduplikuje
+- navbar/footer se nevykreslí 2×
+- cache se invaliduje jen pro daný tenant
+
+====================================
+DŮLEŽITÉ IMPLEMENTAČNÍ PRAVIDLO
+====================================
+
+Nikdy neřeš aktualizace tak, že budeš editovat jednotlivé klientské codebase.
+
+Musí existovat:
+- jeden core
+- centrální šablony
+- tenant data
+- tenant overrides
+- moduly
+- feature flags
+- bezpečné migrace
+
+Toto je zásadní pro škálování na 1 000 až 10 000 webů.
+
+
+====================================
+KOMPLETNÍ AUDIT ASTERA-WEB + MAXIMÁLNÍ SEO + PERFORMANCE
+====================================
+
+Před jakýmkoliv větším refactorem proveď kompletní profesionální audit současného projektu Astera-web.
+
+CÍL:
+Astera-web musí být perfektní základ pro tisíce webů.
+Každý nový tenant musí mít:
+- profesionální SEO
+- perfektní indexaci
+- maximální rychlost
+- perfektní mobile UX
+- technicky správnou architekturu
+- vysokou šanci rankovat na předních příčkách vyhledávačů
+
+Chci enterprise-level audit.
+
+====================================
+1. KOMPLETNÍ SEO AUDIT
+====================================
+
+Projdi celý projekt a zkontroluj:
+
+- metadata
+- title tags
+- meta descriptions
+- canonical URLs
+- OpenGraph
+- Twitter cards
+- robots.txt
+- sitemap.xml
+- hreflang readiness
+- local SEO
+- schema.org
+- heading structure
+- interní prolinkování
+- breadcrumbs
+- slug architecture
+- redirect handling
+- duplicate content risk
+- thin content risk
+- orphan pages
+- crawlability
+- indexability
+- semantic HTML
+- image SEO
+- alt tags
+- lazy loading
+- structured data
+- dynamic metadata generation
+- blog SEO readiness
+- pagination SEO
+- 404 handling
+- redirect chains
+- trailing slash consistency
+- multilingual readiness
+- URL normalization
+- favicon/meta consistency
+- social preview consistency
+
+Pokud něco chybí:
+- implementuj to
+- oprav to
+- optimalizuj to
+
+====================================
+2. ENTERPRISE SEO ARCHITEKTURA
+====================================
+
+Každý tenant web musí mít automaticky:
+
+- title generation
+- meta description generation
+- OpenGraph image
+- canonical URLs
+- JSON-LD schema
+- LocalBusiness schema
+- Organization schema
+- Article schema pro blog
+- FAQ schema
+- Breadcrumb schema
+- sitemap.xml
+- robots.txt
+- clean URLs
+- semantic headings
+- proper internal linking
+- optimized image metadata
+- automatic alt text support
+- SEO preview
+
+Každý web musí být připraven:
+- pro Google
+- pro Bing
+- pro AI crawlers
+- pro social preview
+- pro lokální SEO
+
+====================================
+3. GOOGLE INDEXACE
+====================================
+
+Připrav systém tak, aby:
+- stránky byly snadno indexovatelné
+- nové stránky byly rychle objevitelné
+- blog články byly SEO friendly
+- každá tenant doména měla správnou sitemap
+- robots.txt byl tenant-aware
+
+Implementuj:
+- automatické sitemap generation
+- dynamic sitemap per tenant
+- proper robots rules
+- noindex support
+- canonical management
+- redirect manager
+
+====================================
+4. TECHNICKÉ SEO
+====================================
+
+Zkontroluj a optimalizuj:
+
+- render strategy
+- hydration
+- crawlability
+- server/client rendering
+- semantic structure
+- accessibility
+- page structure
+- heading hierarchy
+- duplicate metadata
+- invalid HTML
+- JS-heavy rendering problems
+- blocked content
+- dynamic rendering issues
+
+Důležité:
+Google musí vidět:
+- obsah
+- metadata
+- headings
+- texty
+- odkazy
+- schema
+
+bez potřeby složitého JS renderování.
+
+====================================
+5. PERFORMANCE AUDIT
+====================================
+
+CÍL:
+Google PageSpeed:
+- 100/100 desktop
+- 100/100 mobile
+
+Lighthouse:
+- performance 100
+- SEO 100
+- accessibility 100
+- best practices 100
+
+Optimalizuj vše potřebné.
+
+====================================
+6. PERFORMANCE OPTIMALIZACE
+====================================
+
+Analyzuj:
+- bundle size
+- hydration cost
+- unnecessary client components
+- unnecessary rerenders
+- blocking scripts
+- font loading
+- image loading
+- animation cost
+- layout shifts
+- unused CSS
+- unused JS
+- network waterfalls
+- cache strategy
+- ISR strategy
+- edge caching
+- TTFB
+- LCP
+- CLS
+- INP
+- FCP
+
+====================================
+7. NEXT.JS PERFORMANCE BEST PRACTICES
+====================================
+
+Použij maximálně:
+
+- Server Components
+- dynamic imports
+- lazy loading
+- code splitting
+- partial hydration
+- ISR
+- SSG
+- edge caching
+- route segment caching
+- optimized metadata API
+- optimized font loading
+- next/font
+- next/image best practices
+- preload critical assets
+- prefetching
+- static rendering wherever possible
+
+Minimalizuj:
+- client JS
+- hydration
+- unnecessary state
+- unnecessary effects
+
+====================================
+8. IMAGE OPTIMALIZACE
+====================================
+
+Optimalizuj:
+- všechny obrázky
+- lazy loading
+- responsive images
+- image compression
+- WebP/AVIF
+- blur placeholders
+- image dimensions
+- image priority
+
+Zkontroluj:
+- oversized images
+- duplicate images
+- CLS způsobené obrázky
+- heavy galleries
+- slider performance
+
+====================================
+9. FONT OPTIMALIZACE
+====================================
+
+Optimalizuj:
+- font loading
+- font subsets
+- font-display
+- preload
+- fallback fonts
+
+Použij:
+- next/font
+- self-hosted fonts pokud dává smysl
+
+Minimalizuj:
+- FOIT/FOUT
+- CLS
+
+====================================
+10. JAVASCRIPT OPTIMALIZACE
+====================================
+
+Zkontroluj:
+- zbytečný JS
+- velké knihovny
+- duplicate dependencies
+- unnecessary animations
+- heavy sliders
+- memory leaks
+- rerender loops
+
+Odstraň:
+- dead code
+- unused dependencies
+- duplicate packages
+
+====================================
+11. CACHE ARCHITEKTURA
+====================================
+
+Implementuj profesionální cache systém:
+
+- ISR
+- route cache
+- image cache
+- CDN cache
+- browser cache
+- stale-while-revalidate
+- tenant-aware cache keys
+
+Minimalizuj:
+- DB queries
+- SSR load
+- unnecessary API requests
+
+====================================
+12. MOBILE-FIRST OPTIMALIZACE
+====================================
+
+Mobile je priorita.
+
+Zkontroluj:
+- touch UX
+- spacing
+- font sizes
+- tap targets
+- CLS
+- mobile navigation
+- mobile editor UX
+- mobile animations
+- mobile loading speed
+
+Optimalizuj:
+- mobile rendering
+- mobile hydration
+- mobile images
+- mobile fonts
+
+====================================
+13. ACCESSIBILITY AUDIT
+====================================
+
+Implementuj:
+- proper labels
+- aria attributes
+- semantic HTML
+- keyboard navigation
+- focus states
+- contrast ratios
+- screen reader support
+
+CÍL:
+Lighthouse accessibility 100.
+
+====================================
+14. SECURITY + SEO
+====================================
+
+Zkontroluj:
+- crawl traps
+- duplicate pages
+- invalid redirects
+- insecure scripts
+- blocked assets
+- mixed content
+- CSP compatibility
+- indexable admin routes
+
+Admin/editor:
+- noindex
+- blocked in robots
+
+====================================
+15. ANALYTICS READY
+====================================
+
+Připrav architekturu na:
+- Google Analytics
+- Google Tag Manager
+- Meta Pixel
+- Search Console verification
+- schema validation
+- conversion tracking
+
+Každý tenant musí mít:
+- vlastní analytics config
+- vlastní GTM
+- vlastní verification tags
+
+====================================
+16. SEO AUTOMATION
+====================================
+
+Implementuj:
+- automatic metadata suggestions
+- automatic OG image generation
+- automatic alt suggestions
+- automatic sitemap updates
+- automatic internal linking suggestions
+- automatic schema generation
+
+====================================
+17. FINAL AUDIT REPORT
+====================================
+
+Po dokončení:
+- vytvoř detailní audit report
+- vypiš nalezené problémy
+- vypiš opravy
+- vypiš performance improvements
+- vypiš SEO improvements
+- vypiš architecture risks
+- vypiš doporučení pro scale na 10k tenantů
+
+====================================
+18. DŮLEŽITÉ
+====================================
+
+Nedělej fake optimalizace.
+Nehackuj Lighthouse skóre.
+Optimalizace musí být:
+- reálné
+- stabilní
+- production ready
+
+Neobětuj:
+- stabilitu
+- SEO
+- UX
+- editor
+
+kvůli umělému score.
+
+Cílem je:
+- extrémně rychlý SaaS
+- enterprise-level SEO
+- profesionální architektura
+- nejlepší možný základ pro tisíce webů.
+
+
+====================================
+PROFESIONÁLNÍ BLOG MODUL
+====================================
+
+Vytvoř profesionální blog modul jako součást SaaS platformy.
+
+Blog musí být:
+- krásný
+- rychlý
+- SEO-first
+- mobile-first
+- připravený pro lokální SEO
+- připravený pro 10 000+ tenantů
+- dostupný jako modul per tenant
+
+====================================
+FUNKCE BLOGU
+====================================
+
+Každý tenant musí mít vlastní blog:
+
+- /blog
+- /blog/[slug]
+- kategorie
+- štítky
+- autor
+- datum publikace
+- featured image
+- related articles
+- breadcrumbs
+- search-ready architecture
+- publish/unpublish
+- draft mode
+- scheduled publishing
+- SEO title
+- SEO description
+- canonical URL
+- OpenGraph image
+- FAQ bloky v článku
+- CTA bloky v článku
+
+====================================
+SEO BLOGU
+====================================
+
+Každý článek musí mít:
+
+- čistý slug
+- title tag
+- meta description
+- canonical URL
+- OpenGraph metadata
+- Twitter metadata
+- Article JSON-LD schema
+- Breadcrumb JSON-LD schema
+- FAQ schema, pokud článek obsahuje FAQ
+- automaticky generovaný excerpt
+- interní prolinkování
+- optimalizované nadpisy H1/H2/H3
+- alt texty u obrázků
+- lazy loading obrázků
+- sitemap inclusion
+- noindex možnost
+- lastModified metadata
+
+Blog index page musí mít:
+- SEO metadata
+- pagination
+- category filtering
+- canonical URLs
+- structured data where relevant
+
+====================================
+PERFORMANCE BLOGU
+====================================
+
+Blog musí být maximálně rychlý.
+
+Použij:
+- SSG/
+
+Použij:
+- SSG/ISR pro blog index, kategorie i články
+- žádné SSR pro běžné čtení článků
+- agresivní CDN cache
+- tenant-aware cache keys
+- lazy loading obrázků
+- optimalizované featured images
+- minimum client JS
+- Server Components kde to dává smysl
+- dynamic imports pro těžké komponenty
+- paginaci místo načítání stovek článků najednou
+
+CÍL:
+- Lighthouse Performance 100
+- Lighthouse SEO 100
+- perfektní mobilní rychlost
+- rychlé indexování
+- žádné zbytečné DB dotazy při běžném čtení
+
+====================================
+BLOG ADMIN / EDITOR
+====================================
+
+V administraci vytvoř jednoduchý editor článků:
+
+- název článku
+- slug
+- excerpt
+- obsah
+- featured image
+- kategorie
+- štítky
+- autor
+- SEO title
+- SEO description
+- canonical URL
+- noindex toggle
+- publish/unpublish
+- scheduled publish date
+- náhled článku
+- autosave
+- revisions
+- restore previous version
+
+Editor musí být jednoduchý, rychlý a stabilní.
+
+====================================
+BLOG CONTENT BLOCKS
+====================================
+
+Článek musí podporovat bloky:
+
+- text
+- nadpis
+- obrázek
+- galerie
+- quote
+- CTA
+- FAQ
+- seznam
+- tabulka
+- embed pouze z whitelistu
+- related services
+- contact CTA
+
+Každý blok musí být validovaný přes schema.
+Zakázat nebezpečný HTML/JS.
+
+====================================
+BLOG MULTI-TENANT SAFETY
+====================================
+
+Každý blog post musí mít:
+- tenant_id
+- author_id
+- category_id
+- status
+- slug
+- createdAt
+- updatedAt
+- publishedAt
+
+Přidej constraints:
+- unique(tenant_id, slug)
+- všechny dotazy filtrovat přes tenant_id
+- žádný článek nesmí být dohledatelný mezi tenanty
+
+====================================
+BLOG MODULE SYSTEM
+====================================
+
+Blog musí být modul.
+
+Tenant může mít:
+- blog disabled
+- blog enabled
+- blog included by plan
+- blog paid addon
+
+Pokud blog není aktivní:
+- /blog vrátí 404 nebo redirect podle nastavení
+- admin blog menu se nezobrazí
+- sitemap blog články neobsahuje
+
+====================================
+BLOG DESIGN
+====================================
+
+Blog musí vypadat profesionálně.
+
+Vytvoř:
+- moderní blog homepage
+- card layout článků
+- featured article
+- category navigation
+- beautiful article detail
+- sticky CTA na kontakt/rezervaci
+- author box
+- related articles
+- mobile-first design
+
+Blog design musí umět převzít:
+- barvy tenantu
+- fonty tenantu
+- styl šablony
+- dark/light variantu
+
+====================================
+BLOG SEO AUTOMATION
+====================================
+
+Přidej automatizace:
+- návrh meta title
+- návrh meta description
+- návrh alt textu
+- návrh slug
+- kontrola délky title/description
+- kontrola H1
+- kontrola chybějících alt textů
+- kontrola interních odkazů
+- upozornění na thin content
+
+====================================
+BLOG SITEMAP
+====================================
+
+Každý tenant musí mít:
+- blog články v sitemap.xml
+- category pages v sitemap.xml
+- lastModified
+- správné canonical URL
+- noindex články se nesmí dostat do sitemap
+
+====================================
+BLOG SCHEMA
+====================================
+
+Implementuj:
+- BlogPosting schema
+- Article schema
+- BreadcrumbList schema
+- FAQPage schema
+- Organization/LocalBusiness reference
+- ImageObject pro featured image
+
+====================================
+BLOG SECURITY
+====================================
+
+Ochrana:
+- sanitizace obsahu
+- zákaz script tagů
+- zákaz inline JS
+- whitelist embedů
+- kontrola uploadů
+- rate limit publikace
+- audit log změn článků
+
+====================================
+BLOG TESTY
+====================================
+
+Otestuj:
+- vytvoření článku
+- úprava článku
+- publikace
+- draft
+- scheduled publish
+- sitemap inclusion
+- noindex exclusion
+- tenant isolation
+- SEO metadata
+- mobile performance
+- Lighthouse SEO/performance
+- blog disabled state
+
+====================================
+DŮLEŽITÉ
+====================================
+
+Blog nesmí být jen obyčejný seznam článků.
+Musí to být profesionální SEO modul, který bude jedním z hlavních upsellů celé platformy.

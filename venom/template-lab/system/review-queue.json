@@ -1,0 +1,14 @@
+[
+  {
+    "jobId": "job-1778315553927",
+    "templateSlug": "barber-barbershopurban",
+    "templateName": "Barber Shop — Barbershop Praha pánský střih - Barbershop URBAN",
+    "industry": "barber",
+    "sourceUrl": "https://barbershopurban.cz",
+    "addedAt": "2026-05-09T08:33:27.386Z",
+    "status": "approved",
+    "notes": "Pilot template - barber industry",
+    "screenshotDesktop": "/Users/apple/DEV/CRM/venom/template-lab/research/barber/barbershopurban.cz/screenshots/desktop.png",
+    "screenshotMobile": "/Users/apple/DEV/CRM/venom/template-lab/research/barber/barbershopurban.cz/screenshots/mobile.png"
+  }
+]

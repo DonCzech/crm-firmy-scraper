@@ -17,10 +17,24 @@ const UpdateSchema = z.object({
   seo_description: z.string().max(300).optional().nullable(),
   noindex: z.boolean().optional(),
   scheduled_at: z.string().datetime().optional().nullable(),
-});
+  // Simple text fields used by StudioArticlesCanvas (legacy)
+  annotation: z.string().max(500).optional().nullable(),
+  description: z.string().optional().nullable(),
+  reading_time_min: z.number().int().min(1).max(999).optional().nullable(),
+  allow_indexing: z.boolean().optional(),
+}).partial();
 
 interface RouteParams {
   params: Promise<{ tenantSlug: string; postSlug: string }>;
+}
+
+/** Returns [whereClause, value] — numeric param → lookup by id, otherwise by slug */
+function resolvePost(postSlug: string): ["id = $2", number] | ["slug = $2", string] {
+  const numericId = parseInt(postSlug, 10);
+  if (!isNaN(numericId) && String(numericId) === postSlug) {
+    return ["id = $2", numericId];
+  }
+  return ["slug = $2", postSlug];
 }
 
 export async function GET(_req: NextRequest, { params }: RouteParams) {
@@ -28,9 +42,10 @@ export async function GET(_req: NextRequest, { params }: RouteParams) {
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant) return Response.json({ error: "Tenant not found" }, { status: 404 });
 
+  const [where, val] = resolvePost(postSlug);
   const rows = await query(
-    "SELECT * FROM blog_posts WHERE tenant_id = $1 AND slug = $2",
-    [tenant.id, postSlug]
+    `SELECT * FROM blog_posts WHERE tenant_id = $1 AND ${where}`,
+    [tenant.id, val]
   );
   if (!rows.length) return Response.json({ error: "Not found" }, { status: 404 });
   const post = rows[0] as { status?: string };
@@ -56,9 +71,10 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
   const parsed = UpdateSchema.safeParse(body);
   if (!parsed.success) return Response.json({ error: parsed.error.issues[0]?.message }, { status: 400 });
 
-  const rows = await query<{ id: number; status: string }>(
-    "SELECT id, status FROM blog_posts WHERE tenant_id = $1 AND slug = $2",
-    [tenant.id, postSlug]
+  const [where, val] = resolvePost(postSlug);
+  const rows = await query<{ id: number; status: string; slug: string }>(
+    `SELECT id, status, slug FROM blog_posts WHERE tenant_id = $1 AND ${where}`,
+    [tenant.id, val]
   );
   if (!rows.length) return Response.json({ error: "Not found" }, { status: 404 });
 
@@ -66,8 +82,8 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
   const sets: string[] = ["updated_at = now()"];
   const vals: unknown[] = [];
 
-  const addField = (col: string, val: unknown) => {
-    vals.push(val);
+  const addField = (col: string, v: unknown) => {
+    vals.push(v);
     sets.push(`${col} = $${vals.length}`);
   };
 
@@ -86,8 +102,15 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
   }
   if (d.seo_title !== undefined) addField("seo_title", d.seo_title);
   if (d.seo_description !== undefined) addField("seo_description", d.seo_description);
+  if (d.description !== undefined) addField("seo_description", d.description);
   if (d.noindex !== undefined) addField("noindex", d.noindex);
+  if (d.allow_indexing !== undefined) {
+    addField("allow_indexing", d.allow_indexing);
+    addField("noindex", !d.allow_indexing);
+  }
   if (d.scheduled_at !== undefined) addField("scheduled_at", d.scheduled_at);
+  if (d.annotation !== undefined) addField("annotation", d.annotation);
+  if (d.reading_time_min !== undefined) addField("reading_time_min", d.reading_time_min);
 
   vals.push(rows[0].id, tenant.id);
   await query(
@@ -97,7 +120,7 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
 
   await auditLog("blog_post_updated", { tenantId: tenant.id, targetType: "blog_post", targetId: String(rows[0].id) });
   revalidatePath(`/demo/${tenantSlug}/blog`);
-  revalidatePath(`/demo/${tenantSlug}/blog/${postSlug}`);
+  revalidatePath(`/demo/${tenantSlug}/blog/${rows[0].slug}`);
   return Response.json({ ok: true });
 }
 
@@ -109,9 +132,10 @@ export async function DELETE(req: NextRequest, { params }: RouteParams) {
   if (!tenant) return Response.json({ error: "Tenant not found" }, { status: 404 });
   if (!ok) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
+  const [where, val] = resolvePost(postSlug);
   const rows = await query<{ id: number }>(
-    "SELECT id FROM blog_posts WHERE tenant_id = $1 AND slug = $2",
-    [tenant.id, postSlug]
+    `SELECT id FROM blog_posts WHERE tenant_id = $1 AND ${where}`,
+    [tenant.id, val]
   );
   if (!rows.length) return Response.json({ error: "Not found" }, { status: 404 });
 

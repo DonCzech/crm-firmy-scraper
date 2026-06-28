@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 50" fill="none" role="img" aria-label="Elektro Servis">
+  <circle cx="25" cy="25" r="25" fill="#dd0808"/>
+  <polygon points="28,6 18,25 23,25 17,43 33,21 27,21 36,6" fill="#ffffff"/>
+  <text font-family="'Montserrat', Arial, sans-serif" font-weight="800" font-size="21" fill="#1b1b1b" letter-spacing="0.6">
+    <tspan x="60" y="32">ELEKTRO SERVIS</tspan>
+  </text>
+</svg>

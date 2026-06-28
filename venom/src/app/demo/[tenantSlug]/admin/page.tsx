@@ -1,7 +1,8 @@
 import { notFound, redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { getTenantBySlug, getTenantPage, getPageSections, getTenantOverrides } from "@/lib/db";
-import { TenantEditorView } from "@/components/tenant/TenantEditorView";
+import { TenantStudioView as TenantEditorView } from "@/components/studio/TenantStudioView";
+import { resolveAllSections } from "@/lib/section-resolver";
 import type { Metadata } from "next";
 
 interface Props {
@@ -19,7 +20,7 @@ export default async function TenantAdminPage({ params }: Props) {
 
   // ── Auth check ─────────────────────────────────────────────────────────────
   const cookieStore = await cookies();
-  const accessCookie = cookieStore.get(`venom_access_${tenantSlug}`)?.value;
+  const accessCookie = cookieStore.get(`webero_access_${tenantSlug}`)?.value;
 
   if (!tenant.access_token || accessCookie !== tenant.access_token) {
     redirect(`/demo/${tenantSlug}/login`);
@@ -28,10 +29,14 @@ export default async function TenantAdminPage({ params }: Props) {
   const page = await getTenantPage(tenant.id, "home");
   if (!page) return notFound();
 
-  const [sections, overrides] = await Promise.all([
+  const [rawSections, overrides] = await Promise.all([
     getPageSections(tenant.id, page.id),
     getTenantOverrides(tenant.id),
   ]);
+
+  // Resolve v2 section content (content_overrides → settings.content) so the
+  // editor starts with the correct merged content rather than empty settings.
+  const sections = await resolveAllSections(tenant, rawSections);
 
   return <TenantEditorView tenant={tenant} page={page} sections={sections} overrides={overrides} />;
 }

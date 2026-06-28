@@ -8,6 +8,7 @@ const ALLOWED_MIME_TYPES = new Set([
   "image/jpeg",
   "image/png",
   "image/webp",
+  "image/svg+xml",
 ]);
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10 MB
@@ -199,6 +200,16 @@ export async function uploadMedia(file: File, tenantId: number, options: UploadM
     throw new Error(`Soubor je příliš velký (max 10 MB)`);
   }
 
+  // SVG: bypass sharp entirely — store as-is, no raster conversion
+  if (file.type === "image/svg+xml") {
+    const buf = Buffer.from(await file.arrayBuffer());
+    // Basic sanity: must contain "<svg" somewhere in first 512 bytes
+    if (!buf.slice(0, 512).toString("utf8").toLowerCase().includes("<svg")) {
+      throw new Error("Soubor není platné SVG");
+    }
+    return uploadSvg(buf, file.name, tenantId);
+  }
+
   const buffer = await file.arrayBuffer();
   if (!isValidImageBuffer(Buffer.from(buffer))) {
     throw new Error("Soubor není platný obrázek");
@@ -207,6 +218,37 @@ export async function uploadMedia(file: File, tenantId: number, options: UploadM
   const optimized = await optimizeImage(Buffer.from(buffer), tenantId, options);
   const provider = getProvider();
   return provider.upload(optimized, tenantId);
+}
+
+async function uploadSvg(buf: Buffer, originalName: string, tenantId: number): Promise<UploadResult> {
+  const base = `${tenantId}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  const filename = `${base}.svg`;
+  const blobToken = process.env.BLOB_READ_WRITE_TOKEN || process.env.VERCEL_BLOB_READ_WRITE_TOKEN;
+
+  let url: string;
+  if (blobToken) {
+    const { put } = await import("@vercel/blob");
+    const res = await put(`${tenantId}/media/${filename}`, buf, { access: "public", contentType: "image/svg+xml", token: blobToken });
+    url = res.url;
+  } else if (process.env.VERCEL) {
+    url = `data:image/svg+xml;base64,${buf.toString("base64")}`;
+  } else {
+    const uploadDir = path.join(process.cwd(), "public", "uploads", String(tenantId));
+    await mkdir(uploadDir, { recursive: true });
+    await writeFile(path.join(uploadDir, filename), buf);
+    url = `/uploads/${tenantId}/${filename}`;
+  }
+
+  return {
+    url,
+    jpegUrl: url,
+    filename,
+    mimeType: "image/svg+xml",
+    sizeBytes: buf.length,
+    jpegSizeBytes: buf.length,
+    width: null,
+    height: null,
+  };
 }
 
 // ── Magic byte validation ─────────────────────────────────────────────────────

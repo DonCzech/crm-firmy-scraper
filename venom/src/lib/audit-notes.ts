@@ -9,6 +9,13 @@
  */
 import type { AutoFixSummary } from "./auto-fix";
 
+export interface StudioIssue {
+  severity: "critical" | "warning" | "info";
+  code: string;
+  message: string;
+  detail?: string;
+}
+
 export interface ScanResult {
   residueDisk: number;
   residueRender: number;
@@ -21,6 +28,10 @@ export interface ScanResult {
   lazyImgCount: number;
   bytesKb: number;
   elapsedMs: number;
+  // Studio compatibility (populated by scan endpoint)
+  studioScore?: number;
+  studioIssues?: StudioIssue[];
+  studioSummary?: Record<string, unknown>;
 }
 
 export interface AuditNotes {
@@ -106,8 +117,44 @@ export function buildAuditNotes(fix: AutoFixSummary | null, scan: ScanResult): A
     hints.push(`Response time **${scan.elapsedMs}ms** — bude lepší až tenant prohřejeme přes cache (cron warmup-renders to dělá hourly).`);
   }
 
-  hints.push("Studio: ověř že kliknutím na sekce se otevírá Inspector s editovatelnými poli.");
-  hints.push("Studio: vyzkoušej drag&drop sekcí (↑↓ tlačítka), vypnout/zapnout viditelnost.");
+  // ── Studio compatibility section ─────────────────────────────────────────
+  if (scan.studioScore !== undefined) {
+    const criticals = (scan.studioIssues ?? []).filter((i) => i.severity === "critical");
+    const warnings  = (scan.studioIssues ?? []).filter((i) => i.severity === "warning");
+
+    if (criticals.length === 0 && warnings.length === 0) {
+      done.push(`Studio audit: **${scan.studioScore}/100** — žádné problémy s kompatibilitou editoru.`);
+    } else {
+      if (scan.studioScore >= 75) {
+        hints.push(`Studio audit: **${scan.studioScore}/100** — drobné problémy:`);
+      } else {
+        hints.push(`Studio audit: **${scan.studioScore}/100** — problémy vyžadující pozornost:`);
+      }
+      for (const issue of criticals) {
+        todo.push(`⛔ [${issue.code}] ${issue.message}${issue.detail ? ` — ${issue.detail.split("\n")[0]}` : ""}`);
+      }
+      for (const issue of warnings.slice(0, 5)) {
+        hints.push(`⚠ [${issue.code}] ${issue.message}`);
+      }
+    }
+
+    const summary = scan.studioSummary ?? {};
+    if (typeof summary.placeholderCount === "number" && summary.placeholderCount > 0) {
+      todo.push(`Obrázky: ${summary.placeholderCount} __placeholder v cs.json — nahraď reálnými fotkami z /templates/{key}/images/.`);
+    }
+    if (typeof summary.missingImages === "number" && summary.missingImages > 0) {
+      todo.push(`Chybí ${summary.missingImages} obrázek(ů) na disku — cesty v cs.json neexistují. Zkopíruj nebo stáhni.`);
+    }
+    if (typeof summary.deadRefs === "number" && summary.deadRefs > 0) {
+      todo.push(`${summary.deadRefs} contentRef chybí v cs.json — sekce se zobrazí bez obsahu.`);
+    }
+  }
+
+  // ── Generic Studio checklist hints (always included) ─────────────────────
+  hints.push("Studio: v Editoru klikni na každou sekci — ověř že se otevírá Inspector s editovatelnými poli.");
+  hints.push("Studio: vyzkoušej drag & drop (↑↓), přidat sekci, smazat sekci, vypnout/zapnout viditelnost.");
+  hints.push("Studio: změň název firmy v Data Slots → ověř že se propaguje do navbaru a footeru.");
+  hints.push("Studio: na mobilním breakpointu (390px) ověř že hamburger menu funguje a sekce se stohují.");
 
   return {
     done,

@@ -25,7 +25,7 @@ export async function requireTenantAdmin(tenantSlug: string): Promise<TenantAuth
   if (!tenant.access_token) return { ok: false, tenant };
 
   const cookieStore = await cookies();
-  const token = cookieStore.get(`venom_access_${tenantSlug}`)?.value;
+  const token = cookieStore.get(`webero_access_${tenantSlug}`)?.value;
   return { ok: safeTokenEqual(token, tenant.access_token), tenant };
 }
 

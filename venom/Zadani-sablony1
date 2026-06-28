@@ -1,0 +1,52 @@
+Pracuj v projektu /Users/apple/DEV/CRM/venom.
+
+ÚKOL: další šablona v pořadí podle MASTER_TEMPLATE_QUEUE.md.
+
+POVINNÉ PRAVIDLO — vizuální parita:
+Engine šablona musí být 1:1 s /preview klonem. Před implementací 
+každé sekce: curl klon → extrahuj přesné CSS hodnoty (background-color, 
+color, font-size, výška). NIKDY neodhadovat vzhled — vždy ověřit v HTML originálu.
+
+POVINNÉ PRAVIDLO — workflow:
+Po každé sekci ZASTAV a čekej na moje "OK" před tím, než jdeš dál.
+
+
+
+Upravený promt pro multi opus agenty
+
+
+Pracuj v projektu /Users/apple/DEV/CRM/venom.
+
+═══════════════════════════════════════════════
+KROK 0 — ZAMKNI ŠABLONU (proveď PRVNÍ, atomicky)
+═══════════════════════════════════════════════
+1. Přečti docs/MASTER_TEMPLATE_QUEUE.md
+2. Najdi PRVNÍ řádek se statusem `TODO` (přeskoč řádky s `CLAIMED` nebo `IN PROGRESS`)
+3. OKAMŽITĚ změň jeho status z `TODO` na `🔒 IN PROGRESS` a zapiš datum+čas
+   Příklad: `| 7 | petramechurova | ... | TODO | — |`
+   →        `| 7 | petramechurova | ... | 🔒 IN PROGRESS | 2026-05-30 14:23 |`
+4. Teprve po zápisu začni pracovat — jiný agent to uvidí a vezme další
+
+═══════════════════════════════════════════════
+ÚKOL: implementuj šablonu, kterou jsi zamkl
+═══════════════════════════════════════════════
+
+POVINNÉ PRAVIDLO — vizuální parita:
+Engine šablona musí být 1:1 s LIVE klonem. Reference je vždy:
+  http://localhost:3015/demo/<origin-slug>-demo
+  (NIKOLI miniatura na /preview — ta je příliš malá!)
+
+Před implementací každé sekce:
+  curl http://localhost:3015/demo/<origin-slug>-demo
+  → extrahuj přesné CSS hodnoty (background-color, color, font-size, výšky)
+  → NIKDY neodhadovat vzhled — vždy ověřit v HTML originálu
+
+POVINNÉ PRAVIDLO — workflow:
+Po každé sekci ZASTAV a čekej na "OK" před tím, než jdeš dál.
+Pořadí: Navbar → Hero → About → CTA/Promo → Contact → Gallery → Services → Testimonials → Footer
+
+Po dokončení VŠECH sekcí:
+1. pnpm validate:template <slug>
+2. grep audit (žádný reálný kontakt v rendered HTML)
+3. Vytvoř showcase child tenant
+4. Změň status v MASTER_TEMPLATE_QUEUE.md: `🔒 IN PROGRESS` → `DONE` + datum - Uděláš jednu sekci - a pak počkáč a po potrvzení půjdeš na další sekci! Až uděláš první sekci, tak mi pošli demo link z /preview-2 a zaroven posli referencni url na porovnani

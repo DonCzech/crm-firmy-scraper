@@ -4,9 +4,9 @@
 **Zdroj fronty (vstup):** [http://localhost:3015/preview](http://localhost:3015/preview) → [src/app/preview/page.tsx](../src/app/preview/page.tsx)
 **Cíl převodu (výstup):** [http://localhost:3015/preview-2](http://localhost:3015/preview-2) → [src/templates/&lt;slug&gt;/](../src/templates/) (auto-discovery podle `template.json`)
 **Celkem šablon ve frontě:** 91
-**Hotovo (převedeno na MASTER ENGINE):** 8 (`cafe-01`, `barber-01`, `peak-cut`, `barber-02`, `barber-03`, `barber-04`, `the-barber`, `hair-01`)
-**Zbývá:** 83
-**⚡ DALŠÍ V POŘADÍ:** `hairsalon-no1` → nový slug `hair-02`
+**Hotovo (převedeno na MASTER ENGINE):** 37 (`barber-01`–`barber-04`, `peak-cut`, `hair-01`–`hair-04`, `nails-01`–`nails-03`, `beauty-01`, `massage-01`, `cafe-01`–`cafe-04`, `restaurant-01`–`restaurant-03`, `fitness-01`–`fitness-02`, `fyzio-01`–`fyzio-02`, `clinic-02`–`clinic-03`, `tattoo-01`–`tattoo-03`, `ananda-01`, `bakery-01`, `tawan-01`–`tawan-02`, `reality-01`–`reality-03`)
+**Zbývá:** 54
+**⚡ DALŠÍ V POŘADÍ:** `hybernska` → slug `restaurant-02`
 **Rolled back (2026-05-27):** `the-barber`, `fade-room` — engine verze nesplňovaly 1:1 parity s `/preview`; clone tenanty (`the-barber-demo`, `fade-room-demo`) navíc mají vymazanou `full-page-clone` sekci → vyžadují recovery přes `scripts/recover-clone-tenant.mjs`.
 **Druhý průchod (2026-05-28):** `the-barber` → engine `barber-02` (Holičství Atelier) DONE; `fade-room` → engine `barber-03` (Studio Břitva) DONE — section-by-section per FÁZE C.
 
@@ -132,89 +132,89 @@ Při výběru další šablony pro FÁZI A: vezmi **první `TODO`** v tabulce.
 | 6 | hairsalon-no1 | Hair Studio No.1 | hairsalon-no1.cz | Kadeřnictví | **DONE** (hair-02 Demo Hair Salon) | 2026-05-30 |
 | 7 | petramechurova | Petra Studio | petramechurova.cz | Kadeřnictví | **DONE** (hair-03 Petra Studio) | 2026-05-30 |
 | 8 | selfbeauty | Demo Beauty Studio | selfbeauty.cz | Beauty & Wellness | **DONE** (beauty-01 Demo Beauty Studio) | 2026-05-30 |
-| 9 | praha-masaze | Demo Masáže | praha-masaze.cz | Masáže & Wellness | TODO | — |
-| 10 | ananda | Demo Ananda SPA | ananda.cz | Ayurvéda & Wellness | TODO | — |
-| 11 | tawan | Demo TAWAN Masáže | tawan.cz | Thajské masáže | TODO | — |
-| 12 | escape | Demo Escape Massage | escapemassage.cz | Thajské masáže | TODO | — |
-| 13 | tribo | Demo TRIBO Studio | tribo.cz | Tetování & Piercing | TODO | — |
-| 14 | homie | Demo Homie Tattoo | homietattoo.cz | Tetování & Piercing | TODO | — |
-| 15 | magic | Demo Magic Tattoo | magic.cz | Tetování & Piercing | TODO | — |
-| 16 | soho | Demo Soho Nails & Spa | soho.cz | Nehtové studio | TODO | — |
-| 17 | celebrate | Demo Celebrate Salon | celebrate.cz | Nehtové studio | TODO | — |
-| 18 | maidenstudio | Demo Maiden Studio | maidenstudio.cz | Nehtové studio | TODO | — |
-| 19 | esthesia | Demo Esthesia Clinic | esthesia.cz | Kosmetická klinika | TODO | — |
-| 20 | bomton | Demo Bomton Clinic | bomton.cz | Kosmetická klinika | TODO | — |
-| 21 | yesvisage | Demo Yes Visage | yesvisage.cz | Kosmetická klinika | TODO | — |
-| 22 | linda | Demo Linda Sikorová | linda.cz | Fitness & Wellness | TODO | — |
-| 23 | victory | Demo Fitness Victory | victory.cz | Fitness & Wellness | TODO | — |
-| 24 | fyziovsem | Demo Fyzio Všem | fyziovsem.cz | Fyzioterapie | TODO | — |
-| 25 | resetclinic | Demo Reset Fyzio | resetclinic.cz | Fyzioterapie | TODO | — |
-| 26 | ambi-bistro | Demo Ambiente Bistro | ambi-bistro.cz | Restaurace | TODO | — |
-| 27 | hybernska | Demo Hybernská | hybernska.cz | Restaurace | TODO | — |
-| 28 | lacasa-latina | Demo La Casa Latina | lacasalatina.cz | Restaurace | TODO | — |
-| 29 | cafe-savoy | Demo Café Savoy | cafesavoy.cz | Kavárna | TODO | — |
-| 30 | zrno-zrnko | Demo Zrno Zrnko | zrnozrnko.cz | Pekárna & Kavárna | TODO | — |
+| 9 | praha-masaze | Demo Masáže | praha-masaze.cz | Masáže & Wellness | **DONE** (massage-01 Demo Masáže Praha) | 2026-06-01 |
+| 10 | ananda | Demo Ananda SPA | anandaspa.cz | Ayurvéda & Wellness | **DONE** (ananda-01 Demo Ananda SPA) | 2026-06-01 |
+| 11 | tawan | Demo TAWAN Masáže | tawan.cz | Thajské masáže | **DONE** (tawan-01 Demo TAWAN Masáže) | 2026-06-01 |
+| 12 | escape | Demo Escape Massage | escapemassage.cz | Thajské masáže | **DONE** (tawan-02 Demo Escape Massage) | 2026-06-02 |
+| 13 | tribo | Demo TRIBO Studio | tribo.cz | Tetování & Piercing | **DONE** (tattoo-01 Demo TRIBO Studio) | 2026-06-02 |
+| 14 | homie | Demo Homie Tattoo | homietattoo.cz | Tetování & Piercing | **DONE** (tattoo-02 Demo Homie Tattoo) | 2026-06-02 |
+| 15 | magic | Demo Magic Tattoo | magic.cz | Tetování & Piercing | **DONE** (tattoo-03 Demo Magic Tattoo Studio) | 2026-06-02 |
+| 16 | soho | Demo Soho Nails & Spa | soho.cz | Nehtové studio | **DONE** (nails-01 Demo Soho Nails & Spa) | 2026-06-03 |
+| 17 | celebrate | Demo Celebrate Salon | celebrate.cz | Nehtové studio | **DONE** (nails-02 Premium Nails) | 2026-06-04 |
+| 18 | maidenstudio | Demo Maiden Studio | maidenstudio.cz | Nehtové studio | **DONE** (nails-03 Studio Krásy) | 2026-06-04 |
+| 19 | esthesia | Demo Esthesia Clinic | esthesia.cz | Kosmetická klinika | 🔒 IN PROGRESS | 2026-06-05 |
+| 20 | bomton | Demo Bomton Clinic | bomton.cz | Kosmetická klinika | **DONE** (clinic-02 Demo Bomton Clinic) | 2026-06-05 |
+| 21 | yesvisage | Demo Yes Visage / Diamond Look Klinika | yesvisage.cz | Kosmetická klinika | ✅ DONE | 2026-06-05 |
+| 22 | linda | Demo Linda Sikorová | linda.cz | Fitness & Wellness | ✅ DONE (fitness-01 Pavel Marak) | 2026-06-06 |
+| 23 | victory | Demo Fitness Victory | victory.cz | Fitness & Wellness | ✅ DONE | 2026-06-06 |
+| 24 | fyziovsem | Vaše Fyzio | fyziovsem.cz | Fyzioterapie | ✅ DONE (fyzio-01) | 2026-06-07 |
+| 25 | resetclinic | Demo Reset Fyzio | resetclinic.cz | Fyzioterapie | ✅ DONE (fyzio-02) | 2026-06-07 |
+| 26 | ambi-bistro | Demo Memento | ambi-bistro.cz | Restaurace | **DONE** (restaurant-01 Demo Memento) | 2026-06-07 |
+| 27 | hybernska | Demo Hybernská | hybernska.cz | Restaurace | ✅ DONE | 2026-06-08 |
+| 28 | lacasa-latina | Demo La Casa Latina | lacasalatina.cz | Restaurace | ✅ DONE | 2026-06-08 |
+| 29 | cafe-savoy | Demo Café Savoy | cafesavoy.cz | Kavárna | ✅ DONE | 2026-06-08 |
+| 30 | zrno-zrnko | Demo Zrno Zrnko | zrnozrnko.cz | Pekárna & Kavárna | ✅ DONE | 2026-06-08 |
 | 31 | costa-coffee | Demo Costa Coffee | costa-coffee.cz | Kavárenský řetězec | **DONE** (cafe-01) | 2026-05-23 |
-| 32 | coffee-room | Demo Coffee Room | coffeeroom.cz | Specialty kavárna | TODO | — |
-| 33 | cathedral-cafe | Demo Cathedral Café | cathedral.cz | Kavárna & Restaurace | TODO | — |
-| 34 | lexxus-norton | Demo Lexxus Norton | lexxusnorton.cz | Realitní kancelář | TODO | — |
-| 35 | fer-makleri | Demo FER Makléři | fermakleri.cz | Realitní kancelář | TODO | — |
-| 36 | reality-skutovi | Demo Reality Škutovi | realityskutovi.cz | Realitní kancelář | TODO | — |
-| 37 | quantum-reality | Demo Quantum Reality | quantum.cz | Realitní kancelář | TODO | — |
-| 38 | jan-srubar | Demo Jan Šrubař | srubar.cz | Realitní makléř | TODO | — |
-| 39 | ondrej-kucera | Demo Ondřej Kučera | okucera.cz | Realitní makléř | TODO | — |
-| 40 | best-drive | Demo BestDrive | bestdrive.cz | Autoservis & Pneuservis | TODO | — |
-| 41 | autoservis-garant | Demo Autoservis GARANT | garant.cz | Autoservis | TODO | — |
-| 42 | autoservis-tomas | Demo Autoservis Tomáš | tomas.cz | Autoservis BMW | TODO | — |
-| 43 | magic-smile | Demo Magic Smile | magicsmile.cz | Zubní klinika | TODO | — |
-| 44 | svet-rovnatek | Demo Svět rovnátek | svetrov.cz | Ortodoncie | TODO | — |
-| 45 | perfect-smile | Demo Perfect Smile | perfectsmile.cz | Ortodoncie | TODO | — |
-| 46 | havel-partners | Demo HAVEL & PARTNERS | havel.cz | Advokátní kancelář | TODO | — |
-| 47 | rowan-legal | Demo ROWAN LEGAL | rowan.cz | Advokátní kancelář | TODO | — |
-| 48 | stavbadesign | Demo Stavba Design | stavbadesign.cz | Stavební firma | TODO | — |
-| 49 | baurekstav | Demo BauRekStav | baurekstav.cz | Rekonstrukce bytů | TODO | — |
-| 50 | bytyjadra | Demo Byty Jadra | bytyjadra.cz | Rekonstrukce bytů | TODO | — |
-| 51 | elektrobohacek | Demo Elektro Boháček | elektro-bohacek.cz | Elektroinstalace | TODO | — |
-| 52 | instalateritopenari | Demo Instalatéři Praha | instalateritopenari.cz | Instalatérství | TODO | — |
-| 53 | perfectcatering | Demo Catering Praha | perfectcatering.cz | Catering & Gastronomie | TODO | — |
-| 54 | freja | Demo Květinářství | freja.cz | Květinářství & E-shop | TODO | — |
-| 55 | ovocnysvetozor | Demo Světozor | ovocnysvetozor.cz | Cukrárna & Pekárna | TODO | — |
-| 56 | antoninova | Demo pekářství | antoninovopekarstvi.cz | Pekárna & Kavárna | TODO | — |
-| 57 | nobe | Demo autoškola | nobe.cz | Autoškola | TODO | — |
-| 58 | jipka | Demo Jazyková škola | jipka.cz | Jazyková škola | TODO | — |
-| 59 | skolapopulo | Demo Akademie | skolapopulo.cz | Doučování & vzdělávání | TODO | — |
-| 60 | scioles | Demo Kroužky | scioles.cz | Dětské kroužky & vzdělávání | TODO | — |
-| 61 | veterinafenix | Demo Veterinární Klinika | veterinafenix.cz | Veterinární klinika | TODO | — |
-| 62 | cutedogs | Demo Psí Salon | cutedogs.cz | Psí a kočičí grooming salon | TODO | — |
-| 63 | skolkapropejska | Demo Hotel pro psy | skolkapropejska.cz | Psí hotel & školka | TODO | — |
-| 64 | ucetnictvispravne | Demo Účetnictví | ucetnictvispravne.cz | Účetní firma & daňové poradenství | TODO | — |
-| 65 | grantex | Demo Daňový Poradce | grantex.cz | Daňové poradenství & účetnictví | TODO | — |
-| 66 | gpf | Demo Hypoteční Poradce | gpf.cz | Hypoteční poradenství & finance | TODO | — |
-| 67 | brokerconsulting | Demo Finanční Poradce | brokerconsulting.cz | Finanční poradenství & investice | TODO | — |
-| 68 | karesarch | Demo Arch | karesarch.cz | Architektonický ateliér | TODO | — |
-| 69 | schlieger | Demo Solar | schlieger.cz | Fotovoltaika & tepelná čerpadla | TODO | — |
-| 70 | cleancat | Demo Clean | cleancat.cz | Úklidová firma & mytí oken | TODO | — |
-| 71 | vestop | Demo Vestop | vestop.cz | Topenářství & Instalatérství | TODO | — |
-| 72 | pragoclima | Demo Pragoclima | pragoclima.cz | Klimatizace & Tepelná čerpadla | TODO | — |
-| 73 | acheating | Demo AC-Heating | ac-heating.cz | Tepelná čerpadla & Fotovoltaika | TODO | — |
-| 74 | greensie | Demo Greensie | greensie.cz | Fotovoltaika | TODO | — |
-| 75 | supellex | Demo Supellex | supellex.cz | Podlahy & E-shop | TODO | — |
-| 76 | petrovomalovani | Demo Petrovo malování | petrovomalovani.cz | Malíř & Natěrač | TODO | — |
-| 77 | klempirzprahy | Demo Klempíř z Prahy | klempirzprahy.cz | Klempíř & Pokrývač | TODO | — |
-| 78 | gerberra | Demo Gerberra | gerberra.cz | Zahradnické služby | TODO | — |
-| 79 | polgarden | Demo PolGarden | polgarden.cz | Realizace zahrad | TODO | — |
-| 80 | lesarb | Demo Lesarb | lesarb.cz | Arboristika | TODO | — |
-| 81 | modryzralok | Demo Modrý Žralok | modryzralok.cz | Úklidové služby | TODO | — |
-| 82 | deratizace | Demo Deratizace | deratizacepraha.com | Deratizace / DDD | TODO | — |
-| 83 | chaletmilada | Demo Chalet | chaletmilada.cz | Ubytování / Horská chata | TODO | — |
-| 84 | palacehotel | Demo Boutique Hotel | palacehotel.cz | Boutique Hotel / Apartmány | TODO | — |
-| 85 | malirstvibastar | Demo Malířství | malirstvi-bastar.cz | Malíř / Natěrač (2. varianta) | TODO | — |
-| 86 | hotelatlantis | Demo Hotel Atlantis | hotel-atlantis.cz | Hotel & Wellness | TODO | — |
-| 87 | zbiralova | Demo Fotografka | zbiralova.cz | Fotograf | TODO | — |
-| 88 | honzakamenar | Demo Kameraman | honzakamenar.cz | Videografie | TODO | — |
-| 89 | vasdj | Demo DJ | vasdj.cz | DJ & Events | TODO | — |
-| 90 | amdenevents | Demo Events | amdenevents.cz | Event Agency | TODO | — |
-| 91 | corleone | Demo Pizzeria | corleone.cz | Restaurace & Pizzerie | TODO | — |
+| 32 | coffee-room | Demo Coffee Room | coffeeroom.cz | Specialty kavárna | ✅ DONE | 2026-06-08 |
+| 33 | cathedral-cafe | Demo Cathedral Café | cathedral.cz | Kavárna & Restaurace | ✅ DONE | 2026-06-08 |
+| 34 | lexxus-norton | Demo Lexxus Norton | lexxusnorton.cz | Realitní kancelář | ✅ DONE | 2026-06-08 |
+| 35 | fer-makleri | Demo FER Makléři | fermakleri.cz | Realitní kancelář | ✅ DONE | 2026-06-08 |
+| 36 | reality-skutovi | Demo Reality Škutovi | realityskutovi.cz | Realitní kancelář | ✅ DONE | 2026-06-08 |
+| 37 | quantum-reality | Demo Quantum Reality | quantum.cz | Realitní kancelář | ✅ DONE | 2026-06-08 |
+| 38 | jan-srubar | Demo Jan Šrubař | srubar.cz | Realitní makléř | ✅ DONE (reality-06 Demo Dominik Krejčí) | 2026-06-08 |
+| 39 | ondrej-kucera | Demo Ondřej Kučera | okucera.cz | Realitní makléř | ✅ DONE | 2026-06-08 |
+| 40 | best-drive | Demo BestDrive | bestdrive.cz | Autoservis & Pneuservis | ✅ DONE | 2026-06-09 |
+| 41 | autoservis-garant | Demo Autoservis GARANT | garant.cz | Autoservis | ✅ DONE | 2026-06-09 |
+| 42 | autoservis-tomas | Demo Autoservis Tomáš | tomas.cz | Autoservis BMW | ✅ DONE | 2026-06-09 |
+| 43 | magic-smile | Demo Magic Smile | magicsmile.cz | Zubní klinika | ✅ DONE | 2026-06-10 |
+| 44 | svet-rovnatek | Demo Svět rovnátek | svetrov.cz | Ortodoncie | ✅ DONE | 2026-06-10 |
+| 45 | perfect-smile | Demo Perfect Smile | perfectsmile.cz | Ortodoncie | ✅ DONE (ortho-02 Premium Care) | 2026-06-10 |
+| 46 | havel-partners | Demo SVOBODA & PARTNERS | havelpartners.cz | Advokátní kancelář | ✅ DONE (lawyer-01) | 2026-06-11 |
+| 47 | rowan-legal | Demo ROWAN LEGAL | rowan.cz | Advokátní kancelář | ✅ DONE (legal-02 DOLEŽAL & PARTNEŘI) | 2026-06-12 |
+| 48 | stavbadesign | Demo Stavba Design | stavbadesign.cz | Stavební firma | ✅ DONE (stavba-01 Demo Stavba Design) | 2026-06-12 |
+| 49 | baurekstav | Demo BauRekStav | baurekstav.cz | Rekonstrukce bytů | 🔒 IN PROGRESS | 2026-06-12 |
+| 50 | bytyjadra | Demo Byty Jadra | bytyjadra.cz | Rekonstrukce bytů | ✅ DONE (stavba-02 Mistr Rekonstrukcí) | 2026-06-14 |
+| 51 | elektrobohacek | Demo Elektro Boháček | elektro-bohacek.cz | Elektroinstalace | **DONE** (elektro-01) | 2026-06-14 |
+| 52 | instalateritopenari | Demo Instalatéři Praha | instalateritopenari.cz | Instalatérství | ✅ DONE (instala-01) | 2026-06-14 |
+| 53 | perfectcatering | Demo Catering Praha | perfectcatering.cz | Catering & Gastronomie | 🔒 IN PROGRESS | 2026-06-14 |
+| 54 | freja | Demo Květinářství | freja.cz | Květinářství & E-shop | ✅ DONE | 2026-06-14 |
+| 55 | ovocnysvetozor | Demo Světozor | ovocnysvetozor.cz | Cukrárna & Pekárna | ✅ DONE | 2026-06-15 |
+| 56 | antoninova | Demo pekářství | antoninovopekarstvi.cz | Pekárna & Kavárna | ✅ DONE `bakery-02` | 2026-06-15 |
+| 57 | nobe | Demo autoškola | nobe.cz | Autoškola | ✅ DONE | 2026-06-15 |
+| 58 | jipka | Demo Jazyková škola | jipka.cz | Jazyková škola | ✅ DONE | 2026-06-15 |
+| 59 | skolapopulo | Demo Akademie | skolapopulo.cz | Doučování & vzdělávání | ✅ DONE `edu-01` | 2026-06-15 |
+| 60 | scioles | Demo Kroužky | scioles.cz | Dětské kroužky & vzdělávání | 🔒 IN PROGRESS | 2026-06-15 |
+| 61 | veterinafenix | Demo Veterinární Klinika | veterinafenix.cz | Veterinární klinika | 🔒 IN PROGRESS | 2026-06-15 |
+| 62 | cutedogs | Demo Psí Salon | cutedogs.cz | Psí a kočičí grooming salon | 🔒 IN PROGRESS | 2026-06-15 |
+| 63 | skolkapropejska | Demo Hotel pro psy | skolkapropejska.cz | Psí hotel & školka | ✅ DONE | 2026-06-15 |
+| 64 | ucetnictvispravne | Demo Účetnictví | ucetnictvispravne.cz | Účetní firma & daňové poradenství | 🔒 IN PROGRESS | 2026-06-16 |
+| 65 | grantex | Demo Daňový Poradce | grantex.cz | Daňové poradenství & účetnictví | ✅ DONE | 2026-06-16 |
+| 66 | gpf | Demo Hypoteční Poradce | gpf.cz | Hypoteční poradenství & finance | ✅ DONE | 2026-06-16 |
+| 67 | brokerconsulting | Demo Finanční Poradce | brokerconsulting.cz | Finanční poradenství & investice | 🔒 IN PROGRESS | 2026-06-16 |
+| 68 | karesarch | Demo Arch | karesarch.cz | Architektonický ateliér | DONE ✅ | 2026-06-17 |
+| 69 | schlieger | Demo Solar | schlieger.cz | Fotovoltaika & tepelná čerpadla | DONE ✅ | 2026-06-17 |
+| 70 | cleancat | Demo Clean | cleancat.cz | Úklidová firma & mytí oken | ✅ DONE | 2026-06-17 |
+| 71 | vestop | Demo Vestop | vestop.cz | Topenářství & Instalatérství | ✅ DONE | 2026-06-17 |
+| 72 | pragoclima | Demo Pragoclima | pragoclima.cz | Klimatizace & Tepelná čerpadla | ✅ DONE | 2026-06-17 |
+| 73 | acheating | Demo AC-Heating | ac-heating.cz | Tepelná čerpadla & Fotovoltaika | ✅ DONE | 2026-06-18 |
+| 74 | greensie | Demo Greensie | greensie.cz | Fotovoltaika | 🔒 IN PROGRESS | 2026-06-17 |
+| 75 | supellex | Demo Supellex | supellex.cz | Podlahy & E-shop | ✅ DONE | 2026-06-18 |
+| 76 | petrovomalovani | Demo Petrovo malování | petrovomalovani.cz | Malíř & Natěrač | ✅ DONE | 2026-06-18 |
+| 77 | klempirzprahy | Demo Klempíř z Prahy | klempirzprahy.cz | Klempíř & Pokrývač | ✅ DONE | 2026-06-18 |
+| 78 | gerberra | Demo Gerberra | gerberra.cz | Zahradnické služby | ✅ DONE | 2026-06-18 |
+| 79 | polgarden | Demo PolGarden | polgarden.cz | Realizace zahrad | ✅ DONE | 2026-06-19 |
+| 80 | lesarb | Demo Lesarb | lesarb.cz | Arboristika | ✅ DONE | 2026-06-19 |
+| 81 | modryzralok | Demo Modrý Žralok | modryzralok.cz | Úklidové služby | ✅ DONE | 2026-06-19 |
+| 82 | deratizace | Demo Deratizace | deratizacepraha.com | Deratizace / DDD | ✅ DONE | 2026-06-20 |
+| 83 | chaletmilada | Demo Chalet | chaletmilada.cz | Ubytování / Horská chata | ✅ DONE `chalet-01` | 2026-06-20 |
+| 84 | palacehotel | Demo Boutique Hotel | palacehotel.cz | Boutique Hotel / Apartmány | ✅ DONE `hotel-01` | 2026-06-20 |
+| 85 | malirstvibastar | Demo Malířství | malirstvi-bastar.cz | Malíř / Natěrač (2. varianta) | ✅ DONE `malir-02` | 2026-06-20 |
+| 86 | hotelatlantis | Demo Hotel Atlantis | hotel-atlantis.cz | Hotel & Wellness | ✅ DONE | 2026-06-20 |
+| 87 | zbiralova | Demo Fotografka | zbiralova.cz | Fotograf | 🔒 IN PROGRESS | 2026-06-20 |
+| 88 | honzakamenar | Demo Kameraman | honzakamenar.cz | Videografie | ✅ DONE (video-01 Demo Kameraman) | 2026-06-20 |
+| 89 | vasdj | Demo DJ | vasdj.cz | DJ & Events | ✅ DONE (dj-01 DJ Agosto) | 2026-06-20 |
+| 90 | amdenevents | Lumina Events | amdenevents.cz | Event Agency | ✅ DONE (events-01 · 8 sekcí · 100% editovatelnost · mobile) | 2026-06-20 |
+| 91 | corleone | Demo Pizzeria | corleone.cz | Restaurace & Pizzerie | ✅ DONE | 2026-06-20 |
 | 92 | kim-impressive | Impresiv Studio | kim-impressive.cz | Kadeřnictví | ✅ DONE | 2026-05-30 |
 
 ---

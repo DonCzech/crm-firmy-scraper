@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 52" fill="none">
+  <!-- Decorative horizontal line above -->
+  <line x1="0" y1="8" x2="240" y2="8" stroke="#c41c1c" stroke-width="1" opacity="0.6"/>
+  <!-- Main wordmark -->
+  <text x="120" y="36" font-family="Georgia, 'Times New Roman', serif"
+        font-size="28" font-style="italic" font-weight="400"
+        fill="#f5f0e8" text-anchor="middle" letter-spacing="6">CORLEONE</text>
+  <!-- Tagline -->
+  <text x="120" y="48" font-family="'Helvetica Neue', Arial, sans-serif"
+        font-size="8" font-weight="400"
+        fill="#c41c1c" text-anchor="middle" letter-spacing="4">ITALSKÁ RESTAURACE</text>
+  <!-- Decorative horizontal line below -->
+  <line x1="0" y1="52" x2="240" y2="52" stroke="#c41c1c" stroke-width="1" opacity="0.6"/>
+</svg>

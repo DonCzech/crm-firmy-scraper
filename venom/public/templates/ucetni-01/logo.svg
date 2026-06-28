@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 48" fill="none" aria-label="Demo Účetnictví">
+  <!-- Calculator icon -->
+  <rect x="0" y="4" width="40" height="40" rx="6" fill="#FFB500"/>
+  <!-- Calculator screen -->
+  <rect x="6" y="9" width="28" height="10" rx="2" fill="#202124"/>
+  <!-- Calculator buttons row 1 -->
+  <rect x="6" y="24" width="6" height="5" rx="1.5" fill="#202124"/>
+  <rect x="14" y="24" width="6" height="5" rx="1.5" fill="#202124"/>
+  <rect x="22" y="24" width="6" height="5" rx="1.5" fill="#202124"/>
+  <rect x="30" y="24" width="4" height="5" rx="1.5" fill="#202124"/>
+  <!-- Calculator buttons row 2 -->
+  <rect x="6" y="31" width="6" height="5" rx="1.5" fill="#202124"/>
+  <rect x="14" y="31" width="6" height="5" rx="1.5" fill="#202124"/>
+  <rect x="22" y="31" width="6" height="5" rx="1.5" fill="#202124"/>
+  <rect x="30" y="31" width="4" height="9" rx="1.5" fill="#FFD87A"/>
+  <!-- Calculator buttons row 3 -->
+  <rect x="6" y="38" width="14" height="5" rx="1.5" fill="#202124"/>
+  <rect x="22" y="38" width="6" height="5" rx="1.5" fill="#202124"/>
+  <!-- Wordmark -->
+  <text font-family="'Space Grotesk',Arial,sans-serif" font-weight="700" font-size="17" fill="#202124" letter-spacing="-0.3">
+    <tspan x="52" y="21">DEMO</tspan>
+  </text>
+  <text font-family="'Space Grotesk',Arial,sans-serif" font-weight="400" font-size="13" fill="#515151" letter-spacing="0.5">
+    <tspan x="52" y="38">ÚČETNICTVÍ</tspan>
+  </text>
+</svg>

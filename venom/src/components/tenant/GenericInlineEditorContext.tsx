@@ -19,6 +19,7 @@ export interface GenericTextStyle {
 
 interface GenericInlineEditorContextValue {
   isAdmin: boolean;
+  isStudio?: boolean;
   highlighted: GenericHighlightChange[];
   updateField: (sectionId: number, field: string, value: string, options?: { recordHistory?: boolean }) => void;
   updateStyle: (sectionId: number, field: string, style: GenericTextStyle) => void;

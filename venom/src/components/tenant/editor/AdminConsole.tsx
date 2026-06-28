@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import {
   X, Sparkles, FileText, MessageSquare, BarChart3, Globe, Puzzle,
-  History, ShieldCheck, User, ArrowRight, ChevronRight, Mail,
-  Eye, Clock, CheckCircle2, AlertTriangle, Loader2, Search,
-  Rocket, ExternalLink,
+  History, ShieldCheck, User, ChevronRight, Mail,
+  Loader2, Search, Rocket, ExternalLink, FileStack, LayoutTemplate,
+  AlertCircle, Check, Menu, Palette, Wand2, Image as ImageIcon, Database, Bot, Gauge, Brush,
 } from "lucide-react";
 import {
-  SeoPanel, MessagesPanel, RevisionsPanel, AuditPanel,
+  SeoPanel, MessagesPanel, RevisionsPanel, AuditPanel, PagesPanel, TemplatePanel, DesignPanel, AiTextPanel, StockImagesPanel, DomainWizardPanel, BackupPanel, AnalyticsPanel, AiBuilderPanel, PerformancePanel, LogoGeneratorPanel,
 } from "./EditorDrawerPanels";
 import "../../studio/design-tokens.css";
 
@@ -28,8 +28,8 @@ import "../../studio/design-tokens.css";
  */
 
 export type AdminView =
-  | "overview" | "blog" | "messages" | "seo" | "analytics"
-  | "modules" | "revisions" | "audit" | "account";
+  | "overview" | "pages" | "design" | "logo" | "template" | "aibuild" | "ai" | "stock" | "domain" | "blog" | "messages" | "seo" | "perf" | "analytics"
+  | "modules" | "revisions" | "backup" | "audit" | "account";
 
 interface NavItem {
   key: AdminView;
@@ -42,12 +42,22 @@ interface NavItem {
 
 const NAV: NavItem[] = [
   { key: "overview",  label: "Přehled",    hint: "Souhrn za poslední dny",     Icon: Sparkles,    native: true },
+  { key: "pages",     label: "Stránky",    hint: "Úvodní + podstránky",         Icon: FileStack,   native: true },
+  { key: "design",    label: "Vzhled",     hint: "Barvy, fonty, rohy",          Icon: Palette,     native: true },
+  { key: "logo",      label: "Logo",       hint: "SVG + PNG + favicon",         Icon: Brush,       native: true },
+  { key: "template",  label: "Šablona",    hint: "Změnit vzhled webu",          Icon: LayoutTemplate, native: true },
+  { key: "aibuild",   label: "AI builder", hint: "Postavit celý web s AI",       Icon: Bot,         native: true },
+  { key: "ai",        label: "AI texty",   hint: "Claude napíše hero/about…",   Icon: Wand2,       native: true },
+  { key: "stock",     label: "Stock fotky", hint: "Hledat na Unsplash",          Icon: ImageIcon,   native: true },
+  { key: "domain",    label: "Doména",     hint: "Připojit vlastní doménu",     Icon: Globe,       native: true },
   { key: "blog",      label: "Blog",       hint: "Články a kategorie",         Icon: FileText },
   { key: "messages",  label: "Zprávy",     hint: "Z formulářů",                Icon: MessageSquare, native: true },
   { key: "seo",       label: "SEO",        hint: "Title, popis, sitemap",      Icon: Globe,       native: true },
-  { key: "analytics", label: "Analytics",  hint: "Návštěvy a konverze",        Icon: BarChart3 },
+  { key: "perf",      label: "Výkon",      hint: "Audit obrázků a odkazů",      Icon: Gauge,       native: true },
+  { key: "analytics", label: "Analytics",  hint: "GTM, GA4, Pixel, GSC",        Icon: BarChart3, native: true },
   { key: "modules",   label: "Moduly",     hint: "Rezervace, e-shop, formuláře", Icon: Puzzle },
   { key: "revisions", label: "Verze",      hint: "Historie a obnovení",        Icon: History,     native: true },
+  { key: "backup",    label: "Záloha",     hint: "Stáhnout / obnovit JSON",     Icon: Database,    native: true },
   { key: "audit",     label: "Audit",      hint: "Záznamy úprav",              Icon: ShieldCheck, native: true },
   { key: "account",   label: "Můj účet",   hint: "Profil a předplatné",        Icon: User,        external: true },
 ];
@@ -62,8 +72,10 @@ export interface AdminConsoleProps {
 
 export function AdminConsole({ open, initialView = "overview", tenantSlug, tenantBusinessName, onClose }: AdminConsoleProps) {
   const [view, setView] = useState<AdminView>(initialView);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   useEffect(() => { if (open) setView(initialView); }, [open, initialView]);
+  useEffect(() => { setMobileNavOpen(false); }, [view]);
 
   useEffect(() => {
     if (!open) return;
@@ -80,7 +92,7 @@ export function AdminConsole({ open, initialView = "overview", tenantSlug, tenan
       role="dialog"
       aria-modal
       aria-label="Administrace"
-      className="fixed inset-0 z-[99999] flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-[99999] flex items-stretch justify-center p-0 sm:items-center sm:p-4 lg:p-6"
       style={{ fontFamily: "var(--vs-font-sans, Inter, sans-serif)" }}
     >
       {/* Scrim */}
@@ -91,7 +103,7 @@ export function AdminConsole({ open, initialView = "overview", tenantSlug, tenan
       />
 
       <div
-        className="relative flex h-full w-full max-h-[96vh] max-w-[1280px] overflow-hidden rounded-2xl"
+        className="relative flex h-full w-full max-h-none max-w-[1280px] overflow-hidden rounded-none sm:max-h-[96vh] sm:rounded-2xl"
         style={{
           background: "#ffffff",
           boxShadow: "0 36px 72px rgba(2,6,23,0.30), 0 18px 32px rgba(2,6,23,0.16), 0 0 0 1px rgba(2,6,23,0.05)",
@@ -103,7 +115,7 @@ export function AdminConsole({ open, initialView = "overview", tenantSlug, tenan
           to   { transform: translateY(0) scale(1); opacity: 1; }
         }`}</style>
 
-        {/* Sidebar */}
+        {/* Sidebar — desktop only via sm:flex */}
         <Sidebar
           view={view}
           onView={setView}
@@ -111,33 +123,59 @@ export function AdminConsole({ open, initialView = "overview", tenantSlug, tenan
           tenantBusinessName={tenantBusinessName}
         />
 
+        {/* Mobile drawer — slides in from left, covers admin pane.
+            Triggered by hamburger button in the header below. */}
+        {mobileNavOpen && (
+          <div className="absolute inset-0 z-40 flex sm:hidden">
+            <div
+              className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
+              onClick={() => setMobileNavOpen(false)}
+            />
+            <div className="vs-enter relative flex h-full w-[78%] max-w-[300px] flex-col"
+              style={{ animation: "vs-mobile-nav-in 240ms cubic-bezier(0.18,0.89,0.32,1)" }}
+            >
+              <style>{`@keyframes vs-mobile-nav-in {
+                from { transform: translateX(-12px); opacity: 0; }
+                to   { transform: translateX(0); opacity: 1; }
+              }`}</style>
+              <Sidebar
+                view={view}
+                onView={(v) => { setView(v); setMobileNavOpen(false); }}
+                tenantSlug={tenantSlug}
+                tenantBusinessName={tenantBusinessName}
+                forceVisible
+              />
+            </div>
+          </div>
+        )}
+
         {/* Main area */}
         <main className="flex h-full min-w-0 flex-1 flex-col bg-[#f8fafc]">
           {/* Top header */}
-          <header className="flex h-14 shrink-0 items-center justify-between border-b border-slate-200 bg-white/80 px-5 backdrop-blur">
-            <div className="flex items-center gap-2 text-[12px] text-slate-500">
-              <span>Administrace</span>
-              <ChevronRight className="h-3 w-3" />
-              <span className="font-semibold text-slate-900">{activeItem.label}</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <a
-                href={`/demo/${tenantSlug}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex h-8 items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 text-[11.5px] font-medium text-slate-700 hover:bg-slate-50"
+          <header className="flex h-14 shrink-0 items-center justify-between gap-2 border-b border-slate-200 bg-white/80 px-3 sm:px-5 backdrop-blur">
+            <div className="flex min-w-0 items-center gap-2 text-[12px] text-slate-500">
+              <button
+                type="button"
+                onClick={() => setMobileNavOpen(true)}
+                aria-label="Otevřít menu"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-900 sm:hidden"
               >
-                <Eye className="h-3 w-3" strokeWidth={1.75} />
-                Veřejný náhled
-              </a>
+                <Menu className="h-4 w-4" strokeWidth={1.75} />
+              </button>
+              <span className="hidden sm:inline">Administrace</span>
+              <ChevronRight className="hidden h-3 w-3 sm:block" />
+              <span className="truncate font-semibold text-slate-900">{activeItem.label}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <GoLiveControl tenantSlug={tenantSlug} />
               <button
                 type="button"
                 onClick={onClose}
-                className="inline-flex h-8 items-center gap-1.5 rounded-md bg-slate-900 px-3 text-[11.5px] font-semibold text-white hover:bg-slate-800"
-                title="Zpět do editoru (Esc)"
+                aria-label="Zavřít (Esc)"
+                title="Zavřít (Esc)"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-md text-slate-500 transition-colors duration-100 hover:bg-slate-100 hover:text-slate-900"
               >
-                <ArrowRight className="h-3 w-3 rotate-180" strokeWidth={2.25} />
-                Zpět do editoru
+                <X className="h-4 w-4" strokeWidth={1.75} />
               </button>
             </div>
           </header>
@@ -145,12 +183,22 @@ export function AdminConsole({ open, initialView = "overview", tenantSlug, tenan
           {/* Content frame */}
           <div className="flex-1 overflow-y-auto">
             {view === "overview"  && <OverviewView tenantSlug={tenantSlug} onView={setView} />}
+            {view === "pages"     && <NativeView    title="Stránky"><PagesPanel tenantSlug={tenantSlug} /></NativeView>}
+            {view === "design"    && <NativeView    title="Vzhled"><DesignPanel tenantSlug={tenantSlug} /></NativeView>}
+            {view === "logo"      && <NativeView    title="Logo"><LogoGeneratorPanel tenantSlug={tenantSlug} businessName={tenantBusinessName} /></NativeView>}
+            {view === "template"  && <NativeView    title="Šablona"><TemplatePanel tenantSlug={tenantSlug} /></NativeView>}
+            {view === "aibuild"   && <NativeView    title="AI builder"><AiBuilderPanel tenantSlug={tenantSlug} businessName={tenantBusinessName} /></NativeView>}
+            {view === "ai"        && <NativeView    title="AI texty"><AiTextPanel tenantSlug={tenantSlug} businessName={tenantBusinessName} /></NativeView>}
+            {view === "stock"     && <NativeView    title="Stock fotky"><StockImagesPanel tenantSlug={tenantSlug} /></NativeView>}
+            {view === "domain"    && <NativeView    title="Doména"><DomainWizardPanel tenantSlug={tenantSlug} /></NativeView>}
             {view === "blog"      && <IframeView    tenantSlug={tenantSlug} path="/admin/blog"      title="Blog" />}
             {view === "messages"  && <NativeView    title="Zprávy"><MessagesPanel tenantSlug={tenantSlug} /></NativeView>}
             {view === "seo"       && <NativeView    title="SEO"><SeoPanel tenantSlug={tenantSlug} /></NativeView>}
-            {view === "analytics" && <IframeView    tenantSlug={tenantSlug} path="/admin/analytics" title="Analytics" />}
+            {view === "perf"      && <NativeView    title="Výkon"><PerformancePanel tenantSlug={tenantSlug} /></NativeView>}
+            {view === "analytics" && <NativeView    title="Analytics"><AnalyticsPanel tenantSlug={tenantSlug} /></NativeView>}
             {view === "modules"   && <IframeView    tenantSlug={tenantSlug} path="/admin/modules"   title="Moduly" />}
             {view === "revisions" && <NativeView    title="Verze"><RevisionsPanel tenantSlug={tenantSlug} /></NativeView>}
+            {view === "backup"    && <NativeView    title="Záloha"><BackupPanel tenantSlug={tenantSlug} /></NativeView>}
             {view === "audit"     && <NativeView    title="Audit"><AuditPanel tenantSlug={tenantSlug} /></NativeView>}
             {view === "account"   && <AccountExternal />}
           </div>
@@ -161,16 +209,17 @@ export function AdminConsole({ open, initialView = "overview", tenantSlug, tenan
 }
 
 function Sidebar({
-  view, onView, tenantSlug, tenantBusinessName,
+  view, onView, tenantSlug, tenantBusinessName, forceVisible,
 }: {
   view: AdminView;
   onView: (v: AdminView) => void;
   tenantSlug: string;
   tenantBusinessName?: string | null;
+  forceVisible?: boolean;
 }) {
   return (
     <aside
-      className="hidden h-full w-64 shrink-0 flex-col border-r border-slate-200 sm:flex"
+      className={`${forceVisible ? "flex" : "hidden sm:flex"} h-full w-full sm:w-64 shrink-0 flex-col border-r border-slate-200`}
       style={{ background: "linear-gradient(180deg, #ffffff 0%, #fafbfc 100%)" }}
     >
       {/* Brand */}
@@ -350,8 +399,8 @@ function OverviewView({
           label="Stránky webu"
           value={metrics?.pages}
           tone="neutral"
-          Icon={Globe}
-          onClick={() => onView("seo")}
+          Icon={FileStack}
+          onClick={() => onView("pages")}
           loading={loading}
         />
         <MetricCard
@@ -514,6 +563,114 @@ function IframeView({
           style={{ background: "white" }}
         />
       </div>
+    </div>
+  );
+}
+
+type GoLivePhase =
+  | { phase: "loading" }
+  | { phase: "ready" }
+  | { phase: "blocked"; missing: string[] }
+  | { phase: "published" }
+  | { phase: "error" };
+
+function GoLiveControl({ tenantSlug }: { tenantSlug: string }) {
+  const [pf, setPf] = useState<GoLivePhase>({ phase: "loading" });
+  const [publishing, setPublishing] = useState(false);
+  const [showMissing, setShowMissing] = useState(false);
+  const popRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/api/demo/${tenantSlug}/go-live`, { cache: "no-store" });
+        if (!res.ok) { if (!cancelled) setPf({ phase: "error" }); return; }
+        const json = (await res.json()) as { isPublished: boolean; ready: boolean; missing: string[] };
+        if (cancelled) return;
+        if (json.isPublished) setPf({ phase: "published" });
+        else if (json.ready)  setPf({ phase: "ready" });
+        else                  setPf({ phase: "blocked", missing: json.missing });
+      } catch {
+        if (!cancelled) setPf({ phase: "error" });
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [tenantSlug]);
+
+  useEffect(() => {
+    if (!showMissing) return;
+    function onDoc(e: MouseEvent) {
+      if (!popRef.current?.contains(e.target as Node)) setShowMissing(false);
+    }
+    document.addEventListener("mousedown", onDoc);
+    return () => document.removeEventListener("mousedown", onDoc);
+  }, [showMissing]);
+
+  async function publish() {
+    setPublishing(true);
+    try {
+      const res = await fetch(`/api/demo/${tenantSlug}/go-live`, { method: "POST" });
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        if (Array.isArray(json.missing)) { setPf({ phase: "blocked", missing: json.missing }); setShowMissing(true); }
+        else setPf({ phase: "error" });
+        return;
+      }
+      setPf({ phase: "published" });
+    } finally { setPublishing(false); }
+  }
+
+  if (pf.phase === "loading" || pf.phase === "error") return null;
+  if (pf.phase === "published") {
+    return (
+      <span className="inline-flex h-8 items-center gap-1.5 rounded-md bg-emerald-50 px-2.5 text-[11.5px] font-semibold text-emerald-700 ring-1 ring-inset ring-emerald-200">
+        <Check className="h-3.5 w-3.5" strokeWidth={2.25} />
+        <span className="hidden sm:inline">Web v provozu</span>
+        <span className="sm:hidden">Online</span>
+      </span>
+    );
+  }
+
+  const blocked = pf.phase === "blocked";
+  return (
+    <div className="relative" ref={popRef}>
+      <button
+        type="button"
+        onClick={() => (blocked ? setShowMissing(v => !v) : void publish())}
+        disabled={publishing}
+        title={blocked ? "Před spuštěním vyplň povinné údaje" : "Spustit web do produkce"}
+        className={`inline-flex h-8 items-center gap-1.5 rounded-md px-3 text-[11.5px] font-semibold transition-colors duration-150 ${
+          blocked
+            ? "bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200 hover:bg-amber-100"
+            : "bg-emerald-600 text-white shadow-[0_4px_14px_rgba(16,185,129,0.30)] hover:bg-emerald-500"
+        } disabled:opacity-60`}
+      >
+        {publishing
+          ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
+          : blocked
+            ? <AlertCircle className="h-3.5 w-3.5" strokeWidth={2.25} />
+            : <Rocket className="h-3.5 w-3.5" strokeWidth={2.25} />}
+        <span className="hidden sm:inline">{blocked ? "Před spuštěním…" : "Spustit web"}</span>
+        <span className="sm:hidden">{blocked ? "Doplnit" : "Spustit"}</span>
+      </button>
+
+      {blocked && showMissing && pf.phase === "blocked" && (
+        <div className="absolute right-0 top-10 z-50 w-72 rounded-lg border border-amber-200 bg-white p-3 text-[11.5px] shadow-[0_18px_44px_rgba(15,23,42,0.18)]">
+          <div className="mb-1.5 font-semibold text-amber-700">Před spuštěním webu doplň:</div>
+          <ul className="space-y-1 text-slate-700">
+            {pf.missing.map((m, i) => (
+              <li key={i} className="flex items-start gap-1.5">
+                <span className="text-amber-500">•</span>
+                <span>{m}</span>
+              </li>
+            ))}
+          </ul>
+          <button type="button" onClick={() => setShowMissing(false)} className="mt-2 text-[10.5px] text-slate-500 hover:text-slate-900">
+            Zavřít
+          </button>
+        </div>
+      )}
     </div>
   );
 }

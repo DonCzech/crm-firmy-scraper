@@ -6,7 +6,8 @@ import clsx from "clsx";
 import { getSectionLabel } from "./studio-icons";
 import type { Section } from "@/lib/db";
 import type { StudioState } from "./TenantStudioView";
-import type { ReactNode } from "react";
+import { type ReactNode, useEffect } from "react";
+import { findFieldBySrc, readFocus } from "@/lib/studio-focus";
 
 export function SectionFrame({
   section, state, children,
@@ -16,6 +17,25 @@ export function SectionFrame({
   children: ReactNode;
 }) {
   const studio = useStudio();
+
+  // Apply saved focus (object-position) to all images in this section that
+  // don't use GenericEditableImage (which applies focus via SectionContentContext).
+  // Runs after every render so it stays in sync with content changes.
+  useEffect(() => {
+    const content = (section.settings?.content ?? {}) as Record<string, unknown>;
+    const sectionEl = document.querySelector(`[data-section-id="${section.id}"]`);
+    if (!sectionEl) return;
+    const imgs = sectionEl.querySelectorAll("img");
+    imgs.forEach((imgEl) => {
+      const img = imgEl as HTMLImageElement;
+      // Skip images already managed by GenericEditableImage (data-studio-field wrapper)
+      if (img.closest("[data-studio-field]")) return;
+      const field = findFieldBySrc(content, img.currentSrc || img.src);
+      if (!field) return;
+      const focus = readFocus(content, field);
+      if (focus) img.style.objectPosition = `${focus.x}% ${focus.y}%`;
+    });
+  }, [section.settings, section.id]);
   const selected = studio.selectedSectionId === section.id;
   const hover = studio.hoverSectionId === section.id;
   const label = getSectionLabel(section.section_type, section.section_variant);
@@ -45,8 +65,133 @@ export function SectionFrame({
         const t = e.target as HTMLElement;
         if (t.isContentEditable) return;
         if (t.closest("[contenteditable='true']")) return;
-        if (t.closest("input,textarea,select,button,a")) return;
-        studio.setSelection(section.id);
+        // Allow IMG clicks even when inside <button> (e.g. gallery lightbox buttons)
+        // but block other interactive elements
+        if (t.tagName !== "IMG" && t.closest("input,textarea,select,button")) return;
+        // Allow img clicks even when inside <a> — prevent navigation (non-img anchor handled below)
+        if (t.tagName !== "IMG" && t.closest("a")) return;
+
+        // Resolve the actual image element — direct click OR underlying img beneath overlay divs
+        let imgEl: HTMLImageElement | null = t.tagName === "IMG" ? (t as HTMLImageElement) : null;
+        if (!imgEl && t.tagName !== "IMG") {
+          // e.g. gradient overlay is on top — scan all elements at this point for an img
+          const stack = document.elementsFromPoint(e.clientX, e.clientY);
+          imgEl = (stack.find(
+            (el) => el.tagName === "IMG" && el.closest(`[data-section-id="${section.id}"]`)
+          ) as HTMLImageElement | null) ?? null;
+        }
+
+        const alreadySelected = studio.selectedSectionId === section.id;
+
+        // First click: just select the section (ring + toolbar appear); close any open image panel
+        if (!alreadySelected) {
+          studio.setSelection(section.id);
+          studio.setImagePanel(null);
+          if (imgEl) {
+            e.preventDefault();
+            e.stopPropagation(); // prevent button/link onClick (e.g. gallery lightbox)
+          }
+          return;
+        }
+
+        // Section already selected — second click logic below
+        studio.setSelection(section.id); // keep selected
+
+        // Hero sections use HeroInspectorPanel in the right panel — no floating panel
+        if (section.section_type === "hero") {
+          studio.setImagePanel(null);
+          return;
+        }
+
+        // Second click on an image (direct or under overlay) → open floating inspector panel
+        if (imgEl) {
+          const img = imgEl;
+          if (img.closest("a,button")) e.preventDefault();
+          const rect = img.getBoundingClientRect();
+          // Parse current object-position as focus percentages
+          const computedStyle = window.getComputedStyle(img);
+          const pos = computedStyle.objectPosition || "50% 50%";
+          const parts = pos.split(" ");
+          const fx = parseFloat(parts[0]) || 50;
+          const fy = parseFloat(parts[1] ?? parts[0]) || 50;
+          // Place panel right of image (or left if no space), avoiding the right inspector panel
+          const panelW = 300;
+          const rightPanelW = section.section_type === "gallery" ? 268 : 0;
+          const effectiveRight = window.innerWidth - rightPanelW;
+          const spaceRight = effectiveRight - rect.right;
+          const px = spaceRight >= panelW + 16
+            ? rect.right + 8
+            : Math.max(8, Math.min(rect.left - panelW - 8, effectiveRight - panelW - 8));
+          // Vertically: centre panel with image, clamped so minimum panel height fits on screen
+          const PANEL_MIN_H = 300;
+          const idealPY = rect.top + rect.height / 2 - PANEL_MIN_H / 2;
+          const py = Math.max(48, Math.min(idealPY, window.innerHeight - PANEL_MIN_H - 8));
+          // Detect which content field this image belongs to:
+          // 1) data-studio-field attribute on a wrapper element (GenericEditableImage)
+          // 2) fallback: scan section content for a string field matching the img src
+          const fieldEl = (img.closest("[data-studio-field]") ?? img.parentElement?.closest("[data-studio-field]")) as HTMLElement | null;
+          const content = (section.settings?.content ?? {}) as Record<string, unknown>;
+          const studioField = fieldEl?.dataset.studioField
+            ?? findFieldBySrc(content, img.currentSrc || img.src)
+            ?? null;
+          const onReplace = studioField
+            ? (url: string, _alt?: string) => {
+                void state.patchSectionContent(section.id, studioField, url);
+              }
+            : undefined;
+          // Live focus update — directly patch object-position on the canvas img
+          const onFocusChange = (focus: { x: number; y: number }) => {
+            // Try data-studio-field selector first (works for GenericEditableImage wrappers)
+            let el = studioField
+              ? document.querySelector(`[data-section-id="${section.id}"] [data-studio-field="${studioField}"] img`) as HTMLImageElement | null
+              : null;
+            // Fallback: match by .src property (absolute URL) rather than attribute value (relative URL)
+            if (!el) {
+              const allImgs = document.querySelectorAll(`[data-section-id="${section.id}"] img`);
+              el = Array.from(allImgs).find(
+                (i) => (i as HTMLImageElement).src === img.src || (i as HTMLImageElement).currentSrc === img.src
+              ) as HTMLImageElement | null;
+            }
+            if (el) el.style.objectPosition = `${focus.x}% ${focus.y}%`;
+          };
+          // Save focus on "Hotovo"
+          const onFocusSave = studioField
+            ? (focus: { x: number; y: number }) => {
+                void state.patchSectionContent(section.id, `${studioField}Focus`, focus);
+              }
+            : undefined;
+          // For gallery images (field path starts with "images.N") — add delete callback
+          const onDelete = studioField && /^images\.\d+/.test(studioField)
+            ? () => {
+                // Extract numeric index from "images.0.url" → 0
+                const idx = parseInt(studioField.split(".")[1], 10);
+                // Read from patchSectionContent which internally reads sectionsRef (no stale closure)
+                const currentSection = state.sections.find(s => s.id === section.id);
+                const currentContent = (currentSection?.settings?.content ?? {}) as Record<string, unknown>;
+                const rawArr = (currentContent.images as unknown[]) ?? [];
+                const next = rawArr.filter((_, i) => i !== idx);
+                void state.patchSectionContent(section.id, "images", next);
+                studio.setImagePanel(null);
+              }
+            : undefined;
+          studio.setImagePanel({
+            src: img.currentSrc || img.src,
+            alt: img.alt,
+            sectionId: section.id,
+            panelPos: { x: px, y: Math.max(48, py) },
+            focus: { x: fx, y: fy },
+            onReplace,
+            onFocusChange,
+            onFocusSave,
+            onDelete,
+          });
+          // For gallery sections keep the right panel (GalleryInspectorPanel) visible alongside floating panel
+          if (section.section_type !== "gallery") studio.setRightPanel(false);
+          e.stopPropagation();
+        } else {
+          // Second click on non-image area — close image panel
+          studio.setImagePanel(null);
+        }
       }}
     >
       {children}

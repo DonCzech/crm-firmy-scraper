@@ -79,14 +79,25 @@ export default async function TenantDemoPage({ params }: Props) {
       cssUrls?: string[];
       jsUrls?: string[];
     };
-    // Extract LCP hero image URL server-side so preload is in SSR HTML (no hydration delay)
-    const cloneLcpMatch = html.match(/<img[^>]+src=['"]([^'"]+\.(jpg|jpeg|webp|png))['"][^>]*>/i)
+    // Extract LCP hero image URLs server-side so preloads are in SSR HTML (no hydration delay).
+    // Check for <picture><source srcset="..." media="(max-width: ...)"> first (mobile LCP candidate),
+    // then fall back to first <img> src or CSS url().
+    const mobileSrcMatch = html.match(/<source\s[^>]*srcset=['"]([^'"]+\.(jpg|jpeg|webp|png))['"][^>]*media=['"][^'"]*max-width[^'"]*['"][^>]*>/i)
+      ?? html.match(/<source\s[^>]*media=['"][^'"]*max-width[^'"]*['"][^>]*srcset=['"]([^'"]+\.(jpg|jpeg|webp|png))['"][^>]*>/i);
+    const mobileLcpUrl = mobileSrcMatch ? mobileSrcMatch[1] : null;
+    const desktopLcpMatch = html.match(/<img[^>]+src=['"]([^'"]+\.(jpg|jpeg|webp|png))['"][^>]*>/i)
       ?? html.match(/url\(['"]?([^'")]+\.(jpg|jpeg|webp|png))['"]?\)/i);
-    const clonePreloadImages = cloneLcpMatch ? [cloneLcpMatch[1]] : undefined;
+    const desktopLcpUrl = desktopLcpMatch ? desktopLcpMatch[1] : null;
+    const clonePreloadImages = desktopLcpUrl ? [desktopLcpUrl] : undefined;
     return (
       <>
-        {clonePreloadImages?.[0] && (
-          <link rel="preload" as="image" href={clonePreloadImages[0]} fetchPriority="high" />
+        {mobileLcpUrl && (
+          // eslint-disable-next-line react/jsx-no-literals
+          <link rel="preload" as="image" href={mobileLcpUrl} fetchPriority="high" media="(max-width: 574px)" />
+        )}
+        {desktopLcpUrl && (
+          // eslint-disable-next-line react/jsx-no-literals
+          <link rel="preload" as="image" href={desktopLcpUrl} fetchPriority="high" media={mobileLcpUrl ? "(min-width: 575px)" : undefined} />
         )}
         <ClonedSiteRenderer html={html} cssUrls={cssUrls} jsUrls={jsUrls} preloadImages={clonePreloadImages} />
       </>

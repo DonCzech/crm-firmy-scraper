@@ -1,20 +1,46 @@
 {
   "siteName": "Černý Fade",
   "tagline": "Premium pánský barbershop v centru Prahy — řezané střihy, holení horkým ručníkem, péče o vousy.",
-
   "navbar": {
     "logoUrl": "/templates/barber-04/logo.svg",
     "siteName": "Černý Fade",
     "links": [
-      { "label": "Domů",                  "href": "/" },
-      { "label": "O nás",                 "href": "/o-nas" },
-      { "label": "Služby",                "href": "/sluzby" },
-      { "label": "Galerie",               "href": "/galerie" },
-      { "label": "Ceník",                 "href": "/cenik" },
-      { "label": "Aktuality",             "href": "/aktuality" },
-      { "label": "Kontakty",              "href": "/kontakty" },
-      { "label": "Přijmu barbera",        "href": "/prijmu-barbera" },
-      { "label": "Vytvořte si rezervaci", "href": "https://demo.cz/rezervace" }
+      {
+        "label": "Domů",
+        "href": "/"
+      },
+      {
+        "label": "O nás",
+        "href": "/o-nas"
+      },
+      {
+        "label": "Služby",
+        "href": "/sluzby"
+      },
+      {
+        "label": "Galerie",
+        "href": "/galerie"
+      },
+      {
+        "label": "Ceník",
+        "href": "/cenik"
+      },
+      {
+        "label": "Aktuality",
+        "href": "/aktuality"
+      },
+      {
+        "label": "Kontakty",
+        "href": "/kontakty"
+      },
+      {
+        "label": "Přijmu barbera",
+        "href": "/prijmu-barbera"
+      },
+      {
+        "label": "Vytvořte si rezervaci",
+        "href": "https://demo.cz/rezervace"
+      }
     ],
     "ctaText": "",
     "ctaHref": "",
@@ -22,16 +48,34 @@
     "transparent": true,
     "hamburgerBreakpoint": 1024,
     "topbar": {
-      "phone": { "label": "+420 704 123 456", "href": "tel:+420704123456" },
+      "phone": {
+        "label": "+420 704 123 456",
+        "href": "tel:+420704123456"
+      },
       "social": [
-        { "icon": "facebook",  "label": "Facebook",  "href": "https://facebook.com/demo" },
-        { "icon": "instagram", "label": "Instagram", "href": "https://instagram.com/demo" },
-        { "icon": "youtube",   "label": "YouTube",   "href": "https://youtube.com/@demo" },
-        { "icon": "tiktok",    "label": "TikTok",    "href": "https://tiktok.com/@demo" }
+        {
+          "icon": "facebook",
+          "label": "Facebook",
+          "href": "https://facebook.com/demo"
+        },
+        {
+          "icon": "instagram",
+          "label": "Instagram",
+          "href": "https://instagram.com/demo"
+        },
+        {
+          "icon": "youtube",
+          "label": "YouTube",
+          "href": "https://youtube.com/@demo"
+        },
+        {
+          "icon": "tiktok",
+          "label": "TikTok",
+          "href": "https://tiktok.com/@demo"
+        }
       ]
     }
   },
-
   "hero": {
     "title": "Pánský barbershop pro každý den",
     "ctaText": "vytvořit rezervaci",
@@ -41,32 +85,54 @@
       {
         "title": "Pánský barbershop pro každý den",
         "subtitle": "Klasické řemeslo, čistý fade, péče o vousy. Centrum Prahy, otevřeno 6 dní v týdnu.",
-        "backgroundImage": { "__placeholder": [1920, 1080, "Hero slide 1 — barbershop interiér"] }
+        "backgroundImage": "/templates/barber-04/images/hero-1.jpg"
       },
       {
         "title": "Holení horkým ručníkem od profesionálů",
         "subtitle": "Tradiční rituál pro hladkou tvář. Rezervujte si svůj termín.",
-        "backgroundImage": { "__placeholder": [1920, 1080, "Hero slide 2 — holení břitvou"] }
+        "backgroundImage": "/templates/barber-04/images/hero-2.jpg"
       }
     ]
   },
-
   "about": {
     "title": "O nás",
     "lead": "Pánské střihy s charakterem. V Černý Fade pracujeme s precizí, kvalitou materiálu a osobním přístupem ke každému zákazníkovi.",
     "body": "Černý Fade vznikl ze záliby ve klasickém řemesle a chuti dělat barbershop, kam se klienti vrací roky. Pracujeme v moderním, vzdušném prostředí v centru Prahy. Vyučení holiči, pokora k řemeslu a respekt k zákazníkovi.",
     "images": [
-      { "url": { "__placeholder": [1000, 1200, "About 01"] }, "alt": "Demo barbershop 01" },
-      { "url": { "__placeholder": [1000, 1200, "About 02"] }, "alt": "Demo barbershop 02" },
-      { "url": { "__placeholder": [1000, 1200, "About 03"] }, "alt": "Demo barbershop 03" },
-      { "url": { "__placeholder": [1000, 1200, "About 04"] }, "alt": "Demo barbershop 04" },
-      { "url": { "__placeholder": [1000, 1200, "About 05"] }, "alt": "Demo barbershop 05" },
-      { "url": { "__placeholder": [1000, 1200, "About 06"] }, "alt": "Demo barbershop 06" },
-      { "url": { "__placeholder": [1000, 1200, "About 07"] }, "alt": "Demo barbershop 07" },
-      { "url": { "__placeholder": [1000, 1200, "About 08"] }, "alt": "Demo barbershop 08" }
+      {
+        "url": "/templates/barber-04/images/about-01.jpg",
+        "alt": "Demo barbershop 01"
+      },
+      {
+        "url": "/templates/barber-04/images/about-02.jpg",
+        "alt": "Demo barbershop 02"
+      },
+      {
+        "url": "/templates/barber-04/images/about-03.jpg",
+        "alt": "Demo barbershop 03"
+      },
+      {
+        "url": "/templates/barber-04/images/about-04.jpg",
+        "alt": "Demo barbershop 04"
+      },
+      {
+        "url": "/templates/barber-04/images/about-05.jpg",
+        "alt": "Demo barbershop 05"
+      },
+      {
+        "url": "/templates/barber-04/images/about-06.jpg",
+        "alt": "Demo barbershop 06"
+      },
+      {
+        "url": "/templates/barber-04/images/about-07.jpg",
+        "alt": "Demo barbershop 07"
+      },
+      {
+        "url": "/templates/barber-04/images/about-08.jpg",
+        "alt": "Demo barbershop 08"
+      }
     ]
   },
-
   "footer": {
     "siteName": "Černý Fade",
     "locationTitle": "lokalita",
@@ -74,8 +140,14 @@
     "subway": "Metro – Náměstí Republiky",
     "hoursTitle": "Otevírací doba",
     "hours": [
-      { "day": "Pondělí–pátek:", "value": "9:00 – 18:00" },
-      { "day": "Sobota:",        "value": "9:00 – 14:00" }
+      {
+        "day": "Pondělí–pátek:",
+        "value": "9:00 – 18:00"
+      },
+      {
+        "day": "Sobota:",
+        "value": "9:00 – 14:00"
+      }
     ],
     "hoursNote": "Objednávky předem on-line nebo telefonicky",
     "contactTitle": "kontakt",
@@ -88,13 +160,28 @@
     "paymentNote": "Platba hotovost i karty",
     "receiptNote": "Daňový doklad",
     "socials": [
-      { "icon": "facebook",  "label": "Facebook",  "href": "https://facebook.com/demo" },
-      { "icon": "instagram", "label": "Instagram", "href": "https://instagram.com/demo" },
-      { "icon": "youtube",   "label": "YouTube",   "href": "https://youtube.com/@demo" },
-      { "icon": "tiktok",    "label": "TikTok",    "href": "https://tiktok.com/@demo" }
+      {
+        "icon": "facebook",
+        "label": "Facebook",
+        "href": "https://facebook.com/demo"
+      },
+      {
+        "icon": "instagram",
+        "label": "Instagram",
+        "href": "https://instagram.com/demo"
+      },
+      {
+        "icon": "youtube",
+        "label": "YouTube",
+        "href": "https://youtube.com/@demo"
+      },
+      {
+        "icon": "tiktok",
+        "label": "TikTok",
+        "href": "https://tiktok.com/@demo"
+      }
     ]
   },
-
   "cta": {
     "title": "Objednejte se teď hned on-line",
     "subtitle": "Rezervujte si termín podle své služby — vrátíme se vám do hodiny.",
@@ -102,7 +189,6 @@
     "ctaHref": "https://demo.cz/rezervace",
     "image": ""
   },
-
   "testimonials": {
     "title": "Ukázka naší práce",
     "testimonials": [
@@ -113,7 +199,6 @@
       }
     ]
   },
-
   "pages": {
     "sluzby": {
       "seoTitle": "Služby — Černý Fade",
@@ -125,10 +210,22 @@
       "services": {
         "title": "Služby",
         "services": [
-          { "name": "Střih vlasů a vousů", "description": "Precizní střih na míru — od klasiky po moderní fade. Postaráme se o dokonalý výsledek do nejmenšího detailu." },
-          { "name": "Holení vousů a hlavy", "description": "Tradiční holení břitvou s napařením horkým ručníkem (Hot Towel). Rituál, po kterém bude vaše tvář dokonale hladká." },
-          { "name": "Barvení / melír / balayage", "description": "Barvení vlasů i vousů šetrnými produkty. Moderní techniky pro přirozeně vypadající výsledek." },
-          { "name": "Bio trvalá ondulace", "description": "Kompletní trvalá ondulace se střihem. Závěrečná Plex kúra a maska na rekonstrukci vlasu." }
+          {
+            "name": "Střih vlasů a vousů",
+            "description": "Precizní střih na míru — od klasiky po moderní fade. Postaráme se o dokonalý výsledek do nejmenšího detailu."
+          },
+          {
+            "name": "Holení vousů a hlavy",
+            "description": "Tradiční holení břitvou s napařením horkým ručníkem (Hot Towel). Rituál, po kterém bude vaše tvář dokonale hladká."
+          },
+          {
+            "name": "Barvení / melír / balayage",
+            "description": "Barvení vlasů i vousů šetrnými produkty. Moderní techniky pro přirozeně vypadající výsledek."
+          },
+          {
+            "name": "Bio trvalá ondulace",
+            "description": "Kompletní trvalá ondulace se střihem. Závěrečná Plex kúra a maska na rekonstrukci vlasu."
+          }
         ]
       }
     },
@@ -142,26 +239,126 @@
       "pricing": {
         "title": "Ceník",
         "services": [
-          { "category": "Úprava vlasů a vousů", "name": "Pánský střih", "price": "550 Kč", "description": "Mytí vlasů, střih, zaholení kontur břitvou, welcome drink." },
-          { "category": "Úprava vlasů a vousů", "name": "Chlapecký střih", "price": "450 Kč", "description": "Pro děti do 10 let — mytí, střih, styling, welcome drink." },
-          { "category": "Úprava vlasů a vousů", "name": "Střih vousů", "price": "450 Kč", "description": "Střih, napářka horkým ručníkem, holení kontur, balzám a welcome drink." },
-          { "category": "Úprava vlasů a vousů", "name": "Holení", "price": "650 Kč", "description": "Holení vousů nebo hlavy s přípravou, balzámem a tonikem." },
-          { "category": "Úprava vlasů a vousů", "name": "Střih vousů + barvení vousů", "price": "650 Kč", "description": "Kombinovaná služba se střihem, barvením a péčí." },
-          { "category": "Úprava vlasů a vousů", "name": "Barvení vousů", "price": "300 Kč", "description": "Barvení vousů a obočí s péčí a welcome drink." },
-          { "category": "Úprava vlasů a vousů", "name": "Střih vlasů pouze nůžkami", "price": "850 Kč", "description": "Tradiční střih výhradně nůžkami pro precizní detail." },
-          { "category": "Úprava vlasů a vousů", "name": "Střih vlasů + střih vousů", "price": "850 Kč", "description": "Komplexní péče o vlasy a vousy se všemi produkty." },
-          { "category": "Úprava vlasů a vousů", "name": "Kompletní péče", "price": "1300 Kč", "description": "Mytí, střih, vousy, barvení, maska, zábal rukou, masáž, depilace a úprava obočí." },
-          { "category": "Úprava vlasů a vousů", "name": "Trvalá ondulace", "price": "1200 Kč", "description": "Na krátké vlasy. Konzultace doporučena." },
-          { "category": "Úprava vlasů a vousů", "name": "Trvalá ondulace + střih vlasů", "price": "1700 Kč", "description": "Trvalá ondulace v kombinaci se střihem vlasů." },
-          { "category": "Úprava vlasů a vousů", "name": "Barvení vlasů (tmavé odstíny, tonery)", "price": "850 Kč", "description": "Tmavé odstíny, tonery, přímé pigmenty. Konzultace předem nutná." },
-          { "category": "Úprava vlasů a vousů", "name": "Odbarvení vlasů (bílé studené odstíny)", "price": "1700 Kč", "description": "Konzultace doporučena." },
-          { "category": "Úprava vlasů a vousů", "name": "Melír vlasů (blond odstíny)", "price": "1300 Kč", "description": "Na přirozené, studené blond tóny. Konzultace nutná." },
-          { "category": "Úprava vlasů a vousů", "name": "Balayage", "price": "1700 Kč", "description": "Technika ručního nanášení barvy pro přirozený vzhled." },
-          { "category": "Úprava vlasů a vousů", "name": "Odbarvení vlasů na blond odstíny", "price": "1300 Kč", "description": "Konzultace doporučena." },
-          { "category": "Doplňkové služby", "name": "Peelingová nebo slupovací maska na obličej", "price": "200 Kč", "description": "Relaxační masky pro svěžejší vzhled." },
-          { "category": "Doplňkové služby", "name": "Depilace chloupků (nos, uši) + úprava obočí břitvou", "price": "300 Kč", "description": "Depilace teplým voskem s ošetřením a welcome drink." },
-          { "category": "Doplňkové služby", "name": "Masáž hlavy, ramen, krku, obličeje", "price": "300 Kč", "description": "Masáž na holičském křesle." },
-          { "category": "Doplňkové služby", "name": "Regenerační zábal rukou", "price": "200 Kč", "description": "Péče s welcome drink." }
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Pánský střih",
+            "price": "550 Kč",
+            "description": "Mytí vlasů, střih, zaholení kontur břitvou, welcome drink."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Chlapecký střih",
+            "price": "450 Kč",
+            "description": "Pro děti do 10 let — mytí, střih, styling, welcome drink."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Střih vousů",
+            "price": "450 Kč",
+            "description": "Střih, napářka horkým ručníkem, holení kontur, balzám a welcome drink."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Holení",
+            "price": "650 Kč",
+            "description": "Holení vousů nebo hlavy s přípravou, balzámem a tonikem."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Střih vousů + barvení vousů",
+            "price": "650 Kč",
+            "description": "Kombinovaná služba se střihem, barvením a péčí."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Barvení vousů",
+            "price": "300 Kč",
+            "description": "Barvení vousů a obočí s péčí a welcome drink."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Střih vlasů pouze nůžkami",
+            "price": "850 Kč",
+            "description": "Tradiční střih výhradně nůžkami pro precizní detail."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Střih vlasů + střih vousů",
+            "price": "850 Kč",
+            "description": "Komplexní péče o vlasy a vousy se všemi produkty."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Kompletní péče",
+            "price": "1300 Kč",
+            "description": "Mytí, střih, vousy, barvení, maska, zábal rukou, masáž, depilace a úprava obočí."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Trvalá ondulace",
+            "price": "1200 Kč",
+            "description": "Na krátké vlasy. Konzultace doporučena."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Trvalá ondulace + střih vlasů",
+            "price": "1700 Kč",
+            "description": "Trvalá ondulace v kombinaci se střihem vlasů."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Barvení vlasů (tmavé odstíny, tonery)",
+            "price": "850 Kč",
+            "description": "Tmavé odstíny, tonery, přímé pigmenty. Konzultace předem nutná."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Odbarvení vlasů (bílé studené odstíny)",
+            "price": "1700 Kč",
+            "description": "Konzultace doporučena."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Melír vlasů (blond odstíny)",
+            "price": "1300 Kč",
+            "description": "Na přirozené, studené blond tóny. Konzultace nutná."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Balayage",
+            "price": "1700 Kč",
+            "description": "Technika ručního nanášení barvy pro přirozený vzhled."
+          },
+          {
+            "category": "Úprava vlasů a vousů",
+            "name": "Odbarvení vlasů na blond odstíny",
+            "price": "1300 Kč",
+            "description": "Konzultace doporučena."
+          },
+          {
+            "category": "Doplňkové služby",
+            "name": "Peelingová nebo slupovací maska na obličej",
+            "price": "200 Kč",
+            "description": "Relaxační masky pro svěžejší vzhled."
+          },
+          {
+            "category": "Doplňkové služby",
+            "name": "Depilace chloupků (nos, uši) + úprava obočí břitvou",
+            "price": "300 Kč",
+            "description": "Depilace teplým voskem s ošetřením a welcome drink."
+          },
+          {
+            "category": "Doplňkové služby",
+            "name": "Masáž hlavy, ramen, krku, obličeje",
+            "price": "300 Kč",
+            "description": "Masáž na holičském křesle."
+          },
+          {
+            "category": "Doplňkové služby",
+            "name": "Regenerační zábal rukou",
+            "price": "200 Kč",
+            "description": "Péče s welcome drink."
+          }
         ]
       }
     },
@@ -175,18 +372,54 @@
       "gallery": {
         "title": "Ukázka naší práce",
         "images": [
-          { "url": { "__placeholder": [1000, 1000, "Galerie 01"] }, "alt": "Galerie 01" },
-          { "url": { "__placeholder": [1000, 1000, "Galerie 02"] }, "alt": "Galerie 02" },
-          { "url": { "__placeholder": [1000, 1000, "Galerie 03"] }, "alt": "Galerie 03" },
-          { "url": { "__placeholder": [1000, 1000, "Galerie 04"] }, "alt": "Galerie 04" },
-          { "url": { "__placeholder": [1000, 1000, "Galerie 05"] }, "alt": "Galerie 05" },
-          { "url": { "__placeholder": [1000, 1000, "Galerie 06"] }, "alt": "Galerie 06" },
-          { "url": { "__placeholder": [1000, 1000, "Galerie 07"] }, "alt": "Galerie 07" },
-          { "url": { "__placeholder": [1000, 1000, "Galerie 08"] }, "alt": "Galerie 08" },
-          { "url": { "__placeholder": [1000, 1000, "Galerie 09"] }, "alt": "Galerie 09" },
-          { "url": { "__placeholder": [1000, 1000, "Galerie 10"] }, "alt": "Galerie 10" },
-          { "url": { "__placeholder": [1000, 1000, "Galerie 11"] }, "alt": "Galerie 11" },
-          { "url": { "__placeholder": [1000, 1000, "Galerie 12"] }, "alt": "Galerie 12" }
+          {
+            "url": "/templates/barber-04/images/gallery-01.jpg",
+            "alt": "Galerie 01"
+          },
+          {
+            "url": "/templates/barber-04/images/gallery-02.jpg",
+            "alt": "Galerie 02"
+          },
+          {
+            "url": "/templates/barber-04/images/gallery-03.jpg",
+            "alt": "Galerie 03"
+          },
+          {
+            "url": "/templates/barber-04/images/gallery-04.jpg",
+            "alt": "Galerie 04"
+          },
+          {
+            "url": "/templates/barber-04/images/gallery-05.jpg",
+            "alt": "Galerie 05"
+          },
+          {
+            "url": "/templates/barber-04/images/gallery-06.jpg",
+            "alt": "Galerie 06"
+          },
+          {
+            "url": "/templates/barber-04/images/gallery-07.jpg",
+            "alt": "Galerie 07"
+          },
+          {
+            "url": "/templates/barber-04/images/gallery-08.jpg",
+            "alt": "Galerie 08"
+          },
+          {
+            "url": "/templates/barber-04/images/gallery-09.jpg",
+            "alt": "Galerie 09"
+          },
+          {
+            "url": "/templates/barber-04/images/gallery-10.jpg",
+            "alt": "Galerie 10"
+          },
+          {
+            "url": "/templates/barber-04/images/gallery-11.jpg",
+            "alt": "Galerie 11"
+          },
+          {
+            "url": "/templates/barber-04/images/gallery-12.jpg",
+            "alt": "Galerie 12"
+          }
         ]
       }
     },
@@ -202,10 +435,22 @@
         "lead": "Černý Fade je pánský barbershop v centru Prahy. Zaměřujeme se na precizní střih, holení horkým ručníkem a kompletní péči o vousy.",
         "body": "Pracujeme v moderním, vzdušném prostředí, kombinujeme tradiční techniky s nejnovějšími trendy a klademe důraz na osobní přístup. Každý zákazník dostává čas, který si zaslouží.",
         "images": [
-          { "url": { "__placeholder": [1000, 1200, "Atmosféra 01"] }, "alt": "Atmosféra 01" },
-          { "url": { "__placeholder": [1000, 1200, "Atmosféra 02"] }, "alt": "Atmosféra 02" },
-          { "url": { "__placeholder": [1000, 1200, "Atmosféra 03"] }, "alt": "Atmosféra 03" },
-          { "url": { "__placeholder": [1000, 1200, "Atmosféra 04"] }, "alt": "Atmosféra 04" }
+          {
+            "url": "/templates/barber-04/images/about-01.jpg",
+            "alt": "Atmosféra 01"
+          },
+          {
+            "url": "/templates/barber-04/images/about-02.jpg",
+            "alt": "Atmosféra 02"
+          },
+          {
+            "url": "/templates/barber-04/images/about-03.jpg",
+            "alt": "Atmosféra 03"
+          },
+          {
+            "url": "/templates/barber-04/images/about-04.jpg",
+            "alt": "Atmosféra 04"
+          }
         ]
       }
     },
@@ -246,15 +491,30 @@
       }
     }
   },
-
   "stats": {
     "title": "Náš tým",
     "lead": "Vyučení holiči s pokorou k řemeslu a respektem k zákazníkovi. Tradiční techniky kombinujeme s moderními trendy.",
     "items": [
-      { "value": "5200+", "label": "spokojených zákazníků", "icon": "users" },
-      { "value": "4",     "label": "počet barberů",          "icon": "scissors" },
-      { "value": "28",    "label": "počet stylů",            "icon": "sparkles" },
-      { "value": "1",     "label": "barbershop",             "icon": "shop" }
+      {
+        "value": "5200+",
+        "label": "spokojených zákazníků",
+        "icon": "users"
+      },
+      {
+        "value": "4",
+        "label": "počet barberů",
+        "icon": "scissors"
+      },
+      {
+        "value": "28",
+        "label": "počet stylů",
+        "icon": "sparkles"
+      },
+      {
+        "value": "1",
+        "label": "barbershop",
+        "icon": "shop"
+      }
     ]
   }
 }

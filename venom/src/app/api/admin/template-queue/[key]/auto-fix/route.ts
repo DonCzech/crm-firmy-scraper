@@ -68,7 +68,7 @@ async function scanTemplate(key: string): Promise<ScanResult & { tenantSlug: str
     const base = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3015";
     try {
       const t0 = Date.now();
-      const res = await fetch(`${base}/demo/${tenant.slug}`, { headers: { "user-agent": "venom-auto-fix-audit/1.0" } });
+      const res = await fetch(`${base}/demo/${tenant.slug}`, { headers: { "user-agent": "webero-auto-fix-audit/1.0" } });
       const html = await res.text();
       elapsedMs = Date.now() - t0;
       bytesKb = Math.round(Buffer.byteLength(html, "utf-8") / 1024);
@@ -148,21 +148,46 @@ export async function POST(_req: NextRequest, { params }: RouteParams) {
 
   const fix = await autoFixTemplate(key);
   const scan = await scanTemplate(key);
-  const notes = buildAuditNotes(fix, scan);
 
-  // Auto-populate checklist based on findings
+  // Studio compatibility audit
+  let studioScore: number | undefined;
+  let studioIssues: Array<{ severity: string; code: string; message: string }> = [];
+  let studioSummary: Record<string, unknown> = {};
+  try {
+    const { studioCompatibilityAudit } = await import("../scan/route");
+    const studioResult = await studioCompatibilityAudit(key);
+    studioScore = studioResult.score;
+    studioIssues = studioResult.issues;
+    studioSummary = studioResult.summary;
+  } catch { /* skip if unavailable */ }
+
+  const fullScan = { ...scan, studioScore, studioIssues, studioSummary };
+  const notes = buildAuditNotes(fix, fullScan);
+
   const totalResidue = scan.residueDisk + scan.residueRender;
+  const noPlaceholders = (studioSummary.placeholderCount as number ?? 0) === 0;
+  const noDeadRefs    = (studioSummary.deadRefs as number ?? 0) === 0;
+
   const checklist: Record<string, boolean> = {
-    no_original_text: totalResidue === 0,
-    no_original_imgs: false, // user must manually verify
-    desktop_rendering: scan.tenantSlug !== null,
-    mobile_rendering: scan.tenantSlug !== null,
-    sections_work: scan.tenantSlug !== null,
-    sections_toggle: scan.tenantSlug !== null,
-    sections_reorder: scan.tenantSlug !== null,
-    editor_clickable: scan.tenantSlug !== null,
-    pagespeed_ok: (scan.perfScore ?? 0) >= 80,
-    seo_complete: scan.hasH1 && scan.hasDescription && scan.jsonLdCount > 0,
+    // Visual
+    no_original_text:    totalResidue === 0,
+    no_original_imgs:    false,
+    desktop_rendering:   scan.tenantSlug !== null,
+    mobile_rendering:    scan.tenantSlug !== null,
+    // Studio
+    sections_work:       scan.tenantSlug !== null,
+    sections_toggle:     scan.tenantSlug !== null,
+    sections_reorder:    scan.tenantSlug !== null,
+    sections_add_delete: false,
+    editor_clickable:    scan.tenantSlug !== null,
+    editor_inline_text:  false,
+    editor_images:       false,
+    data_slots:          false,
+    no_placeholder_imgs: noPlaceholders,
+    contentref_valid:    noDeadRefs,
+    // Perf & SEO
+    pagespeed_ok:        (scan.perfScore ?? 0) >= 80,
+    seo_complete:        scan.hasH1 && scan.hasDescription && scan.jsonLdCount > 0,
   };
 
   await query(
@@ -200,7 +225,8 @@ export async function POST(_req: NextRequest, { params }: RouteParams) {
     key,
     tenantSlug: scan.tenantSlug,
     fix,
-    scan,
+    scan: fullScan,
+    studio: { score: studioScore, issues: studioIssues, summary: studioSummary },
     notes,
     checklist,
   });

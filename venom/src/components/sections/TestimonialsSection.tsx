@@ -301,7 +301,8 @@ export function TestimonialsSection({ content, variant, sectionId, isAdmin, tena
                     width: i === active ? 28 : 10,
                     height: 2,
                     backgroundColor: i === active ? "#d5b981" : "rgba(0,0,0,0.25)",
-                    padding: 0,
+                    padding: "11px 0",
+                    backgroundClip: "content-box",
                     transition: "width .25s, background-color .25s",
                   }}
                 />
@@ -343,7 +344,7 @@ export function TestimonialsSection({ content, variant, sectionId, isAdmin, tena
                 key={i}
                 onClick={() => setActive(i)}
                 aria-label={`Recenze ${i + 1}`}
-                className="relative flex items-center justify-center w-6 h-6 rounded-full transition-all"
+                className="relative flex items-center justify-center w-11 h-11 rounded-full transition-all bg-transparent border-0 cursor-pointer"
               >
                 <span
                   className="w-2 h-2 rounded-full transition-all block"
@@ -2995,9 +2996,10 @@ function TestimonialsFlorist01({ content, sectionId }: { content: Record<string,
 
   return (
     <section style={{ backgroundColor: "#fff", padding: "72px 0", fontFamily: FONT }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&display=swap');
-        .f01-rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&display=swap" />
+      <style>{`        .f01-rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
         @media (max-width: 900px) { .f01-rev-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 560px) { .f01-rev-grid { grid-template-columns: 1fr; } }
         .f01-rev-card { background: #f9f9f9; padding: 28px 24px; display: flex; flex-direction: column; }
@@ -3362,7 +3364,7 @@ function TestimonialsKids01({ content, sectionId }: { content: Record<string, un
         {/* CTA */}
         {ctaText && (
           <div className={`k01rev-heading${vis ? " vis" : ""}`} style={{ textAlign: "center", transitionDelay: vis ? "450ms" : "0ms" }}>
-            <a href={ctaHref} className="k01rev-cta">
+            <a href={ctaHref} data-btn="primary" className="k01rev-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /> →
             </a>
           </div>
@@ -3808,9 +3810,10 @@ function TestimonialsSolar02({ content, sectionId }: { content: Record<string, u
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
-        .s02tmn { background: #f4f8f2; padding: 80px 0; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" />
+      <style>{`        .s02tmn { background: #f4f8f2; padding: 80px 0; }
         .s02tmn-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
         .s02tmn-head { text-align: center; margin-bottom: 52px; }
         .s02tmn-h2 { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 38px; color: #0b0f14; margin: 0 0 12px; letter-spacing: -0.5px; }
@@ -4020,9 +4023,10 @@ function TestimonialsMalir01({ content, sectionId }: { content: Record<string, u
 
   return (
     <>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Raleway:wght@400;600;700&display=swap');
-        .m01t-section { background: #ffffff; padding: 80px 30px; font-family: ${RALEWAY}; text-align: center; }
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@800&family=Raleway:wght@400;600;700&display=swap" />
+      <style>{`        .m01t-section { background: #ffffff; padding: 80px 30px; font-family: ${RALEWAY}; text-align: center; }
         .m01t-header { max-width: 770px; margin: 0 auto 48px; }
         .m01t-tagline { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: ${AMBER}; margin-bottom: 12px; }
         .m01t-title { font-family: ${PLAYFAIR}; font-size: 36px; font-weight: 800; color: ${DARK}; margin: 0 0 12px; }
@@ -4578,7 +4582,7 @@ function TestimonialsVideo01({ content, sectionId, isAdmin }: {
         ))}
 
         <div className="vd01tm-footer">
-          <a href={ctaHref} className="vd01tm-cta">
+          <a href={ctaHref} data-btn="primary" className="vd01tm-cta">
             {isAdmin ? <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /> : ctaText}
             <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </a>

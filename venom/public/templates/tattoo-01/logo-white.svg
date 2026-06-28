@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 370 72" width="370" height="72">
+  <!-- Diamond symbol -->
+  <polygon points="28,4 52,36 28,68 4,36" fill="none" stroke="#ff5c4b" stroke-width="2.5"/>
+  <polygon points="28,14 44,36 28,58 12,36" fill="#ff5c4b" opacity="0.18"/>
+  <!-- Small cross inside diamond -->
+  <line x1="28" y1="24" x2="28" y2="48" stroke="#ff5c4b" stroke-width="1.5"/>
+  <line x1="16" y1="36" x2="40" y2="36" stroke="#ff5c4b" stroke-width="1.5"/>
+
+  <!-- TATTOO wordmark -->
+  <text
+    x="68" y="46"
+    font-family="'Arial Black', 'Arial Bold', Arial, sans-serif"
+    font-size="32"
+    font-weight="900"
+    fill="#ffffff"
+    letter-spacing="6"
+  >TATTOO</text>
+
+  <!-- &amp; PIERCING subline -->
+  <text
+    x="70" y="63"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="9"
+    font-weight="400"
+    fill="rgba(255,255,255,0.5)"
+    letter-spacing="4"
+  >&amp; PIERCING STUDIO</text>
+</svg>

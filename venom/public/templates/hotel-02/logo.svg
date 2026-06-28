@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 52" width="230" height="52">
+  <!-- Diamond emblem -->
+  <rect x="6" y="12" width="22" height="22" rx="1" transform="rotate(45 17 23)" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <rect x="10" y="16" width="14" height="14" rx="0.5" transform="rotate(45 17 23)" fill="currentColor" opacity="0.15"/>
+  <!-- Wordmark: RELAX -->
+  <text x="44" y="22" font-family="'Montserrat','Helvetica Neue',Arial,sans-serif" font-size="18" font-weight="700" fill="currentColor" letter-spacing="5">RELAX</text>
+  <!-- Thin rule -->
+  <line x1="44" y1="28" x2="226" y2="28" stroke="currentColor" stroke-width="0.75" opacity="0.35"/>
+  <!-- Wordmark: HOTEL -->
+  <text x="44" y="43" font-family="'Montserrat','Helvetica Neue',Arial,sans-serif" font-size="12" font-weight="300" fill="currentColor" letter-spacing="9">HOTEL</text>
+</svg>

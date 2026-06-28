@@ -151,7 +151,7 @@ async function runAnalysis(jobId: string, url: string, industry: string) {
 
     // ── Step 5: Generate template ─────────────────────────────────────────────
     updateJob(jobId, { stage: "generating" });
-    appendJobLog(jobId, "Generating Venom template...");
+    appendJobLog(jobId, "Generating Webero template...");
     const generated = generateTemplate(analysis);
 
     const generatedDir = path.join(

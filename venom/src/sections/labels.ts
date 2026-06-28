@@ -18,6 +18,11 @@ export const SECTION_TYPE_LABELS: Record<string, string> = {
   map: "Mapa",
   "full-page-clone": "Klonovaná stránka",
   "astera-home": "Astera úvod",
+  embed: "Vlastní HTML / Embed",
+  promo: "Promo",
+  products: "Produkty",
+  stats: "Statistiky",
+  freeform: "Volné plátno",
 };
 
 export function getSectionTypeLabel(type: string): string {

@@ -1,13 +1,18 @@
 "use client";
 
-import { useState, useCallback, useMemo, useRef, useEffect } from "react";
+import { useState, useCallback, useMemo, useRef, useEffect, Fragment } from "react";
 import { SectionRenderer } from "./SectionRenderer";
 import { PageBuilder } from "./PageBuilder";
 import { TrialBanner } from "./TrialBanner";
-import { EditorDock, EditorCollapsedTab, type DrawerKey } from "./editor/EditorDock";
+import { useTrialStatus } from "./editor/TrialChip";
+import { TrialLockOverlay } from "./editor/TrialLockOverlay";
+import { EditorDock, EditorCollapsedTab, type DrawerKey, type DockPage } from "./editor/EditorDock";
 import { EditorDrawer } from "./editor/EditorDrawer";
-import { SectionFrame, ElementMicroRail } from "./editor/EditorElementOverlay";
+import { SectionFrame, ElementMicroRail, InsertZone, type VariantOption, type SectionAnimation } from "./editor/EditorElementOverlay";
+import { buildSectionLibrary } from "@/sections/variants";
 import { AdminConsole, type AdminView } from "./editor/AdminConsole";
+import { SectionLibraryModal } from "./editor/SectionLibraryModal";
+import { OnboardingTour, useOnboardingTour } from "./editor/OnboardingTour";
 import type { Tenant, Page, Section, TenantOverride } from "@/lib/db";
 import type { SiteContent } from "@/lib/content-types";
 import { applyOverrides } from "@/lib/overrides";
@@ -132,9 +137,36 @@ function getSectionStyle(sections: Section[], sectionId: number, field: string):
   return content.__styles?.[field] ?? {};
 }
 
-export function TenantEditorView({ tenant, sections: initialSections, overrides = [] }: Props) {
+export function TenantEditorView({ tenant, page, sections: initialSections, overrides = [] }: Props) {
   const [sections, setSections] = useState<Section[]>(initialSections);
   const [builderOpen, setBuilderOpen] = useState(false);
+  const [libraryOpen, setLibraryOpen] = useState(false);
+  const [pendingInsertOrder, setPendingInsertOrder] = useState<number | null>(null);
+  const tour = useOnboardingTour();
+  const trial = useTrialStatus(tenant.slug);
+  const trialExpired = !!trial && trial.sub_status !== "active" && trial.days_remaining <= 0;
+  const daysOver = trial?.trial_ends_at
+    ? Math.max(0, Math.floor((Date.now() - new Date(trial.trial_ends_at).getTime()) / 86_400_000))
+    : 0;
+  const [dragSectionId, setDragSectionId] = useState<number | null>(null);
+  const [dragOverId, setDragOverId] = useState<number | null>(null);
+  const [dragOverEdge, setDragOverEdge] = useState<"before" | "after" | null>(null);
+  const [pagesList, setPagesList] = useState<DockPage[]>([]);
+
+  // Pull the tenant's full page list so the dock can render a switcher.
+  // Refetched on every mount (incl. after page renames/creates).
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const r = await fetch(`/api/demo/${tenant.slug}/pages`, { cache: "no-store" });
+        if (!r.ok) return;
+        const json = await r.json() as { pages: DockPage[] };
+        if (!cancelled) setPagesList(json.pages ?? []);
+      } catch { /* dock just hides the switcher */ }
+    })();
+    return () => { cancelled = true; };
+  }, [tenant.slug]);
   const [adminBarCollapsed, setAdminBarCollapsed] = useState(false);
 
   // Editor surface state — drawer + admin console + section selection
@@ -199,6 +231,127 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
     });
   }, [tenant.slug]);
 
+  // Hoisted above every dependent useCallback to avoid a temporal dead zone
+  // error: hook deps arrays referencing `saveSections` are evaluated during
+  // render, so the binding must already exist.
+  const saveSections = useCallback(async (newSections: Section[]) => {
+    setSaving(true);
+    try {
+      await fetch(`/api/demo/${tenant.slug}/sections`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sections: newSections }),
+      });
+      setSaved(true);
+      setLastSavedAt(Date.now());
+      setTimeout(() => setSaved(false), 2000);
+    } finally {
+      setSaving(false);
+    }
+  }, [tenant.slug]);
+
+  const changeSectionAnimation = useCallback((id: number, animation: SectionAnimation) => {
+    setSections((prev) => {
+      const updated = prev.map((s) => {
+        if (s.id !== id) return s;
+        const settings = (s.settings ?? {}) as Record<string, unknown>;
+        return { ...s, settings: { ...settings, animation } };
+      });
+      sectionsRef.current = updated;
+      void saveSections(updated);
+      return updated;
+    });
+  }, [saveSections]);
+
+  // Toggle `settings.hiddenOn[bp]` — used by the breakpoint visibility menu.
+  // Persists via the full sections PUT so the resolver picks it up immediately.
+  // Drag & drop reorder — fires onDragOver to compute the target edge
+  // (before/after relative to the hovered section's vertical midline) and
+  // onDrop to commit a new order array. Navbar and footer are pinned at the
+  // ends and can never be the drag source or target.
+  const handleDragStart = useCallback((id: number) => {
+    setDragSectionId(id);
+  }, []);
+
+  const handleDragEnd = useCallback(() => {
+    setDragSectionId(null);
+    setDragOverId(null);
+    setDragOverEdge(null);
+  }, []);
+
+  const handleDragOver = useCallback((overId: number, e: React.DragEvent) => {
+    if (dragSectionId === null || dragSectionId === overId) return;
+    const target = sectionsRef.current.find((s) => s.id === overId);
+    if (!target || target.section_type === "navbar" || target.section_type === "footer") return;
+    e.preventDefault();
+    if (e.dataTransfer) e.dataTransfer.dropEffect = "move";
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const edge = e.clientY < rect.top + rect.height / 2 ? "before" : "after";
+    setDragOverId(overId);
+    setDragOverEdge(edge);
+  }, [dragSectionId]);
+
+  const handleDrop = useCallback((overId: number) => {
+    if (dragSectionId === null || dragSectionId === overId || dragOverEdge === null) {
+      handleDragEnd();
+      return;
+    }
+    const ordered = [...sectionsRef.current].sort((a, b) => a.order_index - b.order_index);
+    const src = ordered.find((s) => s.id === dragSectionId);
+    if (!src || src.section_type === "navbar" || src.section_type === "footer") {
+      handleDragEnd();
+      return;
+    }
+    const without = ordered.filter((s) => s.id !== dragSectionId);
+    const targetIdx = without.findIndex((s) => s.id === overId);
+    if (targetIdx === -1) { handleDragEnd(); return; }
+    const insertAt = dragOverEdge === "before" ? targetIdx : targetIdx + 1;
+    without.splice(insertAt, 0, src);
+    const reindexed = without.map((s, i) => ({ ...s, order_index: i }));
+    setSections(reindexed);
+    sectionsRef.current = reindexed;
+    void saveSections(reindexed);
+    handleDragEnd();
+  }, [dragSectionId, dragOverEdge, handleDragEnd, saveSections]);
+
+  // Swap a section's variant in place — keeps id, content_overrides and
+  // settings.content intact so user copy survives the layout change.
+  const changeSectionVariant = useCallback((id: number, variant: string) => {
+    setSections((prev) => {
+      const updated = prev.map((s) => s.id === id ? { ...s, section_variant: variant } : s);
+      sectionsRef.current = updated;
+      void saveSections(updated);
+      return updated;
+    });
+  }, [saveSections]);
+
+  // Cache the section library once — we'll filter per type to populate the
+  // variant switcher popover.
+  const variantsByType = useMemo(() => {
+    const map = new Map<string, VariantOption[]>();
+    for (const e of buildSectionLibrary()) {
+      const list = map.get(e.type) ?? [];
+      list.push({ variant: e.variant, label: e.label, description: e.description });
+      map.set(e.type, list);
+    }
+    return map;
+  }, []);
+
+  const toggleSectionHiddenOn = useCallback((id: number, bp: "mobile" | "tablet") => {
+    setSections((prev) => {
+      const updated = prev.map((s) => {
+        if (s.id !== id) return s;
+        const settings = (s.settings ?? {}) as Record<string, unknown>;
+        const current = Array.isArray(settings.hiddenOn) ? (settings.hiddenOn as string[]) : [];
+        const next = current.includes(bp) ? current.filter(x => x !== bp) : [...current, bp];
+        return { ...s, settings: { ...settings, hiddenOn: next } };
+      });
+      sectionsRef.current = updated;
+      void saveSections(updated);
+      return updated;
+    });
+  }, [saveSections]);
+
   const duplicateSection = useCallback(async (id: number) => {
     const src = sections.find((s) => s.id === id);
     if (!src) return;
@@ -259,6 +412,7 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
 
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [lastSavedAt, setLastSavedAt] = useState<number | null>(null);
   const [highlighted, setHighlighted] = useState<GenericHighlightChange[]>([]);
   const historyRef = useRef<HistoryEntry[]>([]);
   const redoRef = useRef<HistoryEntry[]>([]);
@@ -286,20 +440,62 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
     (s) => s.section_type !== "navbar" && s.section_type !== "footer"
   );
 
-  const saveSections = useCallback(async (newSections: Section[]) => {
-    setSaving(true);
-    try {
-      await fetch(`/api/demo/${tenant.slug}/sections`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sections: newSections }),
-      });
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2000);
-    } finally {
-      setSaving(false);
+  // Open the section library directly from canvas/URL.
+  // Inserts a new section right before the footer (or at the end if no footer)
+  // and persists immediately. Mirrors PageBuilder.addSection but bound to the
+  // editor view so users don't need to open Builder first.
+  const addSectionDirect = useCallback((type: string, variant: string) => {
+    const sorted = [...sectionsRef.current].sort((a, b) => a.order_index - b.order_index);
+    const footerIdx = sorted.findIndex(s => s.section_type === "footer");
+    // Prefer the explicit per-gap order (from InsertZone clicks), fall back to
+    // "right before footer / append" when the modal was opened generically.
+    const insertOrder = pendingInsertOrder ?? (footerIdx >= 0 ? sorted[footerIdx].order_index : sorted.length);
+    // Pull tenant_id / page_id from any existing section, fall back to props.
+    // Without these the API rejects the whole batch as "tenant mismatch" and
+    // refresh wipes the optimistic add.
+    const ref = sorted[0];
+    const newSection: Section = {
+      id: -Date.now(),
+      tenant_id: ref?.tenant_id ?? tenant.id,
+      page_id: ref?.page_id ?? page.id,
+      section_type: type,
+      section_variant: variant,
+      order_index: insertOrder,
+      is_visible: true,
+      settings: { content: {} },
+    };
+    const shifted = sectionsRef.current.map(s =>
+      s.order_index >= insertOrder ? { ...s, order_index: s.order_index + 1 } : s
+    );
+    const next = [...shifted, newSection]
+      .sort((a, b) => a.order_index - b.order_index)
+      .map((s, i) => ({ ...s, order_index: i }));
+    setSections(next);
+    sectionsRef.current = next;
+    void saveSections(next);
+    setLibraryOpen(false);
+    setPendingInsertOrder(null);
+  }, [saveSections, pendingInsertOrder, tenant.id, page.id]);
+
+  // Helper used by hover insert-zones between sections. Opens the library
+  // remembering where the new section should land in the order.
+  const openLibraryAt = useCallback((order: number) => {
+    setPendingInsertOrder(order);
+    setLibraryOpen(true);
+  }, []);
+
+  // Auto-open the library when the URL carries ?addSection=1 — used by the
+  // empty-state CTA on public preview so a single click goes straight to
+  // the picker.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("addSection") === "1") {
+      setLibraryOpen(true);
+      url.searchParams.delete("addSection");
+      window.history.replaceState({}, "", url.pathname + (url.search ? url.search : "") + url.hash);
     }
-  }, [tenant.slug]);
+  }, []);
 
   const saveAsteraContent = useCallback(async (section: Section, content: SiteContent) => {
     setSaving(true);
@@ -316,6 +512,7 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
         s.id === section.id ? { ...s, settings } : s
       )));
       setSaved(true);
+      setLastSavedAt(Date.now());
       setTimeout(() => setSaved(false), 2000);
     } finally {
       setSaving(false);
@@ -340,6 +537,7 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
         if (!res.ok) throw new Error("Failed to save section");
       }));
       setSaved(true);
+      setLastSavedAt(Date.now());
       setTimeout(() => setSaved(false), 1800);
     } finally {
       setSaving(false);
@@ -490,7 +688,12 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
       ) : (
         <EditorDock
           tenantSlug={tenant.slug}
+          pageTitle={page.title}
+          trialStatus={trial}
+          pages={pagesList}
+          currentPageSlug={page.slug}
           saveStatus={saving ? "saving" : saved ? "saved" : "idle"}
+          lastSavedAt={lastSavedAt}
           canUndo={historyRef.current.length > 0}
           canRedo={redoRef.current.length > 0}
           onUndo={() => { /* wired by inline editor */ }}
@@ -511,6 +714,7 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
             setAdminOpen(true);
           }}
           onCollapse={() => collapseBar(true)}
+          onManagePages={() => { setAdminView("pages"); setAdminOpen(true); }}
         />
       )}
 
@@ -532,17 +736,32 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
       />
 
       {/* Floating element micro-rail (selection + action buttons) */}
-      {selectedMeta && (
-        <ElementMicroRail
-          target={selectedEl}
-          section={selectedMeta}
-          onMoveUp={() => moveSection(selectedMeta.id, -1)}
-          onMoveDown={() => moveSection(selectedMeta.id, 1)}
-          onDuplicate={() => void duplicateSection(selectedMeta.id)}
-          onToggleVisible={() => toggleSectionVisible(selectedMeta.id)}
-          onDelete={() => void deleteSection(selectedMeta.id)}
-        />
-      )}
+      {selectedMeta && (() => {
+        const sel = sectionsRef.current.find(s => s.id === selectedMeta.id);
+        const hiddenOn = ((sel?.settings?.hiddenOn as string[] | undefined) ?? []);
+        const variants = sel ? (variantsByType.get(sel.section_type) ?? []) : [];
+        return (
+          <ElementMicroRail
+            target={selectedEl}
+            section={selectedMeta}
+            onMoveUp={() => moveSection(selectedMeta.id, -1)}
+            onMoveDown={() => moveSection(selectedMeta.id, 1)}
+            onAddAbove={() => sel && openLibraryAt(sel.order_index)}
+            onAddBelow={() => sel && openLibraryAt(sel.order_index + 1)}
+            onDuplicate={() => void duplicateSection(selectedMeta.id)}
+            onToggleVisible={() => toggleSectionVisible(selectedMeta.id)}
+            onDelete={() => void deleteSection(selectedMeta.id)}
+            hiddenOnMobile={hiddenOn.includes("mobile")}
+            hiddenOnTablet={hiddenOn.includes("tablet")}
+            onToggleHiddenOn={(bp) => toggleSectionHiddenOn(selectedMeta.id, bp)}
+            variants={variants}
+            currentVariant={sel?.section_variant}
+            onChangeVariant={(v) => changeSectionVariant(selectedMeta.id, v)}
+            animation={(sel?.settings?.animation as SectionAnimation | undefined) ?? "none"}
+            onChangeAnimation={(a) => changeSectionAnimation(selectedMeta.id, a)}
+          />
+        );
+      })()}
 
       {/* Transform-positioned wrapper — `transform` creates a new containing
           block for fixed-position descendants, so the live page's own
@@ -559,6 +778,7 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
         }}
       >
       <TrialBanner tenantSlug={tenant.slug} />
+      {trialExpired && <TrialLockOverlay tenantSlug={tenant.slug} daysOver={daysOver} />}
 
       {/* Viewport — desktop renders the live editable DOM (so admins can click
           sections, edit text inline, use the micro-rail). Tablet/mobile render
@@ -593,28 +813,48 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
           {/* Main sections — wrapped in SectionFrame so the editor overlay can
               attach selection ring + micro-rail. */}
           <main>
-            {mainSections.map((section) => {
+            {mainSections.length === 0 && (
+              <EditorEmptyState onAddSection={() => { setPendingInsertOrder(null); setLibraryOpen(true); }} />
+            )}
+            {mainSections.map((section, i) => {
               const baseContent = (section.settings?.content ?? {}) as Record<string, unknown>;
               const overriddenContent = applyOverrides(baseContent, overrides, section.id);
               const patchedSection = overriddenContent !== baseContent
                 ? { ...section, settings: { ...section.settings, content: overriddenContent } }
                 : section;
               const label = SECTION_LABELS[section.section_type] ?? section.section_type;
+              const isLast = i === mainSections.length - 1;
+              const dragState =
+                dragSectionId === section.id ? "dragging" :
+                dragOverId === section.id && dragOverEdge === "before" ? "drop-before" :
+                dragOverId === section.id && dragOverEdge === "after" ? "drop-after" :
+                "idle";
               return (
-                <SectionFrame
-                  key={section.id}
-                  sectionId={section.id}
-                  selected={selectedSectionId === section.id}
-                  hover={hoverSectionId === section.id}
-                  hidden={!section.is_visible}
-                  pulseToken={pulseTokens[section.id]}
-                  onSelect={() => setSelectedSectionId(section.id)}
-                  onHover={(h) => setHoverSectionId(h ? section.id : null)}
-                  onMount={setSectionRef(section.id)}
-                  label={label}
-                >
-                  <SectionRenderer section={patchedSection} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
-                </SectionFrame>
+                <Fragment key={section.id}>
+                  <SectionFrame
+                    sectionId={section.id}
+                    selected={selectedSectionId === section.id}
+                    hover={hoverSectionId === section.id}
+                    hidden={!section.is_visible}
+                    pulseToken={pulseTokens[section.id]}
+                    onSelect={() => setSelectedSectionId(section.id)}
+                    onHover={(h) => setHoverSectionId(h ? section.id : null)}
+                    onMount={setSectionRef(section.id)}
+                    label={label}
+                    draggable
+                    dragState={dragState as "idle" | "dragging" | "drop-before" | "drop-after"}
+                    onDragStart={() => handleDragStart(section.id)}
+                    onDragEnd={handleDragEnd}
+                    onDragOver={(e) => handleDragOver(section.id, e)}
+                    onDrop={() => handleDrop(section.id)}
+                  >
+                    <SectionRenderer section={patchedSection} tenantId={tenant.id} tenantSlug={tenant.slug} isAdmin={true} onSaveAsteraContent={saveAsteraContent} />
+                  </SectionFrame>
+                  <InsertZone
+                    onAdd={() => openLibraryAt(section.order_index + 1)}
+                    label={isLast ? "Přidat sekci pod" : "Přidat sekci"}
+                  />
+                </Fragment>
               );
             })}
           </main>
@@ -646,6 +886,16 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
       )}
       </div>{/* end transform wrapper */}
 
+      {/* Section library modal — opened from empty state, Builder + button or
+          ?addSection=1. Inserts straight into the editor canvas. */}
+      <SectionLibraryModal
+        open={libraryOpen}
+        onClose={() => { setLibraryOpen(false); setPendingInsertOrder(null); }}
+        onAdd={addSectionDirect}
+      />
+
+      <OnboardingTour open={tour.open} onClose={tour.close} />
+
       {/* Page Builder panel */}
       {builderOpen && (
         <PageBuilder
@@ -673,6 +923,73 @@ export function TenantEditorView({ tenant, sections: initialSections, overrides 
       )}
     </div>
     </GenericInlineEditorProvider>
+  );
+}
+
+function EditorEmptyState({ onAddSection }: { onAddSection: () => void }) {
+  return (
+    <section className="relative isolate flex min-h-[70vh] items-center justify-center overflow-hidden px-6 py-24">
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10"
+        style={{
+          backgroundImage:
+            "linear-gradient(to right, rgba(15,23,42,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(15,23,42,0.06) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
+          maskImage: "radial-gradient(ellipse at center, black 35%, transparent 75%)",
+          WebkitMaskImage: "radial-gradient(ellipse at center, black 35%, transparent 75%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute left-1/2 top-1/4 -z-10 h-[420px] w-[680px] -translate-x-1/2 rounded-full opacity-40 blur-3xl"
+        style={{ background: "radial-gradient(circle, #818cf8 0%, transparent 70%)" }}
+      />
+
+      <div className="mx-auto max-w-xl text-center">
+        <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-white shadow-[0_10px_30px_rgba(15,23,42,0.10)] ring-1 ring-slate-200">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-slate-500">
+            <rect x="3" y="4" width="18" height="4" rx="1" />
+            <rect x="3" y="11" width="11" height="9" rx="1" />
+            <rect x="16" y="11" width="5" height="9" rx="1" />
+          </svg>
+        </div>
+        <p className="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+          Prázdné plátno
+        </p>
+        <h1 className="mt-1 text-[28px] font-semibold tracking-tight text-slate-900 sm:text-[34px]">
+          Začni první sekcí
+        </h1>
+        <p className="mx-auto mt-3 max-w-md text-[14px] leading-relaxed text-slate-600">
+          Vyber šablonu sekce z knihovny — hero, ceník, galerii, kontakt nebo cokoliv
+          dalšího. Po vložení ji rovnou upravíš v plátně.
+        </p>
+
+        <div className="mt-7 flex flex-wrap items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={onAddSection}
+            className="inline-flex h-11 items-center gap-1.5 rounded-lg px-5 text-[14px] font-semibold text-white shadow-[0_8px_22px_rgba(99,102,241,0.35)] transition-transform hover:scale-[1.02]"
+            style={{ background: "linear-gradient(135deg, #818cf8 0%, #6366f1 100%)" }}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
+              <path d="M12 5v14M5 12h14" />
+            </svg>
+            Přidat sekci
+          </button>
+        </div>
+
+        <div className="mx-auto mt-12 grid max-w-md grid-cols-3 gap-3 opacity-50">
+          {["w-3/4", "w-full", "w-2/3"].map((w, i) => (
+            <div key={i} className="space-y-2">
+              <div className="h-20 rounded-lg bg-slate-200" />
+              <div className={`h-2 rounded-full bg-slate-200 ${w}`} />
+              <div className="h-2 w-1/2 rounded-full bg-slate-200" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -716,7 +1033,9 @@ function ViewportPreviewFrame({
           padding: bezel,
           boxShadow:
             "0 32px 80px rgba(0,0,0,0.65), 0 12px 28px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.04), inset 0 0 0 1px rgba(255,255,255,0.06)",
-          transition: "width 0.32s cubic-bezier(0.18,0.89,0.32,1), height 0.32s cubic-bezier(0.18,0.89,0.32,1), border-radius 0.32s",
+          // Instant resize — animating width/height makes the iframe inside
+          // reflow on every frame (media queries re-fire), which the user
+          // experiences as constant flickering.
         }}
       >
         {/* Device chrome: notch for mobile, top speaker for tablet */}

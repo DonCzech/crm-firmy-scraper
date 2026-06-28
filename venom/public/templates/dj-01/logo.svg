@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="44" viewBox="0 0 192 44">
+  <!-- Headphone icon -->
+  <circle cx="13" cy="22" r="10" fill="none" stroke="#f15a24" stroke-width="2.5"/>
+  <path d="M3 22 C3 12 7.5 6 13 6 C18.5 6 23 12 23 22" fill="none" stroke="#f15a24" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="0" y="19" width="6" height="9" rx="3" fill="#f15a24"/>
+  <rect x="20" y="19" width="6" height="9" rx="3" fill="#f15a24"/>
+  <!-- Wordmark: DJ -->
+  <text x="34" y="30" font-family="Arial,sans-serif" font-size="20" font-weight="700" letter-spacing="1" fill="#f15a24">DJ</text>
+  <!-- Wordmark: AGOSTO -->
+  <text x="58" y="30" font-family="Arial,sans-serif" font-size="20" font-weight="700" letter-spacing="1" fill="#ffffff">AGOSTO</text>
+</svg>

@@ -38,6 +38,7 @@ const INDUSTRY_LABELS: Record<string, string> = {
   events: "Eventy",
   tattoo: "Tetování",
   veterinary: "Veterinář",
+  clinic: "Beauty",
   accounting: "Účetnictví",
   finance: "Finance",
   architecture: "Architektura",
@@ -125,6 +126,7 @@ async function discoverTemplates(): Promise<PreviewItem[]> {
         }
       }
 
+      console.log(`[preview-2] loaded: ${key} → category: ${INDUSTRY_LABELS[manifest.industry] ?? INDUSTRY_LABELS.default}`);
       items.push({
         key: manifest.key,
         name: manifest.name,
@@ -142,8 +144,8 @@ async function discoverTemplates(): Promise<PreviewItem[]> {
         showcaseKind: null,
         variants,
       });
-    } catch {
-      // ignore broken manifest
+    } catch (err) {
+      console.error(`[preview-2] SKIP ${key}:`, err);
     }
   }
 
@@ -153,13 +155,10 @@ async function discoverTemplates(): Promise<PreviewItem[]> {
 export default async function PreviewV2Page() {
   const cookieStore = await cookies();
   const token = cookieStore.get(COOKIE_NAME)?.value;
-  console.log("[preview-2] token present:", !!token, "| valid:", token ? !!verifyToken(token) : false);
   if (!token || !verifyToken(token)) {
-    console.log("[preview-2] → redirect to login");
     redirect("/admin/login?next=%2Fpreview-2");
   }
 
   const items = await discoverTemplates();
-  console.log("[preview-2] items count:", items.length);
   return <PreviewGrid items={items} />;
 }

@@ -1,0 +1,19 @@
+[
+  {
+    "id": "job-1778315553927",
+    "url": "https://barbershopurban.cz",
+    "industry": "barber",
+    "status": "ready-for-review",
+    "stage": "ready_for_review",
+    "error": null,
+    "log": [
+      "[2026-05-09T08:32:33.927Z] Pilot job started",
+      "Scraped 5 pages"
+    ],
+    "templateSlug": "barber-barbershopurban",
+    "startedAt": "2026-05-09T08:32:33.934Z",
+    "completedAt": "2026-05-09T08:33:27.386Z",
+    "createdAt": "2026-05-09T08:32:33.934Z",
+    "updatedAt": "2026-05-09T08:33:27.386Z"
+  }
+]

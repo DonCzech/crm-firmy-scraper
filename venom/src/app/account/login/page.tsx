@@ -43,7 +43,7 @@ export default function AccountLoginPage() {
           <div className="w-8 h-8 bg-violet-600 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-sm">V</span>
           </div>
-          <h1 className="text-xl font-bold text-gray-900">Venom</h1>
+          <h1 className="text-xl font-bold text-gray-900">Webero</h1>
         </div>
 
         <div className="flex rounded-xl bg-gray-100 p-1 mb-6">

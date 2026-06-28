@@ -61,7 +61,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
   // Record activity — resets the 60-day inactivity clock
   await touchTenantActivity(tenant.id);
 
-  const cookieName = `venom_access_${tenantSlug}`;
+  const cookieName = `webero_access_${tenantSlug}`;
   const maxAge = 60 * 60 * 24 * 30; // 30 days
 
   const headers = new Headers({ "Content-Type": "application/json" });

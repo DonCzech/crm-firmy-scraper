@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44" fill="none">
+  <!-- top-left: dark teal -->
+  <polygon points="11,2 20,11 11,20 2,11" fill="#05303a"/>
+  <!-- top-right: medium teal -->
+  <polygon points="33,2 42,11 33,20 24,11" fill="#2a6070"/>
+  <!-- bottom-left: light gray-green -->
+  <polygon points="11,24 20,33 11,42 2,33" fill="#c5d5d8"/>
+  <!-- bottom-right: primary green -->
+  <polygon points="33,24 42,33 33,42 24,33" fill="#3DCE78"/>
+</svg>

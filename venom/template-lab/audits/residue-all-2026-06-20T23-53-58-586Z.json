@@ -1,0 +1,36 @@
+{
+  "when": "2026-06-20T23:53:58.586Z",
+  "scanned": 92,
+  "withFindings": 1,
+  "totalFindings": 2,
+  "reports": [
+    {
+      "key": "bakery-01",
+      "hosts": [
+        "zrnozrnko.cz"
+      ],
+      "brands": [
+        "zrnozrnko.cz"
+      ],
+      "findings": [
+        {
+          "file": "render:bakery-01-v2",
+          "findings": [
+            {
+              "kind": "origin-host",
+              "desc": "Reference to original host zrnozrnko.cz",
+              "count": 2,
+              "sample": "zrnozrnko.cz"
+            },
+            {
+              "kind": "origin-brand",
+              "desc": "Reference to original brand \"zrnozrnko.cz\"",
+              "count": 2,
+              "sample": "zrnozrnko.cz"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 52" fill="none">
+  <!-- Roof/tool icon -->
+  <g transform="translate(0, 6)">
+    <!-- Small hammer/klempir icon -->
+    <path d="M5 34 L16 8 L20 12 L9 38Z" fill="#c0c0c0"/>
+    <path d="M16 8 L24 2 L28 6 L20 12Z" fill="#3a3a3a"/>
+    <rect x="4" y="37" width="24" height="2" rx="1" fill="#c0c0c0"/>
+  </g>
+  <!-- Text -->
+  <text x="40" y="23" font-family="'Montserrat', Arial, sans-serif" font-weight="700" font-size="18" fill="#ffffff" letter-spacing="0.3">KLEMPÍŘSKÉ</text>
+  <text x="40" y="43" font-family="'Montserrat', Arial, sans-serif" font-weight="400" font-size="14" fill="#c0c0c0" letter-spacing="1.5">PRÁCE</text>
+</svg>

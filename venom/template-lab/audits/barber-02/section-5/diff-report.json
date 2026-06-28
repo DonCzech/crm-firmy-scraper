@@ -1,0 +1,43 @@
+{
+  "origSlug": "the-barber",
+  "engineSlug": "barber-02",
+  "section": 5,
+  "thresholds": {
+    "layout": 0.95,
+    "heightTol": 0.1,
+    "pixelTol": 16
+  },
+  "viewports": [
+    {
+      "viewport": 1440,
+      "status": "ok",
+      "cloneSize": {
+        "w": 1440,
+        "h": 526
+      },
+      "engineSize": {
+        "w": 1440,
+        "h": 482
+      },
+      "layoutScore": 0.9429,
+      "heightRatio": 0.916,
+      "pass": false
+    },
+    {
+      "viewport": 375,
+      "status": "ok",
+      "cloneSize": {
+        "w": 375,
+        "h": 1042
+      },
+      "engineSize": {
+        "w": 375,
+        "h": 854
+      },
+      "layoutScore": 0.0109,
+      "heightRatio": 0.82,
+      "pass": false
+    }
+  ],
+  "pass": false
+}

@@ -1,0 +1,242 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { ChevronDown, Loader2 } from "lucide-react";
+import type { StudioState } from "./TenantStudioView";
+
+/**
+ * Studio top-bar "Publikovat" dropdown.
+ *
+ * Three actions chosen from the dropdown:
+ *  1. Publikovat aktuální stránku — publishes ONLY the active page (flips its
+ *     status to 'published'; saves any pending section edits).
+ *  2. Publikovat celý web — full-site publish: flushes pending edits, then
+ *     marks every page as published.
+ *  3. Uložit jako koncept — sets the active page status to 'draft' so it
+ *     persists but doesn't render publicly. The home page can't be drafted.
+ *
+ * The primary button label reflects the most recently chosen action;
+ * defaults to "Publikovat".
+ */
+
+type Mode = "page" | "site" | "draft";
+
+interface Props {
+  state: StudioState;
+}
+
+export function PublishButton({ state }: Props) {
+  const [open, setOpen] = useState(false);
+  const [mode, setMode] = useState<Mode>("page");
+  const [busy, setBusy] = useState(false);
+  const [msg, setMsg] = useState<{ kind: "ok" | "err"; text: string } | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onClick(e: MouseEvent) {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onClick);
+    return () => document.removeEventListener("mousedown", onClick);
+  }, [open]);
+
+  useEffect(() => {
+    if (!msg) return;
+    const t = setTimeout(() => setMsg(null), 2500);
+    return () => clearTimeout(t);
+  }, [msg]);
+
+  const slug = state.tenant.slug;
+
+  async function publishCurrentPage() {
+    setBusy(true);
+    try {
+      // Make sure any pending text edits hit the DB first.
+      await state.flushSave();
+      const res = await fetch(`/api/demo/${slug}/pages/${state.page.id}`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ status: "published" }),
+      });
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        throw new Error(json.error ?? `HTTP ${res.status}`);
+      }
+      setMsg({ kind: "ok", text: "Stránka publikována" });
+    } catch (err) {
+      setMsg({ kind: "err", text: err instanceof Error ? err.message : "Chyba" });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function publishWholeSite() {
+    setBusy(true);
+    try {
+      await state.flushSave();
+      // Flip every page → published. The /go-live endpoint also flips the
+      // tenant status; here we just mark all pages published which surfaces
+      // every page on the public site even if some were drafts.
+      const pagesRes = await fetch(`/api/demo/${slug}/pages`, { cache: "no-store" });
+      const pagesJson = (await pagesRes.json()) as { pages: Array<{ id: number; status: string }> };
+      const drafts = (pagesJson.pages ?? []).filter((p) => p.status !== "published");
+      for (const p of drafts) {
+        await fetch(`/api/demo/${slug}/pages/${p.id}`, {
+          method: "PATCH",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ status: "published" }),
+        });
+      }
+      setMsg({ kind: "ok", text: `Web publikován (${drafts.length + (pagesJson.pages?.length ?? 0) - drafts.length} stránek)` });
+    } catch (err) {
+      setMsg({ kind: "err", text: err instanceof Error ? err.message : "Chyba" });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function saveAsDraft() {
+    if (state.page.is_homepage) {
+      setMsg({ kind: "err", text: "Úvodní stránka musí být publikovaná" });
+      return;
+    }
+    setBusy(true);
+    try {
+      await state.flushSave();
+      const res = await fetch(`/api/demo/${slug}/pages/${state.page.id}`, {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ status: "draft" }),
+      });
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}));
+        throw new Error(json.error ?? `HTTP ${res.status}`);
+      }
+      setMsg({ kind: "ok", text: "Uloženo jako koncept" });
+    } catch (err) {
+      setMsg({ kind: "err", text: err instanceof Error ? err.message : "Chyba" });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function runMode(m: Mode) {
+    setMode(m);
+    setOpen(false);
+    if (m === "page") await publishCurrentPage();
+    else if (m === "site") await publishWholeSite();
+    else await saveAsDraft();
+  }
+
+  const label =
+    mode === "draft" ? "Uložit koncept" : mode === "site" ? "Publikovat web" : "Publikovat";
+
+  return (
+    <div ref={rootRef} className="relative">
+      <div className="inline-flex h-8 overflow-hidden rounded-md shadow-sm">
+        <button
+          type="button"
+          onClick={() => void runMode(mode)}
+          disabled={busy}
+          className="inline-flex items-center gap-1.5 bg-[#2563eb] px-3.5 text-[12.5px] font-semibold text-white hover:bg-[#1d4ed8] transition-colors disabled:opacity-60"
+        >
+          {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
+          {label}
+        </button>
+        <button
+          type="button"
+          aria-label="Možnosti publikace"
+          onClick={() => setOpen((o) => !o)}
+          className="grid place-items-center w-7 bg-[#2563eb] text-white border-l border-white/15 hover:bg-[#1d4ed8] transition-colors"
+        >
+          <ChevronDown className="h-3.5 w-3.5" />
+        </button>
+      </div>
+
+      {open && (
+        <div className="absolute right-0 top-[calc(100%+6px)] z-50 w-[340px] rounded-xl bg-white text-[#0a0a0a] shadow-[0_18px_44px_rgba(0,0,0,0.32)] border border-black/5 overflow-hidden">
+          <Option
+            indicator="filled"
+            active={mode === "page"}
+            title="Publikovat aktuální stránku"
+            desc="Zveřejní pouze obsah na aktuální stránce."
+            onClick={() => void runMode("page")}
+          />
+          <Option
+            indicator="ring"
+            active={mode === "site"}
+            title="Publikovat celý web"
+            desc="Všechny změny obsahu a designu se projeví na webu."
+            onClick={() => void runMode("site")}
+          />
+          <Option
+            indicator="dashed"
+            active={mode === "draft"}
+            title="Uložit jako koncept"
+            desc="Aktuální stránka se uloží, ale nebude zobrazena veřejně na webu."
+            onClick={() => void runMode("draft")}
+          />
+        </div>
+      )}
+
+      {msg && (
+        <div
+          className={`absolute right-0 top-[calc(100%+6px)] z-40 rounded-md px-3 py-1.5 text-[11.5px] font-medium shadow-lg ${
+            msg.kind === "ok" ? "bg-emerald-600 text-white" : "bg-red-600 text-white"
+          }`}
+        >
+          {msg.text}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Option({
+  indicator,
+  active,
+  title,
+  desc,
+  onClick,
+}: {
+  indicator: "filled" | "ring" | "dashed";
+  active: boolean;
+  title: string;
+  desc: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`flex w-full items-start gap-3 px-5 py-4 text-left transition-colors ${
+        active ? "bg-[#f5f5f5]" : "hover:bg-[#fafafa]"
+      }`}
+    >
+      <Indicator kind={indicator} />
+      <div className="flex-1">
+        <div className="text-[14.5px] font-semibold leading-tight">{title}</div>
+        <div className="mt-1 text-[12.5px] leading-snug text-[#6b7280]">{desc}</div>
+      </div>
+    </button>
+  );
+}
+
+function Indicator({ kind }: { kind: "filled" | "ring" | "dashed" }) {
+  if (kind === "filled") {
+    return <span className="mt-[3px] inline-block h-[14px] w-[14px] rounded-full bg-[#22c55e]" />;
+  }
+  if (kind === "ring") {
+    return (
+      <span className="mt-[3px] inline-block h-[14px] w-[14px] rounded-full border-2 border-[#22c55e]" />
+    );
+  }
+  // dashed
+  return (
+    <span
+      className="mt-[3px] inline-block h-[14px] w-[14px] rounded-full"
+      style={{ border: "1.6px dashed #9ca3af" }}
+    />
+  );
+}

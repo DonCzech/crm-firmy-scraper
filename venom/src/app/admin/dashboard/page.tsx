@@ -31,8 +31,12 @@ export default function AdminDashboard() {
 
   function loadStats() {
     fetch("/api/admin/stats")
-      .then((r) => r.json())
-      .then((d) => { setStats(d); setLoading(false); })
+      .then(async (r) => {
+        if (!r.ok) { setLoading(false); return; }
+        const d = await r.json();
+        setStats(d);
+        setLoading(false);
+      })
       .catch(() => setLoading(false));
   }
 

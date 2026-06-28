@@ -93,13 +93,26 @@ Striktně po jedné. Po sekci `i`:
 - Doplň content do `src/templates/<engine-slug>/content/cs.json` (demo data!).
 - Přidej sekci do `src/templates/<engine-slug>/template.json:sections[]` na pozici dle skeletonu.
 
-### [2] VISUAL DIFF
+### [2] VISUAL DIFF + MOBILE AUDIT
 ```bash
 pnpm snap:clone <original-slug>            # jen poprvé pro celý web
 pnpm snap:engine <engine-slug> <i>          # engine sekce i v 1440 + 375
 pnpm diff:section <original-slug> <engine-slug> <i>
 ```
 PASS = layout ≥ 95%, font exact, color HEX exact, výška ±10%. FAIL → BUILD znovu (max 3 iterace).
+
+**POVINNÝ MOBILE AUDIT per sekce (375 px snapshot):**
+Po každém snapshoту otevři `/tmp/snaps/<engine-slug>-v2/section-<i>-375.png` a zkontroluj:
+- ❌ Žádné velké prázdné mezery (padding/gap > 40 px navíc oproti desktopu)
+- ❌ Žádný přetékající text nebo element mimo viewport
+- ❌ Žádné příliš malé touch targety (min 44 px výška pro tlačítka / linky)
+- ❌ Žádný zlomený grid (sloupce nejsou stack nebo jsou špatně zarovnané)
+- ❌ Žádné obrázky s deformovaným aspect-ratio
+- ✅ Fonty čitelné (heading ≥ 24 px, body ≥ 14 px na 375)
+- ✅ Sekce vypadá pixel-perfect — profesionálně, luxusně, „jako z Wixu"
+
+Pokud cokoliv z výše selže → **NEPOKRAČUJ na sekci i+1**. Oprav a re-snap.
+Pokud si nejsi jistý, zda je mobilní verze dostatečně profesionální → **zastav a hlas uživateli** se screenshotem.
 
 ### [3] DEMO AUDIT
 - `curl -s http://localhost:3015/demo/<engine-slug>-v2 > /tmp/<engine-slug>-v2.html`
@@ -181,6 +194,31 @@ pnpm build                              # TypeScript + Next.js build
 pnpm typecheck                          # tsc --noEmit
 ```
 
+### 4a) FULL MOBILE AUDIT (POVINNÝ — DONE-blocker)
+
+Před grep auditem proveď celkový mobile průchod celého webu na 375 px:
+
+```bash
+pnpm snap:engine <engine-slug> full    # fullpage snapshot celého webu v 375 + 768 + 1440
+```
+
+Otevři mobilní snapshot a projdi **každou sekci shora dolů**. Kontrolní seznam:
+
+| # | Co kontroluješ | Kritérium |
+|---|---|---|
+| 1 | Mezery mezi sekcemi | Konzistentní rytmus, žádná sekce nefloatuje ve vzduchu |
+| 2 | Hero sekce | Text čitelný, CTA tlačítko celou šířku nebo centrované |
+| 3 | Navigace (header) | Hamburger/drawer funguje, logo viditelné, výška ≤ 64 px |
+| 4 | Gridy a karty | Stack na 1 sloupec nebo max 2, žádné přetékání |
+| 5 | Obrázky | Správný aspect-ratio, žádné rozmazané/deformované |
+| 6 | Texty | Heading ≥ 24 px, body ≥ 14 px, žádný overflow |
+| 7 | Tlačítka / CTA | Min výška 44 px, padding ≥ 12 px vlevo/vpravo |
+| 8 | Galerie / slider | Swipeable nebo stack, žádné rozlité elementy |
+| 9 | Kontaktní formulář | Pole celou šířku, submit button viditelný |
+| 10 | Footer | Přehledný, kontakty čitelné, copyright viditelný |
+
+**Celkový dojem:** Mobilní verze musí vypadat **pixel-perfect, profesionálně a luxusně** — jako by ji navrhoval senior UX designer. Pokud toto kritérium nesplňuje → oprav a re-snap před pokračováním.
+
 Pak v rendered HTML:
 ```bash
 curl -s http://localhost:3015/demo/<engine-slug>-v2 > /tmp/<engine-slug>-final.html
@@ -253,6 +291,7 @@ Sekce (skeleton: <skeleton>):
 Validátor: PASS
 Build: PASS
 Demo audit: 0 originálních hodnot
+Mobile audit: PASS (375 px — všech 10 bodů ✅)
 Clone tenant <original-slug>-demo: nezměněn ✅
 
 Engine URL:    http://localhost:3015/demo/<engine-slug>-v2

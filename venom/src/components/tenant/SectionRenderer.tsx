@@ -2,6 +2,7 @@ import type { Section } from "@/lib/db";
 import { ClonedSiteRenderer } from "./ClonedSiteRenderer";
 import { AsteraHomeTemplate } from "../templates/AsteraHomeTemplate";
 import { SECTION_RENDERERS } from "@/sections/registry";
+import { SectionContentProvider } from "./SectionContentContext";
 import type { SiteContent } from "@/lib/content-types";
 
 interface Props {
@@ -62,14 +63,37 @@ export function SectionRenderer({ section, tenantSlug, isAdmin, onSaveAsteraCont
     return null;
   }
 
+  // ── For hero sections, merge saved heroBg settings into content ───────────
+  // Allows HeroInspectorPanel changes to appear on the public site too.
+  // Skip when StudioCanvas already injected live overrides (__heroBgTab = studio mode).
+  let effectiveContent = content;
+  if (section.section_type === "hero" && !content.__heroBgTab) {
+    const heroBg = (section.settings as Record<string, unknown> | undefined)?.heroBg as Record<string, unknown> | undefined;
+    if (heroBg?.tab === "image") {
+      const overrides: Record<string, unknown> = {};
+      if (heroBg.imageUrl) overrides.backgroundImage = heroBg.imageUrl;
+      if (heroBg.imageFocus) {
+        overrides.__heroBgFocus = heroBg.imageFocus;
+        overrides.backgroundImageFocus = heroBg.imageFocus;
+      }
+      effectiveContent = { ...content, ...overrides };
+    } else if (heroBg?.tab === "color") {
+      effectiveContent = { ...content, __heroBgTab: "color", __heroBgColor: heroBg.color ?? "#1a1a1a" };
+    } else if (heroBg?.tab === "video") {
+      effectiveContent = { ...content, __heroBgTab: "video", __heroBgVideoUrl: heroBg.videoUrl ?? "" };
+    }
+  }
+
   const rendered = (
-    <Renderer
-      content={content}
-      variant={variant}
-      isAdmin={isAdmin}
-      tenantSlug={tenantSlug}
-      sectionId={section.id}
-    />
+    <SectionContentProvider content={effectiveContent}>
+      <Renderer
+        content={effectiveContent}
+        variant={variant}
+        isAdmin={isAdmin}
+        tenantSlug={tenantSlug}
+        sectionId={section.id}
+      />
+    </SectionContentProvider>
   );
   if (anchorId) {
     return (

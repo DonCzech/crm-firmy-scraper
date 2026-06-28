@@ -25,7 +25,7 @@ export default async function ContactAdminPage({ params }: Props) {
   if (!tenant || tenant.status === "suspended") return notFound();
 
   const cookieStore = await cookies();
-  const accessCookie = cookieStore.get(`venom_access_${tenantSlug}`)?.value;
+  const accessCookie = cookieStore.get(`webero_access_${tenantSlug}`)?.value;
   if (!tenant.access_token || accessCookie !== tenant.access_token) {
     redirect(`/demo/${tenantSlug}/login`);
   }

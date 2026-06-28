@@ -6,14 +6,14 @@
  * Studio shell carries the `data-studio` attribute that scopes these tokens.
  */
 [data-studio] {
-  /* ── Color tokens (dark cinematic shell) ─────────────────────────────── */
-  --vs-bg:            #08080a;            /* viewport / canvas backdrop      */
-  --vs-bg-soft:       #0d0d11;            /* secondary background            */
-  --vs-surface:       #121217;            /* panels, cards                   */
-  --vs-surface-2:     #18181f;            /* nested surfaces, hover          */
-  --vs-surface-3:     #1f1f28;            /* active hover, popovers          */
-  --vs-border:        #1f1f28;            /* subtle dividers                 */
-  --vs-border-strong: #2a2a36;            /* strong dividers / inputs        */
+  /* ── Color tokens (dark navy shell — solidpixels-inspired) ──────────── */
+  --vs-bg:            #10111a;            /* viewport / canvas backdrop      */
+  --vs-bg-soft:       #161721;            /* sidebar rail + top bar          */
+  --vs-surface:       #1c1d2a;            /* panels, cards                   */
+  --vs-surface-2:     #212230;            /* nested surfaces, hover          */
+  --vs-surface-3:     #272838;            /* active hover, popovers          */
+  --vs-border:        #21223080;          /* subtle dividers                 */
+  --vs-border-strong: #2e2f44;            /* strong dividers / inputs        */
   --vs-text:          #f4f4f7;            /* primary text                    */
   --vs-text-soft:     #d1d1d9;            /* secondary text                  */
   --vs-text-muted:    #8a8a96;            /* muted text                      */
@@ -104,10 +104,11 @@
   --vs-dur-4: 380ms;   /* page-level transitions     */
 
   /* ── Layout ────────────────────────────────────────────────────────────── */
-  --vs-rail-w:    52px;
-  --vs-panel-w:   296px;
-  --vs-inspector-w: 332px;
-  --vs-topbar-h:  56px;
+  --vs-rail-w:         55px;   /* narrow (panel open)  */
+  --vs-rail-w-wide:   138px;   /* wide   (panel closed) */
+  --vs-panel-w:       220px;
+  --vs-inspector-w:   300px;
+  --vs-topbar-h:       48px;
 
   font-family: var(--vs-font-sans);
   font-feature-settings: "cv11", "ss01", "calt";
@@ -140,6 +141,17 @@
   background: var(--vs-text-disabled);
 }
 
+/* Checkered transparency pattern for empty color swatches in Design popup */
+.vs-checker {
+  background-image:
+    linear-gradient(45deg, var(--vs-border-strong) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--vs-border-strong) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--vs-border-strong) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--vs-border-strong) 75%);
+  background-size: 8px 8px;
+  background-position: 0 0, 0 4px, 4px -4px, -4px 0;
+}
+
 /* Soft animated entrance for primary surfaces */
 @keyframes vs-fade-in {
   from { opacity: 0; transform: translateY(2px); }
@@ -165,4 +177,44 @@
 }
 .vs-grad-accent:hover {
   background-image: linear-gradient(135deg, #a5b4fc 0%, #818cf8 100%);
+}
+
+/* Per-breakpoint section visibility — set by ElementMicroRail's
+   "Skrýt na mobilu / tabletu" toggle. Hides the wrapped section element
+   at the matching media query in public render. The admin canvas
+   intentionally keeps these visible so editors can still interact. */
+@media (max-width: 767px) {
+  .vs-hide-mobile { display: none !important; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .vs-hide-tablet { display: none !important; }
+}
+
+/* Section entrance animations — applied via section settings.animation.
+   Activated by adding .vs-anim-active when the section scrolls into view
+   (IntersectionObserver). Honors prefers-reduced-motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .vs-anim-fade,
+  .vs-anim-slide-up,
+  .vs-anim-slide-left,
+  .vs-anim-slide-right,
+  .vs-anim-scale {
+    opacity: 0;
+    transition: opacity 720ms cubic-bezier(0.18, 0.89, 0.32, 1),
+                transform 720ms cubic-bezier(0.18, 0.89, 0.32, 1);
+    will-change: opacity, transform;
+  }
+  .vs-anim-slide-up    { transform: translateY(40px); }
+  .vs-anim-slide-left  { transform: translateX(40px); }
+  .vs-anim-slide-right { transform: translateX(-40px); }
+  .vs-anim-scale       { transform: scale(0.94); }
+
+  .vs-anim-fade.vs-anim-active,
+  .vs-anim-slide-up.vs-anim-active,
+  .vs-anim-slide-left.vs-anim-active,
+  .vs-anim-slide-right.vs-anim-active,
+  .vs-anim-scale.vs-anim-active {
+    opacity: 1;
+    transform: none;
+  }
 }

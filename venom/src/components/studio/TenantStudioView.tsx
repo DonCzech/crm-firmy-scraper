@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Tenant, Page, Section, TenantOverride } from "@/lib/db";
 import type { SiteContent } from "@/lib/content-types";
+import { setNestedValue } from "@/lib/studio-focus";
 import {
   GenericInlineEditorProvider,
   type GenericHighlightChange,
@@ -97,6 +98,8 @@ export interface StudioState {
   saveSectionsBatch: (next: Section[]) => Promise<void>;
   saveAsteraContent: (section: Section, content: SiteContent) => Promise<void>;
   patchSection: (id: number, patch: Partial<Pick<Section, "settings" | "is_visible">>) => Promise<void>;
+  /** Patch a single content field (supports dotted nested paths). Reads current section from ref — no stale-closure risk. */
+  patchSectionContent: (id: number, fieldPath: string, value: unknown) => Promise<void>;
   reorderSections: (ids: number[]) => Promise<void>;
   duplicateSection: (id: number) => Promise<void>;
   deleteSection: (id: number) => Promise<void>;
@@ -329,6 +332,16 @@ function InnerStudio({
     }
   }, [tenant.slug, markStatus]);
 
+  const patchSectionContent = useCallback(async (id: number, fieldPath: string, value: unknown) => {
+    const section = sectionsRef.current.find(s => s.id === id);
+    if (!section) return;
+    const currentContent = (section.settings?.content ?? {}) as Record<string, unknown>;
+    const newContent = setNestedValue(currentContent, fieldPath, value);
+    await patchSection(id, {
+      settings: { ...(section.settings ?? {}), content: newContent },
+    });
+  }, [patchSection]);
+
   const reorderSections = useCallback(async (ids: number[]) => {
     const map = new Map(sectionsRef.current.map(s => [s.id, s]));
     const next = ids
@@ -440,6 +453,7 @@ function InnerStudio({
 
   const genericEditorValue = useMemo(() => ({
     isAdmin: genericEditorEnabled,
+    isStudio: true,
     highlighted,
     updateField,
     updateStyle,
@@ -495,6 +509,7 @@ function InnerStudio({
     saveSectionsBatch,
     saveAsteraContent,
     patchSection,
+    patchSectionContent,
     reorderSections,
     duplicateSection,
     deleteSection,

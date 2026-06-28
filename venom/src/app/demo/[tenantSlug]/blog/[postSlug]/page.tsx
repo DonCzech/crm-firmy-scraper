@@ -106,7 +106,7 @@ export default async function BlogPostPage({ params }: Props) {
     },
     mainEntityOfPage: {
       "@type": "WebPage",
-      "@id": `https://venom-saas.vercel.app${base}/blog/${post.slug}`,
+      "@id": `https://webero.co${base}/blog/${post.slug}`,
     },
   };
 
@@ -114,8 +114,8 @@ export default async function BlogPostPage({ params }: Props) {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Domů", item: `https://venom-saas.vercel.app${base}` },
-      { "@type": "ListItem", position: 2, name: "Blog", item: `https://venom-saas.vercel.app${base}/blog` },
+      { "@type": "ListItem", position: 1, name: "Domů", item: `https://webero.co${base}` },
+      { "@type": "ListItem", position: 2, name: "Blog", item: `https://webero.co${base}/blog` },
       { "@type": "ListItem", position: 3, name: post.title },
     ],
   };
