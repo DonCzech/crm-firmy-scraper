@@ -87,8 +87,6 @@ export function GenericEditableText({
   const [isDragging, setIsDragging] = useState(false);
   const [dragDelta, setDragDelta] = useState<{ dx: number; dy: number }>({ dx: 0, dy: 0 });
   const dragInitRectRef = useRef<DOMRect | null>(null);
-  /** Live translate during drag — overrides displayStyle.translateX/Y so element follows immediately */
-  const [liveTranslate, setLiveTranslate] = useState<{ x: number; y: number } | null>(null);
   // Resize-by-drag state
   const [isResizing, setIsResizing] = useState(false);
   const resizeInitRectRef = useRef<DOMRect | null>(null);
@@ -206,13 +204,13 @@ export function GenericEditableText({
   function startDrag(e: React.PointerEvent) {
     e.preventDefault();
     e.stopPropagation();
-    dragInitRectRef.current = ref.current?.getBoundingClientRect() ?? null;
+    if (!ref.current) return;
+    dragInitRectRef.current = ref.current.getBoundingClientRect();
     const stored = getStyle(sectionId, field);
     const storedTx = parseFloat(stored.translateX ?? "0") || 0;
     const storedTy = parseFloat(stored.translateY ?? "0") || 0;
     const startMouse = { x: e.clientX, y: e.clientY };
-    // Read CSS zoom of the canvas container so translate values are in canvas px, not viewport px.
-    // Without this, element moves slower than the drag handle when canvas is zoom-scaled.
+    // CSS zoom on the canvas container — convert viewport px → canvas px
     const canvasZoom = (() => {
       let el: HTMLElement | null = ref.current;
       while (el) {
@@ -229,25 +227,30 @@ export function GenericEditableText({
     setIsDragging(true);
     setDragDelta({ dx: 0, dy: 0 });
 
+    // Apply offset via position:relative left/top — immune to CSS animations
+    // (CSS animations have higher cascade priority than inline transform, but NOT than position:relative offsets
+    //  for properties they don't animate. Template animations typically use transform/opacity, not left/top.)
+    const el = ref.current;
+    el.style.position = "relative";
+
     function onMove(ev: PointerEvent) {
-      // Divide by canvasZoom to convert viewport px → canvas px
       const dx = (ev.clientX - startMouse.x) / canvasZoom;
       const dy = (ev.clientY - startMouse.y) / canvasZoom;
       finalTx = storedTx + dx;
       finalTy = storedTy + dy;
-      // dragDelta for handle position is in viewport px (portal is position:fixed)
+      // Direct DOM write — bypasses React render cycle, wins over CSS animations
+      el.style.left = `${Math.round(finalTx)}px`;
+      el.style.top  = `${Math.round(finalTy)}px`;
+      // Update drag handle position (viewport px, portal is position:fixed)
       setDragDelta({ dx: ev.clientX - startMouse.x, dy: ev.clientY - startMouse.y });
-      // liveTranslate overrides displayStyle transform so the element follows pointer immediately
-      setLiveTranslate({ x: Math.round(finalTx), y: Math.round(finalTy) });
-      updateStyleLocal(sectionId, field, { ...stored, translateX: `${Math.round(finalTx)}px`, translateY: `${Math.round(finalTy)}px` });
     }
     function onUp() {
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
       setIsDragging(false);
       setDragDelta({ dx: 0, dy: 0 });
-      setLiveTranslate(null);
       dragInitRectRef.current = null;
+      // Save to server — next React render will apply via style prop
       updateStyle(sectionId, field, { ...stored, translateX: `${Math.round(finalTx)}px`, translateY: `${Math.round(finalTy)}px` });
     }
     window.addEventListener("pointermove", onMove);
@@ -285,17 +288,16 @@ export function GenericEditableText({
     const { translateX: fTx, translateY: fTy, ...publicCss } = fieldStyle;
     const fTxV = parseFloat(fTx ?? "0") || 0;
     const fTyV = parseFloat(fTy ?? "0") || 0;
-    const publicTransform = (fTxV || fTyV) ? `translate(${fTxV}px, ${fTyV}px)` : undefined;
-    return <El className={className} style={{ ...style, ...publicCss, ...alignStyle, transform: publicTransform }}>{children ?? value}</El>;
+    const pubOffset: React.CSSProperties = (fTxV || fTyV) ? { position: "relative", left: fTxV, top: fTyV } : {};
+    return <El className={className} style={{ ...style, ...publicCss, ...alignStyle, ...pubOffset }}>{children ?? value}</El>;
   }
 
-  // Extract translateX/translateY — not valid CSS; converted to transform below
+  // Extract translateX/translateY — stored as strings ("Xpx"), applied as position:relative left/top
+  // (position:relative left/top is NOT affected by CSS animations unlike transform)
   const { translateX: txProp, translateY: tyProp, ...pureCssStyle } = displayStyle;
-  // liveTranslate takes priority during drag so the element follows pointer immediately
-  // (displayStyle.translateX/Y lags one render behind because updateStyleLocal → context → re-render)
-  const txVal = liveTranslate?.x ?? (parseFloat(txProp ?? "0") || 0);
-  const tyVal = liveTranslate?.y ?? (parseFloat(tyProp ?? "0") || 0);
-  const transformStr = (txVal || tyVal) ? `translate(${txVal}px, ${tyVal}px)` : undefined;
+  const txVal = parseFloat(txProp ?? "0") || 0;
+  const tyVal = parseFloat(tyProp ?? "0") || 0;
+  const offsetStyle: React.CSSProperties = (txVal || tyVal) ? { position: "relative", left: txVal, top: tyVal } : {};
 
   // Drag/resize handles show when element is focused (selected by click) — not on hover
   // This avoids the handle disappearing before the user can click it
@@ -586,7 +588,7 @@ export function GenericEditableText({
           ...style,
           ...pureCssStyle,
           ...alignStyle,
-          transform: transformStr,
+          ...offsetStyle,
           outline: focused
             ? "2px solid #7c3bb2"
             : highlightedBlock
