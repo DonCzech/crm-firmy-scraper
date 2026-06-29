@@ -274,8 +274,20 @@ export function StudioCanvas({ state }: { state: StudioState }) {
       }
     }
 
-    const patched = overridden !== baseContent
-      ? { ...section, settings: { ...section.settings, content: overridden } }
+    // Merge live transient padding (during section-resize drag) into layout
+    // so SectionRenderer wrapper renders the in-progress value. Cleared on
+    // pointerup by SectionResizeHandle which commits the final value.
+    let layoutPatched = section.settings?.layout;
+    if (studio.transientPadding?.sectionId === section.id) {
+      const { sectionId: _sid, ...padOverride } = studio.transientPadding;
+      void _sid;
+      layoutPatched = { ...(layoutPatched ?? {}), ...padOverride };
+    }
+
+    const needsContentPatch = overridden !== baseContent;
+    const needsLayoutPatch = layoutPatched !== section.settings?.layout;
+    const patched = (needsContentPatch || needsLayoutPatch)
+      ? { ...section, settings: { ...section.settings, content: overridden, ...(needsLayoutPatch ? { layout: layoutPatched } : {}) } }
       : section;
 
     const hiddenOn = ((section.settings?.hiddenOn as string[] | undefined) ?? []);

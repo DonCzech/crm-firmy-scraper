@@ -10,8 +10,8 @@
 
 ```
 PHASE:        Sprint 1 — Quick wins
-NEXT TASK:    T1.3 — Section vertical resize handle (drag bottom edge → padding)
-LAST UPDATE:  2026-06-29 by Opus (T1.2 done: padding slidery v Layout inspectoru)
+NEXT TASK:    T1.4 — Globální codemod: spacing → CSS vars
+LAST UPDATE:  2026-06-29 by Opus (T1.3 done: section vertical resize handle)
 PILOT:        barber-01 (demo tenant: barber-01-v2, slug viz DB)
 DEV SERVER:   localhost:3002 (next dev --webpack)
 BRANCH:       (žádný explicitní — pracuje se přímo, commits chronologicky)
@@ -128,12 +128,13 @@ export const meta = {
   - Content inspector: skipnut — má section-level "X úprav vs šablona | Reset" banner; per-field by vyžadoval per-path reset API + default value tracking (větší refactor, mimo scope).
   - Originally requested by user mid-T1.2 verification: "do všech sekcí které se dají editovat přidej tlačítko reset". Důvod: safety net pokud klient něco posere, vrátí jen to konkrétní pole na default šablony bez ztráty ostatních úprav.
 
-- [ ] **T1.3 — Section vertical resize handle**
-  - Files: `src/components/studio/SectionFrame.tsx`, nový `src/components/studio/SectionResizeHandle.tsx`
+- [x] **T1.3 — Section vertical resize handle** ✅ 2026-06-29
+  - Files: `src/components/studio/SectionFrame.tsx`, nový `src/components/studio/SectionResizeHandle.tsx`, `src/components/studio/StudioContext.tsx`, `src/components/studio/StudioCanvas.tsx`
   - Handle se zobrazuje jen když `selected`. Drag bottom edge → live update `paddingBottom`.
   - Snap to 8px grid + value tooltip během drag (`240 px` text v badge)
   - `transientTransform` v `StudioContext` (RAF throttled), commit on `pointerup`.
   - DoD: drag bottom edge hero section barber-01 mění padding plynule
+  - **Done notes:** `SectionResizeHandle` = `<button>` u spodního edge (bottom-0, h-1.5 → h-2 hover, width 80→128 hover, modrý pill). PointerDown captures pointer + uloží `{ startY, startPad, rafPending, lastClientY }`. PointerMove throttled přes RAF — vytváří `studio.transientPadding = { sectionId, paddingBottom: snap(start + delta) }`. Snap 8 px, clamp 0–240. PointerUp commitne final value přes `state.patchSection({ settings.layout.paddingBottom })` a clearne transient. StudioContext rozšířen o `transientPadding` + `setTransientPadding`. StudioCanvas `renderOne` mergne transient do `section.settings.layout` virtuálně (stejný pattern jako `heroOverride`) — SectionRenderer dostane patched section a vyrenderuje live. Tooltip během dragu ("X px") pod handlem. Sortable-only (ne navbar/footer). Cleanup hook v unmount zruší RAF + transient. Type-check clean.
 
 - [ ] **T1.4 — Globální codemod: spacing → CSS vars**
   - Skript: `scripts/migrate-section-spacing-to-vars.mjs`
@@ -273,6 +274,7 @@ Formát: `YYYY-MM-DD | T<X.Y> | <stručný popis výsledku> | <files touched cou
 2026-06-29 | T1.1-fix | Grip z-index 10→60 (nad fixed navbar z-50), vyseparován z label flex containeru. Fix: hero v barber-01 šel uchopit. | 1
 2026-06-29 | T1.2 | Padding slidery v Layout inspectoru (Top/Bottom/X). PaddingSlider helper + 250ms debounce coalesced commits. Layout aplikován v SectionRenderer (single source of truth pro studio+public). CSS vars --section-pt/pb/px publikovány. | 3
 2026-06-29 | T1.2a | Universal per-field reset (FieldReset komponenta) v Layout + Style inspectorech. Safety net pro klienty. | 3
+2026-06-29 | T1.3 | Section vertical resize handle. Drag bottom edge → paddingBottom live (RAF, snap 8px). Tooltip "X px". Commit on pointerup. StudioContext transientPadding. | 4
 ```
 
 ---

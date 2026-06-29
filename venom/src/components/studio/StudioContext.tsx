@@ -118,6 +118,26 @@ export interface StudioContextValue {
   /** Live hero background override — applied instantly in canvas, saved on "Hotovo" */
   heroOverride: { sectionId: number; bg: Record<string, unknown> } | null;
   setHeroOverride: (o: { sectionId: number; bg: Record<string, unknown> } | null) => void;
+  /** Live transient padding override during section-resize drag. Cleared on
+   *  pointerup once the final value has been committed to DB via patchSection.
+   *  Read by SectionRenderer (single source of truth) to apply live preview. */
+  transientPadding: { sectionId: number; paddingTop?: number; paddingBottom?: number; paddingX?: number } | null;
+  setTransientPadding: (o: { sectionId: number; paddingTop?: number; paddingBottom?: number; paddingX?: number } | null) => void;
+  /** Active slide index for slider sections in admin — controls which slide the inspector edits & canvas shows */
+  heroSlideIdx: { sectionId: number; idx: number } | null;
+  setHeroSlideIdx: (o: { sectionId: number; idx: number } | null) => void;
+  /** Whether the 220px left panel is expanded (true) or collapsed (false) */
+  sidebarOpen: boolean;
+  toggleSidebar: () => void;
+  /** Global overlay states */
+  shortcutsOpen: boolean;
+  setShortcutsOpen: (v: boolean) => void;
+  notificationsOpen: boolean;
+  setNotificationsOpen: (v: boolean) => void;
+  helpPanelOpen: boolean;
+  setHelpPanelOpen: (v: boolean) => void;
+  commandPaletteOpen: boolean;
+  setCommandPaletteOpen: (v: boolean) => void;
 }
 
 export type CloneCommand =
@@ -152,6 +172,13 @@ export function StudioProvider({ children }: { children: ReactNode }) {
   const [currentArticleId, setCurrentArticleId] = useState<number | null>(null);
   const [imagePanel, setImagePanel] = useState<StudioImagePanel | null>(null);
   const [heroOverride, setHeroOverride] = useState<{ sectionId: number; bg: Record<string, unknown> } | null>(null);
+  const [transientPadding, setTransientPadding] = useState<{ sectionId: number; paddingTop?: number; paddingBottom?: number; paddingX?: number } | null>(null);
+  const [heroSlideIdx, setHeroSlideIdx] = useState<{ sectionId: number; idx: number } | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+  const [shortcutsOpen, setShortcutsOpen] = useState<boolean>(false);
+  const [notificationsOpen, setNotificationsOpen] = useState<boolean>(false);
+  const [helpPanelOpen, setHelpPanelOpen] = useState<boolean>(false);
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState<boolean>(false);
 
   // Persist panel state to sessionStorage so back-navigation survives page reloads.
   useEffect(() => {
@@ -218,7 +245,21 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     setImagePanel,
     heroOverride,
     setHeroOverride,
-  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride]);
+    transientPadding,
+    setTransientPadding,
+    heroSlideIdx,
+    setHeroSlideIdx,
+    sidebarOpen,
+    toggleSidebar: () => setSidebarOpen(o => !o),
+    shortcutsOpen,
+    setShortcutsOpen,
+    notificationsOpen,
+    setNotificationsOpen,
+    helpPanelOpen,
+    setHelpPanelOpen,
+    commandPaletteOpen,
+    setCommandPaletteOpen,
+  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride, transientPadding, heroSlideIdx, sidebarOpen, shortcutsOpen, notificationsOpen, helpPanelOpen, commandPaletteOpen]);
 
   return <StudioContext.Provider value={value}>{children}</StudioContext.Provider>;
 }
@@ -227,4 +268,9 @@ export function useStudio() {
   const ctx = useContext(StudioContext);
   if (!ctx) throw new Error("useStudio must be used inside StudioProvider");
   return ctx;
+}
+
+/** Returns null when called outside StudioProvider — safe for components rendered on public pages. */
+export function useStudioOptional(): StudioContextValue | null {
+  return useContext(StudioContext);
 }

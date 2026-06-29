@@ -4,6 +4,7 @@ import { useStudio } from "./StudioContext";
 import { ArrowUp, ArrowDown, Copy, Trash2, Eye, EyeOff, GripVertical } from "lucide-react";
 import clsx from "clsx";
 import { getSectionLabel } from "./studio-icons";
+import { SectionResizeHandle } from "./SectionResizeHandle";
 import type { Section } from "@/lib/db";
 import type { StudioState } from "./TenantStudioView";
 import {
@@ -265,6 +266,11 @@ export function SectionFrame({
             </span>
           )}
         </div>
+      )}
+      {/* Bottom edge resize handle — only on sortable sections (mimo navbar/footer)
+          aby uživatel nezvětšoval fixed header / footer. T1.3. */}
+      {selected && sortable && (
+        <SectionResizeHandle section={section} state={state} />
       )}
       {selected && (
         <div className="absolute right-2 top-2 z-[60] flex items-center gap-0.5 rounded-md border border-[#27272a] bg-[#141416]/95 p-0.5 shadow-lg backdrop-blur">
