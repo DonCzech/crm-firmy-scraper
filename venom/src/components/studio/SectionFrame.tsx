@@ -226,39 +226,48 @@ export function SectionFrame({
           !selected && hover && "ring-1 ring-inset ring-blue-400/40"
         )}
       />
-      {(selected || hover) && (
-        <div className="absolute left-0 top-0 z-10 flex items-center">
-          {sortable && (
-            <button
-              {...dragAttributes}
-              {...dragListeners}
-              type="button"
-              aria-label="Přesunout sekci přetažením"
-              title="Přetáhnout sekci pro změnu pořadí"
-              onClick={(e) => e.stopPropagation()}
-              className={clsx(
-                "pointer-events-auto flex h-[22px] w-5 cursor-grab items-center justify-center text-white shadow-md transition-colors active:cursor-grabbing",
-                selected ? "bg-blue-700 hover:bg-blue-800" : "bg-blue-500/80 hover:bg-blue-600"
-              )}
-            >
-              <GripVertical className="h-3 w-3" strokeWidth={2.25} />
-            </button>
+      {(selected || hover) && sortable && (
+        /* Drag handle — own absolute element with very high z-index so it
+           sits above any section-internal overlay (hero gradients, fixed
+           navbars rendered inside hero variants, dark blends, etc.). */
+        <button
+          {...dragAttributes}
+          {...dragListeners}
+          type="button"
+          aria-label="Přesunout sekci přetažením"
+          title="Přetáhnout sekci pro změnu pořadí"
+          onClick={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
+          className={clsx(
+            "pointer-events-auto absolute left-0 top-0 z-[60] flex h-6 w-6 cursor-grab items-center justify-center rounded-br-md text-white shadow-md ring-1 ring-white/20 transition-colors active:cursor-grabbing",
+            selected ? "bg-blue-700 hover:bg-blue-800" : "bg-blue-500/90 hover:bg-blue-600"
           )}
+        >
+          <GripVertical className="h-3.5 w-3.5" strokeWidth={2.25} />
+        </button>
+      )}
+      {(selected || hover) && (
+        <div
+          className={clsx(
+            "pointer-events-none absolute top-0 z-[60] flex items-center gap-1.5",
+            sortable ? "left-6" : "left-0"
+          )}
+        >
           <span className={clsx(
-            "pointer-events-none rounded-br-md px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-wide text-white",
+            "rounded-br-md px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-wide text-white",
             selected ? "bg-blue-600" : "bg-blue-400/80"
           )}>
             {label}
           </span>
           {!section.is_visible && (
-            <span className="pointer-events-none ml-1.5 rounded px-1.5 py-0.5 text-[9.5px] font-semibold uppercase tracking-wide bg-amber-500/90 text-white">
+            <span className="rounded px-1.5 py-0.5 text-[9.5px] font-semibold uppercase tracking-wide bg-amber-500/90 text-white">
               Skryto
             </span>
           )}
         </div>
       )}
       {selected && (
-        <div className="absolute right-2 top-2 z-10 flex items-center gap-0.5 rounded-md border border-[#27272a] bg-[#141416]/95 p-0.5 shadow-lg backdrop-blur">
+        <div className="absolute right-2 top-2 z-[60] flex items-center gap-0.5 rounded-md border border-[#27272a] bg-[#141416]/95 p-0.5 shadow-lg backdrop-blur">
           <FrameBtn label="Posunout nahoru" disabled={!canUp} onClick={() => move(-1)}>
             <ArrowUp className="h-3.5 w-3.5" strokeWidth={1.75} />
           </FrameBtn>
