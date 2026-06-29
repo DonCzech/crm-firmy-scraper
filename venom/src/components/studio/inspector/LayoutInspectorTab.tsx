@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import clsx from "clsx";
-import { RotateCcw } from "lucide-react";
 import type { Section } from "@/lib/db";
 import type { StudioState } from "../TenantStudioView";
+import { FieldReset } from "./FieldReset";
 
 type Spacing = "tight" | "normal" | "airy";
 
@@ -119,7 +119,14 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
       </div>
 
       <div>
-        <Label>Barva pozadí</Label>
+        <div className="flex items-center justify-between">
+          <Label>Barva pozadí</Label>
+          <FieldReset
+            onReset={() => { setBg(""); commitLayout({ backgroundColor: undefined }); }}
+            modified={bg !== ""}
+            title="Vrátit barvu pozadí na výchozí (šablona)"
+          />
+        </div>
         <div className="mt-1 flex items-center gap-2">
           <input
             type="color"
@@ -132,7 +139,7 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
             type="text"
             value={bg}
             onChange={(e) => setBg(e.target.value)}
-            onBlur={() => commitLayout({ backgroundColor: bg })}
+            onBlur={() => commitLayout({ backgroundColor: bg || undefined })}
             placeholder="auto"
             className="h-8 flex-1 rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2.5 font-mono text-xs text-[var(--vs-text)] outline-none focus:border-[var(--vs-accent)]"
           />
@@ -140,12 +147,19 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
       </div>
 
       <div>
-        <Label>Anchor ID</Label>
+        <div className="flex items-center justify-between">
+          <Label>Anchor ID</Label>
+          <FieldReset
+            onReset={() => { setAnchor(""); commitLayout({ anchorId: undefined }); }}
+            modified={anchor !== ""}
+            title="Vrátit anchor ID na výchozí (žádný)"
+          />
+        </div>
         <input
           type="text"
           value={anchor}
           onChange={(e) => setAnchor(e.target.value)}
-          onBlur={() => commitLayout({ anchorId: anchor })}
+          onBlur={() => commitLayout({ anchorId: anchor || undefined })}
           placeholder="napr-sluzby"
           className="mt-1 h-8 w-full rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2.5 font-mono text-xs text-[var(--vs-text)] outline-none focus:border-[var(--vs-accent)]"
         />
@@ -153,7 +167,18 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
       </div>
 
       <div className="space-y-2">
-        <Label>Skrýt sekci na zařízeních</Label>
+        <div className="flex items-center justify-between">
+          <Label>Skrýt sekci na zařízeních</Label>
+          <FieldReset
+            onReset={() => {
+              setHideMobile(false);
+              setHideTablet(false);
+              commitHiddenOn(false, false);
+            }}
+            modified={hideMobile || hideTablet}
+            title="Vrátit viditelnost na výchozí (vidět všude)"
+          />
+        </div>
 
         <div className="flex items-center justify-between rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2.5 py-2">
           <div>
@@ -243,21 +268,11 @@ function PaddingSlider({
             aria-label={`${label} v px`}
           />
           <span className="text-[10px] text-[var(--vs-text-muted)]">px</span>
-          <button
-            type="button"
-            aria-label={`Reset ${label}`}
-            title="Vrátit na 0"
-            onClick={() => onChange(0)}
-            disabled={value === 0}
-            className={clsx(
-              "ml-0.5 flex h-6 w-6 items-center justify-center rounded transition-colors",
-              value === 0
-                ? "text-[var(--vs-text-dim)] opacity-30"
-                : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
-            )}
-          >
-            <RotateCcw className="h-3 w-3" strokeWidth={1.75} />
-          </button>
+          <FieldReset
+            onReset={() => onChange(0)}
+            modified={value !== 0}
+            title={`Vrátit ${label.toLowerCase()} na výchozí (0)`}
+          />
         </div>
       </div>
       <input

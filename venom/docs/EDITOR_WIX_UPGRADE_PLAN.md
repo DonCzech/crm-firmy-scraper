@@ -120,6 +120,14 @@ export const meta = {
   - DoD: slider mění padding live (debounce commit 250 ms ne 2000 — UX), default values respektují variant `meta.layoutTokens` range
   - **Done notes:** `PaddingSlider` helper komponenta (range + number input + reset icon), debounce 250 ms coalesced přes `pendingPatch` ref (rychlé multi-slider edits se mergují do 1 commit). Padding interpretován jako **extra outer spacing** kolem sekce (přidává se k internímu paddingu šablony) — vidí se hned bez T1.4 codemodu. **Single source of truth** = `SectionRenderer` wrapper div (funguje shodně pro studio canvas i public render); padding logika odstraněna z `SectionFrame` (zůstal jen dragStyle). CSS vars `--section-pt/pb/px` publikovány na wrapper i když T1.4 codemod ještě templates nepřemigroval (forward-compat). Legacy `spacing` preset je read-only fallback (mapping zachován v komentu, UI ho už nepíše). `backgroundColor` z `layout` byl předtím dead feature (nikde nečtený) — teď opravdu aplikuje barvu na wrapper. Type-check clean.
 
+- [x] **T1.2a — Universal per-field reset (Layout + Style)** ✅ 2026-06-29
+  - Files: `src/components/studio/inspector/FieldReset.tsx` (new), `src/components/studio/inspector/LayoutInspectorTab.tsx`, `src/components/studio/inspector/StyleInspectorTab.tsx`
+  - Sdílená `<FieldReset>` komponenta (RotateCcw icon, disabled když není modified).
+  - Layout inspector: reset u každého controlu — 3 padding slidery (už z T1.2), bg color, anchor ID, hide-on-device toggles.
+  - Style inspector: reset u barvy, velikosti, tloušťky, formátování (italic/underline), zarovnání.
+  - Content inspector: skipnut — má section-level "X úprav vs šablona | Reset" banner; per-field by vyžadoval per-path reset API + default value tracking (větší refactor, mimo scope).
+  - Originally requested by user mid-T1.2 verification: "do všech sekcí které se dají editovat přidej tlačítko reset". Důvod: safety net pokud klient něco posere, vrátí jen to konkrétní pole na default šablony bez ztráty ostatních úprav.
+
 - [ ] **T1.3 — Section vertical resize handle**
   - Files: `src/components/studio/SectionFrame.tsx`, nový `src/components/studio/SectionResizeHandle.tsx`
   - Handle se zobrazuje jen když `selected`. Drag bottom edge → live update `paddingBottom`.
@@ -264,6 +272,7 @@ Formát: `YYYY-MM-DD | T<X.Y> | <stručný popis výsledku> | <files touched cou
 2026-06-29 | T1.1 | Drag handle na SectionFrame (DnD-kit sortable). SortableSectionFrame wrapper + grip vlevo nahoře. Mobile breakpoint = arrows fallback. Type-check clean. | 2
 2026-06-29 | T1.1-fix | Grip z-index 10→60 (nad fixed navbar z-50), vyseparován z label flex containeru. Fix: hero v barber-01 šel uchopit. | 1
 2026-06-29 | T1.2 | Padding slidery v Layout inspectoru (Top/Bottom/X). PaddingSlider helper + 250ms debounce coalesced commits. Layout aplikován v SectionRenderer (single source of truth pro studio+public). CSS vars --section-pt/pb/px publikovány. | 3
+2026-06-29 | T1.2a | Universal per-field reset (FieldReset komponenta) v Layout + Style inspectorech. Safety net pro klienty. | 3
 ```
 
 ---

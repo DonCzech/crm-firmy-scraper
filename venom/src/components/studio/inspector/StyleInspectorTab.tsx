@@ -6,6 +6,7 @@ import { useGenericInlineEditor, type GenericTextStyle } from "@/components/tena
 import { useStudio } from "../StudioContext";
 import type { Section } from "@/lib/db";
 import type { StudioState } from "../TenantStudioView";
+import { FieldReset } from "./FieldReset";
 
 const SIZES = ["12px", "14px", "16px", "18px", "20px", "24px", "32px", "40px", "56px", "72px"];
 const WEIGHTS: Array<{ value: string; label: string }> = [
@@ -51,7 +52,14 @@ export function StyleInspectorTab({ section }: { section: Section; state: Studio
       </div>
 
       <div>
-        <Label>Barva</Label>
+        <div className="flex items-center justify-between">
+          <Label>Barva</Label>
+          <FieldReset
+            onReset={() => apply({ color: undefined })}
+            modified={style.color != null && style.color !== ""}
+            title="Vrátit barvu na výchozí (šablona)"
+          />
+        </div>
         <div className="mt-1 flex items-center gap-2">
           <input
             type="color"
@@ -72,7 +80,14 @@ export function StyleInspectorTab({ section }: { section: Section; state: Studio
 
       <div className="grid grid-cols-2 gap-2">
         <div>
-          <Label>Velikost</Label>
+          <div className="flex items-center justify-between">
+            <Label>Velikost</Label>
+            <FieldReset
+              onReset={() => apply({ fontSize: undefined })}
+              modified={style.fontSize != null && style.fontSize !== ""}
+              title="Vrátit velikost písma na výchozí"
+            />
+          </div>
           <select
             value={style.fontSize ?? ""}
             onChange={(e) => apply({ fontSize: e.target.value || undefined })}
@@ -83,7 +98,14 @@ export function StyleInspectorTab({ section }: { section: Section; state: Studio
           </select>
         </div>
         <div>
-          <Label>Tloušťka</Label>
+          <div className="flex items-center justify-between">
+            <Label>Tloušťka</Label>
+            <FieldReset
+              onReset={() => apply({ fontWeight: undefined })}
+              modified={style.fontWeight != null && style.fontWeight !== ""}
+              title="Vrátit tloušťku písma na výchozí"
+            />
+          </div>
           <select
             value={style.fontWeight ?? ""}
             onChange={(e) => apply({ fontWeight: e.target.value || undefined })}
@@ -96,7 +118,14 @@ export function StyleInspectorTab({ section }: { section: Section; state: Studio
       </div>
 
       <div>
-        <Label>Formátování</Label>
+        <div className="flex items-center justify-between">
+          <Label>Formátování</Label>
+          <FieldReset
+            onReset={() => apply({ fontStyle: undefined, textDecoration: undefined })}
+            modified={isItalic || isUnderline}
+            title="Vrátit formátování (italic/underline) na výchozí"
+          />
+        </div>
         <div className="mt-1 flex gap-1">
           <Toggle
             active={!!isBold}
@@ -117,7 +146,14 @@ export function StyleInspectorTab({ section }: { section: Section; state: Studio
       </div>
 
       <div>
-        <Label>Zarovnání</Label>
+        <div className="flex items-center justify-between">
+          <Label>Zarovnání</Label>
+          <FieldReset
+            onReset={() => apply({ textAlign: undefined })}
+            modified={style.textAlign != null}
+            title="Vrátit zarovnání na výchozí"
+          />
+        </div>
         <div className="mt-1 flex gap-1">
           {(["left", "center", "right"] as const).map((a) => {
             const Icon = a === "left" ? AlignLeft : a === "center" ? AlignCenter : AlignRight;
