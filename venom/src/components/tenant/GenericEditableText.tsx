@@ -87,6 +87,8 @@ export function GenericEditableText({
   const [isDragging, setIsDragging] = useState(false);
   const [dragDelta, setDragDelta] = useState<{ dx: number; dy: number }>({ dx: 0, dy: 0 });
   const dragInitRectRef = useRef<DOMRect | null>(null);
+  /** Live translate during drag — overrides displayStyle.translateX/Y so element follows immediately */
+  const [liveTranslate, setLiveTranslate] = useState<{ x: number; y: number } | null>(null);
   // Resize-by-drag state
   const [isResizing, setIsResizing] = useState(false);
   const resizeInitRectRef = useRef<DOMRect | null>(null);
@@ -220,6 +222,8 @@ export function GenericEditableText({
       finalTx = storedTx + dx;
       finalTy = storedTy + dy;
       setDragDelta({ dx, dy });
+      // liveTranslate overrides displayStyle transform so the element follows the drag immediately
+      setLiveTranslate({ x: Math.round(finalTx), y: Math.round(finalTy) });
       updateStyleLocal(sectionId, field, { ...stored, translateX: `${Math.round(finalTx)}px`, translateY: `${Math.round(finalTy)}px` });
     }
     function onUp() {
@@ -227,6 +231,7 @@ export function GenericEditableText({
       window.removeEventListener("pointerup", onUp);
       setIsDragging(false);
       setDragDelta({ dx: 0, dy: 0 });
+      setLiveTranslate(null);
       dragInitRectRef.current = null;
       updateStyle(sectionId, field, { ...stored, translateX: `${Math.round(finalTx)}px`, translateY: `${Math.round(finalTy)}px` });
     }
@@ -271,8 +276,10 @@ export function GenericEditableText({
 
   // Extract translateX/translateY — not valid CSS; converted to transform below
   const { translateX: txProp, translateY: tyProp, ...pureCssStyle } = displayStyle;
-  const txVal = parseFloat(txProp ?? "0") || 0;
-  const tyVal = parseFloat(tyProp ?? "0") || 0;
+  // liveTranslate takes priority during drag so the element follows pointer immediately
+  // (displayStyle.translateX/Y lags one render behind because updateStyleLocal → context → re-render)
+  const txVal = liveTranslate?.x ?? (parseFloat(txProp ?? "0") || 0);
+  const tyVal = liveTranslate?.y ?? (parseFloat(tyProp ?? "0") || 0);
   const transformStr = (txVal || tyVal) ? `translate(${txVal}px, ${tyVal}px)` : undefined;
 
   // Drag/resize handles show when element is focused (selected by click) — not on hover
