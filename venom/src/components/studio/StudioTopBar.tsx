@@ -1,7 +1,9 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import {
-  Monitor, Tablet, Smartphone, Undo2, Redo2, ExternalLink, ChevronLeft, Folder,
+  Monitor, Tablet, Smartphone, Undo2, Redo2, ExternalLink, ChevronLeft, Folder, PanelLeft,
+  ZoomIn, ZoomOut, ChevronDown,
 } from "lucide-react";
 import clsx from "clsx";
 import { useStudio, type StudioBreakpoint } from "./StudioContext";
@@ -10,8 +12,17 @@ import { GoLiveButton } from "./GoLiveButton";
 import { PublishButton } from "./PublishButton";
 import { useHotkey } from "./ui";
 
-export function StudioTopBar({ state, onHelp: _onHelp }: { state: StudioState; onHelp: () => void }) {
+export function StudioTopBar({
+  state,
+  onHelp: _onHelp,
+  isMobile = false,
+}: {
+  state: StudioState;
+  onHelp: () => void;
+  isMobile?: boolean;
+}) {
   const studio = useStudio();
+  const { sidebarOpen, toggleSidebar } = studio;
 
   useHotkey("1", () => studio.setBreakpoint("desktop"));
   useHotkey("2", () => studio.setBreakpoint("tablet"));
@@ -20,20 +31,25 @@ export function StudioTopBar({ state, onHelp: _onHelp }: { state: StudioState; o
   useHotkey("cmd+shift+z", () => state.canRedo && state.redo());
   useHotkey("cmd+s", () => { void state.flushSave(); });
 
+  // On mobile: left zone always 55px (panel is an overlay, not inline)
+  const leftZoneWidth = isMobile ? 55 : (sidebarOpen ? 275 : 55);
+
   return (
-    <header
-      className="flex h-[53px] shrink-0 items-center bg-[var(--vs-bg-soft)]"
-    >
-      {/* Left sidebar zone (275px = 55 rail + 220 panel) — continuous separator to canvas */}
-      <div className="w-[275px] shrink-0 flex h-full border-r border-[var(--vs-border)]">
-        {/* Rail sub-zone (55px) with inner shadow matching rail */}
+    <header className="flex h-[53px] shrink-0 items-center bg-[var(--vs-bg-soft)]">
+
+      {/* Left sidebar zone */}
+      <div
+        style={{ width: leftZoneWidth, transition: "width 0.2s ease-in-out" }}
+        className="shrink-0 flex h-full border-r border-[var(--vs-border)] overflow-hidden"
+      >
+        {/* Rail strip */}
         <div
           className="w-[55px] shrink-0 h-full"
           style={{ boxShadow: "inset -1px 0 0 rgba(255,255,255,0.055)" }}
         />
-        {/* Panel sub-zone (220px) — Overview back button when panel is open */}
-        <div className="flex flex-1 items-center px-3">
-          {(studio.leftPanel || studio.settingsView) && (
+        {/* Panel strip — desktop only */}
+        <div className="flex w-[220px] shrink-0 items-center px-3">
+          {!isMobile && (studio.leftPanel || studio.settingsView) && (
             <button
               type="button"
               onClick={() => {
@@ -49,36 +65,55 @@ export function StudioTopBar({ state, onHelp: _onHelp }: { state: StudioState; o
         </div>
       </div>
 
-      {/* Canvas zone — overview + breadcrumb + controls */}
-      <div className="flex flex-1 items-center gap-2 px-3 min-w-0">
+      {/* Canvas zone */}
+      <div className="flex flex-1 items-center gap-2 px-2 min-w-0">
 
-        {/* Center — breadcrumb + not indexing */}
-        <div className="flex flex-1 items-center justify-center gap-2 min-w-0 px-2">
+        {/* Mobile: sidebar toggle button */}
+        {isMobile && (
+          <button
+            type="button"
+            aria-label={sidebarOpen ? "Skrýt panel" : "Zobrazit panel"}
+            onClick={toggleSidebar}
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
+          >
+            <PanelLeft size={17} strokeWidth={1.6} />
+          </button>
+        )}
+
+        {/* Center — breadcrumb */}
+        <div className={clsx(
+          "flex flex-1 items-center gap-2 min-w-0",
+          isMobile ? "justify-start" : "justify-center px-2"
+        )}>
           <div className="flex items-center gap-1.5 text-[13px] text-[var(--vs-text-muted)] min-w-0">
-            <Folder className="h-4 w-4 shrink-0 opacity-70" strokeWidth={1.75} />
-            <span className="shrink-0">Statické stránky</span>
-            <span className="shrink-0 opacity-50">/</span>
-            <span className="font-semibold text-[var(--vs-text)] truncate max-w-[154px]">
+            {!isMobile && <Folder className="h-4 w-4 shrink-0 opacity-70" strokeWidth={1.75} />}
+            {!isMobile && <span className="shrink-0">Statické stránky</span>}
+            {!isMobile && <span className="shrink-0 opacity-50">/</span>}
+            <span className="font-semibold text-[var(--vs-text)] truncate" style={{ maxWidth: isMobile ? 110 : 154 }}>
               {state.page?.title ?? state.page?.slug ?? "Úvod"}
             </span>
           </div>
-          <span className="inline-flex items-center gap-1 shrink-0 rounded-full bg-[#ef4444] px-2 py-[3px] text-[11px] font-bold text-white tracking-wide">
-            <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-            Not indexing
-          </span>
+          {!isMobile && (
+            <span className="inline-flex items-center gap-1 shrink-0 rounded-full bg-[#ef4444] px-2 py-[3px] text-[11px] font-bold text-white tracking-wide">
+              <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
+              Not indexing
+            </span>
+          )}
         </div>
 
-        {/* Right — breakpoint + undo/redo + external + publish */}
-        <div className="flex items-center gap-1 shrink-0">
+        {/* Right controls */}
+        <div className="flex items-center gap-0.5 shrink-0">
+
+          {/* Breakpoint switcher */}
           <div className="flex items-center gap-0.5 rounded-md bg-[var(--vs-surface)] p-0.5 ring-1 ring-[var(--vs-border)] mr-1">
-            <BPButton bp="desktop" active={studio.breakpoint === "desktop"} onClick={studio.setBreakpoint} label="Desktop (1)">
-              <Monitor className="h-4 w-4" strokeWidth={1.75} />
+            <BPButton bp="desktop" active={studio.breakpoint === "desktop"} onClick={studio.setBreakpoint} label={isMobile ? "Desktop" : "Desktop (1)"}>
+              <Monitor className={isMobile ? "h-3.5 w-3.5" : "h-4 w-4"} strokeWidth={1.75} />
             </BPButton>
-            <BPButton bp="tablet" active={studio.breakpoint === "tablet"} onClick={studio.setBreakpoint} label="Tablet (2)">
-              <Tablet className="h-4 w-4" strokeWidth={1.75} />
+            <BPButton bp="tablet" active={studio.breakpoint === "tablet"} onClick={studio.setBreakpoint} label={isMobile ? "Tablet" : "Tablet (2)"}>
+              <Tablet className={isMobile ? "h-3.5 w-3.5" : "h-4 w-4"} strokeWidth={1.75} />
             </BPButton>
-            <BPButton bp="mobile" active={studio.breakpoint === "mobile"} onClick={studio.setBreakpoint} label="Mobil (3)">
-              <Smartphone className="h-4 w-4" strokeWidth={1.75} />
+            <BPButton bp="mobile" active={studio.breakpoint === "mobile"} onClick={studio.setBreakpoint} label={isMobile ? "Mobil" : "Mobil (3)"} compact={isMobile}>
+              <Smartphone className={isMobile ? "h-3.5 w-3.5" : "h-4 w-4"} strokeWidth={1.75} />
             </BPButton>
           </div>
 
@@ -103,40 +138,134 @@ export function StudioTopBar({ state, onHelp: _onHelp }: { state: StudioState; o
             <Redo2 className="h-4 w-4" strokeWidth={1.75} />
           </button>
 
+          {/* External preview link — desktop only */}
+          {!isMobile && (
+            <>
+              <div className="h-[22px] w-px bg-[var(--vs-border)] mx-1" />
+              <a
+                href={state.page && !state.page.is_homepage
+                  ? `/demo/${state.tenant.slug}/${state.page.slug}`
+                  : `/demo/${state.tenant.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Veřejný náhled"
+                title="Veřejný náhled"
+                className="flex h-[31px] w-[31px] items-center justify-center rounded text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
+              >
+                <ExternalLink className="h-4 w-4" strokeWidth={1.75} />
+              </a>
+            </>
+          )}
+
           <div className="h-[22px] w-px bg-[var(--vs-border)] mx-1" />
 
-          <a
-            href={`/demo/${state.tenant.slug}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Veřejný náhled"
-            title="Veřejný náhled"
-            className="flex h-[31px] w-[31px] items-center justify-center rounded text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
-          >
-            <ExternalLink className="h-4 w-4" strokeWidth={1.75} />
-          </a>
+          {!isMobile && <ZoomControl />}
 
-          <div className="h-[22px] w-px bg-[var(--vs-border)] mx-1" />
+          {!isMobile && <div className="h-[22px] w-px bg-[var(--vs-border)] mx-1" />}
 
-          <div className="flex items-center gap-2" data-tour-id="topbar-publish">
-            <GoLiveButton state={state} />
+          <div className="flex items-center gap-1.5" data-tour-id="topbar-publish">
+            {!isMobile && <GoLiveButton state={state} />}
             <PublishButton state={state} />
           </div>
         </div>
-
       </div>
     </header>
   );
 }
 
+const ZOOM_PRESETS: { label: string; value: number | "fit" }[] = [
+  { label: "Přizpůsobit", value: "fit" },
+  { label: "40%", value: 40 },
+  { label: "50%", value: 50 },
+  { label: "75%", value: 75 },
+  { label: "100%", value: 100 },
+  { label: "125%", value: 125 },
+  { label: "150%", value: 150 },
+  { label: "200%", value: 200 },
+];
+
+function ZoomControl() {
+  const studio = useStudio();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onOut(e: MouseEvent) {
+      if (ref.current?.contains(e.target as Node)) return;
+      setOpen(false);
+    }
+    document.addEventListener("mousedown", onOut);
+    return () => document.removeEventListener("mousedown", onOut);
+  }, [open]);
+
+  function stepZoom(delta: number) {
+    const cur = studio.zoom === "fit" ? 100 : studio.zoom;
+    studio.setZoom(Math.max(40, Math.min(200, cur + delta)));
+  }
+
+  const label = studio.zoom === "fit" ? "Přizp." : `${studio.zoom}%`;
+
+  return (
+    <div ref={ref} className="relative flex items-center">
+      <button
+        type="button"
+        aria-label="Zmenšit (−10%)"
+        title="Zmenšit (−10%)"
+        onClick={() => stepZoom(-10)}
+        className="flex h-[28px] w-[26px] items-center justify-center rounded text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
+      >
+        <ZoomOut className="h-3.5 w-3.5" />
+      </button>
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        className="flex h-[28px] min-w-[56px] items-center justify-center gap-0.5 rounded px-1.5 text-[12px] font-medium text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
+      >
+        {label}
+        <ChevronDown className="h-3 w-3 opacity-60 shrink-0" />
+      </button>
+      <button
+        type="button"
+        aria-label="Přiblížit (+10%)"
+        title="Přiblížit (+10%)"
+        onClick={() => stepZoom(10)}
+        className="flex h-[28px] w-[26px] items-center justify-center rounded text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
+      >
+        <ZoomIn className="h-3.5 w-3.5" />
+      </button>
+      {open && (
+        <div className="absolute right-0 top-full z-50 mt-1 w-[150px] rounded-lg border border-[#27272a] bg-[#141416] py-1 shadow-2xl">
+          {ZOOM_PRESETS.map(p => (
+            <button
+              key={String(p.value)}
+              type="button"
+              onClick={() => { studio.setZoom(p.value); setOpen(false); }}
+              className={clsx(
+                "w-full px-3 py-1.5 text-left text-[12px] transition-colors duration-75",
+                studio.zoom === p.value
+                  ? "bg-[#6366f1]/20 text-[#818cf8]"
+                  : "text-[#a1a1aa] hover:bg-[#1a1a1c] hover:text-white"
+              )}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function BPButton({
-  bp, active, onClick, label, children,
+  bp, active, onClick, label, children, compact = false,
 }: {
   bp: StudioBreakpoint;
   active: boolean;
   onClick: (b: StudioBreakpoint) => void;
   label: string;
   children: React.ReactNode;
+  compact?: boolean;
 }) {
   return (
     <button
@@ -145,7 +274,8 @@ function BPButton({
       title={label}
       onClick={() => onClick(bp)}
       className={clsx(
-        "flex h-[26px] w-[31px] items-center justify-center rounded transition-[background,color] duration-100",
+        "flex items-center justify-center rounded transition-[background,color] duration-100",
+        compact ? "h-[24px] w-[26px]" : "h-[26px] w-[31px]",
         active
           ? "bg-[var(--vs-surface-3)] text-[var(--vs-text)] shadow-[inset_0_0_0_1px_var(--vs-border-strong)]"
           : "text-[var(--vs-text-muted)] hover:text-[var(--vs-text)]"

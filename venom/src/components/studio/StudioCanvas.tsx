@@ -205,6 +205,7 @@ export function StudioCanvas({ state }: { state: StudioState }) {
 
   const available = canvasW > 0 ? canvasW : width;
   const scale = Math.min(1, available / width);
+  const effectiveZoom = studio.zoom === "fit" ? scale : (studio.zoom / 100);
 
   // Page URL for iframe preview
   const pageUrl = state.page && !state.page.is_homepage
@@ -396,7 +397,7 @@ export function StudioCanvas({ state }: { state: StudioState }) {
   return (
     <div
       ref={outerRef}
-      className="h-full overflow-y-auto overflow-x-hidden bg-[var(--vs-bg-soft)]"
+      className={`h-full overflow-y-auto bg-[var(--vs-bg-soft)] ${effectiveZoom > 1 ? "overflow-x-auto" : "overflow-x-hidden"}`}
     >
       {isDesktop ? (
         /* Desktop — flush to right edge, scales to fill canvas width */
@@ -405,7 +406,7 @@ export function StudioCanvas({ state }: { state: StudioState }) {
           data-studio-canvas-preview
           data-design-host
           className="mx-auto"
-          style={{ width, zoom: scale, ...templateStyle, backgroundColor: "transparent" }}
+          style={{ width, zoom: effectiveZoom, ...templateStyle, backgroundColor: "transparent" }}
         >
           <DesignOverrides tokens={designTokens} hostSelector="[data-design-host]" />
           {/*
@@ -435,7 +436,7 @@ export function StudioCanvas({ state }: { state: StudioState }) {
               border: "8px solid #1c1c1e",
               boxShadow: "0 0 0 1px #3a3a3c, 0 40px 80px -16px rgba(0,0,0,0.8)",
               overflow: "hidden",
-              zoom: scale,
+              zoom: effectiveZoom,
               width,
               minHeight: studio.breakpoint === "mobile" ? 844 : 1024,
             }}

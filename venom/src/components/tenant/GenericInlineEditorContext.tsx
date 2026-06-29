@@ -15,6 +15,12 @@ export interface GenericTextStyle {
   fontStyle?: string;
   textDecoration?: string;
   textAlign?: "left" | "center" | "right";
+  letterSpacing?: string;
+  lineHeight?: string;
+  textTransform?: "none" | "uppercase" | "lowercase" | "capitalize";
+  /** Visual position offset — stored as "Xpx", converted to transform:translate in render. */
+  translateX?: string;
+  translateY?: string;
 }
 
 interface GenericInlineEditorContextValue {
@@ -23,6 +29,8 @@ interface GenericInlineEditorContextValue {
   highlighted: GenericHighlightChange[];
   updateField: (sectionId: number, field: string, value: string | number | boolean, options?: { recordHistory?: boolean }) => void;
   updateStyle: (sectionId: number, field: string, style: GenericTextStyle) => void;
+  /** Update style on canvas only — no server save. Used for live preview in toolbar draft mode. */
+  updateStyleLocal: (sectionId: number, field: string, style: GenericTextStyle) => void;
   getStyle: (sectionId: number, field: string) => GenericTextStyle;
   reorderField: (sectionId: number, field: string, newArray: unknown[]) => void;
 }
@@ -32,6 +40,7 @@ const GenericInlineEditorContext = createContext<GenericInlineEditorContextValue
   highlighted: [],
   updateField: () => undefined,
   updateStyle: () => undefined,
+  updateStyleLocal: () => undefined,
   getStyle: () => ({}),
   reorderField: () => undefined,
 });

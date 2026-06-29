@@ -115,6 +115,16 @@ export interface StudioContextValue {
   /** Floating image panel shown when an img element is clicked in the canvas */
   imagePanel: StudioImagePanel | null;
   setImagePanel: (s: StudioImagePanel | null) => void;
+  /** Signal to OverlayLayerInner to add a new element of a given type.
+   *  Consumed (set back to null) by the first matching OverlayLayerInner. */
+  pendingAddEl: { sectionId: number; elementType: string } | null;
+  setPendingAddEl: (v: { sectionId: number; elementType: string } | null) => void;
+  /** Currently selected overlay element (set by OverlayLayerInner, read by inspector). */
+  selectedOverlayEl: { sectionId: number; elementId: string } | null;
+  setSelectedOverlayEl: (v: { sectionId: number; elementId: string } | null) => void;
+  /** Z-order command sent from inspector → consumed by OverlayLayerInner. */
+  overlayZOrderCmd: { sectionId: number; cmd: "front" | "back" | "forward" | "backward" } | null;
+  setOverlayZOrderCmd: (v: { sectionId: number; cmd: "front" | "back" | "forward" | "backward" } | null) => void;
   /** Live hero background override — applied instantly in canvas, saved on "Hotovo" */
   heroOverride: { sectionId: number; bg: Record<string, unknown> } | null;
   setHeroOverride: (o: { sectionId: number; bg: Record<string, unknown> } | null) => void;
@@ -129,6 +139,9 @@ export interface StudioContextValue {
   /** Whether the 220px left panel is expanded (true) or collapsed (false) */
   sidebarOpen: boolean;
   toggleSidebar: () => void;
+  /** Canvas zoom level: "fit" = auto-fit to container, number = absolute % (40–200) */
+  zoom: number | "fit";
+  setZoom: (z: number | "fit") => void;
   /** Global overlay states */
   shortcutsOpen: boolean;
   setShortcutsOpen: (v: boolean) => void;
@@ -175,10 +188,14 @@ export function StudioProvider({ children }: { children: ReactNode }) {
   const [transientPadding, setTransientPadding] = useState<{ sectionId: number; paddingTop?: number; paddingBottom?: number; paddingX?: number } | null>(null);
   const [heroSlideIdx, setHeroSlideIdx] = useState<{ sectionId: number; idx: number } | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+  const [zoom, setZoom] = useState<number | "fit">("fit");
   const [shortcutsOpen, setShortcutsOpen] = useState<boolean>(false);
   const [notificationsOpen, setNotificationsOpen] = useState<boolean>(false);
   const [helpPanelOpen, setHelpPanelOpen] = useState<boolean>(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState<boolean>(false);
+  const [pendingAddEl, setPendingAddEl] = useState<{ sectionId: number; elementType: string } | null>(null);
+  const [selectedOverlayEl, setSelectedOverlayEl] = useState<{ sectionId: number; elementId: string } | null>(null);
+  const [overlayZOrderCmd, setOverlayZOrderCmd] = useState<{ sectionId: number; cmd: "front" | "back" | "forward" | "backward" } | null>(null);
 
   // Persist panel state to sessionStorage so back-navigation survives page reloads.
   useEffect(() => {
@@ -251,6 +268,8 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     setHeroSlideIdx,
     sidebarOpen,
     toggleSidebar: () => setSidebarOpen(o => !o),
+    zoom,
+    setZoom,
     shortcutsOpen,
     setShortcutsOpen,
     notificationsOpen,
@@ -259,7 +278,13 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     setHelpPanelOpen,
     commandPaletteOpen,
     setCommandPaletteOpen,
-  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride, transientPadding, heroSlideIdx, sidebarOpen, shortcutsOpen, notificationsOpen, helpPanelOpen, commandPaletteOpen]);
+    pendingAddEl,
+    setPendingAddEl,
+    selectedOverlayEl,
+    setSelectedOverlayEl,
+    overlayZOrderCmd,
+    setOverlayZOrderCmd,
+  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride, transientPadding, heroSlideIdx, sidebarOpen, shortcutsOpen, notificationsOpen, helpPanelOpen, commandPaletteOpen, pendingAddEl, selectedOverlayEl, overlayZOrderCmd, zoom]);
 
   return <StudioContext.Provider value={value}>{children}</StudioContext.Provider>;
 }
