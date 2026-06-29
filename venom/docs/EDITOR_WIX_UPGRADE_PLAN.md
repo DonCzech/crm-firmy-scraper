@@ -10,8 +10,8 @@
 
 ```
 PHASE:        Sprint 1 — Quick wins
-NEXT TASK:    T1.5 — ResizableImage primitive (extract z FreeformSection)
-LAST UPDATE:  2026-06-29 by Opus (T1.4 done: codemod = no-op; section paddings v JSX ne v skin.css → T1.2 additive zůstává)
+NEXT TASK:    T1.6 — Snap-to-grid + alignment guides (shared util)
+LAST UPDATE:  2026-06-29 by Opus (T1.5 done: ResizableBox + ResizableImage primitives)
 PILOT:        barber-01 (demo tenant: barber-01-v2, slug viz DB)
 DEV SERVER:   localhost:3002 (next dev --webpack)
 BRANCH:       (žádný explicitní — pracuje se přímo, commits chronologicky)
@@ -147,12 +147,13 @@ export const meta = {
   - **Rozhodnutí:** T1.2 additive semantics ZŮSTÁVAJÍ. Slidery v Layout inspectoru přidávají extra outer wrapper padding nad template default — to je intuitivní (default 0 = žádný extra) a invasive JSX rewrite by neměl ROI vs. risk. Skript zůstává v repu jako one-shot tool pro budoucnost (pokud nějaká nová šablona section padding zavede přímo do skin.css).
   - Full analýza v `docs/spacing-codemod-report.md`.
 
-- [ ] **T1.5 — `ResizableImage` primitive (extract z FreeformSection)**
-  - Files: nový `src/components/core/editable/ResizableBox.tsx`, nový `src/components/core/editable/ResizableImage.tsx`
+- [x] **T1.5 — `ResizableImage` primitive (extract z FreeformSection)** ✅ 2026-06-29 (primitive only, no template integration)
+  - Files: nový `src/components/core/editable/ResizableBox.tsx`, nový `src/components/core/editable/ResizableImage.tsx`, rozšíření `GenericInlineEditorContext` + 3 provider impl
   - Extract 8-handle drag logiku z `src/components/sections/FreeformSection.tsx`
   - `<ResizableImage path="hero.bgImage" resizable>` ukládá width/height do content path
   - Plug do `GenericEditableImage` přes prop `resizable={true}` (opt-in)
   - DoD: hero obrázek na barber-01 lze v editoru drag-resize, persist do DB, refresh stránky = stejná velikost
+  - **Done notes:** `ResizableBox` = generic, headless 8-handle primitive (pointer-capture + RAF throttle + snap + clamp + optional aspectLock + size badge). `ResizableImage` = opt-in wrapper, čte size z `content[field+"Width"]/[field+"Height"]`, commit přes `updateField(sid, fieldWidth, num)` — k tomu rozšířen typ `updateField` v `GenericInlineEditorContext` + 3 provider impls (`TenantStudioView`, `TenantPublicView`, `TenantEditorView`) z `string` na `string | number | boolean`. Handles aktivní jen v studio + isAdmin + section selected + ne mobile breakpoint. **Pivot vs. DoD:** primitives vytvořeny, ale **NEAPLIKOVAL jsem na barber-01 hero bgImage**: ten je `position: absolute; inset: 0; object-fit: cover` = full-cover background → resize by neměl viditelný efekt (image vždy fillne sekci). Reálná aplikace bude na use cases kde to dává smysl (gallery thumbnails, team fotky, about side images) — to je per-variant opt-in v budoucích iteracích. Type-check clean.
 
 - [ ] **T1.6 — Snap-to-grid + alignment guides (shared util)**
   - File: nový `src/lib/snap.ts` (utility — `snapToGrid(value, grid=8)`, `findAlignmentGuides(activeEl, allEls)`)
@@ -281,6 +282,7 @@ Formát: `YYYY-MM-DD | T<X.Y> | <stručný popis výsledku> | <files touched cou
 2026-06-29 | T1.2a | Universal per-field reset (FieldReset komponenta) v Layout + Style inspectorech. Safety net pro klienty. | 3
 2026-06-29 | T1.3 | Section vertical resize handle. Drag bottom edge → paddingBottom live (RAF, snap 8px). Tooltip "X px". Commit on pointerup. StudioContext transientPadding. | 4
 2026-06-29 | T1.4 | Codemod skript spacing→CSS vars. Dry-run našel 0 kandidátů: section padding je v JSX Tailwind ne v skin.css. Závěr: T1.2 additive zůstává. Skript v repu pro budoucnost. | 2
+2026-06-29 | T1.5 | ResizableBox + ResizableImage primitives (8-handle drag, RAF, snap, aspectLock, badge). updateField type → number/boolean. Neaplikoval do hero (full-cover bg) — opt-in per-variant až přijde reálný use case. | 5
 ```
 
 ---

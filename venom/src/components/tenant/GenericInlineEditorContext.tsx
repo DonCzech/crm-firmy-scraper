@@ -21,7 +21,7 @@ interface GenericInlineEditorContextValue {
   isAdmin: boolean;
   isStudio?: boolean;
   highlighted: GenericHighlightChange[];
-  updateField: (sectionId: number, field: string, value: string, options?: { recordHistory?: boolean }) => void;
+  updateField: (sectionId: number, field: string, value: string | number | boolean, options?: { recordHistory?: boolean }) => void;
   updateStyle: (sectionId: number, field: string, style: GenericTextStyle) => void;
   getStyle: (sectionId: number, field: string) => GenericTextStyle;
   reorderField: (sectionId: number, field: string, newArray: unknown[]) => void;

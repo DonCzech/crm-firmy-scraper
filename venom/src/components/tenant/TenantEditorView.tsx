@@ -556,7 +556,7 @@ export function TenantEditorView({ tenant, page, sections: initialSections, over
     highlightTimerRef.current = setTimeout(() => setHighlighted([]), HIGHLIGHT_DELAY);
   }, []);
 
-  const updateGenericField = useCallback((sectionId: number, field: string, value: string, options?: { recordHistory?: boolean }) => {
+  const updateGenericField = useCallback((sectionId: number, field: string, value: string | number | boolean, options?: { recordHistory?: boolean }) => {
     setSections(prev => {
       const before = cloneSections(prev);
       let changed: GenericHighlightChange[] = [];
