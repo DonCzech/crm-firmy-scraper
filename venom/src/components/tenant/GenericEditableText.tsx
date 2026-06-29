@@ -211,18 +211,33 @@ export function GenericEditableText({
     const storedTx = parseFloat(stored.translateX ?? "0") || 0;
     const storedTy = parseFloat(stored.translateY ?? "0") || 0;
     const startMouse = { x: e.clientX, y: e.clientY };
+    // Read CSS zoom of the canvas container so translate values are in canvas px, not viewport px.
+    // Without this, element moves slower than the drag handle when canvas is zoom-scaled.
+    const canvasZoom = (() => {
+      let el: HTMLElement | null = ref.current;
+      while (el) {
+        if (el.hasAttribute("data-studio-canvas-preview")) {
+          const z = parseFloat(window.getComputedStyle(el).zoom || "1");
+          return isNaN(z) || z <= 0 ? 1 : z;
+        }
+        el = el.parentElement;
+      }
+      return 1;
+    })();
     let finalTx = storedTx;
     let finalTy = storedTy;
     setIsDragging(true);
     setDragDelta({ dx: 0, dy: 0 });
 
     function onMove(ev: PointerEvent) {
-      const dx = ev.clientX - startMouse.x;
-      const dy = ev.clientY - startMouse.y;
+      // Divide by canvasZoom to convert viewport px → canvas px
+      const dx = (ev.clientX - startMouse.x) / canvasZoom;
+      const dy = (ev.clientY - startMouse.y) / canvasZoom;
       finalTx = storedTx + dx;
       finalTy = storedTy + dy;
-      setDragDelta({ dx, dy });
-      // liveTranslate overrides displayStyle transform so the element follows the drag immediately
+      // dragDelta for handle position is in viewport px (portal is position:fixed)
+      setDragDelta({ dx: ev.clientX - startMouse.x, dy: ev.clientY - startMouse.y });
+      // liveTranslate overrides displayStyle transform so the element follows pointer immediately
       setLiveTranslate({ x: Math.round(finalTx), y: Math.round(finalTy) });
       updateStyleLocal(sectionId, field, { ...stored, translateX: `${Math.round(finalTx)}px`, translateY: `${Math.round(finalTy)}px` });
     }
@@ -521,6 +536,7 @@ export function GenericEditableText({
         touchAction: "none",
       }}
       title="Přesunout (drag)"
+      onMouseDown={(e) => e.preventDefault()}
       onPointerDown={startDrag}
     >
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
@@ -552,6 +568,7 @@ export function GenericEditableText({
         touchAction: "none",
       }}
       title="Změnit velikost (drag nahoru/dolů)"
+      onMouseDown={(e) => e.preventDefault()}
       onPointerDown={startResize}
     />,
     document.body
