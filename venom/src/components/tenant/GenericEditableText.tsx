@@ -78,6 +78,9 @@ export function GenericEditableText({
   const [focused, setFocused] = useState(false);
   const [hovered, setHovered] = useState(false);
   const [toolbarPos, setToolbarPos] = useState<{ top: number; left: number } | null>(null);
+  // User can drag the toolbar to reposition it (floating)
+  const [toolbarUserPos, setToolbarUserPos] = useState<{ top: number; left: number } | null>(null);
+  const toolbarDragRef = useRef<{ startMouse: { x: number; y: number }; startPos: { top: number; left: number } } | null>(null);
 
   // Drag-to-reposition state
   const [elRect, setElRect] = useState<DOMRect | null>(null);
@@ -272,8 +275,9 @@ export function GenericEditableText({
   const tyVal = parseFloat(tyProp ?? "0") || 0;
   const transformStr = (txVal || tyVal) ? `translate(${txVal}px, ${tyVal}px)` : undefined;
 
-  // Drag/resize handle positions
-  const showHandles = hovered && !focused && elRect !== null;
+  // Drag/resize handles show when element is focused (selected by click) — not on hover
+  // This avoids the handle disappearing before the user can click it
+  const showHandles = focused && elRect !== null;
   const dragHandleLeft = isDragging && dragInitRectRef.current
     ? dragInitRectRef.current.left + dragDelta.dx
     : (elRect?.left ?? 0);
@@ -304,6 +308,34 @@ export function GenericEditableText({
   };
   const btnActive: React.CSSProperties = { ...btnBase, background: "#6d28d9", color: "#fff" };
 
+  // Floating toolbar drag
+  function startToolbarDrag(e: React.PointerEvent<HTMLDivElement>) {
+    e.preventDefault();
+    const autoTop = toolbarPos ? Math.max(8, toolbarPos.top - 30) : 8;
+    const autoLeft = toolbarPos ? Math.max(8, Math.min(toolbarPos.left, window.innerWidth - 524)) : 8;
+    const startPos = toolbarUserPos ?? { top: autoTop, left: autoLeft };
+    toolbarDragRef.current = { startMouse: { x: e.clientX, y: e.clientY }, startPos };
+    function onMove(ev: PointerEvent) {
+      if (!toolbarDragRef.current) return;
+      const dx = ev.clientX - toolbarDragRef.current.startMouse.x;
+      const dy = ev.clientY - toolbarDragRef.current.startMouse.y;
+      setToolbarUserPos({
+        top: Math.max(4, toolbarDragRef.current.startPos.top + dy),
+        left: Math.max(4, Math.min(window.innerWidth - 524, toolbarDragRef.current.startPos.left + dx)),
+      });
+    }
+    function onUp() {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      toolbarDragRef.current = null;
+    }
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+  }
+
+  const finalToolbarTop = toolbarUserPos?.top ?? (toolbarPos ? Math.max(8, toolbarPos.top - 30) : 8);
+  const finalToolbarLeft = toolbarUserPos?.left ?? (toolbarPos ? Math.max(8, Math.min(toolbarPos.left, window.innerWidth - 524)) : 8);
+
   const toolbar = focused && toolbarPos
     ? createPortal(
         <div
@@ -318,13 +350,13 @@ export function GenericEditableText({
           }}
           style={{
             position: "fixed",
-            top: Math.max(8, toolbarPos.top - 30),
-            left: Math.max(8, Math.min(toolbarPos.left, window.innerWidth - 520 - 8)),
+            top: finalToolbarTop,
+            left: finalToolbarLeft,
             zIndex: 100000,
             display: "flex",
             flexDirection: "column",
             gap: 4,
-            padding: "7px 8px",
+            padding: "4px 8px 7px",
             borderRadius: 12,
             background: "#0f172a",
             boxShadow: "0 12px 40px rgba(0,0,0,0.55)",
@@ -335,6 +367,13 @@ export function GenericEditableText({
             outline: "none",
           }}
         >
+          {/* Drag grip — move toolbar */}
+          <div
+            onPointerDown={startToolbarDrag}
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", height: 14, cursor: "grab", marginBottom: 1, flexShrink: 0 }}
+          >
+            <div style={{ width: 36, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.14)" }} />
+          </div>
           {/* Row 1: formatting */}
           <div style={{ display: "flex", alignItems: "center", gap: 3 }}>
             {/* B */}
