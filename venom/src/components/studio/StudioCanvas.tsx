@@ -3,6 +3,20 @@
 import { useEffect, useRef, useState } from "react";
 import { Plus } from "lucide-react";
 import clsx from "clsx";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import { SectionRenderer } from "@/components/tenant/SectionRenderer";
 import { applyOverrides } from "@/lib/overrides";
 import { useStudio } from "./StudioContext";
@@ -14,6 +28,34 @@ import { buildSectionLibrary } from "@/sections/variants";
 import { getSectionIcon, getSectionLabel } from "./studio-icons";
 import type { Section } from "@/lib/db";
 import type { StudioState } from "./TenantStudioView";
+
+/** SortableSectionFrame — wraps a section in dnd-kit useSortable and forwards
+ *  the drag handle props to SectionFrame so the grip handle in the section
+ *  header can initiate the drag. Used only for "middle" sections (everything
+ *  except navbar / footer) and only on desktop / tablet breakpoints. */
+function SortableSectionFrame({
+  section, state, children,
+}: {
+  section: Section;
+  state: StudioState;
+  children: React.ReactNode;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+    useSortable({ id: section.id });
+  return (
+    <SectionFrame
+      section={section}
+      state={state}
+      dragAttributes={attributes}
+      dragListeners={listeners}
+      setDragRef={setNodeRef}
+      isDragging={isDragging}
+      dragStyle={{ transform: CSS.Transform.toString(transform), transition }}
+    >
+      {children}
+    </SectionFrame>
+  );
+}
 
 const CANVAS_LIBRARY = buildSectionLibrary().filter(
   (e) => e.type !== "navbar" && e.type !== "footer" && e.type !== "full-page-clone" && e.type !== "astera-home"
@@ -169,6 +211,31 @@ export function StudioCanvas({ state }: { state: StudioState }) {
     ? `/demo/${state.tenant.slug}/${state.page.slug}`
     : `/demo/${state.tenant.slug}`;
 
+  const isMobileBreakpoint = studio.breakpoint === "mobile";
+  const middleSections = renderOrder.filter(
+    (s) => s.section_type !== "navbar" && s.section_type !== "footer" && s.section_type !== "full-page-clone"
+  );
+  const middleIds = middleSections.map((s) => s.id);
+  const sortableEnabled = !isMobileBreakpoint && middleIds.length > 1;
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } })
+  );
+
+  function handleDragEnd(e: DragEndEvent) {
+    const { active, over } = e;
+    if (!over || active.id === over.id) return;
+    const oldIdx = middleIds.indexOf(Number(active.id));
+    const newIdx = middleIds.indexOf(Number(over.id));
+    if (oldIdx < 0 || newIdx < 0) return;
+    const reordered = [...middleIds];
+    reordered.splice(oldIdx, 1);
+    reordered.splice(newIdx, 0, Number(active.id));
+    const navbarIds = renderOrder.filter((s) => s.section_type === "navbar").map((s) => s.id);
+    const footerIds = renderOrder.filter((s) => s.section_type === "footer").map((s) => s.id);
+    void state.reorderSections([...navbarIds, ...reordered, ...footerIds]);
+  }
+
   function renderOne(section: Section) {
     if (section.section_type === "full-page-clone") {
       return (
@@ -210,10 +277,70 @@ export function StudioCanvas({ state }: { state: StudioState }) {
     const patched = overridden !== baseContent
       ? { ...section, settings: { ...section.settings, content: overridden } }
       : section;
+
+    const hiddenOn = ((section.settings?.hiddenOn as string[] | undefined) ?? []);
+    const isHiddenOnBreakpoint =
+      (studio.breakpoint === "mobile" && hiddenOn.includes("mobile")) ||
+      (studio.breakpoint === "tablet" && hiddenOn.includes("tablet"));
+
+    const inner = (
+      <div className={isHiddenOnBreakpoint ? "relative" : undefined}>
+        <SectionRenderer section={patched} tenantId={state.tenant.id} tenantSlug={state.tenant.slug} isAdmin={false} onSaveAsteraContent={state.saveAsteraContent} />
+        {isHiddenOnBreakpoint && (
+          <div className="absolute inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.55)] pointer-events-none z-10">
+            <span className="rounded-full bg-[#1c1c1e] border border-[#3a3a3c] px-3 py-1 text-[11px] font-medium text-[#a1a1aa]">
+              Skryto na {studio.breakpoint === "mobile" ? "mobilu" : "tabletu"}
+            </span>
+          </div>
+        )}
+      </div>
+    );
+
+    const isSortable = sortableEnabled && middleIds.includes(section.id);
+    if (isSortable) {
+      return (
+        <SortableSectionFrame key={section.id} section={section} state={state}>
+          {inner}
+        </SortableSectionFrame>
+      );
+    }
     return (
       <SectionFrame key={section.id} section={section} state={state}>
-        <SectionRenderer section={patched} tenantId={state.tenant.id} tenantSlug={state.tenant.slug} isAdmin={false} onSaveAsteraContent={state.saveAsteraContent} />
+        {inner}
       </SectionFrame>
+    );
+  }
+
+  /** Renders the full section list (navbar + middle + footer) shared between
+   *  desktop and tablet/mobile frames. Middle sections are wrapped in
+   *  DndContext + SortableContext when sortable is enabled (desktop/tablet).
+   *  On mobile breakpoint the arrows in SectionFrame toolbar are the only
+   *  reorder affordance — drag handle is hidden because no sortable wrapper.
+   */
+  function renderSectionList() {
+    const items = renderOrder.map((section, i) => {
+      const scope =
+        section.section_type === "navbar" ? "header" :
+        section.section_type === "footer" ? "footer" :
+        "section";
+      const isFooter = section.section_type === "footer";
+      const isLast = i === renderOrder.length - 1;
+      return (
+        <div key={section.id} data-design-scope={scope}>
+          {renderOne(section)}
+          {!isLast && !isFooter && (
+            <InsertionGap insertAtIndex={i + 1} state={state} />
+          )}
+        </div>
+      );
+    });
+    if (!sortableEnabled) return <>{items}</>;
+    return (
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <SortableContext items={middleIds} strategy={verticalListSortingStrategy}>
+          {items}
+        </SortableContext>
+      </DndContext>
     );
   }
 
@@ -265,7 +392,7 @@ export function StudioCanvas({ state }: { state: StudioState }) {
           data-breakpoint="desktop"
           data-studio-canvas-preview
           data-design-host
-          className="ml-auto"
+          className="mx-auto"
           style={{ width, zoom: scale, ...templateStyle, backgroundColor: "transparent" }}
         >
           <DesignOverrides tokens={designTokens} hostSelector="[data-design-host]" />
@@ -280,23 +407,7 @@ export function StudioCanvas({ state }: { state: StudioState }) {
           >
             {state.page?.title ?? state.tenant?.slug ?? "Úvod"}
           </h1>
-          {renderOrder.map((section, i) => {
-            const scope =
-              section.section_type === "navbar" ? "header" :
-              section.section_type === "footer" ? "footer" :
-              "section";
-            // Don't put an InsertionGap after footer (last section)
-            const isFooter = section.section_type === "footer";
-            const isLast = i === renderOrder.length - 1;
-            return (
-              <div key={section.id} data-design-scope={scope}>
-                {renderOne(section)}
-                {!isLast && !isFooter && (
-                  <InsertionGap insertAtIndex={i + 1} state={state} />
-                )}
-              </div>
-            );
-          })}
+          {renderSectionList()}
           {/* Drop zone at bottom — append after all content sections (before footer) */}
           <CanvasDropZone
             insertAtIndex={Math.max(0, renderOrder.filter(s => s.section_type !== "footer").length)}
@@ -304,7 +415,7 @@ export function StudioCanvas({ state }: { state: StudioState }) {
           />
         </div>
       ) : (
-        /* Tablet / Mobile — iframe so vw units use correct viewport */
+        /* Tablet / Mobile — direct render in device frame, same editing as desktop */
         <div className="flex justify-center items-start py-8 px-4 min-h-full">
           <div
             style={{
@@ -314,18 +425,21 @@ export function StudioCanvas({ state }: { state: StudioState }) {
               overflow: "hidden",
               zoom: scale,
               width,
+              minHeight: studio.breakpoint === "mobile" ? 844 : 1024,
             }}
           >
-            <iframe
-              title={`${studio.breakpoint} preview`}
-              src={pageUrl}
-              style={{
-                width: "100%",
-                height: studio.breakpoint === "mobile" ? 844 : 1024,
-                border: "none",
-                display: "block",
-              }}
-            />
+            <div
+              data-breakpoint={studio.breakpoint}
+              data-studio-canvas-preview
+              data-design-host
+              style={{ width: "100%", ...templateStyle }}
+            >
+              <DesignOverrides tokens={designTokens} hostSelector="[data-design-host]" />
+              <h1 style={{ position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0,0,0,0)", whiteSpace: "nowrap", border: 0 }}>
+                {state.page?.title ?? state.tenant?.slug ?? "Úvod"}
+              </h1>
+              {renderSectionList()}
+            </div>
           </div>
         </div>
       )}

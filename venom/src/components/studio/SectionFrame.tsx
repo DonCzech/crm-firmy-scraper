@@ -1,21 +1,37 @@
 "use client";
 
 import { useStudio } from "./StudioContext";
-import { ArrowUp, ArrowDown, Copy, Trash2, Eye, EyeOff } from "lucide-react";
+import { ArrowUp, ArrowDown, Copy, Trash2, Eye, EyeOff, GripVertical } from "lucide-react";
 import clsx from "clsx";
 import { getSectionLabel } from "./studio-icons";
 import type { Section } from "@/lib/db";
 import type { StudioState } from "./TenantStudioView";
-import { type ReactNode, useEffect } from "react";
+import {
+  type ReactNode,
+  type CSSProperties,
+  type Ref,
+  useEffect,
+} from "react";
 import { findFieldBySrc, readFocus } from "@/lib/studio-focus";
+import type { DraggableAttributes } from "@dnd-kit/core";
+import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
+
+export interface SectionDragProps {
+  dragAttributes?: DraggableAttributes;
+  dragListeners?: SyntheticListenerMap;
+  setDragRef?: Ref<HTMLDivElement>;
+  dragStyle?: CSSProperties;
+  isDragging?: boolean;
+}
 
 export function SectionFrame({
   section, state, children,
+  dragAttributes, dragListeners, setDragRef, dragStyle, isDragging,
 }: {
   section: Section;
   state: StudioState;
   children: ReactNode;
-}) {
+} & SectionDragProps) {
   const studio = useStudio();
 
   // Apply saved focus (object-position) to all images in this section that
@@ -53,11 +69,15 @@ export function SectionFrame({
     void state.reorderSections(ids);
   }
 
+  const sortable = !!dragAttributes;
+
   return (
     <div
+      ref={setDragRef}
       data-section-frame
       data-section-id={section.id}
-      className="relative"
+      className={clsx("relative", isDragging && "opacity-40")}
+      style={dragStyle}
       onMouseEnter={() => studio.setHoverSectionId(section.id)}
       onMouseLeave={() => { if (studio.hoverSectionId === section.id) studio.setHoverSectionId(null); }}
       onClickCapture={(e) => {
@@ -207,15 +227,31 @@ export function SectionFrame({
         )}
       />
       {(selected || hover) && (
-        <div className="pointer-events-none absolute left-0 top-0 z-10 flex items-center gap-1.5">
+        <div className="absolute left-0 top-0 z-10 flex items-center">
+          {sortable && (
+            <button
+              {...dragAttributes}
+              {...dragListeners}
+              type="button"
+              aria-label="Přesunout sekci přetažením"
+              title="Přetáhnout sekci pro změnu pořadí"
+              onClick={(e) => e.stopPropagation()}
+              className={clsx(
+                "pointer-events-auto flex h-[22px] w-5 cursor-grab items-center justify-center text-white shadow-md transition-colors active:cursor-grabbing",
+                selected ? "bg-blue-700 hover:bg-blue-800" : "bg-blue-500/80 hover:bg-blue-600"
+              )}
+            >
+              <GripVertical className="h-3 w-3" strokeWidth={2.25} />
+            </button>
+          )}
           <span className={clsx(
-            "rounded-br-md px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-wide text-white",
+            "pointer-events-none rounded-br-md px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-wide text-white",
             selected ? "bg-blue-600" : "bg-blue-400/80"
           )}>
             {label}
           </span>
           {!section.is_visible && (
-            <span className="rounded px-1.5 py-0.5 text-[9.5px] font-semibold uppercase tracking-wide bg-amber-500/90 text-white">
+            <span className="pointer-events-none ml-1.5 rounded px-1.5 py-0.5 text-[9.5px] font-semibold uppercase tracking-wide bg-amber-500/90 text-white">
               Skryto
             </span>
           )}
