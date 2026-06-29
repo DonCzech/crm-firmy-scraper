@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Section } from "@/lib/db";
 import { ClonedSiteRenderer } from "./ClonedSiteRenderer";
 import { AsteraHomeTemplate } from "../templates/AsteraHomeTemplate";
@@ -95,9 +96,41 @@ export function SectionRenderer({ section, tenantSlug, isAdmin, onSaveAsteraCont
       />
     </SectionContentProvider>
   );
-  if (anchorId) {
+
+  // T1.2 — section layout settings (extra outer padding + background color).
+  // Applied here as the single source of truth so both Studio canvas and
+  // public render react identically. CSS vars also published for templates
+  // that will be migrated by T1.4 codemod to read them natively.
+  const layout = (section.settings?.layout ?? {}) as {
+    paddingTop?: number; paddingBottom?: number; paddingX?: number;
+    backgroundColor?: string;
+  };
+  const wrapStyle: CSSProperties = {};
+  const vars: Record<string, string> = {};
+  if (typeof layout.paddingTop === "number" && layout.paddingTop > 0) {
+    wrapStyle.paddingTop = layout.paddingTop;
+    vars["--section-pt"] = `${layout.paddingTop}px`;
+  }
+  if (typeof layout.paddingBottom === "number" && layout.paddingBottom > 0) {
+    wrapStyle.paddingBottom = layout.paddingBottom;
+    vars["--section-pb"] = `${layout.paddingBottom}px`;
+  }
+  if (typeof layout.paddingX === "number" && layout.paddingX > 0) {
+    wrapStyle.paddingLeft = layout.paddingX;
+    wrapStyle.paddingRight = layout.paddingX;
+    vars["--section-px"] = `${layout.paddingX}px`;
+  }
+  if (layout.backgroundColor) {
+    wrapStyle.backgroundColor = layout.backgroundColor;
+  }
+  const hasLayout = Object.keys(wrapStyle).length > 0;
+  const finalStyle: CSSProperties = hasLayout || anchorId
+    ? { ...wrapStyle, ...(vars as CSSProperties), ...(anchorId ? { scrollMarginTop: 90 } : {}) }
+    : {};
+
+  if (anchorId || hasLayout) {
     return (
-      <div id={anchorId} style={{ scrollMarginTop: 90 }}>
+      <div id={anchorId} style={finalStyle}>
         {rendered}
       </div>
     );

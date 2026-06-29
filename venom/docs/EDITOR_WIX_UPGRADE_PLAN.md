@@ -10,8 +10,8 @@
 
 ```
 PHASE:        Sprint 1 — Quick wins
-NEXT TASK:    T1.2 — Padding/margin slidery (replace tight/normal/airy presets)
-LAST UPDATE:  2026-06-29 by Opus (T1.1 done: drag handle na SectionFrame)
+NEXT TASK:    T1.3 — Section vertical resize handle (drag bottom edge → padding)
+LAST UPDATE:  2026-06-29 by Opus (T1.2 done: padding slidery v Layout inspectoru)
 PILOT:        barber-01 (demo tenant: barber-01-v2, slug viz DB)
 DEV SERVER:   localhost:3002 (next dev --webpack)
 BRANCH:       (žádný explicitní — pracuje se přímo, commits chronologicky)
@@ -112,12 +112,13 @@ export const meta = {
   - Pozn.: zachovej současné ↑↓ tlačítka jako accessibility fallback.
   - **Done notes:** přidán `SectionDragProps` typ s `DraggableAttributes`/`SyntheticListenerMap` z dnd-kit; `SortableSectionFrame` wrapper v `StudioCanvas` volá `useSortable` a forwarduje props do `SectionFrame`; grip handle (GripVertical) vlevo nahoře vedle label badge, `pointer-events-auto`, `cursor-grab`. Reorder logika ekvivalentní `LayersPanel` (middle = non-navbar/footer; navbar prepend + footer append). Mobile breakpoint = `sortableEnabled=false` ⇒ grip skrytý, šipky v toolbar zůstávají. Activation distance 6 px (víc než LayersPanel 4 px, aby krátký click neaktivoval drag na velkých section divech). `renderSectionList` helper sjednocuje obě breakpoint větve. Pattern: `useSortable({id: section.id})` → `setNodeRef` na vnější `<div>`, `CSS.Transform.toString(transform)` v inline style, `isDragging` ⇒ `opacity-40`. Type-check clean (zbývající errors v TestimonialsSection jsou preexisting).
 
-- [ ] **T1.2 — Padding/margin slidery (replace tight/normal/airy presets)**
-  - Files: `src/components/studio/inspector/LayoutInspectorTab.tsx`, `src/components/tenant/SectionRenderer.tsx` (nebo `SectionFrame` wrapper)
+- [x] **T1.2 — Padding/margin slidery (replace tight/normal/airy presets)** ✅ 2026-06-29
+  - Files: `src/components/studio/inspector/LayoutInspectorTab.tsx`, `src/components/tenant/SectionRenderer.tsx`, `src/components/studio/SectionFrame.tsx`
   - 3× number input + range slider (paddingTop/Bottom 0–240 px krok 4, paddingX 0–80 px krok 4)
   - CSS var injekce: `style={{ "--section-pt": `${pt}px`, ... }}` na wrapper `<section>` nebo `[data-section-id]`
   - Zachovat read `spacing: tight|normal|airy` jako fallback (mapping: tight=48, normal=96, airy=144)
   - DoD: slider mění padding live (debounce commit 250 ms ne 2000 — UX), default values respektují variant `meta.layoutTokens` range
+  - **Done notes:** `PaddingSlider` helper komponenta (range + number input + reset icon), debounce 250 ms coalesced přes `pendingPatch` ref (rychlé multi-slider edits se mergují do 1 commit). Padding interpretován jako **extra outer spacing** kolem sekce (přidává se k internímu paddingu šablony) — vidí se hned bez T1.4 codemodu. **Single source of truth** = `SectionRenderer` wrapper div (funguje shodně pro studio canvas i public render); padding logika odstraněna z `SectionFrame` (zůstal jen dragStyle). CSS vars `--section-pt/pb/px` publikovány na wrapper i když T1.4 codemod ještě templates nepřemigroval (forward-compat). Legacy `spacing` preset je read-only fallback (mapping zachován v komentu, UI ho už nepíše). `backgroundColor` z `layout` byl předtím dead feature (nikde nečtený) — teď opravdu aplikuje barvu na wrapper. Type-check clean.
 
 - [ ] **T1.3 — Section vertical resize handle**
   - Files: `src/components/studio/SectionFrame.tsx`, nový `src/components/studio/SectionResizeHandle.tsx`
@@ -261,6 +262,8 @@ Formát: `YYYY-MM-DD | T<X.Y> | <stručný popis výsledku> | <files touched cou
 ```
 2026-06-29 | INIT | Plán vytvořen, memory pointer + trigger prompt zaregistrován | 3
 2026-06-29 | T1.1 | Drag handle na SectionFrame (DnD-kit sortable). SortableSectionFrame wrapper + grip vlevo nahoře. Mobile breakpoint = arrows fallback. Type-check clean. | 2
+2026-06-29 | T1.1-fix | Grip z-index 10→60 (nad fixed navbar z-50), vyseparován z label flex containeru. Fix: hero v barber-01 šel uchopit. | 1
+2026-06-29 | T1.2 | Padding slidery v Layout inspectoru (Top/Bottom/X). PaddingSlider helper + 250ms debounce coalesced commits. Layout aplikován v SectionRenderer (single source of truth pro studio+public). CSS vars --section-pt/pb/px publikovány. | 3
 ```
 
 ---
