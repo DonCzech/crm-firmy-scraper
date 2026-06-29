@@ -10,8 +10,8 @@
 
 ```
 PHASE:        Sprint 1 — Quick wins
-NEXT TASK:    T1.4 — Globální codemod: spacing → CSS vars
-LAST UPDATE:  2026-06-29 by Opus (T1.3 done: section vertical resize handle)
+NEXT TASK:    T1.5 — ResizableImage primitive (extract z FreeformSection)
+LAST UPDATE:  2026-06-29 by Opus (T1.4 done: codemod = no-op; section paddings v JSX ne v skin.css → T1.2 additive zůstává)
 PILOT:        barber-01 (demo tenant: barber-01-v2, slug viz DB)
 DEV SERVER:   localhost:3002 (next dev --webpack)
 BRANCH:       (žádný explicitní — pracuje se přímo, commits chronologicky)
@@ -136,11 +136,16 @@ export const meta = {
   - DoD: drag bottom edge hero section barber-01 mění padding plynule
   - **Done notes:** `SectionResizeHandle` = `<button>` u spodního edge (bottom-0, h-1.5 → h-2 hover, width 80→128 hover, modrý pill). PointerDown captures pointer + uloží `{ startY, startPad, rafPending, lastClientY }`. PointerMove throttled přes RAF — vytváří `studio.transientPadding = { sectionId, paddingBottom: snap(start + delta) }`. Snap 8 px, clamp 0–240. PointerUp commitne final value přes `state.patchSection({ settings.layout.paddingBottom })` a clearne transient. StudioContext rozšířen o `transientPadding` + `setTransientPadding`. StudioCanvas `renderOne` mergne transient do `section.settings.layout` virtuálně (stejný pattern jako `heroOverride`) — SectionRenderer dostane patched section a vyrenderuje live. Tooltip během dragu ("X px") pod handlem. Sortable-only (ne navbar/footer). Cleanup hook v unmount zruší RAF + transient. Type-check clean.
 
-- [ ] **T1.4 — Globální codemod: spacing → CSS vars**
+- [x] **T1.4 — Globální codemod: spacing → CSS vars** ✅ 2026-06-29 (no-op po analýze)
   - Skript: `scripts/migrate-section-spacing-to-vars.mjs`
   - Pro každou variant v `src/sections/*/variants/*/skin.css` (i orphan skin.css v `src/templates/<key>/`) detekovat `padding: <Y> <X>` na `section`/`.section` a nahradit `padding: var(--section-pt, <Y>) var(--section-px, <X>) var(--section-pb, <Y>)`.
   - DRY-RUN flag (`--dry`) povinný. Print diff. Bez `--write` neuložit.
   - DoD: na barber-01 (zamčená!) script proběhne v dry mode bez chyb. Output ulož do `docs/spacing-codemod-report.md`. Až user OK → spustit s `--write` na non-locked šablonách.
+  - **Done notes (důležité finding):** Skript vyrobil 0 kandidátů přes všech 37 CSS files. Důvod: **section padding v této codebase NEEXISTUJE v `skin.css`**. Audit ukázal:
+    - 19 section komponent v `src/components/sections/*.tsx` obsahuje **105 Tailwind padding utility classes** (`py-32`, `px-8`, `pt-24` atd.) v `className=` JSX.
+    - `skin.css` files obsahují padding jen pro **inner elementy** (buttons, navbars, badges) — nikdy pro section root.
+  - **Rozhodnutí:** T1.2 additive semantics ZŮSTÁVAJÍ. Slidery v Layout inspectoru přidávají extra outer wrapper padding nad template default — to je intuitivní (default 0 = žádný extra) a invasive JSX rewrite by neměl ROI vs. risk. Skript zůstává v repu jako one-shot tool pro budoucnost (pokud nějaká nová šablona section padding zavede přímo do skin.css).
+  - Full analýza v `docs/spacing-codemod-report.md`.
 
 - [ ] **T1.5 — `ResizableImage` primitive (extract z FreeformSection)**
   - Files: nový `src/components/core/editable/ResizableBox.tsx`, nový `src/components/core/editable/ResizableImage.tsx`
@@ -275,6 +280,7 @@ Formát: `YYYY-MM-DD | T<X.Y> | <stručný popis výsledku> | <files touched cou
 2026-06-29 | T1.2 | Padding slidery v Layout inspectoru (Top/Bottom/X). PaddingSlider helper + 250ms debounce coalesced commits. Layout aplikován v SectionRenderer (single source of truth pro studio+public). CSS vars --section-pt/pb/px publikovány. | 3
 2026-06-29 | T1.2a | Universal per-field reset (FieldReset komponenta) v Layout + Style inspectorech. Safety net pro klienty. | 3
 2026-06-29 | T1.3 | Section vertical resize handle. Drag bottom edge → paddingBottom live (RAF, snap 8px). Tooltip "X px". Commit on pointerup. StudioContext transientPadding. | 4
+2026-06-29 | T1.4 | Codemod skript spacing→CSS vars. Dry-run našel 0 kandidátů: section padding je v JSX Tailwind ne v skin.css. Závěr: T1.2 additive zůstává. Skript v repu pro budoucnost. | 2
 ```
 
 ---
