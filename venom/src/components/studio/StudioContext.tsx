@@ -151,6 +151,10 @@ export interface StudioContextValue {
   setHelpPanelOpen: (v: boolean) => void;
   commandPaletteOpen: boolean;
   setCommandPaletteOpen: (v: boolean) => void;
+  checklistOpen: boolean;
+  setChecklistOpen: (v: boolean) => void;
+  aiPanelOpen: boolean;
+  setAiPanelOpen: (v: boolean) => void;
 }
 
 export type CloneCommand =
@@ -193,6 +197,8 @@ export function StudioProvider({ children }: { children: ReactNode }) {
   const [notificationsOpen, setNotificationsOpen] = useState<boolean>(false);
   const [helpPanelOpen, setHelpPanelOpen] = useState<boolean>(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState<boolean>(false);
+  const [checklistOpen, setChecklistOpen] = useState<boolean>(false);
+  const [aiPanelOpen, setAiPanelOpen] = useState<boolean>(false);
   const [pendingAddEl, setPendingAddEl] = useState<{ sectionId: number; elementType: string } | null>(null);
   const [selectedOverlayEl, setSelectedOverlayEl] = useState<{ sectionId: number; elementId: string } | null>(null);
   const [overlayZOrderCmd, setOverlayZOrderCmd] = useState<{ sectionId: number; cmd: "front" | "back" | "forward" | "backward" } | null>(null);
@@ -278,13 +284,17 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     setHelpPanelOpen,
     commandPaletteOpen,
     setCommandPaletteOpen,
+    checklistOpen,
+    setChecklistOpen,
+    aiPanelOpen,
+    setAiPanelOpen,
     pendingAddEl,
     setPendingAddEl,
     selectedOverlayEl,
     setSelectedOverlayEl,
     overlayZOrderCmd,
     setOverlayZOrderCmd,
-  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride, transientPadding, heroSlideIdx, sidebarOpen, shortcutsOpen, notificationsOpen, helpPanelOpen, commandPaletteOpen, pendingAddEl, selectedOverlayEl, overlayZOrderCmd, zoom]);
+  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride, transientPadding, heroSlideIdx, sidebarOpen, shortcutsOpen, notificationsOpen, helpPanelOpen, commandPaletteOpen, checklistOpen, aiPanelOpen, pendingAddEl, selectedOverlayEl, overlayZOrderCmd, zoom]);
 
   return <StudioContext.Provider value={value}>{children}</StudioContext.Provider>;
 }

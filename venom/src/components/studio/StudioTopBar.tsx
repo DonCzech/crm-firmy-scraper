@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Monitor, Tablet, Smartphone, Undo2, Redo2, ExternalLink, ChevronLeft, Folder, PanelLeft,
-  ZoomIn, ZoomOut, ChevronDown,
+  ZoomIn, ZoomOut, ChevronDown, Check, Loader2,
 } from "lucide-react";
 import clsx from "clsx";
 import { useStudio, type StudioBreakpoint } from "./StudioContext";
@@ -163,6 +163,8 @@ export function StudioTopBar({
 
           {!isMobile && <div className="h-[22px] w-px bg-[var(--vs-border)] mx-1" />}
 
+          {!isMobile && <SaveStatusBadge state={state} />}
+
           <div className="flex items-center gap-1.5" data-tour-id="topbar-publish">
             {!isMobile && <GoLiveButton state={state} />}
             <PublishButton state={state} />
@@ -254,6 +256,59 @@ function ZoomControl() {
         </div>
       )}
     </div>
+  );
+}
+
+function SaveStatusBadge({ state }: { state: StudioState }) {
+  const [visible, setVisible] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (state.saveStatus === "saving" || state.saveStatus === "error") {
+      setVisible(true);
+      if (timerRef.current) clearTimeout(timerRef.current);
+    } else if (state.saveStatus === "saved") {
+      setVisible(true);
+      timerRef.current = setTimeout(() => setVisible(false), 2000);
+    } else {
+      // idle — show only if there are unsaved changes
+      setVisible(state.canUndo);
+    }
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [state.saveStatus, state.canUndo]);
+
+  if (!visible) return null;
+
+  if (state.saveStatus === "saving") {
+    return (
+      <span className="flex items-center gap-1 text-[11.5px] text-[var(--vs-text-muted)] mr-1">
+        <Loader2 className="h-3 w-3 animate-spin" strokeWidth={2} />
+        Ukládám…
+      </span>
+    );
+  }
+  if (state.saveStatus === "saved") {
+    return (
+      <span className="flex items-center gap-1 text-[11.5px] text-emerald-400 mr-1">
+        <Check className="h-3 w-3" strokeWidth={2.5} />
+        Uloženo
+      </span>
+    );
+  }
+  if (state.saveStatus === "error") {
+    return (
+      <span className="flex items-center gap-1 text-[11.5px] text-red-400 mr-1">
+        <span className="font-bold">!</span>
+        Chyba uložení
+      </span>
+    );
+  }
+  // idle + canUndo = unsaved changes
+  return (
+    <span className="flex items-center gap-1 text-[11.5px] text-[var(--vs-text-muted)] mr-1">
+      <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+      Neuloženo
+    </span>
   );
 }
 

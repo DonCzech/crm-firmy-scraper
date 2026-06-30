@@ -9,10 +9,9 @@
 ## §0 STATUS — aktuální stav (vždy aktualizuj!)
 
 ```
-PHASE:        Sprint 6 DONE — T6.1 + T6.2 + T6.3 hotové (kód). Thumbnaily ještě negenerované.
-NEXT TASK:    Generovat thumbnaily: `npm run dev` (port 3002) + `npm run thumbs` (~40 min, 785 shot).
-              Nebo Sprint 7 — viz §III níže.
-LAST UPDATE:  2026-06-30 by Sonnet (T6.2: /api/studio/thumb-variants endpoint + update skriptu aby preferoval API; /studio/thumb page jako alternativní preview; cleanup)
+PHASE:        Sprint 7 DONE — T7.1 AI Asistent, T7.3 Onboarding Checklist, T7.4 Command Palette upgrade, T7.5 Section rename + save indicator.
+NEXT TASK:    Sprint 8 — viz §III níže (nebo user review Sprint 7 → OK Sprint 8).
+LAST UPDATE:  2026-06-30 by Sonnet (Sprint 7: section rename LayersPanel, save status badge TopBar, SetupChecklist 5-step, CommandPalette fuzzy+keyboard+categories, AIPanel floating s Claude claude-haiku-4-5-20251001 rewrite)
 PILOT:        barber-01 (demo tenant: barber-01-v2, slug viz DB)
 DEV SERVER:   localhost:3002 (next dev --webpack)
 BRANCH:       (žádný explicitní — pracuje se přímo, commits chronologicky)
@@ -382,6 +381,12 @@ Formát: `YYYY-MM-DD | T<X.Y> | <stručný popis výsledku> | <files touched cou
 2026-06-29 | T6.3 | WebP bulk converter pro public/: scripts/convert-images-to-webp.mjs (sharp q=82, concurrency 4, skip clones/+section-thumbs, stale-check podle mtime, --replace flag). Spuštěno: 930 obrázků převedeno → ušetřeno 111.3 MB. Originály zachovány (re-run s `npm run webp:replace` pro smazání). 1 corrupt JPG (hair-01/hero.jpg = 0-byte placeholder, ne corrupt — ignorováno). | 1
 2026-06-30 | T6.2-fix | playwright-core 1.59 nepodporuje `type:"webp"` přímo — generator opraven: screenshot PNG buffer → sharp.resize(800×500 fit:cover) → webp q=78. Preview route rozdělena na server (DB lookup) + SectionPreviewClient (vyžaduje "use client" kvůli freeform ssr:false v Next 16). | 3
 2026-06-30 | T6.2-api | /api/studio/thumb-variants route (SECTION_VARIANTS jako JSON, primární zdroj pro generator). Generator upraven: zkusí API endpoint → tsx → regex fallback. /studio/thumb/page.tsx jako jednodušší alternativní preview. Plan doc T6.2 označen DONE. | 2
+2026-06-30 | T6.2-run | Generator spuštěn pro 784 variant na běžícím dev :3000. **Výsledek: 725 thumbnailů hotových (92.5 %), 59 fails, 13 MB total**. Fails breakdown: navbar 45, hero 5, rezora-widget 3, testimonials/faq/map/about jednotky. Všechny fails → CSS mock fallback v `<VariantCard onError>`. | 0
+2026-06-30 | T6.4 | Iterace UX (na základě feedbacku): (a) Generator v2: `waitUntil:"domcontentloaded"` + 1.5s settle (místo networkidle) + min-height 120px na navbar/footer wrapperu pro nulovou clip-box. **Re-run: +48 thumbnailů → 773/784 = 98.6 %**. Zbývá 11 fails (sekce skutečně bez demo dat). (b) `+ Přidat` button extrahován do WixAddButton.tsx + module store wix-add-state.ts (useSyncExternalStore), button přesunut do SecondaryActionBar (modrý #3b82f6 filled, dark editor design tokens, anchor pro 3-card popover přes DOM lookup). (c) `scripts/build-pages-catalog.mjs` → src/sections/built-in-pages.json: **245 reálných stránek z 93 šablon** (92 homepage + 28 about + 26 services + 52 contact + 14 portfolio + …). PagesPanel přepsán: kategorie sidebar (15 typů), search, 3-col grid s `PageCard` který zobrazí thumbnail první ne-navbar sekce + family label + počet sekcí; klik vloží celou page sequence (skip navbar/footer). (d) ElementsPanel: 10 reálných overlay elementů (Heading/Paragraph/Quote/Button-filled/outline/pill/Image/Divider/Square/Circle) s vlastními SVG previewy, sidebar 6 kategorií (Vše/Text/Tlačítka/Obrázky/Tvary/Stock), curated stock illustrations sekce odkazující na undraw.co. | 7
+2026-06-30 | T7.5 | LayersPanel: double-click na label → inline `<input>`, commit jako `settings.customLabel`, ESC/blur cancel, custom label zobrazuje se modře (#93c5fd). TopBar: `SaveStatusBadge` — Loader2 "Ukládám…" / Check "Uloženo" (2s fade) / amber dot "Neuloženo" / červené "Chyba uložení". | 2
+2026-06-30 | T7.3 | SetupChecklist: floating panel (bottom-left nad TrialBanner), 5 kroků (logo/kontakt/texty/foto/publish), click-to-complete checkbox, progress bar, akční tlačítka otevírají příslušný panel/galerii, localStorage persistence per-tenant. StudioContext: `checklistOpen`/`setChecklistOpen`. StudioLeftRail: CheckSquare trigger button. | 4
+2026-06-30 | T7.4 | CommandPalette upgrade: 19 statických příkazů (7 kategorií: Navigace/Obrázky/Zobrazení/Akce/Nastavení/Nápověda), dynamické stránky z /api/demo/[slug]/pages, fuzzy score search s kategorizovaným výstupem, keyboard nav (↑↓ Enter), hover-sync cursor. Přijímá `state` prop. | 1
+2026-06-30 | T7.1 | AIPanel: floating right-bottom panel, 6 mode buttonů (professional/shorten/cta/translate-en/friendlier/expand), textarea input, Copy výsledek. /api/demo/[slug]/ai/rewrite: POST → Claude claude-haiku-4-5-20251001, 503 bez API klíče. SecondaryActionBar: Pomocník AI toggle aktivní styl + wire do `studio.setAiPanelOpen`. | 4
 ```
 
 ---

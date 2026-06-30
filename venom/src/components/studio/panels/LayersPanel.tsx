@@ -19,6 +19,8 @@ import { CSS } from "@dnd-kit/utilities";
 import {
   Eye, EyeOff, MoreHorizontal, GripVertical,
   Copy, Trash2, Layout, Layers as LayersIcon, X,
+  ChevronRight, Type, AlignLeft, MousePointer, ImageIcon, Minus, Square,
+  Smartphone,
 } from "lucide-react";
 import clsx from "clsx";
 import { useStudio } from "../StudioContext";
@@ -27,6 +29,87 @@ import { GROUPS } from "./AddSectionPanel";
 import type { StudioState } from "../TenantStudioView";
 import type { Section } from "@/lib/db";
 import { extractCloneSubLayers, type CloneSubLayer } from "@/lib/clone-sublayers";
+import type { FreeformEl } from "@/components/core/freeform/types";
+
+// ── Overlay element helpers ───────────────────────────────────────────────────
+function getOverlayElements(section: Section): FreeformEl[] {
+  const overlay = (section.settings as { overlay?: { elements?: FreeformEl[] } } | undefined)?.overlay;
+  return overlay?.elements ?? [];
+}
+
+function getElIcon(type: FreeformEl["type"]) {
+  switch (type) {
+    case "heading": return Type;
+    case "text":    return AlignLeft;
+    case "button":  return MousePointer;
+    case "image":   return ImageIcon;
+    case "divider": return Minus;
+    case "shape":   return Square;
+    default:        return Square;
+  }
+}
+
+function getElLabel(el: FreeformEl): string {
+  if ("text" in el && el.text) return el.text.slice(0, 28) + (el.text.length > 28 ? "…" : "");
+  switch (el.type) {
+    case "image":   return "Obrázek";
+    case "divider": return "Oddělovač";
+    case "shape":   return "Tvar";
+    default:        return el.type;
+  }
+}
+
+// ── OverlaySubRow ─────────────────────────────────────────────────────────────
+function OverlaySubRow({ el, sectionId, selected, onSelect, onToggleMobile, onDelete }: {
+  el: FreeformEl;
+  sectionId: number;
+  selected: boolean;
+  onSelect: () => void;
+  onToggleMobile: () => void;
+  onDelete: () => void;
+}) {
+  const Icon = getElIcon(el.type);
+  return (
+    <div
+      onClick={onSelect}
+      className={clsx(
+        "group relative flex h-8 items-center gap-1.5 rounded-lg pl-7 pr-1.5 text-[12px] transition-colors duration-100 cursor-pointer",
+        selected
+          ? "bg-[rgba(99,102,241,0.18)] text-white ring-1 ring-inset ring-[rgba(99,102,241,0.35)]"
+          : "text-[#71717a] hover:bg-white/[0.05] hover:text-[#a1a1aa]",
+        el.mobileHidden && "opacity-60"
+      )}
+    >
+      {/* indent line */}
+      <div className="absolute left-3 top-0 bottom-0 w-px bg-white/[0.07]" />
+
+      <Icon className="h-3 w-3 shrink-0" strokeWidth={1.75} />
+      <span className="flex-1 truncate">{getElLabel(el)}</span>
+
+      <div className="flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity group-hover:opacity-100">
+        <button
+          type="button"
+          title={el.mobileHidden ? "Zobrazit na mobilu" : "Skrýt na mobilu"}
+          onClick={(e) => { e.stopPropagation(); onToggleMobile(); }}
+          className={clsx(
+            "rounded p-0.5 transition-colors hover:bg-white/[0.1]",
+            el.mobileHidden ? "text-amber-400" : "text-[#4b5563] hover:text-white"
+          )}
+        >
+          <Smartphone className="h-3 w-3" strokeWidth={1.75} />
+        </button>
+        <button
+          type="button"
+          title="Smazat element"
+          onClick={(e) => { e.stopPropagation(); onDelete(); }}
+          className="rounded p-0.5 text-[#4b5563] transition-colors hover:bg-white/[0.1] hover:text-red-400"
+        >
+          <Trash2 className="h-3 w-3" strokeWidth={1.75} />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function scrollToSection(sectionId: number) {
   const el = document.querySelector(`[data-section-id="${sectionId}"]`) as HTMLElement | null;
@@ -248,10 +331,36 @@ function PopupRow({
   dimmed?: boolean;
   dragHandle?: React.ReactNode;
 }) {
+  const studio = useStudio();
   const Icon = getSectionIcon(section.section_type);
-  const label = getSectionLabel(section.section_type, section.section_variant);
+  const baseLabel = getSectionLabel(section.section_type, section.section_variant);
+  const customLabel = (section.settings as { customLabel?: string } | undefined)?.customLabel;
+  const label = customLabel || baseLabel;
   const [menu, setMenu] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const overlayEls = getOverlayElements(section);
+  const [expanded, setExpanded] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [editVal, setEditVal] = useState("");
+  const editRef = useRef<HTMLInputElement>(null);
+
+  function startEdit(e: React.MouseEvent) {
+    e.stopPropagation();
+    setEditVal(label);
+    setEditing(true);
+    setTimeout(() => { editRef.current?.select(); }, 10);
+  }
+
+  function commitEdit() {
+    setEditing(false);
+    const trimmed = editVal.trim();
+    const next = trimmed && trimmed !== baseLabel ? trimmed : undefined;
+    if (next !== customLabel) {
+      void state.patchSection(section.id, {
+        settings: { ...(section.settings ?? {}), customLabel: next },
+      });
+    }
+  }
 
   useEffect(() => {
     if (!menu) return;
@@ -263,87 +372,165 @@ function PopupRow({
     return () => document.removeEventListener("mousedown", out);
   }, [menu]);
 
+  function handleToggleMobile(el: FreeformEl) {
+    const next = overlayEls.map(e => e.id === el.id ? { ...e, mobileHidden: !e.mobileHidden } : e);
+    void state.patchSection(section.id, {
+      settings: {
+        ...(section.settings ?? {}),
+        overlay: { ...(section.settings as { overlay?: object } | undefined)?.overlay, elements: next },
+      },
+    });
+  }
+
+  function handleDeleteEl(el: FreeformEl) {
+    const next = overlayEls.filter(e => e.id !== el.id);
+    void state.patchSection(section.id, {
+      settings: {
+        ...(section.settings ?? {}),
+        overlay: { ...(section.settings as { overlay?: object } | undefined)?.overlay, elements: next },
+      },
+    });
+    if (studio.selectedOverlayEl?.elementId === el.id) studio.setSelectedOverlayEl(null);
+  }
+
   return (
-    <div
-      onClick={onSelect}
-      className={clsx(
-        "group relative flex h-10 items-center gap-2 rounded-xl px-2 text-[13px] transition-colors duration-100",
-        dimmed ? "cursor-default opacity-40" : "cursor-pointer",
-        !dimmed && selected
-          ? "bg-[rgba(59,130,246,0.15)] text-white ring-1 ring-inset ring-[rgba(59,130,246,0.3)]"
-          : "text-[#a1a1aa] hover:bg-white/[0.06] hover:text-white",
-        !section.is_visible && "opacity-40"
-      )}
-    >
-      {/* Drag handle or spacer */}
-      {dragHandle ?? <span className="h-4 w-4 shrink-0" />}
+    <div>
+      <div
+        onClick={onSelect}
+        className={clsx(
+          "group relative flex h-10 items-center gap-2 rounded-xl px-2 text-[13px] transition-colors duration-100",
+          dimmed ? "cursor-default opacity-40" : "cursor-pointer",
+          !dimmed && selected
+            ? "bg-[rgba(59,130,246,0.15)] text-white ring-1 ring-inset ring-[rgba(59,130,246,0.3)]"
+            : "text-[#a1a1aa] hover:bg-white/[0.06] hover:text-white",
+          !section.is_visible && "opacity-40"
+        )}
+      >
+        {/* Drag handle or spacer */}
+        {dragHandle ?? <span className="h-4 w-4 shrink-0" />}
 
-      {/* Section icon */}
-      <div className={clsx(
-        "flex h-6 w-6 shrink-0 items-center justify-center rounded-md",
-        selected ? "bg-[rgba(59,130,246,0.25)]" : "bg-white/[0.06]"
-      )}>
-        <Icon className={clsx("h-3.5 w-3.5", selected ? "text-[#60a5fa]" : "text-[#71717a]")} strokeWidth={1.75} />
-      </div>
+        {/* Section icon */}
+        <div className={clsx(
+          "flex h-6 w-6 shrink-0 items-center justify-center rounded-md",
+          selected ? "bg-[rgba(59,130,246,0.25)]" : "bg-white/[0.06]"
+        )}>
+          <Icon className={clsx("h-3.5 w-3.5", selected ? "text-[#60a5fa]" : "text-[#71717a]")} strokeWidth={1.75} />
+        </div>
 
-      {/* Label */}
-      <span className={clsx(
-        "flex-1 truncate font-medium",
-        !section.is_visible && "line-through decoration-[#4b5563]"
-      )}>
-        {label}
-      </span>
+        {/* Label */}
+        {editing ? (
+          <input
+            ref={editRef}
+            value={editVal}
+            onChange={e => setEditVal(e.target.value)}
+            onBlur={commitEdit}
+            onKeyDown={e => {
+              if (e.key === "Enter") { e.preventDefault(); commitEdit(); }
+              if (e.key === "Escape") { setEditing(false); }
+              e.stopPropagation();
+            }}
+            onClick={e => e.stopPropagation()}
+            className="flex-1 min-w-0 rounded bg-[rgba(59,130,246,0.15)] px-1.5 py-0.5 text-[13px] font-medium text-white outline-none ring-1 ring-[rgba(59,130,246,0.5)]"
+          />
+        ) : (
+          <span
+            className={clsx(
+              "flex-1 truncate font-medium",
+              !section.is_visible && "line-through decoration-[#4b5563]",
+              customLabel && "text-[#93c5fd]"
+            )}
+            onDoubleClick={!dimmed ? startEdit : undefined}
+            title={!dimmed ? "Dvojklikem přejmenovat" : undefined}
+          >
+            {label}
+          </span>
+        )}
 
-      {/* Locked badge */}
-      {locked && (
-        <span className="shrink-0 rounded bg-white/[0.06] px-1.5 py-0.5 text-[10px] text-[#4b5563]">
-          fixní
-        </span>
-      )}
-
-      {/* Actions (visible on hover) */}
-      {!locked && (
-        <div className="flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity duration-100 group-hover:opacity-100">
+        {/* Overlay element count badge + expand toggle */}
+        {!dimmed && overlayEls.length > 0 && (
           <button
             type="button"
-            aria-label={section.is_visible ? "Skrýt" : "Zobrazit"}
-            onClick={(e) => { e.stopPropagation(); void state.patchSection(section.id, { is_visible: !section.is_visible }); }}
-            className={clsx(
-              "rounded-md p-1 transition-colors hover:bg-white/[0.1]",
-              !section.is_visible ? "text-amber-400" : "text-[#6b7280] hover:text-white"
-            )}
+            title={expanded ? "Sbalit elementy" : "Zobrazit overlay elementy"}
+            onClick={(e) => { e.stopPropagation(); setExpanded(v => !v); }}
+            className="flex shrink-0 items-center gap-1 rounded-md px-1 py-0.5 text-[10px] text-[#6b7280] hover:bg-white/[0.1] hover:text-[#a1a1aa] transition-colors"
           >
-            {section.is_visible ? <Eye className="h-3.5 w-3.5" strokeWidth={1.75} /> : <EyeOff className="h-3.5 w-3.5" strokeWidth={1.75} />}
+            <span className="rounded-full bg-white/[0.08] px-1.5">{overlayEls.length}</span>
+            <ChevronRight className={clsx("h-3 w-3 transition-transform duration-150", expanded && "rotate-90")} strokeWidth={2} />
           </button>
-          <div className="relative" ref={menuRef}>
+        )}
+
+        {/* Locked badge */}
+        {locked && (
+          <span className="shrink-0 rounded bg-white/[0.06] px-1.5 py-0.5 text-[10px] text-[#4b5563]">
+            fixní
+          </span>
+        )}
+
+        {/* Actions (visible on hover) */}
+        {!locked && (
+          <div className="flex shrink-0 items-center gap-0.5 opacity-0 transition-opacity duration-100 group-hover:opacity-100">
             <button
               type="button"
-              aria-label="Více"
-              onClick={(e) => { e.stopPropagation(); setMenu(m => !m); }}
-              className="rounded-md p-1 text-[#6b7280] transition-colors hover:bg-white/[0.1] hover:text-white"
+              aria-label={section.is_visible ? "Skrýt" : "Zobrazit"}
+              onClick={(e) => { e.stopPropagation(); void state.patchSection(section.id, { is_visible: !section.is_visible }); }}
+              className={clsx(
+                "rounded-md p-1 transition-colors hover:bg-white/[0.1]",
+                !section.is_visible ? "text-amber-400" : "text-[#6b7280] hover:text-white"
+              )}
             >
-              <MoreHorizontal className="h-3.5 w-3.5" strokeWidth={1.75} />
+              {section.is_visible ? <Eye className="h-3.5 w-3.5" strokeWidth={1.75} /> : <EyeOff className="h-3.5 w-3.5" strokeWidth={1.75} />}
             </button>
-            {menu && (
-              <>
-                <div className="fixed inset-0 z-[210]" onClick={(e) => { e.stopPropagation(); setMenu(false); }} />
-                <div className="absolute right-0 top-full z-[211] mt-1 w-40 rounded-xl border border-white/[0.08] bg-[#18181b] py-1.5 shadow-2xl">
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setMenu(false); void state.duplicateSection(section.id); }}
-                    className="flex w-full items-center gap-2.5 px-3 py-2 text-[12px] text-[#a1a1aa] hover:bg-white/[0.06] hover:text-white"
-                  >
-                    <Copy className="h-3.5 w-3.5" strokeWidth={1.75} /> Duplikovat
-                  </button>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); setMenu(false); void state.deleteSection(section.id); }}
-                    className="flex w-full items-center gap-2.5 px-3 py-2 text-[12px] text-red-400 hover:bg-white/[0.06] hover:text-red-300"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" strokeWidth={1.75} /> Smazat
-                  </button>
-                </div>
-              </>
-            )}
+            <div className="relative" ref={menuRef}>
+              <button
+                type="button"
+                aria-label="Více"
+                onClick={(e) => { e.stopPropagation(); setMenu(m => !m); }}
+                className="rounded-md p-1 text-[#6b7280] transition-colors hover:bg-white/[0.1] hover:text-white"
+              >
+                <MoreHorizontal className="h-3.5 w-3.5" strokeWidth={1.75} />
+              </button>
+              {menu && (
+                <>
+                  <div className="fixed inset-0 z-[210]" onClick={(e) => { e.stopPropagation(); setMenu(false); }} />
+                  <div className="absolute right-0 top-full z-[211] mt-1 w-40 rounded-xl border border-white/[0.08] bg-[#18181b] py-1.5 shadow-2xl">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setMenu(false); void state.duplicateSection(section.id); }}
+                      className="flex w-full items-center gap-2.5 px-3 py-2 text-[12px] text-[#a1a1aa] hover:bg-white/[0.06] hover:text-white"
+                    >
+                      <Copy className="h-3.5 w-3.5" strokeWidth={1.75} /> Duplikovat
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setMenu(false); void state.deleteSection(section.id); }}
+                      className="flex w-full items-center gap-2.5 px-3 py-2 text-[12px] text-red-400 hover:bg-white/[0.06] hover:text-red-300"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" strokeWidth={1.75} /> Smazat
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
+        )}
+      </div>
+
+      {/* Overlay sub-tree */}
+      {expanded && !dimmed && overlayEls.length > 0 && (
+        <div className="pb-0.5">
+          {overlayEls.map(el => (
+            <OverlaySubRow
+              key={el.id}
+              el={el}
+              sectionId={section.id}
+              selected={studio.selectedOverlayEl?.elementId === el.id && studio.selectedOverlayEl?.sectionId === section.id}
+              onSelect={() => {
+                studio.setSelection(section.id);
+                studio.setSelectedOverlayEl({ sectionId: section.id, elementId: el.id });
+                scrollToSection(section.id);
+              }}
+              onToggleMobile={() => handleToggleMobile(el)}
+              onDelete={() => handleDeleteEl(el)}
+            />
+          ))}
         </div>
       )}
     </div>
