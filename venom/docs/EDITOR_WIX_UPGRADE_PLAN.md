@@ -9,14 +9,34 @@
 ## §0 STATUS — aktuální stav (vždy aktualizuj!)
 
 ```
-PHASE:        Sprint 5 ACTIVE — T5.1 DONE (zoom + drag+resize)
-NEXT TASK:    čekej na user feedback k T5.1 (zoom/drag UX) nebo instrukce k Sprint 5 GATE
-LAST UPDATE:  2026-06-29 by Sonnet (T5.1: ZoomControl 40–200% v StudioTopBar + per-element drag+translate + fontSize resize přes GenericEditableText)
+PHASE:        Sprint 6 DONE — T6.1 + T6.2 + T6.3 hotové (kód). Thumbnaily ještě negenerované.
+NEXT TASK:    Generovat thumbnaily: `npm run dev` (port 3002) + `npm run thumbs` (~40 min, 785 shot).
+              Nebo Sprint 7 — viz §III níže.
+LAST UPDATE:  2026-06-30 by Sonnet (T6.2: /api/studio/thumb-variants endpoint + update skriptu aby preferoval API; /studio/thumb page jako alternativní preview; cleanup)
 PILOT:        barber-01 (demo tenant: barber-01-v2, slug viz DB)
 DEV SERVER:   localhost:3002 (next dev --webpack)
 BRANCH:       (žádný explicitní — pracuje se přímo, commits chronologicky)
 BLOCKERS:     žádné
 ```
+
+### Sprint 6 — Wix-style "+ Přidat" overlay (kategorizovaná knihovna)
+
+**T6.1 DONE** — Scaffold (2026-06-29):
+- `src/sections/categories.ts` — taxonomie: 15 user-facing kategorií (Úvod/O nás/Služby/...), per-variant style tagy (light/dark/slider/split/video/...), `buildRichLibrary()` + `groupByCategory()`. Sjednocuje 785 variant napříč 92 šablonami.
+- `src/components/studio/panels/WixAddOverlay.tsx` — floating `+Add` button vlevo nahoře (78px, 70px), 3-card popover (Prvky/Sekce/Stránky), full modal panely:
+  - **Sekce**: levý sidebar kategorií, search + tag chip filtry, 3-col grid `<VariantCard>` s CSS mock náhledy (`VariantPreview` čte tagy/typ a kreslí věrohodný layout)
+  - **Prvky**: levý ikonový rail + 3 hero CTA (Nahrát/Vygenerovat obrázek/prvek) + "Branded elements" grid
+  - **Stránky**: kategorie sidebar (10 typů z `PAGE_CATEGORIES`) + page-template karty
+- `StudioShell.tsx` — mount `<WixAddOverlay>` (desktop only) + `<SecondaryActionBar>` (Pomocník AI / Změnit rozložení / Pozadí) pod hlavním top barem.
+- Reuse: čte existující `SECTION_VARIANTS`, neporušuje žádnou šablonu.
+
+**T6.2 DONE** — Real thumbnail generator (2026-06-30):
+- `scripts/generate-section-thumbnails.mjs` — Playwright skript pro 785 variant; WebP 800×500 přes `sharp`, output do `public/section-thumbs/{type}/{variant}.webp`. Spuštění: `npm run thumbs` (dev server musí běžet na portu 3002; `npx playwright install chromium` při prvním spuštění).
+- `src/app/studio/preview/section/page.tsx` + `SectionPreviewClient.tsx` — izolovaná preview route s `[data-section-preview]` sektorem, stylovaná design tokeny z DB.
+- `src/app/api/studio/thumb-variants/route.ts` — JSON endpoint `/api/studio/thumb-variants` (primární zdroj pro skript, fallback na regex parse TS souboru).
+- `src/app/studio/thumb/page.tsx` — alternativní jednodušší preview stránka.
+- `VariantCard` v `WixAddOverlay.tsx` — `<img src="/section-thumbs/{type}/{variant}.webp" loading="lazy" onError→VariantPreview>` (fallback CSS mock dokud thumbnaily neexistují).
+- **PROVOZNÍ KROK**: thumbnaily se teprve vygenerují spuštěním `npm run thumbs` (~40 min).
 
 **Pravidlo:** každý task = jeden commit. Commit message formát:
 `editor-wix(T<sprint>.<num>): <stručný popis>` — např. `editor-wix(T1.1): drag handle na SectionFrame`.
@@ -357,6 +377,11 @@ Formát: `YYYY-MM-DD | T<X.Y> | <stručný popis výsledku> | <files touched cou
 2026-06-29 | T4.1 | Coverage audit script: 91/92 šablon 100% pokryto GenericEditableText. Všechny typy registrovány (22 typů). JSON report v docs/coverage-editor.json. | 1
 2026-06-29 | T4.4 | Registry: 3 chybějící varianty implementovány — StatsAutoservis03 (dark/orange strip), FaqAnanda01 (cream/gold accordion), ContactArch01 (B&W ateliér + form). | 3
 2026-06-29 | T4.2-T4.3-T4.7 | N/A: sections už mají 3761+ GenericEditableText. OverlayLayer na SectionFrame = automaticky na všech šablonách. Žádné per-template změny potřeba. | 0
+2026-06-29 | T6.1 | Wix "+ Přidat" overlay: src/sections/categories.ts (15 kategorií + style tagy + buildRichLibrary/groupByCategory + PAGE_CATEGORIES), src/components/studio/panels/WixAddOverlay.tsx (floating button + 3-card popover + Prvky/Sekce/Stránky panely + CSS mock VariantPreview pro 785 variant), StudioShell mount + SecondaryActionBar (Pomocník AI / Změnit rozložení / Pozadí). Reuse existující SECTION_VARIANTS, žádná šablona nedotčena. TS check clean. | 3
+2026-06-29 | T6.2 | Thumbnail pipeline: src/app/studio/preview/section/page.tsx (izolovaný render přes SectionRenderer s real-content lookupem z tenant DB, fallback synthetic), scripts/generate-section-thumbnails.mjs (Playwright skript, viewport 1280×800, WebP q=78, smart skip existujících, blocks analytics+fonts, network-idle wait + document.fonts.ready, npm script "thumbs"). VariantCard přepnut na <img src=/section-thumbs/{type}/{variant}.webp> s onError→VariantPreview fallback. | 4
+2026-06-29 | T6.3 | WebP bulk converter pro public/: scripts/convert-images-to-webp.mjs (sharp q=82, concurrency 4, skip clones/+section-thumbs, stale-check podle mtime, --replace flag). Spuštěno: 930 obrázků převedeno → ušetřeno 111.3 MB. Originály zachovány (re-run s `npm run webp:replace` pro smazání). 1 corrupt JPG (hair-01/hero.jpg = 0-byte placeholder, ne corrupt — ignorováno). | 1
+2026-06-30 | T6.2-fix | playwright-core 1.59 nepodporuje `type:"webp"` přímo — generator opraven: screenshot PNG buffer → sharp.resize(800×500 fit:cover) → webp q=78. Preview route rozdělena na server (DB lookup) + SectionPreviewClient (vyžaduje "use client" kvůli freeform ssr:false v Next 16). | 3
+2026-06-30 | T6.2-api | /api/studio/thumb-variants route (SECTION_VARIANTS jako JSON, primární zdroj pro generator). Generator upraven: zkusí API endpoint → tsx → regex fallback. /studio/thumb/page.tsx jako jednodušší alternativní preview. Plan doc T6.2 označen DONE. | 2
 ```
 
 ---
