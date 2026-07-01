@@ -2,7 +2,33 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import {
+  Bold, Italic, Underline, Strikethrough, CaseUpper,
+  AlignLeft, AlignCenter, AlignRight,
+  Copy, ClipboardPaste, RotateCcw, Check, X,
+} from "lucide-react";
 import { useGenericInlineEditor } from "./GenericInlineEditorContext";
+import { useStudioOptional } from "@/components/studio/StudioContext";
+
+// ─── Toolbar geometry + palette (portal renders outside [data-studio],
+//     values mirror src/components/studio/design-tokens.css) ────────────────
+const TB_W = 516;           // fixed toolbar width — keeps clamping exact
+const TB_H = 92;            // estimated height incl. grip row
+const TB_TOP_SAFE = 100;    // studio top bar (48) + secondary bar (42) + gap
+const TB = {
+  bg:          "rgba(26,27,40,0.97)",
+  border:      "#2e2f44",
+  surface:     "#212230",
+  surfaceHi:   "#272838",
+  text:        "#f4f4f7",
+  textMuted:   "#8a8a96",
+  textDim:     "#5b5b66",
+  accent:      "#818cf8",
+  accentHi:    "#a5b4fc",
+  accentBg:    "rgba(129,140,248,0.16)",
+  danger:      "#f87171",
+  shadow:      "0 1px 0 0 rgba(255,255,255,0.05) inset, 0 18px 38px rgba(0,0,0,0.55), 0 8px 16px rgba(0,0,0,0.35)",
+};
 
 // Module-level style clipboard — shared across all GenericEditableText instances
 let _styleClipboard: import("./GenericInlineEditorContext").GenericTextStyle | null = null;
@@ -71,6 +97,9 @@ export function GenericEditableText({
   children,
 }: Props) {
   const { isAdmin, highlighted, updateField, updateStyle, updateStyleLocal, getStyle } = useGenericInlineEditor();
+  // Optional — present only inside the studio shell. Lets focusing a text
+  // field select its parent section so the right inspector shows context.
+  const studioCtx = useStudioOptional();
   const ref = useRef<HTMLElement>(null);
   const editing = useRef(false);
   const sessionHasHistory = useRef(false);
@@ -91,9 +120,15 @@ export function GenericEditableText({
   const [isResizing, setIsResizing] = useState(false);
   const resizeInitRectRef = useRef<DOMRect | null>(null);
 
-  // Draft style state — snapshot on focus, live preview without saving
+  // Draft style state — snapshot on focus, live preview without saving.
+  // draftRef mirrors the state so blur handlers never read a stale closure.
   const snapshotRef = useRef<import("./GenericInlineEditorContext").GenericTextStyle>({});
-  const [draft, setDraft] = useState<import("./GenericInlineEditorContext").GenericTextStyle>({});
+  const draftRef = useRef<import("./GenericInlineEditorContext").GenericTextStyle>({});
+  const [draft, setDraftState] = useState<import("./GenericInlineEditorContext").GenericTextStyle>({});
+  const setDraft = (next: import("./GenericInlineEditorContext").GenericTextStyle) => {
+    draftRef.current = next;
+    setDraftState(next);
+  };
   const toolbarRef = useRef<HTMLDivElement>(null);
   // Computed style cache — populated on focus to show actual rendered values in toolbar
   const computedRef = useRef<{ fontSize?: string; fontWeight?: string; color?: string }>({});
@@ -118,7 +153,16 @@ export function GenericEditableText({
   }
 
   function commitStyle() {
-    updateStyle(sectionId, field, draft);
+    updateStyle(sectionId, field, draftRef.current);
+    snapshotRef.current = { ...draftRef.current };
+  }
+
+  /** Persist draft when the editing session ends with uncommitted changes —
+   *  otherwise the canvas shows a style the DB never received. */
+  function commitDraftIfChanged() {
+    if (JSON.stringify(draftRef.current) !== JSON.stringify(snapshotRef.current)) {
+      commitStyle();
+    }
   }
 
   function revertStyle() {
@@ -163,12 +207,17 @@ export function GenericEditableText({
       if (!ref.current) return;
       const rect = ref.current.getBoundingClientRect();
       const isNarrow = window.innerWidth < 640;
-      const toolbarW = isNarrow ? Math.min(window.innerWidth - 16, 320) : 360;
+      const toolbarW = isNarrow ? Math.min(window.innerWidth - 16, 340) : TB_W;
+      // Prefer above the element; flip below when it would cover the top bars.
+      const above = rect.top - TB_H - 12;
+      const top = above >= TB_TOP_SAFE
+        ? above
+        : Math.min(window.innerHeight - TB_H - 8, rect.bottom + 12);
       setToolbarPos({
-        top: Math.max(8, rect.top - 54),
+        top: Math.max(8, top),
         left: isNarrow
-          ? Math.max(8, Math.min((window.innerWidth - toolbarW) / 2, window.innerWidth - toolbarW - 8))
-          : Math.max(8, Math.min(rect.left, window.innerWidth - toolbarW - 8)),
+          ? Math.max(8, (window.innerWidth - toolbarW) / 2)
+          : Math.max(8, Math.min(rect.left + rect.width / 2 - toolbarW / 2, window.innerWidth - toolbarW - 8)),
       });
     };
     update();
@@ -326,26 +375,18 @@ export function GenericEditableText({
   const isStrike    = draft.textDecoration === "line-through";
   const isUpper     = draft.textTransform === "uppercase";
 
-  const btnBase: React.CSSProperties = {
-    minWidth: 28, height: 28, border: "none", borderRadius: 6,
-    background: "rgba(255,255,255,0.10)", color: "#fff", cursor: "pointer", fontSize: 12,
-  };
-  const btnActive: React.CSSProperties = { ...btnBase, background: "#6d28d9", color: "#fff" };
-
   // Floating toolbar drag
   function startToolbarDrag(e: React.PointerEvent<HTMLDivElement>) {
     e.preventDefault();
-    const autoTop = toolbarPos ? Math.max(8, toolbarPos.top - 30) : 8;
-    const autoLeft = toolbarPos ? Math.max(8, Math.min(toolbarPos.left, window.innerWidth - 524)) : 8;
-    const startPos = toolbarUserPos ?? { top: autoTop, left: autoLeft };
+    const startPos = toolbarUserPos ?? { top: toolbarPos?.top ?? 8, left: toolbarPos?.left ?? 8 };
     toolbarDragRef.current = { startMouse: { x: e.clientX, y: e.clientY }, startPos };
     function onMove(ev: PointerEvent) {
       if (!toolbarDragRef.current) return;
       const dx = ev.clientX - toolbarDragRef.current.startMouse.x;
       const dy = ev.clientY - toolbarDragRef.current.startMouse.y;
       setToolbarUserPos({
-        top: Math.max(4, toolbarDragRef.current.startPos.top + dy),
-        left: Math.max(4, Math.min(window.innerWidth - 524, toolbarDragRef.current.startPos.left + dx)),
+        top: Math.max(4, Math.min(window.innerHeight - 48, toolbarDragRef.current.startPos.top + dy)),
+        left: Math.max(4, Math.min(window.innerWidth - TB_W - 4, toolbarDragRef.current.startPos.left + dx)),
       });
     }
     function onUp() {
@@ -357,8 +398,8 @@ export function GenericEditableText({
     window.addEventListener("pointerup", onUp);
   }
 
-  const finalToolbarTop = toolbarUserPos?.top ?? (toolbarPos ? Math.max(8, toolbarPos.top - 30) : 8);
-  const finalToolbarLeft = toolbarUserPos?.left ?? (toolbarPos ? Math.max(8, Math.min(toolbarPos.left, window.innerWidth - 524)) : 8);
+  const finalToolbarTop = toolbarUserPos?.top ?? toolbarPos?.top ?? 8;
+  const finalToolbarLeft = toolbarUserPos?.left ?? toolbarPos?.left ?? 8;
 
   const toolbar = focused && toolbarPos
     ? createPortal(
@@ -369,6 +410,7 @@ export function GenericEditableText({
             // Close toolbar when focus leaves both toolbar AND contentEditable
             const next = e.relatedTarget as Node | null;
             if (next && (toolbarRef.current?.contains(next) || ref.current?.contains(next))) return;
+            commitDraftIfChanged();
             editing.current = false;
             setFocused(false);
           }}
@@ -378,140 +420,171 @@ export function GenericEditableText({
             left: finalToolbarLeft,
             zIndex: 100000,
             display: "flex",
-            flexDirection: "column",
-            gap: 4,
-            padding: "4px 8px 7px",
+            alignItems: "stretch",
+            width: TB_W,
             borderRadius: 12,
-            background: "#0f172a",
-            boxShadow: "0 12px 40px rgba(0,0,0,0.55)",
-            color: "#fff",
-            fontFamily: "Inter, sans-serif",
-            minWidth: 500,
-            border: "1px solid rgba(255,255,255,0.08)",
+            background: TB.bg,
+            backdropFilter: "blur(12px)",
+            WebkitBackdropFilter: "blur(12px)",
+            boxShadow: TB.shadow,
+            color: TB.text,
+            fontFamily: "Inter, system-ui, sans-serif",
+            border: `1px solid ${TB.border}`,
             outline: "none",
+            overflow: "hidden",
           }}
         >
-          {/* Drag grip — move toolbar */}
+          <style>{`
+            .vs-tb-btn { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border:none; border-radius:7px; background:transparent; color:${TB.textMuted}; cursor:pointer; padding:0; transition:background .12s ease, color .12s ease; }
+            .vs-tb-btn:hover { background:${TB.surfaceHi}; color:${TB.text}; }
+            .vs-tb-btn[data-active="true"] { background:${TB.accentBg}; color:${TB.accentHi}; }
+            .vs-tb-btn:disabled { color:#3a3a44; cursor:default; background:transparent; }
+            .vs-tb-btn[data-flash="true"] { background:${TB.accentBg}; color:${TB.accentHi}; }
+            .vs-tb-input { height:26px; border-radius:6px; border:1px solid ${TB.border}; background:${TB.surface}; color:${TB.text}; font-size:11.5px; padding:0 7px; outline:none; transition:border-color .12s ease; font-family:inherit; }
+            .vs-tb-input:focus { border-color:rgba(129,140,248,0.55); }
+            .vs-tb-input::-webkit-outer-spin-button, .vs-tb-input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
+            .vs-tb-label { font-size:9.5px; letter-spacing:.05em; color:${TB.textDim}; text-transform:uppercase; font-weight:600; white-space:nowrap; }
+            .vs-tb-sep { width:1px; height:18px; background:${TB.border}; margin:0 5px; flex-shrink:0; align-self:center; }
+            .vs-tb-action { height:27px; padding:0 10px; border-radius:7px; border:1px solid ${TB.border}; background:${TB.surface}; color:#d1d1d9; font-size:11.5px; font-weight:500; cursor:pointer; display:inline-flex; align-items:center; gap:5px; transition:background .12s ease, color .12s ease; font-family:inherit; }
+            .vs-tb-action:hover { background:${TB.surfaceHi}; color:${TB.text}; }
+            .vs-tb-action[data-danger="true"]:hover { background:rgba(248,113,113,0.12); color:${TB.danger}; border-color:rgba(248,113,113,0.35); }
+            .vs-tb-primary { height:27px; padding:0 12px; border-radius:7px; border:none; background-image:linear-gradient(135deg,#818cf8 0%,#6366f1 100%); color:#fff; font-size:11.5px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(99,102,241,0.35); font-family:inherit; transition:filter .12s ease; }
+            .vs-tb-primary:hover { filter:brightness(1.12); }
+          `}</style>
+
+          {/* Drag grip — left edge column */}
           <div
             onPointerDown={startToolbarDrag}
-            style={{ display: "flex", alignItems: "center", justifyContent: "center", height: 14, cursor: "grab", marginBottom: 1, flexShrink: 0 }}
+            title="Přesunout panel"
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 16, cursor: "grab", flexShrink: 0, background: TB.surface, borderRight: `1px solid ${TB.border}` }}
           >
-            <div style={{ width: 36, height: 4, borderRadius: 2, background: "rgba(255,255,255,0.14)" }} />
+            <svg width="6" height="22" viewBox="0 0 6 22" fill="none">
+              {[2, 8.5, 15, 21].slice(0, 3).map((y) => (
+                <g key={y}>
+                  <circle cx="1.5" cy={y + 1} r="1.2" fill={TB.textDim} />
+                  <circle cx="4.5" cy={y + 1} r="1.2" fill={TB.textDim} />
+                </g>
+              ))}
+            </svg>
           </div>
-          {/* Row 1: formatting */}
-          <div style={{ display: "flex", alignItems: "center", gap: 3 }}>
-            {/* B */}
-            <button type="button" title="Tučně" onMouseDown={(e) => { e.preventDefault(); applyDraft({ fontWeight: isBold ? "400" : "700" }); }}
-              style={{ ...isBold ? btnActive : btnBase, fontWeight: 800 }}>B</button>
-            {/* I */}
-            <button type="button" title="Kurzíva" onMouseDown={(e) => { e.preventDefault(); applyDraft({ fontStyle: isItalic ? undefined : "italic" }); }}
-              style={{ ...isItalic ? btnActive : btnBase, fontStyle: "italic" }}>I</button>
-            {/* U */}
-            <button type="button" title="Podtržení" onMouseDown={(e) => { e.preventDefault(); applyDraft({ textDecoration: isUnderline ? undefined : "underline" }); }}
-              style={{ ...isUnderline ? btnActive : btnBase, textDecoration: "underline" }}>U</button>
-            {/* S */}
-            <button type="button" title="Přeškrtnutí" onMouseDown={(e) => { e.preventDefault(); applyDraft({ textDecoration: isStrike ? undefined : "line-through" }); }}
-              style={{ ...isStrike ? btnActive : btnBase, textDecoration: "line-through" }}>S</button>
-            {/* AA */}
-            <button type="button" title="Verzálky" onMouseDown={(e) => { e.preventDefault(); applyDraft({ textTransform: isUpper ? undefined : "uppercase" }); }}
-              style={{ ...isUpper ? btnActive : btnBase, fontSize: 11, fontWeight: 700 }}>AA</button>
 
-            <div style={{ width: 1, height: 18, background: "rgba(255,255,255,0.12)", margin: "0 3px" }} />
-
-            {/* Font size */}
-            <span style={{ fontSize: 10, color: "#64748b", marginLeft: 2 }}>Vel.</span>
-            <input
-              type="number"
-              title="Vlastní velikost písma"
-              min={6} max={320} step={1}
-              value={effectiveSize ? parseFloat(effectiveSize) : ""}
-              placeholder="—"
-              onChange={(e) => applyDraft({ fontSize: e.target.value ? `${e.target.value}px` : undefined })}
-              style={{ width: 48, height: 28, borderRadius: 6, border: "1px solid #1e293b", background: "#1e293b", color: "#fff", fontSize: 12, padding: "0 6px" }}
-            />
-
-            {/* Font weight */}
-            <span style={{ fontSize: 10, color: "#64748b" }}>Tl.</span>
-            <select
-              title="Tloušťka písma"
-              value={effectiveWeight}
-              onChange={(e) => applyDraft({ fontWeight: e.target.value || undefined })}
-              style={{ height: 28, borderRadius: 6, border: "1px solid #1e293b", background: "#1e293b", color: "#fff", fontSize: 12, paddingLeft: 4 }}
-            >
-              {FONT_WEIGHTS.map(w => <option key={w.v} value={w.v}>{w.l}</option>)}
-            </select>
-
-            <div style={{ width: 1, height: 18, background: "rgba(255,255,255,0.12)", margin: "0 3px" }} />
-
-            {/* Color */}
-            <label title="Barva textu" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 28, height: 28, borderRadius: 6, background: "rgba(255,255,255,0.10)", cursor: "pointer" }}>
-              <span style={{ display: "block", width: 14, height: 14, borderRadius: 3, border: "1px solid rgba(255,255,255,0.25)", background: effectiveColor ?? "#ffffff" }} />
-              <input type="color" value={draft.color ?? "#ffffff"}
-                onChange={(e) => applyDraft({ color: e.target.value })}
-                style={{ position: "absolute", width: 0, height: 0, opacity: 0 }} />
-            </label>
-
-            <div style={{ width: 1, height: 18, background: "rgba(255,255,255,0.12)", margin: "0 3px" }} />
-
-            {/* Alignment */}
-            {(["left","center","right"] as const).map(a => (
-              <button key={a} type="button" title={a === "left" ? "Vlevo" : a === "center" ? "Střed" : "Vpravo"}
-                onMouseDown={(e) => { e.preventDefault(); applyDraft({ textAlign: draft.textAlign === a ? undefined : a }); }}
-                style={{ ...draft.textAlign === a ? btnActive : btnBase, fontSize: 13, fontWeight: 700 }}>
-                {a === "left" ? "←" : a === "center" ? "↔" : "→"}
+          <div style={{ display: "flex", flexDirection: "column", gap: 0, padding: "6px 8px", minWidth: 0, flex: 1 }}>
+            {/* Row 1: formatting */}
+            <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <button type="button" className="vs-tb-btn" data-active={isBold} title="Tučně"
+                onMouseDown={(e) => { e.preventDefault(); applyDraft({ fontWeight: isBold ? "400" : "700" }); }}>
+                <Bold size={14} strokeWidth={2.2} />
               </button>
-            ))}
-          </div>
+              <button type="button" className="vs-tb-btn" data-active={isItalic} title="Kurzíva"
+                onMouseDown={(e) => { e.preventDefault(); applyDraft({ fontStyle: isItalic ? undefined : "italic" }); }}>
+                <Italic size={14} strokeWidth={2} />
+              </button>
+              <button type="button" className="vs-tb-btn" data-active={isUnderline} title="Podtržení"
+                onMouseDown={(e) => { e.preventDefault(); applyDraft({ textDecoration: isUnderline ? undefined : "underline" }); }}>
+                <Underline size={14} strokeWidth={2} />
+              </button>
+              <button type="button" className="vs-tb-btn" data-active={isStrike} title="Přeškrtnutí"
+                onMouseDown={(e) => { e.preventDefault(); applyDraft({ textDecoration: isStrike ? undefined : "line-through" }); }}>
+                <Strikethrough size={14} strokeWidth={2} />
+              </button>
+              <button type="button" className="vs-tb-btn" data-active={isUpper} title="Verzálky"
+                onMouseDown={(e) => { e.preventDefault(); applyDraft({ textTransform: isUpper ? undefined : "uppercase" }); }}>
+                <CaseUpper size={16} strokeWidth={2} />
+              </button>
 
-          {/* Row 2: spacing + commit/revert */}
-          <div style={{ display: "flex", alignItems: "center", gap: 6, borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 5 }}>
-            <span style={{ fontSize: 10, color: "#64748b" }}>Rozs.</span>
-            <input type="number" min={-5} max={20} step={0.5}
-              value={draft.letterSpacing ? parseFloat(draft.letterSpacing) : ""}
-              placeholder="0"
-              onChange={(e) => applyDraft({ letterSpacing: e.target.value ? `${e.target.value}px` : undefined })}
-              style={{ width: 52, height: 24, borderRadius: 5, border: "1px solid #1e293b", background: "#1e293b", color: "#fff", fontSize: 11, padding: "0 6px" }}
-            />
-            <span style={{ fontSize: 10, color: "#64748b" }}>Výška</span>
-            <input type="number" min={0.8} max={4} step={0.1}
-              value={draft.lineHeight ? parseFloat(draft.lineHeight) : ""}
-              placeholder="—"
-              onChange={(e) => applyDraft({ lineHeight: e.target.value || undefined })}
-              style={{ width: 52, height: 24, borderRadius: 5, border: "1px solid #1e293b", background: "#1e293b", color: "#fff", fontSize: 11, padding: "0 6px" }}
-            />
-            <div style={{ flex: 1 }} />
-            {/* Copy style */}
-            <button type="button" title="Kopírovat styl (⌘⇧C)"
-              onMouseDown={(e) => { e.preventDefault(); copyStyle(); }}
-              style={{ height: 26, padding: "0 10px", borderRadius: 6, border: `1px solid ${copyFlash ? "#6366f1" : "#1e293b"}`, background: copyFlash ? "rgba(99,102,241,0.18)" : "#1e293b", color: copyFlash ? "#a5b4fc" : "#94a3b8", fontSize: 11, cursor: "pointer", transition: "all 0.25s" }}>
-              Kopír.
-            </button>
-            {/* Paste style */}
-            <button type="button" title="Vložit styl (⌘⇧V)"
-              onMouseDown={(e) => { e.preventDefault(); pasteStyle(); }}
-              disabled={!clipboardHas}
-              style={{ height: 26, padding: "0 10px", borderRadius: 6, border: "1px solid #1e293b", background: "#1e293b", color: clipboardHas ? "#94a3b8" : "#334155", fontSize: 11, cursor: clipboardHas ? "pointer" : "default" }}>
-              Vložit
-            </button>
-            <div style={{ width: 1, height: 16, background: "rgba(255,255,255,0.07)" }} />
-            {/* Reset */}
-            <button type="button" title="Resetovat styl"
-              onMouseDown={(e) => { e.preventDefault(); resetStyle(); }}
-              style={{ height: 26, padding: "0 10px", borderRadius: 6, border: "1px solid #1e293b", background: "#1e293b", color: "#94a3b8", fontSize: 11, cursor: "pointer" }}>
-              Reset
-            </button>
-            {/* Revert */}
-            <button type="button" title="Zahodit změny (Esc)"
-              onMouseDown={(e) => { e.preventDefault(); revertStyle(); }}
-              style={{ height: 26, padding: "0 10px", borderRadius: 6, border: "1px solid #1e293b", background: "#1e293b", color: "#f87171", fontSize: 11, cursor: "pointer" }}>
-              Zrušit
-            </button>
-            {/* Commit */}
-            <button type="button" title="Uložit styl (⌘Enter)"
-              onMouseDown={(e) => { e.preventDefault(); commitStyle(); }}
-              style={{ height: 26, padding: "0 12px", borderRadius: 6, border: "none", background: "#2563eb", color: "#fff", fontSize: 11, fontWeight: 600, cursor: "pointer" }}>
-              Uložit
-            </button>
+              <div className="vs-tb-sep" />
+
+              <input
+                type="number"
+                className="vs-tb-input"
+                title="Velikost písma (px)"
+                min={6} max={320} step={1}
+                value={effectiveSize ? parseFloat(effectiveSize) : ""}
+                placeholder="px"
+                onChange={(e) => applyDraft({ fontSize: e.target.value ? `${e.target.value}px` : undefined })}
+                style={{ width: 46 }}
+              />
+              <select
+                className="vs-tb-input"
+                title="Tloušťka písma"
+                value={effectiveWeight}
+                onChange={(e) => applyDraft({ fontWeight: e.target.value || undefined })}
+                style={{ width: 78 }}
+              >
+                {FONT_WEIGHTS.map(w => <option key={w.v} value={w.v}>{w.l}</option>)}
+              </select>
+
+              <div className="vs-tb-sep" />
+
+              <label className="vs-tb-btn" title="Barva textu" style={{ position: "relative", cursor: "pointer" }}>
+                <span style={{ display: "block", width: 15, height: 15, borderRadius: 4, border: "1px solid rgba(255,255,255,0.25)", background: effectiveColor ?? "#ffffff" }} />
+                <input type="color" value={draft.color ?? "#ffffff"}
+                  onChange={(e) => applyDraft({ color: e.target.value })}
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0, cursor: "pointer" }} />
+              </label>
+
+              <div className="vs-tb-sep" />
+
+              <button type="button" className="vs-tb-btn" data-active={draft.textAlign === "left"} title="Zarovnat vlevo"
+                onMouseDown={(e) => { e.preventDefault(); applyDraft({ textAlign: draft.textAlign === "left" ? undefined : "left" }); }}>
+                <AlignLeft size={14} strokeWidth={2} />
+              </button>
+              <button type="button" className="vs-tb-btn" data-active={draft.textAlign === "center"} title="Zarovnat na střed"
+                onMouseDown={(e) => { e.preventDefault(); applyDraft({ textAlign: draft.textAlign === "center" ? undefined : "center" }); }}>
+                <AlignCenter size={14} strokeWidth={2} />
+              </button>
+              <button type="button" className="vs-tb-btn" data-active={draft.textAlign === "right"} title="Zarovnat vpravo"
+                onMouseDown={(e) => { e.preventDefault(); applyDraft({ textAlign: draft.textAlign === "right" ? undefined : "right" }); }}>
+                <AlignRight size={14} strokeWidth={2} />
+              </button>
+            </div>
+
+            {/* Row 2: spacing + clipboard + commit/revert */}
+            <div style={{ display: "flex", alignItems: "center", gap: 5, borderTop: `1px solid ${TB.border}`, paddingTop: 6, marginTop: 6 }}>
+              <span className="vs-tb-label" title="Rozestup znaků">Rozestup</span>
+              <input type="number" className="vs-tb-input" min={-5} max={20} step={0.5}
+                title="Rozestup znaků (px)"
+                value={draft.letterSpacing ? parseFloat(draft.letterSpacing) : ""}
+                placeholder="0"
+                onChange={(e) => applyDraft({ letterSpacing: e.target.value ? `${e.target.value}px` : undefined })}
+                style={{ width: 46, height: 24 }}
+              />
+              <span className="vs-tb-label" title="Výška řádku">Řádek</span>
+              <input type="number" className="vs-tb-input" min={0.8} max={4} step={0.1}
+                title="Výška řádku (násobek)"
+                value={draft.lineHeight ? parseFloat(draft.lineHeight) : ""}
+                placeholder="—"
+                onChange={(e) => applyDraft({ lineHeight: e.target.value || undefined })}
+                style={{ width: 46, height: 24 }}
+              />
+
+              <div style={{ flex: 1 }} />
+
+              <button type="button" className="vs-tb-btn" data-flash={copyFlash} title="Kopírovat styl (⌘⇧C)"
+                onMouseDown={(e) => { e.preventDefault(); copyStyle(); }}>
+                {copyFlash ? <Check size={13.5} strokeWidth={2.2} /> : <Copy size={13.5} strokeWidth={2} />}
+              </button>
+              <button type="button" className="vs-tb-btn" title="Vložit styl (⌘⇧V)"
+                onMouseDown={(e) => { e.preventDefault(); pasteStyle(); }}
+                disabled={!clipboardHas}>
+                <ClipboardPaste size={13.5} strokeWidth={2} />
+              </button>
+              <button type="button" className="vs-tb-btn" title="Resetovat na výchozí styl šablony"
+                onMouseDown={(e) => { e.preventDefault(); resetStyle(); }}>
+                <RotateCcw size={13} strokeWidth={2} />
+              </button>
+
+              <div className="vs-tb-sep" />
+
+              <button type="button" className="vs-tb-action" data-danger="true" title="Zahodit změny (Esc)"
+                onMouseDown={(e) => { e.preventDefault(); revertStyle(); }}>
+                <X size={13} strokeWidth={2.2} /> Zrušit
+              </button>
+              <button type="button" className="vs-tb-primary" title="Uložit styl (⌘Enter)"
+                onMouseDown={(e) => { e.preventDefault(); commitStyle(); }}>
+                <Check size={13} strokeWidth={2.4} /> Uložit
+              </button>
+            </div>
           </div>
         </div>,
         document.body
@@ -528,7 +601,7 @@ export function GenericEditableText({
         cursor: isDragging ? "grabbing" : "grab",
         width: 22,
         height: 22,
-        background: "#7c3aed",
+        background: "#6366f1",
         borderRadius: 5,
         display: "flex",
         alignItems: "center",
@@ -563,7 +636,7 @@ export function GenericEditableText({
         cursor: "se-resize",
         width: 14,
         height: 14,
-        background: "#7c3aed",
+        background: "#6366f1",
         borderRadius: 3,
         boxShadow: "0 1px 4px rgba(0,0,0,0.4)",
         userSelect: "none",
@@ -590,11 +663,11 @@ export function GenericEditableText({
           ...alignStyle,
           ...offsetStyle,
           outline: focused
-            ? "2px solid #7c3bb2"
+            ? "2px solid #818cf8"
             : highlightedBlock
               ? "3px solid rgba(245, 158, 11, 0.95)"
               : hovered
-                ? "1px dashed rgba(124,59,178,0.55)"
+                ? "1px dashed rgba(129,140,248,0.65)"
                 : "none",
           outlineOffset: 3,
           boxShadow: highlightedBlock ? "0 0 0 7px rgba(245, 158, 11, 0.18)" : undefined,
@@ -626,6 +699,9 @@ export function GenericEditableText({
             };
           }
           setFocused(true);
+          // Select the parent section in the studio so the inspector opens
+          // with relevant context instead of the empty state.
+          studioCtx?.setSelection(sectionId, field);
         }}
         onPaste={(event: React.ClipboardEvent<HTMLElement>) => {
           event.preventDefault();
@@ -648,7 +724,7 @@ export function GenericEditableText({
           sessionHasHistory.current = true;
         }}
         onKeyDown={(event: React.KeyboardEvent<HTMLElement>) => {
-          if (event.key === "Escape") { revertStyle(); return; }
+          if (event.key === "Escape") { revertStyle(); event.currentTarget.blur(); return; }
           if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) { event.preventDefault(); commitStyle(); ref.current?.blur(); return; }
           if (event.key === "c" && (event.metaKey || event.ctrlKey) && event.shiftKey) { event.preventDefault(); copyStyle(); return; }
           if (event.key === "v" && (event.metaKey || event.ctrlKey) && event.shiftKey) { event.preventDefault(); pasteStyle(); return; }
@@ -656,6 +732,7 @@ export function GenericEditableText({
         onBlur={(event: React.FocusEvent<HTMLElement>) => {
           // If focus moved into the toolbar, keep editing open
           if (toolbarRef.current?.contains(event.relatedTarget as Node)) return;
+          commitDraftIfChanged();
           const nextValue = event.currentTarget.textContent ?? "";
           editing.current = false;
           setFocused(false);

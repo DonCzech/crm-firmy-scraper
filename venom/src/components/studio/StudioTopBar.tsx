@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Monitor, Tablet, Smartphone, Undo2, Redo2, ExternalLink, ChevronLeft, Folder, PanelLeft,
-  ZoomIn, ZoomOut, ChevronDown, Check, Loader2,
+  ZoomIn, ZoomOut, ChevronDown, Check, Loader2, LogOut, LayoutDashboard, User,
 } from "lucide-react";
 import clsx from "clsx";
 import { useStudio, type StudioBreakpoint } from "./StudioContext";
@@ -42,11 +42,29 @@ export function StudioTopBar({
         style={{ width: leftZoneWidth, transition: "width 0.2s ease-in-out" }}
         className="shrink-0 flex h-full border-r border-[var(--vs-border)] overflow-hidden"
       >
-        {/* Rail strip */}
+        {/* Rail strip — Webero brand logo (inline SVG for gradient colors). */}
         <div
-          className="w-[55px] shrink-0 h-full"
+          className="w-[55px] shrink-0 h-full flex items-center justify-center"
           style={{ boxShadow: "inset -1px 0 0 rgba(255,255,255,0.055)" }}
-        />
+          aria-label="Webero"
+          title="Webero"
+        >
+          <div
+            className="flex h-9 w-9 items-center justify-center rounded-lg select-none"
+            style={{ background: "linear-gradient(135deg, #2563eb 0%, #4f46e5 100%)" }}
+          >
+            <svg width="22" height="22" viewBox="0 0 30 30" fill="none" aria-hidden>
+              <path
+                d="M7 9.5L10.8 20.5L15 12.5L19.2 20.5L23 9.5"
+                stroke="#ffffff"
+                strokeWidth="2.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+            </svg>
+          </div>
+        </div>
         {/* Panel strip — desktop only */}
         <div className="flex w-[220px] shrink-0 items-center px-3">
           {!isMobile && (studio.leftPanel || studio.settingsView) && (
@@ -94,9 +112,12 @@ export function StudioTopBar({
             </span>
           </div>
           {!isMobile && (
-            <span className="inline-flex items-center gap-1 shrink-0 rounded-full bg-[#ef4444] px-2 py-[3px] text-[11px] font-bold text-white tracking-wide">
-              <span className="h-1.5 w-1.5 rounded-full bg-white/80" />
-              Not indexing
+            <span
+              title="Demo verze webu není indexována vyhledávači. Po spuštění na vlastní doméně se indexace zapne automaticky."
+              className="inline-flex items-center gap-1.5 shrink-0 cursor-default rounded-full bg-[var(--vs-warning-bg)] px-2.5 py-[3px] text-[11px] font-semibold text-[var(--vs-warning)] ring-1 ring-inset ring-[rgba(251,191,36,0.25)]"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--vs-warning)]" />
+              Neindexováno
             </span>
           )}
         </div>
@@ -169,6 +190,10 @@ export function StudioTopBar({
             {!isMobile && <GoLiveButton state={state} />}
             <PublishButton state={state} />
           </div>
+
+          <div className="h-[22px] w-px bg-[var(--vs-border)] mx-1" />
+
+          <UserMenu />
         </div>
       </div>
     </header>
@@ -237,7 +262,7 @@ function ZoomControl() {
         <ZoomIn className="h-3.5 w-3.5" />
       </button>
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-1 w-[150px] rounded-lg border border-[#27272a] bg-[#141416] py-1 shadow-2xl">
+        <div className="absolute right-0 top-full z-50 mt-1 w-[150px] rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] py-1 shadow-[var(--vs-shadow-lg)] vs-enter">
           {ZOOM_PRESETS.map(p => (
             <button
               key={String(p.value)}
@@ -246,8 +271,8 @@ function ZoomControl() {
               className={clsx(
                 "w-full px-3 py-1.5 text-left text-[12px] transition-colors duration-75",
                 studio.zoom === p.value
-                  ? "bg-[#6366f1]/20 text-[#818cf8]"
-                  : "text-[#a1a1aa] hover:bg-[#1a1a1c] hover:text-white"
+                  ? "bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)]"
+                  : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
               )}
             >
               {p.label}
@@ -338,5 +363,89 @@ function BPButton({
     >
       {children}
     </button>
+  );
+}
+
+function UserMenu() {
+  const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState<string | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetch("/api/account/me")
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => { if (d?.email) setEmail(d.email); })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    function handler(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [open]);
+
+  async function handleLogout() {
+    await fetch("/api/account/logout", { method: "POST" });
+    window.location.href = "/account/login";
+  }
+
+  const initial = email ? email[0].toUpperCase() : null;
+
+  return (
+    <div ref={ref} className="relative ml-1">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        title={email ?? "Účet"}
+        className="flex h-[31px] w-[31px] items-center justify-center rounded-full text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
+      >
+        {initial ? (
+          <span
+            className="flex h-[26px] w-[26px] items-center justify-center rounded-full text-[11px] font-bold text-white"
+            style={{ background: "linear-gradient(135deg,#2563eb,#4f46e5)" }}
+          >
+            {initial}
+          </span>
+        ) : (
+          <User className="h-4 w-4" strokeWidth={1.75} />
+        )}
+      </button>
+
+      {open && (
+        <div
+          className="absolute right-0 top-[calc(100%+6px)] z-[200] w-52 rounded-xl border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] py-1.5 shadow-xl"
+          style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.35)" }}
+        >
+          {email && (
+            <>
+              <div className="px-3.5 py-2.5">
+                <p className="text-[11px] text-[var(--vs-text-dim)] truncate">{email}</p>
+              </div>
+              <div className="my-1 border-t border-[var(--vs-border)]" />
+            </>
+          )}
+          <a
+            href="/account/dashboard"
+            className="flex items-center gap-2.5 px-3.5 py-2 text-[13px] text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
+            onClick={() => setOpen(false)}
+          >
+            <LayoutDashboard className="h-3.5 w-3.5 shrink-0 opacity-70" strokeWidth={1.75} />
+            Moje projekty
+          </a>
+          <div className="my-1 border-t border-[var(--vs-border)]" />
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="flex w-full items-center gap-2.5 px-3.5 py-2 text-[13px] text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] hover:text-red-400 transition-colors"
+          >
+            <LogOut className="h-3.5 w-3.5 shrink-0 opacity-70" strokeWidth={1.75} />
+            Odhlásit se
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
