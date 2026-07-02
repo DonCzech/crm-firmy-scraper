@@ -4,9 +4,18 @@ import { useState, useEffect, useRef } from "react";
 import clsx from "clsx";
 import type { Section } from "@/lib/db";
 import type { StudioState } from "../TenantStudioView";
+import { useStudio } from "../StudioContext";
 import { FieldReset } from "./FieldReset";
+import { Monitor, Tablet, Smartphone } from "@/components/studio/icons";
 
 type Spacing = "tight" | "normal" | "airy";
+
+/** Per-breakpoint padding overrides (3b). Undefined osa = dědí desktop hodnotu. */
+type ResponsivePad = {
+  paddingTop?: number;
+  paddingBottom?: number;
+  paddingX?: number;
+};
 
 /** Layout settings persisted in section.settings.layout. New padding* fields
  *  (T1.2) are interpreted as EXTRA outer spacing applied on the SectionFrame
@@ -20,6 +29,11 @@ type LayoutSettings = {
   paddingX?: number;
   backgroundColor?: string;
   anchorId?: string;
+  /** 3b — responsive editace: overrides platné jen pro tablet/mobile breakpoint */
+  responsive?: {
+    tablet?: ResponsivePad;
+    mobile?: ResponsivePad;
+  };
 };
 
 type OverlayLayer = "above" | "below";
@@ -30,14 +44,25 @@ const PAD_STEP = 4;
 const COMMIT_DEBOUNCE_MS = 250;
 
 export function LayoutInspectorTab({ section, state }: { section: Section; state: StudioState }) {
+  const studio = useStudio();
   const layout = (section.settings?.layout ?? {}) as LayoutSettings;
   const hiddenOn = ((section.settings?.hiddenOn as string[] | undefined) ?? []);
   const overlaySettings = (section.settings as Record<string, unknown> | undefined)?.overlay as
     { enabled?: boolean; layer?: OverlayLayer } | undefined;
 
-  const [pt, setPt] = useState<number>(layout.paddingTop ?? 0);
-  const [pb, setPb] = useState<number>(layout.paddingBottom ?? 0);
-  const [px, setPx] = useState<number>(layout.paddingX ?? 0);
+  // 3b — aktivní breakpoint řídí, kam padding slidery zapisují:
+  // desktop ⇒ layout.padding*, tablet/mobile ⇒ layout.responsive[bp].padding*
+  const bp = studio.breakpoint;
+  const isResponsiveBp = bp !== "desktop";
+  const bpOverrides: ResponsivePad = (isResponsiveBp ? layout.responsive?.[bp] : undefined) ?? {};
+
+  /** Efektivní hodnota pro zobrazení: override → fallback na desktop/base. */
+  const effPad = (key: keyof ResponsivePad): number =>
+    (isResponsiveBp ? bpOverrides[key] : undefined) ?? layout[key] ?? 0;
+
+  const [pt, setPt] = useState<number>(effPad("paddingTop"));
+  const [pb, setPb] = useState<number>(effPad("paddingBottom"));
+  const [px, setPx] = useState<number>(effPad("paddingX"));
   const [bg, setBg] = useState(layout.backgroundColor ?? "");
   const [hideMobile, setHideMobile] = useState(hiddenOn.includes("mobile"));
   const [hideTablet, setHideTablet] = useState(hiddenOn.includes("tablet"));
@@ -48,15 +73,16 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
   // Debounce timers per slider — separate so simultaneous edits aren't
   // overwritten by a single trailing commit (e.g. quick drag pt → px).
   const commitTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const pendingPatch = useRef<Partial<LayoutSettings>>({});
+  const pendingPatch = useRef<Partial<LayoutSettings> & ResponsivePad>({});
 
   useEffect(() => {
     const ho = ((section.settings?.hiddenOn as string[] | undefined) ?? []);
     const lay = (section.settings?.layout ?? {}) as LayoutSettings;
     const ov = (section.settings as Record<string, unknown> | undefined)?.overlay as { enabled?: boolean; layer?: OverlayLayer } | undefined;
-    setPt(lay.paddingTop ?? 0);
-    setPb(lay.paddingBottom ?? 0);
-    setPx(lay.paddingX ?? 0);
+    const bpo: ResponsivePad = (bp !== "desktop" ? lay.responsive?.[bp] : undefined) ?? {};
+    setPt(bpo.paddingTop ?? lay.paddingTop ?? 0);
+    setPb(bpo.paddingBottom ?? lay.paddingBottom ?? 0);
+    setPx(bpo.paddingX ?? lay.paddingX ?? 0);
     setBg(lay.backgroundColor ?? "");
     setHideMobile(ho.includes("mobile"));
     setHideTablet(ho.includes("tablet"));
@@ -64,24 +90,45 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
     setOverlayEnabled(!!ov?.enabled);
     setOverlayLayer(ov?.layer ?? "above");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [section.id]);
+  }, [section.id, bp]);
 
-  function commitLayout(patch: Partial<LayoutSettings>) {
+  function commitLayout(patch: Partial<LayoutSettings>): Promise<void> {
     const nextLayout = { ...layout, ...patch };
-    void state.patchSection(section.id, {
+    return state.patchSection(section.id, {
       settings: { ...(section.settings ?? {}), layout: nextLayout },
     });
   }
 
+  /** Zapíše padding patch do aktivního breakpointu (undefined = smaž override).
+   *  Ruší rozjetý debounce — reset override nesmí být přepsán zpožděným commitem. */
+  function commitPadding(patch: ResponsivePad) {
+    if (commitTimer.current) { clearTimeout(commitTimer.current); commitTimer.current = null; }
+    pendingPatch.current = {};
+    if (!isResponsiveBp) {
+      commitLayout(patch);
+      return;
+    }
+    const merged: ResponsivePad = { ...(layout.responsive?.[bp] ?? {}), ...patch };
+    const cleaned = Object.fromEntries(
+      Object.entries(merged).filter(([, v]) => v !== undefined)
+    ) as ResponsivePad;
+    const nextResponsive = { ...(layout.responsive ?? {}), [bp]: cleaned };
+    // Tablet/mobile canvas je iframe — po uložení požádáme o jeho refresh,
+    // aby se media-query override hned projevil v náhledu.
+    void commitLayout({ responsive: nextResponsive }).then(() => {
+      window.dispatchEvent(new Event("studio:request-iframe-refresh"));
+    });
+  }
+
   /** Coalesce rapid slider changes into one debounced commit. */
-  function commitLayoutDebounced(patch: Partial<LayoutSettings>) {
+  function commitLayoutDebounced(patch: ResponsivePad) {
     pendingPatch.current = { ...pendingPatch.current, ...patch };
     if (commitTimer.current) clearTimeout(commitTimer.current);
     commitTimer.current = setTimeout(() => {
       const merged = pendingPatch.current;
       pendingPatch.current = {};
       commitTimer.current = null;
-      commitLayout(merged);
+      commitPadding(merged);
     }, COMMIT_DEBOUNCE_MS);
   }
 
@@ -107,7 +154,15 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
   return (
     <div className="space-y-4 p-3">
       <div className="space-y-3">
-        <Label>Mezery kolem sekce</Label>
+        <div className="flex items-center justify-between">
+          <Label>Mezery kolem sekce</Label>
+          {isResponsiveBp && (
+            <span className="inline-flex items-center gap-1 rounded-full bg-[var(--vs-accent-bg)] px-2 py-0.5 text-[10px] font-semibold text-[var(--vs-accent-hi)]">
+              {bp === "tablet" ? <Tablet className="h-3 w-3" weight="duotone" /> : <Smartphone className="h-3 w-3" weight="duotone" />}
+              Upravuješ {bp === "tablet" ? "Tablet" : "Mobil"}
+            </span>
+          )}
+        </div>
         <PaddingSlider
           label="Nahoře"
           value={pt}
@@ -115,6 +170,8 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
           min={0}
           max={PAD_MAX_Y}
           step={PAD_STEP}
+          overridden={isResponsiveBp ? bpOverrides.paddingTop !== undefined : undefined}
+          onClearOverride={isResponsiveBp ? () => { setPt(layout.paddingTop ?? 0); commitPadding({ paddingTop: undefined }); } : undefined}
         />
         <PaddingSlider
           label="Dole"
@@ -123,6 +180,8 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
           min={0}
           max={PAD_MAX_Y}
           step={PAD_STEP}
+          overridden={isResponsiveBp ? bpOverrides.paddingBottom !== undefined : undefined}
+          onClearOverride={isResponsiveBp ? () => { setPb(layout.paddingBottom ?? 0); commitPadding({ paddingBottom: undefined }); } : undefined}
         />
         <PaddingSlider
           label="Po stranách"
@@ -131,9 +190,13 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
           min={0}
           max={PAD_MAX_X}
           step={PAD_STEP}
+          overridden={isResponsiveBp ? bpOverrides.paddingX !== undefined : undefined}
+          onClearOverride={isResponsiveBp ? () => { setPx(layout.paddingX ?? 0); commitPadding({ paddingX: undefined }); } : undefined}
         />
         <p className="text-[10.5px] leading-snug text-[var(--vs-text-muted)]">
-          Přidává extra prostor okolo sekce (nad rámec interních mezer šablony).
+          {isResponsiveBp
+            ? `Hodnoty platí jen pro ${bp === "tablet" ? "tablet (768–1023 px)" : "mobil (do 767 px)"}. Bez úpravy sekce dědí hodnoty z desktopu.`
+            : "Přidává extra prostor okolo sekce (nad rámec interních mezer šablony)."}
         </p>
       </div>
 
@@ -298,7 +361,7 @@ function Label({ children }: { children: React.ReactNode }) {
 }
 
 function PaddingSlider({
-  label, value, onChange, min, max, step,
+  label, value, onChange, min, max, step, overridden, onClearOverride,
 }: {
   label: string;
   value: number;
@@ -306,12 +369,22 @@ function PaddingSlider({
   min: number;
   max: number;
   step: number;
+  /** 3b — responsive režim: true = breakpoint má vlastní hodnotu, false = dědí desktop */
+  overridden?: boolean;
+  /** 3b — smaže breakpoint override (vrátí dědění z desktopu) */
+  onClearOverride?: () => void;
 }) {
   const clamp = (v: number) => Math.max(min, Math.min(max, v));
+  const responsiveMode = onClearOverride !== undefined;
   return (
     <div>
       <div className="flex items-center justify-between gap-2">
-        <span className="text-[11px] text-[var(--vs-text-soft)]">{label}</span>
+        <span className="flex items-center gap-1.5 text-[11px] text-[var(--vs-text-soft)]">
+          {label}
+          {responsiveMode && overridden && (
+            <span className="h-1.5 w-1.5 rounded-full bg-[var(--vs-accent-hi)]" title="Vlastní hodnota pro tento breakpoint" />
+          )}
+        </span>
         <div className="flex items-center gap-1">
           <input
             type="number"
@@ -320,15 +393,26 @@ function PaddingSlider({
             max={max}
             step={step}
             onChange={(e) => onChange(clamp(Number(e.target.value) || 0))}
-            className="h-6 w-14 rounded border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-1.5 text-right font-mono text-[11px] text-[var(--vs-text)] outline-none focus:border-[var(--vs-accent)]"
+            className={clsx(
+              "h-6 w-14 rounded border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-1.5 text-right font-mono text-[11px] outline-none focus:border-[var(--vs-accent)]",
+              responsiveMode && !overridden ? "text-[var(--vs-text-dim)]" : "text-[var(--vs-text)]"
+            )}
             aria-label={`${label} v px`}
           />
           <span className="text-[10px] text-[var(--vs-text-muted)]">px</span>
-          <FieldReset
-            onReset={() => onChange(0)}
-            modified={value !== 0}
-            title={`Vrátit ${label.toLowerCase()} na výchozí (0)`}
-          />
+          {responsiveMode ? (
+            <FieldReset
+              onReset={() => onClearOverride?.()}
+              modified={!!overridden}
+              title={`Zrušit ${label.toLowerCase()} pro tento breakpoint (dědit z desktopu)`}
+            />
+          ) : (
+            <FieldReset
+              onReset={() => onChange(0)}
+              modified={value !== 0}
+              title={`Vrátit ${label.toLowerCase()} na výchozí (0)`}
+            />
+          )}
         </div>
       </div>
       <input

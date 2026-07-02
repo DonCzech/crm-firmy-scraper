@@ -112,6 +112,10 @@ export function SectionRenderer({ section, tenantSlug, isAdmin, onSaveAsteraCont
   const layout = (section.settings?.layout ?? {}) as {
     paddingTop?: number; paddingBottom?: number; paddingX?: number;
     backgroundColor?: string;
+    responsive?: {
+      tablet?: { paddingTop?: number; paddingBottom?: number; paddingX?: number };
+      mobile?: { paddingTop?: number; paddingBottom?: number; paddingX?: number };
+    };
   };
 
   const hasPt = typeof layout.paddingTop === "number";
@@ -127,23 +131,58 @@ export function SectionRenderer({ section, tenantSlug, isAdmin, onSaveAsteraCont
   const hasLayout = Object.keys(wrapStyle).length > 0;
   const hasAnchor = !!anchorId;
 
+  // 3b — per-breakpoint padding overrides (inspektor při aktivním tablet/mobile
+  // breakpointu). Undefined osa = dědí desktop/base hodnotu. Media blok musí
+  // přebít inline style wrapperu i padding šablony ⇒ !important.
+  const bpPadCss = (
+    query: string,
+    pad: { paddingTop?: number; paddingBottom?: number; paddingX?: number } | undefined
+  ): string | null => {
+    if (!pad) return null;
+    const pt = typeof pad.paddingTop === "number";
+    const pb = typeof pad.paddingBottom === "number";
+    const px = typeof pad.paddingX === "number";
+    if (!pt && !pb && !px) return null;
+    return [
+      `@media ${query} {`,
+      `  [data-sr-id="${section.id}"] {`,
+      pt ? `    padding-top: ${pad.paddingTop}px !important;` : "",
+      pb ? `    padding-bottom: ${pad.paddingBottom}px !important;` : "",
+      px ? `    padding-left: ${pad.paddingX}px !important; padding-right: ${pad.paddingX}px !important;` : "",
+      "  }",
+      `  [data-sr-id="${section.id}"] section {`,
+      pt ? "    padding-top: 0 !important;" : "",
+      pb ? "    padding-bottom: 0 !important;" : "",
+      px ? "    padding-left: 0 !important; padding-right: 0 !important;" : "",
+      "  }",
+      "}",
+    ].filter(Boolean).join("\n");
+  };
+  const tabletCss = bpPadCss("(min-width: 768px) and (max-width: 1023px)", layout.responsive?.tablet);
+  const mobileCss = bpPadCss("(max-width: 767px)", layout.responsive?.mobile);
+  const hasResponsive = !!(tabletCss || mobileCss);
+
   // Scoped CSS that zeroes the template section's own padding on overridden axes.
   // Uses `!important` to beat both Tailwind classes and inline styles.
   // Targets `[data-sr-id] section` — safe because section components don't nest
   // multiple sibling <section> elements.
-  const overrideCss = (hasPt || hasPb || hasPx) ? [
-    `[data-sr-id="${section.id}"] section {`,
-    hasPt ? "  padding-top: 0 !important;" : "",
-    hasPb ? "  padding-bottom: 0 !important;" : "",
-    hasPx ? "  padding-left: 0 !important; padding-right: 0 !important;" : "",
-    "}",
+  const overrideCss = (hasPt || hasPb || hasPx || hasResponsive) ? [
+    (hasPt || hasPb || hasPx) ? [
+      `[data-sr-id="${section.id}"] section {`,
+      hasPt ? "  padding-top: 0 !important;" : "",
+      hasPb ? "  padding-bottom: 0 !important;" : "",
+      hasPx ? "  padding-left: 0 !important; padding-right: 0 !important;" : "",
+      "}",
+    ].filter(Boolean).join("\n") : "",
+    tabletCss ?? "",
+    mobileCss ?? "",
   ].filter(Boolean).join("\n") : null;
 
   const finalStyle: CSSProperties = (hasLayout || hasAnchor)
     ? { ...wrapStyle, ...(hasAnchor ? { scrollMarginTop: 90 } : {}) }
     : {};
 
-  if (hasLayout || hasAnchor) {
+  if (hasLayout || hasAnchor || hasResponsive) {
     return (
       <div id={anchorId} data-sr-id={section.id} style={finalStyle}>
         {overrideCss && <style dangerouslySetInnerHTML={{ __html: overrideCss }} />}
