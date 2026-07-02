@@ -101,7 +101,7 @@ export function ToggleField({ label, tokenKey, defaultValue = false }: { label: 
         aria-checked={value}
         onClick={() => set({ [tokenKey]: !value })}
         className={`relative inline-flex h-[18px] w-8 shrink-0 rounded-full transition-colors ${
-          value ? "bg-[#6366f1]" : "bg-[var(--vs-border-strong)]"
+          value ? "bg-[var(--vs-accent)]" : "bg-[var(--vs-border-strong)]"
         }`}
       >
         <span
@@ -137,7 +137,7 @@ export function SliderField({
           step={step}
           value={n}
           onChange={e => set({ [tokenKey]: Number(e.target.value) })}
-          className="flex-1 accent-[#6366f1]"
+          className="flex-1 accent-[var(--vs-accent)]"
         />
         <div className="flex h-6 w-14 items-center justify-end gap-1 rounded border border-[var(--vs-border-strong)] bg-[var(--vs-bg-soft)] px-1.5 text-[11.5px] text-[var(--vs-text)]">
           <input

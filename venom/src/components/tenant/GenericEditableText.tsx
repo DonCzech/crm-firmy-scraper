@@ -25,9 +25,9 @@ const TB = {
   text:        "var(--vs-text, #f5f5f9)",
   textMuted:   "var(--vs-text-muted, #8b8d9e)",
   textDim:     "var(--vs-text-dim, #5c5e6e)",
-  accent:      "var(--vs-accent, #818cf8)",
-  accentHi:    "var(--vs-accent-hi, #a5b4fc)",
-  accentBg:    "var(--vs-accent-bg, rgba(129,140,248,0.13))",
+  accent:      "var(--vs-accent, #d4d4d8)",
+  accentHi:    "var(--vs-accent-hi, #f4f4f5)",
+  accentBg:    "var(--vs-accent-bg, rgba(212,212,216,0.13))",
   danger:      "var(--vs-danger, #f87171)",
   shadow:      "var(--vs-shadow-lg, 0 1px 0 0 rgba(255,255,255,0.05) inset, 0 18px 38px rgba(0,0,0,0.55), 0 8px 16px rgba(0,0,0,0.35))",
 };
@@ -443,14 +443,14 @@ export function GenericEditableText({
             .vs-tb-btn:disabled { color:#3a3a44; cursor:default; background:transparent; }
             .vs-tb-btn[data-flash="true"] { background:${TB.accentBg}; color:${TB.accentHi}; }
             .vs-tb-input { height:26px; border-radius:6px; border:1px solid ${TB.border}; background:${TB.surface}; color:${TB.text}; font-size:11.5px; padding:0 7px; outline:none; transition:border-color .12s ease; font-family:inherit; }
-            .vs-tb-input:focus { border-color:rgba(129,140,248,0.55); }
+            .vs-tb-input:focus { border-color:rgba(212,212,216,0.55); }
             .vs-tb-input::-webkit-outer-spin-button, .vs-tb-input::-webkit-inner-spin-button { -webkit-appearance:none; margin:0; }
             .vs-tb-label { font-size:9.5px; letter-spacing:.05em; color:${TB.textDim}; text-transform:uppercase; font-weight:600; white-space:nowrap; }
             .vs-tb-sep { width:1px; height:18px; background:${TB.border}; margin:0 5px; flex-shrink:0; align-self:center; }
             .vs-tb-action { height:27px; padding:0 10px; border-radius:7px; border:1px solid ${TB.border}; background:${TB.surface}; color:#d1d1d9; font-size:11.5px; font-weight:500; cursor:pointer; display:inline-flex; align-items:center; gap:5px; transition:background .12s ease, color .12s ease; font-family:inherit; }
             .vs-tb-action:hover { background:${TB.surfaceHi}; color:${TB.text}; }
             .vs-tb-action[data-danger="true"]:hover { background:rgba(248,113,113,0.12); color:${TB.danger}; border-color:rgba(248,113,113,0.35); }
-            .vs-tb-primary { height:27px; padding:0 12px; border-radius:7px; border:none; background-image:var(--vs-grad-brand, linear-gradient(135deg,#3b82f6 0%,#6366f1 60%,#7c5cf6 100%)); color:#fff; font-size:11.5px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(99,102,241,0.35); font-family:inherit; transition:filter .12s ease; }
+            .vs-tb-primary { height:27px; padding:0 12px; border-radius:7px; border:none; background-image:var(--vs-grad-brand, linear-gradient(135deg,var(--vs-accent) 0%,var(--vs-accent) 60%,#7c5cf6 100%)); color:#fff; font-size:11.5px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(20,184,166,0.35); font-family:inherit; transition:filter .12s ease; }
             .vs-tb-primary:hover { filter:brightness(1.12); }
           `}</style>
 
@@ -603,7 +603,7 @@ export function GenericEditableText({
         cursor: isDragging ? "grabbing" : "grab",
         width: 22,
         height: 22,
-        background: "#6366f1",
+        background: "var(--vs-accent)",
         borderRadius: 5,
         display: "flex",
         alignItems: "center",
@@ -638,7 +638,7 @@ export function GenericEditableText({
         cursor: "se-resize",
         width: 14,
         height: 14,
-        background: "#6366f1",
+        background: "var(--vs-accent)",
         borderRadius: 3,
         boxShadow: "0 1px 4px rgba(0,0,0,0.4)",
         userSelect: "none",
@@ -665,11 +665,11 @@ export function GenericEditableText({
           ...alignStyle,
           ...offsetStyle,
           outline: focused
-            ? "2px solid #818cf8"
+            ? "2px solid var(--vs-accent)"
             : highlightedBlock
               ? "3px solid rgba(245, 158, 11, 0.95)"
               : hovered
-                ? "1px dashed rgba(129,140,248,0.65)"
+                ? "1px dashed rgba(212,212,216,0.65)"
                 : "none",
           outlineOffset: 3,
           boxShadow: highlightedBlock ? "0 0 0 7px rgba(245, 158, 11, 0.18)" : undefined,

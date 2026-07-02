@@ -10279,197 +10279,483 @@ function ServicesDdd01({ content, sectionId, tenantSlug, isAdmin }: { content: R
 }
 
 // ── hotel-01-rooms ────────────────────────────────────────────────────────────
-function ServicesHotel01Rooms({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+function ServicesHotel01Rooms({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const c       = (content ?? {}) as Record<string, any>;
+  const showHeader = c.showHeader !== false;
   const eyebrow = c.eyebrow  ?? "Ubytování";
-  const title   = c.title    ?? "Stylové pokoje a apartmá";
+  const title   = c.title    ?? "Pokoje a suity pro každou příležitost";
+  const titleAccent = c.titleAccent ?? "suity";
   const subtitle= c.subtitle ?? "";
-  const items: { name: string; description: string; image: string; moreHref: string; bookHref: string }[] = Array.isArray(c.items) ? c.items : [];
+  const roomLabel = c.roomLabel ?? "Kategorie";
+  const priceLabel = c.priceLabel ?? "Od";
+  const priceSuffix = c.priceSuffix ?? "/ noc";
+  const moreLabel = c.moreLabel ?? "Více informací";
+  const bookLabel = c.bookLabel ?? "Rezervovat";
+  const items: {
+    name: string;
+    description: string;
+    image: string;
+    moreHref: string;
+    bookHref: string;
+    price?: string;
+    size?: string;
+    beds?: string;
+    guests?: string;
+    amenities?: string[];
+  }[] = Array.isArray(c.items) ? c.items : [];
 
   const [active, setActive] = useState(0);
 
-  const resolve = (href: string) => (isAdmin ? "#" : href ?? "#");
+  const href = (h: string) => resolveDemoHref(h ?? "#", tenantSlug, isAdmin);
+  const idx2 = (n: number) => String(n + 1).padStart(2, "0");
+
+  const renderTitle = () => {
+    if (!titleAccent || !title.includes(titleAccent)) {
+      return <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />;
+    }
+    const parts = title.split(titleAccent);
+    return (
+      <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span">
+        <>{parts[0]}<em className="h01rooms-accent">{titleAccent}</em>{parts.slice(1).join(titleAccent)}</>
+      </GenericEditableText>
+    );
+  };
+
+  const room = items[active];
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Poppins:wght@300;400;500&display=swap" />
-      <style>{`        .h01rooms {
-          background: #f9f6f2;
-          padding: clamp(60px,8vw,110px) 0;
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Poppins:wght@300;400;500&display=swap" />
+      <style>{`
+        .h01rooms {
+          background: #fff;
+          padding: clamp(80px,10vw,140px) 0 clamp(80px,8vw,120px);
           font-family: 'Poppins', sans-serif;
-          overflow: hidden;
+          position: relative; overflow: hidden;
         }
+        .h01rooms::before {
+          content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+          width: min(1400px, 96%); height: 1px;
+          background: linear-gradient(90deg, transparent 0%, rgba(169,135,99,.35) 20%, rgba(169,135,99,.55) 50%, rgba(169,135,99,.35) 80%, transparent 100%);
+          pointer-events: none;
+        }
+
         .h01rooms-header {
-          max-width: 1200px; margin: 0 auto 52px;
+          max-width: 1240px; margin: 0 auto clamp(48px, 6vw, 80px);
           padding: 0 clamp(20px,5vw,80px);
           text-align: center;
         }
         .h01rooms-eyebrow {
-          font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
-          color: #a98763; font-weight: 500; margin: 0 0 16px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: 13px; letter-spacing: 0.28em; text-transform: uppercase;
+          color: #a98763; margin: 0 0 24px;
+          display: inline-flex; align-items: center; gap: 18px;
+        }
+        .h01rooms-eyebrow::before, .h01rooms-eyebrow::after {
+          content: ''; display: inline-block; width: 40px; height: 1px; background: #a98763;
         }
         .h01rooms-title {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: clamp(26px,3vw,42px); font-weight: 400; color: #3e3e3e;
-          margin: 0 0 16px; line-height: 1.2;
+          font-size: clamp(32px,4vw,54px); font-weight: 400;
+          color: #3e3e3e; margin: 0 0 20px; line-height: 1.12;
+          letter-spacing: 0.005em;
         }
+        .h01rooms-accent { font-style: italic; color: #a98763; font-weight: 500; }
         .h01rooms-subtitle {
-          font-size: 15px; color: #797979; font-weight: 300;
-          max-width: 620px; margin: 0 auto; line-height: 1.7;
+          font-size: 15.5px; color: #797979; font-weight: 300;
+          max-width: 680px; margin: 0 auto; line-height: 1.75;
         }
 
-        /* Tabs */
+        /* Editorial tabs — with numbers */
         .h01rooms-tabs {
-          display: flex; justify-content: center; flex-wrap: wrap; gap: 0;
-          margin: 0 auto 0; max-width: 1200px; padding: 0 clamp(20px,5vw,80px) 0;
-          border-bottom: 1px solid #e8e0d6;
+          display: flex; justify-content: center; flex-wrap: wrap;
+          margin: 0 auto; max-width: 1240px; padding: 0 clamp(20px,5vw,80px);
+          gap: 0; position: relative;
+        }
+        .h01rooms-tabs::after {
+          content: ''; position: absolute; left: clamp(20px,5vw,80px); right: clamp(20px,5vw,80px); bottom: 0;
+          height: 1px; background: rgba(169,135,99,.22);
         }
         .h01rooms-tab {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+          font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase;
           color: #797979; background: none; border: none; cursor: pointer;
-          padding: 14px 28px; position: relative; transition: color 0.2s;
-          white-space: nowrap;
+          padding: 18px 26px; position: relative; transition: color .35s;
+          white-space: nowrap; z-index: 1;
+          display: inline-flex; align-items: baseline; gap: 12px;
         }
-        .h01rooms-tab.active { color: #a98763; }
-        .h01rooms-tab.active::after {
-          content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
+        .h01rooms-tab-num {
+          font-style: italic; font-size: 12px; color: #a98763;
+          font-weight: 500; opacity: .6; transition: opacity .35s;
+        }
+        .h01rooms-tab::after {
+          content: ''; position: absolute; bottom: 0; left: 26px; right: 26px;
           height: 2px; background: #a98763;
+          transform: scaleX(0); transform-origin: left;
+          transition: transform .55s cubic-bezier(.22,.68,0,1.1);
         }
-        .h01rooms-tab:hover { color: #a98763; }
+        .h01rooms-tab.active { color: #1a1714; }
+        .h01rooms-tab.active .h01rooms-tab-num { opacity: 1; }
+        .h01rooms-tab.active::after { transform: scaleX(1); }
+        .h01rooms-tab:hover { color: #3e3e3e; }
+        .h01rooms-tab:hover .h01rooms-tab-num { opacity: 1; }
 
         /* Card */
         .h01rooms-card {
-          max-width: 1200px; margin: 0 auto;
-          padding: 0 clamp(20px,5vw,80px);
-          display: grid; grid-template-columns: 1fr 1fr; gap: 72px;
-          align-items: center; padding-top: 56px;
+          max-width: 1240px; margin: 0 auto;
+          padding: clamp(48px, 5vw, 72px) clamp(20px,5vw,80px) 0;
+          display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(48px, 6vw, 88px);
+          align-items: center;
         }
+        .h01rooms-img-col { position: relative; }
         .h01rooms-img-wrap {
-          position: relative; overflow: hidden; aspect-ratio: 4/3;
+          position: relative; overflow: hidden; aspect-ratio: 4/5;
+          background: #efe6d9;
         }
         .h01rooms-img {
           width: 100%; height: 100%; object-fit: cover; display: block;
-          transition: transform 0.6s ease;
+          transition: transform 1.4s cubic-bezier(.22,.68,0,1.1), filter .8s;
+          filter: sepia(.05) contrast(1.03);
         }
-        .h01rooms-img-wrap:hover .h01rooms-img { transform: scale(1.04); }
+        .h01rooms-img-wrap:hover .h01rooms-img { transform: scale(1.06); filter: sepia(0) contrast(1.06); }
+
+        /* Photo overlay label */
+        .h01rooms-img-overlay {
+          position: absolute; left: 0; bottom: 0; right: 0; z-index: 2;
+          padding: 26px 24px;
+          background: linear-gradient(180deg, transparent 0%, rgba(20,17,14,.62) 100%);
+          display: flex; align-items: end; justify-content: space-between; gap: 14px;
+          color: #fff;
+        }
+        .h01rooms-img-badge {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
+          color: rgba(212,176,136,.95);
+          display: inline-flex; align-items: center; gap: 12px;
+        }
+        .h01rooms-img-badge::before { content: ''; width: 22px; height: 1px; background: #a98763; }
+        .h01rooms-img-num {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 500;
+          font-size: 42px; color: rgba(255,255,255,.92); line-height: 1;
+        }
+
+        /* corner brackets */
+        .h01rooms-corner {
+          position: absolute; width: 28px; height: 28px; z-index: 3; pointer-events: none;
+          opacity: 0; transition: opacity .5s cubic-bezier(.22,.68,0,1.1), transform .5s cubic-bezier(.22,.68,0,1.1);
+        }
+        .h01rooms-img-wrap:hover .h01rooms-corner { opacity: 1; }
+        .h01rooms-corner svg { width: 100%; height: 100%; color: #a98763; }
+        .h01rooms-corner.tl { top: -6px; left: -6px; transform: translate(4px,4px); }
+        .h01rooms-corner.tr { top: -6px; right: -6px; transform: translate(-4px,4px) scaleX(-1); }
+        .h01rooms-corner.bl { bottom: -6px; left: -6px; transform: translate(4px,-4px) scaleY(-1); }
+        .h01rooms-corner.br { bottom: -6px; right: -6px; transform: translate(-4px,-4px) scale(-1,-1); }
+        .h01rooms-img-wrap:hover .h01rooms-corner.tl { transform: translate(0,0); }
+        .h01rooms-img-wrap:hover .h01rooms-corner.tr { transform: translate(0,0) scaleX(-1); }
+        .h01rooms-img-wrap:hover .h01rooms-corner.bl { transform: translate(0,0) scaleY(-1); }
+        .h01rooms-img-wrap:hover .h01rooms-corner.br { transform: translate(0,0) scale(-1,-1); }
+
+        /* TEXT */
         .h01rooms-card-eyebrow {
-          font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
-          color: #a98763; font-weight: 500; margin: 0 0 14px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase;
+          color: #a98763; margin: 0 0 18px;
+          display: inline-flex; align-items: center; gap: 14px;
+        }
+        .h01rooms-card-eyebrow::before {
+          content: ''; width: 28px; height: 1px; background: #a98763;
         }
         .h01rooms-card-name {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: clamp(22px,2.5vw,34px); font-weight: 400; color: #3e3e3e;
-          margin: 0 0 20px; line-height: 1.25;
+          font-size: clamp(28px,3.2vw,44px); font-weight: 400;
+          color: #1a1714; margin: 0 0 20px; line-height: 1.15;
+          letter-spacing: 0.005em;
         }
+
+        /* Specs row */
+        .h01rooms-specs {
+          display: flex; gap: 28px; flex-wrap: wrap;
+          padding: 18px 0 22px;
+          border-top: 1px solid rgba(169,135,99,.22);
+          border-bottom: 1px solid rgba(169,135,99,.22);
+          margin: 0 0 24px;
+        }
+        .h01rooms-spec {
+          display: flex; align-items: center; gap: 10px;
+          font-family: 'Poppins', sans-serif; font-size: 11.5px;
+          letter-spacing: 0.14em; text-transform: uppercase;
+          color: #5D5D5D; font-weight: 400;
+        }
+        .h01rooms-spec svg { width: 18px; height: 18px; color: #a98763; flex-shrink: 0; }
+
         .h01rooms-card-desc {
-          font-size: 15px; color: #5D5D5D; font-weight: 300;
-          line-height: 1.85; margin: 0 0 36px;
+          font-size: 15.5px; color: #5D5D5D; font-weight: 300;
+          line-height: 1.9; margin: 0 0 26px;
         }
+
+        /* Amenities row */
+        .h01rooms-amen {
+          display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0 0 30px;
+        }
+        .h01rooms-amen-item {
+          display: inline-flex; align-items: center; gap: 8px;
+          font-family: 'Poppins', sans-serif; font-size: 12px;
+          color: #5D5D5D; font-weight: 400; letter-spacing: 0.02em;
+        }
+        .h01rooms-amen-item::before {
+          content: ''; width: 4px; height: 4px; background: #a98763;
+          transform: rotate(45deg);
+        }
+
+        /* Price row */
+        .h01rooms-price-row {
+          display: flex; align-items: center; justify-content: space-between; gap: 20px;
+          margin: 0 0 30px; flex-wrap: wrap;
+        }
+        .h01rooms-price {
+          font-family: 'Playfair Display', Georgia, serif;
+        }
+        .h01rooms-price-label {
+          font-style: italic; font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase;
+          color: #797979; margin-right: 10px; font-weight: 400;
+        }
+        .h01rooms-price-val {
+          font-size: 30px; color: #1a1714; font-weight: 500;
+          letter-spacing: 0.005em;
+        }
+        .h01rooms-price-suf {
+          font-size: 12px; color: #797979; font-weight: 400;
+          margin-left: 8px; font-style: italic;
+        }
+
+        /* CTAs */
         .h01rooms-card-ctas {
           display: flex; gap: 14px; flex-wrap: wrap;
         }
+        .h01rooms-more, .h01rooms-book {
+          position: relative; overflow: hidden;
+          display: inline-flex; align-items: center; gap: 10px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+          padding: 14px 30px; text-decoration: none;
+          transition: color .35s, border-color .35s;
+        }
         .h01rooms-more {
-          display: inline-flex; align-items: center; justify-content: center;
-          border: 1.5px solid #a98763; color: #a98763;
-          font-family: 'Playfair Display', Georgia, serif;
-          font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-          padding: 11px 28px; text-decoration: none; transition: background 0.2s, color 0.2s;
+          background: transparent; color: #3e3e3e; border: 1px solid #a98763;
         }
-        .h01rooms-more:hover { background: #a98763; color: #fff; }
+        .h01rooms-more::before {
+          content: ''; position: absolute; inset: 0;
+          background: #1a1714; transform: translateY(101%);
+          transition: transform .55s cubic-bezier(.22,.68,0,1.1); z-index: 0;
+        }
+        .h01rooms-more:hover { color: #fff; border-color: #1a1714; }
+        .h01rooms-more:hover::before { transform: translateY(0); }
+        .h01rooms-more > * { position: relative; z-index: 1; }
+
         .h01rooms-book {
+          background: #1a1714; color: #fff; border: 1px solid #1a1714;
+        }
+        .h01rooms-book::before {
+          content: ''; position: absolute; inset: 0;
+          background: linear-gradient(135deg,#a98763 0%,#c4a274 100%);
+          transform: translateY(101%); transition: transform .55s cubic-bezier(.22,.68,0,1.1); z-index: 0;
+        }
+        .h01rooms-book:hover { border-color: #a98763; }
+        .h01rooms-book:hover::before { transform: translateY(0); }
+        .h01rooms-book > * { position: relative; z-index: 1; }
+        .h01rooms-book .arrow { transition: transform .35s cubic-bezier(.22,.68,0,1.1); }
+        .h01rooms-book:hover .arrow { transform: translateX(6px); }
+
+        /* Nav — arrows + counter */
+        .h01rooms-nav {
+          max-width: 1240px; margin: clamp(48px, 5vw, 72px) auto 0;
+          padding: 0 clamp(20px,5vw,80px);
+          display: flex; align-items: center; justify-content: center; gap: 30px;
+        }
+        .h01rooms-arrow {
+          width: 54px; height: 54px; border: 1px solid rgba(169,135,99,.4);
+          background: transparent; cursor: pointer; color: #3e3e3e;
           display: inline-flex; align-items: center; justify-content: center;
-          background: #879B32; color: #fff;
+          transition: background .35s, color .35s, border-color .35s;
+        }
+        .h01rooms-arrow:hover { background: #1a1714; color: #d4b088; border-color: #1a1714; }
+        .h01rooms-counter {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-          padding: 11px 28px; text-decoration: none; transition: background 0.2s;
+          display: flex; align-items: baseline; gap: 10px;
         }
-        .h01rooms-book:hover { background: #6a7a28; }
+        .h01rooms-counter-cur {
+          font-style: italic; font-size: 30px; color: #a98763; font-weight: 500; line-height: 1;
+        }
+        .h01rooms-counter-line { width: 46px; height: 1px; background: #a98763; }
+        .h01rooms-counter-tot {
+          font-size: 14px; color: #797979; letter-spacing: 0.12em;
+        }
 
-        /* Dots */
-        .h01rooms-dots {
-          display: flex; justify-content: center; gap: 8px; margin-top: 48px;
+        @media (max-width: 900px) {
+          .h01rooms-card { grid-template-columns: 1fr; gap: 40px; }
+          .h01rooms-img-wrap { aspect-ratio: 4/3; }
+          .h01rooms-tab { padding: 14px 14px; font-size: 12px; }
+          .h01rooms-tab-num { display: none; }
         }
-        .h01rooms-dot {
-          width: 7px; height: 7px; border-radius: 50%;
-          background: #d4c8bb; border: none; cursor: pointer; padding: 0;
-          transition: background 0.25s, transform 0.25s;
-        }
-        .h01rooms-dot.active { background: #a98763; transform: scale(1.35); }
-
-        @media (max-width: 860px) {
-          .h01rooms-card { grid-template-columns: 1fr; gap: 32px; }
-          .h01rooms-tab { padding: 12px 16px; font-size: 11px; }
+        @media (max-width: 500px) {
+          .h01rooms-eyebrow { font-size: 11px; letter-spacing: 0.22em; gap: 12px; }
+          .h01rooms-eyebrow::before, .h01rooms-eyebrow::after { width: 22px; }
+          .h01rooms-price-val { font-size: 24px; }
+          .h01rooms-img-num { font-size: 32px; }
+          .h01rooms-more, .h01rooms-book { padding: 13px 22px; font-size: 11px; letter-spacing: 0.18em; }
+          .h01rooms-specs { gap: 16px; padding: 14px 0 18px; }
         }
       `}</style>
 
       <section className="h01rooms" id="pokoje" data-template="hotel-01-rooms">
-        <div className="h01rooms-header">
-          <p className="h01rooms-eyebrow">
-            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-          </p>
-          <h2 className="h01rooms-title">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          {subtitle && (
-            <p className="h01rooms-subtitle">
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </p>
-          )}
-        </div>
-
-        {/* Tab bar */}
-        <div className="h01rooms-tabs" role="tablist">
-          {items.map((item, i) => (
-            <button
-              key={i}
-              className={`h01rooms-tab${i === active ? " active" : ""}`}
-              onClick={() => setActive(i)}
-              role="tab"
-              aria-selected={i === active}
-            >
-              {item.name}
-            </button>
-          ))}
-        </div>
-
-        {/* Active card */}
-        {items[active] && (
-          <div className="h01rooms-card">
-            <div className="h01rooms-img-wrap">
-              <GenericEditableImage sectionId={sectionId} field={`items.${active}.image`} src={items[active].image || "/placeholder.jpg"} alt={items[active].name} style={{ width: "100%", height: "100%" }}>
-                <img src={items[active].image || "/placeholder.jpg"} alt={items[active].name} className="h01rooms-img" loading="lazy" />
-              </GenericEditableImage>
+        {showHeader && (
+          <div className="h01rooms-header">
+            <div className="h01rooms-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
             </div>
-            <div>
-              <p className="h01rooms-card-eyebrow">Ubytování</p>
-              <h3 className="h01rooms-card-name">
-                <GenericEditableText sectionId={sectionId} field={`items.${active}.name`} value={items[active].name} tag="span" />
-              </h3>
-              <p className="h01rooms-card-desc">
-                <GenericEditableText sectionId={sectionId} field={`items.${active}.description`} value={items[active].description} tag="span" />
+            <h2 className="h01rooms-title">{renderTitle()}</h2>
+            {subtitle && (
+              <p className="h01rooms-subtitle">
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
               </p>
+            )}
+          </div>
+        )}
+
+        {items.length > 1 && (
+          <div className="h01rooms-tabs" role="tablist">
+            {items.map((item, i) => (
+              <button
+                key={i}
+                className={`h01rooms-tab${i === active ? " active" : ""}`}
+                onClick={() => setActive(i)}
+                role="tab"
+                aria-selected={i === active}
+              >
+                <span className="h01rooms-tab-num">{idx2(i)}</span>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
+              </button>
+            ))}
+          </div>
+        )}
+
+        {room && (
+          <div className="h01rooms-card" key={active}>
+            <div className="h01rooms-img-col">
+              <div className="h01rooms-img-wrap">
+                <GenericEditableImage sectionId={sectionId} field={`items.${active}.image`} src={room.image || "/placeholder.jpg"} alt={room.name} style={{ width: "100%", height: "100%" }}>
+                  <img src={room.image || "/placeholder.jpg"} alt={room.name} className="h01rooms-img" loading="lazy" />
+                </GenericEditableImage>
+                <div className="h01rooms-corner tl" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M2 10 L2 2 L10 2" stroke="currentColor" strokeWidth="1.2"/></svg></div>
+                <div className="h01rooms-corner tr" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M2 10 L2 2 L10 2" stroke="currentColor" strokeWidth="1.2"/></svg></div>
+                <div className="h01rooms-corner bl" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M2 10 L2 2 L10 2" stroke="currentColor" strokeWidth="1.2"/></svg></div>
+                <div className="h01rooms-corner br" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M2 10 L2 2 L10 2" stroke="currentColor" strokeWidth="1.2"/></svg></div>
+                <div className="h01rooms-img-overlay">
+                  <span className="h01rooms-img-badge">{roomLabel} · {idx2(active)}</span>
+                  <span className="h01rooms-img-num">{idx2(active)}<span style={{ fontSize: "18px", opacity: .55 }}>/{idx2(items.length - 1)}</span></span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div className="h01rooms-card-eyebrow">
+                {roomLabel} · <GenericEditableText sectionId={sectionId} field="roomLabel" value={roomLabel} tag="span" />
+              </div>
+              <h3 className="h01rooms-card-name">
+                <GenericEditableText sectionId={sectionId} field={`items.${active}.name`} value={room.name} tag="span" />
+              </h3>
+
+              {(room.size || room.beds || room.guests) && (
+                <div className="h01rooms-specs">
+                  {room.size && (
+                    <div className="h01rooms-spec">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18"/><path d="M3 9h18M9 3v18"/></svg>
+                      <GenericEditableText sectionId={sectionId} field={`items.${active}.size`} value={room.size} tag="span" />
+                    </div>
+                  )}
+                  {room.beds && (
+                    <div className="h01rooms-spec">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M2 20V8h20v12"/><path d="M2 12h20M6 8V5h5v3M13 8V5h5v3"/></svg>
+                      <GenericEditableText sectionId={sectionId} field={`items.${active}.beds`} value={room.beds} tag="span" />
+                    </div>
+                  )}
+                  {room.guests && (
+                    <div className="h01rooms-spec">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                      <GenericEditableText sectionId={sectionId} field={`items.${active}.guests`} value={room.guests} tag="span" />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              <p className="h01rooms-card-desc">
+                <GenericEditableText sectionId={sectionId} field={`items.${active}.description`} value={room.description} tag="span" />
+              </p>
+
+              {Array.isArray(room.amenities) && room.amenities.length > 0 && (
+                <div className="h01rooms-amen">
+                  {room.amenities.map((a, ai) => (
+                    <span className="h01rooms-amen-item" key={ai}>
+                      <GenericEditableText sectionId={sectionId} field={`items.${active}.amenities.${ai}`} value={a} tag="span" />
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {room.price && (
+                <div className="h01rooms-price-row">
+                  <div className="h01rooms-price">
+                    <span className="h01rooms-price-label">
+                      <GenericEditableText sectionId={sectionId} field="priceLabel" value={priceLabel} tag="span" />
+                    </span>
+                    <span className="h01rooms-price-val">
+                      <GenericEditableText sectionId={sectionId} field={`items.${active}.price`} value={room.price} tag="span" />
+                    </span>
+                    <span className="h01rooms-price-suf">
+                      <GenericEditableText sectionId={sectionId} field="priceSuffix" value={priceSuffix} tag="span" />
+                    </span>
+                  </div>
+                </div>
+              )}
+
               <div className="h01rooms-card-ctas">
-                <a href={resolve(items[active].moreHref)} className="h01rooms-more">Více informací</a>
-                <a href={resolve(items[active].bookHref)} className="h01rooms-book">Rezervujte</a>
+                <a href={href(room.moreHref)} className="h01rooms-more">
+                  <GenericEditableText sectionId={sectionId} field="moreLabel" value={moreLabel} tag="span" />
+                </a>
+                <a href={href(room.bookHref)} className="h01rooms-book">
+                  <GenericEditableText sectionId={sectionId} field="bookLabel" value={bookLabel} tag="span" />
+                  <span className="arrow" aria-hidden="true">→</span>
+                </a>
               </div>
             </div>
           </div>
         )}
 
-        {/* Dots */}
         {items.length > 1 && (
-          <div className="h01rooms-dots">
-            {items.map((_, i) => (
-              <button
-                key={i}
-                className={`h01rooms-dot${i === active ? " active" : ""}`}
-                onClick={() => setActive(i)}
-                aria-label={`Pokoj ${i + 1}`}
-              />
-            ))}
+          <div className="h01rooms-nav">
+            <button
+              className="h01rooms-arrow"
+              onClick={() => setActive((active - 1 + items.length) % items.length)}
+              aria-label="Předchozí pokoj"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <div className="h01rooms-counter">
+              <span className="h01rooms-counter-cur">{idx2(active)}</span>
+              <span className="h01rooms-counter-line" />
+              <span className="h01rooms-counter-tot">{idx2(items.length - 1)}</span>
+            </div>
+            <button
+              className="h01rooms-arrow"
+              onClick={() => setActive((active + 1) % items.length)}
+              aria-label="Další pokoj"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
           </div>
         )}
       </section>
@@ -10907,10 +11193,14 @@ function PricingMalir02({ content, sectionId }: { content: Record<string, unknow
 // ── hotel-02-rooms ────────────────────────────────────────────────────────────
 function ServicesHotel02Rooms({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const c        = (content ?? {}) as Record<string, any>;
+  const showHeader = c.showHeader !== false;
   const eyebrow  = c.eyebrow  ?? "Ubytování";
-  const title    = c.title    ?? "Pokoje pro každou příležitost";
-  const subtitle = c.subtitle ?? "";
-  const items: { name: string; description: string; image: string; moreHref: string; bookHref: string }[] = Array.isArray(c.items) ? c.items : [];
+  const title    = c.title    ?? "Pohodlí, které ocení každý host";
+  const subtitle = c.subtitle ?? "Od útulných dvoulůžkových pokojů až po luxusní apartmány — všechny prostory jsou zařízeny s důrazem na klid, eleganci a váš komfort.";
+  const roomLabel = c.roomLabel ?? "Pokoj";
+  const moreLabel = c.moreLabel ?? "Více informací";
+  const bookLabel = c.bookLabel ?? "Rezervovat";
+  const items: { name: string; description: string; image: string; moreHref: string; bookHref: string; features?: string[]; area?: string; capacity?: string }[] = Array.isArray(c.items) ? c.items : [];
 
   const resolve = (href: string) => (isAdmin ? "#" : href ?? "#");
 
@@ -10918,138 +11208,282 @@ function ServicesHotel02Rooms({ content, sectionId, isAdmin }: { content: Record
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;500;600&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" />
       <style>{`        .h02rooms {
+          position: relative;
           background: #fff;
-          padding: clamp(70px,9vw,110px) 0;
+          padding: clamp(80px,10vw,130px) 0;
           font-family: 'Montserrat', sans-serif;
         }
         .h02rooms-header {
-          max-width: 1200px; margin: 0 auto clamp(52px,7vw,80px);
+          max-width: 1240px; margin: 0 auto clamp(64px,7vw,90px);
           padding: 0 clamp(20px,5vw,80px); text-align: center;
         }
         .h02rooms-eyebrow {
-          font-size: 10px; font-weight: 500; letter-spacing: 0.28em;
-          text-transform: uppercase; color: #96A1AC; margin: 0 0 16px; display: block;
+          display: inline-flex; align-items: center; gap: 16px;
+          font-size: 10px; font-weight: 600; letter-spacing: 0.32em;
+          text-transform: uppercase; color: #5B7A8E; margin: 0 0 20px;
+        }
+        .h02rooms-eyebrow::before,
+        .h02rooms-eyebrow::after {
+          content: ""; width: 34px; height: 1px; background: #5B7A8E;
         }
         .h02rooms-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(28px,3.2vw,44px); font-weight: 300;
-          color: #1a2332; line-height: 1.2; margin: 0 0 16px;
+          font-size: clamp(30px,3.4vw,50px); font-weight: 400; font-style: italic;
+          color: #1a2332; line-height: 1.12; letter-spacing: -0.005em;
+          margin: 0 0 20px;
         }
         .h02rooms-subtitle {
-          font-size: 14px; color: #6b7280; font-weight: 300;
-          max-width: 640px; margin: 0 auto; line-height: 1.8;
+          font-size: 15px; color: #6b7280; font-weight: 400;
+          max-width: 660px; margin: 0 auto; line-height: 1.8;
         }
         .h02rooms-list {
-          max-width: 1200px; margin: 0 auto;
-          display: flex; flex-direction: column; gap: clamp(56px,8vw,100px);
+          max-width: 1240px; margin: 0 auto;
+          display: flex; flex-direction: column; gap: clamp(64px,8vw,110px);
           padding: 0 clamp(20px,5vw,80px);
         }
         .h02rooms-row {
+          position: relative;
           display: grid; grid-template-columns: 3fr 2fr;
-          align-items: center; gap: 0;
-          box-shadow: 0 2px 24px rgba(26,35,50,0.06);
+          align-items: stretch; gap: 0;
         }
         .h02rooms-row.reverse { grid-template-columns: 2fr 3fr; }
         .h02rooms-row.reverse .h02rooms-img-col { order: 2; }
         .h02rooms-row.reverse .h02rooms-text-col { order: 1; }
-        .h02rooms-img-col { overflow: hidden; aspect-ratio: 3/2; }
+
+        /* Big serif number watermark behind text col */
+        .h02rooms-numbg {
+          position: absolute; z-index: 0; pointer-events: none;
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-style: italic; font-weight: 500;
+          font-size: clamp(120px, 18vw, 240px); line-height: 1;
+          color: rgba(150,161,172,0.10);
+          top: -30px; user-select: none;
+        }
+        .h02rooms-row:not(.reverse) .h02rooms-numbg { right: 8px; }
+        .h02rooms-row.reverse .h02rooms-numbg { left: 8px; }
+
+        .h02rooms-img-col {
+          position: relative; overflow: hidden; aspect-ratio: 5/4;
+          box-shadow: 0 24px 60px -30px rgba(15,22,34,0.35);
+        }
+        .h02rooms-img-col::before,
+        .h02rooms-img-col::after {
+          content: ""; position: absolute; z-index: 3;
+          width: 30px; height: 30px;
+          border-color: rgba(255,255,255,0.95); border-style: solid; border-width: 0;
+          opacity: 0; transition: opacity 0.5s cubic-bezier(.22,.68,0,1) 0.1s, width 0.5s cubic-bezier(.22,.68,0,1), height 0.5s cubic-bezier(.22,.68,0,1);
+        }
+        .h02rooms-img-col::before {
+          top: 18px; left: 18px; border-top-width: 1px; border-left-width: 1px;
+        }
+        .h02rooms-img-col::after {
+          bottom: 18px; right: 18px; border-bottom-width: 1px; border-right-width: 1px;
+        }
+        .h02rooms-img-col:hover::before,
+        .h02rooms-img-col:hover::after { opacity: 1; width: 44px; height: 44px; }
         .h02rooms-img {
           width: 100%; height: 100%; object-fit: cover; display: block;
-          transition: transform 0.65s ease;
+          transition: transform 0.9s cubic-bezier(.4,0,.2,1);
         }
-        .h02rooms-img-col:hover .h02rooms-img { transform: scale(1.04); }
+        .h02rooms-img-col:hover .h02rooms-img { transform: scale(1.06); }
+
+        /* Room chip meta over image (bottom-left) */
+        .h02rooms-meta {
+          position: absolute; z-index: 4; left: 22px; bottom: 22px;
+          display: inline-flex; gap: 10px;
+        }
+        .h02rooms-chip {
+          display: inline-flex; align-items: center; gap: 8px;
+          padding: 10px 16px;
+          background: rgba(15,22,34,0.72);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          color: #fff;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+          border: 1px solid rgba(255,255,255,0.15);
+        }
+        .h02rooms-chip svg { width: 12px; height: 12px; opacity: 0.85; }
+
         .h02rooms-text-col {
-          padding: clamp(52px,6vw,96px) clamp(28px,4vw,72px);
+          position: relative; z-index: 1;
+          padding: clamp(48px,6vw,88px) clamp(28px,4vw,72px);
+          display: flex; flex-direction: column; justify-content: center;
+          background: #fff;
+        }
+        .h02rooms-row:nth-child(even) .h02rooms-text-col {
+          background: #f7f8f9;
         }
         .h02rooms-room-num {
-          font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: 11px; font-weight: 400; letter-spacing: 0.3em;
-          color: #96A1AC; text-transform: uppercase; display: block; margin: 0 0 12px;
+          display: inline-flex; align-items: center; gap: 12px;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 10px; font-weight: 600; letter-spacing: 0.3em;
+          color: #5B7A8E; text-transform: uppercase; margin: 0 0 18px;
+        }
+        .h02rooms-room-num::before {
+          content: ""; width: 28px; height: 1px; background: #5B7A8E;
         }
         .h02rooms-room-name {
           font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(22px,2.4vw,34px); font-weight: 300;
-          color: #1a2332; line-height: 1.2; margin: 0 0 20px;
+          font-size: clamp(24px,2.6vw,38px); font-weight: 500; font-style: italic;
+          color: #1a2332; line-height: 1.18; letter-spacing: -0.005em;
+          margin: 0 0 22px;
         }
         .h02rooms-rule {
-          width: 36px; height: 1.5px; background: #96A1AC;
-          margin: 0 0 20px; border: none;
+          width: 44px; height: 1px; background: #96A1AC;
+          margin: 0 0 24px; border: none;
         }
         .h02rooms-room-desc {
-          font-size: 14px; line-height: 1.85; color: #6b7280;
-          font-weight: 300; margin: 0 0 32px;
+          font-size: 14.5px; line-height: 1.85; color: #4b5563;
+          font-weight: 400; margin: 0 0 26px;
         }
-        .h02rooms-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+        .h02rooms-feats {
+          list-style: none; padding: 0; margin: 0 0 32px;
+          display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 20px;
+        }
+        .h02rooms-feats li {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 12px; color: #4b5563; font-weight: 500;
+          display: inline-flex; align-items: center; gap: 10px;
+          padding-bottom: 8px; border-bottom: 1px solid rgba(150,161,172,0.20);
+        }
+        .h02rooms-feats li::before {
+          content: ""; width: 5px; height: 5px; background: #96A1AC; border-radius: 999px;
+          flex-shrink: 0;
+        }
+        .h02rooms-ctas { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
         .h02rooms-more {
-          display: inline-flex; align-items: center;
-          border: 1.5px solid #96A1AC; color: #96A1AC; background: transparent;
-          font-family: 'Montserrat', sans-serif;
-          font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-          padding: 11px 24px; text-decoration: none; transition: background 0.2s, color 0.2s;
-        }
-        .h02rooms-more:hover { background: #96A1AC; color: #fff; }
-        .h02rooms-book {
+          position: relative;
           display: inline-flex; align-items: center; gap: 8px;
-          background: #1a2332; color: #fff; border: 1.5px solid #1a2332;
+          color: #1a2332; background: transparent; border: none;
           font-family: 'Montserrat', sans-serif;
-          font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-          padding: 11px 24px; text-decoration: none; transition: background 0.2s;
+          font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+          padding: 12px 0; text-decoration: none;
         }
-        .h02rooms-book:hover { background: #2d3f57; border-color: #2d3f57; }
-        @media (max-width: 860px) {
+        .h02rooms-more::after {
+          content: ""; position: absolute; left: 0; right: 0; bottom: 8px;
+          height: 1px; background: currentColor; transform-origin: right;
+          transition: transform 0.4s cubic-bezier(.22,.68,0,1);
+        }
+        .h02rooms-more:hover::after { transform-origin: left; transform: scaleX(1.15); }
+        .h02rooms-more-arrow { transition: transform 0.4s cubic-bezier(.22,.68,0,1); }
+        .h02rooms-more:hover .h02rooms-more-arrow { transform: translateX(3px); }
+
+        .h02rooms-book {
+          position: relative; overflow: hidden; isolation: isolate;
+          display: inline-flex; align-items: center; gap: 10px;
+          background: #1a2332; color: #fff; border: 1px solid #1a2332;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+          padding: 14px 28px; text-decoration: none;
+          transition: border-color 0.35s;
+        }
+        .h02rooms-book::before {
+          content: ""; position: absolute; inset: 0; z-index: -1;
+          background: #5B7A8E; transform: translateY(101%);
+          transition: transform 0.5s cubic-bezier(.22,.68,0,1);
+        }
+        .h02rooms-book:hover::before { transform: translateY(0); }
+        .h02rooms-book:hover { border-color: #5B7A8E; }
+        .h02rooms-book-arrow { transition: transform 0.4s cubic-bezier(.22,.68,0,1); }
+        .h02rooms-book:hover .h02rooms-book-arrow { transform: translate(3px,-3px); }
+
+        @media (max-width: 900px) {
           .h02rooms-row,
           .h02rooms-row.reverse { grid-template-columns: 1fr; }
           .h02rooms-row.reverse .h02rooms-img-col { order: 0; }
           .h02rooms-row.reverse .h02rooms-text-col { order: 0; }
-          .h02rooms-img-col { aspect-ratio: 16/9; }
+          .h02rooms-img-col { aspect-ratio: 16/10; }
           .h02rooms-list { padding: 0 20px; }
+          .h02rooms-numbg { display: none; }
+          .h02rooms-text-col { padding: 40px 24px 20px; }
+        }
+        @media (max-width: 480px) {
+          .h02rooms-feats { grid-template-columns: 1fr; }
         }
       `}</style>
 
       <section className="h02rooms" id="ubytovani" data-template="hotel-02-rooms">
-        <div className="h02rooms-header">
-          <span className="h02rooms-eyebrow">
-            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-          </span>
-          <h2 className="h02rooms-title">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          {subtitle && (
-            <p className="h02rooms-subtitle">
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </p>
-          )}
-        </div>
+        {showHeader && (
+          <div className="h02rooms-header">
+            <span className="h02rooms-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </span>
+            <h2 className="h02rooms-title">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            {subtitle && (
+              <p className="h02rooms-subtitle">
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
 
         <div className="h02rooms-list">
-          {items.map((item, i) => (
-            <div key={i} className={`h02rooms-row${i % 2 === 1 ? " reverse" : ""}`}>
-              <div className="h02rooms-img-col">
-                <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image || "/placeholder.jpg"} alt={item.name} style={{ width: "100%", height: "100%" }}>
-                  <img src={item.image || "/placeholder.jpg"} alt={item.name} className="h02rooms-img" loading="lazy" />
-                </GenericEditableImage>
-              </div>
-              <div className="h02rooms-text-col">
-                <span className="h02rooms-room-num">Pokoj {String(i + 1).padStart(2, "0")}</span>
-                <h3 className="h02rooms-room-name">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
-                </h3>
-                <hr className="h02rooms-rule" />
-                <p className="h02rooms-room-desc">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
-                </p>
-                <div className="h02rooms-ctas">
-                  <a href={resolve(item.moreHref)} className="h02rooms-more">Více informací</a>
-                  <a href={resolve(item.bookHref)} className="h02rooms-book">
-                    Rezervovat
-                    <svg width="14" height="9" viewBox="0 0 14 9" fill="none"><path d="M1 4.5h12M9 1l4 3.5L9 8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  </a>
+          {items.map((item, i) => {
+            const feats = Array.isArray(item.features) ? item.features : [];
+            return (
+              <div key={i} className={`h02rooms-row${i % 2 === 1 ? " reverse" : ""}`}>
+                <span className="h02rooms-numbg" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                <div className="h02rooms-img-col">
+                  <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image || "/placeholder.jpg"} alt={item.name} style={{ width: "100%", height: "100%" }}>
+                    <img src={item.image || "/placeholder.jpg"} alt={item.name} className="h02rooms-img" loading="lazy" />
+                  </GenericEditableImage>
+                  {(item.area || item.capacity) && (
+                    <div className="h02rooms-meta">
+                      {item.area && (
+                        <span className="h02rooms-chip">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 4h16v16H4z M4 12h16 M12 4v16"/></svg>
+                          <GenericEditableText sectionId={sectionId} field={`items.${i}.area`} value={item.area} tag="span" />
+                        </span>
+                      )}
+                      {item.capacity && (
+                        <span className="h02rooms-chip">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20c0-3 2.7-5 6-5s6 2 6 5M14 20c0-2 1.6-3.5 3.5-3.5S21 18 21 20"/></svg>
+                          <GenericEditableText sectionId={sectionId} field={`items.${i}.capacity`} value={item.capacity} tag="span" />
+                        </span>
+                      )}
+                    </div>
+                  )}
+                </div>
+                <div className="h02rooms-text-col">
+                  <span className="h02rooms-room-num">
+                    <GenericEditableText sectionId={sectionId} field="roomLabel" value={roomLabel} tag="span" />
+                    &nbsp;{String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="h02rooms-room-name">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
+                  </h3>
+                  <hr className="h02rooms-rule" />
+                  <p className="h02rooms-room-desc">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
+                  </p>
+                  {feats.length > 0 && (
+                    <ul className="h02rooms-feats">
+                      {feats.map((f, j) => (
+                        <li key={j}>
+                          <GenericEditableText sectionId={sectionId} field={`items.${i}.features.${j}`} value={f} tag="span" />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <div className="h02rooms-ctas">
+                    <a href={resolve(item.moreHref)} className="h02rooms-more">
+                      <GenericEditableText sectionId={sectionId} field="moreLabel" value={moreLabel} tag="span" />
+                      <svg className="h02rooms-more-arrow" width="14" height="9" viewBox="0 0 14 9" fill="none"><path d="M1 4.5h12M9 1l4 3.5L9 8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </a>
+                    <a href={resolve(item.bookHref)} className="h02rooms-book">
+                      <GenericEditableText sectionId={sectionId} field="bookLabel" value={bookLabel} tag="span" />
+                      <svg className="h02rooms-book-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
     </>

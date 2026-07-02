@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import dynamic from "next/dynamic";
 import type { ModalTemplate } from "./onboarding/OnboardingModal";
+import type { PlatformLocale } from "@/lib/platform-i18n";
 
 const OnboardingModal = dynamic(
   () => import("./onboarding/OnboardingModal").then((m) => ({ default: m.OnboardingModal })),
@@ -342,19 +343,24 @@ interface TemplateItem {
 }
 
 const TEMPLATE_LIST: TemplateItem[] = [
-  { key: "barber-03",  name: "barber — 03",  industry: "Barbershop",     category: "Krása",   src: "/templates/barber-03/showcase/desktop-full.webp" },
-  { key: "peak-cut",   name: "peak — cut",   industry: "Barbershop",     category: "Krása",   src: "/templates/peak-cut/showcase/desktop-full.webp" },
-  { key: "barber-04",  name: "barber — 04",  industry: "Barbershop",     category: "Krása",   src: "/templates/barber-04/showcase/desktop-full.webp" },
-  { key: "arch-01",    name: "arch — 01",    industry: "Architektura",   category: "Design",  src: "/templates/arch-01/hero-1.webp" },
-  { key: "clinic-02",  name: "clinic — 02",  industry: "Beauty klinika", category: "Krása",   src: "/templates/clinic-02/hero-bg.webp" },
-  { key: "dental-01",  name: "dental — 01",  industry: "Stomatologie",   category: "Zdraví",  src: "/templates/dental-01/hero-bg.webp" },
-  { key: "reality-01", name: "reality — 01", industry: "Reality",        category: "Reality", src: "/templates/reality-01/hero-bg.webp" },
-  { key: "solar-03",   name: "solar — 03",   industry: "Fotovoltaika",   category: "Řemeslo", src: "/templates/solar-03/hero.webp" },
-  { key: "malir-02",   name: "malir — 02",   industry: "Řemeslo",        category: "Řemeslo", src: "/templates/malir-02/hero-1.webp" },
-  { key: "barber-01",  name: "barber — 01",  industry: "Barbershop",     category: "Krása",   src: "/templates/barber-01/preview.webp" },
-  { key: "tattoo-01",  name: "tattoo — 01",  industry: "Tetování",       category: "Krása",   src: "/templates/tattoo-01/hero-art.webp" },
-  { key: "nails-03",   name: "nails — 03",   industry: "Nehtové studio", category: "Krása",   src: "/templates/nails-03/hero-bg.webp" },
-  { key: "ortho-02",   name: "ortho — 02",   industry: "Ortodoncie",     category: "Zdraví",  src: "/templates/ortho-02/hero-bg.webp" },
+  { key: "barber-03",  name: "barber — 03",  industry: "Barbershop",     category: "Barbershop",     src: "/templates/barber-03/showcase/desktop-full.webp" },
+  { key: "tattoo-01",  name: "tattoo — 01",  industry: "Tetování",       category: "Tetování",       src: "/templates/tattoo-01/hero-art.webp" },
+  { key: "nails-03",   name: "nails — 03",   industry: "Nehtové studio", category: "Nehtové studio", src: "/templates/nails-03/about-portrait.webp" },
+  { key: "reality-01", name: "reality — 01", industry: "Reality",        category: "Reality",        src: "/templates/reality-01/hero-bg.webp" },
+  { key: "dental-01",  name: "dental — 01",  industry: "Stomatologie",   category: "Stomatologie",   src: "/templates/dental-01/hero-bg.webp" },
+  { key: "peak-cut",   name: "peak — cut",   industry: "Barbershop",     category: "Barbershop",     src: "/templates/peak-cut/showcase/desktop-full.webp" },
+  { key: "tattoo-02",  name: "tattoo — 02",  industry: "Tetování",       category: "Tetování",       src: "/templates/tattoo-02/hero-bg.jpg" },
+  { key: "nails-02",   name: "nails — 02",   industry: "Nehtové studio", category: "Nehtové studio", src: "/templates/nails-02/gallery/gallery-1.webp" },
+  { key: "reality-02", name: "reality — 02", industry: "Reality",        category: "Reality",        src: "/templates/reality-02/hero.jpg" },
+  { key: "ortho-02",   name: "ortho — 02",   industry: "Stomatologie",   category: "Stomatologie",   src: "/templates/ortho-02/hero-bg.webp" },
+  { key: "barber-04",  name: "barber — 04",  industry: "Barbershop",     category: "Barbershop",     src: "/templates/barber-04/showcase/desktop-full.webp" },
+  { key: "solar-03",   name: "solar — 03",   industry: "Fotovoltaika",   category: "Fotovoltaika",   src: "/templates/solar-03/hero.webp" },
+  { key: "ananda-01",  name: "ananda — 01",  industry: "Wellness",       category: "Wellness",       src: "/templates/ananda-01/service-2.jpg" },
+  { key: "tattoo-03",  name: "tattoo — 03",  industry: "Tetování",       category: "Tetování",       src: "/templates/tattoo-03/gallery-7.jpg" },
+  { key: "barber-01",  name: "barber — 01",  industry: "Barbershop",     category: "Barbershop",     src: "/templates/barber-01/preview.webp" },
+  { key: "massage-01", name: "massage — 01", industry: "Wellness",       category: "Wellness",       src: "/templates/massage-01/gallery-1.webp" },
+  { key: "arch-01",    name: "arch — 01",    industry: "Architektura",   category: "Architektura",   src: "/templates/arch-01/hero-1.webp" },
+  { key: "ucetni-04",  name: "ucetni — 04",  industry: "Účetnictví",     category: "Účetnictví",     src: "/templates/ucetni-04/about.webp" },
 ];
 
 /* Lazy-loads CSS background-image only when the element enters the viewport. */
@@ -397,17 +403,30 @@ function LazyBgDiv({
   );
 }
 
-function TemplatesGallery({ onOpen }: { onOpen: (tpl?: { key: string; name: string }) => void }) {
+function TemplatesGallery({ onOpen, locale = "cs" }: { onOpen: (tpl?: { key: string; name: string }) => void; locale?: PlatformLocale }) {
   const router = useRouter();
+  const allLabel = locale === "en" ? "All" : "Vše";
+  const categoryLabels: Record<string, string> = locale === "en"
+    ? {
+        "Barbershop": "Barbershop",
+        "Tetování": "Tattoo",
+        "Nehtové studio": "Nail studio",
+        "Reality": "Real estate",
+        "Stomatologie": "Dental",
+        "Wellness": "Wellness",
+        "Fotovoltaika": "Solar",
+        "Architektura": "Architecture",
+        "Účetnictví": "Accounting",
+      }
+    : {};
+  const industryLabel = (value: string) => categoryLabels[value] ?? value;
   const [category, setCategory] = useState<string>("Vše");
 
+  const catOrder = ["Barbershop", "Tetování", "Nehtové studio", "Reality", "Stomatologie", "Wellness", "Fotovoltaika", "Architektura", "Účetnictví"];
+  const catCounts = TEMPLATE_LIST.reduce<Record<string, number>>((acc, t) => { acc[t.category] = (acc[t.category] ?? 0) + 1; return acc; }, {});
   const categories = [
-    { label: "Vše",      count: TEMPLATE_LIST.length },
-    { label: "Krása",    count: TEMPLATE_LIST.filter(t => t.category === "Krása").length },
-    { label: "Zdraví",   count: TEMPLATE_LIST.filter(t => t.category === "Zdraví").length },
-    { label: "Řemeslo",  count: TEMPLATE_LIST.filter(t => t.category === "Řemeslo").length },
-    { label: "Reality",  count: TEMPLATE_LIST.filter(t => t.category === "Reality").length },
-    { label: "Design",   count: TEMPLATE_LIST.filter(t => t.category === "Design").length },
+    { label: "Vše", displayLabel: allLabel, count: TEMPLATE_LIST.length },
+    ...catOrder.filter(c => catCounts[c]).map(c => ({ label: c, displayLabel: industryLabel(c), count: catCounts[c] })),
   ];
 
   const filtered = category === "Vše"
@@ -430,7 +449,7 @@ function TemplatesGallery({ onOpen }: { onOpen: (tpl?: { key: string; name: stri
                   : "inline-flex items-center gap-2 rounded-full border border-[#e5e5e5] bg-white px-5 py-2 text-[13px] font-medium text-[#374151] transition hover:border-[#0a0a0a] hover:text-[#0a0a0a]"
               }
             >
-              {c.label}
+              {c.displayLabel}
               <span
                 className={
                   active
@@ -445,14 +464,14 @@ function TemplatesGallery({ onOpen }: { onOpen: (tpl?: { key: string; name: stri
         })}
       </Reveal>
 
-      {/* Cards grid */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+      {/* Cards grid — horizontal scroll on mobile, grid on sm+ */}
+      <div className="flex gap-5 overflow-x-auto pb-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden snap-x snap-mandatory -mx-6 px-6 sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:snap-none lg:grid-cols-3 lg:gap-6">
         {filtered.map((t, i) => (
           <Reveal
             key={t.key}
             as="article"
             delay={i * 0.04}
-            className="group cursor-pointer"
+            className="group cursor-pointer snap-start shrink-0 w-[78vw] sm:w-auto"
           >
             <div onClick={() => router.push(`/ukazka-sablon/${t.key}`)}>
               {/* Image with scroll-on-hover */}
@@ -474,13 +493,13 @@ function TemplatesGallery({ onOpen }: { onOpen: (tpl?: { key: string; name: stri
                       onClick={(e) => { e.stopPropagation(); router.push(`/ukazka-sablon/${t.key}`); }}
                       className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-[12.5px] font-semibold text-white backdrop-blur-md transition hover:bg-white/20 sm:px-5"
                     >
-                      Zobrazit náhled
+                      {locale === "en" ? "View preview" : "Zobrazit náhled"}
                     </button>
                     <button
                       onClick={(e) => { e.stopPropagation(); onOpen({ key: t.key, name: t.name }); }}
                       className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[12.5px] font-semibold text-[#0a0a0a] shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5)] transition hover:bg-white/95 sm:px-5"
                     >
-                      Začít zdarma
+                      {locale === "en" ? "Start free" : "Začít zdarma"}
                       <ArrowRight size={13} />
                     </button>
                   </div>
@@ -489,7 +508,7 @@ function TemplatesGallery({ onOpen }: { onOpen: (tpl?: { key: string; name: stri
               {/* Caption — name first, then industry */}
               <div className="mt-5">
                 <div className="text-[17px] font-bold tracking-[-0.01em] text-[#0a0a0a]">{t.name}</div>
-                <div className="mt-1 text-[13.5px] text-[#6b7280]">{t.industry}</div>
+                <div className="mt-1 text-[13.5px] text-[#6b7280]">{industryLabel(t.industry)}</div>
               </div>
             </div>
           </Reveal>
@@ -499,12 +518,16 @@ function TemplatesGallery({ onOpen }: { onOpen: (tpl?: { key: string; name: stri
       {/* Empty state */}
       {filtered.length === 0 && (
         <div className="mt-10 rounded-2xl border border-dashed border-[#e5e5e5] bg-[#fafafa] py-16 text-center">
-          <p className="text-[14.5px] text-[#666]">Pro kategorii „{category}" zatím nemáme šablonu, ale pracujeme na tom.</p>
+          <p className="text-[14.5px] text-[#666]">
+            {locale === "en"
+              ? `We do not have a template for "${industryLabel(category)}" yet, but we are working on it.`
+              : `Pro kategorii „${category}" zatím nemáme šablonu, ale pracujeme na tom.`}
+          </p>
           <button
             onClick={() => setCategory("Vše")}
             className="mt-4 text-[13px] font-semibold text-[#6366f1] hover:underline"
           >
-            Zobrazit všechny šablony →
+            {locale === "en" ? "Show all templates →" : "Zobrazit všechny šablony →"}
           </button>
         </div>
       )}
@@ -513,7 +536,7 @@ function TemplatesGallery({ onOpen }: { onOpen: (tpl?: { key: string; name: stri
 }
 
 /* ── Sticky CTA bar that fades in after hero ────────────────────────────── */
-function StickyCTA({ onOpen }: { onOpen: () => void }) {
+function StickyCTA({ onOpen, locale = "cs" }: { onOpen: () => void; locale?: PlatformLocale }) {
   const [show, setShow] = useState(false);
   useEffect(() => {
     function onScroll() {
@@ -535,21 +558,21 @@ function StickyCTA({ onOpen }: { onOpen: () => void }) {
       <div className="mx-auto max-w-[1280px] px-4 pb-3 lg:px-8 lg:pb-4">
         <div className="flex items-center justify-between gap-3 rounded-2xl border border-[#1a1a1a] bg-[#0a0a0a]/95 px-5 py-3 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.50)] backdrop-blur md:px-7">
           <div className="hidden text-white md:block">
-            <div className="text-[14.5px] font-semibold">Profesionální web za 5 minut</div>
-            <div className="text-[12.5px] text-white/60">Bez kreditní karty · Zrušíte kdykoli</div>
+            <div className="text-[14.5px] font-semibold">{locale === "en" ? "A professional website in 5 minutes" : "Profesionální web za 5 minut"}</div>
+            <div className="text-[12.5px] text-white/60">{locale === "en" ? "No credit card · Cancel anytime" : "Bez kreditní karty · Zrušíte kdykoli"}</div>
           </div>
           <div className="flex flex-1 items-center gap-2 md:flex-initial md:gap-3">
             <button
               onClick={onOpen}
               className="flex-1 rounded-full bg-[#22c55e] px-5 py-2.5 text-[14px] font-semibold text-white transition hover:bg-[#16a34a] md:flex-initial md:px-7"
             >
-              Vyzkoušet zdarma
+              {locale === "en" ? "Try for free" : "Vyzkoušet zdarma"}
             </button>
             <a
               href="#sablony"
               className="hidden rounded-full border border-white/20 px-5 py-2.5 text-[14px] font-semibold text-white transition hover:border-white/50 sm:inline-block md:inline-block"
             >
-              Šablony
+              {locale === "en" ? "Templates" : "Šablony"}
             </a>
           </div>
         </div>
@@ -559,10 +582,51 @@ function StickyCTA({ onOpen }: { onOpen: () => void }) {
 }
 
 /* ── FAQ accordion ──────────────────────────────────────────────────────── */
-function FAQSection() {
+function FAQSection({ locale = "cs" }: { locale?: PlatformLocale }) {
   const [open, setOpen] = useState<number | null>(0);
 
-  const faqs = [
+  const faqs = locale === "en" ? [
+    {
+      q: "How does the 14-day trial work?",
+      a: "You create a demo without a credit card. For 14 days you can test it, edit it, and show it to clients. If it is not right for you, you pay nothing. If it is, click Activate and add your billing details.",
+    },
+    {
+      q: "Can I cancel anytime?",
+      a: "Yes, with one click in the admin. No notice periods and no penalties. If you cancel mid-month, you only pay for the remaining days and nothing more next month.",
+    },
+    {
+      q: "Is Webero really no-code?",
+      a: "Yes, completely. Click text or an image directly on the page, edit it, and the system saves the change. No code, no backend, no HTML templates to touch.",
+    },
+    {
+      q: "Can I connect my own domain?",
+      a: "Of course. Add your domain in the admin, we will show you how to point DNS at your registrar, and the SSL certificate is handled automatically.",
+    },
+    {
+      q: "How fast is the hosting?",
+      a: "Your website runs on EU infrastructure with CDN coverage across Europe. The average PageSpeed score is 99/100 and pages load in about 1.2 seconds.",
+    },
+    {
+      q: "What if I stop liking my template?",
+      a: "You can switch templates anytime. Your content, photos, and contact details move over; only the design changes. No lost data.",
+    },
+    {
+      q: "Will you help me set it up?",
+      a: "Yes. We provide support by email and phone on business days. When your site is created, we can walk you through the demo, show you how editing works, and help connect your domain.",
+    },
+    {
+      q: "What is Rezora and who needs it?",
+      a: "Rezora is our booking system: team calendar, online payments, and SMS notifications. It suits services, salons, clinics, and wellness businesses. It costs 200 CZK/month on top of the base plan and is optional.",
+    },
+  ] : [
+    {
+      q: "Jak funguje 14denní zkušební doba?",
+      a: "Vytvoříš si demo bez kreditní karty. Můžeš ho 14 dní zkoušet, upravovat, ukazovat klientům. Pokud ti to nesedne, prostě nic neplatíš. Pokud ano, klikneš na 'Aktivovat' a doplníš platební údaje.",
+    },
+    {
+      q: "Mohu kdykoli zrušit?",
+      a: "Ano, kdykoliv jedním klikem v administraci. Žádné výpovědní lhůty, žádné penále. Pokud zrušíš v polovině měsíce, doplatíš pouze zbylé dny a další měsíc už nic.",
+    },
     {
       q: "Je Webero opravdu bez programování?",
       a: "Ano, kompletně. Klikneš na text nebo obrázek přímo ve stránce, upravíš ho, a systém změnu uloží. Žádný kód, žádný backend, žádné šablony k editaci v HTML.",
@@ -572,28 +636,20 @@ function FAQSection() {
       a: "Samozřejmě. V administraci stačí přidat doménu (např. mojefirma.cz), my ti řekneme jak nasměrovat DNS u tvého registrátora a SSL certifikát vyřídíme automaticky.",
     },
     {
-      q: "Co když se mi šablona přestane líbit?",
-      a: "Šablonu můžeš změnit kdykoliv. Tvůj obsah (texty, fotky, kontakt) se přenese, jen se obalí novým designem. Žádné ztracené data.",
-    },
-    {
-      q: "Jak funguje 14denní zkušební doba?",
-      a: "Vytvoříš si demo bez kreditní karty. Můžeš ho 14 dní zkoušet, upravovat, ukazovat klientům. Pokud ti to nesedne, prostě nic neplatíš. Pokud ano, klikneš na 'Aktivovat' a doplníš platební údaje.",
-    },
-    {
-      q: "Co je Rezora a kdo ji potřebuje?",
-      a: "Rezora je náš rezervační systém — kalendář pro tým, online platby, SMS notifikace. Hodí se pro služby, salóny, kliniky, wellness. Stojí 200 Kč/měs navíc k základnímu plánu. Není povinná.",
-    },
-    {
-      q: "Mohu kdykoli zrušit?",
-      a: "Ano, kdykoliv jedním klikem v administraci. Žádné výpovědní lhůty, žádné penále. Pokud zrušíš v polovině měsíce, doplatíš pouze zbylé dny a další měsíc už nic.",
-    },
-    {
       q: "Jak rychlý je hosting?",
       a: "Tvůj web běží na infrastruktuře v EU (Praha + Frankfurt) s CDN po celé Evropě. PageSpeed score je v průměru 99/100 a stránka se načte do 1.2 sekundy.",
     },
     {
+      q: "Co když se mi šablona přestane líbit?",
+      a: "Šablonu můžeš změnit kdykoliv. Tvůj obsah (texty, fotky, kontakt) se přenese, jen se obalí novým designem. Žádné ztracené data.",
+    },
+    {
       q: "Pomůžete mi s nastavením?",
       a: "Ano, máme českou podporu (e-mail i telefon, pracovní dny 9-17). Při založení webu projedeme s tebou demo, ukážeme jak měnit obsah, a pomůžeme s napojením domény.",
+    },
+    {
+      q: "Co je Rezora a kdo ji potřebuje?",
+      a: "Rezora je náš rezervační systém — kalendář pro tým, online platby, SMS notifikace. Hodí se pro služby, salóny, kliniky, wellness. Stojí 200 Kč/měs navíc k základnímu plánu. Není povinná.",
     },
   ];
 
@@ -606,13 +662,13 @@ function FAQSection() {
             className="mb-5 text-[12px] font-semibold uppercase text-[#6366f1]"
             style={{ letterSpacing: "0.16em" }}
           >
-            Časté otázky
+            {locale === "en" ? "FAQ" : "Časté otázky"}
           </p>
           <h2
             className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]"
             style={{ fontSize: "clamp(34px, 4.5vw, 56px)", lineHeight: "1.05" }}
           >
-            Něco vás zajímá?
+            {locale === "en" ? "Need to know more?" : "Něco vás zajímá?"}
           </h2>
         </div>
 
@@ -659,11 +715,11 @@ function FAQSection() {
         {/* Bottom — link to contact */}
         <Reveal delay={0.4} className="mx-auto mt-12 max-w-[820px] text-center">
           <p className="text-[14.5px] text-[#666]">
-            Nenašli jste odpověď?{" "}
+            {locale === "en" ? "Did not find the answer?" : "Nenašli jste odpověď?"}{" "}
             <a href="mailto:podpora@webero.co" className="font-semibold text-[#6366f1] hover:underline">
-              Napište nám
+              {locale === "en" ? "Email us" : "Napište nám"}
             </a>{" "}
-            nebo zavolejte{" "}
+            {locale === "en" ? "or call" : "nebo zavolejte"}{" "}
             <a href="tel:+420776123456" className="font-semibold text-[#0a0a0a] hover:underline">
               +420 776 123 456
             </a>.
@@ -675,8 +731,17 @@ function FAQSection() {
 }
 
 /* ── Minimal Apple-style pricing — one card, beautiful and simple ─────── */
-function PricingSection({ onOpen }: { onOpen: () => void }) {
-  const features = [
+function PricingSection({ onOpen, locale = "cs" }: { onOpen: () => void; locale?: PlatformLocale }) {
+  const [annual, setAnnual] = useState(false);
+
+  const features = locale === "en" ? [
+    "99+ professional templates",
+    "No-code live editor",
+    "Custom domain + SSL",
+    "EU hosting + CDN",
+    "SEO basics + sitemap",
+    "Human support",
+  ] : [
     "99+ profesionálních šablon",
     "Live editor bez kódu",
     "Vlastní doména + SSL",
@@ -685,7 +750,15 @@ function PricingSection({ onOpen }: { onOpen: () => void }) {
     "Česká podpora",
   ];
 
-  const comparisonRows = [
+  const comparisonRows = locale === "en" ? [
+    { label: "Price", webero: "500 CZK/mo", wix: "600-1,200 CZK/mo", agency: "30,000+ CZK" },
+    { label: "Launch time", webero: "5 minutes", wix: "30+ minutes", agency: "4-8 weeks" },
+    { label: "Industry templates", webero: "99+ ✓", wix: "Generic", agency: "Custom (extra)" },
+    { label: "Live editor", webero: "Click and edit", wix: "Drag & drop", agency: "None" },
+    { label: "PageSpeed 90+", webero: "✓ out of the box", wix: "Usually no", agency: "Variable" },
+    { label: "Support", webero: "✓", wix: "English docs", agency: "✓" },
+    { label: "No vendor lock-in", webero: "✓", wix: "Lock-in", agency: "✓ but costly" },
+  ] : [
     { label: "Cena",                webero: "500 Kč/měs",      wix: "600–1 200 Kč/měs",  agency: "30 000+ Kč" },
     { label: "Spuštění webu",        webero: "5 minut",         wix: "30+ minut",          agency: "4–8 týdnů" },
     { label: "Šablony pro váš obor", webero: "99+ ✓",          wix: "Univerzální",        agency: "Custom (extra)" },
@@ -703,19 +776,45 @@ function PricingSection({ onOpen }: { onOpen: () => void }) {
           className="mb-5 text-[12px] font-semibold uppercase text-[#6366f1]"
           style={{ letterSpacing: "0.18em" }}
         >
-          Ceník · Srovnání
+          {locale === "en" ? "Pricing · Comparison" : "Ceník · Srovnání"}
         </p>
         <h2
           className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]"
           style={{ fontSize: "clamp(34px, 4.5vw, 56px)", lineHeight: "1.05" }}
         >
-          Jedna cena.<br />
-          <span className="text-[#9ca3af]">Vše v ceně.</span>
+          {locale === "en" ? "One price." : "Jedna cena."}<br />
+          <span className="text-[#9ca3af]">{locale === "en" ? "Everything included." : "Vše v ceně."}</span>
         </h2>
         <p className="mx-auto mt-6 max-w-[560px] text-[16px] leading-[1.65] text-[#555]">
-          Žádné překvapení. Žádné upgrady. Žádné skryté poplatky.
-          Vedle vám ukazujeme, jak Webero stojí proti běžným alternativám.
+          {locale === "en"
+            ? "No surprises. No upgrade maze. No hidden fees. Here is how Webero compares with the usual alternatives."
+            : "Žádné překvapení. Žádné upgrady. Žádné skryté poplatky. Vedle vám ukazujeme, jak Webero stojí proti běžným alternativám."}
         </p>
+
+        {/* Billing toggle */}
+        <div className="mt-8 inline-flex items-center gap-3 rounded-full border border-[#e5e5e5] bg-white p-1 shadow-sm">
+          <button
+            onClick={() => setAnnual(false)}
+            className={`rounded-full px-5 py-2 text-[13px] font-semibold transition-all ${
+              !annual ? "bg-[#0a0a0a] text-white shadow-sm" : "text-[#555] hover:text-[#0a0a0a]"
+            }`}
+          >
+            {locale === "en" ? "Monthly" : "Měsíčně"}
+          </button>
+          <button
+            onClick={() => setAnnual(true)}
+            className={`flex items-center gap-2 rounded-full px-5 py-2 text-[13px] font-semibold transition-all ${
+              annual ? "bg-[#0a0a0a] text-white shadow-sm" : "text-[#555] hover:text-[#0a0a0a]"
+            }`}
+          >
+            {locale === "en" ? "Yearly" : "Ročně"}
+            <span className={`rounded-full px-2 py-0.5 text-[10.5px] font-bold transition-colors ${
+              annual ? "bg-[#22c55e]/20 text-[#16a34a]" : "bg-[#f0fdf4] text-[#16a34a]"
+            }`}>
+              {locale === "en" ? "-2 months free" : "−2 měsíce zdarma"}
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* Split layout — Pricing card LEFT, Comparison table RIGHT */}
@@ -753,7 +852,7 @@ function PricingSection({ onOpen }: { onOpen: () => void }) {
                   style={{ letterSpacing: "0.14em" }}
                 >
                   <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e]" />
-                  Plný plán
+                  {locale === "en" ? "Full plan" : "Plný plán"}
                 </span>
               </div>
 
@@ -763,23 +862,30 @@ function PricingSection({ onOpen }: { onOpen: () => void }) {
                   className="font-sans font-bold tracking-[-0.05em] text-white"
                   style={{ fontSize: "clamp(72px, 9vw, 120px)", lineHeight: "0.85" }}
                 >
-                  500
+                  {annual ? "417" : "500"}
                 </span>
-                <span className="text-[32px] font-semibold text-white">Kč</span>
+                <span className="text-[32px] font-semibold text-white">{locale === "en" ? "CZK" : "Kč"}</span>
               </div>
               <p className="mt-2 text-center text-[14.5px] text-white/55">
-                měsíčně · bez DPH
+                {annual
+                  ? (locale === "en" ? "per month · billed yearly (5,000 CZK) · excl. VAT" : "měsíčně · fakturováno ročně (5 000 Kč) · bez DPH")
+                  : (locale === "en" ? "per month · excl. VAT" : "měsíčně · bez DPH")}
               </p>
+              {annual && (
+                <p className="mt-1 text-center text-[12.5px] font-semibold text-[#4ade80]">
+                  {locale === "en" ? "Save 1,000 CZK per year" : "Ušetříte 1 000 Kč ročně"}
+                </p>
+              )}
 
               {/* CTA */}
               <button
                 onClick={onOpen}
                 className="mt-8 block w-full rounded-full bg-white px-6 py-3.5 text-[15px] font-semibold text-[#0a0a0a] shadow-[0_8px_40px_rgba(255,255,255,0.12)] transition hover:bg-white/92 active:scale-[0.99]"
               >
-                Vyzkoušet zdarma 14 dní
+                {locale === "en" ? "Try free for 14 days" : "Vyzkoušet zdarma 14 dní"}
               </button>
               <p className="mt-3 text-center text-[12.5px] text-white/55">
-                Bez kreditní karty · Zrušíte kdykoli
+                {locale === "en" ? "No credit card · Cancel anytime" : "Bez kreditní karty · Zrušíte kdykoli"}
               </p>
 
               {/* Hairline divider */}
@@ -801,19 +907,19 @@ function PricingSection({ onOpen }: { onOpen: () => void }) {
 
               {/* Add-on Rezora chip */}
               <div className="mt-8 flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-[13px] text-white/85">
-                <span>+ Rezora rezervace</span>
+                <span>{locale === "en" ? "+ Rezora bookings" : "+ Rezora rezervace"}</span>
                 <span className="ml-auto rounded-full bg-white/10 px-2.5 py-0.5 text-[11.5px] font-semibold text-white">
-                  +200 Kč
+                  {locale === "en" ? "+200 CZK" : "+200 Kč"}
                 </span>
               </div>
 
               {/* Trust badges */}
               <div className="mt-7 grid grid-cols-2 gap-x-3 gap-y-2.5 border-t border-white/10 pt-6 text-[12px] text-white/65">
                 {[
-                  { icon: "M12 2L4 6v6c0 4.5 3.4 8.6 8 9 4.6-.4 8-4.5 8-9V6l-8-4z M9 12l2 2 4-4", label: "SSL šifrování" },
-                  { icon: "M3 21V10l9-6 9 6v11M9 21v-7h6v7", label: "Hosting v EU" },
+                  { icon: "M12 2L4 6v6c0 4.5 3.4 8.6 8 9 4.6-.4 8-4.5 8-9V6l-8-4z M9 12l2 2 4-4", label: locale === "en" ? "SSL encryption" : "SSL šifrování" },
+                  { icon: "M3 21V10l9-6 9 6v11M9 21v-7h6v7", label: locale === "en" ? "EU hosting" : "Hosting v EU" },
                   { icon: "M12 2L4 6v6c0 4.5 3.4 8.6 8 9 4.6-.4 8-4.5 8-9V6l-8-4z", label: "GDPR compliant" },
-                  { icon: "M22 11.5a8.5 8.5 0 11-3.5-6.9M22 4l-8.5 8.5L10 9", label: "Česká podpora" },
+                  { icon: "M22 11.5a8.5 8.5 0 11-3.5-6.9M22 4l-8.5 8.5L10 9", label: locale === "en" ? "Human support" : "Česká podpora" },
                 ].map((b) => (
                   <span key={b.label} className="flex items-center gap-1.5">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="flex-shrink-0 text-[#22c55e]">
@@ -834,16 +940,16 @@ function PricingSection({ onOpen }: { onOpen: () => void }) {
               className="mb-2 text-[11.5px] font-semibold uppercase text-[#6366f1]"
               style={{ letterSpacing: "0.18em" }}
             >
-              Srovnání
+              {locale === "en" ? "Comparison" : "Srovnání"}
             </p>
             <h3
               className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]"
               style={{ fontSize: "clamp(22px, 2.4vw, 30px)", lineHeight: "1.15" }}
             >
-              Webero vs ostatní cesty.
+              {locale === "en" ? "Webero vs the other routes." : "Webero vs ostatní cesty."}
             </h3>
             <p className="mt-2 text-[14px] text-[#666]">
-              Stejné funkce. Zlomek ceny. Bez týdnů čekání.
+              {locale === "en" ? "The same essentials. A fraction of the price. No weeks of waiting." : "Stejné funkce. Zlomek ceny. Bez týdnů čekání."}
             </p>
           </div>
 
@@ -851,14 +957,14 @@ function PricingSection({ onOpen }: { onOpen: () => void }) {
             {/* Desktop header row */}
             <div className="hidden grid-cols-[1.4fr_1fr_1fr_1fr] border-b border-[#ececec] bg-gradient-to-b from-[#fafafa] to-white sm:grid">
               <div className="p-4 text-[11px] font-bold uppercase text-[#888]" style={{ letterSpacing: "0.14em" }}>
-                Co řešíte
+                {locale === "en" ? "What you need" : "Co řešíte"}
               </div>
               <div className="relative border-l border-[#ececec] p-4 text-center">
                 <div className="absolute left-1/2 top-0 h-[3px] w-[60%] -translate-x-1/2 rounded-b bg-[#6366f1]" />
                 <div className="text-[11px] font-bold uppercase text-[#6366f1]" style={{ letterSpacing: "0.14em" }}>
                   Webero
                 </div>
-                <div className="mt-1 text-[12px] font-semibold text-[#0a0a0a]">Doporučeno</div>
+                <div className="mt-1 text-[12px] font-semibold text-[#0a0a0a]">{locale === "en" ? "Recommended" : "Doporučeno"}</div>
               </div>
               <div className="border-l border-[#ececec] p-4 text-center">
                 <div className="text-[11px] font-bold uppercase text-[#888]" style={{ letterSpacing: "0.14em" }}>
@@ -868,7 +974,7 @@ function PricingSection({ onOpen }: { onOpen: () => void }) {
               </div>
               <div className="border-l border-[#ececec] p-4 text-center">
                 <div className="text-[11px] font-bold uppercase text-[#888]" style={{ letterSpacing: "0.14em" }}>
-                  Agentura
+                  {locale === "en" ? "Agency" : "Agentura"}
                 </div>
                 <div className="mt-1 text-[12px] text-[#666]">Custom</div>
               </div>
@@ -892,7 +998,7 @@ function PricingSection({ onOpen }: { onOpen: () => void }) {
                   {row.wix}
                 </div>
                 <div className="flex items-center gap-2 text-[13px] text-[#666] sm:justify-center sm:border-l sm:border-[#ececec] sm:p-4">
-                  <span className="text-[10.5px] font-bold uppercase text-[#888] sm:hidden">Agentura:</span>
+                  <span className="text-[10.5px] font-bold uppercase text-[#888] sm:hidden">{locale === "en" ? "Agency:" : "Agentura:"}</span>
                   {row.agency}
                 </div>
               </div>
@@ -900,7 +1006,9 @@ function PricingSection({ onOpen }: { onOpen: () => void }) {
           </div>
 
           <p className="mt-4 text-[12px] text-[#888]">
-            Ceny konkurence k 06/2026, převedeny do CZK. Reálné nabídky se mohou lišit.
+            {locale === "en"
+              ? "Competitor pricing as of 06/2026, converted to CZK. Actual offers may vary."
+              : "Ceny konkurence k 06/2026, převedeny do CZK. Reálné nabídky se mohou lišit."}
           </p>
         </div>
       </div>
@@ -921,105 +1029,105 @@ interface Testimonial {
 
 const TESTIMONIALS: Testimonial[] = [
   { rating: 5, quote: "Built my site over a weekend. The agency I talked to wanted $4,000 and 2 months — I got something more professional for a fraction of the price.", name: "Liam O'Connor", role: "Barbershop owner", city: "Dublin, IE", photo: "https://i.pravatar.cc/200?img=12", date: "2 weeks ago", verified: true },
-  { rating: 5, quote: "Finally something that actually works. Clients started booking through the site on their own — I just upload photos and update prices.", name: "Sofía Martín", role: "Esthetician", city: "Madrid, ES", photo: "https://i.pravatar.cc/200?img=49", date: "1 month ago", verified: true },
-  { rating: 5, quote: "I'm an accountant, never touched code in my life. Webero said click and edit — and that's exactly what it is. Site went live the same afternoon.", name: "Andreas Berger", role: "Tax advisor", city: "Vienna, AT", photo: "https://i.pravatar.cc/200?img=33", date: "3 weeks ago", verified: true },
-  { rating: 5, quote: "Switched from Wix after half a year. Load time cut in half, mobile is finally usable, SEO went from nothing to actual organic traffic.", name: "Mateusz Kowalski", role: "Carpenter", city: "Kraków, PL", photo: "https://i.pravatar.cc/200?img=68", date: "1 month ago", verified: true },
-  { rating: 4, quote: "Templates are gorgeous, editor is snappy. Only minus — some advanced bits (custom fonts) aren't there yet. Hope they ship it soon.", name: "Camille Laurent", role: "Florist", city: "Lyon, FR", photo: "https://i.pravatar.cc/200?img=47", date: "2 months ago", verified: true },
-  { rating: 5, quote: "$20 a month feels like a steal. I used to pay $200/year for hosting plus $1,200 to an agency. Now it's cheaper and better.", name: "Marco Ricci", role: "Driving school owner", city: "Milan, IT", photo: "https://i.pravatar.cc/200?img=53", date: "3 weeks ago", verified: true },
+  { rating: 5, quote: "Por fin algo que funciona de verdad. Los clientes empezaron a reservar solos a través de la web — yo solo subo fotos y actualizo los precios.", name: "Sofía Martín", role: "Esteticista", city: "Madrid, ES", photo: "https://i.pravatar.cc/200?img=49", date: "hace 1 mes", verified: true },
+  { rating: 5, quote: "Ich bin Steuerberater und habe nie Code geschrieben. Webero versprach Klicken und Bearbeiten — und genau so ist es. Die Seite war noch am selben Nachmittag live.", name: "Andreas Berger", role: "Steuerberater", city: "Vienna, AT", photo: "https://i.pravatar.cc/200?img=33", date: "vor 3 Wochen", verified: true },
+  { rating: 5, quote: "Przesiadłem się z Wix po pół roku. Czas ładowania skrócony o połowę, mobilna w końcu używalna, SEO z zera do prawdziwego ruchu organicznego.", name: "Mateusz Kowalski", role: "Stolarz", city: "Kraków, PL", photo: "https://i.pravatar.cc/200?img=68", date: "miesiąc temu", verified: true },
+  { rating: 4, quote: "Les templates sont superbes, l'éditeur est réactif. Seul bémol — les polices personnalisées manquent encore. J'espère qu'ils les sortiront bientôt.", name: "Camille Laurent", role: "Fleuriste", city: "Lyon, FR", photo: "https://i.pravatar.cc/200?img=47", date: "il y a 2 mois", verified: true },
+  { rating: 5, quote: "20 € al mese è un regalo. Prima pagavo 200 €/anno per l'hosting più 1.200 € all'agenzia. Ora costa meno e funziona meglio.", name: "Marco Ricci", role: "Autoscuola", city: "Milan, IT", photo: "https://i.pravatar.cc/200?img=53", date: "3 settimane fa", verified: true },
   { rating: 2, quote: "Rough start — couldn't connect my GoDaddy domain and waited nearly 3 days for support. Fine after they sorted it, but the launch delay was frustrating.", name: "James Whitfield", role: "Electrician", city: "Manchester, UK", photo: "https://i.pravatar.cc/200?img=15", date: "6 weeks ago" },
-  { rating: 5, quote: "Perfect for our guesthouse. Booking inquiries hit my email and phone instantly. My wife edits the site herself without ever asking me.", name: "Lukas Hoffmann", role: "Guesthouse owner", city: "Salzburg, AT", photo: "https://i.pravatar.cc/200?img=60", date: "1 month ago", verified: true },
-  { rating: 5, quote: "I was worried it would look like another cheap template site. It doesn't. Looks like a $7K agency build, honestly.", name: "Elena Popescu", role: "Cosmetologist", city: "Bucharest, RO", photo: "https://i.pravatar.cc/200?img=44", date: "2 weeks ago", verified: true },
-  { rating: 3, quote: "The vet template was nice, but I needed an adoption gallery and it wasn't there. Had to make do with a regular gallery. Works — just not what I wanted.", name: "Daniel Fischer", role: "Veterinarian", city: "Hamburg, DE", photo: "https://i.pravatar.cc/200?img=8", date: "1 month ago" },
-  { rating: 5, quote: "Launched 3 microsites for different branches. Each one a different look, all managed from one account. Saves me hours every week.", name: "Anna Janssen", role: "Marketing manager", city: "Amsterdam, NL", photo: "https://i.pravatar.cc/200?img=20", date: "3 weeks ago", verified: true },
+  { rating: 5, quote: "Perfekt für unsere Pension. Buchungsanfragen landen sofort in meiner Mail und auf dem Handy. Meine Frau pflegt die Seite selbst — fragt mich nie mehr.", name: "Lukas Hoffmann", role: "Pensionsbetreiber", city: "Salzburg, AT", photo: "https://i.pravatar.cc/200?img=60", date: "vor 1 Monat", verified: true },
+  { rating: 5, quote: "Mă temeam că va arăta ca un alt site ieftin de template. Nu arată deloc așa. Arată ca o lucrare de agenție de 7.000 $, sincer.", name: "Elena Popescu", role: "Cosmetolog", city: "Bucharest, RO", photo: "https://i.pravatar.cc/200?img=44", date: "acum 2 săptămâni", verified: true },
+  { rating: 3, quote: "Die Tierarzt-Vorlage war gut, aber eine Vermittlungs-Galerie fehlte. Ich musste mich mit einer normalen Galerie behelfen. Funktioniert — aber nicht ganz das, was ich wollte.", name: "Daniel Fischer", role: "Tierarzt", city: "Hamburg, DE", photo: "https://i.pravatar.cc/200?img=8", date: "vor 1 Monat" },
+  { rating: 5, quote: "Drie microsites gelanceerd voor verschillende filialen. Elk een andere look, allemaal vanuit één account beheerd. Bespaart me uren per week.", name: "Anna Janssen", role: "Marketing manager", city: "Amsterdam, NL", photo: "https://i.pravatar.cc/200?img=20", date: "3 weken geleden", verified: true },
   { rating: 4, quote: "Paid for itself inside a month. 14 leads in the first 3 weeks, two turned into $5K+ jobs. The site is profit from here on out.", name: "Henrik Larsen", role: "Construction firm", city: "Copenhagen, DK", photo: "https://i.pravatar.cc/200?img=11", date: "5 weeks ago", verified: true },
-  { rating: 5, quote: "I love that there's no lock-in. My domain stays mine, I can export my content any time. Doesn't feel like a trap.", name: "Isabella Romano", role: "Language tutor", city: "Florence, IT", photo: "https://i.pravatar.cc/200?img=32", date: "2 months ago", verified: true },
-  { rating: 5, quote: "PageSpeed 98 without me lifting a finger. It was 42 before. Google started ranking me higher and organic visits actually picked up.", name: "Charlotte Dubois", role: "Pastry chef", city: "Paris, FR", photo: "https://i.pravatar.cc/200?img=29", date: "1 month ago", verified: true },
-  { rating: 4, quote: "Plenty of templates, but I want more variants for delivery-focused restaurants. Great for a classic restaurant, less so for a takeaway spot.", name: "Diego Sánchez", role: "Bistro owner", city: "Barcelona, ES", photo: "https://i.pravatar.cc/200?img=58", date: "3 weeks ago", verified: true },
+  { rating: 5, quote: "Adoro che non ci sia lock-in. Il mio dominio rimane mio, posso esportare i contenuti in qualsiasi momento. Non sembra una trappola come altri strumenti.", name: "Isabella Romano", role: "Insegnante di lingue", city: "Florence, IT", photo: "https://i.pravatar.cc/200?img=32", date: "2 mesi fa", verified: true },
+  { rating: 5, quote: "PageSpeed 98 sans que j'aie rien fait. C'était 42 avant. Google m'a mieux référencé et les visites organiques ont vraiment décollé.", name: "Charlotte Dubois", role: "Pâtissière", city: "Paris, FR", photo: "https://i.pravatar.cc/200?img=29", date: "il y a 1 mois", verified: true },
+  { rating: 4, quote: "Muchas plantillas, pero necesito más variantes para restaurantes de delivery. Perfecto para un restaurante clásico, menos para comida para llevar.", name: "Diego Sánchez", role: "Propietario de bistró", city: "Barcelona, ES", photo: "https://i.pravatar.cc/200?img=58", date: "hace 3 semanas", verified: true },
   { rating: 5, quote: "Support replies fast, in plain English, and actually solves things. Not just docs links. Rare for a SaaS these days.", name: "Emma Thompson", role: "Music school owner", city: "Bristol, UK", photo: "https://i.pravatar.cc/200?img=25", date: "2 weeks ago", verified: true },
   { rating: 5, quote: "Migrated our dental practice site in one evening. Patients can request appointments straight from the homepage now — bookings up 38%.", name: "Dr. Nora Lindqvist", role: "Dentist", city: "Stockholm, SE", photo: "https://i.pravatar.cc/200?img=5", date: "1 month ago", verified: true },
   { rating: 5, quote: "The mobile editor is a game changer. I updated the menu on the train ride to work. Five years on WordPress and I never did that.", name: "Yannis Papadopoulos", role: "Restaurant owner", city: "Athens, GR", photo: "https://i.pravatar.cc/200?img=14", date: "3 weeks ago", verified: true },
   { rating: 4, quote: "Solid product, just wish the analytics dashboard were deeper. Right now I export to GA4. Otherwise zero complaints.", name: "Tara Williams", role: "Boutique owner", city: "Toronto, CA", photo: "https://i.pravatar.cc/200?img=23", date: "2 months ago", verified: true },
-  { rating: 5, quote: "Switched 4 client sites from Squarespace to Webero. All faster, cleaner, half the monthly cost. Clients are happier than I am.", name: "Filip Novák", role: "Freelance designer", city: "Bratislava, SK", photo: "https://i.pravatar.cc/200?img=51", date: "6 weeks ago", verified: true },
+  { rating: 5, quote: "Presunul som 4 klientske stránky zo Squarespace na Webero. Všetky rýchlejšie, čistejšie, polovičné mesačné náklady. Klienti sú spokojnejší ako ja.", name: "Filip Novák", role: "Freelance dizajnér", city: "Bratislava, SK", photo: "https://i.pravatar.cc/200?img=51", date: "pred 6 týždňami", verified: true },
   { rating: 5, quote: "I'm 64 and built it myself. Didn't call my nephew once. That's the real test of any web tool, isn't it.", name: "Margaret Sullivan", role: "Pottery studio owner", city: "Cork, IE", photo: "https://i.pravatar.cc/200?img=10", date: "1 month ago", verified: true },
   { rating: 3, quote: "Templates look great but the photography library is limited. I had to source my own stock photos. Not a deal-breaker, just an extra step.", name: "Robert Kovač", role: "Real estate agent", city: "Zagreb, HR", photo: "https://i.pravatar.cc/200?img=3", date: "2 months ago" },
-  { rating: 5, quote: "Stripe integration was 2 clicks. Took payments the same day I launched. From idea to first revenue in under 48 hours.", name: "Júlia Fernandes", role: "Online course creator", city: "Lisbon, PT", photo: "https://i.pravatar.cc/200?img=24", date: "3 weeks ago", verified: true },
+  { rating: 5, quote: "A integração com o Stripe foram 2 cliques. Recebi pagamentos no mesmo dia em que lancei. Da ideia à primeira receita em menos de 48 horas.", name: "Júlia Fernandes", role: "Criadora de cursos", city: "Lisbon, PT", photo: "https://i.pravatar.cc/200?img=24", date: "há 3 semanas", verified: true },
   { rating: 5, quote: "Honestly thought it was too good to be true at this price. Six months in, still no surprises. No upsells, no upgrades pushed.", name: "Aleksander Nilsen", role: "Photographer", city: "Oslo, NO", photo: "https://i.pravatar.cc/200?img=52", date: "1 month ago", verified: true },
-  { rating: 4, quote: "Multi-language support works but the editing UX for translations could be smoother. Other than that — using it for 3 of my sites now.", name: "Beatrice Costa", role: "Travel agency", city: "Naples, IT", photo: "https://i.pravatar.cc/200?img=36", date: "5 weeks ago", verified: true },
+  { rating: 4, quote: "Il supporto multilingua funziona, ma l'UX di modifica per le traduzioni potrebbe essere più fluida. A parte questo — lo uso per 3 dei miei siti.", name: "Beatrice Costa", role: "Agenzia di viaggi", city: "Naples, IT", photo: "https://i.pravatar.cc/200?img=36", date: "5 settimane fa", verified: true },
   { rating: 5, quote: "Our previous developer ghosted us mid-project. Found Webero through a Reddit thread, had a full new site live in 4 days.", name: "Connor McLean", role: "Gym owner", city: "Glasgow, UK", photo: "https://i.pravatar.cc/200?img=65", date: "2 weeks ago", verified: true },
-  { rating: 5, quote: "Used it to launch a side business while keeping my full-time job. Built the entire site during evenings over two weeks.", name: "Hanna Müller", role: "Side-project founder", city: "Berlin, DE", photo: "https://i.pravatar.cc/200?img=16", date: "3 weeks ago", verified: true },
-  { rating: 2, quote: "Looked beautiful in the demo but I couldn't get my custom domain SSL to renew without contacting support. Twice. Hope they automate that.", name: "Frédéric Moreau", role: "Consultant", city: "Brussels, BE", photo: "https://i.pravatar.cc/200?img=64", date: "2 months ago" },
+  { rating: 5, quote: "Ich habe damit ein Nebenprojekt gestartet, ohne meinen Hauptjob aufzugeben. Die ganze Website abends in zwei Wochen aufgebaut.", name: "Hanna Müller", role: "Side-project Gründerin", city: "Berlin, DE", photo: "https://i.pravatar.cc/200?img=16", date: "vor 3 Wochen", verified: true },
+  { rating: 2, quote: "Superbe dans la démo, mais je n'ai pas pu renouveler le SSL de mon domaine sans contacter le support. Deux fois. J'espère qu'ils automatisent ça.", name: "Frédéric Moreau", role: "Consultant", city: "Brussels, BE", photo: "https://i.pravatar.cc/200?img=64", date: "il y a 2 mois" },
   { rating: 5, quote: "I run a tattoo studio and the gallery template is genuinely well-designed. Customers spend twice as long browsing now.", name: "Mia Andersson", role: "Tattoo artist", city: "Gothenburg, SE", photo: "https://i.pravatar.cc/200?img=45", date: "4 weeks ago", verified: true },
   { rating: 5, quote: "The accessibility defaults are excellent. Passed our nonprofit's WCAG audit on the first try. That alone saved us thousands.", name: "David Cohen", role: "Nonprofit director", city: "Tel Aviv, IL", photo: "https://i.pravatar.cc/200?img=66", date: "1 month ago", verified: true },
   { rating: 4, quote: "Wish there was a built-in scheduling/calendar block. Using Calendly embed for now. Works, but native would be nicer.", name: "Olivia Brooks", role: "Wellness coach", city: "Melbourne, AU", photo: "https://i.pravatar.cc/200?img=21", date: "6 weeks ago", verified: true },
-  { rating: 5, quote: "Came from Webflow. Webero is 90% of the design power with 10% of the learning curve. For my use case that's the perfect trade.", name: "Tomáš Kubík", role: "Indie product founder", city: "Prague, CZ", photo: "https://i.pravatar.cc/200?img=54", date: "3 weeks ago", verified: true },
+  { rating: 5, quote: "Přišel jsem z Webflow. Webero má 90 % designové síly za 10 % křivky učení. Pro mé potřeby je to ideální poměr.", name: "Tomáš Kubík", role: "Indie product founder", city: "Prague, CZ", photo: "https://i.pravatar.cc/200?img=54", date: "před 3 týdny", verified: true },
   { rating: 5, quote: "Set this up for my dad's plumbing business. He calls me whenever something needs changing — and now I can tell him to do it himself. Wins all around.", name: "Sienna Walker", role: "Daughter of a plumber", city: "Auckland, NZ", photo: "https://i.pravatar.cc/200?img=48", date: "1 month ago", verified: true },
   { rating: 5, quote: "Image optimization is doing the work I used to pay a developer for. Every photo I upload comes out looking sharp and loading fast.", name: "Niko Virtanen", role: "Wedding photographer", city: "Helsinki, FI", photo: "https://i.pravatar.cc/200?img=69", date: "2 weeks ago", verified: true },
   { rating: 5, quote: "Came for the price, stayed for the quality. The fact that a sub-$30/month tool produces this quality of output is genuinely impressive.", name: "Rachel Goldberg", role: "Boutique hotel owner", city: "Tel Aviv, IL", photo: "https://i.pravatar.cc/200?img=26", date: "5 weeks ago", verified: true },
-  { rating: 4, quote: "Onboarding is great but the help docs could be more detailed. I figured most things out by clicking around — which is fine but could be faster.", name: "Adam Kowalewski", role: "Freelance copywriter", city: "Warsaw, PL", photo: "https://i.pravatar.cc/200?img=57", date: "2 months ago", verified: true },
-  { rating: 5, quote: "I run a regional florist chain. Five locations, five sites, one editor login. Operations team can update opening hours across all in under a minute.", name: "Sophie van der Berg", role: "Florist chain owner", city: "Rotterdam, NL", photo: "https://i.pravatar.cc/200?img=30", date: "1 month ago", verified: true },
+  { rating: 4, quote: "Onboarding jest świetny, ale dokumentacja pomocy mogłaby być bardziej szczegółowa. Większość odkryłem klikając — co jest OK, ale mogłoby być szybciej.", name: "Adam Kowalewski", role: "Copywriter", city: "Warsaw, PL", photo: "https://i.pravatar.cc/200?img=57", date: "2 miesiące temu", verified: true },
+  { rating: 5, quote: "Ik beheer een regionale bloemistenketen. Vijf locaties, vijf websites, één login. Het team werkt openingstijden bij op alle sites in minder dan een minuut.", name: "Sophie van der Berg", role: "Bloemenwinkelketen", city: "Rotterdam, NL", photo: "https://i.pravatar.cc/200?img=30", date: "1 maand geleden", verified: true },
   { rating: 5, quote: "First SaaS in years where I didn't feel like I was being upsold every screen. You pay, you get the product. Refreshing.", name: "Michael O'Brien", role: "Pub owner", city: "Belfast, UK", photo: "https://i.pravatar.cc/200?img=67", date: "3 weeks ago", verified: true },
-  { rating: 5, quote: "The drag-to-reorder sections is the kind of polish you only see in expensive enterprise tools. Felt premium from minute one.", name: "Léa Bernard", role: "Yoga studio owner", city: "Nice, FR", photo: "https://i.pravatar.cc/200?img=38", date: "2 weeks ago", verified: true },
+  { rating: 5, quote: "Le glisser-déposer pour réorganiser les sections, c'est le genre de finition qu'on ne trouve que dans les outils d'entreprise coûteux. Un sentiment premium dès la première minute.", name: "Léa Bernard", role: "Studio de yoga", city: "Nice, FR", photo: "https://i.pravatar.cc/200?img=38", date: "il y a 2 semaines", verified: true },
   { rating: 5, quote: "Loaded my old WordPress export and rebuilt the whole thing in a day. Pages that used to take 4s now load in under a second.", name: "Viktor Petrov", role: "Travel blogger", city: "Sofia, BG", photo: "https://i.pravatar.cc/200?img=70", date: "3 weeks ago", verified: true },
   { rating: 4, quote: "Booking flow could use more customization, but for a $20 tool I genuinely can't complain. Already replaced 3 paid plugins.", name: "Ingrid Halvorsen", role: "Spa owner", city: "Bergen, NO", photo: "https://i.pravatar.cc/200?img=41", date: "1 month ago", verified: true },
   { rating: 5, quote: "I onboarded my whole team in 15 minutes. Even our least technical person was editing pages before lunch.", name: "Patrick Murphy", role: "Operations manager", city: "Limerick, IE", photo: "https://i.pravatar.cc/200?img=7", date: "2 weeks ago", verified: true },
-  { rating: 5, quote: "Set up multilingual versions in EN/DE/FR in one evening. Translators love the side-by-side editor.", name: "Clara Hofer", role: "Hotel manager", city: "Innsbruck, AT", photo: "https://i.pravatar.cc/200?img=43", date: "5 weeks ago", verified: true },
+  { rating: 5, quote: "Mehrsprachige Versionen in EN/DE/FR an einem Abend eingerichtet. Die Übersetzer lieben den Nebeneinanderansatz im Editor.", name: "Clara Hofer", role: "Hotelmanagerin", city: "Innsbruck, AT", photo: "https://i.pravatar.cc/200?img=43", date: "vor 5 Wochen", verified: true },
   { rating: 3, quote: "Form spam filter let through a wave of bot submissions last month. They fixed it within a week but it cost me an annoying weekend.", name: "Theodor Sandström", role: "Coach", city: "Malmö, SE", photo: "https://i.pravatar.cc/200?img=63", date: "6 weeks ago" },
   { rating: 5, quote: "Migrated from a custom-coded site I'd been paying $400/month to maintain. Now I spend the difference on actual marketing.", name: "Aiden Walsh", role: "Roofing contractor", city: "Cardiff, UK", photo: "https://i.pravatar.cc/200?img=59", date: "1 month ago", verified: true },
-  { rating: 5, quote: "Cookie banner and GDPR compliance built in. I didn't have to think about it once. As a German business that's huge.", name: "Maximilian Wagner", role: "Lawyer", city: "Munich, DE", photo: "https://i.pravatar.cc/200?img=17", date: "3 weeks ago", verified: true },
+  { rating: 5, quote: "Cookie-Banner und DSGVO-Konformität direkt integriert. Ich musste keinen einzigen Gedanken daran verschwenden. Als deutsches Unternehmen ist das enorm.", name: "Maximilian Wagner", role: "Rechtsanwalt", city: "Munich, DE", photo: "https://i.pravatar.cc/200?img=17", date: "vor 3 Wochen", verified: true },
   { rating: 5, quote: "Started as a side experiment for a hobby project. Now it's my actual business. The site held up at 20K visits/day without breaking a sweat.", name: "Zara Khan", role: "Indie maker", city: "London, UK", photo: "https://i.pravatar.cc/200?img=39", date: "2 months ago", verified: true },
-  { rating: 4, quote: "Pricing comparison table block is excellent but I wish I could nest columns. Solved it with a workaround, not the end of the world.", name: "Pieter de Vries", role: "SaaS founder", city: "Eindhoven, NL", photo: "https://i.pravatar.cc/200?img=62", date: "4 weeks ago", verified: true },
+  { rating: 4, quote: "Het prijsvergelijkingstabel is uitstekend, maar ik wil graag kolommen kunnen nesten. Opgelost met een workaround — niet het einde van de wereld.", name: "Pieter de Vries", role: "SaaS-oprichter", city: "Eindhoven, NL", photo: "https://i.pravatar.cc/200?img=62", date: "4 weken geleden", verified: true },
   { rating: 5, quote: "Built a portfolio site for myself and got 3 inbound clients in the first month. The design templates clearly attract serious leads.", name: "Aurora Lindgren", role: "Brand designer", city: "Reykjavík, IS", photo: "https://i.pravatar.cc/200?img=35", date: "3 weeks ago", verified: true },
   { rating: 5, quote: "We replaced 7 standalone microsites with Webero. Saved $11K/year in subscriptions and the brand finally looks consistent everywhere.", name: "Ravi Sharma", role: "Marketing director", city: "Dublin, IE", photo: "https://i.pravatar.cc/200?img=18", date: "1 month ago", verified: true },
-  { rating: 5, quote: "I'm dyslexic and most builders are hostile to that — too much text-heavy UI. Webero's icon-first approach made the difference.", name: "Tobias Engel", role: "Bakery owner", city: "Zurich, CH", photo: "https://i.pravatar.cc/200?img=56", date: "2 weeks ago", verified: true },
+  { rating: 5, quote: "Ich bin Legastheniker und die meisten Builder sind für mich eine Herausforderung — zu viel Text-UI. Weberos Icon-first-Ansatz hat den Unterschied gemacht.", name: "Tobias Engel", role: "Bäckereibesitzer", city: "Zurich, CH", photo: "https://i.pravatar.cc/200?img=56", date: "vor 2 Wochen", verified: true },
   { rating: 2, quote: "Image uploader was buggy with HEIC files from my iPhone for about 2 weeks. Fixed now, but I lost a launch deadline because of it.", name: "Greta Lindholm", role: "Wedding planner", city: "Tallinn, EE", photo: "https://i.pravatar.cc/200?img=46", date: "2 months ago" },
-  { rating: 5, quote: "The fact that I can preview every change on mobile before publishing is everything. No more 'how does this look on Android' panic.", name: "Bruno Ferreira", role: "Café owner", city: "Porto, PT", photo: "https://i.pravatar.cc/200?img=55", date: "3 weeks ago", verified: true },
-  { rating: 5, quote: "I've used Squarespace, Wix, Webflow, Framer, and Shopify pages. Webero is the first one where I didn't fight the editor.", name: "Lucia Esposito", role: "E-commerce consultant", city: "Rome, IT", photo: "https://i.pravatar.cc/200?img=27", date: "1 month ago", verified: true },
-  { rating: 5, quote: "Our agency now builds all SMB sites on Webero instead of WordPress. Faster delivery, fewer support tickets, happier clients.", name: "Jakub Stastny", role: "Agency owner", city: "Prague, CZ", photo: "https://i.pravatar.cc/200?img=50", date: "5 weeks ago", verified: true },
+  { rating: 5, quote: "Poder pré-visualizar cada alteração no telemóvel antes de publicar é tudo. Chega de pânico com 'como é que isto fica no Android'.", name: "Bruno Ferreira", role: "Proprietário de café", city: "Porto, PT", photo: "https://i.pravatar.cc/200?img=55", date: "há 3 semanas", verified: true },
+  { rating: 5, quote: "Ho usato Squarespace, Wix, Webflow, Framer e le pagine Shopify. Webero è il primo con cui non ho dovuto lottare con l'editor.", name: "Lucia Esposito", role: "Consulente e-commerce", city: "Rome, IT", photo: "https://i.pravatar.cc/200?img=27", date: "1 mese fa", verified: true },
+  { rating: 5, quote: "Naše agentura nyní staví všechny SMB weby na Weberu místo WordPressu. Rychlejší dodání, méně tiketů od klientů, spokojenější zákazníci.", name: "Jakub Šťastný", role: "Majitel agentury", city: "Prague, CZ", photo: "https://i.pravatar.cc/200?img=50", date: "před 5 týdny", verified: true },
   { rating: 4, quote: "Form notifications could come with more context — right now I get 'new submission' and have to log in. Email digest would be ideal.", name: "Nina Berisha", role: "Therapist", city: "Pristina, XK", photo: "https://i.pravatar.cc/200?img=42", date: "1 month ago", verified: true },
-  { rating: 5, quote: "Replaced a 4-year-old Drupal install. The migration tool handled 380 pages without me babysitting it.", name: "Stefan Müller", role: "Publisher", city: "Frankfurt, DE", photo: "https://i.pravatar.cc/200?img=19", date: "3 weeks ago", verified: true },
+  { rating: 5, quote: "Eine vier Jahre alte Drupal-Installation ersetzt. Das Migrationstool hat 380 Seiten verarbeitet, ohne dass ich es ständig überwachen musste.", name: "Stefan Müller", role: "Verleger", city: "Frankfurt, DE", photo: "https://i.pravatar.cc/200?img=19", date: "vor 3 Wochen", verified: true },
   { rating: 5, quote: "Customer-facing booking form converts at 14% — almost double what my old custom form was doing. Form UX matters more than I thought.", name: "Aoife Byrne", role: "Hairdresser", city: "Galway, IE", photo: "https://i.pravatar.cc/200?img=31", date: "1 month ago", verified: true },
-  { rating: 5, quote: "Webhooks integration meant I connected to our internal CRM in 20 minutes. No middleware, no Zapier, just clean API calls.", name: "Gabriel Costa", role: "CTO", city: "São Paulo, BR", photo: "https://i.pravatar.cc/200?img=22", date: "4 weeks ago", verified: true },
+  { rating: 5, quote: "A integração de webhooks me permitiu conectar ao nosso CRM interno em 20 minutos. Sem middleware, sem Zapier, só chamadas API limpas.", name: "Gabriel Costa", role: "CTO", city: "São Paulo, BR", photo: "https://i.pravatar.cc/200?img=22", date: "há 4 semanas", verified: true },
   { rating: 5, quote: "Bought it for my therapy practice. Patients book directly, fill intake forms, and pay deposits — all without me touching anything.", name: "Dr. Ananya Iyer", role: "Therapist", city: "Bangalore, IN", photo: "https://i.pravatar.cc/200?img=28", date: "1 month ago", verified: true },
   { rating: 3, quote: "Templates lean heavily 'modern minimal'. For my vintage record shop I wanted something more textured — had to heavily customize.", name: "Ezra Klein", role: "Record shop owner", city: "Brooklyn, US", photo: "https://i.pravatar.cc/200?img=4", date: "2 months ago" },
-  { rating: 5, quote: "Built the site, set up Stripe, took my first international payment within 6 hours. That's a record for any product I've used.", name: "Joaquín Vega", role: "Online instructor", city: "Mexico City, MX", photo: "https://i.pravatar.cc/200?img=2", date: "3 weeks ago", verified: true },
-  { rating: 5, quote: "Domain transfer was painless. Documentation walked me through every registrar quirk. Even Namecheap, which is notoriously finicky.", name: "Lina Schneider", role: "Coach", city: "Cologne, DE", photo: "https://i.pravatar.cc/200?img=37", date: "2 weeks ago", verified: true },
+  { rating: 5, quote: "Construí el sitio, configuré Stripe y recibí mi primer pago internacional en 6 horas. Es un récord para cualquier producto que he usado.", name: "Joaquín Vega", role: "Instructor online", city: "Mexico City, MX", photo: "https://i.pravatar.cc/200?img=2", date: "hace 3 semanas", verified: true },
+  { rating: 5, quote: "Der Domain-Transfer war problemlos. Die Dokumentation hat mich durch jede Registrar-Eigenheit geführt — sogar Namecheap, das notorisch schwierig ist.", name: "Lina Schneider", role: "Coach", city: "Cologne, DE", photo: "https://i.pravatar.cc/200?img=37", date: "vor 2 Wochen", verified: true },
   { rating: 5, quote: "Built two sites: one for my construction company, one for my wife's bakery. Both look custom, neither cost me a developer fee.", name: "Yusuf Yıldız", role: "Builder", city: "Istanbul, TR", photo: "https://i.pravatar.cc/200?img=61", date: "4 weeks ago", verified: true },
-  { rating: 4, quote: "Search functionality on my docs site works well but could use better fuzzy matching. Small gripe in an otherwise excellent product.", name: "Marta Lewandowska", role: "Technical writer", city: "Gdańsk, PL", photo: "https://i.pravatar.cc/200?img=34", date: "6 weeks ago", verified: true },
-  { rating: 5, quote: "The auto-generated sitemap and JSON-LD schema boosted my SEO position from page 3 to page 1 for 4 keywords in 8 weeks.", name: "Kai Becker", role: "Mechanic", city: "Stuttgart, DE", photo: "https://i.pravatar.cc/200?img=13", date: "1 month ago", verified: true },
+  { rating: 4, quote: "Wyszukiwarka na mojej stronie dokumentacji działa dobrze, ale mogłaby mieć lepsze dopasowanie rozmyte. Drobne zastrzeżenie w skądinąd świetnym produkcie.", name: "Marta Lewandowska", role: "Technical writer", city: "Gdańsk, PL", photo: "https://i.pravatar.cc/200?img=34", date: "6 tygodni temu", verified: true },
+  { rating: 5, quote: "Die automatisch generierte Sitemap und das JSON-LD-Schema haben meine SEO-Position in 8 Wochen von Seite 3 auf Seite 1 für 4 Keywords gehoben.", name: "Kai Becker", role: "KFZ-Meister", city: "Stuttgart, DE", photo: "https://i.pravatar.cc/200?img=13", date: "vor 1 Monat", verified: true },
   { rating: 5, quote: "Honestly the cleanest admin UI I've used in years. No fake gamification, no badges, no 'unlock pro' popups. Just the tools.", name: "Elin Karlsson", role: "Studio owner", city: "Uppsala, SE", photo: "https://i.pravatar.cc/200?img=40", date: "3 weeks ago", verified: true },
-  { rating: 5, quote: "When I cancelled a different SaaS, I lost half my data. Webero lets me export everything — content, images, even forms — as a zip.", name: "Ben Schwartz", role: "Consultant", city: "Vienna, AT", photo: "https://i.pravatar.cc/200?img=6", date: "2 months ago", verified: true },
+  { rating: 5, quote: "Bei einem anderen SaaS habe ich beim Kündigen die Hälfte meiner Daten verloren. Webero lässt mich alles exportieren — Inhalte, Bilder, sogar Formulare — als ZIP.", name: "Ben Schwartz", role: "Unternehmensberater", city: "Vienna, AT", photo: "https://i.pravatar.cc/200?img=6", date: "vor 2 Monaten", verified: true },
   { rating: 5, quote: "Switched mid-product from a competitor. Customer support helped me migrate manually because the import didn't catch one section type.", name: "Ksenia Volkova", role: "Designer", city: "Riga, LV", photo: "https://i.pravatar.cc/200?img=9", date: "5 weeks ago", verified: true },
-  { rating: 4, quote: "Brand colors propagate site-wide which is great, but I want one section to override. There's a workaround with CSS but native would be cleaner.", name: "Mateo Ortiz", role: "Architect", city: "Valencia, ES", photo: "https://i.pravatar.cc/200?img=1", date: "1 month ago", verified: true },
+  { rating: 4, quote: "Los colores de marca se propagan por todo el sitio, lo cual es genial, pero me gustaría poder sobreescribirlos en una sección. Con CSS hay workaround, pero nativo sería más limpio.", name: "Mateo Ortiz", role: "Arquitecto", city: "Valencia, ES", photo: "https://i.pravatar.cc/200?img=1", date: "hace 1 mes", verified: true },
   { rating: 5, quote: "Got a call from a designer friend asking 'who built your site?' Told them me. They didn't believe me until I showed them the editor.", name: "Hana Kobayashi", role: "Tea house owner", city: "Kyoto, JP", photo: "https://i.pravatar.cc/200?img=26", date: "3 weeks ago", verified: true },
-  { rating: 5, quote: "Setup wizard understood I was a non-technical user from question one. No condescending 'helpful tips' — just clear paths forward.", name: "Florian Klein", role: "Optician", city: "Linz, AT", photo: "https://i.pravatar.cc/200?img=11", date: "2 weeks ago", verified: true },
+  { rating: 5, quote: "Der Einrichtungsassistent hat von Anfang an verstanden, dass ich ein technischer Laie bin. Keine herablassenden Tipps — nur klare Schritte nach vorne.", name: "Florian Klein", role: "Optiker", city: "Linz, AT", photo: "https://i.pravatar.cc/200?img=11", date: "vor 2 Wochen", verified: true },
   { rating: 5, quote: "Site speed jumped from PageSpeed 51 to 96 the day we migrated. Our Google Ads quality score went up and CPC dropped 18%.", name: "Brendan O'Sullivan", role: "Digital marketer", city: "Edinburgh, UK", photo: "https://i.pravatar.cc/200?img=65", date: "1 month ago", verified: true },
   { rating: 5, quote: "Built our nonprofit donation page with Stripe integration in 90 minutes. Raised €4,200 the first weekend.", name: "Saoirse Doyle", role: "Charity director", city: "Cork, IE", photo: "https://i.pravatar.cc/200?img=20", date: "3 weeks ago", verified: true },
-  { rating: 5, quote: "I evaluated 8 platforms for our restaurant chain rollout. Webero won on speed, design, and the fact that the team actually picks up the phone.", name: "Lorenzo Ferraro", role: "Restaurant group", city: "Bologna, IT", photo: "https://i.pravatar.cc/200?img=51", date: "4 weeks ago", verified: true },
+  { rating: 5, quote: "Ho valutato 8 piattaforme per il lancio della nostra catena di ristoranti. Webero ha vinto per velocità, design e per il fatto che il team risponde davvero al telefono.", name: "Lorenzo Ferraro", role: "Gruppo ristorativo", city: "Bologna, IT", photo: "https://i.pravatar.cc/200?img=51", date: "4 settimane fa", verified: true },
   { rating: 4, quote: "Animations are tasteful by default — most builders go overboard. Wish there were a couple more presets but what's there is high quality.", name: "Petra Horvat", role: "Wellness coach", city: "Ljubljana, SI", photo: "https://i.pravatar.cc/200?img=44", date: "5 weeks ago", verified: true },
   { rating: 5, quote: "Pay-once-a-month-and-forget reliability. Site has been live for 11 months, zero downtime, zero maintenance from me.", name: "Niamh Kennedy", role: "Ceramicist", city: "Sligo, IE", photo: "https://i.pravatar.cc/200?img=47", date: "2 months ago", verified: true },
-  { rating: 5, quote: "Showed the editor to my 70-year-old mother who wanted a site for her knitting club. She had it published in an afternoon.", name: "Antonio Russo", role: "Knitting club organizer", city: "Palermo, IT", photo: "https://i.pravatar.cc/200?img=14", date: "1 month ago", verified: true },
-  { rating: 5, quote: "Best onboarding I've seen in any SaaS. Step-by-step but never patronizing. Felt like a senior designer guiding me.", name: "Cecilia Almeida", role: "Architect", city: "Lisbon, PT", photo: "https://i.pravatar.cc/200?img=32", date: "3 weeks ago", verified: true },
+  { rating: 5, quote: "Ho mostrato l'editor a mia madre di 70 anni che voleva un sito per il suo club di lavoro a maglia. L'ha pubblicato in un pomeriggio.", name: "Antonio Russo", role: "Organizzatore di club", city: "Palermo, IT", photo: "https://i.pravatar.cc/200?img=14", date: "1 mese fa", verified: true },
+  { rating: 5, quote: "O melhor onboarding que já vi num SaaS. Passo a passo mas nunca condescendente. Pareceu um designer sénior a guiar-me.", name: "Cecilia Almeida", role: "Arquiteta", city: "Lisbon, PT", photo: "https://i.pravatar.cc/200?img=32", date: "há 3 semanas", verified: true },
   { rating: 5, quote: "Our agency switched 14 client sites in one quarter. Net savings: €38K/year across the portfolio. Clients had zero complaints.", name: "Ivan Marković", role: "Agency owner", city: "Belgrade, RS", photo: "https://i.pravatar.cc/200?img=33", date: "6 weeks ago", verified: true },
   { rating: 4, quote: "I'd love a native Instagram feed block. The workaround works but a first-party version with caching would be killer for image-heavy brands.", name: "Mila Petković", role: "Influencer", city: "Skopje, MK", photo: "https://i.pravatar.cc/200?img=49", date: "1 month ago", verified: true },
   { rating: 5, quote: "Live preview while editing — what you see is genuinely what you publish. No 'looks different in preview' weirdness like with some competitors.", name: "Hugo Lindqvist", role: "Brewmaster", city: "Helsinki, FI", photo: "https://i.pravatar.cc/200?img=68", date: "3 weeks ago", verified: true },
   { rating: 5, quote: "Switched from a hand-coded site I built in 2019. The new one is faster, more accessible, and I don't have to remember how my own JS works.", name: "Sara Engström", role: "Indie dev", city: "Linköping, SE", photo: "https://i.pravatar.cc/200?img=23", date: "2 weeks ago", verified: true },
-  { rating: 5, quote: "Pricing is honest. No 'starting at' fake numbers, no hidden tier above. €20/month, that's what you pay. Refreshing.", name: "Lukáš Polák", role: "Indie founder", city: "Brno, CZ", photo: "https://i.pravatar.cc/200?img=54", date: "1 month ago", verified: true },
+  { rating: 5, quote: "Ceny jsou přímočaré. Žádná falešná 'od X' čísla, žádná skrytá vyšší úroveň. 500 Kč/měsíc — to je to, co platíte. Osvěžující.", name: "Lukáš Polák", role: "Indie founder", city: "Brno, CZ", photo: "https://i.pravatar.cc/200?img=54", date: "před 1 měsícem", verified: true },
   { rating: 5, quote: "Genuinely thoughtful product. Every option I looked for was either there or had an obvious workaround. Rarely happens.", name: "Astrid Møller", role: "Coach", city: "Aarhus, DK", photo: "https://i.pravatar.cc/200?img=36", date: "3 weeks ago", verified: true },
   { rating: 3, quote: "Couldn't find a way to A/B test landing pages natively. Had to hack it with two pages and analytics. Would love a built-in solution.", name: "Ronan Phillips", role: "Growth marketer", city: "Brighton, UK", photo: "https://i.pravatar.cc/200?img=57", date: "1 month ago" },
   { rating: 5, quote: "Six months in. Site has paid for itself 50x over. The math is no longer interesting — I just keep using it because it works.", name: "Aida Hadžić", role: "Restaurant owner", city: "Sarajevo, BA", photo: "https://i.pravatar.cc/200?img=45", date: "2 months ago", verified: true },
-  { rating: 5, quote: "I run a craft brewery. We have weekly events and a rotating tap list — both update across the site in seconds. Used to take my old dev 2 days.", name: "Iván Romero", role: "Brewery owner", city: "Bilbao, ES", photo: "https://i.pravatar.cc/200?img=64", date: "4 weeks ago", verified: true },
-  { rating: 5, quote: "Their changelog reads like one written by people who actually use the product. Every release fixes things I'd been low-key annoyed about.", name: "Tomáš Varga", role: "Product manager", city: "Košice, SK", photo: "https://i.pravatar.cc/200?img=53", date: "3 weeks ago", verified: true },
+  { rating: 5, quote: "Tengo una microcervecería. Cada semana actualizamos eventos y la lista de grifos — ambos se reflejan en el sitio en segundos. Antes le llevaba 2 días a mi desarrollador.", name: "Iván Romero", role: "Cervecería artesanal", city: "Bilbao, ES", photo: "https://i.pravatar.cc/200?img=64", date: "hace 4 semanas", verified: true },
+  { rating: 5, quote: "Ich changelog pôsobí, akoby ho písali ľudia, ktorí produkt skutočne používajú. Každé vydanie opravuje práve tie veci, ktoré ma ticho trápili.", name: "Tomáš Varga", role: "Product manager", city: "Košice, SK", photo: "https://i.pravatar.cc/200?img=53", date: "pred 3 týždňami", verified: true },
   { rating: 5, quote: "I run a 9-location chain of dental clinics. Webero handles all sites with shared branding and per-location overrides. Beautifully architected.", name: "Dr. Mehmet Demir", role: "Clinic group owner", city: "Ankara, TR", photo: "https://i.pravatar.cc/200?img=12", date: "5 weeks ago", verified: true },
-  { rating: 4, quote: "Custom code injection is allowed which I appreciate — I add a tiny analytics snippet. Just wish it were per-page rather than site-wide only.", name: "Tania Volkov", role: "Analyst", city: "Bucharest, RO", photo: "https://i.pravatar.cc/200?img=29", date: "6 weeks ago", verified: true },
-  { rating: 5, quote: "I'm a notary and my profession requires extreme reliability. The site has been live a year — never once gone down during business hours.", name: "Walter Hoffmann", role: "Notary", city: "Graz, AT", photo: "https://i.pravatar.cc/200?img=8", date: "2 months ago", verified: true },
-  { rating: 5, quote: "Forms support file uploads, conditional fields, multi-step — everything I used to need a $40/month form builder for is built in.", name: "Brigitte Müller", role: "HR consultant", city: "Bern, CH", photo: "https://i.pravatar.cc/200?img=25", date: "3 weeks ago", verified: true },
+  { rating: 4, quote: "Injectarea de cod personalizat este permisă, ceea ce apreciez — adaug un mic fragment de analiză. Aș vrea doar să fie per pagină, nu doar la nivel de site.", name: "Tania Volkov", role: "Analist", city: "Bucharest, RO", photo: "https://i.pravatar.cc/200?img=29", date: "acum 6 săptămâni", verified: true },
+  { rating: 5, quote: "Ich bin Notar — mein Beruf erfordert absolute Zuverlässigkeit. Die Seite läuft seit einem Jahr. Kein einziger Ausfall während der Geschäftszeiten.", name: "Walter Hoffmann", role: "Notar", city: "Graz, AT", photo: "https://i.pravatar.cc/200?img=8", date: "vor 2 Monaten", verified: true },
+  { rating: 5, quote: "Formulare unterstützen Datei-Uploads, bedingte Felder, mehrere Schritte — alles, wofür ich früher einen Form-Builder für 40 $/Monat brauchte, ist bereits integriert.", name: "Brigitte Müller", role: "HR-Beraterin", city: "Bern, CH", photo: "https://i.pravatar.cc/200?img=25", date: "vor 3 Wochen", verified: true },
   { rating: 5, quote: "Email-based magic-link login for clients to view private project pages is a feature I didn't know I needed until I had it.", name: "Vesna Antić", role: "Project manager", city: "Novi Sad, RS", photo: "https://i.pravatar.cc/200?img=30", date: "1 month ago", verified: true },
-  { rating: 5, quote: "Edited a typo from my phone during a client meeting and refreshed the page in front of them. The look on their face. Worth the subscription alone.", name: "Adriana Câmara", role: "Lawyer", city: "Porto, PT", photo: "https://i.pravatar.cc/200?img=43", date: "3 weeks ago", verified: true },
-  { rating: 5, quote: "My business runs out of a small mountain town in Switzerland. Webero is the rare tool that doesn't assume I'm in San Francisco.", name: "Ueli Aebischer", role: "Adventure guide", city: "Grindelwald, CH", photo: "https://i.pravatar.cc/200?img=15", date: "4 weeks ago", verified: true },
+  { rating: 5, quote: "Corrigi um erro de digitação pelo telemóvel durante uma reunião com cliente e recarreguei a página à frente deles. A expressão na cara deles valeu a assinatura.", name: "Adriana Câmara", role: "Advogada", city: "Porto, PT", photo: "https://i.pravatar.cc/200?img=43", date: "há 3 semanas", verified: true },
+  { rating: 5, quote: "Mein Unternehmen läuft in einem kleinen Bergdorf in der Schweiz. Webero ist das seltene Tool, das nicht davon ausgeht, ich sei im Silicon Valley.", name: "Ueli Aebischer", role: "Bergführer", city: "Grindelwald, CH", photo: "https://i.pravatar.cc/200?img=15", date: "vor 4 Wochen", verified: true },
   { rating: 5, quote: "Switched our membership site from MemberSpace + WP. Webero's native gating saves us €120/month and works more reliably.", name: "Linnea Bergström", role: "Course creator", city: "Stockholm, SE", photo: "https://i.pravatar.cc/200?img=21", date: "5 weeks ago", verified: true },
 ];
 
-function TestimonialCard({ t }: { t: Testimonial }) {
+function TestimonialCard({ t, locale = "cs" }: { t: Testimonial; locale?: PlatformLocale }) {
   return (
     <article className="flex h-full flex-col rounded-3xl border border-[#ececec] bg-white p-6 shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:p-7 lg:p-8">
       <div className="mb-4 flex items-center justify-between">
@@ -1035,7 +1143,7 @@ function TestimonialCard({ t }: { t: Testimonial }) {
             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5">
               <path d="M5 12l5 5L20 7"/>
             </svg>
-            Verified
+            {locale === "en" ? "Verified" : "Ověřeno"}
           </span>
         )}
       </div>
@@ -1055,8 +1163,11 @@ function TestimonialCard({ t }: { t: Testimonial }) {
   );
 }
 
-function TestimonialsSlider() {
-  const total = TESTIMONIALS.length;
+function TestimonialsSlider({ locale = "cs" }: { locale?: PlatformLocale }) {
+  const testimonials = locale === "en"
+    ? TESTIMONIALS.filter((t) => /^[\x00-\x7F]+$/.test(`${t.quote} ${t.role} ${t.date}`))
+    : TESTIMONIALS;
+  const total = testimonials.length;
   const [perView, setPerView] = useState(1);
   const [page, setPage] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -1085,11 +1196,11 @@ function TestimonialsSlider() {
 
   const go = (dir: -1 | 1) => setPage((p) => (p + dir + pageCount) % pageCount);
 
-  const avgRating = (TESTIMONIALS.reduce((sum, t) => sum + t.rating, 0) / total).toFixed(1);
+  const avgRating = (testimonials.reduce((sum, t) => sum + t.rating, 0) / total).toFixed(1);
   const ratingCounts = [5, 4, 3, 2, 1].map((r) => ({
     stars: r,
-    count: TESTIMONIALS.filter((t) => t.rating === r).length,
-    pct: (TESTIMONIALS.filter((t) => t.rating === r).length / total) * 100,
+    count: testimonials.filter((t) => t.rating === r).length,
+    pct: (testimonials.filter((t) => t.rating === r).length / total) * 100,
   }));
 
   return (
@@ -1098,13 +1209,15 @@ function TestimonialsSlider() {
         <div className="grid items-end gap-8 lg:grid-cols-[1fr_auto] lg:gap-12">
           <div>
             <p className="mb-5 text-[12px] font-semibold uppercase text-[#6366f1]" style={{ letterSpacing: "0.16em" }}>
-              Reviews
+              {locale === "en" ? "Reviews" : "Recenze"}
             </p>
             <h2 className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]" style={{ fontSize: "clamp(34px, 4.5vw, 56px)", lineHeight: "1.05" }}>
-              What our customers say.
+              {locale === "en" ? "What our customers say." : "Co říkají naši zákazníci."}
             </h2>
             <p className="mt-5 max-w-[560px] text-[15.5px] leading-[1.65] text-[#555]">
-              {total}+ verified reviews from real users across Europe, the UK, and beyond. Nothing filtered, nothing cherry-picked.
+              {locale === "en"
+                ? `${total}+ verified reviews from real users across Europe, the UK, and beyond. Nothing cherry-picked, nothing airbrushed.`
+                : `${total}+ ověřených recenzí od skutečných uživatelů z celé Evropy, Velké Británie a dalších zemí. Nic nefiltrováno, nic nevybíráno.`}
             </p>
           </div>
           <div className="flex flex-col gap-4 rounded-2xl border border-[#ececec] bg-white p-5 shadow-[0_1px_2px_rgba(0,0,0,0.04)] sm:flex-row sm:items-center sm:p-6 lg:min-w-[380px]">
@@ -1120,7 +1233,7 @@ function TestimonialsSlider() {
                   </svg>
                 ))}
               </div>
-              <div className="mt-1.5 text-[11.5px] text-[#888]">{total} reviews</div>
+              <div className="mt-1.5 text-[11.5px] text-[#888]">{total} {locale === "en" ? "reviews" : "recenzí"}</div>
             </div>
             <div className="hidden h-16 w-px bg-[#ececec] sm:block" />
             <div className="flex-1 space-y-1">
@@ -1159,8 +1272,8 @@ function TestimonialsSlider() {
                 className="grid w-full flex-shrink-0 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6"
                 aria-hidden={pi !== page}
               >
-                {TESTIMONIALS.slice(pi * perView, pi * perView + perView).map((t) => (
-                  <TestimonialCard key={t.name + t.date + pi} t={t} />
+                {testimonials.slice(pi * perView, pi * perView + perView).map((t) => (
+                  <TestimonialCard key={t.name + t.date + pi} t={t} locale={locale} />
                 ))}
               </div>
             ))}
@@ -1173,7 +1286,7 @@ function TestimonialsSlider() {
             <button
               type="button"
               onClick={() => go(-1)}
-              aria-label="Previous"
+              aria-label={locale === "en" ? "Previous" : "Předchozí"}
               className="grid h-12 w-12 place-items-center rounded-full border border-[#e5e5e5] bg-white text-[#0a0a0a] shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all hover:-translate-x-0.5 hover:border-[#0a0a0a] hover:bg-[#0a0a0a] hover:text-white"
             >
               <ChevronLeft size={20} strokeWidth={2.25} />
@@ -1181,7 +1294,7 @@ function TestimonialsSlider() {
             <button
               type="button"
               onClick={() => go(1)}
-              aria-label="Next"
+              aria-label={locale === "en" ? "Next" : "Další"}
               className="grid h-12 w-12 place-items-center rounded-full border border-[#e5e5e5] bg-white text-[#0a0a0a] shadow-[0_1px_2px_rgba(0,0,0,0.04)] transition-all hover:translate-x-0.5 hover:border-[#0a0a0a] hover:bg-[#0a0a0a] hover:text-white"
             >
               <ChevronRight size={20} strokeWidth={2.25} />
@@ -1261,7 +1374,7 @@ const SLIDES: Slide[] = [
  *   pos ±1 → translateX(±(100% + 20px)) translateY(5%)        scale(0.88) rotate(±2deg)
  *   pos ±2 → translateX(±200%)         translateY(10%)        scale(0.80) rotate(±4deg)  opacity 0
  */
-function Carousel3D({ onOpen: _onOpen }: { onOpen: () => void }) {
+function Carousel3D({ onOpen: _onOpen, locale = "cs" }: { onOpen: () => void; locale?: PlatformLocale }) {
   void _onOpen; /* kept for API compat; clicks now navigate to detail page */
   const router = useRouter();
   const [idx, setIdx] = useState(0);
@@ -1398,7 +1511,7 @@ function Carousel3D({ onOpen: _onOpen }: { onOpen: () => void }) {
                     src={slide.src800}
                     srcSet={`${slide.src800} 800w, ${slide.src} 1200w`}
                     sizes="(max-width: 768px) 80vw, 42vw"
-                    alt="Šablona webu — náhled"
+                    alt={locale === "en" ? "Website template preview" : "Šablona webu — náhled"}
                     className="h-full w-full object-cover"
                     draggable={false}
                     loading={i === 0 ? "eager" : "lazy"}
@@ -1418,7 +1531,7 @@ function Carousel3D({ onOpen: _onOpen }: { onOpen: () => void }) {
 
       {/* Prev / Next — big invisible zones over the side cards */}
       <button
-        aria-label="Předchozí"
+        aria-label={locale === "en" ? "Previous" : "Předchozí"}
         onClick={prev}
         className="group absolute left-0 top-0 z-40 hidden h-full w-[26%] cursor-pointer items-center justify-start pl-6 sm:flex"
       >
@@ -1427,7 +1540,7 @@ function Carousel3D({ onOpen: _onOpen }: { onOpen: () => void }) {
         </span>
       </button>
       <button
-        aria-label="Další"
+        aria-label={locale === "en" ? "Next" : "Další"}
         onClick={next}
         className="group absolute right-0 top-0 z-40 hidden h-full w-[26%] cursor-pointer items-center justify-end pr-6 sm:flex"
       >
@@ -1441,7 +1554,7 @@ function Carousel3D({ onOpen: _onOpen }: { onOpen: () => void }) {
         {SLIDES.map((_, i) => (
           <button
             key={i}
-            aria-label={`Šablona ${i + 1}`}
+            aria-label={`${locale === "en" ? "Template" : "Šablona"} ${i + 1}`}
             onClick={() => setIdx(i)}
             className="h-[4px] rounded-full transition-all duration-300"
             style={{
@@ -1456,6 +1569,7 @@ function Carousel3D({ onOpen: _onOpen }: { onOpen: () => void }) {
 }
 
 interface Props {
+  locale?: PlatformLocale;
   approvedTemplates?: CatalogTemplate[];
   heroDesktopDemoUrl?: string | null;
   heroMobileDemoUrl?: string | null;
@@ -1472,7 +1586,7 @@ const INDUSTRY_LABELS: Record<string, string> = {
   dj: "DJ", education: "Vzdělávání", pets: "Mazlíčci",
 };
 
-export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null, heroMobileDemoUrl = null }: Props) {
+export function SaasLanding({ locale = "cs", approvedTemplates = [], heroDesktopDemoUrl = null, heroMobileDemoUrl = null }: Props) {
   const [showModal, setShowModal] = useState(false);
   const [activeTemplate, setActiveTemplate] = useState<{ key: string; name: string } | null>(null);
   const [activeHotspot, setActiveHotspot] = useState<string | null>(null);
@@ -1527,6 +1641,8 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
     setShowModal(true);
   }
 
+  const en = locale === "en";
+
   return (
     <>
       {/* ══════════════════════════════════════════════════════════════════ */}
@@ -1544,6 +1660,7 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
           loop
           playsInline
           preload="none"
+          poster="/hero-poster.webp"
         />
 
         {/* Dark overlay */}
@@ -1558,18 +1675,18 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
             <h1
               className="font-sans font-bold"
               style={{
-                fontSize: "clamp(30px, 3.4vw, 48px)",
+                fontSize: "clamp(48px, 5.5vw, 76px)",
                 lineHeight: "1.08",
                 letterSpacing: "-0.025em",
                 color: "#ffffff",
                 textShadow: "0 2px 24px rgba(0,0,0,0.45)",
               }}
             >
-              <MaskReveal delay={0.05}>Profesionální&nbsp;</MaskReveal>
-              <MaskReveal delay={0.13}>web</MaskReveal>
+              <MaskReveal delay={0.05}>{en ? "Professional" : "Profesionální"}&nbsp;</MaskReveal>
+              <MaskReveal delay={0.13}>{en ? "website" : "web"}</MaskReveal>
               <br />
-              <MaskReveal delay={0.21}>bez&nbsp;</MaskReveal>
-              <MaskReveal delay={0.27}>programátora.</MaskReveal>
+              <MaskReveal delay={0.21}>{en ? "without" : "bez"}&nbsp;</MaskReveal>
+              <MaskReveal delay={0.27}>{en ? "a developer." : "programátora."}</MaskReveal>
             </h1>
 
             <div className="mt-5 flex flex-col items-center gap-2">
@@ -1577,21 +1694,21 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                 onClick={() => openModal()}
                 className="inline-flex h-[48px] items-center justify-center rounded-full bg-white px-10 text-[15px] font-semibold text-[#111] shadow-[0_4px_30px_rgba(0,0,0,0.35)] transition duration-200 hover:bg-white/95 hover:shadow-[0_8px_40px_rgba(0,0,0,0.45)] active:scale-[0.97]"
               >
-                Vyzkoušet zdarma
+                {en ? "Try for free" : "Vyzkoušet zdarma"}
               </button>
               <p className="text-[13px] text-white/65">
-                Začít zdarma. Bez kreditní karty.
+                {en ? "Start free. No credit card." : "Začít zdarma. Bez kreditní karty."}
               </p>
             </div>
           </div>
 
           {/* Angled carousel — inside the hero, on the video bg */}
           <div className="w-full">
-            <Carousel3D onOpen={() => openModal()} />
+            <Carousel3D locale={locale} onOpen={() => openModal()} />
           </div>
 
           <p className="mt-5 text-center text-[13.5px] text-white/55">
-            Připojte se k tisícům podnikatelů, kteří tvoří web na Weberu.
+            {en ? "Join thousands of business owners building their websites with Webero." : "Připojte se k tisícům podnikatelů, kteří tvoří web na Weberu."}
           </p>
         </div>
       </section>
@@ -1601,6 +1718,9 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
       {/* ══════════════════════════════════════════════════════════════════ */}
       <section className="relative bg-white">
         <div className="mx-auto max-w-[1280px] px-6 py-12 lg:px-10 lg:py-16">
+          <p className="mb-8 text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-[#c4c9d4]">
+            {en ? "Websites built with Webero" : "Weby na Weberu"}
+          </p>
           <div className="client-logos flex flex-wrap items-center justify-center gap-x-12 gap-y-8 text-[#9ca3af] sm:gap-x-16 lg:justify-between lg:gap-x-8">
 
             <div className="client-logo flex items-center gap-3" aria-label="Banka Creditas">
@@ -1647,18 +1767,19 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
               className="mb-5 text-[12px] font-semibold uppercase text-[#6366f1]"
               style={{ letterSpacing: "0.16em" }}
             >
-              Vše v jednom
+              {en ? "All in one" : "Vše v jednom"}
             </p>
             <h2
               className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]"
               style={{ fontSize: "clamp(34px, 4.5vw, 56px)", lineHeight: "1.05" }}
             >
-              Web jako vlastní byznys.<br />
-              <span className="text-[#9ca3af]">Bez kompromisů.</span>
+              {en ? "A website that feels like your business." : "Web jako vlastní byznys."}<br />
+              <span className="text-[#9ca3af]">{en ? "No compromises." : "Bez kompromisů."}</span>
             </h2>
             <p className="mx-auto mt-6 max-w-[560px] text-[16px] leading-[1.65] text-[#555]">
-              Šablony, editor, hosting, SEO i česká podpora.
-              Všechno za jednu férovou cenu — bez programátora a bez agentury.
+              {en
+                ? "Templates, editor, hosting, SEO, and support. Everything for one fair price, without a developer or an agency."
+                : "Šablony, editor, hosting, SEO i česká podpora. Všechno za jednu férovou cenu — bez programátora a bez agentury."}
             </p>
           </div>
 
@@ -1675,9 +1796,9 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                   top="38%" right="-32px"
                   side="left"
                   tone="green"
-                  label="Rychlost & SEO"
+                  label={en ? "Speed & SEO" : "Rychlost & SEO"}
                   value="PageSpeed 90–100"
-                  detail="Edge cache ve 270+ městech, AVIF/WebP optimalizace, auto sitemap a JSON-LD. Google vás bude rád indexovat."
+                  detail={en ? "Edge cache in 270+ cities, AVIF/WebP optimization, automatic sitemap, and JSON-LD. Built to be easy for Google to index." : "Edge cache ve 270+ městech, AVIF/WebP optimalizace, auto sitemap a JSON-LD. Google vás bude rád indexovat."}
                   icon={(
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M13 2L3 14h9l-1 8 10-12h-9z" />
@@ -1698,8 +1819,8 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                   tooltipWidth={240}
                   tone="indigo"
                   label="Mobile-first"
-                  value="Perfektní i v kapse"
-                  detail="Každá šablona je optimalizovaná pro mobil. Tap-to-call, native share, žádný horizontální scroll."
+                  value={en ? "Perfect in your pocket" : "Perfektní i v kapse"}
+                  detail={en ? "Every template is optimized for mobile. Tap-to-call, native sharing, and no horizontal scroll." : "Každá šablona je optimalizovaná pro mobil. Tap-to-call, native share, žádný horizontální scroll."}
                   icon={(
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="6" y="3" width="12" height="18" rx="2" />
@@ -1721,8 +1842,8 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
               {
                 eyebrow: "Editor",
                 stat: "100%",
-                title: "Klikni a uprav.",
-                desc: "Žádný backend, žádné šablony v kódu. Pracujete přímo na stránce.",
+                title: en ? "Click and edit." : "Klikni a uprav.",
+                desc: en ? "No backend, no templates in code. You work directly on the page." : "Žádný backend, žádné šablony v kódu. Pracujete přímo na stránce.",
                 accent: "#6366f1",
                 glow: "rgba(99,102,241,0.14)",
                 icon: (
@@ -1732,10 +1853,10 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                 ),
               },
               {
-                eyebrow: "Šablony",
+                eyebrow: en ? "Templates" : "Šablony",
                 stat: "99+",
-                title: "Profi šablon.",
-                desc: "Vyberete obor, dostanete hotový web s obsahem. Stačí dopsat název firmy.",
+                title: en ? "Pro templates." : "Profi šablon.",
+                desc: en ? "Pick an industry and get a ready-made website with content. Add your business name and you are close." : "Vyberete obor, dostanete hotový web s obsahem. Stačí dopsat název firmy.",
                 accent: "#0ea5e9",
                 glow: "rgba(14,165,233,0.14)",
                 icon: (
@@ -1745,10 +1866,10 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                 ),
               },
               {
-                eyebrow: "Výkon",
+                eyebrow: en ? "Performance" : "Výkon",
                 stat: "99/100",
                 title: "PageSpeed.",
-                desc: "EU hosting, automatická optimalizace obrázků a SEO. Bez konfigurace.",
+                desc: en ? "EU hosting, automatic image optimization, and SEO. No configuration needed." : "EU hosting, automatická optimalizace obrázků a SEO. Bez konfigurace.",
                 accent: "#10b981",
                 glow: "rgba(16,185,129,0.14)",
                 icon: (
@@ -1797,10 +1918,10 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
 
             {/* ── Stat cards — span 3 cols each on 12-col grid ── */}
             {[
-              { value: 500, suffix: "+",    label: "Aktivních webů",    sub: "Po celé ČR",              decimals: 0 },
+              { value: 500, suffix: "+",    label: en ? "Active websites" : "Aktivních webů", sub: en ? "Across the Czech Republic" : "Po celé ČR", decimals: 0 },
               { value: 99,  suffix: "/100", label: "PageSpeed",          sub: "Google Lighthouse",       decimals: 0 },
-              { value: 4.9, suffix: "★",   label: "Hodnocení klientů",  sub: "Průměr ze 200+ recenzí",  decimals: 1 },
-              { value: 5,   suffix: " min", label: "Spuštění demo",      sub: "Od šablony po web",       decimals: 0 },
+              { value: 4.9, suffix: "★",   label: en ? "Client rating" : "Hodnocení klientů", sub: en ? "Average from 200+ reviews" : "Průměr ze 200+ recenzí", decimals: 1 },
+              { value: 5,   suffix: " min", label: en ? "Demo launch" : "Spuštění demo", sub: en ? "From template to website" : "Od šablony po web", decimals: 0 },
             ].map((s, i) => (
               <Reveal
                 key={s.label}
@@ -1848,14 +1969,14 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
               className="mb-5 text-[12px] font-semibold uppercase text-[#a5b4fc]"
               style={{ letterSpacing: "0.16em" }}
             >
-              Produkty Webero
+              {en ? "Webero products" : "Produkty Webero"}
             </p>
             <h2
               className="font-sans font-semibold tracking-[-0.025em] text-white"
               style={{ fontSize: "clamp(34px, 4.5vw, 56px)", lineHeight: "1.05" }}
             >
-              Tisíce potřeb.<br />
-              <span className="text-white/55">Jedno solidní řešení.</span>
+              {en ? "Thousands of needs." : "Tisíce potřeb."}<br />
+              <span className="text-white/55">{en ? "One solid solution." : "Jedno solidní řešení."}</span>
             </h2>
           </div>
 
@@ -1865,14 +1986,13 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
             <article className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.01] transition-colors hover:border-white/25">
               <div className="p-8 lg:p-10">
                 <h3 className="font-sans font-semibold tracking-[-0.02em] text-white" style={{ fontSize: "clamp(26px, 2.2vw, 34px)", lineHeight: "1.1" }}>
-                  Webové stránky
+                  {en ? "Websites" : "Webové stránky"}
                 </h3>
                 <p className="mt-4 max-w-[460px] text-[15px] leading-[1.65] text-white/65">
-                  Plnohodnotná firemní prezentace s desítkami sekcí, blogem a kontaktními formuláři. Patří k nejlépe zpracovaným webům na internetu.
+                  {en
+                    ? "A complete business website with dozens of sections, a blog, and contact forms. Built to look and feel like serious web work."
+                    : "Plnohodnotná firemní prezentace s desítkami sekcí, blogem a kontaktními formuláři. Patří k nejlépe zpracovaným webům na internetu."}
                 </p>
-                <a href="#sablony" className="mt-5 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#a5b4fc] transition hover:text-white">
-                  Více <ArrowRight size={14} />
-                </a>
               </div>
               <div className="relative mt-auto h-[280px] overflow-hidden px-6 sm:h-[320px] lg:h-[380px] lg:px-10">
                 <div className="absolute right-6 top-6 h-[230px] w-[78%] overflow-hidden rounded-t-xl border border-white/10 bg-[#141414] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] sm:h-[260px] lg:right-10 lg:h-[290px]">
@@ -1893,24 +2013,23 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                   Landing pages
                 </h3>
                 <p className="mt-4 max-w-[460px] text-[15px] leading-[1.65] text-white/65">
-                  Jednostránkové weby pro kampaně, sbírání leadů a rychlou konverzi. Vysoký výkon, čistý design, A/B varianty během minut.
+                  {en
+                    ? "One-page websites for campaigns, lead capture, and fast conversion. Strong performance, clean design, and A/B variants in minutes."
+                    : "Jednostránkové weby pro kampaně, sbírání leadů a rychlou konverzi. Vysoký výkon, čistý design, A/B varianty během minut."}
                 </p>
-                <a href="#sablony" className="mt-5 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#a5b4fc] transition hover:text-white">
-                  Více <ArrowRight size={14} />
-                </a>
               </div>
               <div className="relative mt-auto flex h-[280px] items-end justify-center overflow-hidden sm:h-[320px] lg:h-[380px]">
                 <div className="relative z-10 h-[260px] w-[150px] overflow-hidden rounded-t-[26px] border border-white/15 bg-[#141414] p-1.5 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.8)] sm:h-[300px] sm:w-[170px] lg:h-[360px] lg:w-[200px]">
                   <div className="absolute left-1/2 top-1 z-10 h-1 w-10 -translate-x-1/2 rounded-full bg-white/10" />
                   <div className="h-full w-full overflow-hidden rounded-t-[20px]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/templates/barber-03/showcase/mobile-hero.webp" alt="Mobilní landing" className="h-full w-full object-cover object-top" loading="lazy" />
+                    <img src="/templates/barber-03/showcase/mobile-hero.webp" alt={en ? "Mobile landing page" : "Mobilní landing"} className="h-full w-full object-cover object-top" loading="lazy" />
                   </div>
                 </div>
                 <div className="absolute -right-4 bottom-6 hidden h-[230px] w-[140px] -rotate-[8deg] overflow-hidden rounded-t-[22px] border border-white/15 bg-[#141414] p-1.5 shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] sm:block lg:h-[280px] lg:w-[160px]">
                   <div className="h-full w-full overflow-hidden rounded-t-[16px]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src="/templates/peak-cut/showcase/mobile-hero.webp" alt="Mobilní landing varianta" className="h-full w-full object-cover object-top" loading="lazy" />
+                    <img src="/templates/peak-cut/showcase/mobile-hero.webp" alt={en ? "Mobile landing page variant" : "Mobilní landing varianta"} className="h-full w-full object-cover object-top" loading="lazy" />
                   </div>
                 </div>
               </div>
@@ -1920,14 +2039,13 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
             <article className="group relative flex flex-col overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.05] to-white/[0.01] transition-colors hover:border-white/25">
               <div className="p-8 lg:p-10">
                 <h3 className="font-sans font-semibold tracking-[-0.02em] text-white" style={{ fontSize: "clamp(26px, 2.2vw, 34px)", lineHeight: "1.1" }}>
-                  E-shop a katalog
+                  {en ? "E-shop and catalog" : "E-shop a katalog"}
                 </h3>
                 <p className="mt-4 max-w-[460px] text-[15px] leading-[1.65] text-white/65">
-                  Prodávejte produkty i služby přímo z webu. Stripe, faktury, sklady a doprava — vše v jednom rozhraní bez pluginů.
+                  {en
+                    ? "Sell products and services directly from your site. Stripe, invoices, inventory, and delivery in one interface without plugins."
+                    : "Prodávejte produkty i služby přímo z webu. Stripe, faktury, sklady a doprava — vše v jednom rozhraní bez pluginů."}
                 </p>
-                <a href="#sablony" className="mt-5 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#a5b4fc] transition hover:text-white">
-                  Více <ArrowRight size={14} />
-                </a>
               </div>
               <div className="relative mt-auto h-[280px] overflow-hidden px-6 sm:h-[320px] lg:h-[360px] lg:px-10">
                 <div className="absolute inset-x-6 -bottom-2 h-[240px] overflow-hidden rounded-t-xl border border-white/10 bg-[#0f0f0f] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] sm:h-[280px] lg:inset-x-10 lg:h-[320px]">
@@ -1942,7 +2060,7 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                       <div key={i} className="overflow-hidden rounded-md border border-white/10 bg-[#141414]">
                         <div className="aspect-[4/3] w-full overflow-hidden">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={`/templates/${src}`} alt={`Produkt ${i+1}`} className="h-full w-full object-cover" loading="lazy" />
+                          <img src={`/templates/${src}`} alt={`${en ? "Product" : "Produkt"} ${i+1}`} className="h-full w-full object-cover" loading="lazy" />
                         </div>
                         <div className="space-y-1 p-1.5">
                           <div className="h-1.5 w-3/4 rounded bg-white/15" />
@@ -1962,11 +2080,10 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                   Content Hub
                 </h3>
                 <p className="mt-4 max-w-[460px] text-[15px] leading-[1.65] text-white/65">
-                  Blog, kurzy, členská sekce. Vytvářejte obsah, nabízejte ho jednorázově nebo formou předplatného. Bez vývojářů.
+                  {en
+                    ? "Blog, courses, and member areas. Create content and sell it as one-off access or a subscription. No developers."
+                    : "Blog, kurzy, členská sekce. Vytvářejte obsah, nabízejte ho jednorázově nebo formou předplatného. Bez vývojářů."}
                 </p>
-                <a href="#sablony" className="mt-5 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#a5b4fc] transition hover:text-white">
-                  Více <ArrowRight size={14} />
-                </a>
               </div>
               <div className="relative mt-auto h-[280px] overflow-hidden px-6 sm:h-[320px] lg:h-[360px] lg:px-10">
                 <div className="absolute inset-x-6 -bottom-2 h-[240px] overflow-hidden rounded-t-xl border border-white/10 bg-[#0f0f0f] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.7)] sm:h-[280px] lg:inset-x-10 lg:h-[320px]">
@@ -1980,7 +2097,7 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                       <div key={i} className="flex items-center gap-3 rounded-lg border border-white/10 bg-[#141414] p-2 sm:gap-4 sm:p-3">
                         <div className="h-14 w-20 flex-shrink-0 overflow-hidden rounded-md sm:h-16 sm:w-24">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img src={`/templates/${src}`} alt={`Článek ${i+1}`} className="h-full w-full object-cover" loading="lazy" />
+                          <img src={`/templates/${src}`} alt={`${en ? "Article" : "Článek"} ${i+1}`} className="h-full w-full object-cover" loading="lazy" />
                         </div>
                         <div className="flex-1 space-y-1.5">
                           <div className="h-1.5 w-12 rounded bg-[#a5b4fc]/40" />
@@ -2010,22 +2127,23 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
               className="mb-5 text-[12px] font-semibold uppercase text-[#6366f1]"
               style={{ letterSpacing: "0.16em" }}
             >
-              Šablony
+              {en ? "Templates" : "Šablony"}
             </p>
             <h2
               className="font-sans font-semibold tracking-[-0.025em] text-[#0a0a0a]"
               style={{ fontSize: "clamp(34px, 4.5vw, 56px)", lineHeight: "1.05" }}
             >
-              99+ šablon.<br />
-              <span className="text-[#9ca3af]">Pro každý obor.</span>
+              99+ {en ? "templates." : "šablon."}<br />
+              <span className="text-[#9ca3af]">{en ? "For every industry." : "Pro každý obor."}</span>
             </h2>
             <p className="mx-auto mt-6 max-w-[560px] text-[16px] leading-[1.65] text-[#555]">
-              Každá šablona má homepage, podstránky, obrázky i texty.
-              Stačí dopsat název firmy a publikovat.
+              {en
+                ? "Every template includes a homepage, subpages, images, and copy. Add your business name and publish."
+                : "Každá šablona má homepage, podstránky, obrázky i texty. Stačí dopsat název firmy a publikovat."}
             </p>
           </div>
 
-          <TemplatesGallery onOpen={(tpl) => openModal(tpl)} />
+          <TemplatesGallery locale={locale} onOpen={(tpl) => openModal(tpl)} />
 
           {/* Bottom CTA */}
           <Reveal delay={0.3} className="mt-14 flex flex-col items-center gap-4">
@@ -2033,10 +2151,10 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
               href="/ukazka-sablon"
               className="inline-flex items-center gap-2 rounded-full bg-[#0a0a0a] px-7 py-3.5 text-[14.5px] font-semibold text-white transition hover:bg-[#1a1a1a]"
             >
-              Prohlédnout všech 99+ šablon
+              {en ? "Browse all 99+ templates" : "Prohlédnout všech 99+ šablon"}
               <ArrowRight className="h-4 w-4" />
             </a>
-            <p className="text-[13px] text-[#888]">Pravidelně přidáváme 2–3 nové šablony každý měsíc.</p>
+            <p className="text-[13px] text-[#888]">{en ? "We add 2-3 new templates every month." : "Pravidelně přidáváme 2–3 nové šablony každý měsíc."}</p>
           </Reveal>
         </div>
       </section>
@@ -2045,13 +2163,13 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
       {/* §3.5  TESTIMONIALS — Real customer quotes for social proof       */}
       {/* ══════════════════════════════════════════════════════════════════ */}
       <section id="reference" className="relative bg-[#fafafa]">
-        <TestimonialsSlider />
+        <TestimonialsSlider locale={locale} />
       </section>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* §4.5  FAQ — Accordion with common questions                      */}
       {/* ══════════════════════════════════════════════════════════════════ */}
-      <FAQSection />
+      <FAQSection locale={locale} />
 
       {/* ══════════════════════════════════════════════════════════════════ */}
       {/* §5  FINAL CTA — Split layout with device mockup                  */}
@@ -2084,7 +2202,7 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                 className="mb-6 text-[12px] font-semibold uppercase text-white"
                 style={{ letterSpacing: "0.18em" }}
               >
-                Začněte ještě dnes
+                {en ? "Start today" : "Začněte ještě dnes"}
               </p>
 
               <h2
@@ -2096,14 +2214,15 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                   color: "#ffffff",
                 }}
               >
-                Spusťte svůj<br />
-                web teď.
+                {en ? "Launch your" : "Spusťte svůj"}<br />
+                {en ? "website now." : "web teď."}
               </h2>
 
               <Reveal delay={0.45} className="mt-7">
                 <p className="max-w-[460px] text-[16.5px] leading-[1.65] text-white">
-                  Spusťte demo, projděte ho, upravte si ho — a teprve potom se rozhodněte.
-                  Bez kreditní karty, bez programátora.
+                  {en
+                    ? "Start a demo, explore it, edit it, and decide only after you have seen it. No credit card, no developer."
+                    : "Spusťte demo, projděte ho, upravte si ho — a teprve potom se rozhodněte. Bez kreditní karty, bez programátora."}
                 </p>
               </Reveal>
 
@@ -2112,13 +2231,13 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                   onClick={() => openModal()}
                   className="inline-flex h-[58px] items-center justify-center rounded-full bg-[#22c55e] px-12 text-[16px] font-semibold text-white shadow-[0_8px_40px_rgba(34,197,94,0.35)] transition hover:bg-[#16a34a] hover:shadow-[0_12px_50px_rgba(34,197,94,0.50)] active:scale-[0.97]"
                 >
-                  Vyzkoušet zdarma
+                  {en ? "Try for free" : "Vyzkoušet zdarma"}
                 </button>
                 <a
                   href="#sablony"
                   className="text-[14.5px] font-semibold text-white transition hover:text-white/80"
                 >
-                  Prohlédnout šablony →
+                  {en ? "Browse templates →" : "Prohlédnout šablony →"}
                 </a>
               </Reveal>
 
@@ -2127,19 +2246,19 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                   <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-[#22c55e]/20 text-[#22c55e]">
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M5 12l5 5L20 7"/></svg>
                   </span>
-                  Bez kreditní karty
+                  {en ? "No credit card" : "Bez kreditní karty"}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-[#22c55e]/20 text-[#22c55e]">
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M5 12l5 5L20 7"/></svg>
                   </span>
-                  Bez závazku
+                  {en ? "No commitment" : "Bez závazku"}
                 </span>
                 <span className="flex items-center gap-1.5">
                   <span className="grid h-3.5 w-3.5 place-items-center rounded-full bg-[#22c55e]/20 text-[#22c55e]">
                     <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M5 12l5 5L20 7"/></svg>
                   </span>
-                  Zrušíte kdykoli
+                  {en ? "Cancel anytime" : "Zrušíte kdykoli"}
                 </span>
               </Reveal>
             </div>
@@ -2169,7 +2288,7 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                     </div>
                     <div className="relative aspect-[16/10] overflow-hidden">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src="/templates/clinic-02/hero-bg.webp" alt="Náhled webu beauty kliniky" loading="lazy" className="h-full w-full object-cover" />
+                      <img src="/templates/clinic-02/hero-bg.webp" alt={en ? "Beauty clinic website preview" : "Náhled webu beauty kliniky"} loading="lazy" className="h-full w-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -2191,8 +2310,8 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
                     </svg>
                   </div>
                   <div>
-                    <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#22c55e]">Publikováno</div>
-                    <div className="text-[12.5px] font-semibold text-white">Před 3 sekundami</div>
+                    <div className="text-[10px] font-bold uppercase tracking-[0.14em] text-[#22c55e]">{en ? "Published" : "Publikováno"}</div>
+                    <div className="text-[12.5px] font-semibold text-white">{en ? "3 seconds ago" : "Před 3 sekundami"}</div>
                   </div>
                 </div>
               </div>
@@ -2202,10 +2321,11 @@ export function SaasLanding({ approvedTemplates = [], heroDesktopDemoUrl = null,
         </div>
       </section>
 
-      <StickyCTA onOpen={() => openModal()} />
+      <StickyCTA locale={locale} onOpen={() => openModal()} />
 
       {showModal && (
         <OnboardingModal
+          locale={locale}
           onClose={() => { setShowModal(false); setActiveTemplate(null); }}
           initialTemplate={activeTemplate?.key}
           templateName={activeTemplate?.name}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { PlatformLocale } from "@/lib/platform-i18n";
 
 const STORAGE_KEY = "webero_cookie_consent_v1";
 
@@ -12,6 +13,71 @@ interface ConsentState {
   marketing: boolean;
   timestamp: number;
 }
+
+const COPY: Record<PlatformLocale, {
+  aria: string;
+  intro: string;
+  link: string;
+  settings: string;
+  reject: string;
+  accept: string;
+  close: string;
+  save: string;
+  rows: {
+    necessary: { label: string; desc: string };
+    analytics: { label: string; desc: string };
+    marketing: { label: string; desc: string };
+  };
+}> = {
+  cs: {
+    aria: "Souhlas s cookies",
+    intro: "Používáme cookies pro lepší zážitek a anonymní analytiku.",
+    link: "Více info",
+    settings: "Nastavit",
+    reject: "Odmítnout",
+    accept: "Přijmout vše",
+    close: "Zavřít",
+    save: "Uložit volbu",
+    rows: {
+      necessary: {
+        label: "Nezbytné",
+        desc: "Funkce webu (přihlášení, košík). Vždy aktivní.",
+      },
+      analytics: {
+        label: "Analytika",
+        desc: "Anonymní statistiky návštěvnosti (Google Analytics).",
+      },
+      marketing: {
+        label: "Marketing",
+        desc: "Retargeting reklam (Meta Pixel).",
+      },
+    },
+  },
+  en: {
+    aria: "Cookie consent",
+    intro: "We use cookies to improve your experience and measure anonymous traffic.",
+    link: "More info",
+    settings: "Customize",
+    reject: "Reject",
+    accept: "Accept all",
+    close: "Close",
+    save: "Save choice",
+    rows: {
+      necessary: {
+        label: "Essential",
+        desc: "Website functions such as login and checkout. Always active.",
+      },
+      analytics: {
+        label: "Analytics",
+        desc: "Anonymous traffic statistics (Google Analytics).",
+      },
+      marketing: {
+        label: "Marketing",
+        desc: "Advertising retargeting (Meta Pixel).",
+      },
+    },
+  },
+};
 
 function readConsent(): ConsentState | null {
   if (typeof window === "undefined") return null;
@@ -31,11 +97,12 @@ function writeConsent(c: ConsentState) {
   } catch {}
 }
 
-export function CookieConsent() {
+export function CookieConsent({ locale = "en" }: { locale?: PlatformLocale } = {}) {
   const [open, setOpen] = useState(false);
   const [details, setDetails] = useState(false);
   const [analytics, setAnalytics] = useState(true);
   const [marketing, setMarketing] = useState(false);
+  const copy = COPY[locale];
 
   useEffect(() => {
     const existing = readConsent();
@@ -64,7 +131,7 @@ export function CookieConsent() {
       {/* Minimal centered bar */}
       <div
         role="dialog"
-        aria-label="Souhlas s cookies"
+        aria-label={copy.aria}
         className="fixed inset-x-3 bottom-3 z-[60] mx-auto max-w-[860px] sm:bottom-5 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2"
         style={{ animation: "cookieSlideUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) both" }}
       >
@@ -84,12 +151,12 @@ export function CookieConsent() {
           {/* Copy */}
           <div className="min-w-0 flex-1 text-center sm:text-left">
             <p className="text-[13px] leading-[1.5] text-white/90 sm:text-[13.5px]">
-              Používáme cookies pro lepší zážitek a anonymní analytiku.{" "}
+              {copy.intro}{" "}
               <a
-                href="/ochrana-udaju"
+                href="#"
                 className="font-semibold text-white underline-offset-2 hover:underline"
               >
-                Více info
+                {copy.link}
               </a>
             </p>
           </div>
@@ -101,21 +168,21 @@ export function CookieConsent() {
               onClick={() => setDetails((v) => !v)}
               className="rounded-full px-4 py-1.5 text-[12.5px] font-medium text-white/65 transition hover:bg-white/10 hover:text-white"
             >
-              Nastavit
+              {copy.settings}
             </button>
             <button
               type="button"
               onClick={rejectAll}
               className="rounded-full px-4 py-1.5 text-[12.5px] font-medium text-white/65 transition hover:bg-white/10 hover:text-white"
             >
-              Odmítnout
+              {copy.reject}
             </button>
             <button
               type="button"
               onClick={acceptAll}
               className="inline-flex items-center gap-1.5 rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-[#0a0a0a] shadow-[0_4px_14px_-4px_rgba(255,255,255,0.3)] transition hover:bg-white/92"
             >
-              Přijmout vše
+              {copy.accept}
             </button>
           </div>
         </div>
@@ -127,9 +194,9 @@ export function CookieConsent() {
             style={{ animation: "cookieSlideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1) both" }}
           >
             <div className="space-y-3">
-              <ConsentRow label="Nezbytné" desc="Funkce webu (přihlášení, košík). Vždy aktivní." value={true} disabled />
-              <ConsentRow label="Analytika" desc="Anonymní statistiky návštěvnosti (Google Analytics)." value={analytics} onChange={setAnalytics} />
-              <ConsentRow label="Marketing" desc="Retargeting reklam (Meta Pixel)." value={marketing} onChange={setMarketing} />
+              <ConsentRow label={copy.rows.necessary.label} desc={copy.rows.necessary.desc} value={true} disabled />
+              <ConsentRow label={copy.rows.analytics.label} desc={copy.rows.analytics.desc} value={analytics} onChange={setAnalytics} />
+              <ConsentRow label={copy.rows.marketing.label} desc={copy.rows.marketing.desc} value={marketing} onChange={setMarketing} />
             </div>
             <div className="mt-5 flex justify-end gap-2">
               <button
@@ -137,14 +204,14 @@ export function CookieConsent() {
                 onClick={() => setDetails(false)}
                 className="rounded-full px-4 py-2 text-[12.5px] font-medium text-white/65 transition hover:text-white"
               >
-                Zavřít
+                {copy.close}
               </button>
               <button
                 type="button"
                 onClick={saveCustom}
                 className="rounded-full bg-white px-5 py-2 text-[13px] font-semibold text-[#0a0a0a] transition hover:bg-white/92"
               >
-                Uložit volbu
+                {copy.save}
               </button>
             </div>
           </div>

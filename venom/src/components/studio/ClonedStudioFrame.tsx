@@ -72,7 +72,7 @@ export function ClonedStudioFrame({ tenantSlug, width, scrollTo }: Props) {
     el.scrollIntoView({ behavior: "smooth", block: "start" });
     const prev = el.style.outline;
     const prevOffset = el.style.outlineOffset;
-    el.style.outline = "3px solid #6366f1";
+    el.style.outline = "3px solid var(--vs-accent)";
     el.style.outlineOffset = "2px";
     const t = setTimeout(() => {
       if (!el) return;

@@ -2,15 +2,20 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Menu, X, ChevronRight, ArrowRight } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Menu, X, Check, ChevronRight, ArrowRight } from "lucide-react";
 import { OnboardingModal } from "@/components/onboarding/OnboardingModal";
+import { type PlatformLocale, localizedPath, platformCopy, platformPath } from "@/lib/platform-i18n";
 
-const DEFAULT_NAV_ITEMS = [
-  { label: "PRODUKTY A ŘEŠENÍ", href: "/produkty-a-reseni" },
-  { label: "PŘEHLED FUNKCÍ",    href: "/prehled-funkci" },
-  { label: "VYBRAT DESIGN",     href: "/vybrat-design" },
-  { label: "CENÍK",             href: "/cenik" },
-];
+const navItemsFor = (locale: PlatformLocale) => {
+  const copy = platformCopy[locale].nav;
+  return [
+    { label: copy.products, href: platformPath("/produkty-a-reseni", locale) },
+    { label: copy.features, href: platformPath("/prehled-funkci", locale) },
+    { label: copy.designs, href: platformPath("/vybrat-design", locale) },
+    { label: copy.pricing, href: platformPath("/cenik", locale) },
+  ];
+};
 
 function WeberoMark({ size = 30, light = false }: { size?: number; light?: boolean }) {
   return (
@@ -36,12 +41,21 @@ function WeberoMark({ size = 30, light = false }: { size?: number; light?: boole
 
 export function PlatformHeader({
   forceSolid = false,
-  navItems = DEFAULT_NAV_ITEMS,
+  locale = "cs",
+  navItems,
 }: {
   forceSolid?: boolean;
+  locale?: PlatformLocale;
   navItems?: { label: string; href: string }[];
 } = {}) {
-  const NAV_ITEMS = navItems;
+  const copy = platformCopy[locale].nav;
+  const NAV_ITEMS = navItems ?? navItemsFor(locale);
+  const pathname = usePathname() || "/";
+  const switchPath = (target: PlatformLocale) => {
+    const withoutLocale = pathname.replace(/^\/(cs|en)(?=\/|$)/, "") || "/";
+    if (withoutLocale !== "/") return platformPath(withoutLocale, target);
+    return platformPath("/", target);
+  };
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
@@ -66,19 +80,23 @@ export function PlatformHeader({
   const solid = scrolled || menuOpen || forceSolid;
 
   return (
-    <header
-      className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
-        solid
-          ? "bg-white shadow-[0_2px_20px_rgba(0,0,0,0.08)] border-b border-[#f3f4f6]"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="mx-auto flex h-[64px] max-w-[1280px] items-center justify-between px-5 sm:px-6 lg:h-[72px] lg:px-8">
+    <header className="fixed left-0 right-0 top-0 z-50">
+      {/* Pozadí je samostatná vrstva: backdrop-filter na <header> by z něj udělal
+          containing block pro fixed potomky (mobilní drawer, onboarding modal). */}
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute inset-0 transition-all duration-150 ${
+          solid
+            ? "bg-white shadow-[0_1px_2px_rgba(16,24,40,0.04),0_8px_24px_rgba(16,24,40,0.05)] border-b border-[#f3f4f6] lg:bg-white/90 lg:backdrop-blur-xl"
+            : "bg-transparent"
+        }`}
+      />
+      <div className="relative mx-auto flex h-[64px] max-w-[1280px] items-center justify-between px-5 sm:px-6 lg:h-[72px] lg:px-8">
 
         {/* Logo */}
         <Link
-          href="/"
-          className={`flex items-center gap-3 font-bold text-[22px] tracking-[-0.025em] transition-colors duration-300 ${
+          href={localizedPath("/", locale)}
+          className={`flex items-center gap-3 font-bold text-[22px] tracking-[-0.025em] transition-colors duration-150 ${
             solid ? "text-[#111827]" : "text-white"
           }`}
         >
@@ -96,46 +114,98 @@ export function PlatformHeader({
               "'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
           }}
         >
-          {NAV_ITEMS.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className={`font-medium transition-colors duration-300 hover:text-[#6366f1] ${
-                solid ? "text-[#374151]" : "text-white/95"
-              }`}
-            >
-              {item.label}
-            </a>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                aria-current={active ? "page" : undefined}
+                className={`group/nav relative py-1 font-medium transition-colors duration-150 hover:text-[#6366f1] ${
+                  active ? "text-[#4f46e5]" : solid ? "text-[#374151]" : "text-white/95"
+                }`}
+              >
+                {item.label}
+                <span
+                  className={`absolute -bottom-0.5 left-0 h-[2px] w-full origin-left rounded-full transition-transform duration-300 ease-out ${
+                    solid || active ? "bg-[#6366f1]" : "bg-white"
+                  } ${active ? "scale-x-100" : "scale-x-0 group-hover/nav:scale-x-100"}`}
+                />
+              </a>
+            );
+          })}
         </nav>
 
         {/* Desktop actions */}
         <div className="hidden items-center gap-3 lg:flex">
           <Link
-            href="/admin/login"
-            className={`text-[15px] font-medium transition-colors duration-300 hover:text-[#6366f1] ${
+            href={platformPath("/admin/login", locale)}
+            className={`group/login relative py-1 text-[15px] font-medium transition-colors duration-150 hover:text-[#6366f1] ${
               solid ? "text-[#374151]" : "text-white/90"
             }`}
           >
-            Přihlásit
+            {copy.login}
+            <span
+              className={`absolute -bottom-0.5 left-0 h-[2px] w-full origin-left scale-x-0 rounded-full transition-transform duration-300 ease-out group-hover/login:scale-x-100 ${
+                solid ? "bg-[#6366f1]" : "bg-white"
+              }`}
+            />
           </Link>
           <button
             type="button"
             onClick={openTryFree}
-            className={`inline-flex items-center gap-1.5 rounded-lg px-5 py-2.5 text-[14.5px] font-semibold transition-all active:scale-[0.98] ${
+            className={`group/cta inline-flex items-center gap-1.5 rounded-lg px-5 py-2.5 text-[14.5px] font-semibold transition-all duration-200 hover:-translate-y-[1px] active:translate-y-0 active:scale-[0.98] ${
               solid
-                ? "bg-[#4f46e5] text-white shadow-[0_1px_3px_rgba(0,0,0,.12),0_4px_12px_rgba(79,70,229,.25)] hover:bg-[#4338ca]"
+                ? "bg-[#4f46e5] text-white shadow-[0_1px_3px_rgba(0,0,0,.12),0_4px_12px_rgba(79,70,229,.25)] hover:bg-[#4338ca] hover:shadow-[0_2px_4px_rgba(0,0,0,.12),0_8px_20px_rgba(79,70,229,.35)]"
                 : "bg-white text-[#111827] hover:bg-white/90"
             }`}
           >
-            Vyzkoušet zdarma
-            <ArrowRight className="h-4 w-4" />
+            {copy.tryFree}
+            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover/cta:translate-x-0.5" />
           </button>
+          <div className="group relative">
+            <button
+              type="button"
+              aria-label={copy.language}
+              className={`inline-flex h-10 items-center gap-2 rounded-full border px-3 text-[14px] font-semibold transition-all duration-200 active:scale-[0.97] ${
+                solid
+                  ? "border-[#e5e7eb] bg-white text-[#374151] hover:border-[#c7cdd8] hover:shadow-[0_2px_8px_rgba(16,24,40,0.08)]"
+                  : "border-white/20 bg-white/10 text-white hover:border-white/35 hover:bg-white/15"
+              }`}
+            >
+              <span aria-hidden>{locale === "en" ? "🇬🇧" : "🇨🇿"}</span>
+              <span>{locale.toUpperCase()}</span>
+            </button>
+            <div className="invisible absolute right-0 top-full translate-y-1 pt-2 opacity-0 transition-all duration-200 ease-out group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+              <div className="w-40 overflow-hidden rounded-xl border border-[#e5e7eb] bg-white p-1.5 shadow-[0_18px_45px_rgba(15,23,42,0.16)]">
+                <Link
+                  href={switchPath("cs")}
+                  className={`flex items-center gap-2 rounded-lg px-2.5 py-2 text-[13.5px] font-medium transition-colors duration-150 ${
+                    locale === "cs" ? "bg-[#eef2ff] text-[#4f46e5]" : "text-[#111827] hover:bg-[#f8fafc]"
+                  }`}
+                >
+                  <span aria-hidden>🇨🇿</span>
+                  {copy.czech}
+                  {locale === "cs" && <Check className="ml-auto h-4 w-4" strokeWidth={2.5} />}
+                </Link>
+                <Link
+                  href={switchPath("en")}
+                  className={`flex items-center gap-2 rounded-lg px-2.5 py-2 text-[13.5px] font-medium transition-colors duration-150 ${
+                    locale === "en" ? "bg-[#eef2ff] text-[#4f46e5]" : "text-[#111827] hover:bg-[#f8fafc]"
+                  }`}
+                >
+                  <span aria-hidden>🇬🇧</span>
+                  {copy.english}
+                  {locale === "en" && <Check className="ml-auto h-4 w-4" strokeWidth={2.5} />}
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Mobile hamburger */}
         <button
-          aria-label="Otevřít menu"
+          aria-label={copy.openMenu}
           onClick={() => setMenuOpen(true)}
           className={`-mr-2 grid h-10 w-10 place-items-center transition-colors lg:hidden ${
             solid ? "text-[#374151]" : "text-white"
@@ -167,7 +237,7 @@ export function PlatformHeader({
               Webero
             </div>
             <button
-              aria-label="Zavřít"
+              aria-label={copy.close}
               onClick={() => setMenuOpen(false)}
               className="-mr-2 grid h-10 w-10 place-items-center text-[#374151]"
             >
@@ -189,30 +259,48 @@ export function PlatformHeader({
               </a>
             ))}
             <Link
-              href="/admin/login"
+              href={platformPath("/admin/login", locale)}
               onClick={() => setMenuOpen(false)}
               className="flex items-center justify-between border-b border-[#e5e7eb] py-4 text-[17px] font-medium text-[#111827]"
             >
-              Přihlásit
+              {copy.login}
               <ChevronRight className="h-5 w-5 text-[#9ca3af]" />
             </Link>
           </nav>
 
           {/* Drawer CTA */}
           <div className="border-t border-[#e5e7eb] p-5">
+            <div className="mb-4 grid grid-cols-2 gap-2">
+              <Link
+                href={switchPath("cs")}
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center justify-center gap-2 rounded-lg border border-[#e5e7eb] px-3 py-2 text-[13px] font-semibold text-[#111827]"
+              >
+                <span aria-hidden>🇨🇿</span>
+                CS
+              </Link>
+              <Link
+                href={switchPath("en")}
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center justify-center gap-2 rounded-lg border border-[#e5e7eb] px-3 py-2 text-[13px] font-semibold text-[#111827]"
+              >
+                <span aria-hidden>🇬🇧</span>
+                EN
+              </Link>
+            </div>
             <button
               type="button"
               onClick={openTryFree}
               className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-[#4f46e5] px-5 py-3.5 text-[16px] font-semibold text-white"
             >
-              Vyzkoušet zdarma
+              {copy.tryFree}
               <ArrowRight className="h-4 w-4" />
             </button>
           </div>
         </aside>
       </div>
 
-      {modalOpen && <OnboardingModal onClose={() => setModalOpen(false)} />}
+      {modalOpen && <OnboardingModal locale={locale} onClose={() => setModalOpen(false)} />}
     </header>
   );
 }

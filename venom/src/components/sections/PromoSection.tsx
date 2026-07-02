@@ -61,7 +61,7 @@ export function PromoSection({ content, variant, sectionId, isAdmin, tenantSlug 
   if (variant === "malir-01-promo")       return <PromoMalir01     content={content} sectionId={sectionId} isAdmin={isAdmin} />;
   if (variant === "malir-02-promo")       return <PromoMalir02     content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "clean-02-promo")       return <PromoClean02     content={content} sectionId={sectionId} />;
-  if (variant === "hotel-01-gastro")      return <PromoHotel01Gastro content={content} sectionId={sectionId} isAdmin={isAdmin} />;
+  if (variant === "hotel-01-gastro")      return <PromoHotel01Gastro content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hotel-02-packages")    return <PromoHotel02Packages content={content} sectionId={sectionId} isAdmin={isAdmin} />;
   if (variant === "chalet-01-activities") return <ActivitiesChalet01  content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "garden-02-tv")         return <TvGarden02       content={content} sectionId={sectionId} />;
@@ -3899,120 +3899,334 @@ function MediaGarden02({ content, sectionId }: { content: Record<string, unknown
 }
 
 // ── hotel-01-gastro ───────────────────────────────────────────────────────────
-function PromoHotel01Gastro({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; isAdmin: boolean }) {
+function PromoHotel01Gastro({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const c              = (content ?? {}) as Record<string, any>;
-  const eyebrow        = c.eyebrow        ?? "Gastronomie";
-  const title          = c.title          ?? "Café Palace";
+  const showHeader     = c.showHeader !== false;
+  const eyebrow        = c.eyebrow        ?? "Gastronomie · À la carte";
+  const title          = c.title          ?? "Bistro Aurora";
+  const titleAccent    = c.titleAccent    ?? "Aurora";
+  const tagline        = c.tagline        ?? "Sezónní kuchyně jižní Moravy";
   const body           = c.body           ?? "";
-  const cta1Text       = c.cta1Text       ?? "Prohlédnout menu";
-  const cta1Href       = c.cta1Href       ?? "#gastro";
-  const cta2Text       = c.cta2Text       ?? "Naše gastronomie";
-  const cta2Href       = c.cta2Href       ?? "#gastro";
+  const chefName       = c.chefName       ?? "Jan Novák";
+  const chefTitle      = c.chefTitle      ?? "Executive chef · 15 let s Michelin";
+  const openingLabel   = c.openingLabel   ?? "Otevřeno denně";
+  const openingHours   = c.openingHours   ?? "7:00 – 23:00";
+  const featureLabel1  = c.featureLabel1  ?? "Snídaně";
+  const featureLabel2  = c.featureLabel2  ?? "À la carte";
+  const featureLabel3  = c.featureLabel3  ?? "Vinný sklep";
+  const featureHours1  = c.featureHours1  ?? "7:00 – 10:30";
+  const featureHours2  = c.featureHours2  ?? "12:00 – 22:30";
+  const featureHours3  = c.featureHours3  ?? "16:00 – 24:00";
+  const cta1Text       = c.cta1Text       ?? "Zobrazit menu";
+  const cta1Href       = c.cta1Href       ?? "/gastro";
+  const cta2Text       = c.cta2Text       ?? "Rezervovat stůl";
+  const cta2Href       = c.cta2Href       ?? "/kontakt";
   const backgroundImage = c.backgroundImage ?? "";
 
-  const resolve = (href: string) => (isAdmin ? "#" : href ?? "#");
+  const href = (h: string) => resolveDemoHref(h ?? "#", tenantSlug, isAdmin);
+
+  const renderTitle = () => {
+    if (!titleAccent || !title.includes(titleAccent)) {
+      return <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />;
+    }
+    const parts = title.split(titleAccent);
+    return (
+      <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span">
+        <>{parts[0]}<em className="h01gastro-accent">{titleAccent}</em>{parts.slice(1).join(titleAccent)}</>
+      </GenericEditableText>
+    );
+  };
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Poppins:wght@300;400;500&display=swap" />
-      <style>{`        .h01gastro {
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Poppins:wght@300;400;500&display=swap" />
+      <style>{`
+        .h01gastro {
           position: relative; overflow: hidden;
-          min-height: 520px;
+          min-height: 640px;
           display: flex; align-items: center;
           font-family: 'Poppins', sans-serif;
         }
         .h01gastro-bg {
           position: absolute; inset: 0;
           background-size: cover; background-position: center;
-          transform: scale(1.04); transition: transform 8s ease;
+          transform: scale(1.06); transition: transform 12s linear;
+          filter: sepia(.06) contrast(1.02) saturate(1.05);
         }
         .h01gastro:hover .h01gastro-bg { transform: scale(1); }
         .h01gastro-overlay {
-          position: absolute; inset: 0;
-          background: linear-gradient(
-            to right,
-            rgba(30,26,22,0.88) 0%,
-            rgba(30,26,22,0.72) 50%,
-            rgba(30,26,22,0.18) 100%
-          );
+          position: absolute; inset: 0; z-index: 1;
+          background:
+            linear-gradient(105deg, rgba(20,17,14,0.94) 0%, rgba(20,17,14,0.82) 42%, rgba(20,17,14,0.35) 78%, rgba(20,17,14,0.15) 100%),
+            radial-gradient(ellipse 60% 100% at 15% 50%, rgba(169,135,99,.14), transparent 60%);
+          pointer-events: none;
         }
+        .h01gastro-hairline {
+          position: absolute; top: 32px; bottom: 32px; left: 40px; z-index: 2;
+          width: 1px; background: linear-gradient(180deg, transparent, rgba(169,135,99,.35) 20%, rgba(169,135,99,.4) 80%, transparent);
+          pointer-events: none;
+        }
+        .h01gastro-frame-tl, .h01gastro-frame-tr, .h01gastro-frame-bl, .h01gastro-frame-br {
+          position: absolute; width: 42px; height: 42px; z-index: 2;
+          color: rgba(169,135,99,.6); pointer-events: none;
+        }
+        .h01gastro-frame-tl { top: 28px; left: 28px; }
+        .h01gastro-frame-tr { top: 28px; right: 28px; transform: scaleX(-1); }
+        .h01gastro-frame-bl { bottom: 28px; left: 28px; transform: scaleY(-1); }
+        .h01gastro-frame-br { bottom: 28px; right: 28px; transform: scale(-1,-1); }
+
         .h01gastro-inner {
-          position: relative; z-index: 2;
-          max-width: 1200px; margin: 0 auto; width: 100%;
-          padding: clamp(60px,8vw,100px) clamp(24px,5vw,80px);
-          max-width: 560px;
+          position: relative; z-index: 3;
+          max-width: 1240px; margin: 0 auto; width: 100%;
+          padding: clamp(80px,10vw,140px) clamp(24px,5vw,80px);
         }
+        .h01gastro-content {
+          max-width: 640px;
+        }
+
         .h01gastro-eyebrow {
-          font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
-          color: #a98763; font-weight: 500; margin: 0 0 18px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: 13px; letter-spacing: 0.28em; text-transform: uppercase;
+          color: #d4b088; margin: 0 0 26px;
+          display: inline-flex; align-items: center; gap: 18px;
         }
+        .h01gastro-eyebrow::before {
+          content: ''; display: inline-block; width: 40px; height: 1px; background: #a98763;
+        }
+
         .h01gastro-title {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: clamp(28px, 3.5vw, 48px); font-weight: 400;
-          color: #fff; margin: 0 0 24px; line-height: 1.2;
-          font-style: italic;
+          font-size: clamp(40px, 5.5vw, 78px); font-weight: 400;
+          color: #fff; margin: 0 0 12px; line-height: 1.05;
+          letter-spacing: 0.005em;
+        }
+        .h01gastro-accent {
+          font-style: italic; font-weight: 500; color: #d4b088;
+        }
+        .h01gastro-tagline {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: clamp(15px, 1.6vw, 20px);
+          color: rgba(255,255,255,.72); margin: 0 0 28px;
+          letter-spacing: 0.02em;
+        }
+        .h01gastro-rule {
+          width: 60px; height: 1px; background: #a98763; margin: 0 0 30px;
         }
         .h01gastro-body {
-          font-size: 15px; line-height: 1.85; color: rgba(255,255,255,0.82);
-          font-weight: 300; margin: 0 0 40px;
+          font-size: 15.5px; line-height: 1.9; color: rgba(255,255,255,0.82);
+          font-weight: 300; margin: 0 0 40px; max-width: 560px;
         }
+
+        .h01gastro-chef {
+          display: flex; align-items: center; gap: 16px; margin: 0 0 36px;
+          padding-bottom: 30px; border-bottom: 1px solid rgba(169,135,99,.28);
+        }
+        .h01gastro-chef-mark {
+          width: 46px; height: 46px; border-radius: 50%;
+          background: rgba(212,176,136,.12); border: 1px solid rgba(212,176,136,.4);
+          display: inline-flex; align-items: center; justify-content: center;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 500; font-size: 20px;
+          color: #d4b088; flex-shrink: 0;
+        }
+        .h01gastro-chef-info {
+          display: flex; flex-direction: column; gap: 3px;
+        }
+        .h01gastro-chef-name {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 16px; color: #fff; font-weight: 400;
+          letter-spacing: 0.02em;
+        }
+        .h01gastro-chef-title {
+          font-family: 'Poppins', sans-serif; font-weight: 300;
+          font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+          color: rgba(212,176,136,.75);
+        }
+
+        .h01gastro-features {
+          display: grid; grid-template-columns: repeat(3, 1fr);
+          gap: 24px; margin: 0 0 40px;
+        }
+        .h01gastro-feat { position: relative; padding-left: 16px; }
+        .h01gastro-feat::before {
+          content: ''; position: absolute; left: 0; top: 4px; bottom: 4px;
+          width: 1px; background: rgba(169,135,99,.4);
+        }
+        .h01gastro-feat-lbl {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-size: 12px; letter-spacing: 0.24em;
+          text-transform: uppercase; color: #d4b088; margin: 0 0 6px;
+          font-weight: 400;
+        }
+        .h01gastro-feat-val {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 17px; color: #fff; font-weight: 400;
+          letter-spacing: 0.02em;
+        }
+
         .h01gastro-ctas {
           display: flex; gap: 14px; flex-wrap: wrap;
         }
-        .h01gastro-cta1 {
-          display: inline-flex; align-items: center; justify-content: center;
-          border: 1.5px solid rgba(255,255,255,0.6); color: #fff;
+        .h01gastro-cta1, .h01gastro-cta2 {
+          position: relative; overflow: hidden;
+          display: inline-flex; align-items: center; gap: 10px;
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-          padding: 13px 32px; text-decoration: none;
-          transition: border-color 0.2s, background 0.2s;
+          font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+          padding: 15px 34px; text-decoration: none;
+          transition: color .35s, border-color .35s;
         }
-        .h01gastro-cta1:hover { border-color: #a98763; background: rgba(169,135,99,0.15); }
+        .h01gastro-cta1 { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.5); }
+        .h01gastro-cta1::before {
+          content: ''; position: absolute; inset: 0;
+          background: linear-gradient(135deg,#a98763 0%,#c4a274 100%);
+          transform: translateY(101%); transition: transform .55s cubic-bezier(.22,.68,0,1.1);
+          z-index: 0;
+        }
+        .h01gastro-cta1:hover { border-color: #c4a274; }
+        .h01gastro-cta1:hover::before { transform: translateY(0); }
+        .h01gastro-cta1 > * { position: relative; z-index: 1; }
+
         .h01gastro-cta2 {
-          display: inline-flex; align-items: center; justify-content: center;
-          background: #879B32; color: #fff;
-          font-family: 'Playfair Display', Georgia, serif;
-          font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-          padding: 13px 32px; text-decoration: none; transition: background 0.2s;
+          background: transparent; color: #fff; border: 1px solid #a98763;
+          background: rgba(169,135,99,.08);
         }
-        .h01gastro-cta2:hover { background: #6a7a28; }
+        .h01gastro-cta2::before {
+          content: ''; position: absolute; inset: 0;
+          background: #fff; transform: translateY(101%);
+          transition: transform .55s cubic-bezier(.22,.68,0,1.1); z-index: 0;
+        }
+        .h01gastro-cta2:hover { color: #1a1714; border-color: #fff; }
+        .h01gastro-cta2:hover::before { transform: translateY(0); }
+        .h01gastro-cta2 > * { position: relative; z-index: 1; }
+        .h01gastro-cta1 .arrow, .h01gastro-cta2 .arrow {
+          transition: transform .35s cubic-bezier(.22,.68,0,1.1);
+        }
+        .h01gastro-cta1:hover .arrow, .h01gastro-cta2:hover .arrow { transform: translateX(6px); }
+
+        .h01gastro-vertical {
+          position: absolute; right: 60px; top: 50%; transform: translateY(-50%) rotate(-90deg);
+          transform-origin: center; z-index: 3;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-size: 13px; letter-spacing: 0.36em;
+          color: rgba(212,176,136,.55); text-transform: uppercase;
+          white-space: nowrap;
+          display: flex; align-items: center; gap: 20px;
+        }
+        .h01gastro-vertical::before, .h01gastro-vertical::after {
+          content: ''; display: inline-block; width: 40px; height: 1px; background: rgba(212,176,136,.4);
+        }
+
+        @media (max-width: 900px) {
+          .h01gastro-vertical { display: none; }
+          .h01gastro-features { grid-template-columns: 1fr; gap: 14px; }
+          .h01gastro-feat { padding-left: 14px; }
+          .h01gastro-hairline { display: none; }
+          .h01gastro-frame-tl, .h01gastro-frame-tr, .h01gastro-frame-bl, .h01gastro-frame-br { display: none; }
+        }
         @media (max-width: 640px) {
-          .h01gastro-inner { max-width: 100%; }
-          .h01gastro-overlay {
-            background: linear-gradient(to bottom, rgba(30,26,22,0.82), rgba(30,26,22,0.72));
-          }
+          .h01gastro-overlay { background: linear-gradient(180deg, rgba(20,17,14,.9) 0%, rgba(20,17,14,.8) 100%); }
+          .h01gastro-inner { padding: 100px 22px 100px; }
+          .h01gastro-title { font-size: clamp(34px,10vw,50px); }
+          .h01gastro-cta1, .h01gastro-cta2 { padding: 14px 24px; font-size: 11px; letter-spacing: 0.18em; }
         }
       `}</style>
 
       <section className="h01gastro" id="gastro" data-template="hotel-01-gastro">
         <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={backgroundImage || "/placeholder.jpg"} alt="" style={{ position: "absolute", inset: 0 }}>
-          <div
-            className="h01gastro-bg"
-            style={{ backgroundImage: `url('${backgroundImage || "/placeholder.jpg"}')` }}
-            aria-hidden="true"
-          />
+          <div className="h01gastro-bg" style={{ backgroundImage: `url('${backgroundImage || "/placeholder.jpg"}')` }} aria-hidden="true" />
         </GenericEditableImage>
         <div className="h01gastro-overlay" aria-hidden="true" />
 
+        <div className="h01gastro-hairline" aria-hidden="true" />
+        <svg className="h01gastro-frame-tl" viewBox="0 0 42 42" fill="none" aria-hidden="true">
+          <path d="M2 18 L2 2 L18 2" stroke="currentColor" strokeWidth="1"/>
+          <path d="M6 12 L6 6 L12 6" stroke="currentColor" strokeWidth="0.6" opacity="0.6"/>
+        </svg>
+        <svg className="h01gastro-frame-tr" viewBox="0 0 42 42" fill="none" aria-hidden="true">
+          <path d="M2 18 L2 2 L18 2" stroke="currentColor" strokeWidth="1"/>
+          <path d="M6 12 L6 6 L12 6" stroke="currentColor" strokeWidth="0.6" opacity="0.6"/>
+        </svg>
+        <svg className="h01gastro-frame-bl" viewBox="0 0 42 42" fill="none" aria-hidden="true">
+          <path d="M2 18 L2 2 L18 2" stroke="currentColor" strokeWidth="1"/>
+          <path d="M6 12 L6 6 L12 6" stroke="currentColor" strokeWidth="0.6" opacity="0.6"/>
+        </svg>
+        <svg className="h01gastro-frame-br" viewBox="0 0 42 42" fill="none" aria-hidden="true">
+          <path d="M2 18 L2 2 L18 2" stroke="currentColor" strokeWidth="1"/>
+          <path d="M6 12 L6 6 L12 6" stroke="currentColor" strokeWidth="0.6" opacity="0.6"/>
+        </svg>
+
+        <div className="h01gastro-vertical" aria-hidden="true">
+          <GenericEditableText sectionId={sectionId} field="openingLabel" value={openingLabel} tag="span" /> · <GenericEditableText sectionId={sectionId} field="openingHours" value={openingHours} tag="span" />
+        </div>
+
         <div className="h01gastro-inner">
-          <p className="h01gastro-eyebrow">
-            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-          </p>
-          <h2 className="h01gastro-title">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          <p className="h01gastro-body">
-            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-          </p>
-          <div className="h01gastro-ctas">
-            <a href={resolve(cta1Href)} className="h01gastro-cta1">
-              <GenericEditableText sectionId={sectionId} field="cta1Text" value={cta1Text} tag="span" />
-            </a>
-            <a href={resolve(cta2Href)} className="h01gastro-cta2">
-              <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
-            </a>
+          <div className="h01gastro-content">
+            {showHeader && (
+              <div className="h01gastro-eyebrow">
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </div>
+            )}
+            <h2 className="h01gastro-title">{renderTitle()}</h2>
+            <div className="h01gastro-tagline">
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </div>
+            <div className="h01gastro-rule" aria-hidden="true" />
+            <p className="h01gastro-body">
+              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+            </p>
+
+            <div className="h01gastro-chef">
+              <div className="h01gastro-chef-mark" aria-hidden="true">{chefName.split(" ").map((w: string) => w[0]).join("")}</div>
+              <div className="h01gastro-chef-info">
+                <span className="h01gastro-chef-name">
+                  <GenericEditableText sectionId={sectionId} field="chefName" value={chefName} tag="span" />
+                </span>
+                <span className="h01gastro-chef-title">
+                  <GenericEditableText sectionId={sectionId} field="chefTitle" value={chefTitle} tag="span" />
+                </span>
+              </div>
+            </div>
+
+            <div className="h01gastro-features">
+              <div className="h01gastro-feat">
+                <div className="h01gastro-feat-lbl">
+                  <GenericEditableText sectionId={sectionId} field="featureLabel1" value={featureLabel1} tag="span" />
+                </div>
+                <div className="h01gastro-feat-val">
+                  <GenericEditableText sectionId={sectionId} field="featureHours1" value={featureHours1} tag="span" />
+                </div>
+              </div>
+              <div className="h01gastro-feat">
+                <div className="h01gastro-feat-lbl">
+                  <GenericEditableText sectionId={sectionId} field="featureLabel2" value={featureLabel2} tag="span" />
+                </div>
+                <div className="h01gastro-feat-val">
+                  <GenericEditableText sectionId={sectionId} field="featureHours2" value={featureHours2} tag="span" />
+                </div>
+              </div>
+              <div className="h01gastro-feat">
+                <div className="h01gastro-feat-lbl">
+                  <GenericEditableText sectionId={sectionId} field="featureLabel3" value={featureLabel3} tag="span" />
+                </div>
+                <div className="h01gastro-feat-val">
+                  <GenericEditableText sectionId={sectionId} field="featureHours3" value={featureHours3} tag="span" />
+                </div>
+              </div>
+            </div>
+
+            <div className="h01gastro-ctas">
+              <a href={href(cta1Href)} className="h01gastro-cta1">
+                <GenericEditableText sectionId={sectionId} field="cta1Text" value={cta1Text} tag="span" />
+              </a>
+              <a href={href(cta2Href)} className="h01gastro-cta2">
+                <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
+                <span className="arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -4266,9 +4480,13 @@ function PromoMalir02({ content, sectionId, tenantSlug, isAdmin }: { content: Re
 // ── hotel-02-packages ─────────────────────────────────────────────────────────
 function PromoHotel02Packages({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; isAdmin: boolean }) {
   const c       = (content ?? {}) as Record<string, any>;
-  const eyebrow = c.eyebrow ?? "Nejlepší dárek je zážitek!";
-  const title   = c.title   ?? "Darujte jeden z našich výhodných balíčků";
-  const items: { name: string; validity: string; image: string; detailHref: string; bookHref: string }[] = Array.isArray(c.items) ? c.items : [];
+  const showHeader = c.showHeader !== false;
+  const eyebrow = c.eyebrow ?? "Dárky, na které se nezapomíná";
+  const title   = c.title   ?? "Obdarujte blízké pobytem plným zážitků";
+  const subtitle = c.subtitle ?? "Vyberte si z pečlivě sestavených balíčků nebo obdarujte poukazem — pobyt v našem hotelu potěší v každém věku.";
+  const detailLabel = c.detailLabel ?? "Detail balíčku";
+  const bookLabel = c.bookLabel ?? "Rezervovat";
+  const items: { name: string; validity: string; image: string; detailHref: string; bookHref: string; price?: string; nights?: string; includes?: string[] }[] = Array.isArray(c.items) ? c.items : [];
 
   const resolve = (href: string) => (isAdmin ? "#" : href ?? "#");
 
@@ -4276,112 +4494,269 @@ function PromoHotel02Packages({ content, sectionId, isAdmin }: { content: Record
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;500;600&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" />
       <style>{`        .h02pkg {
-          background: #f7f8f9;
-          padding: clamp(70px,9vw,110px) clamp(20px,5vw,80px);
+          position: relative;
+          background: #0f1622;
+          padding: clamp(90px,10vw,140px) clamp(20px,5vw,80px);
           font-family: 'Montserrat', sans-serif;
+          overflow: hidden;
+          color: #fff;
         }
+        .h02pkg::before {
+          content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+          background: linear-gradient(to right, transparent, rgba(150,161,172,0.35), transparent);
+        }
+        .h02pkg::after {
+          content: ""; position: absolute; inset: 0;
+          background: radial-gradient(ellipse at 20% 10%, rgba(91,122,142,0.14), transparent 55%),
+                      radial-gradient(ellipse at 80% 90%, rgba(91,122,142,0.10), transparent 55%);
+          pointer-events: none;
+        }
+        .h02pkg-inner { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; }
         .h02pkg-header {
-          text-align: center; max-width: 680px; margin: 0 auto clamp(48px,6vw,72px);
+          text-align: center; max-width: 720px; margin: 0 auto clamp(56px,7vw,84px);
+        }
+        .h02pkg-ornament {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-style: italic; font-size: 56px; line-height: 1;
+          color: rgba(150,161,172,0.5); margin: 0 0 22px; display: block;
         }
         .h02pkg-eyebrow {
-          font-size: 10px; font-weight: 500; letter-spacing: 0.28em;
-          text-transform: uppercase; color: #96A1AC; margin: 0 0 16px; display: block;
+          display: inline-flex; align-items: center; gap: 16px;
+          font-size: 10px; font-weight: 600; letter-spacing: 0.32em;
+          text-transform: uppercase; color: #96A1AC; margin: 0 0 20px;
+        }
+        .h02pkg-eyebrow::before,
+        .h02pkg-eyebrow::after {
+          content: ""; width: 34px; height: 1px; background: #96A1AC;
         }
         .h02pkg-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(26px,3vw,42px); font-weight: 300;
-          color: #1a2332; line-height: 1.2; margin: 0;
+          font-size: clamp(30px,3.4vw,50px); font-weight: 400; font-style: italic;
+          color: #fff; line-height: 1.12; letter-spacing: -0.005em;
+          margin: 0 0 20px;
+        }
+        .h02pkg-subtitle {
+          font-size: 15px; color: rgba(255,255,255,0.7); font-weight: 400;
+          max-width: 620px; margin: 0 auto; line-height: 1.8;
         }
         .h02pkg-grid {
-          max-width: 900px; margin: 0 auto;
-          display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-          gap: 28px;
+          display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+          gap: 32px;
         }
         .h02pkg-card {
-          background: #fff;
-          box-shadow: 0 4px 24px rgba(26,35,50,0.07);
+          position: relative;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(150,161,172,0.20);
           display: flex; flex-direction: column;
-          transition: box-shadow 0.25s, transform 0.25s;
+          transition: transform 0.5s cubic-bezier(.22,.68,0,1), border-color 0.4s, background 0.4s;
+          overflow: hidden;
+        }
+        .h02pkg-card::before,
+        .h02pkg-card::after {
+          content: ""; position: absolute; width: 16px; height: 16px;
+          border-color: #96A1AC; border-style: solid; border-width: 0;
+          z-index: 2;
+          opacity: 0.55; transition: opacity 0.4s, width 0.4s, height 0.4s;
+        }
+        .h02pkg-card::before {
+          top: -1px; left: -1px; border-top-width: 1px; border-left-width: 1px;
+        }
+        .h02pkg-card::after {
+          bottom: -1px; right: -1px; border-bottom-width: 1px; border-right-width: 1px;
         }
         .h02pkg-card:hover {
-          box-shadow: 0 10px 40px rgba(26,35,50,0.13);
-          transform: translateY(-4px);
+          transform: translateY(-6px);
+          border-color: rgba(150,161,172,0.45);
+          background: rgba(255,255,255,0.05);
         }
-        .h02pkg-img-wrap { overflow: hidden; aspect-ratio: 16/11; }
+        .h02pkg-card:hover::before,
+        .h02pkg-card:hover::after {
+          opacity: 1; width: 26px; height: 26px;
+        }
+
+        .h02pkg-img-wrap {
+          position: relative; overflow: hidden; aspect-ratio: 16/11;
+        }
         .h02pkg-img {
           width: 100%; height: 100%; object-fit: cover; display: block;
-          transition: transform 0.6s ease;
+          transition: transform 0.9s cubic-bezier(.4,0,.2,1);
+          filter: saturate(0.95);
         }
-        .h02pkg-card:hover .h02pkg-img { transform: scale(1.05); }
-        .h02pkg-body { padding: 28px 28px 32px; flex: 1; display: flex; flex-direction: column; }
-        .h02pkg-validity {
-          font-size: 10px; font-weight: 500; letter-spacing: 0.22em;
-          text-transform: uppercase; color: #96A1AC; margin: 0 0 10px;
+        .h02pkg-card:hover .h02pkg-img { transform: scale(1.08); filter: saturate(1.05); }
+        .h02pkg-img-gradient {
+          position: absolute; inset: 0;
+          background: linear-gradient(to top, rgba(15,22,34,0.65), transparent 60%);
+          pointer-events: none;
         }
+        .h02pkg-price-tag {
+          position: absolute; top: 22px; right: 22px;
+          padding: 10px 16px 8px;
+          background: rgba(15,22,34,0.82);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          border: 1px solid rgba(150,161,172,0.35);
+          display: flex; flex-direction: column; align-items: flex-end; line-height: 1;
+        }
+        .h02pkg-price-label {
+          font-size: 8px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase;
+          color: #96A1AC; margin-bottom: 4px;
+        }
+        .h02pkg-price {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-style: italic; font-weight: 500; font-size: 22px; color: #fff;
+        }
+
+        .h02pkg-body { padding: 32px 32px 34px; flex: 1; display: flex; flex-direction: column; }
+        .h02pkg-meta {
+          display: inline-flex; gap: 14px; align-items: center;
+          font-size: 9px; font-weight: 600; letter-spacing: 0.24em;
+          text-transform: uppercase; color: #96A1AC; margin: 0 0 16px;
+        }
+        .h02pkg-meta .dot { width: 3px; height: 3px; background: #5B7A8E; border-radius: 999px; }
         .h02pkg-name {
           font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(20px,2vw,26px); font-weight: 400;
-          color: #1a2332; line-height: 1.2; margin: 0 0 24px; flex: 1;
+          font-size: clamp(22px,2.2vw,30px); font-weight: 500; font-style: italic;
+          color: #fff; line-height: 1.2; letter-spacing: -0.005em;
+          margin: 0 0 22px;
         }
-        .h02pkg-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
+        .h02pkg-includes {
+          list-style: none; padding: 0; margin: 0 0 28px; flex: 1;
+        }
+        .h02pkg-includes li {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 13px; color: rgba(255,255,255,0.78); font-weight: 400;
+          padding: 10px 0; display: inline-flex; align-items: center; gap: 12px;
+          border-bottom: 1px solid rgba(150,161,172,0.15);
+          width: 100%;
+        }
+        .h02pkg-includes li:last-child { border-bottom: none; }
+        .h02pkg-includes li svg {
+          width: 14px; height: 14px; color: #96A1AC; flex-shrink: 0;
+        }
+        .h02pkg-ctas { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
         .h02pkg-detail {
-          display: inline-flex; align-items: center;
-          border: 1.5px solid #96A1AC; color: #96A1AC; background: transparent;
-          font-family: 'Montserrat', sans-serif;
-          font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-          padding: 10px 20px; text-decoration: none; transition: background 0.2s, color 0.2s;
-        }
-        .h02pkg-detail:hover { background: #96A1AC; color: #fff; }
-        .h02pkg-book {
+          position: relative;
           display: inline-flex; align-items: center; gap: 8px;
-          background: #1a2332; color: #fff;
+          color: rgba(255,255,255,0.9); background: transparent; border: none;
           font-family: 'Montserrat', sans-serif;
-          font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-          padding: 10px 20px; text-decoration: none; transition: background 0.2s;
+          font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+          padding: 12px 0; text-decoration: none;
         }
-        .h02pkg-book:hover { background: #2d3f57; }
-        @media (max-width: 640px) {
-          .h02pkg-grid { grid-template-columns: 1fr; max-width: 460px; }
+        .h02pkg-detail::after {
+          content: ""; position: absolute; left: 0; right: 0; bottom: 8px;
+          height: 1px; background: currentColor; transform-origin: right;
+          transition: transform 0.4s cubic-bezier(.22,.68,0,1);
+        }
+        .h02pkg-detail:hover::after { transform-origin: left; transform: scaleX(1.12); }
+        .h02pkg-detail-arrow { transition: transform 0.4s cubic-bezier(.22,.68,0,1); }
+        .h02pkg-detail:hover .h02pkg-detail-arrow { transform: translateX(3px); }
+
+        .h02pkg-book {
+          position: relative; overflow: hidden; isolation: isolate;
+          display: inline-flex; align-items: center; gap: 10px;
+          background: #96A1AC; color: #0f1622; border: 1px solid #96A1AC;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+          padding: 14px 26px; text-decoration: none;
+          transition: color 0.35s, border-color 0.35s;
+        }
+        .h02pkg-book::before {
+          content: ""; position: absolute; inset: 0; z-index: -1;
+          background: #fff; transform: translateY(101%);
+          transition: transform 0.5s cubic-bezier(.22,.68,0,1);
+        }
+        .h02pkg-book:hover::before { transform: translateY(0); }
+        .h02pkg-book:hover { color: #0f1622; border-color: #fff; }
+        .h02pkg-book-arrow { transition: transform 0.4s cubic-bezier(.22,.68,0,1); }
+        .h02pkg-book:hover .h02pkg-book-arrow { transform: translate(3px,-3px); }
+
+        @media (max-width: 700px) {
+          .h02pkg-grid { grid-template-columns: 1fr; }
         }
       `}</style>
 
       <section className="h02pkg" id="balicky" data-template="hotel-02-packages">
-        <div className="h02pkg-header">
-          <span className="h02pkg-eyebrow">
-            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-          </span>
-          <h2 className="h02pkg-title">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-        </div>
-
-        <div className="h02pkg-grid">
-          {items.map((item, i) => (
-            <div key={i} className="h02pkg-card">
-              <div className="h02pkg-img-wrap">
-                <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image || "/placeholder.jpg"} alt={item.name} style={{ width: "100%", height: "100%" }}>
-                  <img src={item.image || "/placeholder.jpg"} alt={item.name} className="h02pkg-img" loading="lazy" />
-                </GenericEditableImage>
-              </div>
-              <div className="h02pkg-body">
-                <p className="h02pkg-validity">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.validity`} value={item.validity} tag="span" />
+        <div className="h02pkg-inner">
+          {showHeader && (
+            <div className="h02pkg-header">
+              <span className="h02pkg-ornament" aria-hidden="true">&</span>
+              <span className="h02pkg-eyebrow">
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </span>
+              <h2 className="h02pkg-title">
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+              {subtitle && (
+                <p className="h02pkg-subtitle">
+                  <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
                 </p>
-                <h3 className="h02pkg-name">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
-                </h3>
-                <div className="h02pkg-ctas">
-                  <a href={resolve(item.detailHref)} className="h02pkg-detail">Detail</a>
-                  <a href={resolve(item.bookHref)} className="h02pkg-book">
-                    Rezervovat
-                    <svg width="13" height="8" viewBox="0 0 13 8" fill="none"><path d="M1 4h11M8 1l3.5 3L8 7" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                  </a>
-                </div>
-              </div>
+              )}
             </div>
-          ))}
+          )}
+
+          <div className="h02pkg-grid">
+            {items.map((item, i) => {
+              const includes = Array.isArray(item.includes) ? item.includes : [];
+              return (
+                <div key={i} className="h02pkg-card">
+                  <div className="h02pkg-img-wrap">
+                    <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image || "/placeholder.jpg"} alt={item.name} style={{ width: "100%", height: "100%" }}>
+                      <img src={item.image || "/placeholder.jpg"} alt={item.name} className="h02pkg-img" loading="lazy" />
+                    </GenericEditableImage>
+                    <div className="h02pkg-img-gradient" aria-hidden="true" />
+                    {item.price && (
+                      <div className="h02pkg-price-tag">
+                        <span className="h02pkg-price-label">od</span>
+                        <span className="h02pkg-price">
+                          <GenericEditableText sectionId={sectionId} field={`items.${i}.price`} value={item.price} tag="span" />
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="h02pkg-body">
+                    <div className="h02pkg-meta">
+                      <span>
+                        <GenericEditableText sectionId={sectionId} field={`items.${i}.validity`} value={item.validity} tag="span" />
+                      </span>
+                      {item.nights && (
+                        <>
+                          <span className="dot" />
+                          <span>
+                            <GenericEditableText sectionId={sectionId} field={`items.${i}.nights`} value={item.nights} tag="span" />
+                          </span>
+                        </>
+                      )}
+                    </div>
+                    <h3 className="h02pkg-name">
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
+                    </h3>
+                    {includes.length > 0 && (
+                      <ul className="h02pkg-includes">
+                        {includes.map((inc, j) => (
+                          <li key={j}>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                            <GenericEditableText sectionId={sectionId} field={`items.${i}.includes.${j}`} value={inc} tag="span" />
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    <div className="h02pkg-ctas">
+                      <a href={resolve(item.detailHref)} className="h02pkg-detail">
+                        <GenericEditableText sectionId={sectionId} field="detailLabel" value={detailLabel} tag="span" />
+                        <svg className="h02pkg-detail-arrow" width="14" height="9" viewBox="0 0 14 9" fill="none"><path d="M1 4.5h12M9 1l4 3.5L9 8" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                      </a>
+                      <a href={resolve(item.bookHref)} className="h02pkg-book">
+                        <GenericEditableText sectionId={sectionId} field="bookLabel" value={bookLabel} tag="span" />
+                        <svg className="h02pkg-book-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </section>
     </>

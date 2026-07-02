@@ -126,7 +126,7 @@ export function ChangeTemplateModal({
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
                 placeholder="Hledat (název, odvětví, klíč…)"
-                className="mb-3 w-full rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-white placeholder-[var(--vs-text-dim)] focus:border-blue-500 focus:outline-none"
+                className="mb-3 w-full rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-white placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none"
               />
               {catalog.length === 0 && (
                 <div className="px-2 py-8 text-center text-[12px] text-[var(--vs-text-dim)]">
@@ -139,7 +139,7 @@ export function ChangeTemplateModal({
                     key={c.key}
                     type="button"
                     onClick={() => loadPreview(c.key)}
-                    className="group flex flex-col overflow-hidden rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)] text-left transition-colors hover:border-blue-500"
+                    className="group flex flex-col overflow-hidden rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)] text-left transition-colors hover:border-[var(--vs-accent)]"
                   >
                     <div
                       className="aspect-video w-full bg-cover bg-center"
@@ -187,8 +187,8 @@ export function ChangeTemplateModal({
                 </ul>
               </div>
 
-              <div className="rounded-md border border-blue-500/30 bg-blue-500/5 p-3">
-                <div className="mb-1 flex items-center gap-1.5 text-[12px] font-semibold text-blue-300">
+              <div className="rounded-md border border-[var(--vs-accent)]/30 bg-[var(--vs-accent-solid)]/5 p-3">
+                <div className="mb-1 flex items-center gap-1.5 text-[12px] font-semibold text-[var(--vs-accent-hi)]">
                   <ArrowRight className="h-3.5 w-3.5" /> Nová šablona
                 </div>
                 <div className="text-[11px] text-[var(--vs-text-soft)]">
@@ -210,7 +210,7 @@ export function ChangeTemplateModal({
                 <button
                   type="button"
                   onClick={apply}
-                  className="rounded-md bg-blue-600 px-4 py-1.5 text-[12px] font-semibold text-white hover:bg-blue-500"
+                  className="rounded-md bg-[var(--vs-accent-solid)] px-4 py-1.5 text-[12px] font-semibold text-white hover:bg-[var(--vs-accent-solid-hi)]"
                 >
                   Změnit šablonu
                 </button>
@@ -220,7 +220,7 @@ export function ChangeTemplateModal({
 
           {step === "applying" && (
             <div className="flex h-full flex-col items-center justify-center gap-3 text-[12px] text-[var(--vs-text-soft)]">
-              <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
+              <Loader2 className="h-8 w-8 animate-spin text-[var(--vs-accent)]" />
               Aplikuji novou šablonu…
             </div>
           )}

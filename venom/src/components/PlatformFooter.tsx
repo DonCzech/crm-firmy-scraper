@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { NewsletterForm } from "@/components/NewsletterForm";
+import { type PlatformLocale, localizedPath, platformCopy, platformPath } from "@/lib/platform-i18n";
 
 function WeberoMark({ size = 28 }: { size?: number }) {
   return (
@@ -23,35 +24,38 @@ function WeberoMark({ size = 28 }: { size?: number }) {
   );
 }
 
-const COLUMNS = [
-  {
-    title: "Produkt",
-    links: [
-      ["Šablony", "#sablony"],
-      ["Funkce", "#jak-to-funguje"],
-      ["Ceník", "#ceny"],
-      ["Reference", "#reference"],
-    ],
-  },
-  {
-    title: "Společnost",
-    links: [
-      ["O Weberu", "#"],
-      ["Kariéra", "#"],
-      ["Kontakt", "#"],
-      ["Blog", "#"],
-    ],
-  },
-  {
-    title: "Kontakt",
-    links: [
-      ["podpora@webero.co", "mailto:podpora@webero.co"],
-      ["+420 776 123 456",  "tel:+420776123456"],
-      ["Po–Pá 9:00–17:00",  "#"],
-      ["Stav systému",      "#"],
-    ],
-  },
-];
+function columnsFor(locale: PlatformLocale) {
+  const copy = platformCopy[locale].footer;
+  return [
+    {
+      title: copy.product,
+      links: [
+        [copy.templates, "#sablony"],
+        [copy.features, "#jak-to-funguje"],
+        [copy.pricing, "#ceny"],
+        [copy.references, "#reference"],
+      ],
+    },
+    {
+      title: copy.company,
+      links: [
+        [copy.about, "#"],
+        [copy.careers, "#"],
+        [copy.contact, "#"],
+        [copy.blog, "#"],
+      ],
+    },
+    {
+      title: copy.contactTitle,
+      links: [
+        ["podpora@webero.co", "mailto:podpora@webero.co"],
+        ["+420 776 123 456", "tel:+420776123456"],
+        [copy.hours, "#"],
+        [copy.status, "#"],
+      ],
+    },
+  ];
+}
 
 const SOCIALS = [
   {
@@ -90,8 +94,10 @@ const SOCIALS = [
   },
 ];
 
-export function PlatformFooter() {
+export function PlatformFooter({ locale = "cs" }: { locale?: PlatformLocale } = {}) {
   const year = new Date().getFullYear();
+  const copy = platformCopy[locale].footer;
+  const columns = columnsFor(locale);
 
   return (
     <footer className="relative bg-[#0a0a0a] text-white">
@@ -114,14 +120,22 @@ export function PlatformFooter() {
               className="font-sans font-semibold tracking-[-0.025em] text-white"
               style={{ fontSize: "clamp(22px, 2.6vw, 30px)", lineHeight: "1.15" }}
             >
-              Dostaňte 5 šablon zdarma.
+              {copy.newsletterTitle}
             </h3>
             <p className="mt-2 max-w-[420px] text-[14px] leading-[1.55] text-white/65">
-              Nové šablony, design tipy a UX postřehy.
-              1× měsíčně, žádný spam, odhlášení 1 klikem.
+              {copy.newsletterText}
             </p>
           </div>
-          <NewsletterForm />
+          <NewsletterForm
+            copy={{
+              placeholder: copy.newsletterPlaceholder,
+              submit: copy.newsletterSubmit,
+              loading: copy.newsletterLoading,
+              successTitle: copy.newsletterSuccessTitle,
+              successText: copy.newsletterSuccessText,
+              error: copy.newsletterError,
+            }}
+          />
         </div>
 
         {/* Top — brand + columns */}
@@ -130,7 +144,7 @@ export function PlatformFooter() {
           {/* Brand */}
           <div className="col-span-2">
             <Link
-              href="/"
+              href={localizedPath("/", locale)}
               className="inline-flex items-center gap-2.5 text-[18px] font-bold tracking-[-0.025em] text-white"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
@@ -138,7 +152,7 @@ export function PlatformFooter() {
               Webero
             </Link>
             <p className="mt-5 max-w-[300px] text-[13.5px] leading-[1.65] text-white/55">
-              Profesionální weby bez programátora. Šablony, editor, hosting — vše v jednom.
+              {copy.brandText}
             </p>
             <div className="mt-6 flex items-center gap-2.5">
               {SOCIALS.map((s) => (
@@ -155,7 +169,7 @@ export function PlatformFooter() {
           </div>
 
           {/* Columns */}
-          {COLUMNS.map((col) => (
+          {columns.map((col) => (
             <div key={col.title}>
               <h3
                 className="mb-5 text-[11px] font-semibold uppercase text-white"
@@ -180,16 +194,40 @@ export function PlatformFooter() {
         </div>
 
         {/* Bottom — single line */}
-        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-7 text-[12.5px] text-white sm:flex-row sm:items-center">
+        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-7 text-[12.5px] text-white lg:flex-row lg:items-center">
           <div className="flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full bg-[#22c55e]" />
-            <span>Všechny systémy běží</span>
+            <span>{copy.systemsOk}</span>
             <span className="mx-2 text-white/50">·</span>
-            <span>Hosting v EU</span>
+            <span>{copy.euHosting}</span>
+          </div>
+          <div className="inline-flex overflow-hidden rounded-full border border-white/12 bg-white/[0.03] p-1">
+            <Link
+              href={platformPath("/", "cs")}
+              className={`inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-[12.5px] font-semibold transition ${
+                locale === "cs"
+                  ? "bg-white text-[#111827]"
+                  : "text-white/70 hover:bg-white/10 hover:text-white"
+              }`}
+            >
+              <span aria-hidden>🇨🇿</span>
+              CS
+            </Link>
+            <Link
+              href={platformPath("/", "en")}
+              className={`inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-[12.5px] font-semibold transition ${
+                locale === "en"
+                  ? "bg-white text-[#111827]"
+                  : "text-white/70 hover:bg-white/10 hover:text-white"
+              }`}
+            >
+              <span aria-hidden>🇬🇧</span>
+              EN
+            </Link>
           </div>
           <div className="flex items-center gap-5">
-            <a href="#" className="hover:text-white/70">Obchodní podmínky</a>
-            <a href="#" className="hover:text-white/70">Ochrana údajů</a>
+            <a href="#" className="hover:text-white/70">{copy.terms}</a>
+            <a href="#" className="hover:text-white/70">{copy.privacy}</a>
             <span>© {year} Webero s.r.o.</span>
           </div>
         </div>

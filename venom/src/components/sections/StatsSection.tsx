@@ -2438,84 +2438,156 @@ function StatsClean02({ content, sectionId }: { content: Record<string, unknown>
 // ── hotel-02-features ─────────────────────────────────────────────────────────
 function StatsHotel02Features({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const c      = (content ?? {}) as Record<string, any>;
-  const eyebrow = c.eyebrow ?? "Proč si pobyt u nás skvěle užijete?";
-  const title   = c.title   ?? "Nejvýhodnější je rezervace pobytu přímo na našem webu";
-  const items: { number: string; title: string; description: string }[] = Array.isArray(c.items) ? c.items : [];
+  const showHeader = c.showHeader !== false;
+  const eyebrow = c.eyebrow ?? "Proč rezervovat přímo u nás?";
+  const title   = c.title   ?? "Nejlepší ceny a benefity získáte rezervací na našem webu";
+  const subtitle = c.subtitle ?? "Čtyři důvody, proč mít pobyt přímo od nás — bez prostředníků a bez skrytých poplatků.";
+  const items: { number: string; title: string; description: string; icon?: string }[] = Array.isArray(c.items) ? c.items : [];
+
+  const iconFor = (i: number) => {
+    switch (i) {
+      case 0: return (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>);
+      case 1: return (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14l2.5 2.5L16 11"/></svg>);
+      case 2: return (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M2 17c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2M2 7c2 0 2-2 4-2s2 2 4 2 2-2 4-2 2 2 4 2 2-2 4-2"/></svg>);
+      case 3: return (<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-4 3.5-7 8-7s8 3 8 7"/></svg>);
+      default: return null;
+    }
+  };
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@300;400;500;600&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" />
       <style>{`        .h02feat {
+          position: relative;
           background: #f7f8f9;
-          padding: clamp(70px,9vw,110px) clamp(20px,5vw,80px);
+          padding: clamp(80px,10vw,130px) clamp(20px,5vw,80px);
           font-family: 'Montserrat', sans-serif;
+          overflow: hidden;
+        }
+        .h02feat::before {
+          content: ""; position: absolute; top: -60px; left: 50%;
+          transform: translateX(-50%);
+          width: 1px; height: 120px; background: linear-gradient(to bottom, transparent, #96A1AC);
         }
         .h02feat-header {
-          text-align: center; max-width: 760px; margin: 0 auto clamp(48px,6vw,72px);
+          text-align: center; max-width: 780px; margin: 0 auto clamp(56px,6vw,84px);
         }
         .h02feat-eyebrow {
-          font-size: 10px; font-weight: 500; letter-spacing: 0.28em;
-          text-transform: uppercase; color: #96A1AC; margin: 0 0 16px; display: block;
+          display: inline-flex; align-items: center; gap: 16px;
+          font-size: 10px; font-weight: 600; letter-spacing: 0.32em;
+          text-transform: uppercase; color: #5B7A8E; margin: 0 0 20px;
+        }
+        .h02feat-eyebrow::before,
+        .h02feat-eyebrow::after {
+          content: ""; width: 34px; height: 1px; background: #5B7A8E;
         }
         .h02feat-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(26px, 3vw, 42px); font-weight: 300;
-          color: #1a2332; line-height: 1.2; margin: 0;
+          font-size: clamp(30px, 3.4vw, 48px); font-weight: 400; font-style: italic;
+          color: #1a2332; line-height: 1.12; letter-spacing: -0.005em;
+          margin: 0 0 20px;
+        }
+        .h02feat-subtitle {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 15px; font-weight: 400; color: #6b7280; line-height: 1.7;
+          margin: 0 auto; max-width: 620px;
         }
         .h02feat-grid {
-          max-width: 1100px; margin: 0 auto;
-          display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+          max-width: 1180px; margin: 0 auto;
+          display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+          background: #fff;
+          box-shadow: 0 30px 80px -40px rgba(15,22,34,0.20);
         }
         .h02feat-card {
-          background: #fff;
-          box-shadow: 0 4px 24px rgba(26,35,50,0.07);
-          padding: clamp(28px,3.5vw,48px) clamp(24px,3vw,44px);
-          display: flex; gap: 28px; align-items: flex-start;
-          transition: box-shadow 0.25s, transform 0.25s;
+          position: relative;
+          padding: clamp(36px,3.5vw,52px) clamp(30px,3.2vw,48px);
+          display: grid; grid-template-columns: auto 1fr; gap: 28px; align-items: flex-start;
+          border-right: 1px solid rgba(150,161,172,0.22);
+          border-bottom: 1px solid rgba(150,161,172,0.22);
+          transition: background 0.4s cubic-bezier(.22,.68,0,1);
+          overflow: hidden;
         }
-        .h02feat-card:hover {
-          box-shadow: 0 8px 36px rgba(26,35,50,0.12);
-          transform: translateY(-3px);
+        .h02feat-card:nth-child(even) { border-right: none; }
+        .h02feat-card:nth-last-child(-n+2) { border-bottom: none; }
+        .h02feat-card::before {
+          content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+          width: 3px; background: #96A1AC;
+          transform: scaleY(0); transform-origin: top;
+          transition: transform 0.5s cubic-bezier(.22,.68,0,1);
+        }
+        .h02feat-card:hover { background: #fbfcfd; }
+        .h02feat-card:hover::before { transform: scaleY(1); }
+
+        .h02feat-numwrap {
+          position: relative; display: flex; flex-direction: column; align-items: center; gap: 14px;
+          min-width: 78px;
         }
         .h02feat-num {
           font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(48px,5vw,72px); font-weight: 300; line-height: 1;
-          color: #e8eaec; flex-shrink: 0; user-select: none;
-          min-width: 60px;
+          font-size: clamp(52px,5.4vw,78px); font-weight: 500; font-style: italic; line-height: 1;
+          color: #96A1AC; opacity: 0.35;
+          user-select: none; transition: opacity 0.4s, color 0.4s;
         }
+        .h02feat-card:hover .h02feat-num { opacity: 1; color: #5B7A8E; }
+        .h02feat-icon {
+          width: 38px; height: 38px; color: #5B7A8E;
+          transition: transform 0.5s cubic-bezier(.22,.68,0,1);
+        }
+        .h02feat-card:hover .h02feat-icon { transform: rotate(-6deg) scale(1.08); }
+        .h02feat-icon svg { width: 100%; height: 100%; }
+
         .h02feat-body { flex: 1; min-width: 0; }
         .h02feat-card-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(18px,1.8vw,24px); font-weight: 400;
-          color: #1a2332; margin: 0 0 12px; line-height: 1.25;
+          font-size: clamp(20px,2vw,26px); font-weight: 500;
+          color: #1a2332; margin: 0 0 14px; line-height: 1.25;
+          letter-spacing: -0.005em;
         }
         .h02feat-card-desc {
-          font-size: 14px; line-height: 1.8; color: #6b7280;
-          font-weight: 300; margin: 0;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 14px; line-height: 1.85; color: #6b7280;
+          font-weight: 400; margin: 0;
         }
-        @media (max-width: 700px) {
+
+        @media (max-width: 800px) {
           .h02feat-grid { grid-template-columns: 1fr; }
+          .h02feat-card { border-right: none; }
+          .h02feat-card:nth-child(even) { border-right: none; }
+          .h02feat-card:nth-last-child(-n+2) { border-bottom: 1px solid rgba(150,161,172,0.22); }
+          .h02feat-card:last-child { border-bottom: none; }
+        }
+        @media (max-width: 480px) {
+          .h02feat-card { grid-template-columns: 1fr; gap: 20px; }
+          .h02feat-numwrap { flex-direction: row; gap: 20px; }
         }
       `}</style>
 
-      <section className="h02feat" data-template="hotel-02-features">
-        <div className="h02feat-header">
-          <span className="h02feat-eyebrow">
-            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-          </span>
-          <h2 className="h02feat-title">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-        </div>
+      <section className="h02feat" id="benefity" data-template="hotel-02-features">
+        {showHeader && (
+          <div className="h02feat-header">
+            <span className="h02feat-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </span>
+            <h2 className="h02feat-title">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            <p className="h02feat-subtitle">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          </div>
+        )}
 
         <div className="h02feat-grid">
           {items.map((item, i) => (
             <div className="h02feat-card" key={i}>
-              <span className="h02feat-num">
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.number`} value={item.number ?? `0${i + 1}`} tag="span" />
-              </span>
+              <div className="h02feat-numwrap">
+                <span className="h02feat-num">
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.number`} value={item.number ?? `0${i + 1}`} tag="span" />
+                </span>
+                <span className="h02feat-icon" aria-hidden="true">{iconFor(i)}</span>
+              </div>
               <div className="h02feat-body">
                 <h3 className="h02feat-card-title">
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title} tag="span" />

@@ -140,7 +140,7 @@ function Footer({ onCommit, onRevert, prefixes, panelLabel }: { onCommit: () => 
         type="button"
         onClick={onCommit}
         title="Uložit změny (⌘Enter)"
-        className="h-9 flex-1 rounded bg-[#6366f1] text-[12.5px] font-semibold text-white hover:bg-[#4f46e5]"
+        className="h-9 flex-1 rounded bg-[var(--vs-accent)] text-[12.5px] font-semibold text-white hover:bg-[var(--vs-accent-solid)]"
       >
         Hotovo
       </button>

@@ -105,7 +105,7 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
       onClick={() => onChange(!checked)}
       className={clsx(
         "relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors",
-        checked ? "bg-blue-500" : "bg-[#3f3f46]"
+        checked ? "bg-[var(--vs-accent-solid)]" : "bg-[#3f3f46]"
       )}
     >
       <span className={clsx("inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform", checked ? "translate-x-4" : "translate-x-1")} />
@@ -237,7 +237,7 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
                 type="button"
                 title="Vyměnit obrázek"
                 onClick={() => setPickerOpen(true)}
-                className="text-[var(--vs-text-dim)] hover:text-blue-400 transition-colors"
+                className="text-[var(--vs-text-dim)] hover:text-[var(--vs-accent)] transition-colors"
               >
                 <Pencil className="h-4 w-4" strokeWidth={1.75} />
               </button>

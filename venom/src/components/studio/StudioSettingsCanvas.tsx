@@ -21,7 +21,7 @@ function LInput({
       placeholder={placeholder}
       disabled={disabled}
       readOnly={!onChange}
-      className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(129,140,248,0.25)] disabled:bg-[var(--vs-surface-2)] disabled:opacity-60 transition-colors"
+      className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(212,212,216,0.25)] disabled:bg-[var(--vs-surface-2)] disabled:opacity-60 transition-colors"
     />
   );
 }
@@ -37,7 +37,7 @@ function LTextarea({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       rows={rows}
-      className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(129,140,248,0.25)] transition-colors resize-none"
+      className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(212,212,216,0.25)] transition-colors resize-none"
     />
   );
 }
@@ -49,7 +49,7 @@ function LToggle({ checked, onChange }: { checked: boolean; onChange: (v: boolea
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[rgba(129,140,248,0.35)] ${checked ? "bg-[#6366f1]" : "bg-[var(--vs-surface-3)]"}`}
+      className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[rgba(212,212,216,0.35)] ${checked ? "bg-[var(--vs-accent)]" : "bg-[var(--vs-surface-3)]"}`}
     >
       <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${checked ? "translate-x-4" : "translate-x-0"}`} />
     </button>
@@ -105,7 +105,7 @@ function LSaveBar({
         type="button"
         disabled={status === "saving"}
         onClick={onSave}
-        className="flex items-center gap-2 rounded-lg bg-[#6366f1] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-50 transition-colors"
+        className="flex items-center gap-2 rounded-lg bg-[var(--vs-accent)] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] disabled:opacity-50 transition-colors"
       >
         {status === "saving" && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
         Uložit změny
@@ -255,12 +255,12 @@ function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
         {dnsInfo && (
           <LCard>
             <LSectionTitle>Jak nastavit vlastní doménu</LSectionTitle>
-            <div className="rounded-lg bg-[var(--vs-accent-bg)] border border-blue-200 p-4 text-[12.5px] text-blue-900 space-y-2.5">
+            <div className="rounded-lg bg-[var(--vs-accent-bg)] border border-[var(--vs-border-strong)] p-4 text-[12.5px] text-[var(--vs-text-soft)] space-y-2.5">
               <p className="font-semibold">U svého registrátora domény přidejte tyto záznamy:</p>
               <div className="rounded-md bg-[var(--vs-surface)] border border-[var(--vs-accent-ring)] divide-y divide-[var(--vs-border)] font-mono text-[11.5px]">
-                <div className="flex gap-4 px-3 py-2"><span className="w-16 text-blue-400">Typ</span><span className="w-20 text-blue-400">Název</span><span className="text-blue-400">Hodnota</span></div>
-                <div className="flex gap-4 px-3 py-2 text-blue-900"><span className="w-16">A</span><span className="w-20">@</span><span>{dnsInfo.ip}</span></div>
-                <div className="flex gap-4 px-3 py-2 text-blue-900"><span className="w-16">CNAME</span><span className="w-20">www</span><span>{dnsInfo.cname}</span></div>
+                <div className="flex gap-4 px-3 py-2"><span className="w-16 text-[var(--vs-accent)]">Typ</span><span className="w-20 text-[var(--vs-accent)]">Název</span><span className="text-[var(--vs-accent)]">Hodnota</span></div>
+                <div className="flex gap-4 px-3 py-2 text-[var(--vs-text-soft)]"><span className="w-16">A</span><span className="w-20">@</span><span>{dnsInfo.ip}</span></div>
+                <div className="flex gap-4 px-3 py-2 text-[var(--vs-text-soft)]"><span className="w-16">CNAME</span><span className="w-20">www</span><span>{dnsInfo.cname}</span></div>
               </div>
               <p className="text-[11px] text-[var(--vs-accent-hi)]">Propagace DNS může trvat 1–24 hodin. Po přidání domény klikněte na Ověřit.</p>
             </div>
@@ -296,7 +296,7 @@ function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
                         type="button"
                         onClick={() => void verifyDomain(d)}
                         disabled={verifying === d.id}
-                        className="rounded-md border border-blue-200 bg-[var(--vs-accent-bg)] px-3 py-1.5 text-[12px] font-medium text-[var(--vs-accent-hi)] hover:bg-[var(--vs-accent-bg)] disabled:opacity-50 transition-colors"
+                        className="rounded-md border border-[var(--vs-border-strong)] bg-[var(--vs-accent-bg)] px-3 py-1.5 text-[12px] font-medium text-[var(--vs-accent-hi)] hover:bg-[var(--vs-accent-bg)] disabled:opacity-50 transition-colors"
                       >
                         {verifying === d.id ? <Loader2 className="h-3 w-3 animate-spin" /> : "Ověřit"}
                       </button>
@@ -321,12 +321,12 @@ function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
               value={newDomain}
               onChange={(e) => setNewDomain(e.target.value)}
               placeholder="mujweb.cz"
-              className="flex-1 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(129,140,248,0.25)]"
+              className="flex-1 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(212,212,216,0.25)]"
             />
             <button
               type="submit"
               disabled={adding || !newDomain.trim()}
-              className="shrink-0 inline-flex items-center gap-1.5 rounded-lg bg-[#6366f1] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-50 transition-colors"
+              className="shrink-0 inline-flex items-center gap-1.5 rounded-lg bg-[var(--vs-accent)] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] disabled:opacity-50 transition-colors"
             >
               {adding ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
               Přidat
@@ -547,7 +547,7 @@ function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
           <h1 className="text-[15px] font-semibold text-[var(--vs-text)]">Uživatelské přístupy</h1>
         </div>
         <div className="flex items-center gap-2">
-          <button type="button" className="flex items-center gap-1.5 rounded-lg bg-[#6366f1] px-3.5 py-2 text-[13px] font-semibold text-white hover:bg-[#4f46e5] transition-colors">
+          <button type="button" className="flex items-center gap-1.5 rounded-lg bg-[var(--vs-accent)] px-3.5 py-2 text-[13px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] transition-colors">
             <Plus className="h-3.5 w-3.5" /> Nový záznam
           </button>
           <button type="button" className="rounded-lg border border-[var(--vs-border-strong)] px-3.5 py-2 text-[13px] font-medium text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] transition-colors">
@@ -564,7 +564,7 @@ function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
               type="button"
               onClick={() => setTab(t)}
               className={`pb-2.5 text-[13px] font-medium border-b-2 transition-colors -mb-px ${
-                tab === t ? "border-blue-600 text-[var(--vs-accent-hi)]" : "border-transparent text-[var(--vs-text-muted)] hover:text-[var(--vs-text)]"
+                tab === t ? "border-[var(--vs-accent)] text-[var(--vs-accent-hi)]" : "border-transparent text-[var(--vs-text-muted)] hover:text-[var(--vs-text)]"
               }`}
             >
               {t === "all" ? "Všechny" : "Čekající pozvánky"}
@@ -609,7 +609,7 @@ function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
                   <td className="px-3 py-3"><input type="checkbox" className="rounded" /></td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2.5">
-                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white text-[10px] font-bold" style={{ background: "linear-gradient(135deg, #0d9488 0%, #0891b2 100%)" }}>
+                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white text-[10px] font-bold" style={{ background: "var(--vs-grad-brand)" }}>
                         {u.initials}
                       </div>
                       <div>
@@ -668,7 +668,7 @@ function LanguagesView({ tenant, onBack }: { tenant: Tenant; onBack: () => void 
             <select
               value={primaryLang}
               onChange={(e) => setPrimaryLang(e.target.value)}
-              className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-[var(--vs-text)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(129,140,248,0.25)] transition-colors"
+              className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-[var(--vs-text)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(212,212,216,0.25)] transition-colors"
             >
               {languages.map((l) => (
                 <option key={l.code} value={l.code}>{l.label}</option>
@@ -866,7 +866,7 @@ function BillingView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
                   type="button"
                   onClick={handleSubscribe}
                   disabled={paying}
-                  className="rounded-lg bg-[#6366f1] px-5 py-2 text-[13px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-60 transition-colors flex items-center gap-1.5"
+                  className="rounded-lg bg-[var(--vs-accent)] px-5 py-2 text-[13px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] disabled:opacity-60 transition-colors flex items-center gap-1.5"
                 >
                   {paying && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
                   {paying ? "Přesměrování…" : "Předplatit · 499 Kč/měs."}
@@ -1085,7 +1085,7 @@ function CssView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
               type="button"
               onClick={() => void add()}
               disabled={saving || !newName.trim()}
-              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-[#6366f1] px-3 py-2 text-[12px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-40 transition-colors"
+              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-[var(--vs-accent)] px-3 py-2 text-[12px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] disabled:opacity-40 transition-colors"
             >
               <Plus className="h-3.5 w-3.5" /> Přidat
             </button>
@@ -1179,7 +1179,7 @@ function HeadersView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
               type="button"
               onClick={() => void add()}
               disabled={saving || !newName.trim()}
-              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-[#6366f1] px-3 py-2 text-[12px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-40 transition-colors"
+              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-[var(--vs-accent)] px-3 py-2 text-[12px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] disabled:opacity-40 transition-colors"
             >
               <Plus className="h-3.5 w-3.5" /> Přidat
             </button>
@@ -1287,7 +1287,7 @@ function RedirectsView({ tenant, onBack }: { tenant: Tenant; onBack: () => void 
               type="button"
               onClick={() => void add()}
               disabled={saving || !newFrom.trim() || !newTo.trim()}
-              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-[#6366f1] px-3 py-2 text-[12px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-40 transition-colors mb-0"
+              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-[var(--vs-accent)] px-3 py-2 text-[12px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] disabled:opacity-40 transition-colors mb-0"
             >
               <Plus className="h-3.5 w-3.5" /> Přidat
             </button>
@@ -1357,7 +1357,7 @@ function LColorPicker({ value, onChange, label }: { value: string; onChange: (v:
           type="text"
           value={value.toUpperCase()}
           onChange={(e) => { const v = e.target.value; if (/^#[0-9A-Fa-f]{0,6}$/.test(v)) onChange(v); }}
-          className="w-24 rounded border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2 py-1 text-[12px] font-mono text-[var(--vs-text-soft)] focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400/20"
+          className="w-24 rounded border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2 py-1 text-[12px] font-mono text-[var(--vs-text-soft)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-1 focus:ring-[var(--vs-accent)]/20"
           placeholder="#000000"
         />
       </div>
@@ -1387,7 +1387,7 @@ function LLogoUpload({ slug, value, onChange, label, hint }: { slug: string; val
       <p className="text-[13px] font-medium text-[var(--vs-text-soft)] mb-2">{label}</p>
       {hint && <p className="text-[11.5px] text-[var(--vs-text-dim)] mb-2">{hint}</p>}
       <div
-        className={`relative flex h-24 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed transition-colors ${value ? "border-[var(--vs-border)] bg-[var(--vs-bg-soft)]" : "border-blue-200 bg-[var(--vs-accent-bg)]/40 hover:border-blue-400 hover:bg-[var(--vs-accent-bg)]"}`}
+        className={`relative flex h-24 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed transition-colors ${value ? "border-[var(--vs-border)] bg-[var(--vs-bg-soft)]" : "border-[var(--vs-border-strong)] bg-[var(--vs-accent-bg)]/40 hover:border-[var(--vs-accent)] hover:bg-[var(--vs-accent-bg)]"}`}
         onClick={() => inputRef.current?.click()}
       >
         {value ? (
@@ -1402,10 +1402,10 @@ function LLogoUpload({ slug, value, onChange, label, hint }: { slug: string; val
             </button>
           </>
         ) : uploading ? (
-          <Loader2 className="h-5 w-5 animate-spin text-blue-400" />
+          <Loader2 className="h-5 w-5 animate-spin text-[var(--vs-accent)]" />
         ) : (
           <>
-            <Upload className="h-5 w-5 text-blue-400" />
+            <Upload className="h-5 w-5 text-[var(--vs-accent)]" />
             <span className="text-[12px] text-[var(--vs-accent)] font-medium">Nahrát logo</span>
           </>
         )}
@@ -1492,10 +1492,10 @@ function IdentitaView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }
             <LLogoUpload slug={tenant.slug} value={v["brand.logoUrl"] ?? ""} onChange={(x) => setSlot("brand.logoUrl", x)} label="" />
           </LFormRow>
           <LFormRow label="Primární barva">
-            <LColorPicker value={v["brand.colorPrimary"] || "#2563eb"} onChange={(x) => setSlot("brand.colorPrimary", x)} label="Primární" />
+            <LColorPicker value={v["brand.colorPrimary"] || "var(--vs-accent-solid)"} onChange={(x) => setSlot("brand.colorPrimary", x)} label="Primární" />
           </LFormRow>
           <LFormRow label="Akcentová barva">
-            <LColorPicker value={v["brand.colorAccent"] || "#4f46e5"} onChange={(x) => setSlot("brand.colorAccent", x)} label="Akcentová" />
+            <LColorPicker value={v["brand.colorAccent"] || "var(--vs-accent-solid)"} onChange={(x) => setSlot("brand.colorAccent", x)} label="Akcentová" />
           </LFormRow>
         </LCard>
 

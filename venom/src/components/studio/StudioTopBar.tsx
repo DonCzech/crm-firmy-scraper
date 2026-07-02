@@ -50,7 +50,7 @@ export function StudioTopBar({
           title="Webero"
         >
           <div
-            className="flex h-9 w-9 items-center justify-center rounded-[10px] select-none shadow-[0_1px_0_rgba(255,255,255,0.2)_inset,0_2px_10px_rgba(99,102,241,0.4)]"
+            className="flex h-9 w-9 items-center justify-center rounded-[10px] select-none shadow-[0_1px_0_rgba(255,255,255,0.2)_inset,0_2px_10px_rgba(20,184,166,0.4)]"
             style={{ background: "var(--vs-grad-brand)" }}
           >
             <svg width="22" height="22" viewBox="0 0 30 30" fill="none" aria-hidden>
@@ -407,7 +407,7 @@ function UserMenu() {
       >
         {initial ? (
           <span
-            className="flex h-[26px] w-[26px] items-center justify-center rounded-full text-[11px] font-bold text-white shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_2px_6px_rgba(99,102,241,0.4)]"
+            className="flex h-[26px] w-[26px] items-center justify-center rounded-full text-[11px] font-bold text-white shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_2px_6px_rgba(20,184,166,0.4)]"
             style={{ background: "var(--vs-grad-brand)" }}
           >
             {initial}

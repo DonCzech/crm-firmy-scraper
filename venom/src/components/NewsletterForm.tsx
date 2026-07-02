@@ -2,7 +2,27 @@
 
 import { useState } from "react";
 
-export function NewsletterForm() {
+type NewsletterFormCopy = {
+  placeholder: string;
+  submit: string;
+  loading: string;
+  successTitle: string;
+  successText: string;
+  error: string;
+};
+
+export function NewsletterForm({
+  copy = {
+    placeholder: "vas@email.cz",
+    submit: "Odeslat",
+    loading: "Posílám...",
+    successTitle: "Hotovo!",
+    successText: "Šablony posíláme na váš e-mail.",
+    error: "Něco se nepovedlo. Zkuste to znovu.",
+  },
+}: {
+  copy?: NewsletterFormCopy;
+} = {}) {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "err">("idle");
 
@@ -33,8 +53,8 @@ export function NewsletterForm() {
           </svg>
         </span>
         <div>
-          <div className="text-[14px] font-semibold">Hotovo!</div>
-          <div className="text-[12.5px] text-white/65">Šablony posíláme na váš e-mail.</div>
+          <div className="text-[14px] font-semibold">{copy.successTitle}</div>
+          <div className="text-[12.5px] text-white/65">{copy.successText}</div>
         </div>
       </div>
     );
@@ -48,7 +68,7 @@ export function NewsletterForm() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="vas@email.cz"
+          placeholder={copy.placeholder}
           className="w-full rounded-full border border-white/15 bg-white/[0.04] px-5 py-3.5 text-[14.5px] text-white placeholder-white/40 outline-none transition focus:border-white/40 focus:bg-white/[0.07] focus:ring-2 focus:ring-white/10"
         />
       </div>
@@ -57,7 +77,7 @@ export function NewsletterForm() {
         disabled={status === "loading"}
         className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-[14px] font-semibold text-[#0a0a0a] transition hover:bg-white/92 disabled:opacity-60"
       >
-        {status === "loading" ? "Posílám…" : "Odeslat"}
+        {status === "loading" ? copy.loading : copy.submit}
         {status !== "loading" && (
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
             <path d="M5 12h14M13 5l7 7-7 7" />
@@ -66,7 +86,7 @@ export function NewsletterForm() {
       </button>
       {status === "err" && (
         <p className="absolute mt-14 text-[12px] text-[#fecaca]">
-          Něco se nepovedlo. Zkuste to znovu.
+          {copy.error}
         </p>
       )}
     </form>

@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode, type CSSProperties } from "react";
+import { snapToGrid, findAlignmentGuides, type BBox } from "@/lib/snap";
+import { AlignmentGuides } from "./AlignmentGuides";
 
 /**
  * Generic 8-handle drag-resize primitive. Headless — renders children inside
@@ -35,14 +37,17 @@ interface ResizableBoxProps {
   maxH?: number;
   /** Show "WxH" badge under the box during drag. */
   showSizeBadge?: boolean;
+  /**
+   * Sibling bounding boxes for snap-alignment guide rendering.
+   * When provided, alignment guides appear during drag/resize when this
+   * element's edge/center aligns with a sibling.
+   */
+  siblings?: BBox[];
   className?: string;
   style?: CSSProperties;
   children: ReactNode;
 }
 
-function snapTo(v: number, step: number) {
-  return Math.round(v / step) * step;
-}
 function clamp(v: number, lo: number, hi: number) {
   return Math.max(lo, Math.min(hi, v));
 }
@@ -56,6 +61,7 @@ export function ResizableBox({
   minW = 20, minH = 20,
   maxW = Number.POSITIVE_INFINITY, maxH = Number.POSITIVE_INFINITY,
   showSizeBadge = true,
+  siblings = [],
   className, style, children,
 }: ResizableBoxProps) {
   const dragState = useRef<{
@@ -68,7 +74,9 @@ export function ResizableBox({
     lastClientX: number;
     lastClientY: number;
   } | null>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
   const [drag, setDrag] = useState<{ w: number; h: number } | null>(null);
+  const [guides, setGuides] = useState<{ v: number[]; h: number[] }>({ v: [], h: [] });
 
   function onPointerDown(corner: ResizeCorner, e: React.PointerEvent<HTMLDivElement>) {
     e.stopPropagation();
@@ -101,15 +109,28 @@ export function ResizableBox({
     const isCorner = c.length === 2;
     if (aspectLock && isCorner) {
       const ratio = d.startW / d.startH;
-      // Use the larger relative delta to drive the size
       const wDelta = Math.abs(w - d.startW) / d.startW;
       const hDelta = Math.abs(h - d.startH) / d.startH;
       if (wDelta >= hDelta) h = w / ratio;
       else w = h * ratio;
     }
-    w = clamp(snapTo(w, snap), minW, maxW);
-    h = clamp(snapTo(h, snap), minH, maxH);
+    w = clamp(snapToGrid(w, snap), minW, maxW);
+    h = clamp(snapToGrid(h, snap), minH, maxH);
     return { w, h };
+  }
+
+  function computeGuides(w: number, h: number) {
+    if (!siblings.length || !boxRef.current) return;
+    const containerEl = boxRef.current.parentElement;
+    const containerW = containerEl?.offsetWidth ?? 0;
+    const containerH = containerEl?.offsetHeight ?? 0;
+    const result = findAlignmentGuides(
+      { x: 0, y: 0, w, h },
+      siblings,
+      containerW,
+      containerH,
+    );
+    setGuides({ v: result.guidesV, h: result.guidesH });
   }
 
   function onPointerMove(e: React.PointerEvent<HTMLDivElement>) {
@@ -123,6 +144,7 @@ export function ResizableBox({
       dragState.current.rafPending = null;
       const next = computeNext(dragState.current);
       setDrag(next);
+      computeGuides(next.w, next.h);
       onResize?.(next.w, next.h);
     });
   }
@@ -134,6 +156,7 @@ export function ResizableBox({
     const final = computeNext(d);
     dragState.current = null;
     setDrag(null);
+    setGuides({ v: [], h: [] });
     try { e.currentTarget.releasePointerCapture(e.pointerId); } catch { /* noop */ }
     onResizeEnd?.(final.w, final.h);
   }
@@ -149,6 +172,7 @@ export function ResizableBox({
 
   return (
     <div
+      ref={boxRef}
       className={className}
       style={{
         ...style,
@@ -159,6 +183,9 @@ export function ResizableBox({
       }}
     >
       {children}
+      {active && drag && (
+        <AlignmentGuides guidesV={guides.v} guidesH={guides.h} />
+      )}
       {active && ALL_CORNERS.map((corner) => (
         <div
           key={corner}
@@ -174,7 +201,7 @@ export function ResizableBox({
             width: 10,
             height: 10,
             background: "#ffffff",
-            border: "2px solid #2563eb",
+            border: "2px solid var(--vs-accent-solid)",
             borderRadius: 2,
             cursor: cursorFor(corner),
             touchAction: "none",
@@ -190,7 +217,7 @@ export function ResizableBox({
           style={{
             bottom: -22,
             right: 0,
-            background: "#2563eb",
+            background: "var(--vs-accent-solid)",
             color: "#fff",
             fontSize: 10,
             fontFamily: "ui-monospace, SFMono-Regular, monospace",

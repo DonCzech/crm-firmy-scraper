@@ -204,7 +204,7 @@ function SecondaryActionBar({ state, onOpenReorder }: { state: StudioState; onOp
         type="button"
         title="AI návrhy a opravy textů"
         onClick={() => studio.setAiPanelOpen(!studio.aiPanelOpen)}
-        className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12.5px] transition-colors ${studio.aiPanelOpen ? "bg-[rgba(167,139,250,0.15)] text-[#a78bfa]" : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"}`}
+        className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12.5px] transition-colors ${studio.aiPanelOpen ? "bg-[rgba(212,212,216,0.15)] text-[#a78bfa]" : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"}`}
       >
         <span className="text-[#a78bfa]">✨</span>
         <span>Pomocník AI</span>

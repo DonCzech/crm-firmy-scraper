@@ -6,6 +6,16 @@ import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
 import { shouldSkipNextImageOptimization } from "@/lib/image-source";
 
+function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
+  if (isAdmin) return "#";
+  if (!href || href === "#") return "#";
+  if (href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:")) return href;
+  const slug = tenantSlug ?? "";
+  if (href.startsWith("#")) return href;
+  const clean = href.startsWith("/") ? href : `/${href}`;
+  return slug ? `/demo/${slug}${clean}` : clean;
+}
+
 interface Props {
   content: Record<string, unknown>;
   variant: string;
@@ -5603,112 +5613,194 @@ function GalleryChalet01({ content, sectionId }: { content: Record<string, unkno
 }
 
 // ── hotel-01-offers ───────────────────────────────────────────────────────────
-function GalleryHotel01Offers({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const c        = (content ?? {}) as Record<string, any>;
-  const eyebrow  = c.eyebrow  ?? "Speciální nabídky";
-  const title    = c.title    ?? "Využijte naše balíčky";
-  const subtitle = c.subtitle ?? "";
+function GalleryHotel01Offers({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const c          = (content ?? {}) as Record<string, any>;
+  const showHeader = c.showHeader !== false;
+  const eyebrow   = c.eyebrow   ?? "Balíčky & Akce";
+  const title      = c.title     ?? "Speciální nabídky pro váš pobyt";
+  const titleAccent = c.titleAccent ?? "pobyt";
+  const subtitle   = c.subtitle  ?? "";
+  const ctaText    = c.ctaText   ?? "Zobrazit všechny balíčky";
+  const ctaHref    = c.ctaHref   ?? "/nabidky";
   const items: { name: string; description: string; image: string; moreHref: string; bookHref: string }[] = Array.isArray(c.items) ? c.items : [];
 
-  const resolve = (href: string) => (isAdmin ? "#" : href ?? "#");
+  const href = (h: string) => resolveDemoHref(h ?? "#", tenantSlug, isAdmin);
+
+  const renderTitle = () => {
+    if (!titleAccent || !title.includes(titleAccent)) {
+      return <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />;
+    }
+    const parts = title.split(titleAccent);
+    return (
+      <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span">
+        <>{parts[0]}<em className="h01offers-accent">{titleAccent}</em>{parts.slice(1).join(titleAccent)}</>
+      </GenericEditableText>
+    );
+  };
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Poppins:wght@300;400;500&display=swap" />
-      <style>{`        .h01offers {
-          background: #fff;
-          padding: clamp(60px,8vw,110px) clamp(20px,5vw,80px);
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Poppins:wght@300;400;500&display=swap" />
+      <style>{`
+        .h01offers {
+          background: #f9f6f2;
+          padding: clamp(80px,10vw,140px) clamp(20px,5vw,80px);
           font-family: 'Poppins', sans-serif;
+          position: relative; overflow: hidden;
+        }
+        .h01offers::before {
+          content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+          width: 1px; height: 60px; background: linear-gradient(180deg, #a98763, transparent);
         }
         .h01offers-header {
-          max-width: 1200px; margin: 0 auto 52px; text-align: center;
+          max-width: 1200px; margin: 0 auto 64px; text-align: center;
         }
         .h01offers-eyebrow {
-          font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
-          color: #a98763; font-weight: 500; margin: 0 0 16px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: 13px; letter-spacing: 0.28em; text-transform: uppercase;
+          color: #a98763; margin: 0 0 20px;
+          display: inline-flex; align-items: center; gap: 18px;
+        }
+        .h01offers-eyebrow::before, .h01offers-eyebrow::after {
+          content: ''; display: inline-block; width: 32px; height: 1px; background: #a98763;
         }
         .h01offers-title {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: clamp(26px,3vw,42px); font-weight: 400; color: #3e3e3e;
-          margin: 0 0 16px; line-height: 1.2;
+          font-size: clamp(30px,4vw,52px); font-weight: 400; color: #2a2520;
+          margin: 0 0 18px; line-height: 1.15;
         }
+        .h01offers-accent { font-style: italic; color: #a98763; }
         .h01offers-subtitle {
-          font-size: 15px; color: #797979; font-weight: 300;
-          max-width: 580px; margin: 0 auto; line-height: 1.7;
+          font-size: 15.5px; color: #7a7268; font-weight: 300;
+          max-width: 620px; margin: 0 auto; line-height: 1.8;
         }
         .h01offers-grid {
           max-width: 1200px; margin: 0 auto;
-          display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+          display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
         }
         .h01offers-card {
           display: flex; flex-direction: column;
-          border: 1px solid #e8e0d6; overflow: hidden;
-          transition: box-shadow 0.25s;
+          background: #fff; overflow: hidden;
+          transition: box-shadow .4s, transform .4s;
         }
-        .h01offers-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.10); }
+        .h01offers-card:hover {
+          box-shadow: 0 20px 60px rgba(42,37,32,0.12);
+          transform: translateY(-4px);
+        }
         .h01offers-img-wrap {
-          position: relative; overflow: hidden; aspect-ratio: 4/3; flex-shrink: 0;
+          position: relative; overflow: hidden; aspect-ratio: 16/11; flex-shrink: 0;
         }
         .h01offers-img {
           width: 100%; height: 100%; object-fit: cover; display: block;
-          transition: transform 0.55s ease;
+          transition: transform .8s cubic-bezier(.22,.68,0,1.1);
+          filter: contrast(1.02) saturate(1.05);
         }
-        .h01offers-card:hover .h01offers-img { transform: scale(1.05); }
+        .h01offers-card:hover .h01offers-img { transform: scale(1.08); }
         .h01offers-badge {
-          position: absolute; top: 16px; left: 0;
-          background: #879B32; color: #fff;
-          font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
-          padding: 5px 14px; font-weight: 500;
+          position: absolute; top: 18px; left: 18px;
+          background: rgba(42,37,32,.85); backdrop-filter: blur(6px);
+          color: #d4b088;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic;
+          font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+          padding: 6px 16px;
+        }
+        .h01offers-num {
+          position: absolute; bottom: 14px; right: 18px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-size: 42px; font-weight: 400;
+          color: rgba(255,255,255,.25); line-height: 1;
         }
         .h01offers-body {
-          padding: 24px 24px 28px; display: flex; flex-direction: column; flex: 1;
+          padding: 28px 28px 32px; display: flex; flex-direction: column; flex: 1;
+          border-left: 1px solid rgba(169,135,99,.18);
+          border-right: 1px solid rgba(169,135,99,.18);
+          border-bottom: 1px solid rgba(169,135,99,.18);
         }
         .h01offers-name {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 18px; font-weight: 400; color: #3e3e3e;
-          margin: 0 0 12px; line-height: 1.3;
+          font-size: 20px; font-weight: 400; color: #2a2520;
+          margin: 0 0 14px; line-height: 1.3;
         }
         .h01offers-desc {
-          font-size: 14px; color: #5D5D5D; font-weight: 300;
-          line-height: 1.75; margin: 0 0 24px; flex: 1;
+          font-size: 14.5px; color: #6d6560; font-weight: 300;
+          line-height: 1.8; margin: 0 0 28px; flex: 1;
         }
         .h01offers-ctas { display: flex; gap: 10px; flex-wrap: wrap; }
         .h01offers-more {
-          display: inline-flex; align-items: center;
-          border: 1px solid #a98763; color: #a98763;
+          position: relative; overflow: hidden;
+          display: inline-flex; align-items: center; gap: 8px;
+          border: 1px solid rgba(169,135,99,.5); color: #a98763;
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-          padding: 9px 20px; text-decoration: none; transition: background 0.2s, color 0.2s;
+          font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+          padding: 11px 22px; text-decoration: none;
+          transition: color .35s, border-color .35s;
         }
-        .h01offers-more:hover { background: #a98763; color: #fff; }
+        .h01offers-more::before {
+          content: ''; position: absolute; inset: 0;
+          background: #a98763; transform: translateY(101%);
+          transition: transform .5s cubic-bezier(.22,.68,0,1.1); z-index: 0;
+        }
+        .h01offers-more:hover { color: #fff; border-color: #a98763; }
+        .h01offers-more:hover::before { transform: translateY(0); }
+        .h01offers-more > * { position: relative; z-index: 1; }
         .h01offers-book {
-          display: inline-flex; align-items: center;
-          background: #879B32; color: #fff;
+          position: relative; overflow: hidden;
+          display: inline-flex; align-items: center; gap: 8px;
+          background: #2a2520; color: #f9f6f2;
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-          padding: 9px 20px; text-decoration: none; transition: background 0.2s;
+          font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+          padding: 11px 22px; text-decoration: none; border: 1px solid #2a2520;
+          transition: color .35s, border-color .35s;
         }
-        .h01offers-book:hover { background: #6a7a28; }
+        .h01offers-book::before {
+          content: ''; position: absolute; inset: 0;
+          background: #a98763; transform: translateY(101%);
+          transition: transform .5s cubic-bezier(.22,.68,0,1.1); z-index: 0;
+        }
+        .h01offers-book:hover { border-color: #a98763; }
+        .h01offers-book:hover::before { transform: translateY(0); }
+        .h01offers-book > * { position: relative; z-index: 1; }
+        .h01offers-footer {
+          max-width: 1200px; margin: 52px auto 0; text-align: center;
+        }
+        .h01offers-all {
+          display: inline-flex; align-items: center; gap: 12px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-size: 15px; color: #a98763;
+          text-decoration: none; letter-spacing: 0.04em;
+          transition: color .3s;
+        }
+        .h01offers-all:hover { color: #2a2520; }
+        .h01offers-all::after {
+          content: '→'; display: inline-block;
+          transition: transform .35s cubic-bezier(.22,.68,0,1.1);
+        }
+        .h01offers-all:hover::after { transform: translateX(6px); }
         @media (max-width: 900px) { .h01offers-grid { grid-template-columns: 1fr 1fr; } }
-        @media (max-width: 560px) { .h01offers-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 560px) {
+          .h01offers-grid { grid-template-columns: 1fr; }
+          .h01offers-body { padding: 22px 22px 26px; }
+        }
       `}</style>
 
       <section className="h01offers" id="nabidky" data-template="hotel-01-offers">
-        <div className="h01offers-header">
-          <p className="h01offers-eyebrow">
-            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-          </p>
-          <h2 className="h01offers-title">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          {subtitle && (
-            <p className="h01offers-subtitle">
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </p>
-          )}
-        </div>
+        {showHeader && (
+          <div className="h01offers-header">
+            <div className="h01offers-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </div>
+            <h2 className="h01offers-title">{renderTitle()}</h2>
+            {subtitle && (
+              <p className="h01offers-subtitle">
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
 
         <div className="h01offers-grid">
           {items.map((item, i) => (
@@ -5718,6 +5810,7 @@ function GalleryHotel01Offers({ content, sectionId, isAdmin }: { content: Record
                   <img src={item.image || "/placeholder.jpg"} alt={item.name} className="h01offers-img" loading="lazy" />
                 </GenericEditableImage>
                 <span className="h01offers-badge">Nabídka</span>
+                <span className="h01offers-num" aria-hidden="true">0{i + 1}</span>
               </div>
               <div className="h01offers-body">
                 <h3 className="h01offers-name">
@@ -5727,12 +5820,22 @@ function GalleryHotel01Offers({ content, sectionId, isAdmin }: { content: Record
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
                 </p>
                 <div className="h01offers-ctas">
-                  <a href={resolve(item.moreHref)} className="h01offers-more">Více informací</a>
-                  <a href={resolve(item.bookHref)} className="h01offers-book">Rezervujte</a>
+                  <a href={href(item.moreHref)} className="h01offers-more">
+                    <span>Více informací</span>
+                  </a>
+                  <a href={href(item.bookHref)} className="h01offers-book">
+                    <span>Rezervovat</span>
+                  </a>
                 </div>
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="h01offers-footer">
+          <a href={href(ctaHref)} className="h01offers-all">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
         </div>
       </section>
     </>
@@ -5741,8 +5844,9 @@ function GalleryHotel01Offers({ content, sectionId, isAdmin }: { content: Record
 
 // ── hotel-02-gallery ──────────────────────────────────────────────────────────
 function GalleryHotel02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const c      = (content ?? {}) as Record<string, any>;
-  const title  = c.title ?? "Jak to u nás vypadá?";
+  const c       = (content ?? {}) as Record<string, any>;
+  const eyebrow = c.eyebrow ?? "Galerie";
+  const title   = c.title   ?? "Nahlédněte k nám";
   const images: { url: string; alt: string }[] = Array.isArray(c.images) ? c.images : [];
 
   const [lightbox, setLightbox] = useState<number | null>(null);
@@ -5765,83 +5869,109 @@ function GalleryHotel02({ content, sectionId }: { content: Record<string, unknow
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@400;500&display=swap" />
-      <style>{`        .h02gl {
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@400;500&display=swap" />
+      <style>{`
+        .h02gl {
           background: #1a2332;
-          padding: clamp(60px,8vw,100px) clamp(20px,4vw,60px);
+          padding: clamp(72px,9vw,120px) clamp(20px,4vw,60px);
           font-family: 'Montserrat', sans-serif;
+          position: relative; overflow: hidden;
+        }
+        .h02gl::before {
+          content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+          width: 60px; height: 1px; background: #96A1AC;
         }
         .h02gl-header {
-          text-align: center; margin: 0 auto clamp(36px,5vw,56px);
+          text-align: center; margin: 0 auto clamp(40px,5vw,64px);
+          max-width: 600px;
+        }
+        .h02gl-eyebrow {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 11px; font-weight: 500; letter-spacing: 3px; text-transform: uppercase;
+          color: #96A1AC; margin: 0 0 12px; line-height: 1;
         }
         .h02gl-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(26px,3vw,42px); font-weight: 300;
-          color: #fff; margin: 0; line-height: 1.2;
+          font-size: clamp(28px,3.2vw,44px); font-weight: 300;
+          color: #fff; margin: 0; line-height: 1.15;
         }
         .h02gl-grid {
           max-width: 1300px; margin: 0 auto;
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          grid-auto-rows: 220px;
-          gap: 8px;
+          grid-auto-rows: 230px;
+          gap: 6px;
         }
-        /* First item spans 2 cols + 2 rows */
         .h02gl-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
-        /* 5th item spans 2 rows */
         .h02gl-item:nth-child(5) { grid-row: span 2; }
-
         .h02gl-item {
           position: relative; overflow: hidden; cursor: pointer;
           background: #2d3f57;
         }
+        .h02gl-item::after {
+          content: ''; position: absolute; inset: 6px;
+          border: 1px solid rgba(255,255,255,0);
+          transition: border-color 0.4s ease;
+          pointer-events: none; z-index: 2;
+        }
+        .h02gl-item:hover::after { border-color: rgba(255,255,255,0.3); }
         .h02gl-img {
           width: 100%; height: 100%; object-fit: cover; display: block;
-          transition: transform 0.55s ease, filter 0.35s ease;
+          transition: transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s ease;
         }
         .h02gl-item:hover .h02gl-img {
-          transform: scale(1.06);
-          filter: brightness(0.75);
+          transform: scale(1.05);
+          filter: brightness(0.7);
         }
         .h02gl-overlay {
-          position: absolute; inset: 0;
+          position: absolute; inset: 0; z-index: 3;
           display: flex; align-items: center; justify-content: center;
-          opacity: 0; transition: opacity 0.3s;
+          opacity: 0; transition: opacity 0.35s ease;
         }
         .h02gl-item:hover .h02gl-overlay { opacity: 1; }
         .h02gl-zoom-icon {
-          width: 44px; height: 44px; border: 1.5px solid rgba(255,255,255,0.8);
-          border-radius: 50%; display: flex; align-items: center; justify-content: center;
-          color: #fff;
+          width: 48px; height: 48px; border: 1px solid rgba(255,255,255,0.7);
+          border-radius: 0; display: flex; align-items: center; justify-content: center;
+          color: #fff; backdrop-filter: blur(4px); background: rgba(26,35,50,0.3);
         }
 
         /* Lightbox */
         .h02gl-lb {
           position: fixed; inset: 0; z-index: 9000;
-          background: rgba(0,0,0,0.92);
+          background: rgba(10,14,20,0.95);
           display: flex; align-items: center; justify-content: center;
+          backdrop-filter: blur(8px);
         }
         .h02gl-lb-img {
-          max-width: 90vw; max-height: 88vh;
+          max-width: 88vw; max-height: 85vh;
           object-fit: contain; display: block;
-          box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+          box-shadow: 0 32px 100px rgba(0,0,0,0.7);
         }
         .h02gl-lb-close {
-          position: absolute; top: 20px; right: 28px;
-          background: none; border: none; color: #fff; font-size: 36px;
-          cursor: pointer; line-height: 1; opacity: 0.8; transition: opacity 0.2s;
+          position: absolute; top: 24px; right: 28px;
+          background: none; border: 1px solid rgba(255,255,255,0.2);
+          color: #fff; width: 44px; height: 44px;
+          cursor: pointer; display: flex; align-items: center; justify-content: center;
+          transition: border-color 0.2s, background 0.2s;
+          font-size: 0;
         }
-        .h02gl-lb-close:hover { opacity: 1; }
+        .h02gl-lb-close:hover { border-color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.05); }
+        .h02gl-lb-close svg { width: 18; height: 18; }
         .h02gl-lb-arrow {
           position: absolute; top: 50%; transform: translateY(-50%);
-          background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-          color: #fff; width: 48px; height: 48px; cursor: pointer;
+          background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);
+          color: #fff; width: 52px; height: 52px; cursor: pointer;
           display: flex; align-items: center; justify-content: center;
-          transition: background 0.2s;
+          transition: background 0.25s, border-color 0.25s;
         }
-        .h02gl-lb-arrow:hover { background: rgba(150,161,172,0.4); }
-        .h02gl-lb-arrow.left  { left: 20px; }
-        .h02gl-lb-arrow.right { right: 20px; }
+        .h02gl-lb-arrow:hover { background: rgba(150,161,172,0.2); border-color: rgba(150,161,172,0.5); }
+        .h02gl-lb-arrow.left  { left: 24px; }
+        .h02gl-lb-arrow.right { right: 24px; }
+        .h02gl-lb-counter {
+          position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+          font-family: 'Montserrat', sans-serif; font-size: 13px; letter-spacing: 2px;
+          color: rgba(255,255,255,0.5);
+        }
 
         @media (max-width: 860px) {
           .h02gl-grid {
@@ -5858,6 +5988,9 @@ function GalleryHotel02({ content, sectionId }: { content: Record<string, unknow
 
       <section className="h02gl" id="galerie" data-template="hotel-02-gallery">
         <div className="h02gl-header">
+          <p className="h02gl-eyebrow">
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </p>
           <h2 className="h02gl-title">
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
@@ -5883,7 +6016,9 @@ function GalleryHotel02({ content, sectionId }: { content: Record<string, unknow
 
         {lightbox !== null && (
           <div className="h02gl-lb" onClick={() => setLightbox(null)}>
-            <button className="h02gl-lb-close" onClick={e => { e.stopPropagation(); setLightbox(null); }}>×</button>
+            <button className="h02gl-lb-close" onClick={e => { e.stopPropagation(); setLightbox(null); }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
             <button className="h02gl-lb-arrow left" onClick={e => { e.stopPropagation(); prev(); }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
@@ -5891,6 +6026,7 @@ function GalleryHotel02({ content, sectionId }: { content: Record<string, unknow
             <button className="h02gl-lb-arrow right" onClick={e => { e.stopPropagation(); next(); }}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
+            <div className="h02gl-lb-counter">{lightbox + 1} / {images.length}</div>
           </div>
         )}
       </section>

@@ -198,9 +198,9 @@ function LockedRow({ label, caption }: { label: string; caption: string }) {
       className="flex items-center gap-3 rounded-xl bg-[#eff6ff] px-4 py-3 ring-1 ring-[#dbeafe]"
       title={caption}
     >
-      <Lock size={14} strokeWidth={2} className="text-[#6366f1]" />
+      <Lock size={14} strokeWidth={2} className="text-[var(--vs-accent)]" />
       <span className="flex-1 text-[14px] font-semibold text-[#1e3a8a]">{label}</span>
-      <span className="text-[11px] text-[#6366f1]">{caption}</span>
+      <span className="text-[11px] text-[var(--vs-accent)]">{caption}</span>
     </div>
   );
 }
@@ -218,7 +218,7 @@ function SortableRow({ id, label, index }: { id: number; label: string; index: n
       className={clsx(
         "group flex items-center gap-3 rounded-xl border bg-white px-4 py-3 select-none transition-shadow",
         isDragging
-          ? "border-[#6366f1] shadow-[0_10px_30px_rgba(99,102,241,0.25)] z-10"
+          ? "border-[var(--vs-accent)] shadow-[0_10px_30px_rgba(20,184,166,0.25)] z-10"
           : "border-[#e2e8f0] hover:border-[#cbd5e1] shadow-[0_1px_2px_rgba(0,0,0,0.04)]",
       )}
     >

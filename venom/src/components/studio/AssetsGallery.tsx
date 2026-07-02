@@ -65,7 +65,7 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
       onClick={() => onChange(!checked)}
       className={clsx(
         "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none",
-        checked ? "bg-blue-500" : "bg-[#3f3f46]"
+        checked ? "bg-[var(--vs-accent-solid)]" : "bg-[#3f3f46]"
       )}
     >
       <span className={clsx(
@@ -104,7 +104,7 @@ function MoznostiDropdown({
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as SortBy)}
-          className="rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-3 py-1.5 text-[12px] text-white focus:outline-none focus:border-blue-500 transition-colors"
+          className="rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-3 py-1.5 text-[12px] text-white focus:outline-none focus:border-[var(--vs-accent)] transition-colors"
         >
           <option value="date_desc">Datum nahrání ↓</option>
           <option value="date_asc">Datum nahrání ↑</option>
@@ -118,7 +118,7 @@ function MoznostiDropdown({
         <select
           value={layout}
           onChange={(e) => setLayout(e.target.value as Layout)}
-          className="rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-3 py-1.5 text-[12px] text-white focus:outline-none focus:border-blue-500 transition-colors"
+          className="rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-3 py-1.5 text-[12px] text-white focus:outline-none focus:border-[var(--vs-accent)] transition-colors"
         >
           <option value="grid">Mřížka</option>
           <option value="list">Seznam</option>
@@ -160,19 +160,19 @@ function UploadTile({
       className={clsx(
         "relative flex flex-col items-center justify-center gap-3 rounded-xl cursor-pointer transition-all duration-150 aspect-square",
         dragOver
-          ? "border-2 border-blue-500 bg-blue-500/10"
+          ? "border-2 border-[var(--vs-accent)] bg-[var(--vs-accent-bg)]"
           : "border-2 border-dashed border-[#2c2c30] hover:border-[#3d3d42] hover:bg-white/[0.02]"
       )}
     >
       {uploading ? (
-        <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
+        <Loader2 className="h-8 w-8 animate-spin text-[var(--vs-accent)]" />
       ) : (
         <>
           <div className={clsx(
             "flex items-center justify-center w-[72px] h-[72px] rounded-full border-2 border-dashed transition-colors",
-            dragOver ? "border-blue-400" : "border-blue-500/50"
+            dragOver ? "border-[var(--vs-accent)]" : "border-[var(--vs-accent-ring)]"
           )}>
-            <Upload className="h-7 w-7 text-blue-400" strokeWidth={1.5} />
+            <Upload className="h-7 w-7 text-[var(--vs-accent)]" strokeWidth={1.5} />
           </div>
           <p className="text-[10.5px] font-bold tracking-[0.15em] text-[var(--vs-text-dim)] uppercase">
             Nahrát soubor
@@ -211,7 +211,7 @@ function MediaTile({
       <div className={clsx(
         "relative rounded-xl overflow-hidden aspect-square transition-all duration-150",
         isSvg ? "bg-[#1a1a1d]" : "bg-[#1a1a1d]",
-        selected ? "ring-2 ring-blue-500 ring-offset-2 ring-offset-[#0c0c0e]" : "hover:ring-1 hover:ring-white/20"
+        selected ? "ring-2 ring-[var(--vs-accent)] ring-offset-2 ring-offset-[#0c0c0e]" : "hover:ring-1 hover:ring-white/20"
       )}>
         {isImage ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -235,7 +235,7 @@ function MediaTile({
           className={clsx(
             "absolute top-2 left-2 flex items-center justify-center w-6 h-6 rounded-full border-2 transition-all duration-150",
             selected
-              ? "bg-blue-500 border-blue-500 opacity-100"
+              ? "bg-[var(--vs-accent-solid)] border-[var(--vs-accent)] opacity-100"
               : "bg-black/40 border-white/50 opacity-0 group-hover:opacity-100"
           )}
         >
@@ -284,14 +284,14 @@ function MediaRow({
   return (
     <div className={clsx(
       "group flex items-center gap-4 px-4 py-2.5 rounded-xl transition-colors duration-100",
-      selected ? "bg-blue-500/10" : "hover:bg-white/[0.04]"
+      selected ? "bg-[var(--vs-accent-bg)]" : "hover:bg-white/[0.04]"
     )}>
       <button
         type="button"
         onClick={onSelect}
         className={clsx(
           "flex items-center justify-center w-5 h-5 rounded border-2 shrink-0 transition-colors",
-          selected ? "bg-blue-500 border-blue-500" : "border-[var(--vs-text-dim)] hover:border-white"
+          selected ? "bg-[var(--vs-accent-solid)] border-[var(--vs-accent)]" : "border-[var(--vs-text-dim)] hover:border-white"
         )}
       >
         {selected && <Check className="h-3 w-3 text-white" strokeWidth={3} />}
@@ -391,7 +391,7 @@ function InfoPopup({ item, onClose }: { item: MediaItem; onClose: () => void }) 
                 "w-full flex items-center justify-center gap-2 rounded-xl py-2.5 text-[13px] font-semibold transition-colors",
                 copied
                   ? "bg-emerald-500/20 text-emerald-400"
-                  : "bg-blue-500 hover:bg-blue-600 text-white"
+                  : "bg-[var(--vs-accent-solid)] hover:bg-[var(--vs-accent-solid-hi)] text-white"
               )}
             >
               {copied ? (
@@ -430,8 +430,8 @@ function SelectionBar({
   const [movePanelOpen, setMovePanelOpen] = useState(false);
 
   return (
-    <div className="flex items-center gap-3 px-4 py-2.5 bg-blue-500/10 border-b border-blue-500/20">
-      <span className="text-[13px] font-medium text-blue-300">{count} vybraných</span>
+    <div className="flex items-center gap-3 px-4 py-2.5 bg-[var(--vs-accent-bg)] border-b border-[var(--vs-accent-ring)]">
+      <span className="text-[13px] font-medium text-[var(--vs-accent-hi)]">{count} vybraných</span>
       <div className="flex-1" />
 
       {/* Move to folder */}
@@ -744,7 +744,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
                 activeFolder === f.id
                   ? "text-white font-medium bg-white/[0.06]"
                   : "text-[var(--vs-text-muted)] hover:text-white hover:bg-white/[0.03]",
-                folderDragOver === f.id && "bg-blue-500/15 text-blue-300 !border-l-2 border-blue-500"
+                folderDragOver === f.id && "bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)] !border-l-2 border-[var(--vs-accent)]"
               )}
             >
               <Folder className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
@@ -769,12 +769,12 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
                   if (e.key === "Escape") setCreatingFolder(false);
                 }}
                 placeholder="název složky"
-                className="flex-1 min-w-0 rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-2.5 py-1.5 text-[12px] text-white placeholder-[var(--vs-text-dim)] focus:border-blue-500 focus:outline-none transition-colors"
+                className="flex-1 min-w-0 rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-2.5 py-1.5 text-[12px] text-white placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none transition-colors"
               />
               <button
                 type="button"
                 onClick={confirmFolder}
-                className="flex items-center justify-center h-7 w-7 rounded-lg bg-blue-500 hover:bg-blue-600 transition-colors shrink-0"
+                className="flex items-center justify-center h-7 w-7 rounded-lg bg-[var(--vs-accent-solid)] hover:bg-[var(--vs-accent-solid-hi)] transition-colors shrink-0"
               >
                 <Check className="h-3.5 w-3.5" strokeWidth={2.5} />
               </button>
@@ -852,7 +852,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center gap-2 rounded-xl bg-blue-500 hover:bg-blue-600 active:bg-blue-700 px-4 py-2 text-[13px] font-semibold text-white transition-colors shadow-lg shadow-blue-500/20"
+            className="flex items-center gap-2 rounded-xl bg-[var(--vs-accent-solid)] hover:bg-[var(--vs-accent-solid-hi)] active:bg-[var(--vs-accent-solid)] px-4 py-2 text-[13px] font-semibold text-white transition-colors shadow-[var(--vs-glow-accent)]"
           >
             <Upload className="h-4 w-4" strokeWidth={2} />
             Nahrát
@@ -948,12 +948,12 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
 
               {/* Upload row in list mode */}
               <div
-                className="flex items-center gap-4 px-4 py-2.5 rounded-xl border-2 border-dashed border-[#2c2c30] hover:border-blue-500/40 cursor-pointer transition-colors mb-2"
+                className="flex items-center gap-4 px-4 py-2.5 rounded-xl border-2 border-dashed border-[#2c2c30] hover:border-[var(--vs-accent-ring)] cursor-pointer transition-colors mb-2"
                 onClick={() => fileInputRef.current?.click()}
               >
                 <div className="w-5 shrink-0" />
                 <div className="w-10 h-10 rounded-lg bg-[#1a1a1d] flex items-center justify-center shrink-0">
-                  <Upload className="h-4 w-4 text-blue-400" />
+                  <Upload className="h-4 w-4 text-[var(--vs-accent)]" />
                 </div>
                 <span className="text-[12px] font-bold tracking-widest text-[var(--vs-text-dim)] uppercase">Nahrát soubor</span>
               </div>
@@ -984,7 +984,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
             {shownCount !== totalCount && ` z ${totalCount}`}
           </p>
           {selectedIds.size > 0 && (
-            <p className="text-[11.5px] text-blue-400">{selectedIds.size} vybraných</p>
+            <p className="text-[11.5px] text-[var(--vs-accent)]">{selectedIds.size} vybraných</p>
           )}
           <div className="flex-1" />
           {convertWebP && (

@@ -32,6 +32,7 @@ export function AdminNav() {
   const navLinks = [
     { href: "/admin/dashboard", label: "Dashboard" },
     { href: "/admin/users", label: "Uživatelé" },
+    { href: "/admin/tenants", label: "Správa tenantů" },
     { href: "/admin/template-queue", label: "Review fronta" },
     { href: "/admin/template-lab", label: "Template Lab" },
     { href: "/admin/psi-audit", label: "PageSpeed audit" },

@@ -31,10 +31,10 @@ function SmallIllustration() {
         </div>
       ))}
       <div className="flex items-center gap-1.5 mt-0.5">
-        <div className="h-3.5 w-3.5 rounded-full bg-[rgba(129,140,248,0.4)] shrink-0 flex items-center justify-center">
+        <div className="h-3.5 w-3.5 rounded-full bg-[rgba(212,212,216,0.4)] shrink-0 flex items-center justify-center">
           <Plus className="h-2 w-2 text-[var(--vs-accent-hi)]" strokeWidth={2.5} />
         </div>
-        <div className="h-1 rounded-full bg-[rgba(129,140,248,0.4)]" style={{ width: "60%" }} />
+        <div className="h-1 rounded-full bg-[rgba(212,212,216,0.4)]" style={{ width: "60%" }} />
       </div>
     </div>
   );
@@ -177,7 +177,7 @@ export function ArticlesPanel({ state }: { state: StudioState }) {
             <button
               type="button"
               onClick={handleNewArticle}
-              className="inline-flex items-center gap-1.5 rounded-md bg-[#6366f1] px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-[#4f46e5] transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-md bg-[var(--vs-accent)] px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] transition-colors"
             >
               <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
               Nový článek
@@ -198,7 +198,7 @@ export function ArticlesPanel({ state }: { state: StudioState }) {
             <button
               type="button"
               onClick={handleNewArticle}
-              className="inline-flex items-center gap-1.5 rounded-md bg-[#6366f1] px-2.5 py-1.5 text-[11.5px] font-semibold text-white hover:bg-[#4f46e5] transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-md bg-[var(--vs-accent)] px-2.5 py-1.5 text-[11.5px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] transition-colors"
             >
               <Plus className="h-3 w-3" strokeWidth={2.5} />
               Nový

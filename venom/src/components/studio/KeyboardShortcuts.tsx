@@ -99,7 +99,7 @@ export function KeyboardShortcutsOverlay({ open, onClose }: { open: boolean; onC
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg bg-[#6366f1] px-5 py-1.5 text-[13px] font-semibold text-white hover:bg-[#4f46e5] transition-colors"
+            className="rounded-lg bg-[var(--vs-accent)] px-5 py-1.5 text-[13px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] transition-colors"
           >
             Hotovo
           </button>

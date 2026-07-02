@@ -261,8 +261,8 @@ export function SectionFrame({
       <div
         className={clsx(
           "pointer-events-none absolute inset-0 transition-colors duration-150",
-          selected && "ring-2 ring-inset ring-blue-500",
-          !selected && hover && "ring-1 ring-inset ring-blue-400/40"
+          selected && "ring-2 ring-inset ring-[var(--vs-accent)]",
+          !selected && hover && "ring-1 ring-inset ring-[var(--vs-accent-ring)]"
         )}
       />
       {(selected || hover) && sortable && (
@@ -279,7 +279,7 @@ export function SectionFrame({
           onMouseDown={(e) => e.stopPropagation()}
           className={clsx(
             "pointer-events-auto absolute left-0 top-0 z-[60] flex h-6 w-6 cursor-grab items-center justify-center rounded-br-md text-white shadow-md ring-1 ring-white/20 transition-colors active:cursor-grabbing",
-            selected ? "bg-blue-700 hover:bg-blue-800" : "bg-blue-500/90 hover:bg-blue-600"
+            selected ? "bg-[var(--vs-accent-solid)] hover:bg-[var(--vs-accent-solid-hi)]" : "bg-[var(--vs-accent-solid)]/90 hover:bg-[var(--vs-accent-solid-hi)]"
           )}
         >
           <GripVertical className="h-3.5 w-3.5" strokeWidth={2.25} />
@@ -294,7 +294,7 @@ export function SectionFrame({
         >
           <span className={clsx(
             "rounded-br-md px-2 py-0.5 text-[10.5px] font-medium uppercase tracking-wide text-white",
-            selected ? "bg-blue-600" : "bg-blue-400/80"
+            selected ? "bg-[var(--vs-accent-solid)]" : "bg-[var(--vs-accent-solid)]/80"
           )}>
             {label}
           </span>
@@ -382,7 +382,7 @@ function FrameBtn({
       disabled={disabled}
       className={clsx(
         "inline-flex h-6 w-6 items-center justify-center rounded transition-colors duration-150 hover:bg-[var(--vs-surface-2)]",
-        active ? "bg-blue-600 text-white hover:bg-blue-700" : "text-[var(--vs-text-muted)]",
+        active ? "bg-[var(--vs-accent-solid)] text-white hover:bg-[var(--vs-accent-solid-hi)]" : "text-[var(--vs-text-muted)]",
         danger ? "hover:text-red-400" : !active && "hover:text-white",
         disabled && "opacity-30 hover:bg-transparent"
       )}

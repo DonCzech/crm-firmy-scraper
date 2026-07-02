@@ -40,7 +40,7 @@ function EmptyIllustration() {
         <div className="h-7 w-7 rounded-full bg-[var(--vs-accent-bg)] text-[var(--vs-accent)] flex items-center justify-center shrink-0">
           <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
         </div>
-        <div className="h-2 rounded bg-blue-200 w-1/2" />
+        <div className="h-2 rounded bg-[var(--vs-surface-3)] w-1/2" />
       </div>
     </div>
   );
@@ -73,7 +73,7 @@ function ListMode({ state, posts, loading, onNewArticle }: {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="h-8 w-8 rounded-full border-2 border-[var(--vs-border)] border-t-blue-500 animate-spin" />
+        <div className="h-8 w-8 rounded-full border-2 border-[var(--vs-border)] border-t-[var(--vs-accent)] animate-spin" />
       </div>
     );
   }
@@ -89,7 +89,7 @@ function ListMode({ state, posts, loading, onNewArticle }: {
           <button
             type="button"
             onClick={onNewArticle}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#6366f1] px-4 py-2 text-[13.5px] font-semibold text-white hover:bg-[#4f46e5] transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--vs-accent)] px-4 py-2 text-[13.5px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] transition-colors"
           >
             <Plus className="h-4 w-4" strokeWidth={2.5} />
             Nový článek
@@ -113,7 +113,7 @@ function ListMode({ state, posts, loading, onNewArticle }: {
         <button
           type="button"
           onClick={onNewArticle}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-[#6366f1] px-4 py-2 text-[13.5px] font-semibold text-white hover:bg-[#4f46e5] transition-colors"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--vs-accent)] px-4 py-2 text-[13.5px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] transition-colors"
         >
           <Plus className="h-4 w-4" strokeWidth={2.5} />
           Nový článek
@@ -301,7 +301,7 @@ function EditorMode({ state, post, onRefresh }: {
           <button
             type="button"
             onClick={handlePublish}
-            className="bg-[#6366f1] text-white rounded-lg px-4 py-1.5 text-[13px] font-semibold hover:bg-[#4f46e5] transition-colors"
+            className="bg-[var(--vs-accent)] text-white rounded-lg px-4 py-1.5 text-[13px] font-semibold hover:bg-[var(--vs-accent-solid)] transition-colors"
           >
             Publikovat
           </button>

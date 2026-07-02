@@ -2910,6 +2910,9 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "hotel-01-hero") {
     return <HeroHotel01 content={content} sectionId={sectionId} tenantSlug={tenantSlug ?? ""} isAdmin={isAdmin} />;
   }
+  if (variant === "hotel-01-hero-page") {
+    return <HeroHotel01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "hotel-02-hero") {
     return <HeroHotel02 content={content} sectionId={sectionId} tenantSlug={tenantSlug ?? ""} isAdmin={isAdmin} />;
   }
@@ -15905,6 +15908,104 @@ function HeroHotel01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
             </a>
           </div>
         )}
+      </section>
+    </>
+  );
+}
+
+// ── hotel-01-hero-page ────────────────────────────────────────────────────────
+function HeroHotel01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const c        = (content ?? {}) as Record<string, any>;
+  const title    = c.title    ?? "";
+  const subtitle = c.subtitle ?? "";
+  const imageUrl = c.imageUrl ?? "/assets/hotel-01/luxe/hero-1-facade.webp";
+  const breadcrumbLabel = c.breadcrumbLabel ?? "Domů";
+
+  const homeHref = tenantSlug ? `/demo/${tenantSlug}` : "/";
+
+  return (
+    <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Poppins:wght@300;400;500&display=swap" />
+      <style>{`
+        .h01hp {
+          position: relative; overflow: hidden;
+          min-height: clamp(300px, 40vw, 440px);
+          display: flex; align-items: center; justify-content: center;
+          text-align: center;
+          font-family: 'Poppins', sans-serif;
+        }
+        .h01hp-bg {
+          position: absolute; inset: 0; width: 100%; height: 100%;
+          object-fit: cover; display: block;
+          filter: sepia(.08) contrast(1.02) saturate(1.05);
+        }
+        .h01hp-overlay {
+          position: absolute; inset: 0;
+          background:
+            linear-gradient(180deg, rgba(20,17,14,0.75) 0%, rgba(20,17,14,0.6) 60%, rgba(20,17,14,0.7) 100%),
+            radial-gradient(ellipse 80% 60% at 50% 40%, rgba(169,135,99,.1), transparent 70%);
+          pointer-events: none;
+        }
+        .h01hp-inner {
+          position: relative; z-index: 2;
+          padding: clamp(120px,14vw,180px) 24px clamp(48px,6vw,80px);
+          max-width: 800px;
+        }
+        .h01hp-bread {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-size: 12px; letter-spacing: 0.2em;
+          text-transform: uppercase; color: rgba(212,176,136,.7);
+          margin: 0 0 24px;
+          display: flex; align-items: center; justify-content: center; gap: 12px;
+        }
+        .h01hp-bread a {
+          color: rgba(212,176,136,.7); text-decoration: none; transition: color .3s;
+        }
+        .h01hp-bread a:hover { color: #d4b088; }
+        .h01hp-bread-sep {
+          width: 16px; height: 1px; background: rgba(169,135,99,.5); display: inline-block;
+        }
+        .h01hp-bread-cur { color: rgba(255,255,255,.6); }
+        .h01hp-title {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: clamp(34px,4.5vw,62px); font-weight: 400;
+          color: #fff; margin: 0 0 14px; line-height: 1.1;
+          letter-spacing: 0.005em;
+        }
+        .h01hp-sub {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: clamp(14px,1.3vw,17px); color: rgba(255,255,255,.6);
+          margin: 0; letter-spacing: 0.02em;
+        }
+        .h01hp::after {
+          content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+          width: 60px; height: 1px;
+          background: linear-gradient(90deg, transparent, #a98763, transparent);
+        }
+      `}</style>
+      <section className="h01hp" data-template="hotel-01-hero-page">
+        <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+          <img src={imageUrl} alt={title} className="h01hp-bg" />
+        </GenericEditableImage>
+        <div className="h01hp-overlay" aria-hidden="true" />
+        <div className="h01hp-inner">
+          <div className="h01hp-bread">
+            <a href={isAdmin ? "#" : homeHref}>{breadcrumbLabel}</a>
+            <span className="h01hp-bread-sep" aria-hidden="true" />
+            <span className="h01hp-bread-cur">{title}</span>
+          </div>
+          <h1 className="h01hp-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+          {subtitle && (
+            <p className="h01hp-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
       </section>
     </>
   );

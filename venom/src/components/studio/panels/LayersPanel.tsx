@@ -75,7 +75,7 @@ function OverlaySubRow({ el, sectionId, selected, onSelect, onToggleMobile, onDe
       className={clsx(
         "group relative flex h-8 items-center gap-1.5 rounded-lg pl-7 pr-1.5 text-[12px] transition-colors duration-100 cursor-pointer",
         selected
-          ? "bg-[rgba(99,102,241,0.18)] text-white ring-1 ring-inset ring-[rgba(99,102,241,0.35)]"
+          ? "bg-[rgba(20,184,166,0.18)] text-white ring-1 ring-inset ring-[rgba(20,184,166,0.35)]"
           : "text-[var(--vs-text-dim)] hover:bg-white/[0.05] hover:text-[var(--vs-text-muted)]",
         el.mobileHidden && "opacity-60"
       )}
@@ -117,7 +117,7 @@ function scrollToSection(sectionId: number) {
   el.scrollIntoView({ behavior: "smooth", block: "center" });
   // Brief highlight flash so the user sees which section was jumped to
   const prev = el.style.outline;
-  el.style.outline = "2px solid rgba(129,140,248,0.7)";
+  el.style.outline = "2px solid rgba(212,212,216,0.7)";
   el.style.outlineOffset = "2px";
   setTimeout(() => { el.style.outline = prev; el.style.outlineOffset = ""; }, 900);
 }
@@ -139,11 +139,11 @@ function InsertSlot({ index, onInsert }: { index: number; onInsert: (at: number)
         "flex w-full items-center gap-2 transition-opacity duration-100",
         hover ? "opacity-100" : "opacity-0"
       )}>
-        <div className="h-px flex-1 bg-blue-500" />
-        <span className="shrink-0 rounded-full bg-blue-600 px-2.5 py-0.5 text-[11px] font-semibold text-white shadow">
+        <div className="h-px flex-1 bg-[var(--vs-accent-solid)]" />
+        <span className="shrink-0 rounded-full bg-[var(--vs-accent-solid)] px-2.5 py-0.5 text-[11px] font-semibold text-white shadow">
           Vložit sem
         </span>
-        <div className="h-px flex-1 bg-blue-500" />
+        <div className="h-px flex-1 bg-[var(--vs-accent-solid)]" />
       </div>
       {!hover && (
         <div className="absolute inset-x-3 top-1/2 h-px -translate-y-1/2 bg-white/[0.05]" />
@@ -211,16 +211,16 @@ function LayersPopup({ state, onClose, pending }: { state: StudioState; onClose:
         {/* Header */}
         <div className={clsx(
           "flex items-center justify-between px-5 py-4 border-b border-white/[0.07]",
-          isInsert && "bg-blue-950/40"
+          isInsert && "bg-[var(--vs-accent-bg)]"
         )}>
           <div className="flex items-center gap-2.5">
-            <LayersIcon className={clsx("h-4 w-4", isInsert ? "text-blue-400" : "text-[var(--vs-accent-hi)]")} strokeWidth={1.75} />
+            <LayersIcon className={clsx("h-4 w-4", isInsert ? "text-[var(--vs-accent)]" : "text-[var(--vs-accent-hi)]")} strokeWidth={1.75} />
             <div>
               <div className="text-[14px] font-semibold text-white tracking-[-0.01em]">
                 {isInsert ? "Kam vložit?" : "Pořadí sekcí"}
               </div>
               {isInsert && (
-                <div className="text-[11px] text-blue-400/80 mt-0.5">
+                <div className="text-[11px] text-[var(--vs-accent)]/80 mt-0.5">
                   {pending.label} — najeď na mezeru a klikni
                 </div>
               )}
@@ -401,7 +401,7 @@ function PopupRow({
           "group relative flex h-10 items-center gap-2 rounded-xl px-2 text-[13px] transition-colors duration-100",
           dimmed ? "cursor-default opacity-40" : "cursor-pointer",
           !dimmed && selected
-            ? "bg-[rgba(129,140,248,0.15)] text-white ring-1 ring-inset ring-[rgba(129,140,248,0.3)]"
+            ? "bg-[rgba(212,212,216,0.15)] text-white ring-1 ring-inset ring-[rgba(212,212,216,0.3)]"
             : "text-[var(--vs-text-muted)] hover:bg-white/[0.06] hover:text-white",
           !section.is_visible && "opacity-40"
         )}
@@ -412,7 +412,7 @@ function PopupRow({
         {/* Section icon */}
         <div className={clsx(
           "flex h-6 w-6 shrink-0 items-center justify-center rounded-md",
-          selected ? "bg-[rgba(129,140,248,0.25)]" : "bg-white/[0.06]"
+          selected ? "bg-[rgba(212,212,216,0.25)]" : "bg-white/[0.06]"
         )}>
           <Icon className={clsx("h-3.5 w-3.5", selected ? "text-[var(--vs-accent-hi)]" : "text-[var(--vs-text-dim)]")} strokeWidth={1.75} />
         </div>
@@ -430,7 +430,7 @@ function PopupRow({
               e.stopPropagation();
             }}
             onClick={e => e.stopPropagation()}
-            className="flex-1 min-w-0 rounded bg-[rgba(129,140,248,0.15)] px-1.5 py-0.5 text-[13px] font-medium text-white outline-none ring-1 ring-[rgba(129,140,248,0.5)]"
+            className="flex-1 min-w-0 rounded bg-[rgba(212,212,216,0.15)] px-1.5 py-0.5 text-[13px] font-medium text-white outline-none ring-1 ring-[rgba(212,212,216,0.5)]"
           />
         ) : (
           <span
@@ -647,7 +647,7 @@ export function LayersPanel({ state }: { state: StudioState }) {
                       e.dataTransfer.effectAllowed = "copy";
                     }}
                     onClick={() => openInsert(item.sectionType, item.variant ?? "default", item.label)}
-                    className="group flex flex-col items-center gap-1.5 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-2 py-3 transition-[border-color,background] duration-100 hover:border-[rgba(129,140,248,0.45)] hover:bg-[var(--vs-surface-2)] focus:outline-none cursor-grab active:cursor-grabbing"
+                    className="group flex flex-col items-center gap-1.5 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-2 py-3 transition-[border-color,background] duration-100 hover:border-[rgba(212,212,216,0.45)] hover:bg-[var(--vs-surface-2)] focus:outline-none cursor-grab active:cursor-grabbing"
                     aria-label={item.label}
                   >
                     <span className="text-[var(--vs-text-muted)] transition-colors duration-100 group-hover:text-[var(--vs-text-soft)]">
@@ -669,7 +669,7 @@ export function LayersPanel({ state }: { state: StudioState }) {
           <button
             type="button"
             onClick={() => { setPending(undefined); setPopupOpen(true); }}
-            className="flex w-full items-center gap-2 rounded-xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2.5 text-[12px] font-medium text-[var(--vs-text-muted)] transition-[border-color,background,color] duration-100 hover:border-[rgba(129,140,248,0.35)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]"
+            className="flex w-full items-center gap-2 rounded-xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2.5 text-[12px] font-medium text-[var(--vs-text-muted)] transition-[border-color,background,color] duration-100 hover:border-[rgba(212,212,216,0.35)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]"
           >
             <LayersIcon className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
             <span className="flex-1 text-left">Pořadí sekcí</span>

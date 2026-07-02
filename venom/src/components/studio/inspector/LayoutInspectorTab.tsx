@@ -257,8 +257,8 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
                   className={clsx(
                     "flex-1 rounded-md px-2 py-1.5 text-[10.5px] font-medium border transition-colors",
                     overlayLayer === l
-                      ? "border-blue-500 bg-blue-600 text-white"
-                      : "border-[var(--vs-border)] bg-[var(--vs-surface-3)] text-[var(--vs-text)] hover:border-blue-400"
+                      ? "border-[var(--vs-accent)] bg-[var(--vs-accent-solid)] text-white"
+                      : "border-[var(--vs-border)] bg-[var(--vs-surface-3)] text-[var(--vs-text)] hover:border-[var(--vs-accent)]"
                   )}
                 >
                   {l === "above" ? "↑ Nad obsahem" : "↓ Pod obsahem"}
@@ -282,7 +282,7 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
       onClick={() => onChange(!checked)}
       className={clsx(
         "relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors",
-        checked ? "bg-blue-600" : "bg-[var(--vs-surface-3)]"
+        checked ? "bg-[var(--vs-accent-solid)]" : "bg-[var(--vs-surface-3)]"
       )}
     >
       <span className={clsx(

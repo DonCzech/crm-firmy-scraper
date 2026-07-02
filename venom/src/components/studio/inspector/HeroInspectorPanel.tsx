@@ -87,7 +87,7 @@ function hsvToRgb(h: number, s: number, v: number): [number, number, number] {
 
 // ─── HSV Picker ───────────────────────────────────────────────────────────────
 
-const PRESETS = ["#ffffff", "#d4d4d4", "#a3a3a3", "#c8a96e", "#22c55e", "#0ea5e9", "#6366f1", "#ec4899", "#ef4444", "#f97316", "#eab308", "#000000"];
+const PRESETS = ["#ffffff", "#d4d4d4", "#a3a3a3", "#c8a96e", "#22c55e", "#0ea5e9", "var(--vs-accent)", "#ec4899", "#ef4444", "#f97316", "#eab308", "#000000"];
 
 function HsvPicker({ color, onChange }: { color: string; onChange: (hex: string) => void }) {
   const [h, s, v] = rgbToHsv(...hexToRgb(color));
@@ -397,7 +397,7 @@ function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean
       onClick={() => onChange(!checked)}
       className={clsx(
         "relative inline-flex h-5 w-9 items-center rounded-full transition-colors",
-        checked ? "bg-blue-500" : "bg-[var(--vs-surface-3)]"
+        checked ? "bg-[var(--vs-accent-solid)]" : "bg-[var(--vs-surface-3)]"
       )}
     >
       <span className={clsx("inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform", checked ? "translate-x-4" : "translate-x-1")} />

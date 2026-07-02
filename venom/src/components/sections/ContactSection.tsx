@@ -9400,8 +9400,10 @@ function ContactArbo01({ content, sectionId }: { content: Record<string, unknown
 // ── hotel-01-contact ──────────────────────────────────────────────────────────
 function ContactHotel01({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; isAdmin: boolean }) {
   const c                = (content ?? {}) as Record<string, any>;
+  const showHeader       = c.showHeader !== false;
   const eyebrow          = c.eyebrow          ?? "Kontakt";
-  const title            = c.title            ?? "Jsme tu pro vás";
+  const title            = c.title            ?? "Těšíme se na vás";
+  const titleAccent      = c.titleAccent      ?? "vás";
   const subtitle         = c.subtitle         ?? "";
   const phone            = c.phone            ?? "";
   const phone2           = c.phone2           ?? "";
@@ -9433,129 +9435,178 @@ function ContactHotel01({ content, sectionId, isAdmin }: { content: Record<strin
     }
   };
 
+  const renderTitle = () => {
+    if (!titleAccent || !title.includes(titleAccent)) {
+      return <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />;
+    }
+    const parts = title.split(titleAccent);
+    return (
+      <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span">
+        <>{parts[0]}<em className="h01ct-accent">{titleAccent}</em>{parts.slice(1).join(titleAccent)}</>
+      </GenericEditableText>
+    );
+  };
+
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Poppins:wght@300;400;500&display=swap" />
-      <style>{`        .h01ct {
-          background: #f9f6f2;
-          padding: clamp(60px,8vw,110px) clamp(20px,5vw,80px);
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Poppins:wght@300;400;500&display=swap" />
+      <style>{`
+        .h01ct {
+          background: #1e1a16;
+          padding: clamp(80px,10vw,140px) clamp(20px,5vw,80px);
           font-family: 'Poppins', sans-serif;
+          position: relative; overflow: hidden;
+        }
+        .h01ct::before {
+          content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+          width: 1px; height: 60px; background: linear-gradient(180deg, #a98763, transparent);
         }
         .h01ct-header {
-          max-width: 1200px; margin: 0 auto 56px; text-align: center;
+          max-width: 1200px; margin: 0 auto 64px; text-align: center;
         }
         .h01ct-eyebrow {
-          font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
-          color: #a98763; font-weight: 500; margin: 0 0 16px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: 13px; letter-spacing: 0.28em; text-transform: uppercase;
+          color: #d4b088; margin: 0 0 20px;
+          display: inline-flex; align-items: center; gap: 18px;
+        }
+        .h01ct-eyebrow::before, .h01ct-eyebrow::after {
+          content: ''; display: inline-block; width: 32px; height: 1px; background: #a98763;
         }
         .h01ct-title {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: clamp(26px,3vw,42px); font-weight: 400; color: #3e3e3e;
-          margin: 0 0 16px; line-height: 1.2;
+          font-size: clamp(30px,4vw,52px); font-weight: 400; color: #fff;
+          margin: 0 0 18px; line-height: 1.15;
         }
+        .h01ct-accent { font-style: italic; color: #d4b088; }
         .h01ct-subtitle {
-          font-size: 15px; color: #797979; font-weight: 300;
-          max-width: 520px; margin: 0 auto; line-height: 1.7;
+          font-size: 15.5px; color: rgba(255,255,255,.65); font-weight: 300;
+          max-width: 560px; margin: 0 auto; line-height: 1.8;
         }
         .h01ct-grid {
           max-width: 1200px; margin: 0 auto;
           display: grid; grid-template-columns: 1fr 1.4fr; gap: 72px; align-items: start;
         }
 
-        /* Info panel */
         .h01ct-info { display: flex; flex-direction: column; gap: 0; }
         .h01ct-info-block {
-          padding: 24px 0; border-bottom: 1px solid #e8e0d6;
+          padding: 26px 0; border-bottom: 1px solid rgba(169,135,99,.2);
           display: flex; gap: 18px; align-items: flex-start;
         }
         .h01ct-info-block:first-child { padding-top: 0; }
         .h01ct-info-icon {
-          width: 36px; height: 36px; flex-shrink: 0;
-          background: #a98763; border-radius: 50%;
-          display: flex; align-items: center; justify-content: center; color: #fff;
+          width: 42px; height: 42px; flex-shrink: 0;
+          background: rgba(169,135,99,.12); border: 1px solid rgba(169,135,99,.35);
+          border-radius: 50%;
+          display: flex; align-items: center; justify-content: center; color: #d4b088;
           margin-top: 2px;
         }
         .h01ct-info-label {
-          font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
-          color: #a98763; font-weight: 500; margin: 0 0 6px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+          color: #d4b088; margin: 0 0 6px;
         }
         .h01ct-info-val {
-          font-size: 15px; color: #3e3e3e; font-weight: 300; margin: 0;
+          font-size: 15px; color: rgba(255,255,255,.82); font-weight: 300; margin: 0;
           line-height: 1.6;
         }
-        .h01ct-info-val a { color: #3e3e3e; text-decoration: none; }
-        .h01ct-info-val a:hover { color: #a98763; }
+        .h01ct-info-val a { color: rgba(255,255,255,.82); text-decoration: none; transition: color .3s; }
+        .h01ct-info-val a:hover { color: #d4b088; }
 
-        /* Form */
-        .h01ct-form { background: #fff; padding: 40px; border: 1px solid #e8e0d6; }
+        .h01ct-form {
+          background: rgba(255,255,255,.04); backdrop-filter: blur(8px);
+          padding: 44px; border: 1px solid rgba(169,135,99,.2);
+        }
         .h01ct-form-title {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 22px; font-weight: 400; color: #3e3e3e;
-          margin: 0 0 28px;
+          font-style: italic; font-size: 24px; font-weight: 400; color: #fff;
+          margin: 0 0 8px;
+        }
+        .h01ct-form-sub {
+          font-size: 13px; color: rgba(255,255,255,.5); font-weight: 300;
+          margin: 0 0 32px;
         }
         .h01ct-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .h01ct-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+        .h01ct-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 18px; }
         .h01ct-field label {
-          font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
-          color: #797979; font-weight: 500;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+          color: rgba(212,176,136,.75);
         }
         .h01ct-field input, .h01ct-field textarea, .h01ct-field select {
           font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 300;
-          border: 1px solid #e8e0d6; background: #faf9f7; color: #3e3e3e;
-          padding: 11px 14px; outline: none; resize: none;
-          transition: border-color 0.2s;
+          border: 1px solid rgba(169,135,99,.25); background: rgba(255,255,255,.03);
+          color: #fff; padding: 12px 16px; outline: none; resize: none;
+          transition: border-color 0.3s, background 0.3s;
         }
-        .h01ct-field input:focus, .h01ct-field textarea:focus { border-color: #a98763; }
+        .h01ct-field input::placeholder, .h01ct-field textarea::placeholder {
+          color: rgba(255,255,255,.3);
+        }
+        .h01ct-field input:focus, .h01ct-field textarea:focus {
+          border-color: #a98763; background: rgba(169,135,99,.06);
+        }
         .h01ct-gdpr {
           display: flex; gap: 10px; align-items: flex-start;
-          font-size: 12px; color: #797979; font-weight: 300; margin-bottom: 20px; cursor: pointer;
+          font-size: 12px; color: rgba(255,255,255,.55); font-weight: 300;
+          margin-bottom: 22px; cursor: pointer;
         }
         .h01ct-gdpr input { margin-top: 3px; flex-shrink: 0; accent-color: #a98763; }
         .h01ct-submit {
-          width: 100%; background: #879B32; color: #fff;
+          position: relative; overflow: hidden;
+          width: 100%; background: transparent; color: #fff;
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase;
-          padding: 14px; border: none; cursor: pointer; transition: background 0.2s;
+          font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+          padding: 16px; border: 1px solid #a98763; cursor: pointer;
+          transition: color .35s;
         }
-        .h01ct-submit:hover:not(:disabled) { background: #6a7a28; }
-        .h01ct-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+        .h01ct-submit::before {
+          content: ''; position: absolute; inset: 0;
+          background: linear-gradient(135deg,#a98763,#c4a274);
+          transform: translateY(101%);
+          transition: transform .55s cubic-bezier(.22,.68,0,1.1); z-index: 0;
+        }
+        .h01ct-submit:hover:not(:disabled)::before { transform: translateY(0); }
+        .h01ct-submit > span { position: relative; z-index: 1; }
+        .h01ct-submit:disabled { opacity: 0.5; cursor: not-allowed; }
         .h01ct-ok {
-          text-align: center; padding: 32px 0; font-size: 15px;
-          color: #879B32; font-family: 'Playfair Display', Georgia, serif; font-style: italic;
+          text-align: center; padding: 32px 0; font-size: 17px;
+          color: #d4b088; font-family: 'Playfair Display', Georgia, serif; font-style: italic;
         }
-        .h01ct-err { font-size: 13px; color: #c0392b; margin-bottom: 12px; }
+        .h01ct-err { font-size: 13px; color: #e8665d; margin-bottom: 12px; }
 
         @media (max-width: 900px) {
-          .h01ct-grid { grid-template-columns: 1fr; gap: 40px; }
-          .h01ct-form { padding: 28px 20px; }
+          .h01ct-grid { grid-template-columns: 1fr; gap: 44px; }
+          .h01ct-form { padding: 28px 22px; }
           .h01ct-row { grid-template-columns: 1fr; }
         }
       `}</style>
 
       <section className="h01ct" id="kontakt" data-template="hotel-01-contact">
-        <div className="h01ct-header">
-          <p className="h01ct-eyebrow">
-            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-          </p>
-          <h2 className="h01ct-title">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          {subtitle && (
-            <p className="h01ct-subtitle">
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </p>
-          )}
-        </div>
+        {showHeader && (
+          <div className="h01ct-header">
+            <div className="h01ct-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </div>
+            <h2 className="h01ct-title">{renderTitle()}</h2>
+            {subtitle && (
+              <p className="h01ct-subtitle">
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
 
         <div className="h01ct-grid">
-          {/* Info */}
           <div className="h01ct-info">
             {phone && (
               <div className="h01ct-info-block">
                 <div className="h01ct-info-icon">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.7 16.94Z"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.7 16.94Z"/></svg>
                 </div>
                 <div>
                   <p className="h01ct-info-label">Telefon</p>
@@ -9571,7 +9622,7 @@ function ContactHotel01({ content, sectionId, isAdmin }: { content: Record<strin
             {(email || emailReservation) && (
               <div className="h01ct-info-block">
                 <div className="h01ct-info-icon">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                 </div>
                 <div>
                   <p className="h01ct-info-label">E-mail</p>
@@ -9585,14 +9636,14 @@ function ContactHotel01({ content, sectionId, isAdmin }: { content: Record<strin
             {(address || city) && (
               <div className="h01ct-info-block">
                 <div className="h01ct-info-icon">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
                 </div>
                 <div>
                   <p className="h01ct-info-label">Adresa</p>
                   <p className="h01ct-info-val">
                     <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
                     {city && <><br /><GenericEditableText sectionId={sectionId} field="city" value={city} tag="span" /></>}
-                    {mapUrl && <><br /><a href={mapUrl} target="_blank" rel="noopener noreferrer" style={{color:"#a98763",fontSize:"13px"}}>Zobrazit na mapě →</a></>}
+                    {mapUrl && <><br /><a href={mapUrl} target="_blank" rel="noopener noreferrer" style={{color:"#d4b088",fontSize:"13px",letterSpacing:"0.04em"}}>Zobrazit na mapě →</a></>}
                   </p>
                 </div>
               </div>
@@ -9600,7 +9651,7 @@ function ContactHotel01({ content, sectionId, isAdmin }: { content: Record<strin
             {hours && (
               <div className="h01ct-info-block">
                 <div className="h01ct-info-icon">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 </div>
                 <div>
                   <p className="h01ct-info-label">Recepce</p>
@@ -9612,13 +9663,13 @@ function ContactHotel01({ content, sectionId, isAdmin }: { content: Record<strin
             )}
           </div>
 
-          {/* Form */}
           <div className="h01ct-form">
             {status === "ok" ? (
               <p className="h01ct-ok">Děkujeme za zprávu — brzy se ozveme.</p>
             ) : (
               <form onSubmit={handleSubmit}>
                 <p className="h01ct-form-title">Rezervace & dotazy</p>
+                <p className="h01ct-form-sub">Vyplňte krátký formulář a my se vám ozveme do 24 hodin.</p>
                 <div className="h01ct-row">
                   <div className="h01ct-field">
                     <label>Jméno</label>
@@ -9653,7 +9704,7 @@ function ContactHotel01({ content, sectionId, isAdmin }: { content: Record<strin
                 </label>
                 {status === "err" && <p className="h01ct-err">Nepodařilo se odeslat. Zkuste to znovu.</p>}
                 <button className="h01ct-submit" type="submit" disabled={status === "sending" || !form.gdpr}>
-                  {status === "sending" ? "Odesílám…" : "Odeslat dotaz"}
+                  <span>{status === "sending" ? "Odesílám…" : "Odeslat dotaz"}</span>
                 </button>
               </form>
             )}

@@ -161,7 +161,7 @@ function PageSettingsEditor({
         <div className="flex h-[52px] shrink-0 items-center justify-between px-5 border-b border-[var(--vs-border)] bg-[var(--vs-surface)]">
           <button
             type="button"
-            className="inline-flex items-center gap-2 rounded-md bg-[#6366f1] px-3 py-1.5 text-[12.5px] font-medium text-white hover:bg-[#4f46e5]"
+            className="inline-flex items-center gap-2 rounded-md bg-[var(--vs-accent)] px-3 py-1.5 text-[12.5px] font-medium text-white hover:bg-[var(--vs-accent-solid)]"
           >
             <Settings2 className="h-4 w-4" strokeWidth={2} />
             Nastavení
@@ -170,7 +170,7 @@ function PageSettingsEditor({
             type="button"
             onClick={handleSave}
             disabled={busy}
-            className="rounded-md bg-[#6366f1] px-5 py-1.5 text-[12.5px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-60"
+            className="rounded-md bg-[var(--vs-accent)] px-5 py-1.5 text-[12.5px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] disabled:opacity-60"
           >
             {busy ? "Ukládám…" : "Uložit"}
           </button>
@@ -327,7 +327,7 @@ function PageSettingsEditor({
 
 /* Shared input/textarea classes for PageSettingsEditor fields. */
 const inputCls =
-  "w-full rounded-lg border border-[var(--vs-border-strong)] px-3.5 py-2.5 text-[14px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[#6366f1] focus:ring-2 focus:ring-[#6366f1]/15 focus:outline-none transition-shadow";
+  "w-full rounded-lg border border-[var(--vs-border-strong)] px-3.5 py-2.5 text-[14px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:ring-2 focus:ring-[var(--vs-accent)]/15 focus:outline-none transition-shadow";
 
 /* Two-column "field on the left + help on the right" row. */
 function Field({
@@ -564,7 +564,7 @@ export function PagesPanel({ state }: { state: StudioState }) {
                     }}
                     placeholder="Název stránky"
                     autoFocus
-                    className="mb-2 h-8 w-full rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2.5 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[#6366f1] focus:outline-none"
+                    className="mb-2 h-8 w-full rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2.5 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none"
                   />
                   <input
                     type="text"
@@ -574,11 +574,11 @@ export function PagesPanel({ state }: { state: StudioState }) {
                       setNewSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"));
                     }}
                     placeholder={newTitle ? slugify(newTitle) : "url-slug (volitelné)"}
-                    className="mb-2.5 h-8 w-full rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2.5 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[#6366f1] focus:outline-none"
+                    className="mb-2.5 h-8 w-full rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2.5 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none"
                   />
                   <div className="flex justify-end gap-2">
                     <button type="button" onClick={() => { setCreating(false); setNewSlug(""); setNewTitle(""); setSlugManuallyEdited(false); }} className="rounded-md px-2.5 py-1.5 text-[12px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)]">Zrušit</button>
-                    <button type="submit" disabled={busy || !newTitle} className="rounded-md bg-[#6366f1] px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-50">{busy ? "Vytvářím…" : "Vytvořit"}</button>
+                    <button type="submit" disabled={busy || !newTitle} className="rounded-md bg-[var(--vs-accent)] px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] disabled:opacity-50">{busy ? "Vytvářím…" : "Vytvořit"}</button>
                   </div>
                 </form>
               )}

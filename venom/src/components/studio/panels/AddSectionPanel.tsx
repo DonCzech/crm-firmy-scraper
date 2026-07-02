@@ -200,7 +200,7 @@ export function AddSectionPanel({ state }: { state: StudioState }) {
                 key={`${item.sectionType}-${item.label}-${i}`}
                 type="button"
                 onClick={() => void state.addSection(item.sectionType, item.variant ?? "default")}
-                className="group flex flex-col items-center gap-2 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-2 py-4 transition-[border-color,background] duration-100 hover:border-[rgba(129,140,248,0.45)] hover:bg-[var(--vs-surface-2)] focus:outline-none focus:ring-2 focus:ring-[rgba(129,140,248,0.4)] focus:ring-offset-1 focus:ring-offset-[var(--vs-bg-soft)]"
+                className="group flex flex-col items-center gap-2 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-2 py-4 transition-[border-color,background] duration-100 hover:border-[rgba(212,212,216,0.45)] hover:bg-[var(--vs-surface-2)] focus:outline-none focus:ring-2 focus:ring-[rgba(212,212,216,0.4)] focus:ring-offset-1 focus:ring-offset-[var(--vs-bg-soft)]"
                 aria-label={item.label}
               >
                 <span className="text-[var(--vs-text-muted)] transition-colors duration-100 group-hover:text-[var(--vs-text-soft)]">

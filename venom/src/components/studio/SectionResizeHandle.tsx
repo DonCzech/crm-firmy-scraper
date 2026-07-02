@@ -135,7 +135,7 @@ export function SectionResizeHandle({
       <span
         className={clsx(
           "block h-full w-full rounded-t-full shadow-md transition-colors",
-          dragging ? "bg-blue-500" : "bg-blue-600/80 hover:bg-blue-500"
+          dragging ? "bg-[var(--vs-accent-solid)]" : "bg-[var(--vs-accent-solid)]/80 hover:bg-[var(--vs-accent-solid-hi)]"
         )}
       />
       {/* Value tooltip during drag */}

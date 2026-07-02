@@ -15,6 +15,7 @@ export function WebSettings({ tenant }: Props) {
   const [maintenanceMessage, setMaintenanceMessage] = useState(
     tenant.maintenance_message ?? "Na stránkách právě probíhá aktualizace"
   );
+  const [siteMode, setSiteMode] = useState<"onepage" | "multipage">(tenant.site_mode ?? "multipage");
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
 
   async function handleSave() {
@@ -23,7 +24,7 @@ export function WebSettings({ tenant }: Props) {
       const res = await fetch(`/api/demo/${tenant.slug}/settings`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ allow_indexing: allowIndexing, maintenance_mode: maintenanceMode, maintenance_message: maintenanceMessage }),
+        body: JSON.stringify({ allow_indexing: allowIndexing, maintenance_mode: maintenanceMode, maintenance_message: maintenanceMessage, site_mode: siteMode }),
       });
       if (!res.ok) { setStatus("error"); return; }
       setStatus("saved");
@@ -69,6 +70,27 @@ export function WebSettings({ tenant }: Props) {
                 <span className="text-[13px] text-[#a1a1aa]">
                   {allowIndexing ? "Indexování povoleno" : "Indexování zakázáno"}
                 </span>
+              </div>
+            </FormRow>
+
+            <SectionHeader title="Typ webu" />
+            <FormRow
+              label="One-page / Multi-page"
+              help={{ title: "Režim navigace", text: "One-page: veškerý obsah na jedné stránce se scroll navigací. Multi-page: samostatné podstránky s vlastními URL." }}
+            >
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setSiteMode(siteMode === "onepage" ? "multipage" : "onepage")}
+                  className="flex rounded-lg overflow-hidden border border-[#e4e4e7] text-[12px] font-medium"
+                >
+                  <span className="px-3 py-1.5 transition-colors" style={{ background: siteMode === "onepage" ? "#18181b" : "#fff", color: siteMode === "onepage" ? "#fff" : "#71717a" }}>
+                    One-page
+                  </span>
+                  <span className="px-3 py-1.5 transition-colors" style={{ background: siteMode === "multipage" ? "#18181b" : "#fff", color: siteMode === "multipage" ? "#fff" : "#71717a" }}>
+                    Multi-page
+                  </span>
+                </button>
               </div>
             </FormRow>
 

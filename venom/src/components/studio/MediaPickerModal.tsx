@@ -110,7 +110,7 @@ export function MediaPickerModal({
               type="button"
               disabled={uploading}
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5 text-[12.5px] font-semibold text-white hover:bg-blue-500 transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 rounded-lg bg-[var(--vs-accent-solid)] px-3 py-1.5 text-[12.5px] font-semibold text-white hover:bg-[var(--vs-accent-solid-hi)] transition-colors disabled:opacity-50"
             >
               <Upload className="h-3.5 w-3.5" strokeWidth={2} />
               {uploading ? `Nahrávám ${uploadCount > 1 ? `(${uploadCount})` : ""}…` : "Nahrát"}
@@ -154,7 +154,7 @@ export function MediaPickerModal({
                 {f.label}
                 <span className="text-[10px] text-[var(--vs-text-dim)]">({f.count})</span>
                 {activeFolder === f.key && (
-                  <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-t bg-blue-500" />
+                  <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-t bg-[var(--vs-accent-solid)]" />
                 )}
               </button>
             ))}
@@ -173,7 +173,7 @@ export function MediaPickerModal({
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="flex items-center gap-1.5 rounded-lg bg-blue-600/80 px-3 py-1.5 text-[12.5px] font-semibold text-white hover:bg-blue-500 transition-colors"
+                className="flex items-center gap-1.5 rounded-lg bg-[var(--vs-accent-solid)]/80 px-3 py-1.5 text-[12.5px] font-semibold text-white hover:bg-[var(--vs-accent-solid-hi)] transition-colors"
               >
                 <Upload className="h-3.5 w-3.5" strokeWidth={2} />
                 Nahrát první obrázek
@@ -190,7 +190,7 @@ export function MediaPickerModal({
                   key={item.id}
                   type="button"
                   onClick={() => { onPick(item.url, item.alt_text ?? item.filename); onClose(); }}
-                  className="group relative aspect-square overflow-hidden rounded-xl border border-[var(--vs-surface-2)] hover:border-blue-500 transition-colors"
+                  className="group relative aspect-square overflow-hidden rounded-xl border border-[var(--vs-surface-2)] hover:border-[var(--vs-accent)] transition-colors"
                 >
                   <img src={item.url} alt={item.filename} className="h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors" />

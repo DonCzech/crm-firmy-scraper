@@ -59,7 +59,7 @@ export function InsertionGap({
     <div
       className={clsx(
         "group relative z-20 select-none transition-[height,background] duration-150",
-        dragOver ? "h-20 bg-blue-500/10" : "h-3 hover:h-5"
+        dragOver ? "h-20 bg-[var(--vs-accent-bg)]" : "h-3 hover:h-5"
       )}
       onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = "copy"; setDragOver(true); }}
       onDragLeave={(e) => {
@@ -73,15 +73,15 @@ export function InsertionGap({
         className={clsx(
           "absolute inset-x-0 top-1/2 -translate-y-1/2 transition-all duration-150",
           dragOver
-            ? "h-0.5 bg-blue-500 shadow-[0_0_8px_2px_rgba(129,140,248,0.5)]"
-            : "h-px bg-transparent group-hover:bg-blue-500/60"
+            ? "h-0.5 bg-[var(--vs-accent-solid)] shadow-[0_0_8px_2px_rgba(212,212,216,0.5)]"
+            : "h-px bg-transparent group-hover:bg-[var(--vs-accent-solid-hi)]/60"
         )}
       />
 
       {/* Drop label */}
       {dragOver && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <span className="rounded-full bg-blue-600 px-3 py-1 text-[11px] font-semibold text-white shadow-lg">
+          <span className="rounded-full bg-[var(--vs-accent-solid)] px-3 py-1 text-[11px] font-semibold text-white shadow-lg">
             Pustit sem
           </span>
         </div>
@@ -99,7 +99,7 @@ export function InsertionGap({
           }}
           className={clsx(
             "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
-            "flex h-7 w-7 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg",
+            "flex h-7 w-7 items-center justify-center rounded-full bg-[var(--vs-accent-solid)] text-white shadow-lg",
             "transition-opacity duration-150",
             open ? "opacity-100" : "opacity-0 group-hover:opacity-100"
           )}
@@ -138,11 +138,11 @@ export function InsertionGap({
                     setOpen(false);
                     void state.addSection(item.type, item.variant, insertAtIndex);
                   }}
-                  className="group/btn flex flex-col items-start gap-1.5 rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)] p-2.5 text-left text-xs transition-colors duration-150 hover:border-blue-500/50 hover:bg-[var(--vs-surface-2)]"
+                  className="group/btn flex flex-col items-start gap-1.5 rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)] p-2.5 text-left text-xs transition-colors duration-150 hover:border-[var(--vs-accent-ring)] hover:bg-[var(--vs-surface-2)]"
                   aria-label={`Přidat ${getSectionLabel(item.type)}`}
                   title={`Přidat ${getSectionLabel(item.type)}`}
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded bg-[var(--vs-surface-2)] text-[var(--vs-text-muted)] group-hover/btn:bg-blue-500/10 group-hover/btn:text-blue-400">
+                  <div className="flex h-8 w-8 items-center justify-center rounded bg-[var(--vs-surface-2)] text-[var(--vs-text-muted)] group-hover/btn:bg-[var(--vs-accent-bg)] group-hover/btn:text-[var(--vs-accent)]">
                     <Icon className="h-4 w-4" strokeWidth={1.75} />
                   </div>
                   <div className="text-[12px] font-medium text-white">{item.label}</div>

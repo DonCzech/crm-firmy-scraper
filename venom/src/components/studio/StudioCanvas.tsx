@@ -92,7 +92,7 @@ function CanvasDropZone({ insertAtIndex, state }: { insertAtIndex: number; state
     <div
       className={clsx(
         "relative flex min-h-[80px] cursor-pointer items-center justify-center transition-colors duration-150",
-        dragOver ? "bg-indigo-500/10" : "hover:bg-[rgba(129,140,248,0.05)]"
+        dragOver ? "bg-[var(--vs-accent-bg)]" : "hover:bg-[rgba(212,212,216,0.05)]"
       )}
       onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = "copy"; setDragOver(true); }}
       onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setDragOver(false); }}
@@ -102,8 +102,8 @@ function CanvasDropZone({ insertAtIndex, state }: { insertAtIndex: number; state
       <div className={clsx(
         "flex items-center gap-2 rounded-full border px-4 py-2 text-[12px] font-medium transition-all duration-150 select-none",
         dragOver
-          ? "border-indigo-400 bg-indigo-500 text-white shadow-[var(--vs-glow-brand)]"
-          : "border-dashed border-[rgba(129,140,248,0.35)] text-[#6b7280] hover:border-[var(--vs-accent)] hover:text-[var(--vs-accent-hi)] hover:bg-[rgba(129,140,248,0.08)]"
+          ? "border-[var(--vs-accent)] bg-[var(--vs-accent-solid)] text-white shadow-[var(--vs-glow-brand)]"
+          : "border-dashed border-[rgba(212,212,216,0.35)] text-[#6b7280] hover:border-[var(--vs-accent)] hover:text-[var(--vs-accent-hi)] hover:bg-[rgba(212,212,216,0.08)]"
       )}>
         <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
         {dragOver ? "Pustit sem — přidat sekci" : "Přidat sekci"}
@@ -230,7 +230,7 @@ export function StudioCanvas({ state }: { state: StudioState }) {
     if (!el) return;
     el.scrollIntoView({ behavior: "smooth", block: "start" });
     const prev = el.style.outline;
-    el.style.outline = "3px solid #6366f1";
+    el.style.outline = "3px solid var(--vs-accent)";
     el.style.outlineOffset = "2px";
     const timer = setTimeout(() => {
       el.style.outline = prev;

@@ -91,7 +91,7 @@ export function AIPanel({ state }: { state: StudioState }) {
             onChange={e => setInputText(e.target.value)}
             placeholder="Vložte text, který chcete upravit…"
             rows={4}
-            className="w-full rounded-xl bg-[var(--vs-surface)] border border-[var(--vs-border)] px-3 py-2.5 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-muted)] outline-none focus:border-[#6366f1] resize-none transition-colors"
+            className="w-full rounded-xl bg-[var(--vs-surface)] border border-[var(--vs-border)] px-3 py-2.5 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-muted)] outline-none focus:border-[var(--vs-accent)] resize-none transition-colors"
           />
         </div>
 
@@ -110,7 +110,7 @@ export function AIPanel({ state }: { state: StudioState }) {
                 className={clsx(
                   "flex flex-col items-center gap-0.5 rounded-xl border px-2 py-2 text-[11.5px] font-medium transition-all",
                   mode === m.id
-                    ? "border-[#6366f1] bg-[rgba(129,140,248,0.12)] text-[var(--vs-accent-hi)]"
+                    ? "border-[var(--vs-accent)] bg-[rgba(212,212,216,0.12)] text-[var(--vs-accent-hi)]"
                     : "border-[var(--vs-border)] text-[var(--vs-text-muted)] hover:border-[var(--vs-border-strong)] hover:text-[var(--vs-text)]"
                 )}
               >
@@ -126,7 +126,7 @@ export function AIPanel({ state }: { state: StudioState }) {
           type="button"
           onClick={handleRewrite}
           disabled={loading || !inputText.trim()}
-          className="flex items-center justify-center gap-2 rounded-xl bg-[#4f46e5] px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-[#4338ca] disabled:opacity-40 transition-colors"
+          className="flex items-center justify-center gap-2 rounded-xl bg-[var(--vs-accent-solid)] px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-[#4338ca] disabled:opacity-40 transition-colors"
         >
           {loading ? (
             <><Loader2 className="h-4 w-4 animate-spin" />Generuji…</>

@@ -107,7 +107,7 @@ function AccountDropdown({ onClose }: { onClose: () => void }) {
     >
       {/* User header */}
       <div className="flex items-center gap-2.5 px-3 py-3 border-b border-[var(--vs-border)]">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white text-[11px] font-bold shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_2px_8px_rgba(99,102,241,0.4)]" style={{ background: "var(--vs-grad-brand)" }}>
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white text-[11px] font-bold shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_2px_8px_rgba(20,184,166,0.4)]" style={{ background: "var(--vs-grad-brand)" }}>
           TB
         </div>
         <div className="min-w-0">
@@ -206,7 +206,7 @@ export function StudioLeftRail() {
                   className={clsx(
                     "flex h-11 w-11 items-center justify-center rounded-xl transition-[background,color,transform] duration-100 active:scale-95",
                     active
-                      ? "bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)] shadow-[inset_0_0_0_1px_rgba(129,140,248,0.22)]"
+                      ? "bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)] shadow-[inset_0_0_0_1px_rgba(212,212,216,0.22)]"
                       : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]"
                   )}
                 >
@@ -270,7 +270,7 @@ export function StudioLeftRail() {
               type="button"
               aria-label="Profil"
               onClick={() => setAccountOpen((v) => !v)}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-white text-[12px] font-bold shrink-0 hover:opacity-85 transition-opacity shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_2px_8px_rgba(99,102,241,0.35)]"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-white text-[12px] font-bold shrink-0 hover:opacity-85 transition-opacity shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_2px_8px_rgba(20,184,166,0.35)]"
               style={{ background: "var(--vs-grad-brand)" }}
             >
               TB

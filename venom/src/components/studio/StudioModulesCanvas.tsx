@@ -33,7 +33,7 @@ function EmptyIllustration() {
         <div className="h-7 w-7 rounded-full bg-[var(--vs-accent-bg)] text-[var(--vs-accent)] flex items-center justify-center shrink-0">
           <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
         </div>
-        <div className="h-2 rounded bg-blue-200 w-1/2" />
+        <div className="h-2 rounded bg-[var(--vs-surface-3)] w-1/2" />
       </div>
     </div>
   );
@@ -50,7 +50,7 @@ export function StudioModulesCanvas({ state: _state }: { state: StudioState }) {
         <h1 className="text-[22px] font-bold text-[var(--vs-text)]">{title}</h1>
         <button
           type="button"
-          className="bg-[#6366f1] text-white rounded-lg px-4 py-2 text-[13.5px] font-semibold hover:bg-[#4f46e5] transition-colors"
+          className="bg-[var(--vs-accent)] text-white rounded-lg px-4 py-2 text-[13.5px] font-semibold hover:bg-[var(--vs-accent-solid)] transition-colors"
         >
           Nový záznam
         </button>
@@ -65,7 +65,7 @@ export function StudioModulesCanvas({ state: _state }: { state: StudioState }) {
         <div className="flex items-center gap-3 mt-6">
           <button
             type="button"
-            className="bg-[#6366f1] text-white rounded-lg px-4 py-2 text-[13.5px] font-semibold hover:bg-[#4f46e5] transition-colors"
+            className="bg-[var(--vs-accent)] text-white rounded-lg px-4 py-2 text-[13.5px] font-semibold hover:bg-[var(--vs-accent-solid)] transition-colors"
           >
             Nový záznam
           </button>

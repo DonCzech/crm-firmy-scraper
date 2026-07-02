@@ -277,7 +277,7 @@ function Field({
         {label}
         {isModified && (
           <span
-            className="inline-block h-1.5 w-1.5 rounded-full bg-blue-400"
+            className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--vs-accent)]"
             title="Změněno oproti výchozí šabloně"
           />
         )}

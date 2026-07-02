@@ -219,7 +219,7 @@ function PanelModal({
           <div className="flex items-center gap-3">
             <button
               type="button"
-              className="flex items-center gap-1.5 text-[13px] font-semibold text-[#6366f1] hover:text-[#4f46e5]"
+              className="flex items-center gap-1.5 text-[13px] font-semibold text-[#3f3f46] hover:text-[#18181b]"
             >
               <Sparkles size={14} strokeWidth={2} />
               Vygenerovat AI
@@ -338,7 +338,7 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
           <button
             type="button"
             onClick={async () => { await state.addSection("freeform", "default"); onClose(); }}
-            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[14px] font-semibold text-[#6366f1] hover:bg-[#eff6ff]"
+            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[14px] font-semibold text-[#3f3f46] hover:bg-[#f4f4f5]"
           >
             <Plus size={15} strokeWidth={2.25} />
             Prázdná sekce
@@ -377,7 +377,7 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
               value={q}
               onChange={e => setQ(e.target.value)}
               placeholder="Hledat sekce…"
-              className="w-full rounded-lg border border-[#e2e8f0] bg-white pl-9 pr-3 py-2 text-[13.5px] text-[#0f172a] placeholder:text-[#94a3b8] focus:border-[#6366f1] focus:outline-none"
+              className="w-full rounded-lg border border-[#e2e8f0] bg-white pl-9 pr-3 py-2 text-[13.5px] text-[#0f172a] placeholder:text-[#94a3b8] focus:border-[#3f3f46] focus:outline-none"
             />
           </div>
           <div className="flex items-center gap-1.5 overflow-x-auto">
@@ -438,7 +438,7 @@ function VariantCard({
     <button
       type="button"
       onClick={onClick}
-      className="group flex flex-col text-left rounded-xl border border-[#e5e7eb] bg-white overflow-hidden hover:border-[#6366f1] hover:shadow-[0_10px_30px_rgba(99,102,241,0.15)] transition-all duration-150"
+      className="group flex flex-col text-left rounded-xl border border-[#e5e7eb] bg-white overflow-hidden hover:border-[#3f3f46] hover:shadow-[0_10px_30px_rgba(63,63,70,0.15)] transition-all duration-150"
     >
       <div className="aspect-[16/10] w-full overflow-hidden">
         {imgFailed ? (
@@ -762,7 +762,7 @@ function ElementsPanel({ state, onClose }: { state: StudioState; onClose: () => 
               value={q}
               onChange={e => setQ(e.target.value)}
               placeholder="Hledat prvky…"
-              className="w-full rounded-lg border border-[#e2e8f0] bg-white pl-9 pr-3 py-2 text-[13.5px] text-[#0f172a] placeholder:text-[#94a3b8] focus:border-[#6366f1] focus:outline-none"
+              className="w-full rounded-lg border border-[#e2e8f0] bg-white pl-9 pr-3 py-2 text-[13.5px] text-[#0f172a] placeholder:text-[#94a3b8] focus:border-[#3f3f46] focus:outline-none"
             />
           </div>
           <button type="button" className="flex items-center gap-1.5 rounded-lg border border-[#e2e8f0] bg-white px-3 py-1.5 text-[13px] font-semibold text-[#0f172a] hover:border-[#cbd5e1]">
@@ -788,7 +788,7 @@ function ElementsPanel({ state, onClose }: { state: StudioState; onClose: () => 
                     key={spec.id}
                     type="button"
                     onClick={() => void addElement(spec)}
-                    className="group flex aspect-[4/3] flex-col rounded-xl border border-[#e5e7eb] bg-white p-3 text-left hover:border-[#6366f1] hover:shadow-[0_8px_24px_rgba(99,102,241,0.12)] transition-all"
+                    className="group flex aspect-[4/3] flex-col rounded-xl border border-[#e5e7eb] bg-white p-3 text-left hover:border-[#3f3f46] hover:shadow-[0_8px_24px_rgba(63,63,70,0.12)] transition-all"
                   >
                     <div className="flex flex-1 items-center justify-center">{spec.preview}</div>
                     <span className="text-[11.5px] font-semibold text-[#0f172a] truncate">{spec.label}</span>
@@ -806,7 +806,7 @@ function ElementsPanel({ state, onClose }: { state: StudioState; onClose: () => 
                     key={s.id}
                     type="button"
                     onClick={() => void state.addSection("gallery", "default").then(onClose)}
-                    className="group flex flex-col rounded-xl border border-[#e5e7eb] bg-white overflow-hidden hover:border-[#6366f1] hover:shadow-[0_8px_24px_rgba(99,102,241,0.12)] transition-all"
+                    className="group flex flex-col rounded-xl border border-[#e5e7eb] bg-white overflow-hidden hover:border-[#3f3f46] hover:shadow-[0_8px_24px_rgba(63,63,70,0.12)] transition-all"
                   >
                     <div className="aspect-[16/10] bg-gradient-to-br from-[#fef3c7] via-[#fce7f3] to-[#dbeafe] flex items-center justify-center">
                       <Sparkles size={28} strokeWidth={1.4} className="text-[#475569]" />
@@ -830,7 +830,7 @@ function ElementsPanel({ state, onClose }: { state: StudioState; onClose: () => 
 
 function BigTile({ label, Icon, accent }: { label: string; Icon: typeof Upload; accent: string }) {
   return (
-    <button type="button" className="flex flex-col items-start gap-2 rounded-xl border border-dashed border-[#cbd5e1] bg-[#f8fafc] p-4 text-left hover:border-[#6366f1] hover:bg-[#eff6ff] transition-colors">
+    <button type="button" className="flex flex-col items-start gap-2 rounded-xl border border-dashed border-[#cbd5e1] bg-[#f8fafc] p-4 text-left hover:border-[#3f3f46] hover:bg-[#f4f4f5] transition-colors">
       <span className="flex h-9 w-9 items-center justify-center rounded-lg text-white" style={{ background: accent }}>
         <Icon size={16} strokeWidth={2} />
       </span>
@@ -844,7 +844,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
     <div>
       <div className="mb-2 flex items-center justify-between">
         <h3 className="text-[14px] font-semibold text-[#0f172a]">{title}</h3>
-        <button type="button" className="flex items-center gap-1 text-[12px] font-semibold text-[#6366f1] hover:text-[#4f46e5]">
+        <button type="button" className="flex items-center gap-1 text-[12px] font-semibold text-[#3f3f46] hover:text-[#18181b]">
           Zobrazit vše <ArrowRight size={12} strokeWidth={2.25} />
         </button>
       </div>
@@ -944,7 +944,7 @@ function PagesPanel({ state, onClose }: { state: StudioState; onClose: () => voi
           <button
             type="button"
             onClick={async () => { await state.addSection("hero", "default"); onClose(); }}
-            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[14px] font-semibold text-[#6366f1] hover:bg-[#eff6ff]"
+            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[14px] font-semibold text-[#3f3f46] hover:bg-[#f4f4f5]"
           >
             <Plus size={15} strokeWidth={2.25} />
             Prázdná stránka
@@ -986,7 +986,7 @@ function PagesPanel({ state, onClose }: { state: StudioState; onClose: () => voi
               value={q}
               onChange={e => setQ(e.target.value)}
               placeholder="Hledat šablonu…"
-              className="w-full rounded-lg border border-[#e2e8f0] bg-white pl-9 pr-3 py-2 text-[13.5px] text-[#0f172a] placeholder:text-[#94a3b8] focus:border-[#6366f1] focus:outline-none"
+              className="w-full rounded-lg border border-[#e2e8f0] bg-white pl-9 pr-3 py-2 text-[13.5px] text-[#0f172a] placeholder:text-[#94a3b8] focus:border-[#3f3f46] focus:outline-none"
             />
           </div>
         </div>
@@ -1033,7 +1033,7 @@ function PageCard({ page, onClick, busy }: { page: BuiltInPage; onClick: () => v
       disabled={busy}
       className={clsx(
         "group flex flex-col text-left rounded-xl border border-[#e5e7eb] bg-white overflow-hidden transition-all",
-        busy ? "opacity-60 cursor-wait" : "hover:border-[#6366f1] hover:shadow-[0_10px_30px_rgba(99,102,241,0.15)]",
+        busy ? "opacity-60 cursor-wait" : "hover:border-[#3f3f46] hover:shadow-[0_10px_30px_rgba(63,63,70,0.15)]",
       )}
     >
       <div className="aspect-[4/3] w-full overflow-hidden bg-[#f8fafc]">

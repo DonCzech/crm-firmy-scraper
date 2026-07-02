@@ -11,29 +11,31 @@
    properties (background, color, font) stay scoped to [data-studio] below. */
 :root,
 [data-studio] {
-  /* ── Color tokens (deep indigo-navy shell — premium dark studio) ────── */
-  --vs-bg:            #0b0c14;            /* viewport / canvas backdrop      */
-  --vs-bg-soft:       #12131e;            /* sidebar rail + top bar          */
-  --vs-surface:       #191a29;            /* panels, cards                   */
-  --vs-surface-2:     #1f2131;            /* nested surfaces, hover          */
-  --vs-surface-3:     #272a3d;            /* active hover, popovers          */
-  --vs-border:        rgba(148,156,255,0.08); /* subtle dividers             */
-  --vs-border-strong: #2d3048;            /* strong dividers / inputs        */
-  --vs-text:          #f5f5f9;            /* primary text                    */
-  --vs-text-soft:     #d3d4de;            /* secondary text                  */
-  --vs-text-muted:    #8b8d9e;            /* muted text                      */
-  --vs-text-dim:      #5c5e6e;            /* dimmest readable                */
-  --vs-text-disabled: #3a3c4a;            /* disabled                        */
+  /* ── Color tokens (silver-graphite shell — premium monochrome studio) ── */
+  --vs-bg:            #0c0c0e;            /* viewport / canvas backdrop      */
+  --vs-bg-soft:       #121214;            /* sidebar rail + top bar          */
+  --vs-surface:       #18181b;            /* panels, cards                   */
+  --vs-surface-2:     #1f1f23;            /* nested surfaces, hover          */
+  --vs-surface-3:     #28282d;            /* active hover, popovers          */
+  --vs-border:        rgba(255,255,255,0.08); /* subtle dividers             */
+  --vs-border-strong: #333338;            /* strong dividers / inputs        */
+  --vs-text:          #f7f7f8;            /* primary text                    */
+  --vs-text-soft:     #d6d6db;            /* secondary text                  */
+  --vs-text-muted:    #8f8f98;            /* muted text                      */
+  --vs-text-dim:      #5e5e66;            /* dimmest readable                */
+  --vs-text-disabled: #3c3c42;            /* disabled                        */
 
-  /* Brand + semantic */
-  --vs-accent:        #818cf8;            /* indigo-400 — primary brand      */
-  --vs-accent-hi:     #a5b4fc;            /* indigo-300 — focused/hover      */
-  --vs-accent-bg:     rgba(129,140,248,0.13);
-  --vs-accent-ring:   rgba(129,140,248,0.40);
-  --vs-grad-brand:    linear-gradient(135deg, #3b82f6 0%, #6366f1 60%, #7c5cf6 100%);
-  --vs-grad-brand-hi: linear-gradient(135deg, #60a5fa 0%, #818cf8 60%, #957af8 100%);
-  --vs-success:       #34d399;            /* emerald-400                     */
-  --vs-success-bg:    rgba(52,211,153,0.10);
+  /* Brand + semantic — stříbrný metalický akcent */
+  --vs-accent:        #d4d4d8;            /* silver — primary brand          */
+  --vs-accent-hi:     #f4f4f5;            /* bright silver — focused/hover   */
+  --vs-accent-bg:     rgba(212,212,216,0.10);
+  --vs-accent-ring:   rgba(212,212,216,0.35);
+  --vs-accent-solid:    #4b4b53;          /* graphite — solid button bg (bílý text) */
+  --vs-accent-solid-hi: #5c5c65;          /* graphite hover                          */
+  --vs-grad-brand:    linear-gradient(135deg, #47474f 0%, #6a6a74 55%, #8e8e99 100%);
+  --vs-grad-brand-hi: linear-gradient(135deg, #55555e 0%, #7c7c87 55%, #a5a5b0 100%);
+  --vs-success:       #4ade80;            /* green-400                       */
+  --vs-success-bg:    rgba(74,222,128,0.10);
   --vs-warning:       #fbbf24;            /* amber-400                       */
   --vs-warning-bg:    rgba(251,191,36,0.10);
   --vs-danger:        #f87171;            /* red-400                         */
@@ -99,12 +101,12 @@
     0 30px 70px rgba(0,0,0,0.65),
     0 14px 28px rgba(0,0,0,0.45);
   --vs-glow-accent:
-    0 0 0 1px rgba(129,140,248,0.35),
-    0 8px 24px rgba(129,140,248,0.18);
+    0 0 0 1px rgba(212,212,216,0.35),
+    0 8px 24px rgba(212,212,216,0.14);
   --vs-glow-brand:
-    0 1px 0 0 rgba(255,255,255,0.18) inset,
-    0 2px 10px rgba(99,102,241,0.45),
-    0 6px 22px rgba(99,102,241,0.25);
+    0 1px 0 0 rgba(255,255,255,0.22) inset,
+    0 2px 10px rgba(160,160,172,0.35),
+    0 6px 22px rgba(120,120,132,0.22);
 
   /* ── Motion ────────────────────────────────────────────────────────────── */
   --vs-ease-out:    cubic-bezier(0.18, 0.89, 0.32, 1);
@@ -196,7 +198,7 @@
 
 /* Frosted-glass surface for floating chrome (popovers, dropdowns, bars) */
 .vs-glass {
-  background: rgba(18,19,30,0.86);
+  background: rgba(18,18,20,0.86);
   backdrop-filter: blur(16px) saturate(1.5);
   -webkit-backdrop-filter: blur(16px) saturate(1.5);
 }
@@ -206,8 +208,8 @@
 .vs-canvas-bg {
   background-color: var(--vs-bg);
   background-image:
-    radial-gradient(900px 420px at 50% -80px, rgba(99,102,241,0.10), transparent 65%),
-    radial-gradient(rgba(148,156,255,0.075) 1px, transparent 1.2px);
+    radial-gradient(900px 420px at 50% -80px, rgba(220,220,228,0.07), transparent 65%),
+    radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1.2px);
   background-size: auto, 22px 22px;
 }
 

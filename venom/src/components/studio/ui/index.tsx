@@ -35,7 +35,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     lg: "h-9 px-4 text-[13px]",
   };
   const variants: Record<ButtonVariant, string> = {
-    primary: "vs-grad-accent text-white shadow-[0_1px_0_0_rgba(255,255,255,0.18)_inset,0_4px_14px_rgba(99,102,241,0.35)] hover:shadow-[0_1px_0_0_rgba(255,255,255,0.22)_inset,0_6px_18px_rgba(99,102,241,0.5)] active:translate-y-[0.5px]",
+    primary: "vs-grad-accent text-white shadow-[0_1px_0_0_rgba(255,255,255,0.18)_inset,0_4px_14px_rgba(20,184,166,0.35)] hover:shadow-[0_1px_0_0_rgba(255,255,255,0.22)_inset,0_6px_18px_rgba(20,184,166,0.5)] active:translate-y-[0.5px]",
     secondary: "bg-[var(--vs-surface)] text-[var(--vs-text)] border border-[var(--vs-border-strong)] hover:bg-[var(--vs-surface-2)] active:translate-y-[0.5px]",
     ghost: "text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]",
     danger: "bg-[var(--vs-danger-bg)] text-[var(--vs-danger)] border border-[rgba(248,113,113,0.25)] hover:bg-[rgba(248,113,113,0.18)]",

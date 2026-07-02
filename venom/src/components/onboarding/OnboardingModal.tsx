@@ -1,7 +1,9 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import type { PlatformLocale } from "@/lib/platform-i18n";
 
 type Step = "choice" | "register" | "templates" | "agency-form" | "building" | "done";
 
@@ -14,6 +16,15 @@ const BUILD_STEPS = [
   "Hotovo",
 ];
 
+const BUILD_STEPS_EN = [
+  "Preparing the domain",
+  "Creating the database",
+  "Copying the template",
+  "Setting up the design",
+  "Activating the editor",
+  "Done",
+];
+
 export interface ModalTemplate {
   key: string;
   name: string;
@@ -24,6 +35,7 @@ export interface ModalTemplate {
 
 interface Props {
   onClose: () => void;
+  locale?: PlatformLocale;
   initialTemplate?: string;
   templateName?: string;
   catalogTemplates?: ModalTemplate[];
@@ -48,6 +60,25 @@ const INDUSTRY_LABELS: Record<string, string> = {
   landing: "Landing page", gastro: "Gastronomie",
 };
 
+const INDUSTRY_LABELS_EN: Record<string, string> = {
+  barber: "Barber", beauty: "Beauty", bakery: "Bakery", catering: "Catering",
+  stavba: "Construction", elektro: "Electrical", instala: "Plumbing", florist: "Florist",
+  sweet: "Sweets", autoskola: "Driving schools", lang: "Languages", kids: "Kids",
+  vet: "Veterinary", pethotel: "Pet hotels", grooming: "Grooming", ucetni: "Accounting",
+  solar: "Solar", arch: "Architects", clean: "Cleaning", klima: "Air conditioning",
+  floors: "Flooring", malir: "Painters", garden: "Gardens", klempir: "Sheet metal",
+  arbo: "Arborists", ddd: "Pest control", chalet: "Chalets", hotel: "Hotels",
+  photo: "Photographers", events: "Events", dj: "DJ", video: "Video",
+  autoservis: "Car service", hairdresser: "Hair salon", wellness: "Wellness",
+  nails: "Nails", tattoo: "Tattoo", fitness: "Fitness", physio: "Physio",
+  dentist: "Dentistry", lawyer: "Lawyer", realEstate: "Real estate",
+  auto: "Auto", construction: "Construction", clinic: "Clinic",
+  accounting: "Accounting", finance: "Finance", architecture: "Architecture",
+  photographer: "Photo", restaurant: "Restaurant", cafe: "Cafe",
+  education: "Education", pets: "Pets", sluzby: "Services",
+  landing: "Landing page", gastro: "Gastronomy",
+};
+
 const CATEGORY_LABELS: Record<string, string> = {
   all: "Vše",
   sluzby: "Služby",
@@ -55,6 +86,15 @@ const CATEGORY_LABELS: Record<string, string> = {
   realEstate: "Reality",
   landing: "Landing page",
   gastro: "Gastronomie",
+};
+
+const CATEGORY_LABELS_EN: Record<string, string> = {
+  all: "All",
+  sluzby: "Services",
+  hotel: "Hotels",
+  realEstate: "Real estate",
+  landing: "Landing page",
+  gastro: "Gastronomy",
 };
 
 function industryFromKey(key: string): string {
@@ -80,6 +120,13 @@ const BUDGET_OPTIONS = [
   "970 tis. a více",
 ];
 
+const BUDGET_OPTIONS_EN = [
+  "CZK 110-170k",
+  "CZK 170-330k",
+  "CZK 330-970k",
+  "CZK 970k and more",
+];
+
 const PROJECT_TYPES = [
   "Firemní web",
   "E-shop",
@@ -89,11 +136,168 @@ const PROJECT_TYPES = [
   "Jiné",
 ];
 
-export function OnboardingModal({ onClose, initialTemplate, templateName, catalogTemplates }: Props) {
+const PROJECT_TYPES_EN = [
+  "Company website",
+  "E-shop",
+  "Landing page",
+  "Portfolio",
+  "Blog / magazine",
+  "Other",
+];
+
+const ONBOARDING_COPY = {
+  cs: {
+    close: "Zavřít",
+    back: "Zpět",
+    choiceTitle: "Jak chcete začít?",
+    diyTag: "Samostatně",
+    diyTitle: "Web chci stavět sám",
+    diyText: "Prvních 14 dní zdarma. Bez kreditní karty. Žádné riziko, žádné závazky.",
+    diyCta: "Vytvořit zkušební verzi",
+    agencyTag: "Na zakázku",
+    agencyTitle: "Web chci kompletně dodat",
+    agencyText: "Web vám připravíme na zakázku. Přijímáme jen 8 klientů měsíčně.",
+    agencyCta: "Získat nabídku",
+    registerTitle: "Vytvořte si zkušební verzi zdarma",
+    registerText: "14denní zkušební verze, bez kreditní karty, přístup ke všem funkcím.",
+    name: "Jméno *",
+    email: "E-mail *",
+    phone: "Telefon",
+    password: "Heslo (min. 6 znaků) *",
+    createAccount: "Vytvořit účet zdarma",
+    haveAccount: "Máte účet?",
+    login: "Přihlásit se",
+    conceptsTitle: "Přivítejte webové koncepty",
+    conceptsText: "Jsou kombinací designu, obsahu a funkcí pro daný obor. Představují nejlepší startovní bod pro váš web. Změnit v nich můžete vše.",
+    all: "Vše",
+    none: "V kategorii nic nenalezeno",
+    showAll: "Zobrazit vše →",
+    use: "Použít",
+    mobile: "Mobil",
+    desktopPreview: "Desktop náhled",
+    mobilePreview: "Mobilní náhled",
+    selected: "Vybráno:",
+    continue: "Pokračovat dál",
+    agencyHero: "Řekněte nám více o projektu",
+    agencyIntro: "Vyplnit formulář zabere jednotky minut a ušetří hodiny času. Na první schůzku budeme připraveni a bude maximálně užitečná.",
+    sentTitle: "Poptávka odeslána!",
+    sentText: "Ozveme se vám do 24 hodin.",
+    sectionAbout: "1. Informace o vás a firmě",
+    firstName: "Jméno *",
+    lastName: "Příjmení *",
+    company: "Název firmy *",
+    website: "www adresa firmy *",
+    sectionProject: "2. Informace o projektu",
+    projectType: "Jaký typ projektu chcete realizovat? *",
+    goal: "Proč chcete realizovat nový web? Čeho přesně chcete dosáhnout? *",
+    inspo: "Jaké weby jsou pro vás cílový stav inspirací?",
+    sectionBudget: "3. Rozpočet a termín projektu",
+    budgetIntro: "Každé zadání má svůj rozsah. Je důležité vědět, jaký rozpočet máte připravený.",
+    budget: "Rozpočet (CZK) *",
+    deadline: "Očekávaný termín spuštění",
+    submitRequest: "Odeslat poptávku",
+    replyTitle: "Na zprávu odpoví",
+    replyPerson: "Jan Novák – sales",
+    replyText: "Reagujeme do 24 hodin. V dalším kroku si domluvíme 30minutovou online schůzku, při které projdeme detaily vašeho zadání.",
+    quote: "„Díky za výbornou spolupráci a hlavně za výborný produkt! Skvěle se nám s ním pracuje.\"",
+    quoteBy: "Tatána le Moigne – Inspire & Impact, ex-Google",
+    buildingTitle: "Váš web se už chystá",
+    stepWord: "krok z",
+    doneLabel: "Hotovo",
+    doneTitleA: "Váš web je",
+    doneTitleB: "připravený.",
+    credentials: "Přihlašovací údaje",
+    passwordValue: "vaše zadané heslo",
+    loginHelp: "Pro přihlášení do editoru kdykoliv znovu.",
+    confirmation: "Potvrzení na",
+    openEditor: "Otevřít editor",
+    websitePreview: "Náhled webu",
+    serverError: "Nepodařilo se připojit k serveru. Zkuste to znovu.",
+    buildError: "Chyba při vytváření webu",
+    chooseTemplate: "Vybrat šablonu",
+  },
+  en: {
+    close: "Close",
+    back: "Back",
+    choiceTitle: "How do you want to start?",
+    diyTag: "Self-serve",
+    diyTitle: "I want to build the site myself",
+    diyText: "First 14 days free. No credit card. No risk, no commitment.",
+    diyCta: "Create trial website",
+    agencyTag: "Done for you",
+    agencyTitle: "I want the website delivered for me",
+    agencyText: "We will prepare the website for you. We accept only 8 clients per month.",
+    agencyCta: "Get an offer",
+    registerTitle: "Create your free trial",
+    registerText: "14-day trial, no credit card, access to every feature.",
+    name: "Name *",
+    email: "Email *",
+    phone: "Phone",
+    password: "Password (min. 6 characters) *",
+    createAccount: "Create free account",
+    haveAccount: "Already have an account?",
+    login: "Log in",
+    conceptsTitle: "Meet website concepts",
+    conceptsText: "They combine design, content, and features for a specific industry. They are the best starting point for your website. You can change everything.",
+    all: "All",
+    none: "Nothing found in this category",
+    showAll: "Show all →",
+    use: "Use",
+    mobile: "Mobile",
+    desktopPreview: "Desktop preview",
+    mobilePreview: "Mobile preview",
+    selected: "Selected:",
+    continue: "Continue",
+    agencyHero: "Tell us more about your project",
+    agencyIntro: "The form takes only a few minutes and saves hours later. We will come to the first call prepared, so it is actually useful.",
+    sentTitle: "Request sent!",
+    sentText: "We will get back to you within 24 hours.",
+    sectionAbout: "1. About you and your company",
+    firstName: "First name *",
+    lastName: "Last name *",
+    company: "Company name *",
+    website: "Company website *",
+    sectionProject: "2. Project information",
+    projectType: "What type of project do you want to build? *",
+    goal: "Why do you want a new website? What exactly should it achieve? *",
+    inspo: "Which websites are close to your target state?",
+    sectionBudget: "3. Project budget and timing",
+    budgetIntro: "Every assignment has a different scope. It helps to know what budget you have prepared.",
+    budget: "Budget (CZK) *",
+    deadline: "Expected launch date",
+    submitRequest: "Send request",
+    replyTitle: "Your message will be answered by",
+    replyPerson: "Jan Novak – sales",
+    replyText: "We respond within 24 hours. Next, we schedule a 30-minute online call and go through the details of your brief.",
+    quote: "\"Thank you for the great collaboration and, above all, for a great product. It is excellent to work with.\"",
+    quoteBy: "Tatana le Moigne – Inspire & Impact, ex-Google",
+    buildingTitle: "Your website is being prepared",
+    stepWord: "step of",
+    doneLabel: "Done",
+    doneTitleA: "Your website is",
+    doneTitleB: "ready.",
+    credentials: "Login details",
+    passwordValue: "your chosen password",
+    loginHelp: "Use these to log into the editor anytime.",
+    confirmation: "Confirmation sent to",
+    openEditor: "Open editor",
+    websitePreview: "Website preview",
+    serverError: "Could not connect to the server. Please try again.",
+    buildError: "Error while creating the website",
+    chooseTemplate: "Choose template",
+  },
+} as const;
+
+export function OnboardingModal({ onClose, locale = "cs", initialTemplate, templateName, catalogTemplates }: Props) {
+  const copy = ONBOARDING_COPY[locale];
+  const buildSteps = locale === "en" ? BUILD_STEPS_EN : BUILD_STEPS;
+  const budgetOptions = locale === "en" ? BUDGET_OPTIONS_EN : BUDGET_OPTIONS;
+  const projectTypes = locale === "en" ? PROJECT_TYPES_EN : PROJECT_TYPES;
   const [step, setStep] = useState<Step>(initialTemplate ? "register" : "choice");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [template, setTemplate] = useState<string>(initialTemplate ?? "");
   const [category, setCategory] = useState<string>("all");
   const [buildStep, setBuildStep] = useState(0);
@@ -160,7 +364,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
       counts.set(ind, (counts.get(ind) ?? 0) + 1);
     }
     return Array.from(counts.entries())
-      .map(([code, n]) => ({ code, label: INDUSTRY_LABELS[code] ?? code, count: n }))
+      .map(([code, n]) => ({ code, label: (locale === "en" ? INDUSTRY_LABELS_EN[code] : INDUSTRY_LABELS[code]) ?? code, count: n }))
       .sort((a, b) => b.count - a.count);
   }, [pickerTemplates]);
 
@@ -190,7 +394,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
     setStep("building");
     setBuildStep(0);
 
-    for (let i = 0; i < BUILD_STEPS.length - 1; i++) {
+    for (let i = 0; i < buildSteps.length - 1; i++) {
       await delay(1100);
       setBuildStep(i + 1);
     }
@@ -199,13 +403,13 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
       const res = await fetch("/api/onboarding", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name, phone, templateKey: template }),
+        body: JSON.stringify({ email, name, phone, password: password || undefined, templateKey: template }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error ?? "Chyba při vytváření webu");
+        setError(data.error ?? copy.buildError);
         setStep("register");
         return;
       }
@@ -216,7 +420,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
       await delay(600);
       setStep("done");
     } catch {
-      setError("Nepodařilo se připojit k serveru. Zkuste to znovu.");
+      setError(copy.serverError);
       setStep("register");
     }
   }
@@ -235,7 +439,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
     setAgSent(true);
   }
 
-  const progressPercent = ((buildStep + 1) / BUILD_STEPS.length) * 100;
+  const progressPercent = ((buildStep + 1) / buildSteps.length) * 100;
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden bg-[#111111]">
@@ -254,7 +458,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
             <button
               type="button"
               onClick={onClose}
-              aria-label="Zavřít"
+              aria-label={copy.close}
               className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
@@ -264,7 +468,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
             <div className="flex-shrink-0 px-6 pb-4 pt-10 text-center">
               <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-white/50">webero.</p>
               <h1 className="mt-2 text-[clamp(20px,2.2vw,28px)] font-bold text-white">
-                Jak chcete začít?
+                {copy.choiceTitle}
               </h1>
             </div>
 
@@ -296,16 +500,16 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                   {/* Tag */}
                   <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white/80 backdrop-blur-sm">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#2563eb]" />
-                    Samostatně
+                    {copy.diyTag}
                   </span>
                   <h2 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(22px, 2.6vw, 34px)" }}>
-                    Web chci stavět sám
+                    {copy.diyTitle}
                   </h2>
                   <p className="mt-2.5 text-[14px] leading-relaxed text-white/75">
-                    Prvních 14 dní zdarma. Bez kreditní karty.<br className="hidden sm:block" />Žádné riziko, žádné závazky.
+                    {copy.diyText}
                   </p>
                   <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13.5px] font-bold text-[#0d0d0d] shadow-lg transition-all duration-300 group-hover:bg-[#2563eb] group-hover:text-white group-hover:shadow-[0_8px_24px_rgba(37,99,235,0.5)]">
-                    Vytvořit zkušební verzi
+                    {copy.diyCta}
                     <svg className="transition-transform group-hover:translate-x-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
                   </div>
                 </div>
@@ -336,16 +540,16 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                   {/* Tag */}
                   <span className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-white/80 backdrop-blur-sm">
                     <span className="h-1.5 w-1.5 rounded-full bg-[#a855f7]" />
-                    Na zakázku
+                    {copy.agencyTag}
                   </span>
                   <h2 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(22px, 2.6vw, 34px)" }}>
-                    Web chci kompletně dodat
+                    {copy.agencyTitle}
                   </h2>
                   <p className="mt-2.5 text-[14px] leading-relaxed text-white/75">
-                    Web vám připravíme na zakázku.<br className="hidden sm:block" />Přijímáme jen 8 klientů měsíčně.
+                    {copy.agencyText}
                   </p>
                   <div className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-[13.5px] font-bold text-[#0d0d0d] shadow-lg transition-all duration-300 group-hover:bg-[#a855f7] group-hover:text-white group-hover:shadow-[0_8px_24px_rgba(168,85,247,0.5)]">
-                    Získat nabídku
+                    {copy.agencyCta}
                     <svg className="transition-transform group-hover:translate-x-0.5" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
                   </div>
                 </div>
@@ -368,36 +572,45 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
             {!initialTemplate && (
               <button type="button" onClick={() => setStep("choice")} className="absolute left-6 top-6 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-                Zpět
+                {copy.back}
               </button>
             )}
-            <button type="button" onClick={onClose} aria-label="Zavřít" className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white">
+            <button type="button" onClick={onClose} aria-label={copy.close} className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
             </button>
 
             <div className="w-full max-w-[500px] text-center">
               <h1 className="font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(34px, 5vw, 62px)" }}>
-                Vytvořte si<br />zkušební verzi zdarma
+                {copy.registerTitle}
               </h1>
               <p className="mt-4 text-[15px] leading-relaxed text-white/45">
-                14denní zkušební verze, bez kreditní karty, přístup ke všem funkcím.
+                {copy.registerText}
               </p>
 
               <form onSubmit={handleRegisterSubmit} className="mt-10 space-y-3 text-left">
-                <input type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder="Jméno *"
+                <input type="text" required value={name} onChange={(e) => setName(e.target.value)} placeholder={copy.name}
                   className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-5 py-4 text-[15px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20" />
-                <input type="email" required autoFocus value={email} onChange={(e) => setEmail(e.target.value)} placeholder="E-mail *"
+                <input type="email" required autoFocus value={email} onChange={(e) => setEmail(e.target.value)} placeholder={copy.email}
                   className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-5 py-4 text-[15px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20" />
-                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Telefon"
+                <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder={copy.phone}
+                  className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-5 py-4 text-[15px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20" />
+                <input type="password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)} placeholder={copy.password}
                   className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-5 py-4 text-[15px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20" />
 
                 {error && <div className="rounded-lg border border-red-900/40 bg-red-950/40 px-4 py-3 text-[13px] text-red-400">{error}</div>}
 
                 <button type="submit" className="group flex w-full items-center justify-center gap-2 rounded-lg bg-[#2563eb] px-6 py-4 text-[15px] font-semibold text-white transition hover:bg-[#1d4ed8] active:scale-[0.99]">
-                  Vytvořit účet zdarma
+                  {copy.createAccount}
                   <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
                 </button>
               </form>
+
+              <p className="mt-5 text-center text-[13px] text-white/35">
+                {copy.haveAccount}{" "}
+                <Link href="/account/login" className="text-white/65 underline underline-offset-2 hover:text-white transition-colors">
+                  {copy.login}
+                </Link>
+              </p>
             </div>
           </motion.div>
         )}
@@ -414,25 +627,24 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
           >
             <button type="button" onClick={() => setStep("register")} className="absolute left-6 top-6 z-10 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-              Zpět
+              {copy.back}
             </button>
-            <button type="button" onClick={onClose} aria-label="Zavřít" className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white">
+            <button type="button" onClick={onClose} aria-label={copy.close} className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
             </button>
 
             {/* Header */}
             <div className="flex-shrink-0 px-8 pb-5 pt-16 text-center md:pt-14">
               <h1 className="font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(28px, 4vw, 52px)" }}>
-                Přivítejte webové koncepty
+                {copy.conceptsTitle}
               </h1>
               <p className="mx-auto mt-3 max-w-lg text-[14.5px] leading-relaxed text-white/40">
-                Jsou kombinací designu, obsahu a funkcí pro daný obor.<br />
-                Představují nejlepší startovní bod pro váš web. Změnit v nich můžete vše.
+                {copy.conceptsText}
               </p>
 
               {/* Category tabs — plain text, no pills */}
               <div className="-mx-8 mt-7 flex items-center justify-center gap-7 overflow-x-auto px-8 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {[{ code: "all", label: "Vše", count: pickerTemplates.length }, ...categories].map((c) => (
+                {[{ code: "all", label: copy.all, count: pickerTemplates.length }, ...categories].map((c) => (
                   <button
                     key={c.code}
                     type="button"
@@ -443,7 +655,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                         : "text-white/38 hover:text-white/65"
                     }`}
                   >
-                    {CATEGORY_LABELS[c.code] ?? c.label}
+                    {c.code === "all" ? copy.all : (locale === "en" ? CATEGORY_LABELS_EN[c.code] : CATEGORY_LABELS[c.code]) ?? c.label}
                   </button>
                 ))}
               </div>
@@ -457,15 +669,16 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                 </div>
               ) : filteredTemplates.length === 0 ? (
                 <div className="flex h-48 flex-col items-center justify-center gap-3">
-                  <p className="text-[14px] text-white/40">V kategorii nic nenalezeno</p>
+                  <p className="text-[14px] text-white/40">{copy.none}</p>
                   <button type="button" onClick={() => setCategory("all")} className="text-[13px] font-semibold text-[#2563eb] hover:underline">
-                    Zobrazit vše →
+                    {copy.showAll}
                   </button>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                   {filteredTemplates.map((t) => (
                     <TemplateCard
+                      locale={locale}
                       key={t.key}
                       t={t}
                       active={template === t.key}
@@ -495,7 +708,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                       className="inline-flex flex-shrink-0 items-center gap-1.5 text-[13px] font-semibold text-[#374151]"
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-                      Zpět
+                      {copy.back}
                     </button>
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-[13px] font-bold text-[#0a0a0a]">{previewSheet.name}</div>
@@ -517,7 +730,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                           className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[12px] font-semibold transition ${previewView === "mobile" ? "bg-white text-[#0a0a0a] shadow-sm" : "text-[#6b7280] hover:text-[#0a0a0a]"}`}
                         >
                           <svg width="11" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
-                          Mobil
+                          {copy.mobile}
                         </button>
                       </div>
                     )}
@@ -526,7 +739,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                       onClick={() => { setPreviewSheet(null); void startBuilding(); }}
                       className="flex-shrink-0 rounded-full bg-[#2563eb] px-4 py-2 text-[12.5px] font-semibold text-white"
                     >
-                      Použít →
+                      {copy.use} →
                     </button>
                   </div>
 
@@ -548,7 +761,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                             <iframe
                               src={previewSheet.demoUrl}
                               style={{ width: 390, height: 806, transform: `scale(${240 / 390})`, transformOrigin: "top left", border: 0 }}
-                              title={`Mobilní náhled ${previewSheet.name}`}
+                              title={`${copy.mobilePreview} ${previewSheet.name}`}
                             />
                             <div className="absolute bottom-1.5 left-1/2 h-0.5 w-16 -translate-x-1/2 rounded-full bg-white/30" />
                           </div>
@@ -558,7 +771,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                         <iframe
                           src={previewSheet.demoUrl}
                           style={{ width: "100%", height: "100%", border: 0, display: "block" }}
-                          title={`Desktop náhled ${previewSheet.name}`}
+                          title={`${copy.desktopPreview} ${previewSheet.name}`}
                         />
                       )
                     ) : (
@@ -580,7 +793,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
             <div className="fixed inset-x-0 bottom-0 z-10 flex items-center justify-center gap-5 border-t border-[#1e1e1e] bg-[#111]/96 px-6 py-4 backdrop-blur-md">
               {template && selectedName && (
                 <span className="hidden text-[13px] text-white/40 sm:inline">
-                  Vybráno: <span className="font-semibold text-white/80">{selectedName}</span>
+                  {copy.selected} <span className="font-semibold text-white/80">{selectedName}</span>
                 </span>
               )}
               <button
@@ -589,7 +802,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                 onClick={startBuilding}
                 className="inline-flex items-center gap-2 rounded-lg bg-[#2563eb] px-8 py-3 text-[14px] font-semibold text-white transition hover:bg-[#1d4ed8] disabled:opacity-40 active:scale-[0.99]"
               >
-                Pokračovat dál
+                {copy.continue}
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
               </button>
             </div>
@@ -608,9 +821,9 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
           >
             <button type="button" onClick={() => setStep("choice")} className="absolute left-6 top-6 z-10 inline-flex items-center gap-1.5 text-[13px] font-medium text-white/35 transition hover:text-white/65">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-              Zpět
+              {copy.back}
             </button>
-            <button type="button" onClick={onClose} aria-label="Zavřít" className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white">
+            <button type="button" onClick={onClose} aria-label={copy.close} className="absolute right-6 top-6 z-20 grid h-9 w-9 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18" /></svg>
             </button>
 
@@ -618,11 +831,10 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
             <div className="flex-shrink-0 bg-[#2563eb] px-8 pb-12 pt-16 text-center">
               <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.22em] text-white/70">webero.</p>
               <h1 className="font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(28px, 4vw, 52px)" }}>
-                Řekněte nám více o projektu
+                {copy.agencyHero}
               </h1>
               <p className="mx-auto mt-4 max-w-md text-[14.5px] leading-relaxed text-white/70">
-                Vyplnit formuláře zabere jednotky minut a ušetří hodiny času.<br />
-                Na první schůzku budeme připraveni = bude maximálně užitečná.
+                {copy.agencyIntro}
               </p>
             </div>
 
@@ -632,8 +844,8 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                 <div className="grid h-16 w-16 place-items-center rounded-full bg-[#22c55e]/15">
                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7" /></svg>
                 </div>
-                <h2 className="text-[22px] font-bold text-white">Poptávka odeslána!</h2>
-                <p className="text-[14px] text-white/45">Ozveme se vám do 24 hodin.</p>
+                <h2 className="text-[22px] font-bold text-white">{copy.sentTitle}</h2>
+                <p className="text-[14px] text-white/45">{copy.sentText}</p>
               </div>
             ) : (
               <form onSubmit={handleAgencySubmit} className="flex-1 px-6 py-10 md:px-16">
@@ -642,20 +854,20 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
 
                     {/* Section 1 */}
                     <div>
-                      <h3 className="mb-5 text-[16px] font-bold text-white">1. Informace o vás a firmě</h3>
+                      <h3 className="mb-5 text-[16px] font-bold text-white">{copy.sectionAbout}</h3>
                       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-                        <AgInput value={agFirstName} onChange={setAgFirstName} placeholder="Jméno *" required />
-                        <AgInput value={agLastName} onChange={setAgLastName} placeholder="Příjmení *" required />
-                        <AgInput value={agCompany} onChange={setAgCompany} placeholder="Název firmy *" required />
-                        <AgInput value={agEmail} onChange={setAgEmail} placeholder="E-mail *" type="email" required />
-                        <AgInput value={agPhone} onChange={setAgPhone} placeholder="Telefon *" type="tel" required />
-                        <AgInput value={agWebsite} onChange={setAgWebsite} placeholder="www adresa firmy *" />
+                        <AgInput value={agFirstName} onChange={setAgFirstName} placeholder={copy.firstName} required />
+                        <AgInput value={agLastName} onChange={setAgLastName} placeholder={copy.lastName} required />
+                        <AgInput value={agCompany} onChange={setAgCompany} placeholder={copy.company} required />
+                        <AgInput value={agEmail} onChange={setAgEmail} placeholder={copy.email} type="email" required />
+                        <AgInput value={agPhone} onChange={setAgPhone} placeholder={copy.phone} type="tel" required />
+                        <AgInput value={agWebsite} onChange={setAgWebsite} placeholder={copy.website} />
                       </div>
                     </div>
 
                     {/* Section 2 */}
                     <div>
-                      <h3 className="mb-5 text-[16px] font-bold text-white">2. Informace o projektu</h3>
+                      <h3 className="mb-5 text-[16px] font-bold text-white">{copy.sectionProject}</h3>
                       <div className="space-y-3">
                         <select
                           value={agProjectType}
@@ -663,22 +875,22 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                           required
                           className="w-full rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-4 py-3.5 text-[14px] text-white outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20"
                         >
-                          <option value="" disabled className="text-white/30">Jaký typ projektu chcete realizovat? *</option>
-                          {PROJECT_TYPES.map((t) => <option key={t} value={t}>{t}</option>)}
+                          <option value="" disabled className="text-white/30">{copy.projectType}</option>
+                          {projectTypes.map((t) => <option key={t} value={t}>{t}</option>)}
                         </select>
                         <textarea
                           value={agGoal}
                           onChange={(e) => setAgGoal(e.target.value)}
                           required
                           rows={4}
-                          placeholder="Proč chcete realizovat nový web? Čeho přesně chcete dosáhnout? *"
+                          placeholder={copy.goal}
                           className="w-full resize-none rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-4 py-3.5 text-[14px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20"
                         />
                         <textarea
                           value={agInspo}
                           onChange={(e) => setAgInspo(e.target.value)}
                           rows={3}
-                          placeholder="Jaké weby jsou pro vás cílový stav inspirací?"
+                          placeholder={copy.inspo}
                           className="w-full resize-none rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-4 py-3.5 text-[14px] text-white placeholder-white/28 outline-none transition focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/20"
                         />
                       </div>
@@ -686,13 +898,13 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
 
                     {/* Section 3 */}
                     <div>
-                      <h3 className="mb-1 text-[16px] font-bold text-white">3. Rozpočet a termín projektu</h3>
+                      <h3 className="mb-1 text-[16px] font-bold text-white">{copy.sectionBudget}</h3>
                       <p className="mb-5 text-[13px] text-white/38">
-                        Každé zadání má svůj rozsah. Je důležité vědět, jaký rozpočet máte připravený.
+                        {copy.budgetIntro}
                       </p>
-                      <p className="mb-3 text-[12px] font-semibold uppercase tracking-wider text-white/40">Rozpočet (CZK) *</p>
+                      <p className="mb-3 text-[12px] font-semibold uppercase tracking-wider text-white/40">{copy.budget}</p>
                       <div className="mb-5 flex flex-wrap gap-3">
-                        {BUDGET_OPTIONS.map((opt) => (
+                        {budgetOptions.map((opt) => (
                           <label
                             key={opt}
                             className={`flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2.5 text-[13.5px] font-medium transition ${
@@ -713,14 +925,14 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                           </label>
                         ))}
                       </div>
-                      <AgInput value={agDeadline} onChange={setAgDeadline} placeholder="Očekávaný termín spuštění" />
+                      <AgInput value={agDeadline} onChange={setAgDeadline} placeholder={copy.deadline} />
                     </div>
 
                     <button
                       type="submit"
                       className="group inline-flex items-center gap-2 rounded-lg bg-[#2563eb] px-8 py-3.5 text-[14.5px] font-semibold text-white transition hover:bg-[#1d4ed8] active:scale-[0.99]"
                     >
-                      Odeslat poptávku
+                      {copy.submitRequest}
                       <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
                     </button>
                   </div>
@@ -731,10 +943,10 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                       <div className="mx-auto mb-4 h-16 w-16 overflow-hidden rounded-full bg-[#2a2a2a]">
                         <div className="flex h-full items-center justify-center text-[24px] text-white/20">👤</div>
                       </div>
-                      <p className="text-[14px] font-bold text-white">Na zprávu odpoví</p>
-                      <p className="mt-0.5 text-[12px] text-white/45">Jan Novák – sales</p>
+                      <p className="text-[14px] font-bold text-white">{copy.replyTitle}</p>
+                      <p className="mt-0.5 text-[12px] text-white/45">{copy.replyPerson}</p>
                       <p className="mt-4 text-[13px] leading-relaxed text-white/40">
-                        Reagujeme do 24 hodin. V dalším kroku si domluvíme 30minutovou online schůzku, při které projdeme detaily vašeho zadání.
+                        {copy.replyText}
                       </p>
                     </div>
                   </div>
@@ -745,9 +957,9 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
             {/* Quote + logos */}
             <div className="flex-shrink-0 bg-[#2563eb] px-8 py-12 text-center">
               <p className="mx-auto max-w-2xl text-[clamp(18px,2.5vw,26px)] font-bold leading-snug text-white">
-                „Díky za výbornou spolupráci a hlavně za výborný produkt! Skvěle se nám s ním pracuje."
+                {copy.quote}
               </p>
-              <p className="mt-4 text-[13px] text-white/60">Tatána le Moigne – Inspire &amp; Impact, ex-Google</p>
+              <p className="mt-4 text-[13px] text-white/60">{copy.quoteBy}</p>
             </div>
             <div className="hidden">
             </div>
@@ -779,10 +991,10 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
                 className="font-extrabold leading-tight tracking-tight text-white"
                 style={{ fontSize: "clamp(34px, 5.5vw, 72px)" }}
               >
-                Váš web se už chystá
+                {copy.buildingTitle}
               </h1>
               <p className="mt-5 flex items-center justify-center gap-2 text-[15px] text-white/40">
-                {buildStep + 1}. krok z {BUILD_STEPS.length} – {BUILD_STEPS[buildStep]}
+                {buildStep + 1}. {copy.stepWord} {buildSteps.length} - {buildSteps[buildStep]}
                 {/* Spinning circle */}
                 <svg
                   className="h-4 w-4 animate-spin text-white/40"
@@ -817,38 +1029,22 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
               </div>
             </motion.div>
 
-            <p className="mb-3 text-[10.5px] font-bold uppercase tracking-[0.22em] text-[#22c55e]">Hotovo</p>
+            <p className="mb-3 text-[10.5px] font-bold uppercase tracking-[0.22em] text-[#22c55e]">{copy.doneLabel}</p>
             <h2 className="font-extrabold leading-tight tracking-tight text-white" style={{ fontSize: "clamp(28px, 4vw, 48px)" }}>
-              Váš web je<br /><span className="text-[#22c55e]">připravený.</span>
+              {copy.doneTitleA}<br /><span className="text-[#22c55e]">{copy.doneTitleB}</span>
             </h2>
 
-            {/* Access password — most important, shown first */}
-            <div className="mt-7 w-full max-w-[420px] rounded-xl border border-[#f59e0b]/40 bg-[#f59e0b]/8 p-4 text-left">
+            {/* Account info */}
+            <div className="mt-7 w-full max-w-[420px] rounded-xl border border-[#1e3a5f]/60 bg-[#0f2040]/60 p-4 text-left">
               <div className="mb-2 flex items-center gap-2">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-                <span className="text-[12px] font-bold text-[#f59e0b]">Zapište si přístupové heslo</span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+                <span className="text-[12px] font-bold text-[#60a5fa]">{copy.credentials}</span>
               </div>
-              <p className="mb-3 text-[12px] leading-relaxed text-white/75">
-                Toto heslo používáte pro přihlášení do editoru. Uložte ho na bezpečné místo — {email !== "" ? "zašleme ho také na váš e-mail, ale" : ""}
-                {" "}v případě ztráty ho nelze obnovit bez kontaktu podpory.
+              <p className="text-[12.5px] leading-relaxed text-white/70">
+                <strong className="text-white/90">E-mail:</strong> {email || "—"}<br/>
+                <strong className="text-white/90">{copy.password.replace(/ \(.*$/, "").replace(" *", "")}:</strong> {copy.passwordValue}
               </p>
-              <div className="flex items-center gap-2">
-                <div className="flex-1 rounded-lg border border-[#2e2e2e] bg-[#161616] px-3 py-2.5 font-mono text-[14px] tracking-wide text-white/90 select-all truncate">
-                  {accessToken || "••••••••••••••••••••••••"}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (!accessToken) return;
-                    void navigator.clipboard.writeText(accessToken);
-                    setCopied(true);
-                    setTimeout(() => setCopied(false), 2000);
-                  }}
-                  className="shrink-0 rounded-lg border border-[#2e2e2e] bg-[#1c1c1c] px-3 py-2.5 text-[12px] font-semibold text-white/60 transition hover:border-[#3a3a3a] hover:text-white"
-                >
-                  {copied ? "✓ Zkopírováno" : "Kopírovat"}
-                </button>
-              </div>
+              <p className="mt-2 text-[11px] text-white/35">{copy.loginHelp}</p>
             </div>
 
             {/* Email confirmation */}
@@ -856,16 +1052,16 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="3" y="6" width="18" height="12" rx="2" /><path d="M3 7l9 7 9-7" />
               </svg>
-              Posíláme přihlašovací údaje na <span className="ml-0.5 font-semibold text-white/80">{email}</span>
+              {copy.confirmation} <span className="ml-0.5 font-semibold text-white/80">{email}</span>
             </div>
 
             <div className="mt-7 flex w-full max-w-[360px] flex-col gap-3">
               <a href={editorUrl} className="group flex w-full items-center justify-center gap-2 rounded-lg bg-[#2563eb] px-6 py-4 text-[15px] font-semibold text-white transition hover:bg-[#1d4ed8]">
-                Otevřít editor
+                {copy.openEditor}
                 <svg className="h-4 w-4 transition-transform group-hover:translate-x-0.5" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 5l7 7-7 7" /></svg>
               </a>
               <a href={previewUrl} target="_blank" rel="noopener noreferrer" className="flex w-full items-center justify-center gap-2 rounded-lg border border-[#242424] px-6 py-3.5 text-[14px] font-semibold text-white/60 transition hover:border-[#3a3a3a] hover:text-white/90">
-                Náhled webu <span aria-hidden>↗</span>
+                {copy.websitePreview} <span aria-hidden>↗</span>
               </a>
             </div>
           </motion.div>
@@ -877,7 +1073,7 @@ export function OnboardingModal({ onClose, initialTemplate, templateName, catalo
 }
 
 /* ─── TemplateCard — real img scroll on hover, same style as /vybrat-design ─── */
-function TemplateCard({ t, active, onSelect }: { t: ModalTemplate; active: boolean; onSelect: () => void }) {
+function TemplateCard({ t, active, onSelect, locale = "cs" }: { t: ModalTemplate; active: boolean; onSelect: () => void; locale?: PlatformLocale }) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
   const [scrollPx, setScrollPx] = useState(0);
@@ -920,7 +1116,7 @@ function TemplateCard({ t, active, onSelect }: { t: ModalTemplate; active: boole
   const industry = t.industry ?? industryFromKey(t.key);
 
   return (
-    <button type="button" onClick={onSelect} aria-label={`Vybrat šablonu ${t.name}`} className="block w-full text-left">
+    <button type="button" onClick={onSelect} aria-label={`${ONBOARDING_COPY[locale].chooseTemplate} ${t.name}`} className="block w-full text-left">
       <div
         ref={wrapRef}
         onMouseEnter={() => { setHovered(true); startScroll(); }}
@@ -952,7 +1148,7 @@ function TemplateCard({ t, active, onSelect }: { t: ModalTemplate; active: boole
       </div>
       <div className="mt-2 px-0.5">
         <div className="truncate text-[13px] font-bold text-white/90">{t.name}</div>
-        {industry && <div className="mt-0.5 text-[11px] text-white/35">{INDUSTRY_LABELS[industry] ?? industry}</div>}
+        {industry && <div className="mt-0.5 text-[11px] text-white/35">{(locale === "en" ? INDUSTRY_LABELS_EN[industry] : INDUSTRY_LABELS[industry]) ?? industry}</div>}
       </div>
     </button>
   );

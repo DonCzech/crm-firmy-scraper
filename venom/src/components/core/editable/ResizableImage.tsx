@@ -57,6 +57,12 @@ interface Props {
    *  with the src/alt props is rendered. Use this when you want a
    *  Next.js Image or GenericEditableImage as the inner. */
   children?: React.ReactNode;
+  /** When true and no size has been explicitly saved by the user, the
+   *  non-active wrapper renders with width:"100%" / height:"auto" instead
+   *  of the fallback pixel values. Use for fluid-card images (e.g. team
+   *  member portraits) where the card constrains width naturally.
+   *  Once the user drags a size and it's saved, that saved value is used. */
+  fluidDefault?: boolean;
 }
 
 export function ResizableImage({
@@ -64,14 +70,17 @@ export function ResizableImage({
   fallbackWidth, fallbackHeight,
   className, style,
   aspectLock = false, min = 64, max = 1600, snap = 8,
-  children,
+  children, fluidDefault = false,
 }: Props) {
   const { isAdmin, updateField } = useGenericInlineEditor();
   const content = (useSectionContent() ?? {}) as Record<string, unknown>;
   const studio = useStudioOptional();
 
-  const savedW = numOr(content[`${field}Width`], fallbackWidth);
-  const savedH = numOr(content[`${field}Height`], fallbackHeight);
+  const rawW = getNestedValue(content, `${field}Width`);
+  const rawH = getNestedValue(content, `${field}Height`);
+  const hasSaved = typeof rawW === "number" && typeof rawH === "number";
+  const savedW = numOr(rawW, fallbackWidth);
+  const savedH = numOr(rawH, fallbackHeight);
 
   // Live size during drag; null when not actively resizing.
   const [liveSize, setLiveSize] = useState<{ w: number; h: number } | null>(null);
@@ -90,6 +99,14 @@ export function ResizableImage({
     setLiveSize(null);
   }
 
+  function reset() {
+    // Set to undefined to remove the saved size — setPathValue in updateField
+    // accepts unknown at runtime even though TS types say string|number|boolean.
+    updateField(sectionId, `${field}Width`, undefined as unknown as number);
+    updateField(sectionId, `${field}Height`, undefined as unknown as number);
+    setLiveSize(null);
+  }
+
   // Non-admin (or mobile / unselected): static render — just the img,
   // no resize chrome. Width/height baked from saved values so the
   // public site honours past edits.
@@ -104,12 +121,12 @@ export function ResizableImage({
   );
 
   if (!active) {
+    const fluidStyle: React.CSSProperties =
+      fluidDefault && !hasSaved
+        ? { width: "100%", height: "auto", position: "relative", ...style }
+        : { width: w, height: h, position: "relative", ...style };
     return (
-      <div
-        style={{ width: w, height: h, position: "relative", ...style }}
-        className={className}
-        data-studio-field={field}
-      >
+      <div style={fluidStyle} className={className} data-studio-field={field}>
         {inner}
       </div>
     );
@@ -132,6 +149,35 @@ export function ResizableImage({
       style={style}
     >
       {inner}
+      {hasSaved && (
+        <button
+          type="button"
+          title="Vrátit velikost na výchozí"
+          onPointerDown={(e) => e.stopPropagation()}
+          onClick={(e) => { e.stopPropagation(); reset(); }}
+          style={{
+            position: "absolute",
+            top: 4,
+            right: 4,
+            zIndex: 50,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: 18,
+            height: 18,
+            borderRadius: "50%",
+            border: "1px solid rgba(255,255,255,0.5)",
+            background: "rgba(20,20,20,0.85)",
+            color: "#fff",
+            fontSize: 11,
+            lineHeight: 1,
+            cursor: "pointer",
+            pointerEvents: "auto",
+          }}
+        >
+          ↺
+        </button>
+      )}
     </ResizableBox>
   );
 }
@@ -143,4 +189,15 @@ function numOr(v: unknown, fallback: number): number {
     if (Number.isFinite(parsed)) return parsed;
   }
   return fallback;
+}
+
+/** Traverse a dot-notation path (e.g. "members.0.imageWidth") through a
+ *  nested object/array — mirrors the logic in TenantStudioView's setPathValue. */
+function getNestedValue(obj: Record<string, unknown>, path: string): unknown {
+  let cur: unknown = obj;
+  for (const key of path.split(".")) {
+    if (cur == null || typeof cur !== "object") return undefined;
+    cur = Array.isArray(cur) ? (cur as unknown[])[Number(key)] : (cur as Record<string, unknown>)[key];
+  }
+  return cur;
 }

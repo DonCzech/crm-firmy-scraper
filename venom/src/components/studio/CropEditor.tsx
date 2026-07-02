@@ -55,7 +55,7 @@ export function CropEditor({ file, aspect, onConfirm, onCancel }: Props) {
             type="button"
             onClick={handleConfirm}
             disabled={working || !croppedArea}
-            className="rounded-md bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-500 disabled:opacity-50"
+            className="rounded-md bg-[var(--vs-accent-solid)] px-3 py-1.5 text-xs font-semibold text-white hover:bg-[var(--vs-accent-solid-hi)] disabled:opacity-50"
           >
             {working ? "Zpracovávám…" : "Použít"}
           </button>
@@ -84,7 +84,7 @@ export function CropEditor({ file, aspect, onConfirm, onCancel }: Props) {
             step={0.05}
             value={zoom}
             onChange={(e) => setZoom(Number(e.target.value))}
-            className="flex-1 accent-blue-500"
+            className="flex-1 accent-[var(--vs-accent)]"
           />
         </label>
       </div>
