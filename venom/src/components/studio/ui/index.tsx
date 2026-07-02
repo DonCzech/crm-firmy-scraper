@@ -326,6 +326,33 @@ export function Spinner({ size = 14, className }: { size?: number; className?: s
   );
 }
 
+// ── Skeleton ─────────────────────────────────────────────────────────────
+export function Skeleton({ className }: { className?: string }) {
+  return (
+    <div
+      aria-hidden
+      className={clsx("animate-pulse rounded-md bg-[var(--vs-surface-2)]", className)}
+    />
+  );
+}
+
+/** Stacked list-row skeletons for panel loading states. */
+export function SkeletonRows({ rows = 4 }: { rows?: number }) {
+  return (
+    <div className="space-y-2 p-3">
+      {Array.from({ length: rows }).map((_, i) => (
+        <div key={i} className="flex items-center gap-2.5">
+          <Skeleton className="h-8 w-8 shrink-0" />
+          <div className="flex-1 space-y-1.5">
+            <Skeleton className="h-2.5 w-3/4" />
+            <Skeleton className="h-2 w-1/2" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 // ── Kbd ──────────────────────────────────────────────────────────────────
 export function Kbd({ children }: { children: ReactNode }) {
   return (

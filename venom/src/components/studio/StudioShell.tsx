@@ -132,12 +132,12 @@ export function StudioShell({ state }: { state: StudioState }) {
         {studio.rightPanel && !rpPos && (
           isMobile ? (
             <div
-              className="absolute bottom-0 left-0 right-0 z-[60] border-t border-[var(--vs-border)] bg-[var(--vs-bg-soft)] overflow-hidden shadow-[0_-4px_20px_rgba(0,0,0,.4)] vs-enter"
+              className="vs-glass vs-enter absolute bottom-0 left-0 right-0 z-[60] rounded-t-2xl border-t border-[var(--vs-border-strong)] overflow-hidden shadow-[0_-12px_40px_rgba(0,0,0,.55)]"
               style={{ height: "52vh" }}
             >
               {/* Mobile drag handle */}
               <div className="flex justify-center py-2">
-                <div className="h-1 w-10 rounded-full bg-[var(--vs-border-strong)]" />
+                <div className="h-1 w-10 rounded-full bg-[var(--vs-text-disabled)]" />
               </div>
               <div className="h-[calc(100%-24px)] overflow-y-auto overflow-x-hidden">
                 <StudioRightPanel state={state} onStartDrag={startRpDrag} />

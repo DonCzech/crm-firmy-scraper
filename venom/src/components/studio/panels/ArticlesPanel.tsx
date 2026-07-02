@@ -6,6 +6,7 @@ import {
   User, Clock, Image as ImageIcon, Type, ClipboardList, Square, ArrowLeft,
 } from "lucide-react";
 import { useStudio } from "../StudioContext";
+import { SkeletonRows } from "../ui";
 import type { StudioState } from "../TenantStudioView";
 
 interface BlogPost {
@@ -164,9 +165,7 @@ export function ArticlesPanel({ state }: { state: StudioState }) {
   return (
     <div className="vs-enter flex-1 overflow-y-auto vs-scroll">
       {loading ? (
-        <div className="flex items-center justify-center h-32">
-          <div className="h-5 w-5 rounded-full border-2 border-[var(--vs-border)] border-t-[#6366f1] animate-spin" />
-        </div>
+        <SkeletonRows rows={5} />
       ) : posts.length === 0 ? (
         /* Empty state */
         <div className="flex flex-col items-center justify-center h-full min-h-[320px] px-6 text-center gap-5">
