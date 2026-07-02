@@ -4,7 +4,9 @@ import { getUserById, query } from "@/lib/db";
 
 export async function GET(request: NextRequest) {
   const payload = getUserFromRequest(request);
-  if (!payload) return Response.json({ error: "Unauthorized" }, { status: 401 });
+  // 200 + user:null místo 401 — studio běží i jen na tenant cookie a 401 by jinak
+  // na každém loadu editoru házel error do konzole
+  if (!payload) return Response.json({ user: null });
 
   const user = await getUserById(payload.id);
   if (!user) return Response.json({ error: "User not found" }, { status: 404 });

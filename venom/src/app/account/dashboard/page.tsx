@@ -54,7 +54,12 @@ export default function AccountDashboard() {
         if (r.status === 401) { router.push("/account/login"); return null; }
         return r.json();
       })
-      .then((data) => { if (data) setUser(data); setLoading(false); })
+      .then((data) => {
+        // API vrací 200 + { user: null } pro nepřihlášené (kvůli konzoli ve studiu)
+        if (data && !data.email) { router.push("/account/login"); return; }
+        if (data) setUser(data);
+        setLoading(false);
+      })
       .catch(() => setLoading(false));
   }, [router]);
 
