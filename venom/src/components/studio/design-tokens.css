@@ -5,6 +5,11 @@
  * via CSS variables so panel components stay terse and visually consistent.
  * Studio shell carries the `data-studio` attribute that scopes these tokens.
  */
+/* Variables are defined on :root as well as [data-studio] so that studio
+   chrome rendered through portals on document.body (e.g. the inline text
+   toolbar in GenericEditableText) can consume the same tokens. Visual
+   properties (background, color, font) stay scoped to [data-studio] below. */
+:root,
 [data-studio] {
   /* ── Color tokens (deep indigo-navy shell — premium dark studio) ────── */
   --vs-bg:            #0b0c14;            /* viewport / canvas backdrop      */
@@ -115,7 +120,11 @@
   --vs-panel-w:       220px;
   --vs-inspector-w:   300px;
   --vs-topbar-h:       48px;
+}
 
+/* Visual properties — ONLY on the studio shell, never on :root (the admin
+   canvas and portaled tenant content must not inherit studio chrome). */
+[data-studio] {
   font-family: var(--vs-font-sans);
   font-feature-settings: "cv11", "ss01", "calt";
   background: var(--vs-bg);

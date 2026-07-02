@@ -170,13 +170,21 @@ export function StudioProvider({ children }: { children: ReactNode }) {
   const [selectedField, setSelectedField] = useState<string | null>(null);
   const [breakpoint, setBreakpoint] = useState<StudioBreakpoint>("desktop");
 
-  // Initialise from sessionStorage so panel state survives full-page navigations.
-  const persisted = readPersistedState();
-  const [leftPanel, setLeftPanel] = useState<StudioLeftPanel>(persisted?.leftPanel ?? "layers");
+  const [leftPanel, setLeftPanel] = useState<StudioLeftPanel>("layers");
   // History stack of previously-active panels. `pushPanel(p)` switches to `p`
   // while remembering the current one. `goBack()` pops one level. Limited to
   // a depth of 4 so we don't grow forever if some flow keeps pushing.
-  const [panelHistory, setPanelHistory] = useState<StudioLeftPanel[]>(persisted?.panelHistory ?? []);
+  const [panelHistory, setPanelHistory] = useState<StudioLeftPanel[]>([]);
+
+  // Restore persisted panel state AFTER mount — sessionStorage is client-only,
+  // so reading it during render makes SSR and client HTML disagree (hydration
+  // mismatch on the rail's active indicator).
+  useEffect(() => {
+    const persisted = readPersistedState();
+    if (!persisted) return;
+    if (persisted.leftPanel !== undefined) setLeftPanel(persisted.leftPanel);
+    if (persisted.panelHistory) setPanelHistory(persisted.panelHistory);
+  }, []);
   const [rightPanel, setRightPanel] = useState<boolean>(true);
   const [hoverSectionId, setHoverSectionId] = useState<number | null>(null);
   const [cloneScrollTarget, setCloneScrollTarget] = useState<string | null>(null);

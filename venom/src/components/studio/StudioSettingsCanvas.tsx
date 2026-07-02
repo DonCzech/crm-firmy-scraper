@@ -21,7 +21,7 @@ function LInput({
       placeholder={placeholder}
       disabled={disabled}
       readOnly={!onChange}
-      className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-[13px] text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:bg-gray-50 disabled:opacity-60 transition-colors"
+      className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(129,140,248,0.25)] disabled:bg-[var(--vs-surface-2)] disabled:opacity-60 transition-colors"
     />
   );
 }
@@ -37,7 +37,7 @@ function LTextarea({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       rows={rows}
-      className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-[13px] text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-colors resize-none"
+      className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(129,140,248,0.25)] transition-colors resize-none"
     />
   );
 }
@@ -49,7 +49,7 @@ function LToggle({ checked, onChange }: { checked: boolean; onChange: (v: boolea
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30 ${checked ? "bg-blue-600" : "bg-gray-300"}`}
+      className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[rgba(129,140,248,0.35)] ${checked ? "bg-[#6366f1]" : "bg-[var(--vs-surface-3)]"}`}
     >
       <span className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${checked ? "translate-x-4" : "translate-x-0"}`} />
     </button>
@@ -58,10 +58,10 @@ function LToggle({ checked, onChange }: { checked: boolean; onChange: (v: boolea
 
 function LFormRow({ label, help, children }: { label: string; help?: string; children: ReactNode }) {
   return (
-    <div className="flex gap-6 py-5 border-b border-gray-100 last:border-0">
+    <div className="flex gap-6 py-5 border-b border-[var(--vs-border)] last:border-0">
       <div className="w-44 shrink-0">
-        <p className="text-[13px] font-medium text-gray-700">{label}</p>
-        {help && <p className="mt-0.5 text-[11.5px] text-gray-400 leading-snug">{help}</p>}
+        <p className="text-[13px] font-medium text-[var(--vs-text-soft)]">{label}</p>
+        {help && <p className="mt-0.5 text-[11.5px] text-[var(--vs-text-dim)] leading-snug">{help}</p>}
       </div>
       <div className="flex-1 min-w-0">{children}</div>
     </div>
@@ -70,7 +70,7 @@ function LFormRow({ label, help, children }: { label: string; help?: string; chi
 
 function LSectionTitle({ children }: { children: string }) {
   return (
-    <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400 pt-5 pb-2 first:pt-2">
+    <p className="text-[11px] font-bold uppercase tracking-widest text-[var(--vs-text-dim)] pt-5 pb-2 first:pt-2">
       {children}
     </p>
   );
@@ -78,7 +78,7 @@ function LSectionTitle({ children }: { children: string }) {
 
 function LCard({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden mb-4">
+    <div className="rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm overflow-hidden mb-4">
       <div className="px-6">{children}</div>
     </div>
   );
@@ -92,7 +92,7 @@ function LSaveBar({
   return (
     <div className="flex items-center gap-3">
       {status === "saved" && (
-        <span className="flex items-center gap-1.5 text-[13px] text-green-600 font-medium">
+        <span className="flex items-center gap-1.5 text-[13px] text-[var(--vs-success)] font-medium">
           <Check className="h-4 w-4" /> Uloženo
         </span>
       )}
@@ -105,7 +105,7 @@ function LSaveBar({
         type="button"
         disabled={status === "saving"}
         onClick={onSave}
-        className="flex items-center gap-2 rounded-lg bg-gray-900 px-4 py-2 text-[13px] font-semibold text-white hover:bg-gray-700 disabled:opacity-50 transition-colors"
+        className="flex items-center gap-2 rounded-lg bg-[#6366f1] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-50 transition-colors"
       >
         {status === "saving" && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
         Uložit změny
@@ -122,18 +122,18 @@ function PageHeader({
   title: string; onBack: () => void; status: "idle" | "saving" | "saved" | "error"; onSave: () => void;
 }) {
   return (
-    <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white/95 backdrop-blur-sm px-8 py-4">
+    <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[var(--vs-border)] bg-white/95 backdrop-blur-sm px-8 py-4">
       <div className="flex items-center gap-3">
         <button
           type="button"
           onClick={onBack}
-          className="flex items-center gap-1.5 text-[13px] text-gray-500 hover:text-gray-900 transition-colors"
+          className="flex items-center gap-1.5 text-[13px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] transition-colors"
         >
           <ArrowLeft className="h-4 w-4" strokeWidth={2} />
           Nastavení
         </button>
-        <span className="text-gray-300">/</span>
-        <h1 className="text-[15px] font-semibold text-gray-900">{title}</h1>
+        <span className="text-[var(--vs-text-disabled)]">/</span>
+        <h1 className="text-[15px] font-semibold text-[var(--vs-text)]">{title}</h1>
       </div>
       <LSaveBar status={status} onSave={onSave} />
     </div>
@@ -255,14 +255,14 @@ function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
         {dnsInfo && (
           <LCard>
             <LSectionTitle>Jak nastavit vlastní doménu</LSectionTitle>
-            <div className="rounded-lg bg-blue-50 border border-blue-200 p-4 text-[12.5px] text-blue-900 space-y-2.5">
+            <div className="rounded-lg bg-[var(--vs-accent-bg)] border border-blue-200 p-4 text-[12.5px] text-blue-900 space-y-2.5">
               <p className="font-semibold">U svého registrátora domény přidejte tyto záznamy:</p>
-              <div className="rounded-md bg-white border border-blue-100 divide-y divide-blue-100 font-mono text-[11.5px]">
+              <div className="rounded-md bg-[var(--vs-surface)] border border-[var(--vs-accent-ring)] divide-y divide-[var(--vs-border)] font-mono text-[11.5px]">
                 <div className="flex gap-4 px-3 py-2"><span className="w-16 text-blue-400">Typ</span><span className="w-20 text-blue-400">Název</span><span className="text-blue-400">Hodnota</span></div>
                 <div className="flex gap-4 px-3 py-2 text-blue-900"><span className="w-16">A</span><span className="w-20">@</span><span>{dnsInfo.ip}</span></div>
                 <div className="flex gap-4 px-3 py-2 text-blue-900"><span className="w-16">CNAME</span><span className="w-20">www</span><span>{dnsInfo.cname}</span></div>
               </div>
-              <p className="text-[11px] text-blue-600">Propagace DNS může trvat 1–24 hodin. Po přidání domény klikněte na Ověřit.</p>
+              <p className="text-[11px] text-[var(--vs-accent-hi)]">Propagace DNS může trvat 1–24 hodin. Po přidání domény klikněte na Ověřit.</p>
             </div>
           </LCard>
         )}
@@ -271,21 +271,21 @@ function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
         <LCard>
           <LSectionTitle>Vlastní domény</LSectionTitle>
           {domains.length === 0 ? (
-            <p className="py-4 text-[13px] text-gray-400">Zatím žádná vlastní doména.</p>
+            <p className="py-4 text-[13px] text-[var(--vs-text-dim)]">Zatím žádná vlastní doména.</p>
           ) : (
-            <div className="mb-4 divide-y divide-gray-100">
+            <div className="mb-4 divide-y divide-[var(--vs-border)]">
               {domains.map((d) => (
                 <div key={d.id} className="flex items-center justify-between py-3 gap-3">
                   <div className="min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-[13px] font-medium text-gray-800 truncate">{d.domain}</span>
+                      <span className="text-[13px] font-medium text-[var(--vs-text)] truncate">{d.domain}</span>
                       {d.verified
                         ? <span className="shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-[10.5px] font-medium text-emerald-700">Ověřeno</span>
-                        : <span className="shrink-0 rounded-full bg-amber-100 px-2 py-0.5 text-[10.5px] font-medium text-amber-700">Čeká na ověření</span>
+                        : <span className="shrink-0 rounded-full bg-[var(--vs-warning-bg)] px-2 py-0.5 text-[10.5px] font-medium text-[var(--vs-warning)]">Čeká na ověření</span>
                       }
                     </div>
                     {verifyResult[d.id] && (
-                      <p className={`mt-0.5 text-[11.5px] ${verifyResult[d.id].verified ? "text-emerald-600" : "text-amber-600"}`}>
+                      <p className={`mt-0.5 text-[11.5px] ${verifyResult[d.id].verified ? "text-emerald-600" : "text-[var(--vs-warning)]"}`}>
                         {verifyResult[d.id].message}
                       </p>
                     )}
@@ -296,7 +296,7 @@ function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
                         type="button"
                         onClick={() => void verifyDomain(d)}
                         disabled={verifying === d.id}
-                        className="rounded-md border border-blue-200 bg-blue-50 px-3 py-1.5 text-[12px] font-medium text-blue-700 hover:bg-blue-100 disabled:opacity-50 transition-colors"
+                        className="rounded-md border border-blue-200 bg-[var(--vs-accent-bg)] px-3 py-1.5 text-[12px] font-medium text-[var(--vs-accent-hi)] hover:bg-[var(--vs-accent-bg)] disabled:opacity-50 transition-colors"
                       >
                         {verifying === d.id ? <Loader2 className="h-3 w-3 animate-spin" /> : "Ověřit"}
                       </button>
@@ -304,7 +304,7 @@ function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
                     <button
                       type="button"
                       onClick={() => void removeDomain(d.id)}
-                      className="rounded-md border border-gray-200 bg-gray-50 p-1.5 text-gray-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-colors"
+                      className="rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] p-1.5 text-[var(--vs-text-dim)] hover:text-red-500 hover:border-red-200 hover:bg-[var(--vs-danger-bg)] transition-colors"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>
@@ -321,12 +321,12 @@ function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
               value={newDomain}
               onChange={(e) => setNewDomain(e.target.value)}
               placeholder="mujweb.cz"
-              className="flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-[13px] placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              className="flex-1 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(129,140,248,0.25)]"
             />
             <button
               type="submit"
               disabled={adding || !newDomain.trim()}
-              className="shrink-0 inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2 text-[13px] font-semibold text-white hover:bg-blue-700 disabled:opacity-50 transition-colors"
+              className="shrink-0 inline-flex items-center gap-1.5 rounded-lg bg-[#6366f1] px-4 py-2 text-[13px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-50 transition-colors"
             >
               {adding ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
               Přidat
@@ -364,7 +364,7 @@ function WebView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
             <button
               type="button"
               onClick={() => { /* handled by parent */ }}
-              className="mt-1.5 text-[11.5px] text-blue-500 hover:underline text-left"
+              className="mt-1.5 text-[11.5px] text-[var(--vs-accent)] hover:underline text-left"
               data-settings-view="domain"
             >
               + Přidat vlastní doménu
@@ -375,7 +375,7 @@ function WebView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
           <LFormRow label="Indexování" help="Povoluje nebo zakazuje crawlerům indexovat web.">
             <div className="flex items-center gap-3">
               <LToggle checked={allowIndexing} onChange={setAllowIndexing} />
-              <span className="text-[13px] text-gray-500">{allowIndexing ? "Povoleno" : "Zakázáno"}</span>
+              <span className="text-[13px] text-[var(--vs-text-muted)]">{allowIndexing ? "Povoleno" : "Zakázáno"}</span>
             </div>
           </LFormRow>
 
@@ -385,13 +385,13 @@ function WebView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
               <button
                 type="button"
                 onClick={() => setSiteMode(siteMode === "onepage" ? "multipage" : "onepage")}
-                className="flex rounded-lg overflow-hidden border border-gray-200 text-[12px] font-medium"
+                className="flex rounded-lg overflow-hidden border border-[var(--vs-border)] text-[12px] font-medium"
               >
                 <span
                   className="px-3 py-1.5 transition-colors"
                   style={{
-                    background: siteMode === "onepage" ? "#111" : "#fff",
-                    color: siteMode === "onepage" ? "#fff" : "#666",
+                    background: siteMode === "onepage" ? "var(--vs-accent-bg)" : "var(--vs-surface)",
+                    color: siteMode === "onepage" ? "var(--vs-accent-hi)" : "var(--vs-text-muted)",
                   }}
                 >
                   One-page
@@ -399,8 +399,8 @@ function WebView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
                 <span
                   className="px-3 py-1.5 transition-colors"
                   style={{
-                    background: siteMode === "multipage" ? "#111" : "#fff",
-                    color: siteMode === "multipage" ? "#fff" : "#666",
+                    background: siteMode === "multipage" ? "var(--vs-accent-bg)" : "var(--vs-surface)",
+                    color: siteMode === "multipage" ? "var(--vs-accent-hi)" : "var(--vs-text-muted)",
                   }}
                 >
                   Multi-page
@@ -413,7 +413,7 @@ function WebView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
           <LFormRow label="Režim údržby" help="Zobrazí návštěvníkům stránku údržby místo webu.">
             <div className="flex items-center gap-3 mb-3">
               <LToggle checked={maintenanceMode} onChange={setMaintenanceMode} />
-              <span className="text-[13px] text-gray-500">{maintenanceMode ? "Zapnuto" : "Vypnuto"}</span>
+              <span className="text-[13px] text-[var(--vs-text-muted)]">{maintenanceMode ? "Zapnuto" : "Vypnuto"}</span>
             </div>
             {maintenanceMode && (
               <LInput
@@ -470,7 +470,7 @@ function SeoView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
           <LFormRow label="Kanonické URL" help="Přidá canonical tag pro lepší SEO.">
             <div className="flex items-center gap-3">
               <LToggle checked={canonicalEnabled} onChange={setCanonicalEnabled} />
-              <span className="text-[13px] text-gray-500">{canonicalEnabled ? "Zapnuto" : "Vypnuto"}</span>
+              <span className="text-[13px] text-[var(--vs-text-muted)]">{canonicalEnabled ? "Zapnuto" : "Vypnuto"}</span>
             </div>
           </LFormRow>
 
@@ -507,13 +507,13 @@ function CookiesView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
           <LFormRow label="Cookie lišta" help="Zobrazí lištu se souhlasem s cookies návštěvníkům webu.">
             <div className="flex items-center gap-3">
               <LToggle checked={enabled} onChange={setEnabled} />
-              <span className="text-[13px] text-gray-500">{enabled ? "Lišta je zobrazena" : "Lišta je skryta"}</span>
+              <span className="text-[13px] text-[var(--vs-text-muted)]">{enabled ? "Lišta je zobrazena" : "Lišta je skryta"}</span>
             </div>
           </LFormRow>
           <LFormRow label="Odkaz Více informací" help="Zobrazí odkaz na stránku s podrobnostmi o cookies.">
             <div className="flex items-center gap-3">
               <LToggle checked={showMore} onChange={setShowMore} />
-              <span className="text-[13px] text-gray-500">{showMore ? "Odkaz zobrazen" : "Odkaz skryt"}</span>
+              <span className="text-[13px] text-[var(--vs-text-muted)]">{showMore ? "Odkaz zobrazen" : "Odkaz skryt"}</span>
             </div>
           </LFormRow>
           <LSectionTitle>Text</LSectionTitle>
@@ -537,34 +537,34 @@ function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
 
   return (
     <>
-      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white/95 backdrop-blur-sm px-8 py-4">
+      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[var(--vs-border)] bg-white/95 backdrop-blur-sm px-8 py-4">
         <div className="flex items-center gap-3">
-          <button type="button" onClick={onBack} className="flex items-center gap-1.5 text-[13px] text-gray-500 hover:text-gray-900 transition-colors">
+          <button type="button" onClick={onBack} className="flex items-center gap-1.5 text-[13px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] transition-colors">
             <ArrowLeft className="h-4 w-4" strokeWidth={2} />
             Nastavení
           </button>
-          <span className="text-gray-300">/</span>
-          <h1 className="text-[15px] font-semibold text-gray-900">Uživatelské přístupy</h1>
+          <span className="text-[var(--vs-text-disabled)]">/</span>
+          <h1 className="text-[15px] font-semibold text-[var(--vs-text)]">Uživatelské přístupy</h1>
         </div>
         <div className="flex items-center gap-2">
-          <button type="button" className="flex items-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-2 text-[13px] font-semibold text-white hover:bg-blue-700 transition-colors">
+          <button type="button" className="flex items-center gap-1.5 rounded-lg bg-[#6366f1] px-3.5 py-2 text-[13px] font-semibold text-white hover:bg-[#4f46e5] transition-colors">
             <Plus className="h-3.5 w-3.5" /> Nový záznam
           </button>
-          <button type="button" className="rounded-lg border border-gray-300 px-3.5 py-2 text-[13px] font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+          <button type="button" className="rounded-lg border border-[var(--vs-border-strong)] px-3.5 py-2 text-[13px] font-medium text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] transition-colors">
             Pozvat uživatele
           </button>
         </div>
       </div>
       <div className="max-w-5xl mx-auto px-8 py-6">
         {/* Tabs */}
-        <div className="flex gap-4 border-b border-gray-200 mb-5">
+        <div className="flex gap-4 border-b border-[var(--vs-border)] mb-5">
           {(["all", "pending"] as const).map((t) => (
             <button
               key={t}
               type="button"
               onClick={() => setTab(t)}
               className={`pb-2.5 text-[13px] font-medium border-b-2 transition-colors -mb-px ${
-                tab === t ? "border-blue-600 text-blue-600" : "border-transparent text-gray-500 hover:text-gray-900"
+                tab === t ? "border-blue-600 text-[var(--vs-accent-hi)]" : "border-transparent text-[var(--vs-text-muted)] hover:text-[var(--vs-text)]"
               }`}
             >
               {t === "all" ? "Všechny" : "Čekající pozvánky"}
@@ -578,34 +578,34 @@ function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
             <input
               type="text"
               placeholder="Vyhledávat ve všech sloupcích"
-              className="rounded-lg border border-gray-300 bg-white pl-3 pr-3 py-1.5 text-[13px] text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:outline-none w-56"
+              className="rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] pl-3 pr-3 py-1.5 text-[13px] text-[var(--vs-text-soft)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none w-56"
             />
           </div>
           {["Název", "Přihlašovací jméno", "E-mail"].map((f) => (
-            <button key={f} type="button" className="flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-[12.5px] text-gray-600 hover:bg-gray-50 transition-colors">
-              {f} <span className="text-gray-400">↓</span>
+            <button key={f} type="button" className="flex items-center gap-1 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-2.5 py-1.5 text-[12.5px] text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] transition-colors">
+              {f} <span className="text-[var(--vs-text-dim)]">↓</span>
             </button>
           ))}
-          <button type="button" className="text-[12.5px] text-gray-400 hover:text-gray-600 px-1 transition-colors">Zrušit filtry</button>
+          <button type="button" className="text-[12.5px] text-[var(--vs-text-dim)] hover:text-[var(--vs-text-soft)] px-1 transition-colors">Zrušit filtry</button>
         </div>
 
         {/* Table */}
-        <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <div className="rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm overflow-hidden">
           <table className="w-full text-[12.5px]">
             <thead>
-              <tr className="border-b border-gray-100 bg-gray-50">
+              <tr className="border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
                 <th className="w-8 px-3 py-3"><input type="checkbox" className="rounded" /></th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-500 uppercase text-[10.5px] tracking-wide">Uživatel</th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-500 uppercase text-[10.5px] tracking-wide">Přihlašovací jméno</th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-500 uppercase text-[10.5px] tracking-wide">2FA</th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-500 uppercase text-[10.5px] tracking-wide">Role</th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-500 uppercase text-[10.5px] tracking-wide">Stav pozvánky</th>
+                <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)] uppercase text-[10.5px] tracking-wide">Uživatel</th>
+                <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)] uppercase text-[10.5px] tracking-wide">Přihlašovací jméno</th>
+                <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)] uppercase text-[10.5px] tracking-wide">2FA</th>
+                <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)] uppercase text-[10.5px] tracking-wide">Role</th>
+                <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)] uppercase text-[10.5px] tracking-wide">Stav pozvánky</th>
                 <th className="w-10 px-3 py-3" />
               </tr>
             </thead>
             <tbody>
               {users.map((u) => (
-                <tr key={u.email} className="border-b border-gray-50 hover:bg-gray-50/50">
+                <tr key={u.email} className="border-b border-[var(--vs-border)] hover:bg-[var(--vs-surface-2)]/50">
                   <td className="px-3 py-3"><input type="checkbox" className="rounded" /></td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2.5">
@@ -613,25 +613,25 @@ function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
                         {u.initials}
                       </div>
                       <div>
-                        <p className="font-medium text-gray-800">{u.name}</p>
-                        <p className="text-[11.5px] text-blue-500">{u.email}</p>
+                        <p className="font-medium text-[var(--vs-text)]">{u.name}</p>
+                        <p className="text-[11.5px] text-[var(--vs-accent)]">{u.email}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-gray-600">{u.login}</td>
-                  <td className="px-4 py-3 text-gray-400">—</td>
-                  <td className="px-4 py-3 text-gray-600">{u.roles}</td>
-                  <td className="px-4 py-3 text-gray-400">{u.inviteStatus}</td>
+                  <td className="px-4 py-3 text-[var(--vs-text-soft)]">{u.login}</td>
+                  <td className="px-4 py-3 text-[var(--vs-text-dim)]">—</td>
+                  <td className="px-4 py-3 text-[var(--vs-text-soft)]">{u.roles}</td>
+                  <td className="px-4 py-3 text-[var(--vs-text-dim)]">{u.inviteStatus}</td>
                   <td className="px-3 py-3">
-                    <button type="button" className="text-gray-300 hover:text-gray-500 px-1">···</button>
+                    <button type="button" className="text-[var(--vs-text-disabled)] hover:text-[var(--vs-text-muted)] px-1">···</button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100 bg-gray-50/50">
-            <p className="text-[12px] text-gray-400">Zobrazuji 1–1 z 1 záznamů</p>
-            <select className="rounded border border-gray-200 bg-white px-2 py-1 text-[12px] text-gray-500">
+          <div className="flex items-center justify-between px-4 py-3 border-t border-[var(--vs-border)] bg-[var(--vs-bg-soft)]/50">
+            <p className="text-[12px] text-[var(--vs-text-dim)]">Zobrazuji 1–1 z 1 záznamů</p>
+            <select className="rounded border border-[var(--vs-border)] bg-[var(--vs-surface)] px-2 py-1 text-[12px] text-[var(--vs-text-muted)]">
               <option>20 záznamů</option>
               <option>50 záznamů</option>
             </select>
@@ -668,7 +668,7 @@ function LanguagesView({ tenant, onBack }: { tenant: Tenant; onBack: () => void 
             <select
               value={primaryLang}
               onChange={(e) => setPrimaryLang(e.target.value)}
-              className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-[13px] text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition-colors"
+              className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-[var(--vs-text)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(129,140,248,0.25)] transition-colors"
             >
               {languages.map((l) => (
                 <option key={l.code} value={l.code}>{l.label}</option>
@@ -817,7 +817,7 @@ function BillingView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
           </div>
         )}
         {payResult === "failed" && (
-          <div className="mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center gap-2.5 text-[13px] text-red-800">
+          <div className="mb-4 rounded-lg bg-[var(--vs-danger-bg)] border border-red-200 px-4 py-3 flex items-center gap-2.5 text-[13px] text-red-800">
             <AlertCircle className="h-4 w-4 shrink-0 text-red-500" />
             Platba nebyla dokončena. Zkuste to prosím znovu.
           </div>
@@ -831,28 +831,28 @@ function BillingView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
               {isActive ? (
                 <>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[15px] font-semibold text-gray-900">Webero Basic</span>
+                    <span className="text-[15px] font-semibold text-[var(--vs-text)]">Webero Basic</span>
                     <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-medium text-emerald-700">Aktivní</span>
                   </div>
-                  <p className="text-[13px] text-gray-500">
-                    Příští platba: <span className="text-gray-700 font-medium">{fmtDate(sub?.next_billing_at ?? null)} · 499 Kč</span>
+                  <p className="text-[13px] text-[var(--vs-text-muted)]">
+                    Příští platba: <span className="text-[var(--vs-text-soft)] font-medium">{fmtDate(sub?.next_billing_at ?? null)} · 499 Kč</span>
                   </p>
                 </>
               ) : isExpired ? (
                 <>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[15px] font-semibold text-gray-900">Trial</span>
-                    <span className="rounded-full bg-red-100 px-2 py-0.5 text-[11px] font-medium text-red-600">Vypršel</span>
+                    <span className="text-[15px] font-semibold text-[var(--vs-text)]">Trial</span>
+                    <span className="rounded-full bg-[var(--vs-danger-bg)] px-2 py-0.5 text-[11px] font-medium text-[var(--vs-danger)]">Vypršel</span>
                   </div>
-                  <p className="text-[13px] text-gray-500">Web je pozastaven. Aktivujte předplatné pro obnovu.</p>
+                  <p className="text-[13px] text-[var(--vs-text-muted)]">Web je pozastaven. Aktivujte předplatné pro obnovu.</p>
                 </>
               ) : (
                 <>
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[15px] font-semibold text-gray-900">Trial</span>
-                    <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[11px] font-medium text-blue-700">zdarma</span>
+                    <span className="text-[15px] font-semibold text-[var(--vs-text)]">Trial</span>
+                    <span className="rounded-full bg-[var(--vs-accent-bg)] px-2 py-0.5 text-[11px] font-medium text-[var(--vs-accent-hi)]">zdarma</span>
                   </div>
-                  <p className="text-[13px] text-gray-500">
+                  <p className="text-[13px] text-[var(--vs-text-muted)]">
                     {days !== null
                       ? `Zbývá ${days} ${days === 1 ? "den" : days < 5 ? "dny" : "dní"} · do ${fmtDate(sub?.trial_ends_at ?? null)}`
                       : `Platné do ${fmtDate(sub?.trial_ends_at ?? null)}`}
@@ -866,7 +866,7 @@ function BillingView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
                   type="button"
                   onClick={handleSubscribe}
                   disabled={paying}
-                  className="rounded-lg bg-blue-600 px-5 py-2 text-[13px] font-semibold text-white hover:bg-blue-700 disabled:opacity-60 transition-colors flex items-center gap-1.5"
+                  className="rounded-lg bg-[#6366f1] px-5 py-2 text-[13px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-60 transition-colors flex items-center gap-1.5"
                 >
                   {paying && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
                   {paying ? "Přesměrování…" : "Předplatit · 499 Kč/měs."}
@@ -877,8 +877,8 @@ function BillingView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
           </div>
 
           {isActive && (
-            <div className="border-t border-gray-100 pt-4 pb-1">
-              <p className="text-[12px] text-gray-400">
+            <div className="border-t border-[var(--vs-border)] pt-4 pb-1">
+              <p className="text-[12px] text-[var(--vs-text-dim)]">
                 Opakovaná platba kartou přes GoPay. Pro zrušení předplatného kontaktujte podporu.
               </p>
             </div>
@@ -889,22 +889,22 @@ function BillingView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
         <LCard>
           <LSectionTitle>Objednávky a platby</LSectionTitle>
           {payments.length === 0 ? (
-            <div className="py-8 text-center text-[13px] text-gray-400">Zatím žádné platby</div>
+            <div className="py-8 text-center text-[13px] text-[var(--vs-text-dim)]">Zatím žádné platby</div>
           ) : (
-            <div className="divide-y divide-gray-100">
+            <div className="divide-y divide-[var(--vs-border)]">
               {payments.map((p) => (
                 <div key={p.order_number} className="flex items-center justify-between py-3 text-[13px]">
                   <div>
-                    <span className="text-gray-700 font-medium">{(p.amount_cents / 100).toFixed(0)} Kč</span>
-                    <span className="ml-2 text-gray-400 font-mono text-[11px]">{p.order_number}</span>
+                    <span className="text-[var(--vs-text-soft)] font-medium">{(p.amount_cents / 100).toFixed(0)} Kč</span>
+                    <span className="ml-2 text-[var(--vs-text-dim)] font-mono text-[11px]">{p.order_number}</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
                       p.status === "paid" ? "bg-emerald-100 text-emerald-700" :
-                      p.status === "failed" ? "bg-red-100 text-red-600" :
-                      "bg-gray-100 text-gray-500"
+                      p.status === "failed" ? "bg-[var(--vs-danger-bg)] text-[var(--vs-danger)]" :
+                      "bg-[var(--vs-surface-2)] text-[var(--vs-text-muted)]"
                     }`}>{p.status === "paid" ? "Zaplaceno" : p.status === "failed" ? "Selhalo" : p.status}</span>
-                    <span className="text-gray-400 text-[11px]">{fmtDate(p.created_at)}</span>
+                    <span className="text-[var(--vs-text-dim)] text-[11px]">{fmtDate(p.created_at)}</span>
                   </div>
                 </div>
               ))}
@@ -994,32 +994,32 @@ function ActivityView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }
     <>
       <PageHeader title="Záznam aktivity" onBack={onBack} status="idle" onSave={() => void 0} />
       <div className="max-w-3xl mx-auto px-8 py-6">
-        <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <div className="rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm overflow-hidden">
           {loading ? (
-            <div className="flex items-center justify-center py-16 text-gray-400">
+            <div className="flex items-center justify-center py-16 text-[var(--vs-text-dim)]">
               <Loader2 className="h-5 w-5 animate-spin mr-2" /> Načítám...
             </div>
           ) : entries.length === 0 ? (
-            <div className="py-16 text-center text-gray-400 text-[13px]">Žádná aktivita nebyla zaznamenána.</div>
+            <div className="py-16 text-center text-[var(--vs-text-dim)] text-[13px]">Žádná aktivita nebyla zaznamenána.</div>
           ) : (
             <table className="w-full text-[12.5px]">
               <thead>
-                <tr className="border-b border-gray-100 bg-gray-50">
-                  <th className="px-4 py-3 text-left font-semibold text-gray-500">Čas</th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-500">Akce</th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-500">Entita</th>
-                  <th className="px-4 py-3 text-left font-semibold text-gray-500">Uživatel</th>
+                <tr className="border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
+                  <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Čas</th>
+                  <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Akce</th>
+                  <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Entita</th>
+                  <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Uživatel</th>
                 </tr>
               </thead>
               <tbody>
                 {entries.map((e) => (
-                  <tr key={e.id} className="border-b border-gray-50 hover:bg-gray-50/50">
-                    <td className="px-4 py-2.5 text-gray-400 whitespace-nowrap">
+                  <tr key={e.id} className="border-b border-[var(--vs-border)] hover:bg-[var(--vs-surface-2)]/50">
+                    <td className="px-4 py-2.5 text-[var(--vs-text-dim)] whitespace-nowrap">
                       {new Date(e.created_at).toLocaleString("cs-CZ", { dateStyle: "short", timeStyle: "short" })}
                     </td>
-                    <td className="px-4 py-2.5 font-medium text-gray-700">{e.action}</td>
-                    <td className="px-4 py-2.5 text-gray-500">{e.entity_type ? `${e.entity_type} #${e.entity_id}` : "—"}</td>
-                    <td className="px-4 py-2.5 text-gray-500">{e.user_label ?? "Systém"}</td>
+                    <td className="px-4 py-2.5 font-medium text-[var(--vs-text-soft)]">{e.action}</td>
+                    <td className="px-4 py-2.5 text-[var(--vs-text-muted)]">{e.entity_type ? `${e.entity_type} #${e.entity_id}` : "—"}</td>
+                    <td className="px-4 py-2.5 text-[var(--vs-text-muted)]">{e.user_label ?? "Systém"}</td>
                   </tr>
                 ))}
               </tbody>
@@ -1085,32 +1085,32 @@ function CssView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
               type="button"
               onClick={() => void add()}
               disabled={saving || !newName.trim()}
-              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-gray-900 px-3 py-2 text-[12px] font-semibold text-white hover:bg-gray-700 disabled:opacity-40 transition-colors"
+              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-[#6366f1] px-3 py-2 text-[12px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-40 transition-colors"
             >
               <Plus className="h-3.5 w-3.5" /> Přidat
             </button>
           </div>
         </LCard>
 
-        <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <div className="rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm overflow-hidden">
           {loading ? (
-            <div className="flex items-center justify-center py-10 text-gray-400"><Loader2 className="h-4 w-4 animate-spin mr-2" /> Načítám...</div>
+            <div className="flex items-center justify-center py-10 text-[var(--vs-text-dim)]"><Loader2 className="h-4 w-4 animate-spin mr-2" /> Načítám...</div>
           ) : rows.length === 0 ? (
-            <div className="py-10 text-center text-gray-400 text-[13px]">Žádné CSS třídy.</div>
+            <div className="py-10 text-center text-[var(--vs-text-dim)] text-[13px]">Žádné CSS třídy.</div>
           ) : (
             <table className="w-full text-[12.5px]">
-              <thead><tr className="border-b border-gray-100 bg-gray-50">
-                <th className="px-4 py-3 text-left font-semibold text-gray-500">Název</th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-500">CSS</th>
+              <thead><tr className="border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
+                <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Název</th>
+                <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">CSS</th>
                 <th className="px-4 py-3 w-10" />
               </tr></thead>
               <tbody>
                 {rows.map((row) => (
-                  <tr key={row.id} className="border-b border-gray-50">
-                    <td className="px-4 py-2.5 font-mono text-blue-600">{row.name}</td>
-                    <td className="px-4 py-2.5 font-mono text-gray-600 max-w-xs truncate">{row.css_class}</td>
+                  <tr key={row.id} className="border-b border-[var(--vs-border)]">
+                    <td className="px-4 py-2.5 font-mono text-[var(--vs-accent-hi)]">{row.name}</td>
+                    <td className="px-4 py-2.5 font-mono text-[var(--vs-text-soft)] max-w-xs truncate">{row.css_class}</td>
                     <td className="px-4 py-2.5">
-                      <button type="button" onClick={() => void remove(row.id)} className="text-gray-300 hover:text-red-500 transition-colors">
+                      <button type="button" onClick={() => void remove(row.id)} className="text-[var(--vs-text-disabled)] hover:text-red-500 transition-colors">
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </td>
@@ -1179,32 +1179,32 @@ function HeadersView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
               type="button"
               onClick={() => void add()}
               disabled={saving || !newName.trim()}
-              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-gray-900 px-3 py-2 text-[12px] font-semibold text-white hover:bg-gray-700 disabled:opacity-40 transition-colors"
+              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-[#6366f1] px-3 py-2 text-[12px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-40 transition-colors"
             >
               <Plus className="h-3.5 w-3.5" /> Přidat
             </button>
           </div>
         </LCard>
 
-        <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <div className="rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm overflow-hidden">
           {loading ? (
-            <div className="flex items-center justify-center py-10 text-gray-400"><Loader2 className="h-4 w-4 animate-spin mr-2" /> Načítám...</div>
+            <div className="flex items-center justify-center py-10 text-[var(--vs-text-dim)]"><Loader2 className="h-4 w-4 animate-spin mr-2" /> Načítám...</div>
           ) : rows.length === 0 ? (
-            <div className="py-10 text-center text-gray-400 text-[13px]">Žádné HTTP hlavičky.</div>
+            <div className="py-10 text-center text-[var(--vs-text-dim)] text-[13px]">Žádné HTTP hlavičky.</div>
           ) : (
             <table className="w-full text-[12.5px]">
-              <thead><tr className="border-b border-gray-100 bg-gray-50">
-                <th className="px-4 py-3 text-left font-semibold text-gray-500">Název</th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-500">Hodnota</th>
+              <thead><tr className="border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
+                <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Název</th>
+                <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Hodnota</th>
                 <th className="px-4 py-3 w-10" />
               </tr></thead>
               <tbody>
                 {rows.map((row) => (
-                  <tr key={row.id} className="border-b border-gray-50">
-                    <td className="px-4 py-2.5 font-mono text-gray-700">{row.name}</td>
-                    <td className="px-4 py-2.5 font-mono text-gray-500 max-w-xs truncate">{row.value}</td>
+                  <tr key={row.id} className="border-b border-[var(--vs-border)]">
+                    <td className="px-4 py-2.5 font-mono text-[var(--vs-text-soft)]">{row.name}</td>
+                    <td className="px-4 py-2.5 font-mono text-[var(--vs-text-muted)] max-w-xs truncate">{row.value}</td>
                     <td className="px-4 py-2.5">
-                      <button type="button" onClick={() => void remove(row.id)} className="text-gray-300 hover:text-red-500 transition-colors">
+                      <button type="button" onClick={() => void remove(row.id)} className="text-[var(--vs-text-disabled)] hover:text-red-500 transition-colors">
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </td>
@@ -1268,14 +1268,14 @@ function RedirectsView({ tenant, onBack }: { tenant: Tenant; onBack: () => void 
         <LCard>
           <LSectionTitle>Přidat přesměrování</LSectionTitle>
           <div className="flex gap-3 pb-5 items-end">
-            <div className="flex-1"><p className="text-[11.5px] text-gray-400 mb-1">Z</p><LInput value={newFrom} onChange={setNewFrom} placeholder="/stara-stranka" /></div>
-            <div className="flex-1"><p className="text-[11.5px] text-gray-400 mb-1">Na</p><LInput value={newTo} onChange={setNewTo} placeholder="/nova-stranka" /></div>
+            <div className="flex-1"><p className="text-[11.5px] text-[var(--vs-text-dim)] mb-1">Z</p><LInput value={newFrom} onChange={setNewFrom} placeholder="/stara-stranka" /></div>
+            <div className="flex-1"><p className="text-[11.5px] text-[var(--vs-text-dim)] mb-1">Na</p><LInput value={newTo} onChange={setNewTo} placeholder="/nova-stranka" /></div>
             <div className="w-24">
-              <p className="text-[11.5px] text-gray-400 mb-1">Kód</p>
+              <p className="text-[11.5px] text-[var(--vs-text-dim)] mb-1">Kód</p>
               <select
                 value={newCode}
                 onChange={(e) => setNewCode(e.target.value)}
-                className="w-full rounded-lg border border-gray-300 bg-white px-2 py-2 text-[13px] text-gray-900 focus:border-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-2 py-2 text-[13px] text-[var(--vs-text)] focus:border-[var(--vs-accent)] focus:outline-none"
               >
                 <option value="301">301</option>
                 <option value="302">302</option>
@@ -1287,36 +1287,36 @@ function RedirectsView({ tenant, onBack }: { tenant: Tenant; onBack: () => void 
               type="button"
               onClick={() => void add()}
               disabled={saving || !newFrom.trim() || !newTo.trim()}
-              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-gray-900 px-3 py-2 text-[12px] font-semibold text-white hover:bg-gray-700 disabled:opacity-40 transition-colors mb-0"
+              className="flex shrink-0 items-center gap-1.5 rounded-lg bg-[#6366f1] px-3 py-2 text-[12px] font-semibold text-white hover:bg-[#4f46e5] disabled:opacity-40 transition-colors mb-0"
             >
               <Plus className="h-3.5 w-3.5" /> Přidat
             </button>
           </div>
         </LCard>
 
-        <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+        <div className="rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm overflow-hidden">
           {loading ? (
-            <div className="flex items-center justify-center py-10 text-gray-400"><Loader2 className="h-4 w-4 animate-spin mr-2" /> Načítám...</div>
+            <div className="flex items-center justify-center py-10 text-[var(--vs-text-dim)]"><Loader2 className="h-4 w-4 animate-spin mr-2" /> Načítám...</div>
           ) : rows.length === 0 ? (
-            <div className="py-10 text-center text-gray-400 text-[13px]">Žádná přesměrování.</div>
+            <div className="py-10 text-center text-[var(--vs-text-dim)] text-[13px]">Žádná přesměrování.</div>
           ) : (
             <table className="w-full text-[12.5px]">
-              <thead><tr className="border-b border-gray-100 bg-gray-50">
-                <th className="px-4 py-3 text-left font-semibold text-gray-500">Z</th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-500">Na</th>
-                <th className="px-4 py-3 text-left font-semibold text-gray-500">Kód</th>
+              <thead><tr className="border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
+                <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Z</th>
+                <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Na</th>
+                <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Kód</th>
                 <th className="px-4 py-3 w-10" />
               </tr></thead>
               <tbody>
                 {rows.map((row) => (
-                  <tr key={row.id} className="border-b border-gray-50">
-                    <td className="px-4 py-2.5 font-mono text-gray-700">{row.from_path}</td>
-                    <td className="px-4 py-2.5 font-mono text-gray-500">{row.to_path}</td>
+                  <tr key={row.id} className="border-b border-[var(--vs-border)]">
+                    <td className="px-4 py-2.5 font-mono text-[var(--vs-text-soft)]">{row.from_path}</td>
+                    <td className="px-4 py-2.5 font-mono text-[var(--vs-text-muted)]">{row.to_path}</td>
                     <td className="px-4 py-2.5">
-                      <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[11px] font-semibold text-blue-600">{row.status_code}</span>
+                      <span className="rounded-full bg-[var(--vs-accent-bg)] px-2 py-0.5 text-[11px] font-semibold text-[var(--vs-accent-hi)]">{row.status_code}</span>
                     </td>
                     <td className="px-4 py-2.5">
-                      <button type="button" onClick={() => void remove(row.id)} className="text-gray-300 hover:text-red-500 transition-colors">
+                      <button type="button" onClick={() => void remove(row.id)} className="text-[var(--vs-text-disabled)] hover:text-red-500 transition-colors">
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>
                     </td>
@@ -1342,7 +1342,7 @@ const GOOGLE_FONTS = [
 function LColorPicker({ value, onChange, label }: { value: string; onChange: (v: string) => void; label: string }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-gray-200 shadow-sm overflow-hidden cursor-pointer hover:scale-105 transition-transform">
+      <div className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[var(--vs-border)] shadow-sm overflow-hidden cursor-pointer hover:scale-105 transition-transform">
         <input
           type="color"
           value={value}
@@ -1352,12 +1352,12 @@ function LColorPicker({ value, onChange, label }: { value: string; onChange: (v:
         <div className="h-full w-full" style={{ background: value }} />
       </div>
       <div className="flex-1">
-        <p className="text-[12px] font-medium text-gray-600 mb-0.5">{label}</p>
+        <p className="text-[12px] font-medium text-[var(--vs-text-soft)] mb-0.5">{label}</p>
         <input
           type="text"
           value={value.toUpperCase()}
           onChange={(e) => { const v = e.target.value; if (/^#[0-9A-Fa-f]{0,6}$/.test(v)) onChange(v); }}
-          className="w-24 rounded border border-gray-200 bg-gray-50 px-2 py-1 text-[12px] font-mono text-gray-700 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400/20"
+          className="w-24 rounded border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2 py-1 text-[12px] font-mono text-[var(--vs-text-soft)] focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400/20"
           placeholder="#000000"
         />
       </div>
@@ -1384,10 +1384,10 @@ function LLogoUpload({ slug, value, onChange, label, hint }: { slug: string; val
 
   return (
     <div>
-      <p className="text-[13px] font-medium text-gray-700 mb-2">{label}</p>
-      {hint && <p className="text-[11.5px] text-gray-400 mb-2">{hint}</p>}
+      <p className="text-[13px] font-medium text-[var(--vs-text-soft)] mb-2">{label}</p>
+      {hint && <p className="text-[11.5px] text-[var(--vs-text-dim)] mb-2">{hint}</p>}
       <div
-        className={`relative flex h-24 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed transition-colors ${value ? "border-gray-200 bg-gray-50" : "border-blue-200 bg-blue-50/40 hover:border-blue-400 hover:bg-blue-50"}`}
+        className={`relative flex h-24 cursor-pointer flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed transition-colors ${value ? "border-[var(--vs-border)] bg-[var(--vs-bg-soft)]" : "border-blue-200 bg-[var(--vs-accent-bg)]/40 hover:border-blue-400 hover:bg-[var(--vs-accent-bg)]"}`}
         onClick={() => inputRef.current?.click()}
       >
         {value ? (
@@ -1396,7 +1396,7 @@ function LLogoUpload({ slug, value, onChange, label, hint }: { slug: string; val
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); onChange(""); }}
-              className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-white shadow hover:bg-red-50 text-gray-400 hover:text-red-500 transition-colors"
+              className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-white shadow hover:bg-[var(--vs-danger-bg)] text-[var(--vs-text-dim)] hover:text-red-500 transition-colors"
             >
               <X className="h-3 w-3" />
             </button>
@@ -1406,7 +1406,7 @@ function LLogoUpload({ slug, value, onChange, label, hint }: { slug: string; val
         ) : (
           <>
             <Upload className="h-5 w-5 text-blue-400" />
-            <span className="text-[12px] text-blue-500 font-medium">Nahrát logo</span>
+            <span className="text-[12px] text-[var(--vs-accent)] font-medium">Nahrát logo</span>
           </>
         )}
         <input ref={inputRef} type="file" accept="image/*,.svg" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleFile(f); }} />
@@ -1469,7 +1469,7 @@ function IdentitaView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <Loader2 className="h-5 w-5 animate-spin text-gray-400" />
+        <Loader2 className="h-5 w-5 animate-spin text-[var(--vs-text-dim)]" />
       </div>
     );
   }
@@ -1511,13 +1511,13 @@ function IdentitaView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }
           <LFormRow label="Adresa">
             <LInput value={v["contact.address"] ?? ""} onChange={(x) => setSlot("contact.address", x)} placeholder="Ulice 123" />
           </LFormRow>
-          <div className="grid grid-cols-2 gap-4 py-5 border-b border-gray-100">
+          <div className="grid grid-cols-2 gap-4 py-5 border-b border-[var(--vs-border)]">
             <div>
-              <p className="text-[13px] font-medium text-gray-700 mb-1.5">Město</p>
+              <p className="text-[13px] font-medium text-[var(--vs-text-soft)] mb-1.5">Město</p>
               <LInput value={v["contact.city"] ?? ""} onChange={(x) => setSlot("contact.city", x)} placeholder="Praha" />
             </div>
             <div>
-              <p className="text-[13px] font-medium text-gray-700 mb-1.5">PSČ</p>
+              <p className="text-[13px] font-medium text-[var(--vs-text-soft)] mb-1.5">PSČ</p>
               <LInput value={v["contact.zip"] ?? ""} onChange={(x) => setSlot("contact.zip", x)} placeholder="110 00" />
             </div>
           </div>
@@ -1627,9 +1627,9 @@ export function StudioSettingsCanvas({ state }: { state: StudioState }) {
       {view === "headers"   && <HeadersView   {...props} />}
       {view === "redirects" && <RedirectsView {...props} />}
       {!VIEW_LABELS[view] && (
-        <div className="flex flex-col items-center justify-center h-full text-gray-400">
+        <div className="flex flex-col items-center justify-center h-full text-[var(--vs-text-dim)]">
           <p className="text-[13px]">Neznámé nastavení: <strong>{view}</strong></p>
-          <button type="button" onClick={onBack} className="mt-3 text-blue-500 text-[13px] hover:underline">← Zpět</button>
+          <button type="button" onClick={onBack} className="mt-3 text-[var(--vs-accent)] text-[13px] hover:underline">← Zpět</button>
         </div>
       )}
     </div>

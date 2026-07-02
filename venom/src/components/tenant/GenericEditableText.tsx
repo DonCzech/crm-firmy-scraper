@@ -10,24 +10,26 @@ import {
 import { useGenericInlineEditor } from "./GenericInlineEditorContext";
 import { useStudioOptional } from "@/components/studio/StudioContext";
 
-// ─── Toolbar geometry + palette (portal renders outside [data-studio],
-//     values mirror src/components/studio/design-tokens.css) ────────────────
+// ─── Toolbar geometry + palette. The portal renders outside [data-studio],
+//     but design-tokens.css defines --vs-* variables on :root too, so we can
+//     consume them directly; hex fallbacks cover non-studio surfaces where
+//     the stylesheet isn't loaded. ──────────────────────────────────────────
 const TB_W = 516;           // fixed toolbar width — keeps clamping exact
 const TB_H = 92;            // estimated height incl. grip row
 const TB_TOP_SAFE = 100;    // studio top bar (48) + secondary bar (42) + gap
 const TB = {
-  bg:          "rgba(26,27,40,0.97)",
-  border:      "#2e2f44",
-  surface:     "#212230",
-  surfaceHi:   "#272838",
-  text:        "#f4f4f7",
-  textMuted:   "#8a8a96",
-  textDim:     "#5b5b66",
-  accent:      "#818cf8",
-  accentHi:    "#a5b4fc",
-  accentBg:    "rgba(129,140,248,0.16)",
-  danger:      "#f87171",
-  shadow:      "0 1px 0 0 rgba(255,255,255,0.05) inset, 0 18px 38px rgba(0,0,0,0.55), 0 8px 16px rgba(0,0,0,0.35)",
+  bg:          "rgba(20,21,34,0.97)",
+  border:      "var(--vs-border-strong, #2d3048)",
+  surface:     "var(--vs-surface-2, #1f2131)",
+  surfaceHi:   "var(--vs-surface-3, #272a3d)",
+  text:        "var(--vs-text, #f5f5f9)",
+  textMuted:   "var(--vs-text-muted, #8b8d9e)",
+  textDim:     "var(--vs-text-dim, #5c5e6e)",
+  accent:      "var(--vs-accent, #818cf8)",
+  accentHi:    "var(--vs-accent-hi, #a5b4fc)",
+  accentBg:    "var(--vs-accent-bg, rgba(129,140,248,0.13))",
+  danger:      "var(--vs-danger, #f87171)",
+  shadow:      "var(--vs-shadow-lg, 0 1px 0 0 rgba(255,255,255,0.05) inset, 0 18px 38px rgba(0,0,0,0.55), 0 8px 16px rgba(0,0,0,0.35))",
 };
 
 // Module-level style clipboard — shared across all GenericEditableText instances
@@ -448,7 +450,7 @@ export function GenericEditableText({
             .vs-tb-action { height:27px; padding:0 10px; border-radius:7px; border:1px solid ${TB.border}; background:${TB.surface}; color:#d1d1d9; font-size:11.5px; font-weight:500; cursor:pointer; display:inline-flex; align-items:center; gap:5px; transition:background .12s ease, color .12s ease; font-family:inherit; }
             .vs-tb-action:hover { background:${TB.surfaceHi}; color:${TB.text}; }
             .vs-tb-action[data-danger="true"]:hover { background:rgba(248,113,113,0.12); color:${TB.danger}; border-color:rgba(248,113,113,0.35); }
-            .vs-tb-primary { height:27px; padding:0 12px; border-radius:7px; border:none; background-image:linear-gradient(135deg,#818cf8 0%,#6366f1 100%); color:#fff; font-size:11.5px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(99,102,241,0.35); font-family:inherit; transition:filter .12s ease; }
+            .vs-tb-primary { height:27px; padding:0 12px; border-radius:7px; border:none; background-image:var(--vs-grad-brand, linear-gradient(135deg,#3b82f6 0%,#6366f1 60%,#7c5cf6 100%)); color:#fff; font-size:11.5px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:5px; box-shadow:0 2px 8px rgba(99,102,241,0.35); font-family:inherit; transition:filter .12s ease; }
             .vs-tb-primary:hover { filter:brightness(1.12); }
           `}</style>
 

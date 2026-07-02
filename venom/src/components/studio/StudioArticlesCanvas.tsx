@@ -26,18 +26,18 @@ interface BlogPost {
 
 function EmptyIllustration() {
   return (
-    <div className="w-[280px] rounded-xl border border-gray-200 bg-white shadow-sm p-4">
+    <div className="w-[280px] rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm p-4">
       {[0.75, 0.55, 0.65].map((w, i) => (
         <div key={i} className="flex items-center gap-3 mb-3">
-          <div className="h-7 w-7 rounded-full bg-gray-200 shrink-0" />
+          <div className="h-7 w-7 rounded-full bg-[var(--vs-surface-3)] shrink-0" />
           <div className="flex-1 flex flex-col gap-1.5">
-            <div className="h-2 rounded bg-gray-200" style={{ width: `${w * 100}%` }} />
-            <div className="h-2 rounded bg-gray-200" style={{ width: `${w * 60}%` }} />
+            <div className="h-2 rounded bg-[var(--vs-surface-3)]" style={{ width: `${w * 100}%` }} />
+            <div className="h-2 rounded bg-[var(--vs-surface-3)]" style={{ width: `${w * 60}%` }} />
           </div>
         </div>
       ))}
       <div className="flex items-center gap-3">
-        <div className="h-7 w-7 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center shrink-0">
+        <div className="h-7 w-7 rounded-full bg-[var(--vs-accent-bg)] text-[var(--vs-accent)] flex items-center justify-center shrink-0">
           <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
         </div>
         <div className="h-2 rounded bg-blue-200 w-1/2" />
@@ -53,7 +53,7 @@ function ToolbarBtn({ onMouseDown, children }: { onMouseDown: (e: React.MouseEve
     <button
       type="button"
       onMouseDown={onMouseDown}
-      className="flex h-6 w-6 items-center justify-center rounded text-white hover:bg-gray-700 transition-colors"
+      className="flex h-6 w-6 items-center justify-center rounded text-white hover:bg-[var(--vs-surface-2)] transition-colors"
     >
       {children}
     </button>
@@ -73,7 +73,7 @@ function ListMode({ state, posts, loading, onNewArticle }: {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="h-8 w-8 rounded-full border-2 border-gray-200 border-t-blue-500 animate-spin" />
+        <div className="h-8 w-8 rounded-full border-2 border-[var(--vs-border)] border-t-blue-500 animate-spin" />
       </div>
     );
   }
@@ -82,7 +82,7 @@ function ListMode({ state, posts, loading, onNewArticle }: {
     return (
       <div className="flex flex-col items-center justify-center h-full">
         <EmptyIllustration />
-        <p className="text-[14px] text-gray-500 text-center max-w-sm mt-6 leading-relaxed">
+        <p className="text-[14px] text-[var(--vs-text-muted)] text-center max-w-sm mt-6 leading-relaxed">
           Vytvořte si svůj první článek. Zajímavý a inspirativní obsah vám pomůže získat nové zákazníky.
         </p>
         <div className="flex items-center gap-3 mt-6">
@@ -96,7 +96,7 @@ function ListMode({ state, posts, loading, onNewArticle }: {
           </button>
           <button
             type="button"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-gray-300 px-4 py-2 text-[13.5px] font-medium text-gray-600 hover:bg-gray-50 transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-[var(--vs-border-strong)] px-4 py-2 text-[13.5px] font-medium text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] transition-colors"
           >
             <Upload className="h-4 w-4" strokeWidth={1.75} />
             Import
@@ -109,7 +109,7 @@ function ListMode({ state, posts, loading, onNewArticle }: {
   return (
     <div className="max-w-3xl mx-auto px-8 pt-8 pb-12">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-[20px] font-bold text-gray-900">Články ({posts.length})</h2>
+        <h2 className="text-[20px] font-bold text-[var(--vs-text)]">Články ({posts.length})</h2>
         <button
           type="button"
           onClick={onNewArticle}
@@ -120,26 +120,26 @@ function ListMode({ state, posts, loading, onNewArticle }: {
         </button>
       </div>
 
-      <div className="rounded-xl border border-gray-200 overflow-hidden">
+      <div className="rounded-xl border border-[var(--vs-border)] overflow-hidden">
         {posts.map((post, idx) => (
           <button
             key={post.id}
             type="button"
             onClick={() => { studio.setCurrentArticleId(post.id); studio.setArticleMode("editor"); }}
-            className={`w-full flex items-center gap-4 px-5 py-4 text-left hover:bg-gray-50 transition-colors group ${idx > 0 ? "border-t border-gray-100" : ""}`}
+            className={`w-full flex items-center gap-4 px-5 py-4 text-left hover:bg-[var(--vs-surface-2)] transition-colors group ${idx > 0 ? "border-t border-[var(--vs-border)]" : ""}`}
           >
             <div className="flex-1 min-w-0">
-              <p className="text-[14px] font-medium text-gray-900 truncate">
+              <p className="text-[14px] font-medium text-[var(--vs-text)] truncate">
                 {post.title || "Bez názvu"}
               </p>
-              <p className="text-[12px] text-gray-400 mt-0.5">
+              <p className="text-[12px] text-[var(--vs-text-dim)] mt-0.5">
                 {new Date(post.created_at).toLocaleDateString("cs-CZ")}
               </p>
             </div>
             <span className={`shrink-0 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold ${
               post.status === "published"
-                ? "bg-green-100 text-green-700"
-                : "bg-gray-100 text-gray-500"
+                ? "bg-[var(--vs-success-bg)] text-[var(--vs-success)]"
+                : "bg-[var(--vs-surface-2)] text-[var(--vs-text-muted)]"
             }`}>
               <span className="h-1.5 w-1.5 rounded-full bg-current" />
               {post.status === "published" ? "Publikováno" : "Koncept"}
@@ -256,29 +256,29 @@ function EditorMode({ state, post, onRefresh }: {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {/* Top bar */}
-      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white px-6 py-3 shrink-0">
+      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[var(--vs-border)] bg-[var(--vs-surface)] px-6 py-3 shrink-0">
         <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={() => studio.setArticleMode("list")}
-            className="flex items-center gap-1.5 text-[13px] text-gray-500 hover:text-gray-900 transition-colors"
+            className="flex items-center gap-1.5 text-[13px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] transition-colors"
           >
             <ArrowLeft size={16} /> Obsah
           </button>
-          <div className="h-4 w-px bg-gray-200 mx-1" />
+          <div className="h-4 w-px bg-[var(--vs-surface-3)] mx-1" />
           <button
             type="button"
-            className="flex items-center gap-1.5 text-[13px] text-gray-500 hover:text-gray-900 transition-colors"
+            className="flex items-center gap-1.5 text-[13px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] transition-colors"
           >
             <Settings size={14} /> Nastavení
           </button>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 text-[12px] text-gray-400">
+          <div className="flex items-center gap-1.5 text-[12px] text-[var(--vs-text-dim)]">
             <Folder size={13} /> <span>Šablony / Články: Záhlaví</span>
           </div>
           <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold ${
-            indexing ? "bg-green-100 text-green-700" : "bg-red-500 text-white"
+            indexing ? "bg-[var(--vs-success-bg)] text-[var(--vs-success)]" : "bg-red-500 text-white"
           }`}>
             <span className="h-1.5 w-1.5 rounded-full bg-current" />
             {indexing ? "Indexing" : "Not indexing"}
@@ -287,17 +287,17 @@ function EditorMode({ state, post, onRefresh }: {
         <div className="flex items-center gap-2">
           <button
             type="button"
-            className="flex h-7 w-7 items-center justify-center rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+            className="flex h-7 w-7 items-center justify-center rounded-md text-[var(--vs-text-dim)] hover:text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] transition-colors"
           >
             <Undo2 size={16} />
           </button>
           <button
             type="button"
-            className="flex h-7 w-7 items-center justify-center rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+            className="flex h-7 w-7 items-center justify-center rounded-md text-[var(--vs-text-dim)] hover:text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] transition-colors"
           >
             <Redo2 size={16} />
           </button>
-          <div className="w-px h-4 bg-gray-200" />
+          <div className="w-px h-4 bg-[var(--vs-surface-3)]" />
           <button
             type="button"
             onClick={handlePublish}
@@ -308,7 +308,7 @@ function EditorMode({ state, post, onRefresh }: {
           <button
             type="button"
             onClick={handlePublishUpdate}
-            className="border border-gray-300 text-gray-700 rounded-lg px-3 py-1.5 text-[13px] hover:bg-gray-50 transition-colors"
+            className="border border-[var(--vs-border-strong)] text-[var(--vs-text-soft)] rounded-lg px-3 py-1.5 text-[13px] hover:bg-[var(--vs-surface-2)] transition-colors"
           >
             Publikovat a aktualizovat
           </button>
@@ -316,16 +316,16 @@ function EditorMode({ state, post, onRefresh }: {
       </div>
 
       {/* Content area */}
-      <div className="flex-1 overflow-y-auto bg-white">
+      <div className="flex-1 overflow-y-auto bg-[var(--vs-surface)]">
         <div className="max-w-3xl mx-auto px-8 pt-10 pb-20">
           <input
             type="text"
             value={title}
             onChange={(e) => handleTitleChange(e.target.value)}
             placeholder="Název článku"
-            className="w-full border-0 outline-none text-[36px] font-bold text-gray-900 placeholder-gray-300 bg-transparent leading-tight mb-6"
+            className="w-full border-0 outline-none text-[36px] font-bold text-[var(--vs-text)] placeholder-[var(--vs-text-disabled)] bg-transparent leading-tight mb-6"
           />
-          <div className="border-b border-gray-100 mb-6" />
+          <div className="border-b border-[var(--vs-border)] mb-6" />
 
           {/* Inline style for placeholder pseudo-element */}
           <style>{`
@@ -343,7 +343,7 @@ function EditorMode({ state, post, onRefresh }: {
             onInput={handleInput}
             data-article-editor
             data-placeholder="Začněte psát zde..."
-            className="min-h-[400px] text-[16px] text-gray-700 outline-none leading-relaxed"
+            className="min-h-[400px] text-[16px] text-[var(--vs-text-soft)] outline-none leading-relaxed"
           />
         </div>
       </div>
@@ -358,7 +358,7 @@ function EditorMode({ state, post, onRefresh }: {
             transform: "translate(-50%, -100%) translateY(-8px)",
             zIndex: 1000,
           }}
-          className="flex items-center gap-0.5 rounded-lg bg-gray-900 px-2 py-1.5 shadow-xl"
+          className="flex items-center gap-0.5 rounded-lg bg-[var(--vs-surface-3)] px-2 py-1.5 shadow-[var(--vs-shadow-lg)] ring-1 ring-[var(--vs-border-strong)]"
         >
           <select
             onChange={(e) => execCmd("formatBlock", e.target.value)}
@@ -370,7 +370,7 @@ function EditorMode({ state, post, onRefresh }: {
             <option value="h2">Nadpis 2</option>
             <option value="h3">Nadpis 3</option>
           </select>
-          <div className="w-px h-4 bg-gray-700 mx-0.5" />
+          <div className="w-px h-4 bg-[var(--vs-border-strong)] mx-0.5" />
           <ToolbarBtn onMouseDown={(e) => { e.preventDefault(); document.execCommand("bold"); }}>
             <Bold size={14} />
           </ToolbarBtn>
@@ -383,7 +383,7 @@ function EditorMode({ state, post, onRefresh }: {
           <ToolbarBtn onMouseDown={(e) => { e.preventDefault(); document.execCommand("strikeThrough"); }}>
             <Strikethrough size={14} />
           </ToolbarBtn>
-          <div className="w-px h-4 bg-gray-700 mx-0.5" />
+          <div className="w-px h-4 bg-[var(--vs-border-strong)] mx-0.5" />
           <ToolbarBtn onMouseDown={(e) => { e.preventDefault(); document.execCommand("justifyLeft"); }}>
             <AlignLeft size={14} />
           </ToolbarBtn>
@@ -393,7 +393,7 @@ function EditorMode({ state, post, onRefresh }: {
           <ToolbarBtn onMouseDown={(e) => { e.preventDefault(); document.execCommand("justifyRight"); }}>
             <AlignRight size={14} />
           </ToolbarBtn>
-          <div className="w-px h-4 bg-gray-700 mx-0.5" />
+          <div className="w-px h-4 bg-[var(--vs-border-strong)] mx-0.5" />
           <ToolbarBtn onMouseDown={(e) => { e.preventDefault(); document.execCommand("insertUnorderedList"); }}>
             <List size={14} />
           </ToolbarBtn>
@@ -467,7 +467,7 @@ export function StudioArticlesCanvas({ state }: { state: StudioState }) {
   };
 
   return (
-    <div className="h-full overflow-y-auto bg-white">
+    <div className="h-full overflow-y-auto bg-[var(--vs-surface)]">
       {studio.articleMode === "editor" ? (
         <EditorMode
           state={state}

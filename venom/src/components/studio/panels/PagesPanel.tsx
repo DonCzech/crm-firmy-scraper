@@ -150,18 +150,18 @@ function PageSettingsEditor({
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-[200] flex bg-white">
+    <div className="fixed inset-0 z-[200] flex bg-[var(--vs-surface)]">
       {/* Dark sidebar spacer keeps the Studio rail+panel visible (matches PDF
           layout where the left chrome stays put). */}
       <div className="w-[295px] shrink-0 bg-[var(--vs-bg-soft)] border-r border-[var(--vs-border)]" />
 
       {/* Right column — the actual editor surface */}
-      <div className="flex flex-1 flex-col bg-white">
+      <div className="flex flex-1 flex-col bg-[var(--vs-surface)]">
         {/* Top action bar */}
-        <div className="flex h-[52px] shrink-0 items-center justify-between px-5 border-b border-gray-200 bg-white">
+        <div className="flex h-[52px] shrink-0 items-center justify-between px-5 border-b border-[var(--vs-border)] bg-[var(--vs-surface)]">
           <button
             type="button"
-            className="inline-flex items-center gap-2 rounded-md bg-gray-900 px-3 py-1.5 text-[12.5px] font-medium text-white hover:bg-black"
+            className="inline-flex items-center gap-2 rounded-md bg-[#6366f1] px-3 py-1.5 text-[12.5px] font-medium text-white hover:bg-[#4f46e5]"
           >
             <Settings2 className="h-4 w-4" strokeWidth={2} />
             Nastavení
@@ -194,7 +194,7 @@ function PageSettingsEditor({
                     disabled={isHomepage}
                     title={isHomepage ? "Úvodní stránka musí být publikovaná" : undefined}
                     className={`relative inline-flex h-[22px] w-[40px] items-center rounded-full transition-colors ${
-                      status === "published" ? "bg-[#22c55e]" : "bg-gray-200"
+                      status === "published" ? "bg-[#22c55e]" : "bg-[var(--vs-surface-3)]"
                     } ${isHomepage ? "opacity-60 cursor-not-allowed" : ""}`}
                   >
                     <span
@@ -209,7 +209,7 @@ function PageSettingsEditor({
                   type="button"
                   onClick={onClose}
                   aria-label="Zavřít"
-                  className="grid h-8 w-8 place-items-center rounded-full text-gray-400 hover:bg-gray-100 hover:text-gray-700"
+                  className="grid h-8 w-8 place-items-center rounded-full text-[var(--vs-text-dim)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -217,13 +217,13 @@ function PageSettingsEditor({
             </div>
 
             {/* Sibling navigation arrows — right-aligned */}
-            <div className="-mt-8 mb-8 flex items-center justify-end gap-1 text-gray-300">
+            <div className="-mt-8 mb-8 flex items-center justify-end gap-1 text-[var(--vs-text-disabled)]">
               <button
                 type="button"
                 onClick={() => prevPage && onNavigate(prevPage)}
                 disabled={!prevPage}
                 aria-label="Předchozí stránka"
-                className="grid h-8 w-8 place-items-center rounded hover:text-gray-700 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="grid h-8 w-8 place-items-center rounded hover:text-[var(--vs-text-soft)] disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
               </button>
@@ -232,7 +232,7 @@ function PageSettingsEditor({
                 onClick={() => nextPage && onNavigate(nextPage)}
                 disabled={!nextPage}
                 aria-label="Další stránka"
-                className="grid h-8 w-8 place-items-center rounded hover:text-gray-700 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="grid h-8 w-8 place-items-center rounded hover:text-[var(--vs-text-soft)] disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
               </button>
@@ -273,7 +273,7 @@ function PageSettingsEditor({
                   value={slug}
                   disabled={isHomepage}
                   onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "-"))}
-                  className={`${inputCls} ${isHomepage ? "bg-gray-50 text-gray-400 cursor-not-allowed" : ""} font-mono`}
+                  className={`${inputCls} ${isHomepage ? "bg-[var(--vs-bg-soft)] text-[var(--vs-text-dim)] cursor-not-allowed" : ""} font-mono`}
                 />
               }
             />
@@ -327,7 +327,7 @@ function PageSettingsEditor({
 
 /* Shared input/textarea classes for PageSettingsEditor fields. */
 const inputCls =
-  "w-full rounded-lg border border-gray-300 px-3.5 py-2.5 text-[14px] text-gray-800 placeholder-gray-400 focus:border-[#6366f1] focus:ring-2 focus:ring-[#6366f1]/15 focus:outline-none transition-shadow";
+  "w-full rounded-lg border border-[var(--vs-border-strong)] px-3.5 py-2.5 text-[14px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[#6366f1] focus:ring-2 focus:ring-[#6366f1]/15 focus:outline-none transition-shadow";
 
 /* Two-column "field on the left + help on the right" row. */
 function Field({
@@ -344,10 +344,10 @@ function Field({
   return (
     <div className={`grid grid-cols-[1fr_320px] gap-12 ${last ? "" : "mb-8"}`}>
       <div>
-        <div className="mb-1.5 text-[13.5px] font-medium text-gray-700">{label}</div>
+        <div className="mb-1.5 text-[13.5px] font-medium text-[var(--vs-text-soft)]">{label}</div>
         {input}
       </div>
-      <p className="pt-7 text-[12.5px] leading-relaxed text-gray-500">{help}</p>
+      <p className="pt-7 text-[12.5px] leading-relaxed text-[var(--vs-text-muted)]">{help}</p>
     </div>
   );
 }
@@ -367,16 +367,16 @@ function AddDropdown({ onClose, onSelect }: { onClose: () => void; onSelect: (ty
   return (
     <div
       ref={ref}
-      className="absolute top-full left-0 mt-1 bg-white rounded-xl shadow-xl border border-gray-200 z-50 w-[200px] py-1.5 overflow-hidden"
+      className="absolute top-full left-0 mt-1 bg-[var(--vs-surface)] rounded-xl shadow-xl border border-[var(--vs-border)] z-50 w-[200px] py-1.5 overflow-hidden"
     >
       {ADD_OPTIONS.map((opt) => (
         <button
           key={opt.type}
           type="button"
           onClick={() => { onSelect(opt.type); onClose(); }}
-          className="flex items-center gap-2.5 w-full px-3.5 py-2 text-[13px] text-gray-700 hover:bg-gray-50 transition-colors text-left"
+          className="flex items-center gap-2.5 w-full px-3.5 py-2 text-[13px] text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] transition-colors text-left"
         >
-          <opt.Icon className="h-4 w-4 text-gray-400 shrink-0" strokeWidth={1.5} />
+          <opt.Icon className="h-4 w-4 text-[var(--vs-text-dim)] shrink-0" strokeWidth={1.5} />
           {opt.label}
         </button>
       ))}
