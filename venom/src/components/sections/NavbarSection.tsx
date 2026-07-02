@@ -13,6 +13,23 @@ interface Props {
   sectionId: number;
 }
 
+function IconPin() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" />
+      <circle cx="12" cy="9.5" r="2.5" />
+    </svg>
+  );
+}
+function IconUser() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="8.5" r="3.5" />
+      <path d="M4.5 20a7.5 7.5 0 0 1 15 0" />
+    </svg>
+  );
+}
+
 function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }: Props) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -27,7 +44,8 @@ function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }
 
   // scroll state for overlay navbars
   useEffect(() => {
-    if (variant !== "peak-cut-minimal" && variant !== "barber-dark" && variant !== "barber-04-overlay" && variant !== "barber-overlay" && variant !== "barber-overlay-promo") return;
+    const isCafeWave = variant === "default" && content.layout === "cafe-wave";
+    if (variant !== "peak-cut-minimal" && variant !== "barber-dark" && variant !== "barber-04-overlay" && variant !== "barber-overlay" && variant !== "barber-overlay-promo" && !isCafeWave) return;
     const onScroll = () => setScrolled(window.scrollY > 60);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -1694,38 +1712,43 @@ function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }
   }
 
   if (content.layout === "cafe-wave") {
-    const pinIcon = String(content.pinIcon ?? "/clones/costa/src/themes/template/build/icon-pin.svg");
-    const userIcon = String(content.userIcon ?? "/clones/costa/src/themes/template/build/icon-user.svg");
     const loginLabel = String(content.loginLabel ?? "Přihlásit");
+    const locationsLabel = String((content as Record<string, unknown>).locationsLabel ?? "Provozovny");
     const locationsHref = String(content.locationsHref ?? "/kavarny");
     const loginHref = String(content.loginHref ?? "/prihlaseni");
     return (
       <nav
         data-layout="cafe-wave"
-        className="sticky top-0 z-50 w-full"
+        data-template="cafe-01"
+        data-scrolled={scrolled ? "y" : "n"}
+        className="cafe01-nav sticky top-0 z-50 w-full"
         style={{ fontFamily: "var(--font-body, 'CostaText', sans-serif)" }}
       >
-        {/* Mobile row — solid bg, flex: [hamburger | logo(centered) | spacer] */}
+        {/* Luxe top hairline — cherry → cream gradient */}
+        <div className="cafe01-nav__hairline" aria-hidden="true" />
+
+        {/* Mobile row — solid burgundy, flex: [hamburger | logo(centered) | login] */}
         <div
           data-nav-row="mobile"
-          className="flex items-center h-16 px-2"
-          style={{ backgroundColor: "var(--color-primary, #6d1f37)" }}
+          className="cafe01-nav__mobile flex items-center h-16 px-2"
         >
           <button
             type="button"
-            className="flex flex-col gap-[5px] items-center justify-center w-11 h-11 text-white"
+            className={`cafe01-nav__burger flex items-center justify-center w-11 h-11 text-white ${open ? "is-open" : ""}`}
             onClick={() => setOpen(!open)}
             aria-label="Menu"
             aria-expanded={open}
           >
-            <span className="block w-6 h-0.5 bg-white" />
-            <span className="block w-6 h-0.5 bg-white" />
-            <span className="block w-6 h-0.5 bg-white" />
+            <span className="cafe01-nav__burger-inner">
+              <span />
+              <span />
+              <span />
+            </span>
           </button>
           <div className="flex-1 flex justify-center">
             <a
               href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "#"}
-              className="flex items-center"
+              className="cafe01-nav__logo flex items-center"
               title={siteName}
             >
               <GenericEditableImage
@@ -1740,18 +1763,24 @@ function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }
               </GenericEditableImage>
             </a>
           </div>
-          <div className="w-11 shrink-0" /> {/* balances hamburger → logo truly centered */}
+          <a
+            href={navResolve(loginHref)}
+            className="cafe01-nav__icon-btn cafe01-nav__icon-btn--mobile inline-flex items-center justify-center w-11 h-11 shrink-0 text-white"
+            aria-label={loginLabel}
+          >
+            <IconUser />
+          </a>
         </div>
 
-        {/* Desktop row — transparent overlay over hero */}
+        {/* Desktop row — SOLID burgundy bar (Costa Coffee style) */}
         <div
           data-nav-row="desktop"
-          className="flex relative max-w-7xl mx-auto px-8 items-center"
-          style={{ backgroundColor: "transparent", height: 80, marginTop: -80 }}
+          className="cafe01-nav__desktop"
         >
+          <div className="cafe01-nav__desktop-inner flex relative max-w-[1360px] mx-auto px-8 items-center">
           <a
             href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "#"}
-            className="absolute left-12 flex items-center"
+            className="cafe01-nav__logo flex items-center shrink-0"
             title={siteName}
           >
             <GenericEditableImage
@@ -1760,66 +1789,77 @@ function NavbarSectionInner({ content, variant, isAdmin, tenantSlug, sectionId }
               src={logoSrc}
               alt={siteName}
               className="relative shrink-0 overflow-hidden"
-              style={{ width: 140, height: 44 }}
+              style={{ width: 148, height: 46 }}
             >
               <OptimizedPicture src={logoSrc} alt={siteName} imgStyle={{ width: "100%", height: "100%", objectFit: "contain" }} />
             </GenericEditableImage>
           </a>
           <div
-            className="flex items-center gap-7 mx-auto text-white"
+            className="cafe01-nav__links flex items-center gap-8 mx-auto text-white"
             style={{ fontFamily: "var(--font-body, 'CostaText', sans-serif)" }}
           >
             {links.map((l, i) => (
               <a
                 key={`${l.href}-${i}`}
                 href={navResolve(l.href)}
-                className="text-[15px] font-semibold uppercase tracking-wide hover:opacity-80 transition-opacity"
+                className="cafe01-nav__link"
               >
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
               </a>
             ))}
           </div>
-          <div className="flex items-center gap-5 ml-auto">
+          <div className="cafe01-nav__actions flex items-center gap-2 ml-auto">
             <a
               href={navResolve(locationsHref)}
-              className="inline-flex items-center justify-center w-9 h-9 hover:opacity-80"
-              aria-label="Provozovny"
+              className="cafe01-nav__icon-btn inline-flex items-center gap-2 px-3 h-10 text-white"
+              aria-label={locationsLabel}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img loading="eager" src={pinIcon} alt="" width={22} height={22} style={{ filter: "brightness(0) invert(1)" }} />
+              <IconPin />
+              <GenericEditableText sectionId={sectionId} field="locationsLabel" value={locationsLabel} tag="span" className="cafe01-nav__icon-label" />
             </a>
             <a
               href={navResolve(loginHref)}
-              className="inline-flex items-center justify-center w-9 h-9 hover:opacity-80"
+              className="cafe01-nav__icon-btn inline-flex items-center gap-2 px-3 h-10 text-white"
               aria-label={loginLabel}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img loading="eager" src={userIcon} alt="" width={22} height={22} style={{ filter: "brightness(0) invert(1)" }} />
+              <IconUser />
+              <GenericEditableText sectionId={sectionId} field="loginLabel" value={loginLabel} tag="span" className="cafe01-nav__icon-label" />
             </a>
+          </div>
           </div>
         </div>
         {open && (
-          <div className="lg:hidden border-t border-white/15" style={{ backgroundColor: "var(--color-primary, #6d1f37)" }}>
-            <div className="px-4 pb-4">
+          <div className="cafe01-nav__mobile-menu lg:hidden">
+            <div className="px-4 pb-6 pt-2">
               {links.map((l, i) => (
                 <a
                   key={`${l.href}-${i}`}
                   href={navResolve(l.href)}
-                  className="flex items-center min-h-[44px] text-white text-base font-semibold uppercase tracking-wide border-b border-white/10"
+                  className="cafe01-nav__mobile-link flex items-center min-h-[52px] text-white border-b border-white/10"
+                  style={{ animationDelay: `${60 + i * 40}ms` }}
                   onClick={() => setOpen(false)}
                 >
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                 </a>
               ))}
-              <a
-                href={navResolve(loginHref)}
-                className="mt-2 flex items-center gap-3 min-h-[44px] text-white text-base font-semibold border-t border-white/15"
-                onClick={() => setOpen(false)}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img loading="eager" src={userIcon} alt="" width={22} height={22} style={{ filter: "brightness(0) invert(1)" }} />
-                <GenericEditableText sectionId={sectionId} field="loginLabel" value={loginLabel} tag="span" />
-              </a>
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                <a
+                  href={navResolve(locationsHref)}
+                  className="cafe01-nav__mobile-action inline-flex items-center gap-2 h-11 px-3 text-white border border-white/25"
+                  onClick={() => setOpen(false)}
+                >
+                  <IconPin />
+                  <GenericEditableText sectionId={sectionId} field="locationsLabel" value={locationsLabel} tag="span" />
+                </a>
+                <a
+                  href={navResolve(loginHref)}
+                  className="cafe01-nav__mobile-action inline-flex items-center gap-2 h-11 px-3 text-white border border-white/25"
+                  onClick={() => setOpen(false)}
+                >
+                  <IconUser />
+                  <GenericEditableText sectionId={sectionId} field="loginLabel" value={loginLabel} tag="span" />
+                </a>
+              </div>
             </div>
           </div>
         )}
@@ -14448,8 +14488,8 @@ function NavbarSolar01(props: Props) {
         </div>
       </div>
 
-      {/* Spacer */}
-      <div aria-hidden="true" style={{ height: scrolled ? 68 : 122 }} />
+      {/* Spacer — matches header height per breakpoint (utility strip visible >600px) */}
+      <div className="s01nb-spacer" data-scrolled={scrolled ? "true" : "false"} data-template="solar-01" aria-hidden="true" />
     </>
   );
 }
@@ -18151,7 +18191,11 @@ function NavbarHotel01(props: Props) {
   const ctaText      = c.ctaText    ?? "Rezervujte";
   const ctaHref      = c.ctaHref    ?? "#kontakt";
   const overlayBgUrl = c.overlayBgUrl ?? "";
+  const announcement = c.announcement ?? "Jarní akce · 3 noci za cenu 2";
+  const announcementHref = c.announcementHref ?? "/nabidky";
+  const monogram     = c.monogram   ?? "A";
   const links: { label: string; href: string }[] = c.links ?? [];
+  const siteMode     = String(c.siteMode ?? "multipage");
 
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -18167,140 +18211,328 @@ function NavbarHotel01(props: Props) {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  const resolve = (href: string) =>
-    href?.startsWith("#") ? (isAdmin ? "#" : href) : href ?? "#";
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Poppins:wght@300;400;500&display=swap" />
-      <style>{`        .h01nav {
-          position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-          transition: background 0.35s ease, box-shadow 0.35s ease;
+      <style>{`
+        .h01ann {
+          position: fixed; top: 0; left: 0; right: 0; z-index: 1001;
+          height: 32px; display: flex; align-items: center; justify-content: center;
+          background: linear-gradient(90deg,#3e3e3e 0%,#4a4238 50%,#3e3e3e 100%);
+          color: rgba(255,255,255,.86); text-align: center;
+          font-family: 'Poppins', sans-serif;
+          font-size: 11.5px; letter-spacing: .16em; text-transform: uppercase;
+          border-bottom: 1px solid rgba(169,135,99,.32);
+          transition: transform .45s cubic-bezier(.22,.68,0,1.1), opacity .35s;
+        }
+        .h01ann a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 12px; padding: 0 20px; transition: color .3s; }
+        .h01ann a:hover { color: #d4b088; }
+        .h01ann a::before, .h01ann a::after {
+          content: ''; display: inline-block; width: 22px; height: 1px;
+          background: linear-gradient(90deg, transparent, #a98763, transparent);
+        }
+        .h01ann.hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+
+        .h01nav {
+          position: fixed; top: 32px; left: 0; right: 0; z-index: 1000;
+          transition: background .45s ease, box-shadow .45s ease, top .45s cubic-bezier(.22,.68,0,1.1), backdrop-filter .45s;
           background: transparent;
           font-family: 'Poppins', sans-serif;
         }
         .h01nav.scrolled {
-          background: rgba(62,62,62,0.97);
-          box-shadow: 0 2px 20px rgba(0,0,0,0.35);
+          top: 0;
+          background: rgba(28,26,24,0.92);
+          backdrop-filter: blur(14px) saturate(1.3);
+          -webkit-backdrop-filter: blur(14px) saturate(1.3);
+          box-shadow: 0 8px 40px -8px rgba(0,0,0,0.5);
+        }
+        .h01nav.scrolled::after {
+          content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+          background: linear-gradient(90deg, transparent 0%, rgba(169,135,99,.55) 20%, rgba(169,135,99,.75) 50%, rgba(169,135,99,.55) 80%, transparent 100%);
         }
         .h01nav-inner {
-          max-width: 1240px; margin: 0 auto;
+          max-width: 1280px; margin: 0 auto;
           display: flex; align-items: center; gap: 0;
-          padding: 0 24px; height: 72px;
+          padding: 0 32px; height: 84px;
+          transition: height .35s;
         }
+        .h01nav.scrolled .h01nav-inner { height: 68px; }
+
         .h01nav-logo {
-          display: flex; align-items: center; gap: 10px;
-          text-decoration: none; flex-shrink: 0; margin-right: 32px;
+          display: flex; align-items: center; gap: 14px;
+          text-decoration: none; flex-shrink: 0; margin-right: 44px;
+          transition: opacity .3s;
         }
-        .h01nav-logo img { height: 42px; width: auto; }
-        .h01nav-logo-text {
+        .h01nav-logo:hover { opacity: .85; }
+        .h01nav-logo img { height: 44px; width: auto; }
+        .h01nav-logo-mark {
+          width: 40px; height: 40px; position: relative; flex-shrink: 0;
+          display: inline-flex; align-items: center; justify-content: center;
+        }
+        .h01nav-logo-mark svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .h01nav-logo-mark span {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 15px; letter-spacing: 0.18em; color: #fff;
+          font-style: italic; font-weight: 500; font-size: 20px;
+          color: #d4b088; line-height: 1; position: relative; z-index: 2;
+        }
+        .h01nav-logo-text { display: flex; flex-direction: column; gap: 3px; }
+        .h01nav-logo-text b {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-weight: 500; font-size: 15px; letter-spacing: 0.28em; color: #fff;
           text-transform: uppercase; line-height: 1;
         }
+        .h01nav-logo-text em {
+          font-style: normal;
+          font-family: 'Poppins', sans-serif;
+          font-weight: 300; font-size: 9px; letter-spacing: 0.42em;
+          color: rgba(169,135,99,.9); text-transform: uppercase; line-height: 1;
+        }
+
         .h01nav-links {
-          display: flex; align-items: center; gap: 0; list-style: none;
+          display: flex; align-items: center; gap: 4px; list-style: none;
           margin: 0; padding: 0; flex: 1;
         }
         .h01nav-links li a {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
-          color: rgba(255,255,255,0.88); text-decoration: none;
-          padding: 8px 14px; transition: color 0.2s;
+          font-size: 12.5px; letter-spacing: 0.14em; text-transform: uppercase;
+          font-weight: 400;
+          color: rgba(255,255,255,0.86); text-decoration: none;
+          padding: 10px 16px; position: relative; display: inline-block;
           white-space: nowrap;
+          transition: color 0.35s cubic-bezier(.22,.68,0,1.1);
         }
-        .h01nav-links li a:hover { color: #a98763; }
-        .h01nav-right { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+        .h01nav-links li a::before {
+          content: ''; position: absolute; left: 16px; right: 16px; bottom: 3px;
+          height: 1px; background: #a98763;
+          transform: scaleX(0); transform-origin: right center;
+          transition: transform .5s cubic-bezier(.22,.68,0,1.1);
+        }
+        .h01nav-links li a::after {
+          content: ''; position: absolute; left: 50%; top: 2px;
+          width: 4px; height: 4px; background: #a98763;
+          transform: translateX(-50%) rotate(45deg) scale(0);
+          transition: transform .45s cubic-bezier(.22,.68,0,1.1);
+        }
+        .h01nav-links li a:hover { color: #d4b088; }
+        .h01nav-links li a:hover::before { transform: scaleX(1); transform-origin: left center; }
+        .h01nav-links li a:hover::after { transform: translateX(-50%) rotate(45deg) scale(1); }
+
+        .h01nav-right { display: flex; align-items: center; gap: 24px; flex-shrink: 0; }
         .h01nav-phone {
-          font-size: 13px; color: rgba(255,255,255,0.8);
-          text-decoration: none; letter-spacing: 0.04em;
-          display: flex; align-items: center; gap: 6px;
-          font-family: 'Poppins', sans-serif;
+          font-size: 12.5px; color: rgba(255,255,255,0.82);
+          text-decoration: none; letter-spacing: 0.08em;
+          display: flex; align-items: center; gap: 8px;
+          font-family: 'Poppins', sans-serif; font-weight: 400;
+          transition: color 0.3s;
         }
-        .h01nav-phone:hover { color: #a98763; }
+        .h01nav-phone svg { color: #a98763; transition: transform .35s cubic-bezier(.22,.68,0,1.1); }
+        .h01nav-phone:hover { color: #d4b088; }
+        .h01nav-phone:hover svg { transform: rotate(-12deg) scale(1.1); }
+
         .h01nav-cta {
-          display: inline-flex; align-items: center; justify-content: center;
-          background: #879B32; color: #fff;
+          position: relative; display: inline-flex; align-items: center; justify-content: center;
+          background: transparent; color: #fff;
+          border: 1px solid #a98763;
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-          padding: 10px 28px; text-decoration: none;
-          transition: background 0.2s, opacity 0.2s; white-space: nowrap;
-          min-width: 140px;
+          font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase;
+          padding: 13px 30px; text-decoration: none;
+          transition: color .35s, border-color .35s;
+          overflow: hidden; white-space: nowrap;
         }
-        .h01nav-cta:hover { background: #6a7a28; }
+        .h01nav-cta::before {
+          content: ''; position: absolute; inset: 0;
+          background: linear-gradient(135deg,#a98763 0%,#c4a274 100%);
+          transform: translateY(101%); transition: transform .5s cubic-bezier(.22,.68,0,1.1);
+          z-index: 0;
+        }
+        .h01nav-cta:hover { border-color: #c4a274; color: #fff; }
+        .h01nav-cta:hover::before { transform: translateY(0); }
+        .h01nav-cta > * { position: relative; z-index: 1; }
+
         .h01nav-hamburger {
           display: none; flex-direction: column; gap: 5px;
-          background: none; border: none; cursor: pointer; padding: 8px; margin-left: 8px;
+          background: none; border: none; cursor: pointer; padding: 10px; margin-left: 12px;
         }
         .h01nav-hamburger span {
-          display: block; width: 24px; height: 1.5px; background: #fff; transition: all 0.25s;
+          display: block; width: 26px; height: 1.5px; background: #fff; transition: all 0.35s cubic-bezier(.22,.68,0,1.1);
         }
+        .h01nav-hamburger:hover span { background: #d4b088; }
+        .h01nav-hamburger:hover span:nth-child(1) { transform: translateX(-2px); }
+        .h01nav-hamburger:hover span:nth-child(3) { transform: translateX(2px); }
 
-        /* Fullscreen overlay */
         .h01nav-overlay {
           position: fixed; inset: 0; z-index: 2000;
-          background: rgba(40,36,32,0.97);
+          background: rgba(24,22,20,0.96);
           display: flex; flex-direction: column; align-items: center; justify-content: center;
-          opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+          opacity: 0; pointer-events: none;
+          transition: opacity .55s cubic-bezier(.22,.68,0,1.1);
         }
         .h01nav-overlay.is-open { opacity: 1; pointer-events: all; }
         .h01nav-overlay-bg {
           position: absolute; inset: 0;
           background-size: cover; background-position: center;
-          opacity: 0.18; pointer-events: none;
+          opacity: 0.14; pointer-events: none;
+          filter: sepia(.2) contrast(1.1);
+          transform: scale(1.08);
+          transition: transform 6s ease-out;
+        }
+        .h01nav-overlay.is-open .h01nav-overlay-bg { transform: scale(1); }
+        .h01nav-overlay::before {
+          content: ''; position: absolute; inset: 0;
+          background:
+            radial-gradient(ellipse 60% 100% at 50% 50%, rgba(169,135,99,.08), transparent 70%),
+            linear-gradient(180deg, rgba(24,22,20,.7) 0%, transparent 20%, transparent 80%, rgba(24,22,20,.85) 100%);
+          pointer-events: none;
         }
         .h01nav-overlay-close {
-          position: absolute; top: 20px; right: 24px;
-          background: none; border: none; color: #fff; font-size: 34px;
-          cursor: pointer; line-height: 1; opacity: 0.75; transition: opacity 0.2s;
+          position: absolute; top: 24px; right: 32px;
+          background: none; border: 1px solid rgba(169,135,99,.4);
+          color: #fff; font-size: 22px; width: 46px; height: 46px;
+          cursor: pointer; line-height: 1; opacity: 0.8;
+          display: inline-flex; align-items: center; justify-content: center;
+          transition: opacity .3s, border-color .3s, background .3s, transform .5s cubic-bezier(.22,.68,0,1.1);
+          z-index: 3;
         }
-        .h01nav-overlay-close:hover { opacity: 1; }
+        .h01nav-overlay-close:hover { opacity: 1; border-color: #a98763; background: rgba(169,135,99,.15); transform: rotate(90deg); }
+
+        .h01nav-ov-eyebrow {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 400; font-size: 14px;
+          color: rgba(169,135,99,.85); letter-spacing: 0.24em;
+          margin-bottom: 40px; position: relative; z-index: 2;
+          opacity: 0; transform: translateY(20px);
+          transition: opacity .5s ease .1s, transform .6s cubic-bezier(.22,.68,0,1.1) .1s;
+        }
+        .h01nav-overlay.is-open .h01nav-ov-eyebrow { opacity: 1; transform: translateY(0); }
+        .h01nav-ov-eyebrow::before, .h01nav-ov-eyebrow::after {
+          content: ''; display: inline-block; width: 40px; height: 1px;
+          background: rgba(169,135,99,.55); vertical-align: middle; margin: 0 18px;
+        }
+
+        .h01nav-ov-links { display: flex; flex-direction: column; align-items: center; }
         .h01nav-ov-link {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 26px; letter-spacing: 0.12em; color: #fff;
-          text-decoration: none; text-transform: uppercase;
-          padding: 14px 0; opacity: 0.88; transition: opacity 0.2s, color 0.2s;
-          position: relative; z-index: 1;
+          font-size: 32px; letter-spacing: 0.08em; color: #fff;
+          text-decoration: none; text-transform: uppercase; font-weight: 400;
+          padding: 12px 0; position: relative; z-index: 2;
+          opacity: 0; transform: translateY(28px);
+          transition: opacity .5s ease var(--d,0s), transform .6s cubic-bezier(.22,.68,0,1.1) var(--d,0s), color .35s;
         }
-        .h01nav-ov-link:hover { color: #a98763; opacity: 1; }
-        .h01nav-ov-cta {
-          margin-top: 28px; background: #879B32; color: #fff;
-          font-family: 'Playfair Display', Georgia, serif;
-          font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase;
-          padding: 14px 40px; text-decoration: none; position: relative; z-index: 1;
+        .h01nav-overlay.is-open .h01nav-ov-link { opacity: .92; transform: translateY(0); }
+        .h01nav-ov-link::after {
+          content: ''; position: absolute; left: 50%; bottom: 6px;
+          width: 0; height: 1px; background: #a98763;
+          transform: translateX(-50%); transition: width .5s cubic-bezier(.22,.68,0,1.1);
         }
+        .h01nav-ov-link:hover { color: #d4b088; }
+        .h01nav-ov-link:hover::after { width: 60%; }
 
-        /* Mobile bottom bar */
+        .h01nav-ov-cta {
+          margin-top: 44px; background: transparent; color: #fff;
+          border: 1px solid #a98763; position: relative; overflow: hidden;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+          padding: 16px 44px; text-decoration: none; z-index: 2;
+          opacity: 0; transform: translateY(28px);
+          transition: opacity .5s ease .55s, transform .6s cubic-bezier(.22,.68,0,1.1) .55s, color .35s;
+        }
+        .h01nav-overlay.is-open .h01nav-ov-cta { opacity: 1; transform: translateY(0); }
+        .h01nav-ov-cta::before {
+          content: ''; position: absolute; inset: 0;
+          background: linear-gradient(135deg,#a98763 0%,#c4a274 100%);
+          transform: translateY(101%); transition: transform .5s cubic-bezier(.22,.68,0,1.1);
+          z-index: 0;
+        }
+        .h01nav-ov-cta:hover::before { transform: translateY(0); }
+        .h01nav-ov-cta > * { position: relative; z-index: 1; }
+
+        .h01nav-ov-contact {
+          position: absolute; bottom: 48px; left: 0; right: 0;
+          display: flex; justify-content: center; gap: 48px; z-index: 2;
+          font-family: 'Poppins', sans-serif; font-size: 12px;
+          letter-spacing: 0.14em; text-transform: uppercase;
+          color: rgba(255,255,255,.5);
+          opacity: 0; transition: opacity .5s ease .8s;
+        }
+        .h01nav-overlay.is-open .h01nav-ov-contact { opacity: 1; }
+        .h01nav-ov-contact a { color: rgba(169,135,99,.9); text-decoration: none; margin-left: 10px; transition: color .3s; }
+        .h01nav-ov-contact a:hover { color: #d4b088; }
+
         .h01nav-mobile-bar {
           display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
-          height: 54px;
+          height: 58px; box-shadow: 0 -6px 24px rgba(0,0,0,.25);
         }
         .h01nav-mobile-bar a {
-          display: flex; align-items: center; justify-content: center;
+          display: flex; align-items: center; justify-content: center; gap: 10px;
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+          font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase;
           color: #fff; text-decoration: none; height: 100%;
+          transition: background .3s;
         }
-        .h01nav-mobile-bar .h01-call { width: 40%; background: #a98763; }
-        .h01nav-mobile-bar .h01-book { width: 60%; background: #879B32; }
+        .h01nav-mobile-bar .h01-call { width: 42%; background: #3e3e3e; }
+        .h01nav-mobile-bar .h01-book { width: 58%; background: linear-gradient(135deg,#a98763 0%,#c4a274 100%); }
+        .h01nav-mobile-bar .h01-call:hover { background: #4a4238; }
 
         @media (max-width: 900px) {
+          .h01ann { font-size: 10px; letter-spacing: .12em; height: 28px; }
+          .h01ann a::before, .h01ann a::after { width: 12px; }
+          .h01nav { top: 28px; }
           .h01nav-links { display: none; }
           .h01nav-phone { display: none; }
-          .h01nav-hamburger { display: flex; }
+          .h01nav-cta { display: none; }
+          .h01nav-hamburger { display: flex; margin-left: auto; }
           .h01nav-mobile-bar { display: flex; }
-          .h01nav-inner { height: 60px; }
+          .h01nav-inner { height: 64px; padding: 0 20px; }
+          .h01nav.scrolled .h01nav-inner { height: 56px; }
+          .h01nav-logo { margin-right: 0; }
+          .h01nav-logo-text b { font-size: 12px; letter-spacing: 0.22em; }
+          .h01nav-logo-text em { font-size: 8px; }
+          .h01nav-ov-link { font-size: 22px; }
+          .h01nav-ov-eyebrow { font-size: 12px; margin-bottom: 28px; }
+          .h01nav-ov-eyebrow::before, .h01nav-ov-eyebrow::after { width: 20px; margin: 0 10px; }
+          .h01nav-ov-contact { gap: 20px; flex-direction: column; align-items: center; bottom: 32px; }
         }
       `}</style>
 
+      {announcement && (
+        <div className={`h01ann${scrolled ? " hidden" : ""}`}>
+          <a href={resolve(announcementHref)}>
+            <GenericEditableText sectionId={sectionId} field="announcement" value={announcement} tag="span" />
+          </a>
+        </div>
+      )}
+
       <nav className={`h01nav${scrolled ? " scrolled" : ""}`} data-template="hotel-01-navbar">
         <div className="h01nav-inner">
-          <a href={resolve("/")} className="h01nav-logo">
+          <a href={resolve("/")} className="h01nav-logo" aria-label={siteName}>
             {logoUrl
               ? <img loading="eager" src={logoUrl} alt={siteName} />
-              : <span className="h01nav-logo-text"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
+              : (
+                <>
+                  <span className="h01nav-logo-mark" aria-hidden="true">
+                    <svg viewBox="0 0 40 40" fill="none">
+                      <rect x="1" y="1" width="38" height="38" stroke="#a98763" strokeWidth="0.6" opacity="0.55"/>
+                      <path d="M6 6 L6 12 M6 6 L12 6 M34 6 L34 12 M34 6 L28 6 M6 34 L6 28 M6 34 L12 34 M34 34 L34 28 M34 34 L28 34" stroke="#a98763" strokeWidth="0.8" opacity="0.85"/>
+                    </svg>
+                    <span>{monogram}</span>
+                  </span>
+                  <span className="h01nav-logo-text">
+                    <b><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></b>
+                    <em>Boutique · Est. 1908</em>
+                  </span>
+                </>
+              )
             }
           </a>
 
@@ -18332,7 +18564,6 @@ function NavbarHotel01(props: Props) {
         </div>
       </nav>
 
-      {/* Mobile bottom bar */}
       <div className="h01nav-mobile-bar">
         <a href={`tel:${phone.replace(/\s/g, "")}`} className="h01-call">Zavolejte</a>
         <a href={resolve(ctaHref)} data-btn="primary" className="h01-book">
@@ -18340,20 +18571,31 @@ function NavbarHotel01(props: Props) {
         </a>
       </div>
 
-      {/* Fullscreen overlay */}
       <div className={`h01nav-overlay${open ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigace">
         {overlayBgUrl && (
           <div className="h01nav-overlay-bg" style={{ backgroundImage: `url('${overlayBgUrl}')` }} />
         )}
         <button className="h01nav-overlay-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
-        {links.map((l, i) => (
-          <a key={i} href={resolve(l.href)} className="h01nav-ov-link" onClick={() => setOpen(false)}>
-            {l.label}
-          </a>
-        ))}
+        <div className="h01nav-ov-eyebrow">Grand Hotel Aurora · Anno 1908</div>
+        <div className="h01nav-ov-links">
+          {links.map((l, i) => (
+            <a
+              key={i}
+              href={resolve(l.href)}
+              className="h01nav-ov-link"
+              onClick={() => setOpen(false)}
+              style={{ ["--d" as any]: `${0.18 + i * 0.06}s` }}
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
         <a href={resolve(ctaHref)} data-btn="primary" className="h01nav-ov-cta" onClick={() => setOpen(false)}>
-          {ctaText}
+          <span>{ctaText}</span>
         </a>
+        <div className="h01nav-ov-contact">
+          <span>Recepce<a href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a></span>
+        </div>
       </div>
     </>
   );
@@ -18370,12 +18612,15 @@ function NavbarHotel01(props: Props) {
 function NavbarHotel02(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
   const c = (content ?? {}) as Record<string, any>;
-  const siteName = c.siteName ?? "HOTEL ATLANTIS";
-  const logoUrl  = c.logoUrl  ?? "";
-  const phone    = c.phone    ?? "+420 704 123 456";
-  const ctaText  = c.ctaText  ?? "Rezervovat";
-  const ctaHref  = c.ctaHref  ?? "#kontakt";
+  const siteName   = c.siteName   ?? "RELAX HOTEL";
+  const siteMark   = c.siteMark   ?? "&";
+  const logoUrl    = c.logoUrl    ?? "";
+  const phone      = c.phone      ?? "+420 704 123 456";
+  const phoneLabel = c.phoneLabel ?? "Rezervace";
+  const ctaText    = c.ctaText    ?? "Rezervovat pobyt";
+  const ctaHref    = c.ctaHref    ?? "#kontakt";
   const links: { label: string; href: string }[] = c.links ?? [];
+  const siteMode   = String(c.siteMode ?? "multipage");
 
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -18392,151 +18637,269 @@ function NavbarHotel02(props: Props) {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  const resolve = (href: string) =>
+  const resolve    = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const resolveCta = (href: string) =>
     href?.startsWith("#") ? (isAdmin ? "#" : href) : href ?? "#";
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Montserrat:wght@300;400;500;600&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" />
       <style>{`        .h02nav {
-          position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-          transition: background 0.35s ease, box-shadow 0.35s ease;
-          background: linear-gradient(to bottom, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0) 100%);
-          border-bottom: none;
+          position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+          transition: background 0.5s cubic-bezier(.22,.68,0,1), box-shadow 0.5s ease, backdrop-filter 0.5s, border-color 0.5s;
+          background: linear-gradient(to bottom, rgba(10,14,22,0.55) 0%, rgba(10,14,22,0.10) 65%, transparent 100%);
+          border-bottom: 1px solid rgba(255,255,255,0.14);
           font-family: 'Montserrat', sans-serif;
+          box-sizing: border-box;
         }
         .h02nav.scrolled {
-          background: #ffffff;
-          box-shadow: 0 2px 20px rgba(0,0,0,0.10);
+          background: rgba(255,255,255,0.97);
+          backdrop-filter: saturate(140%) blur(10px);
+          -webkit-backdrop-filter: saturate(140%) blur(10px);
+          box-shadow: 0 6px 32px -12px rgba(26,35,50,0.16);
+          border-bottom: 1px solid rgba(150,161,172,0.28);
         }
         .h02nav-inner {
-          max-width: 1320px; margin: 0 auto;
+          max-width: 1360px; margin: 0 auto;
           display: flex; align-items: center; gap: 0;
-          padding: 0 28px; height: 6.875rem;
+          padding: 0 32px; height: 108px;
+          transition: height 0.5s cubic-bezier(.22,.68,0,1);
         }
+        .h02nav.scrolled .h02nav-inner { height: 78px; }
         .h02nav-logo {
-          display: flex; align-items: center;
-          text-decoration: none; flex-shrink: 0; margin-right: 40px;
+          display: inline-flex; align-items: baseline; gap: 12px;
+          text-decoration: none; flex-shrink: 0; margin-right: 44px;
         }
         .h02nav-logo img {
-          height: 44px; width: auto;
-          transition: filter 0.35s ease;
+          height: 46px; width: auto;
+          transition: filter 0.5s ease, height 0.5s;
           filter: brightness(0) invert(1);
         }
-        .h02nav.scrolled .h02nav-logo img {
-          filter: brightness(0) invert(0);
+        .h02nav.scrolled .h02nav-logo img { filter: brightness(0) invert(0); height: 38px; }
+        .h02nav-logo-mark {
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-style: italic; font-weight: 500;
+          font-size: 34px; line-height: 1;
+          color: #fff;
+          transition: color 0.5s, transform 0.5s cubic-bezier(.22,.68,0,1);
+          transform: translateY(2px);
         }
+        .h02nav.scrolled .h02nav-logo-mark { color: #5B7A8E; }
+        .h02nav-logo:hover .h02nav-logo-mark { transform: translateY(2px) rotate(-6deg); }
         .h02nav-logo-text {
           font-family: 'Montserrat', sans-serif;
-          font-size: 13px; font-weight: 600; letter-spacing: 0.22em;
+          font-size: 14px; font-weight: 600; letter-spacing: 0.28em;
           color: #fff; text-transform: uppercase; line-height: 1;
-          transition: color 0.35s;
+          transition: color 0.5s;
         }
         .h02nav.scrolled .h02nav-logo-text { color: #1a2332; }
+
         .h02nav-links {
-          display: flex; align-items: center; gap: 0; list-style: none;
-          margin: 0; padding: 0; flex: 1;
+          display: flex; align-items: center; gap: 2px; list-style: none;
+          margin: 0; padding: 0; flex: 1; justify-content: center;
         }
         .h02nav-links li a {
+          position: relative;
           font-family: 'Montserrat', sans-serif;
-          font-size: 13px; font-weight: 500; letter-spacing: 0.10em;
+          font-size: 12px; font-weight: 500; letter-spacing: 0.16em;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.90); text-decoration: none;
-          padding: 8px 14px; transition: color 0.2s; white-space: nowrap;
-          display: block;
+          color: rgba(255,255,255,0.92); text-decoration: none;
+          padding: 10px 16px; transition: color 0.3s; white-space: nowrap;
+          display: inline-block;
         }
+        .h02nav-links li a::after {
+          content: ""; position: absolute; left: 50%; right: 50%; bottom: 4px;
+          height: 1px; background: currentColor;
+          transition: left 0.4s cubic-bezier(.22,.68,0,1), right 0.4s cubic-bezier(.22,.68,0,1);
+        }
+        .h02nav-links li a:hover::after { left: 16px; right: 16px; }
         .h02nav.scrolled .h02nav-links li a { color: #1a2332; }
-        .h02nav-links li a:hover { color: #96A1AC !important; }
-        .h02nav-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+        .h02nav-links li a:hover { color: #5B7A8E !important; }
+
+        .h02nav-right { display: flex; align-items: center; gap: 22px; flex-shrink: 0; }
+        .h02nav-phone {
+          display: inline-flex; align-items: center; gap: 12px;
+          color: rgba(255,255,255,0.92); text-decoration: none;
+          font-family: 'Montserrat', sans-serif;
+          transition: color 0.3s;
+        }
+        .h02nav.scrolled .h02nav-phone { color: #1a2332; }
+        .h02nav-phone:hover { color: #5B7A8E !important; }
+        .h02nav-phone-label {
+          font-size: 9px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase;
+          opacity: 0.65; display: block; line-height: 1; margin-bottom: 4px;
+        }
+        .h02nav-phone-num {
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-size: 18px; font-weight: 500; letter-spacing: 0.02em;
+          display: block; line-height: 1;
+        }
+        .h02nav-phone-icon {
+          width: 34px; height: 34px; border-radius: 999px;
+          display: inline-flex; align-items: center; justify-content: center;
+          border: 1px solid currentColor; opacity: 0.7;
+          transition: transform 0.4s cubic-bezier(.22,.68,0,1), opacity 0.3s;
+          flex-shrink: 0;
+        }
+        .h02nav-phone:hover .h02nav-phone-icon { transform: rotate(-14deg); opacity: 1; }
+        .h02nav-divider {
+          width: 1px; height: 34px; background: rgba(255,255,255,0.30);
+          transition: background 0.5s;
+        }
+        .h02nav.scrolled .h02nav-divider { background: rgba(150,161,172,0.45); }
+
         .h02nav-cta {
-          display: inline-flex; align-items: center; gap: 10px; justify-content: center;
+          position: relative; overflow: hidden; isolation: isolate;
+          display: inline-flex; align-items: center; gap: 12px; justify-content: center;
           background: transparent;
-          border: 1.5px solid rgba(255,255,255,0.75);
+          border: 1px solid rgba(255,255,255,0.85);
           color: #fff;
           font-family: 'Montserrat', sans-serif;
-          font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
-          padding: 10px 26px; text-decoration: none;
-          transition: background 0.2s, border-color 0.2s, color 0.2s; white-space: nowrap;
+          font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+          padding: 14px 30px; text-decoration: none;
+          transition: color 0.35s, border-color 0.35s; white-space: nowrap;
         }
-        .h02nav-cta:hover { background: rgba(255,255,255,0.15); border-color: #fff; }
-        .h02nav.scrolled .h02nav-cta {
-          border-color: #96A1AC; color: #1a2332;
+        .h02nav-cta::before {
+          content: ""; position: absolute; inset: 0; z-index: -1;
+          background: #5B7A8E; transform: translateY(101%);
+          transition: transform 0.5s cubic-bezier(.22,.68,0,1);
         }
-        .h02nav.scrolled .h02nav-cta:hover { background: #96A1AC; color: #fff; border-color: #96A1AC; }
+        .h02nav-cta:hover::before { transform: translateY(0); }
+        .h02nav-cta:hover { color: #fff; border-color: #5B7A8E; }
+        .h02nav.scrolled .h02nav-cta { border-color: #1a2332; color: #1a2332; }
+        .h02nav.scrolled .h02nav-cta::before { background: #1a2332; }
+        .h02nav.scrolled .h02nav-cta:hover { color: #fff; border-color: #1a2332; }
         .h02nav-cta-arrow {
           width: 14px; height: 14px; flex-shrink: 0;
+          transition: transform 0.4s cubic-bezier(.22,.68,0,1);
         }
+        .h02nav-cta:hover .h02nav-cta-arrow { transform: translate(3px,-3px); }
+
         .h02nav-hamburger {
-          display: none; flex-direction: column; gap: 5px;
-          background: none; border: none; cursor: pointer; padding: 8px; margin-left: 8px;
+          display: none; position: relative; width: 34px; height: 34px;
+          background: none; border: none; cursor: pointer; padding: 0; margin-left: 12px;
         }
         .h02nav-hamburger span {
-          display: block; width: 24px; height: 1.5px;
-          background: #fff; transition: all 0.25s;
+          position: absolute; left: 4px; right: 4px; height: 1.5px;
+          background: #fff; transition: transform 0.35s cubic-bezier(.22,.68,0,1), top 0.35s, opacity 0.25s, background 0.5s;
         }
+        .h02nav-hamburger span:nth-child(1) { top: 10px; }
+        .h02nav-hamburger span:nth-child(2) { top: 16px; }
+        .h02nav-hamburger span:nth-child(3) { top: 22px; }
         .h02nav.scrolled .h02nav-hamburger span { background: #1a2332; }
+        .h02nav-hamburger[aria-expanded="true"] span:nth-child(1) { top: 16px; transform: rotate(45deg); }
+        .h02nav-hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+        .h02nav-hamburger[aria-expanded="true"] span:nth-child(3) { top: 16px; transform: rotate(-45deg); }
 
         /* Fullscreen overlay */
         .h02nav-overlay {
           position: fixed; inset: 0; z-index: 2000;
-          background: #1a2332;
+          background: #0f1622;
           display: flex; flex-direction: column; align-items: center; justify-content: center;
-          opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+          opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+          overflow: hidden;
+        }
+        .h02nav-overlay::before {
+          content: ""; position: absolute; inset: -20%;
+          background: radial-gradient(circle at 50% 30%, rgba(91,122,142,0.28) 0%, transparent 55%);
+          pointer-events: none;
         }
         .h02nav-overlay.is-open { opacity: 1; pointer-events: all; }
         .h02nav-overlay-close {
-          position: absolute; top: 20px; right: 24px;
-          background: none; border: none; color: #fff; font-size: 34px;
-          cursor: pointer; line-height: 1; opacity: 0.7; transition: opacity 0.2s;
+          position: absolute; top: 24px; right: 28px;
+          width: 44px; height: 44px; border-radius: 999px;
+          background: none; border: 1px solid rgba(255,255,255,0.25);
+          color: #fff; font-size: 26px;
+          cursor: pointer; line-height: 1; opacity: 0.85;
+          transition: opacity 0.2s, transform 0.4s, border-color 0.3s;
+          display: inline-flex; align-items: center; justify-content: center;
         }
-        .h02nav-overlay-close:hover { opacity: 1; }
+        .h02nav-overlay-close:hover { opacity: 1; transform: rotate(90deg); border-color: #96A1AC; }
+        .h02nav-ov-mark {
+          font-family: 'Cormorant Garamond', 'Georgia', serif; font-style: italic;
+          font-size: 56px; color: rgba(150,161,172,0.85); line-height: 1;
+          margin-bottom: 28px;
+        }
         .h02nav-ov-link {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 20px; font-weight: 500; letter-spacing: 0.14em;
-          color: rgba(255,255,255,0.88); text-decoration: none; text-transform: uppercase;
-          padding: 14px 0; transition: color 0.2s;
+          font-family: 'Cormorant Garamond', 'Georgia', serif;
+          font-size: 30px; font-weight: 500; letter-spacing: 0.02em;
+          color: rgba(255,255,255,0.92); text-decoration: none;
+          padding: 10px 0; transition: color 0.25s, letter-spacing 0.35s;
+          position: relative;
         }
-        .h02nav-ov-link:hover { color: #96A1AC; }
+        .h02nav-ov-link:hover { color: #96A1AC; letter-spacing: 0.06em; }
         .h02nav-ov-cta {
-          margin-top: 28px; background: #96A1AC; color: #fff;
+          margin-top: 32px; background: #96A1AC; color: #fff;
           font-family: 'Montserrat', sans-serif;
-          font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
-          padding: 14px 40px; text-decoration: none; border-radius: 2px;
+          font-size: 12px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+          padding: 16px 44px; text-decoration: none; border-radius: 2px;
+          transition: background 0.3s;
         }
+        .h02nav-ov-cta:hover { background: #5B7A8E; }
+        .h02nav-ov-phone {
+          margin-top: 18px; color: rgba(255,255,255,0.7); text-decoration: none;
+          font-family: 'Cormorant Garamond', 'Georgia', serif; font-size: 20px; letter-spacing: 0.02em;
+          transition: color 0.2s;
+        }
+        .h02nav-ov-phone:hover { color: #fff; }
 
         /* Mobile bottom bar */
         .h02nav-mobile-bar {
           display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
-          height: 52px;
+          height: 56px; box-shadow: 0 -4px 24px rgba(0,0,0,0.18);
         }
         .h02nav-mobile-bar a {
-          display: flex; align-items: center; justify-content: center;
+          display: flex; align-items: center; justify-content: center; gap: 8px;
           font-family: 'Montserrat', sans-serif;
-          font-size: 12px; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase;
+          font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase;
           color: #fff; text-decoration: none; height: 100%;
+          transition: background 0.25s;
         }
-        .h02nav-mobile-bar .h02-call { width: 40%; background: rgba(26,35,50,0.95); }
-        .h02nav-mobile-bar .h02-book { width: 60%; background: #96A1AC; }
+        .h02nav-mobile-bar .h02-call { width: 40%; background: #1a2332; }
+        .h02nav-mobile-bar .h02-call:hover { background: #0f1622; }
+        .h02nav-mobile-bar .h02-book { width: 60%; background: #5B7A8E; }
+        .h02nav-mobile-bar .h02-book:hover { background: #96A1AC; }
 
+        @media (max-width: 1024px) {
+          .h02nav-phone, .h02nav-divider { display: none; }
+        }
         @media (max-width: 960px) {
           .h02nav-links { display: none; }
-          .h02nav-hamburger { display: flex; }
+          .h02nav-hamburger { display: block; }
           .h02nav-mobile-bar { display: flex; }
-          .h02nav-inner { height: 72px; }
+          .h02nav-inner { height: 76px; padding: 0 20px; }
+          .h02nav.scrolled .h02nav-inner { height: 64px; }
+          .h02nav-cta { padding: 11px 20px; font-size: 10px; letter-spacing: 0.16em; }
+          .h02nav-logo-text { font-size: 12px; letter-spacing: 0.22em; }
+          .h02nav-logo-mark { font-size: 28px; }
+          .h02nav-ov-link { font-size: 26px; }
+        }
+        @media (max-width: 480px) {
+          .h02nav-cta { display: none; }
+          .h02nav-inner { padding: 0 16px; height: 64px; }
+          .h02nav.scrolled .h02nav-inner { height: 56px; }
+          .h02nav-logo-text { font-size: 11px; letter-spacing: 0.18em; }
+          .h02nav-logo-mark { font-size: 24px; }
         }
       `}</style>
 
       <nav className={`h02nav${scrolled ? " scrolled" : ""}`} data-template="hotel-02-navbar">
         <div className="h02nav-inner">
-          <a href={resolve("/")} className="h02nav-logo">
-            {logoUrl
-              ? <img loading="eager" src={logoUrl} alt={siteName} style={{ color: scrolled ? "#1a2332" : "#ffffff" }} />
-              : <span className="h02nav-logo-text">
+          <a href={resolve("/")} className="h02nav-logo" aria-label={siteName}>
+            {logoUrl ? (
+              <img loading="eager" src={logoUrl} alt={siteName} />
+            ) : (
+              <>
+                <span className="h02nav-logo-mark" aria-hidden="true">
+                  <GenericEditableText sectionId={sectionId} field="siteMark" value={siteMark} tag="span" />
+                </span>
+                <span className="h02nav-logo-text">
                   <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
                 </span>
-            }
+              </>
+            )}
           </a>
 
           <ul className="h02nav-links">
@@ -18550,15 +18913,31 @@ function NavbarHotel02(props: Props) {
           </ul>
 
           <div className="h02nav-right">
-            <a href={resolve(ctaHref)} data-btn="primary" className="h02nav-cta">
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="h02nav-phone">
+              <span className="h02nav-phone-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.13 1.18 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.45-.45a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
+                </svg>
+              </span>
+              <span>
+                <span className="h02nav-phone-label">
+                  <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" />
+                </span>
+                <span className="h02nav-phone-num">
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                </span>
+              </span>
+            </a>
+            <span className="h02nav-divider" aria-hidden="true" />
+            <a href={resolveCta(ctaHref)} data-btn="primary" className="h02nav-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-              <svg className="h02nav-cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <svg className="h02nav-cta-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
               </svg>
             </a>
           </div>
 
-          <button className="h02nav-hamburger" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
+          <button className="h02nav-hamburger" onClick={() => setOpen(v => !v)} aria-label={open ? "Zavřít menu" : "Otevřít menu"} aria-expanded={open}>
             <span/><span/><span/>
           </button>
         </div>
@@ -18567,9 +18946,12 @@ function NavbarHotel02(props: Props) {
       {/* Mobile bottom bar */}
       <div className="h02nav-mobile-bar">
         <a href={`tel:${phone.replace(/\s/g, "")}`} className="h02-call">
-          <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.13 1.18 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.45-.45a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z"/>
+          </svg>
+          <span>Zavolat</span>
         </a>
-        <a href={resolve(ctaHref)} data-btn="primary" className="h02-book">
+        <a href={resolveCta(ctaHref)} data-btn="primary" className="h02-book">
           <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
         </a>
       </div>
@@ -18577,13 +18959,19 @@ function NavbarHotel02(props: Props) {
       {/* Fullscreen overlay */}
       <div className={`h02nav-overlay${open ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigace">
         <button className="h02nav-overlay-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
+        <span className="h02nav-ov-mark" aria-hidden="true">
+          <GenericEditableText sectionId={sectionId} field="siteMark" value={siteMark} tag="span" />
+        </span>
         {links.map((l, i) => (
           <a key={i} href={resolve(l.href)} className="h02nav-ov-link" onClick={() => setOpen(false)}>
             <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
           </a>
         ))}
-        <a href={resolve(ctaHref)} data-btn="primary" className="h02nav-ov-cta" onClick={() => setOpen(false)}>
+        <a href={resolveCta(ctaHref)} data-btn="primary" className="h02nav-ov-cta" onClick={() => setOpen(false)}>
           <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+        </a>
+        <a href={`tel:${phone.replace(/\s/g, "")}`} className="h02nav-ov-phone" onClick={() => setOpen(false)}>
+          <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
         </a>
       </div>
     </>

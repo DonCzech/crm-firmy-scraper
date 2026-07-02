@@ -1668,57 +1668,125 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   }
 
   if (content.layout === "6col") {
+    const cc = content as Record<string, unknown>;
+    const newsletterTitle = String(cc.newsletterTitle ?? "Zůstaňte ve vlně novinek");
+    const newsletterSubtitle = String(cc.newsletterSubtitle ?? "Přihlaste se k odběru — dostávejte novinky, akce a magazín Vlna do své schránky.");
+    const newsletterPlaceholder = String(cc.newsletterPlaceholder ?? "Váš e-mail");
+    const newsletterCta = String(cc.newsletterCta ?? "Odebírat");
+    const copyrightLabel = String(cc.copyrightLabel ?? "všechna práva vyhrazena");
+    const SocialIcon = ({ name }: { name?: string }) => {
+      const p = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true as const };
+      const key = (name || "").toLowerCase();
+      if (key.includes("instagram")) return <svg {...p}><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>;
+      if (key.includes("facebook"))  return <svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>;
+      if (key.includes("tiktok"))    return <svg {...p}><path d="M15 3v9.5a3.5 3.5 0 1 1-3.5-3.5"/><path d="M15 3c0 3 2 5 5 5"/></svg>;
+      if (key.includes("twitter") || key.includes("x"))   return <svg {...p}><path d="M4 4l16 16M20 4L4 20"/></svg>;
+      if (key.includes("youtube"))   return <svg {...p}><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M11 10l4 2-4 2z" fill="currentColor" stroke="none"/></svg>;
+      return <span style={{ fontSize: 10 }}>{name}</span>;
+    };
     return (
-      <footer>
-        <div className="py-12 md:py-16" style={{ backgroundColor: "var(--color-primary-light, var(--color-primary, #b51144))", color: "rgba(255,255,255,0.95)" }}>
-          <div className="max-w-6xl mx-auto px-6">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-              {columns.map((col, ci) => (
-                <div key={ci}>
-                  <h3 className="font-bold mb-4 text-sm uppercase tracking-wide">
-                    <GenericEditableText sectionId={sectionId} field={`columns.${ci}.title`} value={col.title} tag="span" />
-                  </h3>
-                  <ul className="space-y-2">
-                    {col.links.map((l, li) => (
-                      <li key={li}>
-                        <a href={resolveDemoHref(l.href, tenantSlug, isAdmin)} className="text-sm opacity-90 hover:opacity-100">
-                          <GenericEditableText sectionId={sectionId} field={`columns.${ci}.links.${li}.label`} value={l.label} tag="span" />
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+      <footer className="cafe01-footer" data-template="cafe-01">
+        {/* Top wave decoration echoing hero */}
+        <div className="cafe01-footer__wave" aria-hidden="true" />
+
+        {/* Brand + newsletter row */}
+        <div className="cafe01-footer__hero">
+          <div className="cafe01-footer__hero-inner">
+            <div className="cafe01-footer__brand">
+              <div className="cafe01-footer__eyebrow">
+                <span className="cafe01-footer__eyebrow-line" aria-hidden="true" />
+                <span>Vlna kávy</span>
+              </div>
+              <h3 className="cafe01-footer__newsletter-title">
+                <GenericEditableText sectionId={sectionId} field="newsletterTitle" value={newsletterTitle} tag="span" />
+              </h3>
+              <p className="cafe01-footer__newsletter-sub">
+                <GenericEditableText sectionId={sectionId} field="newsletterSubtitle" value={newsletterSubtitle} tag="span" />
+              </p>
             </div>
+            <form className="cafe01-footer__newsletter" onSubmit={(e) => e.preventDefault()}>
+              <label className="sr-only" htmlFor="cafe01-newsletter-email">E-mail</label>
+              <input
+                id="cafe01-newsletter-email"
+                type="email"
+                placeholder={newsletterPlaceholder}
+                className="cafe01-footer__newsletter-input"
+                required
+              />
+              <button type="submit" className="cafe01-footer__newsletter-btn">
+                <span className="cafe01-footer__newsletter-btn-shine" aria-hidden="true" />
+                <GenericEditableText sectionId={sectionId} field="newsletterCta" value={newsletterCta} tag="span" />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12h14" />
+                  <path d="M13 6l6 6-6 6" />
+                </svg>
+              </button>
+            </form>
           </div>
         </div>
-        <div className="py-12" style={{ backgroundColor: "var(--color-primary, #6d1f37)", color: "rgba(255,255,255,0.95)" }}>
-          <div className="max-w-6xl mx-auto px-6">
+
+        {/* 6 columns */}
+        <div className="cafe01-footer__cols">
+          <div className="cafe01-footer__cols-inner">
+            {columns.map((col, ci) => (
+              <div key={ci} className="cafe01-footer__col">
+                <h4 className="cafe01-footer__col-title">
+                  <GenericEditableText sectionId={sectionId} field={`columns.${ci}.title`} value={col.title} tag="span" />
+                </h4>
+                <ul className="cafe01-footer__col-list">
+                  {col.links.map((l, li) => (
+                    <li key={li}>
+                      <a href={resolveDemoHref(l.href, tenantSlug, isAdmin)} className="cafe01-footer__link">
+                        <span className="cafe01-footer__link-dot" aria-hidden="true" />
+                        <GenericEditableText sectionId={sectionId} field={`columns.${ci}.links.${li}.label`} value={l.label} tag="span" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="cafe01-footer__bottom">
+          <div className="cafe01-footer__bottom-inner">
+            <div className="cafe01-footer__copy">
+              © {year}{" "}
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />,{" "}
+              <GenericEditableText sectionId={sectionId} field="copyrightLabel" value={copyrightLabel} tag="span" />
+            </div>
             {legalLinks.length > 0 && (
-              <ul className="md:flex gap-8 mb-8 text-sm">
+              <ul className="cafe01-footer__legal">
                 {legalLinks.map((l, i) => (
-                  <li key={i} className="mb-2 md:mb-0">
-                    <a href={l.href} className="hover:underline opacity-90">
+                  <li key={i}>
+                    <a href={l.href} className="cafe01-footer__legal-link">
                       <GenericEditableText sectionId={sectionId} field={`legalLinks.${i}.label`} value={l.label} tag="span" />
                     </a>
                   </li>
                 ))}
               </ul>
             )}
-            <div className="text-sm opacity-80 mb-6">
-              © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />, všechna práva vyhrazena
-            </div>
             {socials.length > 0 && (
-              <ul className="flex gap-5">
+              <ul className="cafe01-footer__socials">
                 {socials.map((s, i) => (
                   <li key={i}>
-                    <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="text-sm opacity-90 hover:opacity-100">
-                      {s.label}
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={s.label}
+                      className="cafe01-footer__social"
+                    >
+                      <SocialIcon name={s.label} />
                     </a>
                   </li>
                 ))}
               </ul>
             )}
+          </div>
+          <div className="cafe01-footer__credit">
+            <WeberoCredit />
           </div>
         </div>
       </footer>
@@ -13391,7 +13459,7 @@ function FooterDdd01({ content, sectionId }: {
 // ── hotel-01-footer ───────────────────────────────────────────────────────────
 function FooterHotel01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const c         = (content ?? {}) as Record<string, any>;
-  const siteName  = c.siteName  ?? "BOUTIQUE HOTEL";
+  const siteName  = c.siteName  ?? "GRAND HOTEL AURORA";
   const logoUrl   = c.logoUrl   ?? "";
   const tagline   = c.tagline   ?? "";
   const address   = c.address   ?? "";
@@ -13407,17 +13475,43 @@ function FooterHotel01({ content, sectionId }: { content: Record<string, unknown
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Poppins:wght@300;400;500&display=swap" />
-      <style>{`        .h01ft {
-          background: #2a2520;
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Poppins:wght@300;400;500&display=swap" />
+      <style>{`
+        .h01ft {
+          background: #14110e;
           color: rgba(255,255,255,0.75);
           font-family: 'Poppins', sans-serif;
-          padding: 64px clamp(20px,5vw,80px) 0;
+          padding: 0;
+          position: relative;
+        }
+        .h01ft-cta-strip {
+          background: linear-gradient(135deg, #a98763 0%, #c4a274 50%, #a98763 100%);
+          display: flex; align-items: center; justify-content: center; gap: 24px;
+          padding: 22px clamp(20px,5vw,80px);
+          flex-wrap: wrap;
+        }
+        .h01ft-cta-label {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-size: 17px; color: #fff;
+          letter-spacing: 0.02em;
+        }
+        .h01ft-cta-btn {
+          display: inline-flex; align-items: center; gap: 10px;
+          background: transparent; border: 1px solid rgba(255,255,255,.6);
+          color: #fff; font-family: 'Playfair Display', Georgia, serif;
+          font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+          padding: 11px 28px; text-decoration: none;
+          transition: background .3s, border-color .3s;
+        }
+        .h01ft-cta-btn:hover { background: rgba(255,255,255,.15); border-color: #fff; }
+
+        .h01ft-main {
+          padding: 72px clamp(20px,5vw,80px) 0;
         }
         .h01ft-grid {
           max-width: 1200px; margin: 0 auto;
-          display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 60px;
-          padding-bottom: 52px; border-bottom: 1px solid rgba(255,255,255,0.1);
+          display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px;
+          padding-bottom: 56px; border-bottom: 1px solid rgba(169,135,99,.15);
         }
         .h01ft-brand-logo {
           display: flex; align-items: center; gap: 10px;
@@ -13426,142 +13520,188 @@ function FooterHotel01({ content, sectionId }: { content: Record<string, unknown
         .h01ft-brand-logo img { height: 40px; width: auto; filter: brightness(0) invert(1); opacity: 0.9; }
         .h01ft-brand-name {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 15px; letter-spacing: 0.18em; color: #fff;
+          font-size: 16px; letter-spacing: 0.2em; color: #fff;
           text-transform: uppercase;
         }
         .h01ft-tagline {
-          font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.55);
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: 14px; color: rgba(212,176,136,.6);
           margin: 0 0 24px; line-height: 1.6; letter-spacing: 0.03em;
         }
         .h01ft-socials { display: flex; gap: 12px; }
         .h01ft-social {
-          width: 34px; height: 34px; border: 1px solid rgba(255,255,255,0.2);
+          width: 36px; height: 36px;
+          border: 1px solid rgba(169,135,99,.3);
           border-radius: 50%; display: flex; align-items: center; justify-content: center;
-          color: rgba(255,255,255,0.6); text-decoration: none;
-          transition: border-color 0.2s, color 0.2s;
+          color: rgba(212,176,136,.6); text-decoration: none;
+          transition: border-color 0.3s, color 0.3s, background 0.3s;
         }
-        .h01ft-social:hover { border-color: #a98763; color: #a98763; }
+        .h01ft-social:hover { border-color: #d4b088; color: #d4b088; background: rgba(169,135,99,.1); }
 
         .h01ft-col-title {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase;
-          color: #fff; font-weight: 400; margin: 0 0 20px;
+          font-style: italic; font-weight: 400;
+          font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+          color: #d4b088; margin: 0 0 22px;
         }
         .h01ft-col-title::after {
-          content: ''; display: block; width: 28px; height: 2px;
-          background: #a98763; margin-top: 10px;
+          content: ''; display: block; width: 24px; height: 1px;
+          background: rgba(169,135,99,.5); margin-top: 12px;
         }
-        .h01ft-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+        .h01ft-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
         .h01ft-links a {
-          font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.65);
-          text-decoration: none; letter-spacing: 0.04em; transition: color 0.2s;
+          font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.6);
+          text-decoration: none; letter-spacing: 0.04em;
+          transition: color 0.3s, padding-left 0.3s;
         }
-        .h01ft-links a:hover { color: #a98763; }
+        .h01ft-links a:hover { color: #d4b088; padding-left: 6px; }
 
-        .h01ft-contact { display: flex; flex-direction: column; gap: 12px; }
+        .h01ft-contact { display: flex; flex-direction: column; gap: 14px; }
         .h01ft-contact-item {
-          display: flex; gap: 10px; align-items: flex-start;
-          font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.65);
+          display: flex; gap: 12px; align-items: flex-start;
+          font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.6);
           line-height: 1.5;
         }
-        .h01ft-contact-item svg { flex-shrink: 0; margin-top: 2px; color: #a98763; }
-        .h01ft-contact-item a { color: rgba(255,255,255,0.65); text-decoration: none; }
-        .h01ft-contact-item a:hover { color: #a98763; }
+        .h01ft-contact-item svg { flex-shrink: 0; margin-top: 2px; color: rgba(212,176,136,.6); }
+        .h01ft-contact-item a { color: rgba(255,255,255,0.6); text-decoration: none; transition: color .3s; }
+        .h01ft-contact-item a:hover { color: #d4b088; }
+
+        .h01ft-hours-col { display: flex; flex-direction: column; gap: 12px; }
+        .h01ft-hours-item {
+          font-size: 13px; font-weight: 300; color: rgba(255,255,255,.55);
+          line-height: 1.5;
+        }
+        .h01ft-hours-label {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; color: rgba(212,176,136,.55);
+          font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+          display: block; margin-bottom: 2px;
+        }
 
         .h01ft-bottom {
           max-width: 1200px; margin: 0 auto;
           display: flex; align-items: center; justify-content: space-between;
-          padding: 20px 0; flex-wrap: wrap; gap: 8px;
-          font-size: 12px; color: rgba(255,255,255,0.35); font-weight: 300;
+          padding: 22px clamp(20px,5vw,80px) 22px 0; flex-wrap: wrap; gap: 8px;
+          font-size: 11px; color: rgba(255,255,255,0.3); font-weight: 300;
+          letter-spacing: 0.04em;
         }
-        .h01ft-bottom-accent { color: #a98763; }
+        .h01ft-webero {
+          color: rgba(255,255,255,.3); text-decoration: none; transition: color .3s;
+        }
+        .h01ft-webero:hover { color: rgba(212,176,136,.6); }
 
-        @media (max-width: 860px) {
+        @media (max-width: 900px) {
           .h01ft-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
         }
         @media (max-width: 540px) {
           .h01ft-grid { grid-template-columns: 1fr; }
+          .h01ft-cta-strip { flex-direction: column; text-align: center; gap: 14px; }
         }
       `}</style>
 
       <footer className="h01ft" data-template="hotel-01-footer">
-        <div className="h01ft-grid">
-          {/* Brand */}
-          <div>
-            <a href="#" className="h01ft-brand-logo">
-              {logoUrl
-                ? <img loading="lazy" src={logoUrl} alt={siteName} />
-                : <span className="h01ft-brand-name"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
-              }
-              {logoUrl && <span className="h01ft-brand-name"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>}
-            </a>
-            {tagline && <p className="h01ft-tagline"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></p>}
-            <div className="h01ft-socials">
-              {facebook && (
-                <a href={facebook} target="_blank" rel="noopener noreferrer" className="h01ft-social" aria-label="Facebook">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-                </a>
-              )}
-              {instagram && (
-                <a href={instagram} target="_blank" rel="noopener noreferrer" className="h01ft-social" aria-label="Instagram">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                </a>
-              )}
-            </div>
-          </div>
-
-          {/* Navigation */}
-          <div>
-            <p className="h01ft-col-title">Navigace</p>
-            <ul className="h01ft-links">
-              {links.map((l, i) => (
-                <li key={i}>
-                  <a href={l.href}>
-                    <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <p className="h01ft-col-title">Kontakt</p>
-            <div className="h01ft-contact">
-              {(address || city) && (
-                <div className="h01ft-contact-item">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                  <span>
-                    <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
-                    {city && <>{", "}<GenericEditableText sectionId={sectionId} field="city" value={city} tag="span" /></>}
-                  </span>
-                </div>
-              )}
-              {phone && (
-                <div className="h01ft-contact-item">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.7 16.94Z"/></svg>
-                  <a href={`tel:${phone.replace(/\s/g,"")}`}>
-                    <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-                  </a>
-                </div>
-              )}
-              {email && (
-                <div className="h01ft-contact-item">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                  <a href={`mailto:${email}`}>
-                    <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-                  </a>
-                </div>
-              )}
-            </div>
-          </div>
+        <div className="h01ft-cta-strip">
+          <span className="h01ft-cta-label">Rezervujte svůj pobyt v Grand Hotelu Aurora</span>
+          <a href="#kontakt" className="h01ft-cta-btn">Rezervovat →</a>
         </div>
 
-        <div className="h01ft-bottom">
-          <span>
-            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
-          </span>
-          <span>Vytvořeno s <span className="h01ft-bottom-accent">♥</span></span>
+        <div className="h01ft-main">
+          <div className="h01ft-grid">
+            <div>
+              <a href="#" className="h01ft-brand-logo">
+                {logoUrl
+                  ? <img loading="lazy" src={logoUrl} alt={siteName} />
+                  : <span className="h01ft-brand-name"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
+                }
+                {logoUrl && <span className="h01ft-brand-name"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>}
+              </a>
+              {tagline && <p className="h01ft-tagline"><GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" /></p>}
+              <div className="h01ft-socials">
+                {facebook && (
+                  <a href={facebook} target="_blank" rel="noopener noreferrer" className="h01ft-social" aria-label="Facebook">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                  </a>
+                )}
+                {instagram && (
+                  <a href={instagram} target="_blank" rel="noopener noreferrer" className="h01ft-social" aria-label="Instagram">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                  </a>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <p className="h01ft-col-title">Navigace</p>
+              <ul className="h01ft-links">
+                {links.map((l, i) => (
+                  <li key={i}>
+                    <a href={l.href}>
+                      <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <p className="h01ft-col-title">Kontakt</p>
+              <div className="h01ft-contact">
+                {(address || city) && (
+                  <div className="h01ft-contact-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    <span>
+                      <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                      {city && <>{", "}<GenericEditableText sectionId={sectionId} field="city" value={city} tag="span" /></>}
+                    </span>
+                  </div>
+                )}
+                {phone && (
+                  <div className="h01ft-contact-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.24h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.7 16.94Z"/></svg>
+                    <a href={`tel:${phone.replace(/\s/g,"")}`}>
+                      <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                    </a>
+                  </div>
+                )}
+                {email && (
+                  <div className="h01ft-contact-item">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <a href={`mailto:${email}`}>
+                      <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                    </a>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div>
+              <p className="h01ft-col-title">Otevírací doba</p>
+              <div className="h01ft-hours-col">
+                <div className="h01ft-hours-item">
+                  <span className="h01ft-hours-label">Recepce</span>
+                  24 hodin denně
+                </div>
+                <div className="h01ft-hours-item">
+                  <span className="h01ft-hours-label">Bistro Aurora</span>
+                  7:00 – 23:00
+                </div>
+                <div className="h01ft-hours-item">
+                  <span className="h01ft-hours-label">Vinný sklep</span>
+                  16:00 – 24:00
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="h01ft-bottom">
+            <span>
+              <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+            </span>
+            <a className="h01ft-webero" href="https://webero.cz" target="_blank" rel="noopener noreferrer">
+              Web vytvořil Webero.cz
+            </a>
+          </div>
         </div>
       </footer>
     </>
@@ -13839,8 +13979,12 @@ function FooterChalet01({ content, sectionId }: { content: Record<string, unknow
 function FooterHotel02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const c              = (content ?? {}) as Record<string, any>;
   const siteName       = c.siteName       ?? "RELAX HOTEL";
+  const siteMark       = c.siteMark       ?? "&";
   const logoUrl        = c.logoUrl        ?? "";
   const tagline        = c.tagline        ?? "";
+  const ctaTitle       = c.ctaTitle       ?? "Připraveni na odpočinek?";
+  const ctaText        = c.ctaText        ?? "Rezervovat pobyt";
+  const ctaHref        = c.ctaHref        ?? "#kontakt";
   const address        = c.address        ?? "";
   const city           = c.city           ?? "";
   const phone          = c.phone          ?? "";
@@ -13857,8 +14001,42 @@ function FooterHotel02({ content, sectionId }: { content: Record<string, unknown
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@300;400;500;600&display=swap" />
-      <style>{`        .h02ft {
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;500;600&display=swap" />
+      <style>{`
+        /* CTA strip */
+        .h02ft-cta {
+          background: #0f1622; position: relative; overflow: hidden;
+          padding: clamp(48px,6vw,72px) clamp(20px,5vw,80px);
+          text-align: center;
+        }
+        .h02ft-cta::before {
+          content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+          width: 60px; height: 1px; background: #96A1AC;
+        }
+        .h02ft-cta-title {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(26px,3vw,40px); font-weight: 300; font-style: italic;
+          color: #fff; margin: 0 0 28px; line-height: 1.2;
+        }
+        .h02ft-cta-btn {
+          display: inline-block; padding: 14px 44px;
+          font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500;
+          letter-spacing: 2.5px; text-transform: uppercase;
+          color: #fff; background: transparent; border: 1px solid #96A1AC;
+          text-decoration: none; position: relative; overflow: hidden;
+          transition: color 0.35s ease;
+        }
+        .h02ft-cta-btn::before {
+          content: ''; position: absolute; inset: 0;
+          background: #96A1AC; transform: translateY(100%);
+          transition: transform 0.35s ease; z-index: 0;
+        }
+        .h02ft-cta-btn:hover { color: #1a2332; }
+        .h02ft-cta-btn:hover::before { transform: translateY(0); }
+        .h02ft-cta-btn span { position: relative; z-index: 1; }
+
+        /* Footer body */
+        .h02ft {
           background: #1a2332;
           color: rgba(255,255,255,0.65);
           font-family: 'Montserrat', sans-serif;
@@ -13869,7 +14047,6 @@ function FooterHotel02({ content, sectionId }: { content: Record<string, unknown
           display: grid; grid-template-columns: 1.8fr 1fr 1fr 1fr; gap: 52px;
           padding-bottom: 52px; border-bottom: 1px solid rgba(255,255,255,0.08);
         }
-        /* Brand col */
         .h02ft-logo-wrap {
           display: flex; align-items: center; gap: 0;
           text-decoration: none; margin-bottom: 20px;
@@ -13883,69 +14060,84 @@ function FooterHotel02({ content, sectionId }: { content: Record<string, unknown
           font-size: 14px; font-weight: 600; letter-spacing: 0.22em;
           color: #fff; text-transform: uppercase;
         }
+        .h02ft-logo-mark {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: 20px; font-weight: 300; font-style: italic;
+          color: #96A1AC; margin: 0 6px;
+        }
         .h02ft-tagline {
-          font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.45);
-          margin: 0 0 28px; line-height: 1.65; max-width: 260px;
+          font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.4);
+          margin: 0 0 28px; line-height: 1.7; max-width: 260px;
         }
         .h02ft-socials { display: flex; gap: 10px; }
         .h02ft-social {
-          width: 34px; height: 34px;
-          border: 1px solid rgba(150,161,172,0.35);
+          width: 36px; height: 36px;
+          border: 1px solid rgba(150,161,172,0.25);
           display: flex; align-items: center; justify-content: center;
-          color: rgba(255,255,255,0.5); text-decoration: none;
-          transition: border-color 0.2s, color 0.2s;
+          color: rgba(255,255,255,0.45); text-decoration: none;
+          transition: border-color 0.3s, color 0.3s, background 0.3s;
         }
-        .h02ft-social:hover { border-color: #96A1AC; color: #96A1AC; }
+        .h02ft-social:hover { border-color: #96A1AC; color: #fff; background: rgba(150,161,172,0.1); }
 
-        /* Column headings */
         .h02ft-col-title {
           font-family: 'Montserrat', sans-serif;
           font-size: 10px; font-weight: 600; letter-spacing: 0.24em;
           text-transform: uppercase; color: #96A1AC;
           margin: 0 0 22px; display: block;
         }
-
-        /* Nav links */
         .h02ft-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 11px; }
         .h02ft-links a {
-          font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.6);
+          font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.55);
           text-decoration: none; transition: color 0.2s;
         }
         .h02ft-links a:hover { color: #fff; }
 
-        /* Contact */
         .h02ft-contact { display: flex; flex-direction: column; gap: 14px; }
         .h02ft-ci {
           display: flex; gap: 11px; align-items: flex-start;
-          font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.6); line-height: 1.5;
+          font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.55); line-height: 1.5;
         }
-        .h02ft-ci svg { flex-shrink: 0; margin-top: 1px; color: #96A1AC; }
-        .h02ft-ci a { color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+        .h02ft-ci svg { flex-shrink: 0; margin-top: 2px; color: #96A1AC; }
+        .h02ft-ci a { color: rgba(255,255,255,0.55); text-decoration: none; transition: color 0.2s; }
         .h02ft-ci a:hover { color: #96A1AC; }
 
-        /* Bottom bar */
         .h02ft-bottom {
           max-width: 1260px; margin: 0 auto;
           display: flex; align-items: center; justify-content: space-between;
           flex-wrap: wrap; gap: 10px;
-          padding: 20px 0;
-          font-size: 11px; color: rgba(255,255,255,0.25); font-weight: 300;
+          padding: 22px 0;
+          font-size: 11px; color: rgba(255,255,255,0.45); font-weight: 300;
         }
+        .h02ft-bottom a {
+          color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s;
+        }
+        .h02ft-bottom a:hover { color: rgba(255,255,255,0.75); }
         .h02ft-bottom-links { display: flex; gap: 20px; flex-wrap: wrap; }
-        .h02ft-bottom-links a {
-          color: rgba(255,255,255,0.25); text-decoration: none; transition: color 0.2s;
-          font-size: 11px;
+        .h02ft-bottom-links a { font-size: 11px; }
+        .h02ft-credit {
+          font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px;
         }
-        .h02ft-bottom-links a:hover { color: rgba(255,255,255,0.6); }
+        .h02ft-credit a { color: rgba(255,255,255,0.3); }
+        .h02ft-credit a:hover { color: rgba(255,255,255,0.6); }
 
         @media (max-width: 1024px) {
           .h02ft-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
         }
         @media (max-width: 560px) {
           .h02ft-grid { grid-template-columns: 1fr; gap: 36px; }
-          .h02ft-bottom { flex-direction: column; align-items: flex-start; }
+          .h02ft-bottom { flex-direction: column; align-items: flex-start; gap: 8px; }
         }
       `}</style>
+
+      {/* CTA strip above footer */}
+      <div className="h02ft-cta">
+        <h3 className="h02ft-cta-title">
+          <GenericEditableText sectionId={sectionId} field="ctaTitle" value={ctaTitle} tag="span" />
+        </h3>
+        <a href={ctaHref} className="h02ft-cta-btn">
+          <span><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></span>
+        </a>
+      </div>
 
       <footer className="h02ft" data-template="hotel-02-footer">
         <div className="h02ft-grid">
@@ -13954,7 +14146,10 @@ function FooterHotel02({ content, sectionId }: { content: Record<string, unknown
             <a href="#" className="h02ft-logo-wrap">
               {logoUrl
                 ? <img loading="lazy" src={logoUrl} alt={siteName} />
-                : <span className="h02ft-logo-text"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
+                : <span className="h02ft-logo-text">
+                    <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+                    {siteMark && <span className="h02ft-logo-mark">{siteMark}</span>}
+                  </span>
               }
             </a>
             {tagline && (
@@ -14048,6 +14243,9 @@ function FooterHotel02({ content, sectionId }: { content: Record<string, unknown
               <a key={i} href={l.href}>{l.label}</a>
             ))}
           </div>
+          <span className="h02ft-credit">
+            Web vytvořil <a href="https://webero.cz" target="_blank" rel="noopener noreferrer">Webero.cz</a>
+          </span>
         </div>
       </footer>
     </>

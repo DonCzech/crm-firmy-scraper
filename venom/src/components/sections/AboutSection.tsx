@@ -516,50 +516,117 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
   const highlight = String(content.highlight ?? "");
   const values = (content.values as Array<{ icon: string; title: string; text: string }>) ?? [];
 
-  // cafe-loyalty-tilted — image left (tilted) + display heading right
+  // cafe-loyalty-tilted — luxe Costa loyalty card upgrade
   if (variant === "cafe-loyalty-tilted") {
+    const cc = content as Record<string, unknown>;
+    const eyebrow = String(cc.eyebrow ?? "Věrnostní klub");
+    const highlightHref = String(cc.highlightHref ?? "#");
+    const perks = (cc.perks as Array<{ text: string }>) ?? [
+      { text: "Sbírejte hvězdy s každou kávou" },
+      { text: "10. káva zdarma jako poděkování" },
+      { text: "Narozeninový drink v dárku" },
+    ];
     return (
-      <section className="py-12 px-6" style={{ backgroundColor: "var(--color-bg, #fff)" }}>
-        <div className="max-w-5xl mx-auto md:flex md:gap-10 md:items-center">
-          {image && (
-            <GenericEditableImage
-              sectionId={sectionId}
-              field="image"
-              src={image}
-              alt={title}
-              className="md:w-1/2 mb-10 md:mb-0 flex justify-center"
-            >
-              <Image
-                src={image}
-                alt={title}
-                width={360}
-                height={225}
-                className="-rotate-6"
-                unoptimized={shouldSkipNextImageOptimization(image)}
-              />
-            </GenericEditableImage>
-          )}
-          <div className="md:w-1/2">
-            <h2
-              className="text-4xl md:text-5xl leading-tight"
-              style={{ color: "var(--color-primary, #6d1f37)", fontFamily: "var(--font-heading)" }}
-            >
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-            {body && (
-              <p className="text-xl my-6" style={{ color: "var(--color-primary, #6d1f37)", fontFamily: "var(--font-heading)" }}>
-                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-              </p>
-            )}
-            {highlight && (
-              <a
-                href="#"
-                className="inline-block px-6 py-3 rounded-full font-semibold text-white"
-                style={{ backgroundColor: "var(--color-primary, #6d1f37)" }}
-              >
-                <GenericEditableText sectionId={sectionId} field="highlight" value={highlight} tag="span" />
-              </a>
-            )}
+      <section
+        className="cafe01-loyalty relative overflow-hidden"
+        data-template="cafe-01"
+      >
+        <div className="cafe01-loyalty__decor cafe01-loyalty__decor--tl" aria-hidden="true">
+          <svg viewBox="0 0 200 200" width="220" height="220">
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#b51144" strokeWidth="1" opacity="0.14" />
+            <circle cx="100" cy="100" r="52" fill="none" stroke="#b51144" strokeWidth="1" opacity="0.18" />
+            <circle cx="100" cy="100" r="34" fill="none" stroke="#b51144" strokeWidth="1" opacity="0.22" />
+          </svg>
+        </div>
+        <div className="cafe01-loyalty__container">
+          <div className="cafe01-loyalty__grid">
+            {/* LEFT — tilted image with burgundy card behind */}
+            <div className="cafe01-loyalty__visual">
+              <div className="cafe01-loyalty__backing" aria-hidden="true" />
+              <div className="cafe01-loyalty__stars" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="#ffd1b8">
+                  <path d="M12 2l2.7 6.9 7.3.6-5.6 4.9 1.8 7.2L12 17.8 5.8 21.6l1.8-7.2L2 9.5l7.3-.6L12 2z" />
+                </svg>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#ffd1b8" opacity="0.7">
+                  <path d="M12 2l2.7 6.9 7.3.6-5.6 4.9 1.8 7.2L12 17.8 5.8 21.6l1.8-7.2L2 9.5l7.3-.6L12 2z" />
+                </svg>
+              </div>
+              {image ? (
+                <GenericEditableImage
+                  sectionId={sectionId}
+                  field="image"
+                  src={image}
+                  alt={title}
+                  className="cafe01-loyalty__img-wrap"
+                >
+                  <Image
+                    src={image}
+                    alt={title}
+                    width={520}
+                    height={340}
+                    className="cafe01-loyalty__img"
+                    unoptimized={shouldSkipNextImageOptimization(image)}
+                  />
+                </GenericEditableImage>
+              ) : (
+                <GenericEditableImage
+                  sectionId={sectionId}
+                  field="image"
+                  src=""
+                  alt={title}
+                  className="cafe01-loyalty__img-wrap cafe01-loyalty__img-wrap--empty"
+                >
+                  <div className="cafe01-loyalty__img-fallback">Klikni pro upload</div>
+                </GenericEditableImage>
+              )}
+              <div className="cafe01-loyalty__badge" aria-hidden="true">
+                <span className="cafe01-loyalty__badge-dot" />
+                <span>NOVÉ</span>
+              </div>
+            </div>
+
+            {/* RIGHT — content */}
+            <div className="cafe01-loyalty__content">
+              <div className="cafe01-loyalty__eyebrow">
+                <span className="cafe01-loyalty__eyebrow-line" aria-hidden="true" />
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </div>
+              <h2 className="cafe01-loyalty__title">
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+              {body && (
+                <p className="cafe01-loyalty__body">
+                  <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+                </p>
+              )}
+              {perks.length > 0 && (
+                <ul className="cafe01-loyalty__perks">
+                  {perks.map((p, i) => (
+                    <li key={i} className="cafe01-loyalty__perk">
+                      <span className="cafe01-loyalty__perk-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M5 12l5 5L20 7" />
+                        </svg>
+                      </span>
+                      <GenericEditableText sectionId={sectionId} field={`perks.${i}.text`} value={p.text} tag="span" />
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {highlight && (
+                <a
+                  href={tenantSlug && highlightHref.startsWith("/") ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${highlightHref}` : highlightHref}
+                  className="cafe01-loyalty__cta"
+                >
+                  <span className="cafe01-loyalty__cta-shine" aria-hidden="true" />
+                  <GenericEditableText sectionId={sectionId} field="highlight" value={highlight} tag="span" />
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" className="cafe01-loyalty__cta-arrow" aria-hidden="true">
+                    <path d="M5 12h14" />
+                    <path d="M13 6l6 6-6 6" />
+                  </svg>
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -11335,98 +11402,334 @@ function AboutDdd01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
 }
 
 // ── hotel-01-about ────────────────────────────────────────────────────────────
-function AboutHotel01({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+function AboutHotel01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const c        = (content ?? {}) as Record<string, any>;
-  const eyebrow  = c.eyebrow  ?? "O hotelu";
-  const title    = c.title    ?? "Elegance Art Nouveau v centru Prahy";
+  const showHeader = c.showHeader !== false;
+  const eyebrow  = c.eyebrow  ?? "O hotelu · Anno 1908";
+  const title    = c.title    ?? "Tradice a moderní komfort pod jednou střechou";
+  const titleAccent = c.titleAccent ?? "komfort";
   const body     = c.body     ?? "";
   const body2    = c.body2    ?? "";
-  const cta1Text = c.cta1Text ?? "O hotelu";
-  const cta1Href = c.cta1Href ?? "#o-hotelu";
-  const cta2Text = c.cta2Text ?? "Naše pokoje";
-  const cta2Href = c.cta2Href ?? "#pokoje";
+  const signature = c.signature ?? "Rodina Novotných · majitelé Grand Hotelu Aurora";
+  const cta1Text = c.cta1Text ?? "Náš příběh";
+  const cta1Href = c.cta1Href ?? "/onas";
+  const cta2Text = c.cta2Text ?? "Prohlédnout pokoje";
+  const cta2Href = c.cta2Href ?? "/pokoje";
   const imageUrl = c.imageUrl ?? "";
   const imageAlt = c.imageAlt ?? "";
+  const imageCaption = c.imageCaption ?? "Grand Lobby · restaurováno 2019";
+  const stats: { value: string; label: string }[] = Array.isArray(c.stats) && c.stats.length > 0
+    ? c.stats
+    : [
+        { value: "1908",  label: "založeno" },
+        { value: "94",    label: "pokojů & suit" },
+        { value: "24/7",  label: "concierge servis" },
+        { value: "4,9★",  label: "hodnocení hostů" },
+      ];
 
-  const resolve = (href: string) => (isAdmin ? "#" : href ?? "#");
+  const href = (h: string) => resolveDemoHref(h ?? "#", tenantSlug, isAdmin);
+
+  const renderTitle = () => {
+    if (!titleAccent || !title.includes(titleAccent)) {
+      return <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />;
+    }
+    const parts = title.split(titleAccent);
+    return (
+      <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span">
+        <>{parts[0]}<em className="h01about-accent">{titleAccent}</em>{parts.slice(1).join(titleAccent)}</>
+      </GenericEditableText>
+    );
+  };
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Poppins:wght@300;400;500&display=swap" />
-      <style>{`        .h01about {
-          background: #fff;
-          padding: clamp(60px,8vw,110px) clamp(20px,5vw,80px);
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Poppins:wght@300;400;500&display=swap" />
+      <style>{`
+        .h01about {
+          background: #f9f6f2;
+          padding: clamp(80px,10vw,140px) clamp(20px,5vw,80px);
           font-family: 'Poppins', sans-serif;
+          position: relative; overflow: hidden;
+        }
+        .h01about::before {
+          content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+          width: min(1400px, 96%); height: 1px;
+          background: linear-gradient(90deg, transparent 0%, rgba(169,135,99,.35) 20%, rgba(169,135,99,.55) 50%, rgba(169,135,99,.35) 80%, transparent 100%);
+          pointer-events: none;
+        }
+        .h01about-ornament {
+          position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
+          width: 84px; height: 26px; color: #a98763; opacity: .5;
         }
         .h01about-inner {
-          max-width: 1200px; margin: 0 auto;
-          display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+          max-width: 1240px; margin: 0 auto;
+          display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(48px, 6vw, 96px); align-items: center;
         }
-        .h01about-eyebrow {
-          font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
-          color: #a98763; margin: 0 0 18px;
-          font-family: 'Poppins', sans-serif; font-weight: 500;
-        }
-        .h01about-title {
-          font-family: 'Playfair Display', Georgia, serif;
-          font-size: clamp(26px, 3vw, 40px); font-weight: 400; color: #3e3e3e;
-          line-height: 1.25; margin: 0 0 28px;
-        }
-        .h01about-body {
-          font-size: 15px; line-height: 1.85; color: #5D5D5D;
-          font-weight: 300; margin: 0 0 18px;
-        }
-        .h01about-ctas {
-          display: flex; flex-wrap: wrap; gap: 14px; margin-top: 36px;
-        }
-        .h01about-cta1 {
-          display: inline-flex; align-items: center; justify-content: center;
-          border: 1.5px solid #a98763; color: #a98763;
-          font-family: 'Playfair Display', Georgia, serif;
-          font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-          padding: 12px 32px; text-decoration: none; transition: background 0.2s, color 0.2s;
-        }
-        .h01about-cta1:hover { background: #a98763; color: #fff; }
-        .h01about-cta2 {
-          display: inline-flex; align-items: center; justify-content: center;
-          background: #879B32; color: #fff;
-          font-family: 'Playfair Display', Georgia, serif;
-          font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-          padding: 12px 32px; text-decoration: none; transition: background 0.2s;
-        }
-        .h01about-cta2:hover { background: #6a7a28; }
+
+        /* IMAGE */
+        .h01about-img-col { position: relative; }
         .h01about-img-wrap {
-          position: relative; width: 100%; aspect-ratio: 4/5; overflow: hidden;
+          position: relative; width: 100%; aspect-ratio: 4/5;
+          overflow: hidden;
+        }
+        .h01about-img-svg {
+          position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
+        }
+        .h01about-img-inner {
+          position: absolute; inset: 0; overflow: hidden;
+          clip-path: url(#h01aboutClip);
+          -webkit-clip-path: url(#h01aboutClip);
         }
         .h01about-img {
           width: 100%; height: 100%; object-fit: cover; display: block;
-          transition: transform 0.6s ease;
+          transition: transform 1.2s cubic-bezier(.22,.68,0,1.1), filter .9s ease;
+          filter: sepia(.08) contrast(1.02) saturate(1.05);
         }
-        .h01about-img-wrap:hover .h01about-img { transform: scale(1.03); }
-        .h01about-text { position: relative; padding-left: 28px; }
-        .h01about-text::before {
-          content: ''; position: absolute; left: 0; top: 8px;
-          width: 3px; height: 56px; background: #a98763;
+        .h01about-img-wrap:hover .h01about-img { transform: scale(1.06); filter: sepia(.02) contrast(1.05) saturate(1.1); }
+
+        /* corner brackets */
+        .h01about-corner {
+          position: absolute; width: 34px; height: 34px; z-index: 3; pointer-events: none;
+          opacity: 0; transition: opacity .5s cubic-bezier(.22,.68,0,1.1), transform .5s cubic-bezier(.22,.68,0,1.1);
         }
-        @media (max-width: 860px) {
-          .h01about-inner { grid-template-columns: 1fr; gap: 40px; }
-          .h01about-text { padding-left: 0; }
-          .h01about-text::before { display: none; }
-          .h01about-img-wrap { aspect-ratio: 16/9; }
+        .h01about-img-wrap:hover .h01about-corner { opacity: 1; }
+        .h01about-corner svg { width: 100%; height: 100%; color: #a98763; }
+        .h01about-corner.tl { top: -8px; left: -8px; transform: translate(4px,4px); }
+        .h01about-corner.tr { top: -8px; right: -8px; transform: translate(-4px,4px) scaleX(-1); }
+        .h01about-corner.bl { bottom: -8px; left: -8px; transform: translate(4px,-4px) scaleY(-1); }
+        .h01about-corner.br { bottom: -8px; right: -8px; transform: translate(-4px,-4px) scale(-1,-1); }
+        .h01about-img-wrap:hover .h01about-corner.tl { transform: translate(0,0); }
+        .h01about-img-wrap:hover .h01about-corner.tr { transform: translate(0,0) scaleX(-1); }
+        .h01about-img-wrap:hover .h01about-corner.bl { transform: translate(0,0) scaleY(-1); }
+        .h01about-img-wrap:hover .h01about-corner.br { transform: translate(0,0) scale(-1,-1); }
+
+        /* seal / badge */
+        .h01about-seal {
+          position: absolute; bottom: -28px; right: -28px; z-index: 4;
+          width: 128px; height: 128px; border-radius: 50%;
+          background: #1a1714; color: #d4b088;
+          display: flex; flex-direction: column; align-items: center; justify-content: center;
+          box-shadow: 0 12px 40px -12px rgba(0,0,0,.35);
+          font-family: 'Playfair Display', Georgia, serif;
+        }
+        .h01about-seal::before {
+          content: ''; position: absolute; inset: 6px; border: 1px solid rgba(212,176,136,.35); border-radius: 50%;
+        }
+        .h01about-seal b {
+          font-style: italic; font-size: 34px; font-weight: 500; line-height: 1; margin-top: 4px;
+        }
+        .h01about-seal em {
+          font-style: normal; font-family: 'Poppins', sans-serif;
+          font-size: 8.5px; letter-spacing: 0.28em; text-transform: uppercase;
+          color: rgba(212,176,136,.7); margin-top: 8px;
+        }
+        .h01about-seal hr {
+          width: 22px; border: none; border-top: 1px solid rgba(212,176,136,.4);
+          margin: 6px 0 4px;
+        }
+
+        /* image caption */
+        .h01about-caption {
+          margin-top: 26px; display: flex; align-items: center; gap: 14px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-size: 12.5px; letter-spacing: 0.18em;
+          color: #a98763; text-transform: uppercase;
+        }
+        .h01about-caption::before {
+          content: ''; width: 32px; height: 1px; background: #a98763; flex-shrink: 0;
+        }
+
+        /* TEXT */
+        .h01about-text { padding-right: 8px; }
+        .h01about-eyebrow {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: 13px; letter-spacing: 0.28em; text-transform: uppercase;
+          color: #a98763; margin: 0 0 26px;
+          display: inline-flex; align-items: center; gap: 18px;
+        }
+        .h01about-eyebrow::before {
+          content: ''; display: inline-block; width: 40px; height: 1px;
+          background: #a98763;
+        }
+        .h01about-title {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: clamp(32px, 3.8vw, 52px); font-weight: 400;
+          color: #3e3e3e;
+          line-height: 1.15; margin: 0 0 24px;
+          letter-spacing: 0.005em;
+        }
+        .h01about-accent {
+          font-style: italic; font-weight: 500; color: #a98763;
+        }
+        .h01about-rule {
+          width: 60px; height: 1px; background: #a98763; margin: 0 0 26px;
+        }
+        .h01about-body {
+          font-size: 15.5px; line-height: 1.9; color: #5D5D5D;
+          font-weight: 300; margin: 0 0 18px; max-width: 560px;
+        }
+        .h01about-body strong, .h01about-body b { color: #3e3e3e; font-weight: 500; }
+
+        .h01about-signature {
+          margin-top: 26px; padding: 20px 0 24px; border-top: 1px solid rgba(169,135,99,.25);
+          display: flex; align-items: center; gap: 14px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-size: 13px;
+          color: #797979; letter-spacing: 0.02em;
+        }
+        .h01about-signature::before {
+          content: '◆'; color: #a98763; font-size: 10px; font-style: normal;
+        }
+
+        /* STATS */
+        .h01about-stats {
+          display: grid; grid-template-columns: repeat(4, 1fr);
+          gap: 20px; margin: 36px 0 40px;
+          padding: 28px 0; border-top: 1px solid rgba(169,135,99,.25);
+          border-bottom: 1px solid rgba(169,135,99,.25);
+        }
+        .h01about-stat { text-align: left; position: relative; }
+        .h01about-stat + .h01about-stat { padding-left: 18px; }
+        .h01about-stat + .h01about-stat::before {
+          content: ''; position: absolute; left: 0; top: 10%; bottom: 10%;
+          width: 1px; background: rgba(169,135,99,.2);
+        }
+        .h01about-stat-value {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: clamp(24px, 2.4vw, 32px); font-weight: 400; font-style: italic;
+          color: #a98763; line-height: 1; margin: 0 0 8px;
+        }
+        .h01about-stat-label {
+          font-family: 'Poppins', sans-serif;
+          font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase;
+          color: #797979; font-weight: 400; line-height: 1.4;
+        }
+
+        /* CTAs */
+        .h01about-ctas {
+          display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px;
+        }
+        .h01about-cta1 {
+          position: relative; overflow: hidden;
+          display: inline-flex; align-items: center; gap: 10px;
+          background: #1a1714; color: #fff;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
+          padding: 15px 34px; text-decoration: none;
+          border: 1px solid #1a1714;
+          transition: color .35s, border-color .35s;
+        }
+        .h01about-cta1::before {
+          content: ''; position: absolute; inset: 0;
+          background: linear-gradient(135deg,#a98763 0%,#c4a274 100%);
+          transform: translateY(101%); transition: transform .55s cubic-bezier(.22,.68,0,1.1);
+          z-index: 0;
+        }
+        .h01about-cta1:hover { border-color: #a98763; }
+        .h01about-cta1:hover::before { transform: translateY(0); }
+        .h01about-cta1 > * { position: relative; z-index: 1; }
+        .h01about-cta1 .arrow { transition: transform .35s cubic-bezier(.22,.68,0,1.1); }
+        .h01about-cta1:hover .arrow { transform: translateX(6px); }
+
+        .h01about-cta2 {
+          position: relative; overflow: hidden;
+          display: inline-flex; align-items: center; gap: 10px;
+          background: transparent; color: #3e3e3e;
+          border: 1px solid #a98763;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase;
+          padding: 15px 34px; text-decoration: none;
+          transition: color .35s, border-color .35s;
+        }
+        .h01about-cta2::before {
+          content: ''; position: absolute; inset: 0;
+          background: #1a1714;
+          transform: translateY(101%); transition: transform .55s cubic-bezier(.22,.68,0,1.1);
+          z-index: 0;
+        }
+        .h01about-cta2:hover { color: #fff; border-color: #1a1714; }
+        .h01about-cta2:hover::before { transform: translateY(0); }
+        .h01about-cta2 > * { position: relative; z-index: 1; }
+
+        @media (max-width: 900px) {
+          .h01about-inner { grid-template-columns: 1fr; gap: 60px; }
+          .h01about-img-wrap { aspect-ratio: 4/3; }
+          .h01about-text { padding-right: 0; }
+          .h01about-stats { grid-template-columns: repeat(2, 1fr); }
+          .h01about-seal { width: 92px; height: 92px; bottom: -18px; right: -18px; }
+          .h01about-seal b { font-size: 24px; }
+          .h01about-seal em { font-size: 7px; }
+        }
+        @media (max-width: 500px) {
+          .h01about-ornament { width: 60px; }
+          .h01about-eyebrow { font-size: 11px; letter-spacing: 0.2em; gap: 12px; }
+          .h01about-eyebrow::before { width: 24px; }
+          .h01about-stats { grid-template-columns: 1fr 1fr; padding: 22px 0; gap: 16px; }
+          .h01about-stat + .h01about-stat::before { display: none; }
+          .h01about-stat + .h01about-stat { padding-left: 0; }
+          .h01about-cta1, .h01about-cta2 { padding: 14px 26px; font-size: 11px; letter-spacing: 0.2em; }
         }
       `}</style>
 
       <section className="h01about" id="o-hotelu" data-template="hotel-01-about">
+        <svg className="h01about-ornament" viewBox="0 0 84 26" fill="none" aria-hidden="true">
+          <path d="M2 13 Q 20 2, 42 13 T 82 13" stroke="currentColor" strokeWidth="0.7" fill="none"/>
+          <circle cx="42" cy="13" r="3" stroke="currentColor" strokeWidth="0.7" fill="none"/>
+          <line x1="42" y1="4" x2="42" y2="22" stroke="currentColor" strokeWidth="0.5" opacity="0.6"/>
+        </svg>
+
         <div className="h01about-inner">
+          <div className="h01about-img-col">
+            <div className="h01about-img-wrap">
+              <svg className="h01about-img-svg" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                  <clipPath id="h01aboutClip" clipPathUnits="objectBoundingBox">
+                    <path d="M 0.5 0 Q 0.75 0, 0.9 0.05 Q 1 0.15, 1 0.5 Q 1 0.85, 0.9 0.95 Q 0.75 1, 0.5 1 Q 0.25 1, 0.1 0.95 Q 0 0.85, 0 0.5 Q 0 0.15, 0.1 0.05 Q 0.25 0, 0.5 0 Z" />
+                  </clipPath>
+                </defs>
+              </svg>
+              <div className="h01about-img-inner">
+                <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl || "/placeholder.jpg"} alt={imageAlt} style={{ width: "100%", height: "100%" }}>
+                  <img src={imageUrl || "/placeholder.jpg"} alt={imageAlt} className="h01about-img" loading="lazy" />
+                </GenericEditableImage>
+              </div>
+              <div className="h01about-corner tl" aria-hidden="true">
+                <svg viewBox="0 0 34 34" fill="none"><path d="M2 12 L2 2 L12 2" stroke="currentColor" strokeWidth="1.2"/></svg>
+              </div>
+              <div className="h01about-corner tr" aria-hidden="true">
+                <svg viewBox="0 0 34 34" fill="none"><path d="M2 12 L2 2 L12 2" stroke="currentColor" strokeWidth="1.2"/></svg>
+              </div>
+              <div className="h01about-corner bl" aria-hidden="true">
+                <svg viewBox="0 0 34 34" fill="none"><path d="M2 12 L2 2 L12 2" stroke="currentColor" strokeWidth="1.2"/></svg>
+              </div>
+              <div className="h01about-corner br" aria-hidden="true">
+                <svg viewBox="0 0 34 34" fill="none"><path d="M2 12 L2 2 L12 2" stroke="currentColor" strokeWidth="1.2"/></svg>
+              </div>
+              <div className="h01about-seal" aria-hidden="true">
+                <em>Anno</em>
+                <b>1908</b>
+                <hr/>
+                <em>Brno</em>
+              </div>
+            </div>
+            <div className="h01about-caption">
+              <GenericEditableText sectionId={sectionId} field="imageCaption" value={imageCaption} tag="span" />
+            </div>
+          </div>
+
           <div className="h01about-text">
-            <p className="h01about-eyebrow">
-              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-            </p>
-            <h2 className="h01about-title">
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
+            {showHeader && (
+              <>
+                <div className="h01about-eyebrow">
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </div>
+                <h2 className="h01about-title">{renderTitle()}</h2>
+                <div className="h01about-rule" aria-hidden="true" />
+              </>
+            )}
             <p className="h01about-body">
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
@@ -11435,20 +11738,35 @@ function AboutHotel01({ content, sectionId, isAdmin }: { content: Record<string,
                 <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
               </p>
             )}
+
+            <div className="h01about-stats">
+              {stats.slice(0, 4).map((s, i) => (
+                <div className="h01about-stat" key={i}>
+                  <div className="h01about-stat-value">
+                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value} tag="span" />
+                  </div>
+                  <div className="h01about-stat-label">
+                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
+                  </div>
+                </div>
+              ))}
+            </div>
+
             <div className="h01about-ctas">
-              <a href={resolve(cta1Href)} className="h01about-cta1">
+              <a href={href(cta1Href)} className="h01about-cta1">
                 <GenericEditableText sectionId={sectionId} field="cta1Text" value={cta1Text} tag="span" />
+                <span className="arrow" aria-hidden="true">→</span>
               </a>
-              <a href={resolve(cta2Href)} className="h01about-cta2">
+              <a href={href(cta2Href)} className="h01about-cta2">
                 <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
               </a>
             </div>
-          </div>
 
-          <div className="h01about-img-wrap">
-            <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl || "/placeholder.jpg"} alt={imageAlt} style={{ width: "100%", height: "100%" }}>
-              <img src={imageUrl || "/placeholder.jpg"} alt={imageAlt} className="h01about-img" loading="lazy" />
-            </GenericEditableImage>
+            {signature && (
+              <div className="h01about-signature">
+                <GenericEditableText sectionId={sectionId} field="signature" value={signature} tag="span" />
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -11459,91 +11777,249 @@ function AboutHotel01({ content, sectionId, isAdmin }: { content: Record<string,
 // ── hotel-02-about ────────────────────────────────────────────────────────────
 function AboutHotel02({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const c       = (content ?? {}) as Record<string, any>;
-  const eyebrow = c.eyebrow ?? "O hotelu";
-  const title   = c.title   ?? "Vaše ideální místo pro relax i práci nedaleko přehrady";
+  const showHeader = c.showHeader !== false;
+  const eyebrow = c.eyebrow ?? "Vítejte v Relax Hotelu";
+  const title   = c.title   ?? "Místo, kde si každý host přijde na své";
   const body    = c.body    ?? "";
   const body2   = c.body2   ?? "";
+  const quote   = c.quote   ?? "Přijeďte za odpočinkem — o vše ostatní se postaráme my.";
+  const signature = c.signature ?? "Tým Relax Hotelu";
+  const ctaText = c.ctaText ?? "Poznat příběh hotelu";
+  const ctaHref = c.ctaHref ?? "#kontakt";
   const imageUrl = c.imageUrl ?? "";
+  const imageUrl2 = c.imageUrl2 ?? "";
   const imageAlt = c.imageAlt ?? "";
+  const imageAlt2 = c.imageAlt2 ?? "";
+  const stats: { value: string; label: string }[] = Array.isArray(c.stats) && c.stats.length > 0
+    ? c.stats
+    : [
+        { value: "58", label: "komfortních pokojů" },
+        { value: "24/7", label: "recepce & concierge" },
+        { value: "2015", label: "od otevření hotelu" },
+        { value: "4.9★", label: "spokojenost hostů" },
+      ];
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" />
       <style>{`        .h02ab {
+          position: relative;
           background: #fff;
-          padding: clamp(70px,9vw,120px) clamp(20px,5vw,80px);
+          padding: clamp(80px,10vw,140px) clamp(20px,5vw,80px);
           font-family: 'Montserrat', sans-serif;
-        }
-        .h02ab-inner {
-          max-width: 1240px; margin: 0 auto;
-          display: grid; grid-template-columns: 5fr 6fr; gap: clamp(48px,6vw,100px);
-          align-items: center;
-        }
-        /* Image side */
-        .h02ab-img-wrap {
-          position: relative; width: 100%; aspect-ratio: 4/5;
           overflow: hidden;
         }
+        .h02ab::before {
+          content: ""; position: absolute; top: 0; left: 0; right: 0;
+          height: 1px; background: linear-gradient(to right, transparent, rgba(150,161,172,0.35) 30%, rgba(150,161,172,0.35) 70%, transparent);
+        }
+        .h02ab-inner {
+          max-width: 1280px; margin: 0 auto;
+          display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(48px,7vw,110px);
+          align-items: center;
+        }
+
+        /* Image side — main + accent + brackets */
+        .h02ab-imgs {
+          position: relative; width: 100%;
+          aspect-ratio: 4/5;
+        }
+        .h02ab-img-wrap {
+          position: absolute; inset: 0;
+          overflow: hidden;
+        }
+        .h02ab-img-wrap::before,
+        .h02ab-img-wrap::after {
+          content: ""; position: absolute;
+          width: 32px; height: 32px;
+          border-color: rgba(255,255,255,0.9); border-style: solid; border-width: 0;
+          z-index: 3; opacity: 0;
+          transition: opacity 0.5s cubic-bezier(.22,.68,0,1) 0.1s, width 0.5s cubic-bezier(.22,.68,0,1), height 0.5s cubic-bezier(.22,.68,0,1);
+        }
         .h02ab-img-wrap::before {
-          content: ''; position: absolute;
-          inset: -18px -18px auto auto;
-          width: 45%; height: 45%;
-          border: 1.5px solid #96A1AC;
-          z-index: 0; pointer-events: none;
+          top: 18px; left: 18px; border-top-width: 1px; border-left-width: 1px;
         }
+        .h02ab-img-wrap::after {
+          bottom: 18px; right: 18px; border-bottom-width: 1px; border-right-width: 1px;
+        }
+        .h02ab-img-wrap:hover::before,
+        .h02ab-img-wrap:hover::after { opacity: 1; width: 48px; height: 48px; }
         .h02ab-img {
-          position: relative; z-index: 1;
           width: 100%; height: 100%; object-fit: cover; display: block;
-          transition: transform 0.65s ease;
+          transition: transform 0.9s cubic-bezier(.4,0,.2,1);
+          filter: saturate(0.98);
         }
-        .h02ab-img-wrap:hover .h02ab-img { transform: scale(1.04); }
+        .h02ab-img-wrap:hover .h02ab-img { transform: scale(1.06); }
+
+        .h02ab-accent {
+          position: absolute; right: -32px; bottom: -32px;
+          width: 42%; aspect-ratio: 1/1;
+          overflow: hidden; z-index: 2;
+          box-shadow: -20px -20px 50px -20px rgba(15,22,34,0.15);
+          border: 6px solid #fff;
+        }
+        .h02ab-accent img {
+          width: 100%; height: 100%; object-fit: cover;
+          transition: transform 0.9s cubic-bezier(.4,0,.2,1);
+        }
+        .h02ab-accent:hover img { transform: scale(1.08); }
+
+        .h02ab-frame {
+          position: absolute; inset: -24px auto auto -24px;
+          width: 45%; height: 45%;
+          border: 1px solid #96A1AC;
+          pointer-events: none; z-index: 0;
+        }
+
         /* Text side */
+        .h02ab-text { position: relative; }
+        .h02ab-ornament {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: 68px; line-height: 1;
+          color: #96A1AC; opacity: 0.35;
+          position: absolute; top: -28px; left: -18px;
+          pointer-events: none;
+        }
         .h02ab-eyebrow {
+          position: relative;
           font-family: 'Montserrat', sans-serif;
-          font-size: 10px; font-weight: 500; letter-spacing: 0.28em;
-          text-transform: uppercase; color: #96A1AC;
-          margin: 0 0 20px; display: block;
+          font-size: 10px; font-weight: 600; letter-spacing: 0.32em;
+          text-transform: uppercase; color: #5B7A8E;
+          margin: 0 0 22px; display: inline-flex; align-items: center; gap: 14px;
+        }
+        .h02ab-eyebrow::before {
+          content: ""; width: 34px; height: 1px; background: #5B7A8E;
         }
         .h02ab-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(28px, 3.2vw, 46px);
-          font-weight: 300; font-style: italic;
-          color: #1a2332; line-height: 1.2;
-          margin: 0 0 32px;
+          font-size: clamp(30px, 3.4vw, 52px);
+          font-weight: 400; font-style: italic;
+          color: #1a2332; line-height: 1.12;
+          letter-spacing: -0.005em;
+          margin: 0 0 36px;
         }
         .h02ab-rule {
-          width: 48px; height: 1.5px; background: #96A1AC;
-          margin: 0 0 28px; border: none;
+          width: 56px; height: 1px; background: #96A1AC;
+          margin: 0 0 30px; border: none;
         }
         .h02ab-body {
           font-size: 15px; line-height: 1.9; color: #4b5563;
-          font-weight: 300; margin: 0 0 18px;
+          font-weight: 400; margin: 0 0 20px;
+          max-width: 560px;
         }
-        @media (max-width: 860px) {
+        .h02ab-body:last-of-type { margin-bottom: 32px; }
+
+        /* Stats strip */
+        .h02ab-stats {
+          display: grid; grid-template-columns: repeat(4, 1fr);
+          border-top: 1px solid rgba(150,161,172,0.35);
+          border-bottom: 1px solid rgba(150,161,172,0.35);
+          margin: 0 0 36px;
+        }
+        .h02ab-stat {
+          padding: 22px 12px 22px 0;
+          border-right: 1px solid rgba(150,161,172,0.22);
+          transition: background 0.3s;
+        }
+        .h02ab-stat:last-child { border-right: none; }
+        .h02ab-stat:hover { background: rgba(150,161,172,0.05); }
+        .h02ab-stat-value {
+          display: block;
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(26px,2.4vw,34px); font-weight: 500; font-style: italic;
+          color: #1a2332; line-height: 1; margin-bottom: 8px;
+        }
+        .h02ab-stat-label {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 10px; font-weight: 500; letter-spacing: 0.18em;
+          text-transform: uppercase; color: #6b7280; line-height: 1.4;
+        }
+
+        /* Quote signature */
+        .h02ab-quote {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: clamp(17px, 1.7vw, 22px); color: #1a2332;
+          line-height: 1.5; margin: 0 0 12px;
+          padding-left: 24px; border-left: 2px solid #96A1AC;
+          max-width: 520px;
+        }
+        .h02ab-sign {
+          font-family: 'Montserrat', sans-serif;
+          font-size: 10px; font-weight: 600; letter-spacing: 0.28em;
+          text-transform: uppercase; color: #6b7280;
+          padding-left: 26px; display: block; margin-bottom: 36px;
+        }
+
+        .h02ab-cta {
+          position: relative; overflow: hidden; isolation: isolate;
+          display: inline-flex; align-items: center; gap: 12px;
+          border: 1px solid #1a2332;
+          color: #1a2332; background: transparent;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 11px; font-weight: 600;
+          letter-spacing: 0.22em; text-transform: uppercase;
+          padding: 15px 30px; text-decoration: none;
+          transition: color 0.35s, border-color 0.35s;
+        }
+        .h02ab-cta::before {
+          content: ""; position: absolute; inset: 0; z-index: -1;
+          background: #1a2332; transform: translateY(101%);
+          transition: transform 0.5s cubic-bezier(.22,.68,0,1);
+        }
+        .h02ab-cta:hover::before { transform: translateY(0); }
+        .h02ab-cta:hover { color: #fff; }
+        .h02ab-cta-arrow { transition: transform 0.4s cubic-bezier(.22,.68,0,1); }
+        .h02ab-cta:hover .h02ab-cta-arrow { transform: translate(3px,-3px); }
+
+        @media (max-width: 900px) {
           .h02ab-inner { grid-template-columns: 1fr; }
-          .h02ab-img-wrap { aspect-ratio: 16/9; order: -1; }
-          .h02ab-img-wrap::before { display: none; }
+          .h02ab-imgs { aspect-ratio: 16/11; order: -1; }
+          .h02ab-frame { display: none; }
+          .h02ab-accent { display: none; }
+          .h02ab-ornament { display: none; }
+        }
+        @media (max-width: 600px) {
+          .h02ab-stats { grid-template-columns: repeat(2, 1fr); }
+          .h02ab-stat:nth-child(2) { border-right: none; }
+          .h02ab-stat:nth-child(1), .h02ab-stat:nth-child(2) { border-bottom: 1px solid rgba(150,161,172,0.22); }
         }
       `}</style>
 
       <section className="h02ab" id="o-hotelu" data-template="hotel-02-about">
         <div className="h02ab-inner">
-          <div className="h02ab-img-wrap">
-            <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl || "/placeholder.jpg"} alt={imageAlt} style={{ width: "100%", height: "100%" }}>
-              <img src={imageUrl || "/placeholder.jpg"} alt={imageAlt} className="h02ab-img" loading="lazy" />
-            </GenericEditableImage>
+          <div className="h02ab-imgs">
+            <div className="h02ab-frame" aria-hidden="true" />
+            <div className="h02ab-img-wrap">
+              <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl || "/placeholder.jpg"} alt={imageAlt} style={{ width: "100%", height: "100%" }}>
+                <img src={imageUrl || "/placeholder.jpg"} alt={imageAlt} className="h02ab-img" loading="lazy" />
+              </GenericEditableImage>
+            </div>
+            {imageUrl2 && (
+              <div className="h02ab-accent">
+                <GenericEditableImage sectionId={sectionId} field="imageUrl2" src={imageUrl2} alt={imageAlt2} style={{ width: "100%", height: "100%" }}>
+                  <img src={imageUrl2} alt={imageAlt2} loading="lazy" />
+                </GenericEditableImage>
+              </div>
+            )}
           </div>
 
           <div className="h02ab-text">
-            <span className="h02ab-eyebrow">
-              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-            </span>
-            <h2 className="h02ab-title">
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-            <hr className="h02ab-rule" />
+            <span className="h02ab-ornament" aria-hidden="true">&</span>
+            {showHeader && (
+              <>
+                <span className="h02ab-eyebrow">
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </span>
+                <h2 className="h02ab-title">
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+                <hr className="h02ab-rule" />
+              </>
+            )}
             <p className="h02ab-body">
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
@@ -11552,6 +12028,33 @@ function AboutHotel02({ content, sectionId, isAdmin }: { content: Record<string,
                 <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
               </p>
             )}
+
+            <div className="h02ab-stats">
+              {stats.map((s, i) => (
+                <div key={i} className="h02ab-stat">
+                  <span className="h02ab-stat-value">
+                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value} tag="span" />
+                  </span>
+                  <span className="h02ab-stat-label">
+                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <blockquote className="h02ab-quote">
+              <GenericEditableText sectionId={sectionId} field="quote" value={quote} tag="span" />
+            </blockquote>
+            <span className="h02ab-sign">
+              — <GenericEditableText sectionId={sectionId} field="signature" value={signature} tag="span" />
+            </span>
+
+            <a href={isAdmin ? "#" : ctaHref} className="h02ab-cta" data-btn="primary">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg className="h02ab-cta-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+              </svg>
+            </a>
           </div>
         </div>
       </section>

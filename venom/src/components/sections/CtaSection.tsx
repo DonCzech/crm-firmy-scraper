@@ -691,47 +691,88 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
   }
 
   if (variant === "cafe-magazine") {
+    const cc = c as Record<string, unknown>;
+    const eyebrow = String(cc.eyebrow ?? "Magazín Vlna");
+    const issue = String(cc.issue ?? "Vydání č. 24 · Léto 2026");
     return (
-      <section className="py-16 px-6" style={{ backgroundColor: "var(--color-bg, #fff)" }}>
-        <div className="max-w-5xl mx-auto md:flex md:items-center md:gap-12 text-center md:text-left">
-          <div className="md:w-1/2">
-            <h2
-              className="text-3xl md:text-4xl mb-6"
-              style={{ color: "var(--color-text, #111)", fontFamily: "var(--font-heading)" }}
-            >
-              <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? "Naše tištěné noviny"} tag="span" />
-            </h2>
-            {c.subtitle && (
-              <p className="mb-6 text-base leading-relaxed" style={{ color: "var(--color-text-muted, #555)" }}>
-                <GenericEditableText sectionId={sectionId} field="subtitle" value={c.subtitle} tag="span" />
-              </p>
-            )}
-            {c.body && (
-              <p className="mb-8 text-base leading-relaxed" style={{ color: "var(--color-text-muted, #555)" }}>
-                <GenericEditableText sectionId={sectionId} field="body" value={c.body} tag="span" />
-              </p>
-            )}
-            <a
-              href={resolveDemoHref(c.ctaHref ?? "#", tenantSlug, isAdmin)}
-              data-btn="primary"
-              className="inline-block px-6 py-3 rounded-full font-semibold text-white"
-              style={{ backgroundColor: "var(--color-primary, #6d1f37)" }}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={c.ctaText ?? "Zobrazit"} tag="span" />
-            </a>
-          </div>
-          {c.image && (
-            <div className="md:w-1/2 mt-10 md:mt-0 flex justify-center">
-              <div className="w-[220px]">
-                <img
-                  src={c.image}
-                  alt=""
-                  className="w-full hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
+      <section
+        className="cafe01-cta relative overflow-hidden"
+        data-template="cafe-01"
+      >
+        <div className="cafe01-cta__decor cafe01-cta__decor--r" aria-hidden="true">
+          <svg viewBox="0 0 400 400" width="440" height="440">
+            <path d="M0 300 Q100 260 200 300 T400 300 L400 400 L0 400 Z" fill="rgba(255,209,184,0.14)" />
+            <path d="M0 320 Q100 280 200 320 T400 320 L400 400 L0 400 Z" fill="rgba(255,209,184,0.10)" />
+          </svg>
+        </div>
+
+        <div className="cafe01-cta__container">
+          <div className="cafe01-cta__grid">
+            <div className="cafe01-cta__content">
+              <div className="cafe01-cta__eyebrow">
+                <span className="cafe01-cta__eyebrow-line" aria-hidden="true" />
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </div>
+              <h2 className="cafe01-cta__title">
+                <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? "Naše tištěné noviny"} tag="span" />
+              </h2>
+              {c.subtitle && (
+                <p className="cafe01-cta__subtitle">
+                  <GenericEditableText sectionId={sectionId} field="subtitle" value={c.subtitle} tag="span" />
+                </p>
+              )}
+              {c.body && (
+                <p className="cafe01-cta__body">
+                  <GenericEditableText sectionId={sectionId} field="body" value={c.body} tag="span" />
+                </p>
+              )}
+              <div className="cafe01-cta__issue">
+                <span className="cafe01-cta__issue-dot" aria-hidden="true" />
+                <GenericEditableText sectionId={sectionId} field="issue" value={issue} tag="span" />
+              </div>
+              <a
+                href={resolveDemoHref(c.ctaHref ?? "#", tenantSlug, isAdmin)}
+                data-btn="primary"
+                className="cafe01-cta__button"
+              >
+                <span className="cafe01-cta__button-shine" aria-hidden="true" />
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={c.ctaText ?? "Číst magazín"} tag="span" />
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" className="cafe01-cta__button-arrow" aria-hidden="true">
+                  <path d="M5 12h14" />
+                  <path d="M13 6l6 6-6 6" />
+                </svg>
+              </a>
+            </div>
+            <div className="cafe01-cta__visual">
+              <div className="cafe01-cta__mag-shadow" aria-hidden="true" />
+              <div className="cafe01-cta__mag-back" aria-hidden="true" />
+              {c.image ? (
+                <GenericEditableImage
+                  sectionId={sectionId}
+                  field="image"
+                  src={String(c.image)}
+                  alt="Magazín"
+                  className="cafe01-cta__mag"
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={String(c.image)} alt="" className="cafe01-cta__mag-img" loading="lazy" />
+                </GenericEditableImage>
+              ) : (
+                <GenericEditableImage
+                  sectionId={sectionId}
+                  field="image"
+                  src=""
+                  alt="Magazín"
+                  className="cafe01-cta__mag cafe01-cta__mag--empty"
+                >
+                  <div className="cafe01-cta__mag-fallback">Nahrát obálku</div>
+                </GenericEditableImage>
+              )}
+              <div className="cafe01-cta__mag-ribbon" aria-hidden="true">
+                <span>ZDARMA</span>
               </div>
             </div>
-          )}
+          </div>
         </div>
       </section>
     );

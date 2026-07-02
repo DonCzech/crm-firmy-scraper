@@ -152,58 +152,73 @@ export function BlogPreviewSection({ content, variant, isAdmin, tenantSlug, sect
 
   if (isCafeFilled) {
     const items = c.items ?? [];
+    const eyebrow = String((c as Record<string, unknown>).eyebrow ?? "Magazín");
+    const ctaLabel = String((c as Record<string, unknown>).ctaLabel ?? "Čti více");
     return (
-      <section className="py-20 px-6 text-center" style={{ backgroundColor: "var(--color-bg, #fff)" }}>
-        <h2
-          className="text-4xl md:text-5xl mb-12"
-          style={{ color: "var(--color-text, #111)", fontFamily: "var(--font-heading)" }}
-        >
-          <GenericEditableText sectionId={sectionId} field="title" value={c.title || "Co je nového"} tag="span" />
-        </h2>
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-          {items.map((it, i) => (
-            <article
-              key={i}
-              className="text-center flex flex-col"
-              style={{ backgroundColor: "var(--color-primary, #6d1f37)", color: "#fff" }}
-            >
-              {it.image && (
-                <GenericEditableImage
-                  sectionId={sectionId}
-                  field={`items.${i}.image`}
-                  src={it.image}
-                  alt={it.title}
-                  className="relative h-52 overflow-hidden"
-                >
-                  <img src={it.image} alt={it.title} className="w-full h-full object-cover" loading="lazy" />
-                </GenericEditableImage>
-              )}
-              <div className="flex-1 flex flex-col px-5 pt-6 pb-4">
-                <h3 className="text-xl font-bold mb-2">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={it.title} tag="span" />
-                </h3>
-                {it.date && (
-                  <p className="text-sm opacity-70 mb-3">
-                    <GenericEditableText sectionId={sectionId} field={`items.${i}.date`} value={it.date} tag="span" />
-                  </p>
-                )}
-                {it.excerpt && (
-                  <p className="text-sm opacity-90 mb-5 line-clamp-3">
-                    <GenericEditableText sectionId={sectionId} field={`items.${i}.excerpt`} value={it.excerpt} tag="span" />
-                  </p>
-                )}
-                <div className="mt-auto">
-                  <a
-                    href={it.href ?? "#"}
-                    className="inline-block px-5 py-2 bg-white rounded-full font-semibold"
-                    style={{ color: "var(--color-primary, #6d1f37)" }}
-                  >
-                    Čti více
+      <section
+        className="cafe01-blog relative overflow-hidden"
+        data-template="cafe-01"
+      >
+        <div className="cafe01-blog__container">
+          <div className="cafe01-blog__head">
+            <div className="cafe01-blog__eyebrow">
+              <span className="cafe01-blog__eyebrow-line" aria-hidden="true" />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              <span className="cafe01-blog__eyebrow-line" aria-hidden="true" />
+            </div>
+            <h2 className="cafe01-blog__title">
+              <GenericEditableText sectionId={sectionId} field="title" value={c.title || "Co je nového"} tag="span" />
+            </h2>
+          </div>
+          <div className="cafe01-blog__grid">
+            {items.map((it, i) => (
+              <article key={i} className="cafe01-blog__card">
+                <div className="cafe01-blog__card-media">
+                  {it.image && (
+                    <GenericEditableImage
+                      sectionId={sectionId}
+                      field={`items.${i}.image`}
+                      src={it.image}
+                      alt={it.title}
+                      className="absolute inset-0 w-full h-full"
+                      style={{ width: "100%", height: "100%" }}
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={it.image} alt={it.title} className="cafe01-blog__img" loading="lazy" />
+                    </GenericEditableImage>
+                  )}
+                  <div className="cafe01-blog__overlay" aria-hidden="true" />
+                  <div className="cafe01-blog__index" aria-hidden="true">{String(i + 1).padStart(2, "0")}</div>
+                </div>
+                <div className="cafe01-blog__body">
+                  {it.date && (
+                    <div className="cafe01-blog__date">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <path d="M8 2v4M16 2v4M3 10h18" />
+                      </svg>
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.date`} value={it.date} tag="span" />
+                    </div>
+                  )}
+                  <h3 className="cafe01-blog__card-title">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={it.title} tag="span" />
+                  </h3>
+                  {it.excerpt && (
+                    <p className="cafe01-blog__excerpt">
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.excerpt`} value={it.excerpt} tag="span" />
+                    </p>
+                  )}
+                  <a href={it.href ?? "#"} className="cafe01-blog__cta">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaLabel`} value={ctaLabel} tag="span" />
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" className="cafe01-blog__cta-arrow" aria-hidden="true">
+                      <path d="M5 12h14" />
+                      <path d="M13 6l6 6-6 6" />
+                    </svg>
                   </a>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     );

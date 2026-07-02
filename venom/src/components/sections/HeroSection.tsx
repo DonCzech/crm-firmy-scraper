@@ -878,26 +878,90 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     );
   }
 
+  if (variant === "hero-cafe-01-page") {
+    const cc = c as Record<string, unknown>;
+    const breadcrumb = String(cc.breadcrumb ?? "Domů");
+    const breadcrumbHref = String(cc.breadcrumbHref ?? "/");
+    const title = String(cc.title ?? "Podstránka");
+    const subtitle = String(cc.subtitle ?? "");
+    const resolvedHref = tenantSlug && breadcrumbHref.startsWith("/")
+      ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${breadcrumbHref}` : breadcrumbHref;
+    return (
+      <section className="cafe01-hero-page relative overflow-hidden" data-template="cafe-01">
+        <div className="cafe01-hero-page__decor cafe01-hero-page__decor--l" aria-hidden="true">
+          <svg viewBox="0 0 200 200" width="220" height="220">
+            <circle cx="100" cy="100" r="70" fill="none" stroke="#b51144" strokeWidth="1" opacity="0.16" />
+            <circle cx="100" cy="100" r="48" fill="none" stroke="#b51144" strokeWidth="1" opacity="0.22" />
+          </svg>
+        </div>
+        <div className="cafe01-hero-page__decor cafe01-hero-page__decor--r" aria-hidden="true">
+          <svg viewBox="0 0 60 60" width="52" height="52">
+            <ellipse cx="30" cy="30" rx="14" ry="24" fill="none" stroke="#b51144" strokeWidth="1.4" transform="rotate(-24 30 30)" />
+            <path d="M20 30 Q30 22 40 30" fill="none" stroke="#b51144" strokeWidth="1.4" strokeLinecap="round" transform="rotate(-24 30 30)" />
+          </svg>
+        </div>
+        <div className="cafe01-hero-page__container">
+          <nav aria-label="Drobečková navigace" className="cafe01-hero-page__crumbs">
+            <a href={resolvedHref} className="cafe01-hero-page__crumb-link">
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span aria-hidden="true" className="cafe01-hero-page__crumb-sep">·</span>
+            <span className="cafe01-hero-page__crumb-current">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </span>
+          </nav>
+          <h1 className="cafe01-hero-page__title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+          <span aria-hidden="true" className="cafe01-hero-page__rule" />
+          {subtitle && (
+            <p className="cafe01-hero-page__subtitle">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
+        <div className="cafe01-hero-page__wave" aria-hidden="true" />
+      </section>
+    );
+  }
+
   if (variant === "hero-cafe-wave") {
     const bgImage = c.backgroundImage || "/clones/costa/src/themes/template/build/COSTA_banner_2026_05_1600x640_06.webp";
+    const eyebrow = String((c as Record<string, unknown>).eyebrow ?? "Novinky · Léto 2026");
     return (
-      <section className="relative bg-white">
-        {/* Top gradient — darkens area behind navbar for readability */}
-        <div className="pointer-events-none absolute left-0 top-0 z-10 w-full h-[280px] bg-gradient-to-t from-black/0 to-black/60" />
-        {/* Text overlay (z-30, above image + gradient + image upload input) */}
+      <section
+        className="cafe01-hero relative overflow-hidden"
+        data-template="cafe-01"
+      >
+        {/* Decorative floating bean SVGs */}
+        <span className="cafe01-hero__bean cafe01-hero__bean--tl" aria-hidden="true">
+          <svg viewBox="0 0 60 60" width="46" height="46">
+            <ellipse cx="30" cy="30" rx="14" ry="24" fill="none" stroke="#b51144" strokeWidth="1.4" transform="rotate(-24 30 30)" />
+            <path d="M20 30 Q30 22 40 30" fill="none" stroke="#b51144" strokeWidth="1.4" strokeLinecap="round" transform="rotate(-24 30 30)" />
+          </svg>
+        </span>
+        <span className="cafe01-hero__bean cafe01-hero__bean--br" aria-hidden="true">
+          <svg viewBox="0 0 60 60" width="34" height="34">
+            <ellipse cx="30" cy="30" rx="12" ry="22" fill="none" stroke="rgba(255,255,255,0.42)" strokeWidth="1.2" transform="rotate(20 30 30)" />
+            <path d="M20 30 Q30 22 40 30" fill="none" stroke="rgba(255,255,255,0.42)" strokeWidth="1.2" strokeLinecap="round" transform="rotate(20 30 30)" />
+          </svg>
+        </span>
+
+        {/* Top gradient — darkens for text readability */}
+        <div className="cafe01-hero__gradient-top pointer-events-none absolute left-0 top-0 z-10 w-full" />
+
+        {/* Text overlay */}
         <div className="absolute z-30 top-0 left-0 w-full pointer-events-none">
-          <div className="max-w-7xl mx-auto px-6 lg:px-12 relative mt-24 md:mt-40 lg:mt-48 text-center lg:text-left lg:pl-32 pointer-events-auto">
-            <h1
-              className="text-white text-4xl sm:text-5xl md:text-6xl lg:text-7xl"
-              style={{ fontFamily: "var(--font-heading, 'CostaDisplayWave', Georgia, serif)", whiteSpace: "pre-line", fontWeight: 700, lineHeight: 1.1 }}
-            >
+          <div className="cafe01-hero__content max-w-7xl mx-auto px-6 lg:px-12 relative text-center lg:text-left lg:pl-24 pointer-events-auto">
+            <div className="cafe01-hero__eyebrow">
+              <span className="cafe01-hero__eyebrow-line" aria-hidden="true" />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </div>
+            <h1 className="cafe01-hero__title">
               <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? "Ledové drinky\nv cherry stylu"} tag="span" />
             </h1>
             {c.subtitle && (
-              <span
-                className="text-white block mt-2 text-xl sm:text-2xl md:text-3xl lg:text-4xl"
-                style={{ fontFamily: "var(--font-heading, 'CostaDisplayWave', Georgia, serif)", fontWeight: 400 }}
-              >
+              <span className="cafe01-hero__subtitle">
                 <GenericEditableText sectionId={sectionId} field="subtitle" value={c.subtitle} tag="span" />
               </span>
             )}
@@ -905,20 +969,21 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
               <a
                 href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
                 data-btn="primary"
-                className="flex sm:inline-flex items-center justify-center gap-2 mt-8 md:mt-14 px-7 py-3 bg-white font-semibold rounded-full transition-opacity hover:opacity-90 text-base w-full sm:w-auto"
-                style={{ color: "var(--color-primary, #6d1f37)", fontFamily: "var(--font-body, 'CostaText', sans-serif)" }}
+                className="cafe01-hero__cta group"
               >
+                <span className="cafe01-hero__cta-shine" aria-hidden="true" />
                 <GenericEditableText sectionId={sectionId} field="ctaText" value={c.ctaText ?? "Zjistit více"} tag="span" />
-                <span aria-hidden>▸</span>
+                <svg className="cafe01-hero__cta-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12h14" />
+                  <path d="M13 6l6 6-6 6" />
+                </svg>
               </a>
             )}
           </div>
         </div>
-        {/* Image with wave mask cutting bottom into wave shape */}
-        <div
-          className="hero-wave-mask relative h-[380px] sm:h-[480px] md:h-[640px] overflow-hidden"
-          style={{ backgroundColor: "var(--color-primary, #6d1f37)" }}
-        >
+
+        {/* Image with wave mask */}
+        <div className="cafe01-hero__stage hero-wave-mask relative overflow-hidden">
           <GenericEditableImage
             sectionId={sectionId}
             field="backgroundImage"
@@ -933,11 +998,16 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
               fill
               priority
               sizes="100vw"
-              className="object-cover object-right-top"
+              className="cafe01-hero__img object-cover object-right-top"
               unoptimized={shouldSkipNextImageOptimization(bgImage)}
             />
           </GenericEditableImage>
+          {/* Vignette + burgundy grade */}
+          <div className="cafe01-hero__vignette" aria-hidden="true" />
         </div>
+
+        {/* Secondary decorative wave — subtle cream layer behind main */}
+        <div className="cafe01-hero__wave-echo" aria-hidden="true" />
       </section>
     );
   }
@@ -2842,6 +2912,9 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   }
   if (variant === "hotel-02-hero") {
     return <HeroHotel02 content={content} sectionId={sectionId} tenantSlug={tenantSlug ?? ""} isAdmin={isAdmin} />;
+  }
+  if (variant === "hotel-02-hero-page") {
+    return <HeroHotel02Page content={content} sectionId={sectionId} />;
   }
   if (variant === "chalet-01-hero") {
     return <HeroChalet01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -12910,8 +12983,6 @@ function HeroSolar01({ content, sectionId, tenantSlug, isAdmin }: {
   const trust3          = String(content.trust3 ?? "NZÚ dotace zdarma");
   const starsRating     = String(content.starsRating ?? "4.8");
   const starsText       = String(content.starsText  ?? "3 800+ recenzí · Google");
-  const cardValue       = String(content.cardValue ?? "18 400 Kč");
-  const cardLabel       = String(content.cardLabel ?? "roční úspora / průměr");
   const badgeEyebrow    = String(content.badgeEyebrow ?? "NZÚ dotace");
   const badgeValue      = String(content.badgeValue ?? "až 200 000 Kč");
   const stat1Val        = String(content.stat1Val ?? "3 800+");
@@ -12939,14 +13010,6 @@ function HeroSolar01({ content, sectionId, tenantSlug, isAdmin }: {
       <polygon points="6 4 20 12 6 20"/>
     </svg>
   );
-  const IconPiggy = () => (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M19 5.5a4.5 4.5 0 0 0-3.5 1.7L12 12 8.5 7.2A4.5 4.5 0 0 0 5 5.5"/>
-      <path d="M12 12v6"/>
-      <path d="M8 21h8"/>
-    </svg>
-  );
-
   return (
     <section className="s01hero" data-template="solar-01">
       {bgImg ? (
@@ -13018,18 +13081,6 @@ function HeroSolar01({ content, sectionId, tenantSlug, isAdmin }: {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={heroImg} alt={heroImgAlt} loading="eager" />
             </GenericEditableImage>
-          </div>
-
-          <div className="s01hero-card">
-            <span className="s01hero-card-icon"><IconPiggy /></span>
-            <span className="s01hero-card-text">
-              <span className="s01hero-card-val">
-                <GenericEditableText sectionId={sectionId} field="cardValue" value={cardValue} tag="span" />
-              </span>
-              <span className="s01hero-card-lbl">
-                <GenericEditableText sectionId={sectionId} field="cardLabel" value={cardLabel} tag="span" />
-              </span>
-            </span>
           </div>
 
           <div className="s01hero-badge">
@@ -15452,14 +15503,19 @@ function HeroDdd01({ content, sectionId }: Omit<Props, "variant">) {
 }
 
 // ── hotel-01-hero ─────────────────────────────────────────────────────────────
-function HeroHotel01({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+function HeroHotel01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const c = (content ?? {}) as Record<string, any>;
-  const title     = c.title     ?? "Luxusní pobyt v srdci Prahy";
+  const eyebrow   = c.eyebrow   ?? "Boutique Hotel · Anno 1908";
+  const title     = c.title     ?? "Výjimečný pobyt v srdci Brna";
+  const titleAccent = c.titleAccent ?? "pobyt";
   const subtitle  = c.subtitle  ?? "";
   const ctaText   = c.ctaText   ?? "Rezervujte pobyt";
-  const ctaHref   = c.ctaHref   ?? "#kontakt";
+  const ctaHref   = c.ctaHref   ?? "/kontakt";
+  const cta2Text  = c.cta2Text  ?? "Prohlédnout pokoje";
+  const cta2Href  = c.cta2Href  ?? "/pokoje";
   const promoText = c.promoText ?? "";
-  const promoHref = c.promoHref ?? "#nabidky";
+  const promoHref = c.promoHref ?? "/nabidky";
+  const scrollLabel = c.scrollLabel ?? "Objevujte";
   const slides: { url: string; alt: string }[] = Array.isArray(c.slides) && c.slides.length > 0
     ? c.slides
     : [{ url: "", alt: "" }];
@@ -15468,159 +15524,342 @@ function HeroHotel01({ content, sectionId, isAdmin }: { content: Record<string, 
   const [prev, setPrev]       = useState<number | null>(null);
   const [fading, setFading]   = useState(false);
   const timerRef              = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const DURATION = 6500;
 
   const goTo = useCallback((idx: number) => {
     if (fading) return;
     setPrev(current);
     setCurrent(idx);
     setFading(true);
-    setTimeout(() => { setPrev(null); setFading(false); }, 900);
+    setTimeout(() => { setPrev(null); setFading(false); }, 1100);
   }, [current, fading]);
 
   useEffect(() => {
     if (slides.length <= 1) return;
     timerRef.current = setInterval(() => {
       goTo((current + 1) % slides.length);
-    }, 5500);
+    }, DURATION);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [current, slides.length, goTo]);
 
-  const resolve = (href: string) => (isAdmin ? "#" : href ?? "#");
+  const href = (h: string) => resolveDemoHref(h ?? "#", tenantSlug, isAdmin);
+
+  // Render title with italic accent word (if present)
+  const renderTitle = () => {
+    if (!titleAccent || !title.includes(titleAccent)) {
+      return <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />;
+    }
+    const parts = title.split(titleAccent);
+    return (
+      <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span">
+        <>{parts[0]}<em className="h01hero-accent">{titleAccent}</em>{parts.slice(1).join(titleAccent)}</>
+      </GenericEditableText>
+    );
+  };
+
+  const idx2 = (n: number) => String(n + 1).padStart(2, "0");
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Poppins:wght@300;400&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Poppins:wght@300;400;500&display=swap" />
       <style>{`        .h01hero {
-          position: relative; width: 100%; height: 100vh; min-height: 600px;
-          overflow: hidden; background: #2a2520;
+          position: relative; width: 100%; height: 100vh; min-height: 640px;
+          overflow: hidden; background: #1a1714;
+          font-family: 'Poppins', sans-serif;
         }
         .h01hero-slide {
           position: absolute; inset: 0;
           background-size: cover; background-position: center;
-          transition: opacity 0.9s ease;
+          transition: opacity 1.1s cubic-bezier(.22,.68,0,1.1);
+          transform: scale(1);
+          will-change: opacity, transform;
         }
-        .h01hero-slide.active  { opacity: 1; z-index: 2; }
-        .h01hero-slide.prev    { opacity: 0; z-index: 3; }
-        .h01hero-overlay {
+        .h01hero-slide.active {
+          opacity: 1; z-index: 2;
+          animation: h01kb ${DURATION + 1200}ms linear forwards;
+        }
+        .h01hero-slide.prev { opacity: 0; z-index: 3; }
+        .h01hero-slide.idle { opacity: 0; z-index: 1; }
+        @keyframes h01kb {
+          0%   { transform: scale(1.02); }
+          100% { transform: scale(1.12); }
+        }
+
+        .h01hero-vignette {
           position: absolute; inset: 0; z-index: 4;
-          background: linear-gradient(
-            to bottom,
-            rgba(30,26,22,0.30) 0%,
-            rgba(30,26,22,0.15) 40%,
-            rgba(30,26,22,0.55) 100%
-          );
+          background:
+            radial-gradient(ellipse 80% 60% at 50% 45%, transparent 0%, rgba(20,17,14,.35) 70%, rgba(20,17,14,.7) 100%),
+            linear-gradient(180deg, rgba(20,17,14,.55) 0%, rgba(20,17,14,.15) 22%, rgba(20,17,14,.25) 60%, rgba(20,17,14,.75) 100%);
+          pointer-events: none;
         }
+        .h01hero-rays {
+          position: absolute; inset: 0; z-index: 4;
+          background: radial-gradient(ellipse 40% 60% at 78% 20%, rgba(212,176,136,.14), transparent 60%);
+          pointer-events: none; mix-blend-mode: screen;
+        }
+
         .h01hero-content {
           position: absolute; inset: 0; z-index: 5;
           display: flex; flex-direction: column;
           align-items: center; justify-content: center;
-          text-align: center; padding: 80px 24px 120px;
+          text-align: center; padding: 140px 24px 200px;
         }
+        .h01hero-eyebrow {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: clamp(12px, 1.1vw, 14px);
+          letter-spacing: 0.32em; text-transform: uppercase;
+          color: #d4b088; margin: 0 0 34px;
+          display: inline-flex; align-items: center; gap: 22px;
+          opacity: 0; transform: translateY(14px);
+          animation: h01in .95s cubic-bezier(.22,.68,0,1.1) .15s forwards;
+        }
+        .h01hero-eyebrow::before, .h01hero-eyebrow::after {
+          content: ''; display: inline-block; width: 44px; height: 1px;
+          background: linear-gradient(90deg, transparent, #a98763, transparent);
+        }
+
         .h01hero-title {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: clamp(32px, 5vw, 64px);
+          font-size: clamp(38px, 6vw, 84px);
           font-weight: 400; color: #fff;
-          letter-spacing: 0.03em; line-height: 1.15;
-          margin: 0 0 20px; text-shadow: 0 2px 16px rgba(0,0,0,0.45);
-          max-width: 820px;
+          letter-spacing: 0.005em; line-height: 1.08;
+          margin: 0 0 28px; text-shadow: 0 2px 22px rgba(0,0,0,0.35);
+          max-width: 980px;
+          opacity: 0; transform: translateY(24px);
+          animation: h01in 1.1s cubic-bezier(.22,.68,0,1.1) .3s forwards;
         }
+        .h01hero-accent {
+          font-style: italic; font-weight: 500;
+          color: #d4b088;
+        }
+
+        .h01hero-hairline {
+          width: 60px; height: 1px; background: #a98763;
+          margin: 0 0 28px; opacity: 0;
+          animation: h01in .8s cubic-bezier(.22,.68,0,1.1) .5s forwards;
+        }
+
         .h01hero-subtitle {
           font-family: 'Poppins', sans-serif;
-          font-size: clamp(13px, 1.8vw, 18px);
+          font-size: clamp(14px, 1.4vw, 17px);
           font-weight: 300; color: rgba(255,255,255,0.88);
-          letter-spacing: 0.06em; line-height: 1.6;
-          margin: 0 0 40px; max-width: 620px;
-          text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+          letter-spacing: 0.04em; line-height: 1.65;
+          margin: 0 0 44px; max-width: 640px;
+          text-shadow: 0 1px 10px rgba(0,0,0,0.35);
+          opacity: 0; transform: translateY(16px);
+          animation: h01in 1s cubic-bezier(.22,.68,0,1.1) .55s forwards;
+        }
+
+        .h01hero-ctas {
+          display: flex; gap: 18px; flex-wrap: wrap; justify-content: center;
+          opacity: 0; transform: translateY(16px);
+          animation: h01in 1s cubic-bezier(.22,.68,0,1.1) .7s forwards;
         }
         .h01hero-cta {
-          display: inline-flex; align-items: center; justify-content: center;
-          background: #879B32; color: #fff;
+          position: relative; overflow: hidden;
+          display: inline-flex; align-items: center; gap: 12px;
+          background: transparent; color: #fff;
+          border: 1px solid rgba(255,255,255,.5);
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
-          padding: 15px 44px; text-decoration: none;
-          transition: background 0.2s, transform 0.2s;
-          box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+          font-size: 13px; letter-spacing: 0.24em; text-transform: uppercase;
+          padding: 17px 40px; text-decoration: none;
+          transition: color .45s, border-color .45s;
         }
-        .h01hero-cta:hover { background: #6a7a28; transform: translateY(-1px); }
+        .h01hero-cta.primary { border-color: #a98763; background: rgba(169,135,99,.08); }
+        .h01hero-cta::before {
+          content: ''; position: absolute; inset: 0;
+          background: linear-gradient(135deg,#a98763 0%,#c4a274 100%);
+          transform: translateY(101%); transition: transform .55s cubic-bezier(.22,.68,0,1.1);
+          z-index: 0;
+        }
+        .h01hero-cta:hover { border-color: #d4b088; }
+        .h01hero-cta:hover::before { transform: translateY(0); }
+        .h01hero-cta > * { position: relative; z-index: 1; }
+        .h01hero-cta .arrow {
+          display: inline-block; transition: transform .45s cubic-bezier(.22,.68,0,1.1);
+        }
+        .h01hero-cta:hover .arrow { transform: translateX(6px); }
 
-        /* Dots */
+        @keyframes h01in { to { opacity: 1; transform: translateY(0); } }
+
+        /* Slide counter — vertical, right side */
+        .h01hero-counter {
+          position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
+          z-index: 6; display: flex; align-items: center; gap: 14px;
+          font-family: 'Playfair Display', Georgia, serif;
+          color: rgba(255,255,255,.9);
+        }
+        .h01hero-counter-current {
+          font-size: 44px; font-weight: 400; font-style: italic;
+          color: #d4b088; line-height: 1;
+        }
+        .h01hero-counter-line {
+          width: 1px; height: 44px; background: rgba(255,255,255,.35);
+        }
+        .h01hero-counter-total {
+          font-size: 14px; letter-spacing: 0.14em; color: rgba(255,255,255,.55);
+          font-weight: 400;
+        }
+
+        /* Slide caption bottom-left */
+        .h01hero-caption {
+          position: absolute; left: 40px; bottom: 120px; z-index: 6;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-size: 13px; letter-spacing: 0.16em;
+          color: rgba(255,255,255,.72); text-transform: uppercase;
+          display: flex; align-items: center; gap: 14px;
+          max-width: 320px;
+        }
+        .h01hero-caption::before {
+          content: ''; width: 32px; height: 1px; background: #a98763; flex-shrink: 0;
+        }
+
+        /* Progress dots */
         .h01hero-dots {
-          position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
-          z-index: 6; display: flex; gap: 10px;
+          position: absolute; bottom: 82px; left: 50%; transform: translateX(-50%);
+          z-index: 6; display: flex; gap: 20px;
         }
         .h01hero-dot {
-          width: 8px; height: 8px; border-radius: 50%;
-          background: rgba(255,255,255,0.4); border: none; cursor: pointer;
-          padding: 0; transition: background 0.3s, transform 0.3s;
+          width: 46px; height: 2px; background: rgba(255,255,255,.25);
+          border: none; cursor: pointer; padding: 0; position: relative; overflow: hidden;
+          transition: background .3s;
         }
-        .h01hero-dot.active { background: #a98763; transform: scale(1.3); }
-
-        /* Promo strip */
-        .h01hero-promo {
-          position: absolute; bottom: 0; left: 0; right: 0; z-index: 6;
-          background: rgba(169,135,99,0.92);
-          display: flex; align-items: center; justify-content: center;
-          height: 50px; gap: 12px;
-          font-family: 'Poppins', sans-serif;
-          font-size: 13px; letter-spacing: 0.08em;
+        .h01hero-dot::after {
+          content: ''; position: absolute; inset: 0;
+          background: #d4b088;
+          transform: translateX(-101%);
+          transition: transform .2s;
         }
-        .h01hero-promo a {
-          color: #fff; text-decoration: none;
-          display: flex; align-items: center; gap: 8px;
-        }
-        .h01hero-promo a:hover { text-decoration: underline; }
-        .h01hero-promo-icon {
-          display: inline-flex; align-items: center; justify-content: center;
-          width: 20px; height: 20px; border: 1.5px solid rgba(255,255,255,0.7);
-          border-radius: 50%; font-size: 10px; font-weight: 600; flex-shrink: 0;
-        }
+        .h01hero-dot.active::after { animation: h01progress ${DURATION}ms linear forwards; }
+        @keyframes h01progress { from { transform: translateX(-101%); } to { transform: translateX(0); } }
+        .h01hero-dot:hover { background: rgba(255,255,255,.45); }
 
         /* Arrows */
         .h01hero-arrow {
           position: absolute; top: 50%; transform: translateY(-50%);
-          z-index: 6; background: rgba(0,0,0,0.25); border: none; cursor: pointer;
-          width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
-          color: #fff; transition: background 0.2s;
+          z-index: 6; background: transparent; border: 1px solid rgba(255,255,255,.25);
+          cursor: pointer;
+          width: 56px; height: 56px; display: flex; align-items: center; justify-content: center;
+          color: #fff; transition: background .35s, border-color .35s, color .35s;
         }
-        .h01hero-arrow:hover { background: rgba(169,135,99,0.8); }
-        .h01hero-arrow.left  { left: 20px; }
-        .h01hero-arrow.right { right: 20px; }
+        .h01hero-arrow:hover { background: rgba(169,135,99,.22); border-color: #a98763; color: #d4b088; }
+        .h01hero-arrow.left  { left: 24px; }
+        .h01hero-arrow.right { left: 88px; }
+        @media (max-width: 900px) { .h01hero-arrow.right { left: 84px; } }
 
+        /* Scroll cue */
+        .h01hero-scroll {
+          position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
+          z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 8px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic; font-size: 11px; letter-spacing: 0.28em;
+          color: rgba(255,255,255,.55); text-transform: uppercase;
+          pointer-events: none;
+        }
+        .h01hero-scroll::after {
+          content: ''; width: 1px; height: 34px;
+          background: linear-gradient(180deg, #a98763 0%, transparent 100%);
+          animation: h01scroll 2.2s ease-in-out infinite;
+        }
+        @keyframes h01scroll {
+          0%,100% { transform: scaleY(1); transform-origin: top; }
+          50%     { transform: scaleY(0.4); }
+        }
+
+        /* Promo strip */
+        .h01hero-promo {
+          position: absolute; bottom: 0; left: 0; right: 0; z-index: 7;
+          background: linear-gradient(90deg,#3e3e3e 0%,#4a4238 50%,#3e3e3e 100%);
+          display: flex; align-items: center; justify-content: center;
+          height: 46px; gap: 12px;
+          font-family: 'Poppins', sans-serif;
+          font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase;
+          border-top: 1px solid rgba(169,135,99,.38);
+        }
+        .h01hero-promo a {
+          color: rgba(255,255,255,.86); text-decoration: none;
+          display: inline-flex; align-items: center; gap: 14px;
+          padding: 0 20px; transition: color .3s;
+        }
+        .h01hero-promo a:hover { color: #d4b088; }
+        .h01hero-promo a::before, .h01hero-promo a::after {
+          content: ''; display: inline-block; width: 22px; height: 1px;
+          background: linear-gradient(90deg, transparent, #a98763, transparent);
+        }
+
+        @media (max-width: 900px) {
+          .h01hero-counter { right: 20px; }
+          .h01hero-caption { left: 20px; bottom: 130px; max-width: 220px; font-size: 11px; }
+          .h01hero-arrow { width: 44px; height: 44px; }
+          .h01hero-arrow.left { left: 16px; }
+          .h01hero-arrow.right { left: 68px; }
+          .h01hero-scroll { display: none; }
+        }
         @media (max-width: 600px) {
-          .h01hero-content { padding: 100px 20px 100px; }
-          .h01hero-arrow { display: none; }
+          .h01hero-content { padding: 130px 20px 200px; }
+          .h01hero-title { font-size: clamp(32px, 9vw, 46px); }
+          .h01hero-eyebrow { font-size: 10px; gap: 12px; margin-bottom: 24px; }
+          .h01hero-eyebrow::before, .h01hero-eyebrow::after { width: 20px; }
+          .h01hero-counter { display: none; }
+          .h01hero-caption { display: none; }
+          .h01hero-cta { padding: 15px 26px; font-size: 11px; letter-spacing: 0.2em; }
+          .h01hero-dots { gap: 12px; }
+          .h01hero-dot { width: 30px; }
         }
       `}</style>
 
       <section className="h01hero" data-template="hotel-01-hero">
-        {/* Slides */}
         {slides.map((slide, i) => (
           <GenericEditableImage key={i} sectionId={sectionId} field={`slides.${i}.url`} src={slide.url} alt={slide.alt ?? ""} style={{ position: "absolute", inset: 0 }}>
             <div
-              className={`h01hero-slide${i === current ? " active" : ""}${i === prev ? " prev" : ""}`}
+              className={`h01hero-slide ${i === current ? "active" : i === prev ? "prev" : "idle"}`}
               style={{ backgroundImage: `url('${slide.url}')` }}
               aria-hidden={i !== current}
             />
           </GenericEditableImage>
         ))}
-        <div className="h01hero-overlay" aria-hidden="true" />
+        <div className="h01hero-vignette" aria-hidden="true" />
+        <div className="h01hero-rays" aria-hidden="true" />
 
-        {/* Content */}
         <div className="h01hero-content">
-          <h1 className="h01hero-title">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h1>
+          <div className="h01hero-eyebrow">
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </div>
+          <h1 className="h01hero-title">{renderTitle()}</h1>
+          <div className="h01hero-hairline" aria-hidden="true" />
           <p className="h01hero-subtitle">
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
-          <a href={resolve(ctaHref)} data-btn="primary" className="h01hero-cta">
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
+          <div className="h01hero-ctas">
+            <a href={href(ctaHref)} data-btn="primary" className="h01hero-cta primary">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <span className="arrow" aria-hidden="true">→</span>
+            </a>
+            {cta2Text && (
+              <a href={href(cta2Href)} className="h01hero-cta">
+                <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
+              </a>
+            )}
+          </div>
         </div>
 
-        {/* Navigation arrows */}
+        {slides.length > 1 && (
+          <div className="h01hero-counter" aria-hidden="true">
+            <span className="h01hero-counter-current">{idx2(current)}</span>
+            <span className="h01hero-counter-line" />
+            <span className="h01hero-counter-total">/ {idx2(slides.length - 1)}</span>
+          </div>
+        )}
+
+        {slides.length > 1 && slides[current]?.alt && (
+          <div className="h01hero-caption">
+            <span>{slides[current].alt}</span>
+          </div>
+        )}
+
         {slides.length > 1 && (
           <>
             <button
@@ -15628,19 +15867,18 @@ function HeroHotel01({ content, sectionId, isAdmin }: { content: Record<string, 
               onClick={() => goTo((current - 1 + slides.length) % slides.length)}
               aria-label="Předchozí slide"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
             <button
               className="h01hero-arrow right"
               onClick={() => goTo((current + 1) % slides.length)}
               aria-label="Další slide"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
           </>
         )}
 
-        {/* Dots */}
         {slides.length > 1 && (
           <div className="h01hero-dots" role="tablist" aria-label="Slides">
             {slides.map((_, i) => (
@@ -15656,11 +15894,13 @@ function HeroHotel01({ content, sectionId, isAdmin }: { content: Record<string, 
           </div>
         )}
 
-        {/* Promo strip */}
+        <div className="h01hero-scroll" aria-hidden="true">
+          <span>{scrollLabel}</span>
+        </div>
+
         {promoText && (
           <div className="h01hero-promo">
-            <a href={resolve(promoHref)}>
-              <span className="h01hero-promo-icon">%</span>
+            <a href={href(promoHref)}>
               <GenericEditableText sectionId={sectionId} field="promoText" value={promoText} tag="span" />
             </a>
           </div>
@@ -15673,10 +15913,15 @@ function HeroHotel01({ content, sectionId, isAdmin }: { content: Record<string, 
 // ── hotel-02-hero ─────────────────────────────────────────────────────────────
 function HeroHotel02({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const c = (content ?? {}) as Record<string, any>;
-  const title    = c.title    ?? "Ideální místo pro práci i relax nedaleko přehrady";
-  const subtitle = c.subtitle ?? "Relax Hotel";
-  const ctaText  = c.ctaText  ?? "O hotelu";
-  const ctaHref  = c.ctaHref  ?? "#o-hotelu";
+  const title       = c.title       ?? "Odpočinek, který si opravdu zasloužíte";
+  const subtitle    = c.subtitle    ?? "Relax Hotel & Wellness — Karlovy Vary";
+  const ornament    = c.ornament    ?? "&";
+  const ctaText     = c.ctaText     ?? "Prohlédnout hotel";
+  const ctaHref     = c.ctaHref     ?? "#o-hotelu";
+  const bookLabelIn    = c.bookLabelIn    ?? "Příjezd";
+  const bookLabelOut   = c.bookLabelOut   ?? "Odjezd";
+  const bookLabelGuest = c.bookLabelGuest ?? "Hosté";
+  const bookSubmit     = c.bookSubmit     ?? "Rezervovat";
   const slides: { url: string; alt: string }[] = Array.isArray(c.slides) && c.slides.length > 0
     ? c.slides
     : [{ url: "", alt: "" }];
@@ -15687,7 +15932,7 @@ function HeroHotel02({ content, sectionId, isAdmin }: { content: Record<string, 
   const timerRef              = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [guests, setGuests]   = useState(2);
 
-  const today = new Date().toISOString().split("T")[0];
+  const today    = new Date().toISOString().split("T")[0];
   const tomorrow = new Date(Date.now() + 86400000).toISOString().split("T")[0];
 
   const goTo = useCallback((idx: number) => {
@@ -15695,163 +15940,272 @@ function HeroHotel02({ content, sectionId, isAdmin }: { content: Record<string, 
     setPrev(current);
     setCurrent(idx);
     setFading(true);
-    setTimeout(() => { setPrev(null); setFading(false); }, 900);
+    setTimeout(() => { setPrev(null); setFading(false); }, 1200);
   }, [current, fading]);
 
   useEffect(() => {
     if (slides.length <= 1) return;
     timerRef.current = setInterval(() => {
       goTo((current + 1) % slides.length);
-    }, 5000);
+    }, 6500);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [current, slides.length, goTo]);
 
   const resolve = (href: string) => (isAdmin ? "#" : href ?? "#");
+  const pad = (n: number) => String(n).padStart(2, "0");
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" />
       <style>{`        .h02hero {
-          position: relative; width: 100%; height: 100vh; min-height: 620px;
-          overflow: hidden; background: #1a2332;
+          position: relative; width: 100%; height: 100vh; min-height: 680px;
+          overflow: hidden; background: #0f1622;
+          overflow-x: clip;
         }
         .h02hero-slide {
           position: absolute; inset: 0;
           background-size: cover; background-position: center;
-          transition: opacity 0.9s ease;
+          transition: opacity 1.2s cubic-bezier(.4,0,.2,1);
+          will-change: opacity, transform;
         }
-        .h02hero-slide.active { opacity: 1; z-index: 2; }
+        .h02hero-slide.active { opacity: 1; z-index: 2; animation: h02kb 9s ease-out forwards; }
         .h02hero-slide.prev   { opacity: 0; z-index: 3; }
+        @keyframes h02kb {
+          from { transform: scale(1.0); }
+          to   { transform: scale(1.08); }
+        }
         .h02hero-overlay {
           position: absolute; inset: 0; z-index: 4;
-          background: rgba(0,0,0,0.22);
+          background:
+            linear-gradient(180deg, rgba(10,14,22,0.55) 0%, rgba(10,14,22,0.18) 30%, rgba(10,14,22,0.10) 55%, rgba(10,14,22,0.55) 100%),
+            radial-gradient(ellipse at 50% 55%, transparent 40%, rgba(10,14,22,0.35) 100%);
         }
+
         .h02hero-content {
           position: absolute; inset: 0; z-index: 5;
           display: flex; flex-direction: column;
           align-items: center; justify-content: center;
-          text-align: center; padding: 80px 24px 200px;
+          text-align: center; padding: 130px 24px 260px;
+        }
+        .h02hero-ornament {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-style: italic; font-weight: 400;
+          font-size: clamp(48px, 6vw, 74px); line-height: 1;
+          color: rgba(255,255,255,0.85);
+          margin: 0 0 28px;
+          text-shadow: 0 2px 24px rgba(0,0,0,0.4);
+          animation: h02fade 1.4s cubic-bezier(.22,.68,0,1) 0.15s both;
         }
         .h02hero-eyebrow {
+          display: inline-flex; align-items: center; gap: 22px;
           font-family: 'Montserrat', sans-serif;
-          font-size: clamp(11px, 1.4vw, 14px);
-          font-weight: 400; color: rgba(255,255,255,0.75);
-          letter-spacing: 0.28em; text-transform: uppercase;
-          margin: 0 0 20px;
+          font-size: clamp(10px, 1.1vw, 12px);
+          font-weight: 500; color: rgba(255,255,255,0.82);
+          letter-spacing: 0.36em; text-transform: uppercase;
+          margin: 0 0 26px;
+          animation: h02fade 1.4s cubic-bezier(.22,.68,0,1) 0.3s both;
+        }
+        .h02hero-eyebrow::before,
+        .h02hero-eyebrow::after {
+          content: ""; width: 44px; height: 1px;
+          background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
         }
         .h02hero-title {
           font-family: 'Cormorant Garamond', Georgia, serif;
-          font-size: clamp(36px, 5.5vw, 72px);
-          font-weight: 300; font-style: italic;
-          color: #fff; line-height: 1.1;
-          letter-spacing: 0.01em;
-          margin: 0 0 32px;
-          text-shadow: 0 2px 20px rgba(0,0,0,0.4);
-          max-width: 900px;
+          font-size: clamp(40px, 6vw, 82px);
+          font-weight: 400; font-style: italic;
+          color: #fff; line-height: 1.08;
+          letter-spacing: -0.005em;
+          margin: 0 0 40px;
+          text-shadow: 0 2px 28px rgba(0,0,0,0.45);
+          max-width: 960px;
+          animation: h02fade 1.6s cubic-bezier(.22,.68,0,1) 0.45s both;
+        }
+        @keyframes h02fade {
+          from { opacity: 0; transform: translateY(18px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
         .h02hero-cta {
-          display: inline-flex; align-items: center; gap: 10px;
-          border: 1.5px solid rgba(255,255,255,0.75);
+          position: relative; overflow: hidden; isolation: isolate;
+          display: inline-flex; align-items: center; gap: 12px;
+          border: 1px solid rgba(255,255,255,0.75);
           color: #fff; background: transparent;
           font-family: 'Montserrat', sans-serif;
-          font-size: 11px; font-weight: 500;
-          letter-spacing: 0.22em; text-transform: uppercase;
-          padding: 14px 36px; text-decoration: none;
-          transition: background 0.2s, border-color 0.2s;
+          font-size: 11px; font-weight: 600;
+          letter-spacing: 0.24em; text-transform: uppercase;
+          padding: 16px 38px; text-decoration: none;
+          transition: color 0.35s, border-color 0.35s;
+          animation: h02fade 1.6s cubic-bezier(.22,.68,0,1) 0.6s both;
         }
-        .h02hero-cta:hover {
-          background: rgba(255,255,255,0.12);
-          border-color: #fff;
+        .h02hero-cta::before {
+          content: ""; position: absolute; inset: 0; z-index: -1;
+          background: rgba(255,255,255,0.14); transform: translateY(101%);
+          transition: transform 0.5s cubic-bezier(.22,.68,0,1);
         }
+        .h02hero-cta:hover::before { transform: translateY(0); }
+        .h02hero-cta:hover { border-color: #fff; }
+        .h02hero-cta-arrow { transition: transform 0.4s cubic-bezier(.22,.68,0,1); }
+        .h02hero-cta:hover .h02hero-cta-arrow { transform: translateX(4px); }
 
-        /* Dots */
+        /* Slider controls — bottom-left counter + progress dashes */
+        .h02hero-controls {
+          position: absolute; bottom: 232px; left: 50%; transform: translateX(-50%);
+          z-index: 6; display: inline-flex; align-items: center; gap: 24px;
+          color: #fff;
+        }
+        .h02hero-count {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-style: italic; font-size: 22px; letter-spacing: 0.05em;
+          opacity: 0.85; line-height: 1; min-width: 90px; text-align: center;
+        }
+        .h02hero-count b {
+          font-weight: 500; font-size: 26px; margin-right: 4px;
+        }
+        .h02hero-count .sep { opacity: 0.4; margin: 0 8px; }
         .h02hero-dots {
-          position: absolute; bottom: 168px; left: 50%; transform: translateX(-50%);
-          z-index: 6; display: flex; gap: 8px;
+          display: inline-flex; gap: 10px; padding: 0; margin: 0;
         }
         .h02hero-dot {
-          width: 7px; height: 7px; border-radius: 50%;
-          background: rgba(255,255,255,0.35); border: none; cursor: pointer; padding: 0;
-          transition: background 0.3s, transform 0.3s;
+          position: relative; width: 34px; height: 2px;
+          background: rgba(255,255,255,0.25); border: none; cursor: pointer; padding: 0;
+          transition: background 0.4s;
+          overflow: hidden;
         }
-        .h02hero-dot.active { background: #fff; transform: scale(1.35); }
+        .h02hero-dot::after {
+          content: ""; position: absolute; inset: 0; width: 100%;
+          background: #fff; transform-origin: left;
+          transform: scaleX(0);
+        }
+        .h02hero-dot.active::after {
+          animation: h02progress 6.5s linear forwards;
+        }
+        .h02hero-dot.done::after { transform: scaleX(1); }
+        @keyframes h02progress {
+          from { transform: scaleX(0); }
+          to   { transform: scaleX(1); }
+        }
+        .h02hero-dot:hover { background: rgba(255,255,255,0.5); }
 
-        /* Booking widget */
+        /* Booking widget — glass card with corner ticks */
         .h02hero-booking {
-          position: absolute; bottom: 52px; left: 50%; transform: translateX(-50%);
+          position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
           z-index: 7; display: flex; align-items: stretch;
-          background: rgba(26,35,50,0.92); backdrop-filter: blur(8px);
-          border: 1px solid rgba(150,161,172,0.25);
-          min-width: min(760px, 94vw);
+          background: rgba(15,22,34,0.88); backdrop-filter: saturate(140%) blur(12px);
+          -webkit-backdrop-filter: saturate(140%) blur(12px);
+          border: 1px solid rgba(150,161,172,0.35);
+          width: min(820px, calc(100% - 48px));
+          animation: h02fade 1.8s cubic-bezier(.22,.68,0,1) 0.9s both;
+        }
+        .h02hero-booking::before,
+        .h02hero-booking::after {
+          content: ""; position: absolute; width: 14px; height: 14px;
+          border-color: #96A1AC; border-style: solid; border-width: 0;
+        }
+        .h02hero-booking::before {
+          top: -1px; left: -1px; border-top-width: 1px; border-left-width: 1px;
+        }
+        .h02hero-booking::after {
+          bottom: -1px; right: -1px; border-bottom-width: 1px; border-right-width: 1px;
         }
         .h02hero-bfield {
           display: flex; flex-direction: column; justify-content: center;
-          padding: 14px 22px; flex: 1; border-right: 1px solid rgba(150,161,172,0.2);
-          gap: 3px; min-width: 0;
+          padding: 18px 26px; flex: 1; border-right: 1px solid rgba(150,161,172,0.22);
+          gap: 6px; min-width: 0; position: relative;
+          transition: background 0.3s;
         }
+        .h02hero-bfield:hover { background: rgba(150,161,172,0.06); }
         .h02hero-bfield:last-of-type { border-right: none; }
         .h02hero-blabel {
           font-family: 'Montserrat', sans-serif;
           font-size: 9px; font-weight: 600;
-          letter-spacing: 0.2em; text-transform: uppercase;
+          letter-spacing: 0.28em; text-transform: uppercase;
           color: #96A1AC;
         }
-        .h02hero-bvalue {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 14px; font-weight: 300; color: #fff;
-          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
         .h02hero-bdate {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 14px; font-weight: 300; color: #fff;
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: 17px; font-weight: 500; color: #fff;
           background: transparent; border: none; outline: none;
           cursor: pointer; width: 100%; padding: 0;
-          color-scheme: dark;
+          color-scheme: dark; letter-spacing: 0.02em;
         }
-        .h02hero-bdate::-webkit-calendar-picker-indicator { filter: invert(0.6); }
+        .h02hero-bdate::-webkit-calendar-picker-indicator { filter: invert(0.6); cursor: pointer; }
         .h02hero-guests {
-          display: flex; align-items: center; gap: 10px;
+          display: flex; align-items: center; gap: 14px;
         }
         .h02hero-gcounter {
-          background: transparent; border: none; color: #96A1AC;
-          font-size: 18px; line-height: 1; cursor: pointer; padding: 0 2px;
+          width: 26px; height: 26px; border-radius: 999px;
+          background: transparent; border: 1px solid rgba(150,161,172,0.4);
+          color: rgba(255,255,255,0.85);
+          font-size: 15px; line-height: 1; cursor: pointer; padding: 0;
           font-family: 'Montserrat', sans-serif; font-weight: 300;
-          transition: color 0.15s;
+          transition: background 0.2s, border-color 0.2s, color 0.2s;
+          display: inline-flex; align-items: center; justify-content: center;
         }
-        .h02hero-gcounter:hover { color: #fff; }
+        .h02hero-gcounter:hover { background: #96A1AC; border-color: #96A1AC; color: #fff; }
         .h02hero-gnum {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 14px; font-weight: 300; color: #fff;
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: 17px; font-weight: 500; color: #fff;
           min-width: 16px; text-align: center;
         }
         .h02hero-submit {
+          position: relative; overflow: hidden; isolation: isolate;
           display: flex; align-items: center; justify-content: center; gap: 10px;
           background: #96A1AC; border: none; cursor: pointer;
           font-family: 'Montserrat', sans-serif;
           font-size: 11px; font-weight: 600;
-          letter-spacing: 0.18em; text-transform: uppercase;
-          color: #fff; padding: 0 32px;
-          transition: background 0.2s;
-          white-space: nowrap; min-width: 160px;
+          letter-spacing: 0.22em; text-transform: uppercase;
+          color: #fff; padding: 0 36px;
+          transition: color 0.3s;
+          white-space: nowrap; min-width: 180px;
           text-decoration: none;
         }
-        .h02hero-submit:hover { background: #7a8a96; }
+        .h02hero-submit::before {
+          content: ""; position: absolute; inset: 0; z-index: -1;
+          background: #1a2332; transform: translateY(101%);
+          transition: transform 0.5s cubic-bezier(.22,.68,0,1);
+        }
+        .h02hero-submit:hover::before { transform: translateY(0); }
+        .h02hero-submit-arrow { transition: transform 0.4s cubic-bezier(.22,.68,0,1); }
+        .h02hero-submit:hover .h02hero-submit-arrow { transform: translate(3px,-3px); }
 
+        /* Scroll cue */
+        .h02hero-scroll {
+          position: absolute; bottom: 24px; left: 34px; z-index: 6;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 9px; font-weight: 600; letter-spacing: 0.28em; text-transform: uppercase;
+          color: rgba(255,255,255,0.65);
+          display: inline-flex; align-items: center; gap: 12px;
+          writing-mode: vertical-rl; transform: rotate(180deg);
+        }
+        .h02hero-scroll::before {
+          content: ""; width: 1px; height: 44px;
+          background: linear-gradient(to top, rgba(255,255,255,0.7), transparent);
+        }
+
+        @media (max-width: 900px) {
+          .h02hero-content { padding: 110px 20px 280px; }
+          .h02hero-controls { bottom: 250px; }
+          .h02hero-scroll { display: none; }
+        }
         @media (max-width: 700px) {
-          .h02hero-content { padding: 80px 20px 280px; }
+          .h02hero-content { padding: 100px 20px 320px; }
+          .h02hero-ornament { font-size: 44px; margin-bottom: 20px; }
+          .h02hero-eyebrow::before, .h02hero-eyebrow::after { width: 22px; }
+          .h02hero-eyebrow { gap: 14px; }
           .h02hero-booking {
-            flex-direction: column; min-width: 92vw;
-            bottom: 16px;
+            flex-direction: column; width: calc(100% - 32px);
+            bottom: 20px;
           }
-          .h02hero-bfield { border-right: none; border-bottom: 1px solid rgba(150,161,172,0.2); padding: 12px 18px; }
-          .h02hero-submit { padding: 18px 24px; min-width: unset; }
-          .h02hero-dots { display: none; }
+          .h02hero-bfield { border-right: none; border-bottom: 1px solid rgba(150,161,172,0.2); padding: 14px 20px; }
+          .h02hero-submit { padding: 20px 24px; min-width: unset; }
+          .h02hero-controls { bottom: unset; top: unset; position: absolute; bottom: 300px; }
         }
         @media (max-width: 480px) {
           .h02hero-booking { display: none; }
-          .h02hero-content { padding: 80px 20px 60px; }
+          .h02hero-content { padding: 100px 20px 100px; }
+          .h02hero-controls { bottom: 40px; }
         }
       `}</style>
 
@@ -15868,6 +16222,9 @@ function HeroHotel02({ content, sectionId, isAdmin }: { content: Record<string, 
         <div className="h02hero-overlay" aria-hidden="true" />
 
         <div className="h02hero-content">
+          <div className="h02hero-ornament" aria-hidden="true">
+            <GenericEditableText sectionId={sectionId} field="ornament" value={ornament} tag="span" />
+          </div>
           <p className="h02hero-eyebrow">
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
@@ -15876,49 +16233,64 @@ function HeroHotel02({ content, sectionId, isAdmin }: { content: Record<string, 
           </h1>
           <a href={resolve(ctaHref)} data-btn="primary" className="h02hero-cta">
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 5h14M10 1l5 4-5 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg className="h02hero-cta-arrow" width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 5h14M10 1l5 4-5 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
         </div>
 
         {slides.length > 1 && (
-          <div className="h02hero-dots" role="tablist" aria-label="Slides">
-            {slides.map((_, i) => (
-              <button
-                key={i}
-                className={`h02hero-dot${i === current ? " active" : ""}`}
-                onClick={() => goTo(i)}
-                role="tab"
-                aria-selected={i === current}
-                aria-label={`Slide ${i + 1}`}
-              />
-            ))}
+          <div className="h02hero-controls">
+            <span className="h02hero-count" aria-live="polite">
+              <b>{pad(current + 1)}</b>
+              <span className="sep">/</span>
+              {pad(slides.length)}
+            </span>
+            <div className="h02hero-dots" role="tablist" aria-label="Slides">
+              {slides.map((_, i) => (
+                <button
+                  key={i}
+                  className={`h02hero-dot${i === current ? " active" : ""}${i < current ? " done" : ""}`}
+                  onClick={() => goTo(i)}
+                  role="tab"
+                  aria-selected={i === current}
+                  aria-label={`Slide ${i + 1}`}
+                />
+              ))}
+            </div>
           </div>
         )}
+
+        <span className="h02hero-scroll" aria-hidden="true">Scroll</span>
 
         {/* Booking widget */}
         <div className="h02hero-booking">
           <div className="h02hero-bfield">
-            <span className="h02hero-blabel">Příjezd</span>
+            <span className="h02hero-blabel">
+              <GenericEditableText sectionId={sectionId} field="bookLabelIn" value={bookLabelIn} tag="span" />
+            </span>
             <input
               type="date"
               className="h02hero-bdate"
               defaultValue={today}
-              aria-label="Datum příjezdu"
+              aria-label={bookLabelIn}
             />
           </div>
           <div className="h02hero-bfield">
-            <span className="h02hero-blabel">Odjezd</span>
+            <span className="h02hero-blabel">
+              <GenericEditableText sectionId={sectionId} field="bookLabelOut" value={bookLabelOut} tag="span" />
+            </span>
             <input
               type="date"
               className="h02hero-bdate"
               defaultValue={tomorrow}
-              aria-label="Datum odjezdu"
+              aria-label={bookLabelOut}
             />
           </div>
           <div className="h02hero-bfield">
-            <span className="h02hero-blabel">Hosté</span>
+            <span className="h02hero-blabel">
+              <GenericEditableText sectionId={sectionId} field="bookLabelGuest" value={bookLabelGuest} tag="span" />
+            </span>
             <div className="h02hero-guests">
               <button
                 className="h02hero-gcounter"
@@ -15936,11 +16308,78 @@ function HeroHotel02({ content, sectionId, isAdmin }: { content: Record<string, 
             </div>
           </div>
           <a href={resolve("#kontakt")} className="h02hero-submit">
-            Rezervovat
-            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 5h14M10 1l5 4-5 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+            <GenericEditableText sectionId={sectionId} field="bookSubmit" value={bookSubmit} tag="span" />
+            <svg className="h02hero-submit-arrow" width="16" height="10" viewBox="0 0 16 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 5h14M10 1l5 4-5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ── hotel-02-hero-page (slim banner for subpages) ────────────────────────────
+function HeroHotel02Page({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const c        = (content ?? {}) as Record<string, any>;
+  const title    = c.title    ?? "";
+  const subtitle = c.subtitle ?? "";
+  const imageUrl = c.imageUrl ?? "/assets/hotel-02/new/hero-1.webp";
+
+  return (
+    <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@400;500&display=swap" />
+      <style>{`
+        .h02hp {
+          position: relative; overflow: hidden;
+          min-height: clamp(280px, 38vw, 420px);
+          display: flex; align-items: center; justify-content: center;
+          text-align: center;
+          font-family: 'Montserrat', sans-serif;
+        }
+        .h02hp-bg {
+          position: absolute; inset: 0; width: 100%; height: 100%;
+          object-fit: cover; display: block;
+        }
+        .h02hp-overlay {
+          position: absolute; inset: 0;
+          background: linear-gradient(180deg, rgba(26,35,50,0.7) 0%, rgba(26,35,50,0.55) 100%);
+        }
+        .h02hp-inner {
+          position: relative; z-index: 2;
+          padding: clamp(100px,12vw,160px) 24px clamp(48px,6vw,72px);
+        }
+        .h02hp-title {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: clamp(32px,4vw,56px); font-weight: 300;
+          color: #fff; margin: 0 0 12px; line-height: 1.15;
+        }
+        .h02hp-sub {
+          font-size: clamp(12px,1.1vw,14px); font-weight: 400;
+          letter-spacing: 2px; text-transform: uppercase;
+          color: #96A1AC; margin: 0;
+        }
+        .h02hp::after {
+          content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+          width: 60px; height: 1px; background: #96A1AC;
+        }
+      `}</style>
+      <section className="h02hp" data-template="hotel-02-hero-page">
+        <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+          <img src={imageUrl} alt={title} className="h02hp-bg" />
+        </GenericEditableImage>
+        <div className="h02hp-overlay" />
+        <div className="h02hp-inner">
+          <h1 className="h02hp-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+          {subtitle && (
+            <p className="h02hp-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
         </div>
       </section>
     </>
