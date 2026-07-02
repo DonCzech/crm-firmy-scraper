@@ -2547,7 +2547,9 @@ function GalleryRestaurant03({ content, sectionId, images }: { content: Record<s
 // (3:4) / landscape (4:3) formáty, Cormorant číslicemi, Great Vibes captiony,
 // custom luxe gold magnifier cursor, lightbox s prev/next/counter, progress bar.
 // ─────────────────────────────────────────────────────────────────────────────
-function GalleryCafe03({ content, sectionId, images }: { content: Record<string, unknown>; sectionId: number; images: Array<{ url?: string; fullUrl?: string; alt?: string; caption?: string }> }) {
+function GalleryCafe03({ content, sectionId, images: _normalizedImages }: { content: Record<string, unknown>; sectionId: number; images: Array<{ url?: string; fullUrl?: string; alt?: string; caption?: string }> }) {
+  // Read raw content.images (parent normalize strips caption + sets fullUrl="" which breaks ?? fallback)
+  const rawImages = Array.isArray((content as { images?: unknown }).images) ? ((content as { images: Array<Record<string, unknown>> }).images) : [];
   const GOLD    = "#C69C60";
   const GOLD_LT = "#D8B57A";
   const GOLD_DK = "#8F6A38";
@@ -2575,7 +2577,9 @@ function GalleryCafe03({ content, sectionId, images }: { content: Record<string,
     { url: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=1200&h=1600&fit=crop&fm=webp&q=88", alt: "Snídaňový set",        caption: "Snídaňový set" },
     { url: "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1200&h=900&fit=crop&fm=webp&q=88",  alt: "Letní terasa",          caption: "Letní terasa" },
   ];
-  const imgs = images.length > 0 ? images : defaultImages;
+  const imgs: Array<{ url?: string; fullUrl?: string; alt?: string; caption?: string }> = rawImages.length > 0
+    ? rawImages.map(r => ({ url: r.url as string | undefined, fullUrl: r.fullUrl as string | undefined, alt: r.alt as string | undefined, caption: r.caption as string | undefined }))
+    : defaultImages;
 
   const trackRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);
@@ -2788,7 +2792,7 @@ function GalleryCafe03({ content, sectionId, images }: { content: Record<string,
 
           {/* Image */}
           <div onClick={e => e.stopPropagation()} style={{ position: "relative", maxWidth: "90vw", maxHeight: "82vh", cursor: "default" }}>
-            <img src={imgs[lightboxIdx].fullUrl ?? imgs[lightboxIdx].url ?? ""} alt={imgs[lightboxIdx].alt ?? ""} style={{ maxWidth: "90vw", maxHeight: "82vh", objectFit: "contain", display: "block", boxShadow: `0 40px 80px rgba(0,0,0,0.6)`, border: `1px solid ${GOLD}33` }} loading="eager" />
+            <img src={imgs[lightboxIdx].fullUrl || imgs[lightboxIdx].url || ""} alt={imgs[lightboxIdx].alt ?? ""} style={{ maxWidth: "90vw", maxHeight: "82vh", objectFit: "contain", display: "block", boxShadow: `0 40px 80px rgba(0,0,0,0.6)`, border: `1px solid ${GOLD}33` }} loading="eager" />
             {imgs[lightboxIdx].caption && (
               <div style={{ position: "absolute", left: 0, right: 0, bottom: -50, textAlign: "center" }}>
                 <span style={{ fontFamily: SCRIPT, fontSize: 30, color: GOLD_LT }}>{imgs[lightboxIdx].caption}</span>

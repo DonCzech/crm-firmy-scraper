@@ -4,135 +4,166 @@
   "description": "Vítáme Vás v naší kavárně a restauraci Cathedral Café s jedinečným interiérem a s letní i zimní zahrádkou. Najdete nás v srdci Prahy, nedaleko Staroměstského náměstí.",
 
   "navbar": {
-    "siteName": "Demo Cathedral Café",
+    "siteName": "Cathedral Café",
     "logoUrl": "/templates/cafe-03/logo.svg",
-    "ctaText": "Rezervace",
+    "ctaText": "Rezervace stolu",
     "ctaHref": "/kontakt",
-    "phone": "704 123 456",
+    "phone": "+420 704 218 640",
+    "hours": "OTEVŘENO DENNĚ · 9:00 — 22:00",
+    "address": "Melantrichova 15 · Praha 1",
+    "siteMode": "multipage",
     "links": [
-      { "label": "Naše menu",     "href": "/nase-menu" },
-      { "label": "Rezervace",     "href": "/kontakt" },
-      { "label": "Akce",          "href": "/" },
-      { "label": "Galerie",       "href": "/galerie" },
-      { "label": "Kontakt",       "href": "/kontakt" }
+      { "label": "Naše menu", "href": "/nase-menu" },
+      { "label": "O nás",     "href": "/#o-nas" },
+      { "label": "Galerie",   "href": "/galerie" },
+      { "label": "Kontakt",   "href": "/kontakt" }
     ]
   },
 
   "hero": {
-    "title": "Vítáme Vás v Cathedral Café",
-    "subtitle": "Rádi Vás přivítáme každý den od 9:00 do 21:00 hod.",
-    "ctaText": "Rezervace",
+    "eyebrow": "PRAHA · MMXVI",
+    "kicker": "Kavárna & Restaurace",
+    "title": "Cathedral Café",
+    "subtitle": "Katedrální elegance v srdci Starého Města — snídaně z pekárny, obědové menu z lokálních surovin, večerní bistro s pečlivě vybranou vinnou kartou.",
+    "ctaText": "Rezervace stolu",
     "ctaHref": "/kontakt",
+    "ctaAltText": "Prohlédnout menu",
+    "ctaAltHref": "/nase-menu",
+    "siteMode": "multipage",
     "slides": [
-      { "url": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&h=1080&fit=crop&fm=webp&q=85", "alt": "Interiér kavárny" },
-      { "url": "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1920&h=1080&fit=crop&fm=webp&q=85", "alt": "Letní zahrada" },
-      { "url": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1920&h=1080&fit=crop&fm=webp&q=85", "alt": "Kavárna & restaurace" }
-    ],
-    "slides.1.title": "Letní i zimní zahrada",
-    "slides.1.subtitle": "K posezení u nás můžete využít nádhernou letní i zimní zahrádku.",
-    "slides.2.title": "Cathedral Prague Apartments",
-    "slides.2.subtitle": "Pokud budete unaveni, ubytujte se u nás."
+      { "url": "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=2000&h=1200&fit=crop&fm=webp&q=88", "alt": "Katedrální lounge interiér", "caption": "Katedrální lounge" },
+      { "url": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=2000&h=1200&fit=crop&fm=webp&q=88", "alt": "Zimní zahrada", "caption": "Zimní zahrada" },
+      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=2000&h=1200&fit=crop&fm=webp&q=88", "alt": "Vinný sklep se sviečkami", "caption": "Vinný sklep" }
+    ]
   },
 
   "about": {
     "id": "o-nas",
-    "tagline": "O NÁS",
-    "title": "Cathedral Café Lounge & Restaurant",
-    "body": "Vítáme Vás v naší kavárně a restauraci Cathedral Café s jedinečným interiérem a s letní i zimní zahrádkou a la provance. Najdete nás v srdci Prahy, nedaleko Staroměstského náměstí.",
-    "body2": "Pochutnejte si u nás na skvělé snídani, obědu či večeři a dejte si k tomu domácí limonádu, koktejl, vynikající kávu či sklenku vína. Objevte u nás oázu klidu a relaxu a nebudete litovat.",
-    "image": "https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=900&h=1125&fit=crop&fm=webp&q=85"
+    "eyebrow": "NAŠE HISTORIE",
+    "kicker": "Založeno MMXVI · Melantrichova 15",
+    "title": "Katedrální elegance",
+    "subtitle": "kavárna & restaurace ve Starém Městě",
+    "body": "Cathedral Café je místem, kde se snoubí atmosféra staré Prahy s poctivou gastronomií. Ranní čerstvá káva ze specialty pražírny Doubleshot, obědy z lokálních surovin a večerní bistro s pečlivě vybranou vinnou kartou z moravských sklepů — vše pod klenutými stropy památkově chráněného domu.",
+    "body2": "Náš tým vedený šéfkuchařem Adamem Hálou dbá na sezónnost, řemeslo a detaily, které dělají návštěvu nezapomenutelnou.",
+    "image": "https://images.unsplash.com/photo-1517705008128-361805f42e86?w=1000&h=1250&fit=crop&fm=webp&q=88",
+    "imageCaption": "Klenutý sál Cathedral",
+    "signature": "Adam Hála",
+    "signRole": "Šéfkuchař & spolumajitel",
+    "stats": [
+      { "value": "MMXVI", "label": "Rok založení" },
+      { "value": "180",   "label": "Míst k sezení" },
+      { "value": "4.8",   "label": "Google hodnocení" }
+    ]
   },
 
   "promo": {
     "id": "directory",
-    "tagline": "Co o nás musíte vědět",
-    "title": "Nepřehlédněte",
+    "eyebrow": "OBJEVTE",
+    "title": "Tři cesty do Cathedral",
+    "kicker": "menu · události · rezervace",
     "items": [
       {
-        "label": "Akce",
-        "href": "/",
-        "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=600&fit=crop&fm=webp&q=85"
+        "label": "Akce & večery",
+        "subtitle": "Živá hudba, degustace, klavírní soirée každou středu.",
+        "href": "/#akce",
+        "image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&h=1200&fit=crop&fm=webp&q=88"
       },
       {
-        "label": "Menu",
+        "label": "Naše menu",
+        "subtitle": "Snídaně z pekárny, obědové menu, večerní bistro.",
         "href": "/nase-menu",
-        "image": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&h=600&fit=crop&fm=webp&q=85"
+        "image": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=900&h=1200&fit=crop&fm=webp&q=88"
       },
       {
-        "label": "Rezervace",
+        "label": "Rezervace stolu",
+        "subtitle": "Zaručený stůl kdykoli mezi 9:00 — 22:00.",
         "href": "/kontakt",
-        "image": "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=600&h=600&fit=crop&fm=webp&q=85"
+        "image": "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=900&h=1200&fit=crop&fm=webp&q=88"
       }
     ]
   },
 
   "gallery": {
     "id": "galerie",
-    "title": "Jak to u nás vypadá",
+    "eyebrow": "OKAMŽIKY U NÁS",
+    "title": "Katedrální galerie",
+    "kicker": "interiér · terasa · jídlo · noc",
     "images": [
-      { "url": "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Kavárna interiér" },
-      { "url": "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Interiér" },
-      { "url": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Kavárna detail" },
-      { "url": "https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Podávání kávy" },
-      { "url": "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Venkovní posezení" },
-      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Jídlo" },
-      { "url": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Snídaně" },
-      { "url": "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Restaurace" },
-      { "url": "https://images.unsplash.com/photo-1547592180-85f173990554?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Polední menu" },
-      { "url": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=960&h=600&fit=crop&fm=webp&q=85", "alt": "Večeře" }
+      { "url": "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1200&h=1600&fit=crop&fm=webp&q=88", "alt": "Klenutý sál", "caption": "Klenutý sál" },
+      { "url": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1200&h=900&fit=crop&fm=webp&q=88",   "alt": "Zimní zahrada", "caption": "Zimní zahrada" },
+      { "url": "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&h=1600&fit=crop&fm=webp&q=88", "alt": "Ranní latte art", "caption": "Ranní latte" },
+      { "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&h=900&fit=crop&fm=webp&q=88",  "alt": "Vinný sklep při svíčkách", "caption": "Vinný sklep" },
+      { "url": "https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=1200&h=1600&fit=crop&fm=webp&q=88",   "alt": "Cappuccino", "caption": "Cappuccino" },
+      { "url": "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=1200&h=900&fit=crop&fm=webp&q=88",  "alt": "Sezónní talíř", "caption": "Sezónní talíř" },
+      { "url": "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=1200&h=1600&fit=crop&fm=webp&q=88", "alt": "Snídaňový set", "caption": "Snídaňový set" },
+      { "url": "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1200&h=900&fit=crop&fm=webp&q=88",  "alt": "Letní terasa", "caption": "Letní terasa" },
+      { "url": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&h=1600&fit=crop&fm=webp&q=88", "alt": "Večerní menu", "caption": "Večerní menu" },
+      { "url": "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=1200&h=900&fit=crop&fm=webp&q=88",   "alt": "Sál při svíčkách", "caption": "Sál při svíčkách" }
     ]
   },
 
   "cta": {
     "id": "rezervace",
-    "title": "Zarezervujte si stůl",
-    "subtitle": "Otevřeno každý den od 9:00 do 21:00 hod.",
-    "ctaText": "Zarezervovat stůl",
+    "eyebrow": "REZERVUJTE STŮL",
+    "kicker": "otevřeno denně · 9:00 — 22:00",
+    "title": "Katedrální večeře",
+    "subtitle": "vína · sezónní menu · svícený sál",
+    "body": "Stůl pro dva pod klenutými stropy, tichá klavírní jazz linka a sklenka moravského ryzlinku — Cathedral Café je místem, kam se vracejí ti, kteří vědí, že večer začíná dobře prostřeným stolem.",
+    "ctaText": "Rezervace stolu",
     "ctaHref": "/kontakt",
-    "backgroundImage": "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1920&h=800&fit=crop&fm=webp&q=80"
+    "phone": "+420 704 218 640",
+    "phoneHref": "tel:+420704218640",
+    "address": "Melantrichova 15 · Praha 1",
+    "hours": "9:00 — 22:00",
+    "backgroundImage": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=2000&h=1200&fit=crop&fm=webp&q=88"
   },
 
   "contact": {
     "id": "kontakt",
-    "title": "Kontaktujte nás",
-    "subtitle": "Máte na nás otázku? Neváhejte nás kontaktovat.",
-    "phone": "704 123 456",
-    "email": "info@demo.cz",
-    "hoursText": "Otevřeno máme každý den od 09:00 do 21:00 hod",
-    "groups": [
-      {
-        "heading": "Rezervace",
-        "phone": "704 123 456",
-        "address": "Ukázková 123, 110 00 Praha 1"
-      },
-      {
-        "heading": "Manažer",
-        "phone": "704 654 321",
-        "email": "email@demo.cz"
-      }
+    "eyebrow": "SPOJTE SE S NÁMI",
+    "title": "Rezervace & kontakt",
+    "kicker": "prosíme rezervovat s předstihem — víkendy vyprodáno",
+    "phoneBig": "+420 704 218 640",
+    "phoneHref": "tel:+420704218640",
+    "emailBig": "hello@cathedral-cafe.cz",
+    "address": "Melantrichova 15, 110 00 Praha 1",
+    "mapsHref": "https://maps.google.com/?q=Melantrichova+15+Praha",
+    "hoursGrid": [
+      { "day": "Pondělí — Čtvrtek", "time": "9:00 — 22:00" },
+      { "day": "Pátek — Sobota",    "time": "9:00 — 24:00" },
+      { "day": "Neděle",            "time": "9:00 — 21:00" }
     ],
-    "socialFacebook": "https://facebook.com/demo",
-    "socialInstagram": "https://instagram.com/demo"
+    "formTitle": "Rezervujte stůl",
+    "formSubtitle": "napište nám vaše preference — odpovíme do hodiny",
+    "submitLabel": "Rezervuji stůl",
+    "socialFacebook": "https://facebook.com/cathedralcafe",
+    "socialInstagram": "https://instagram.com/cathedralcafe"
   },
 
   "footer": {
-    "siteName": "Demo Cathedral Café",
+    "siteName": "Cathedral Café",
     "logoUrl": "/templates/cafe-03/logo.svg",
-    "tagline": "Kavárna & restaurace v srdci Prahy",
-    "address": "Ukázková 123, 110 00 Praha 1",
-    "phone": "704 123 456",
-    "email": "info@demo.cz",
-    "hours": "Po–Ne 9:00–21:00",
-    "socialFacebook": "https://facebook.com/demo",
-    "socialInstagram": "https://instagram.com/demo",
+    "tagline": "kavárna & restaurace v srdci Starého Města",
+    "address": "Melantrichova 15, 110 00 Praha 1",
+    "mapsHref": "https://maps.google.com/?q=Melantrichova+15+Praha",
+    "phone": "+420 704 218 640",
+    "phoneHref": "tel:+420704218640",
+    "email": "hello@cathedral-cafe.cz",
+    "hoursGrid": [
+      { "day": "Po — Čt", "time": "9:00 — 22:00" },
+      { "day": "Pá — So", "time": "9:00 — 24:00" },
+      { "day": "Neděle",  "time": "9:00 — 21:00" }
+    ],
+    "socialFacebook": "https://facebook.com/cathedralcafe",
+    "socialInstagram": "https://instagram.com/cathedralcafe",
     "links": [
+      { "label": "Domů",       "href": "/" },
       { "label": "Naše menu",  "href": "/nase-menu" },
       { "label": "Galerie",    "href": "/galerie" },
-      { "label": "Kontakt",    "href": "/kontakt" },
-      { "label": "Rezervace",  "href": "/kontakt" }
+      { "label": "Kontakt",    "href": "/kontakt" }
     ],
-    "copyright": "© 2025 Demo Cathedral Café. Všechna práva vyhrazena.",
-    "ico": "12345678"
+    "copyright": "© 2026 Cathedral Café · Všechna práva vyhrazena",
+    "ico": "IČ 07123456"
   },
 
   "pages": {

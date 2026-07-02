@@ -10,22 +10,15 @@
   },
 
   "hero": {
+    "eyebrow": "Specialty · Praha",
+    "title": "Bringing you\nthe good stuff.",
+    "tagline": "Denní čerstvá pražení, cold brew, avokádové toasty a útulný kout uprostřed města.",
+    "scrollLabel": "scroll down",
     "slides": [
-      {
-        "imageUrl": "/assets/cafe-04/5eb956e095-67cc82f0c6e15f8db05a4779_BAB33CEE-0F29-4D78-BCED-B59C17731DB6.jpeg",
-        "alt": "Demo Coffee Room interiér"
-      },
-      {
-        "imageUrl": "/assets/cafe-04/d200837881-67cc82f0c6e15f8db05a4776_62B3352B-509A-4406-9541-0074B55A3320.jpeg",
-        "alt": "Demo Coffee Room káva"
-      },
-      {
-        "imageUrl": "/assets/cafe-04/034c52cbde-67cc82f0c6e15f8db05a477a_7AF7C937-2FD8-437D-9E84-3C981161DB33.jpeg",
-        "alt": "Demo Coffee Room snídaně"
-      }
-    ],
-    "tagline": "bringing you the good stuff",
-    "scrollLabel": "scroll down"
+      { "imageUrl": "/assets/cafe-04/hero-1.webp", "alt": "Demo Coffee Room — interiér" },
+      { "imageUrl": "/assets/cafe-04/hero-2.webp", "alt": "Demo Coffee Room — káva" },
+      { "imageUrl": "/assets/cafe-04/hero-3.webp", "alt": "Demo Coffee Room — snídaně" }
+    ]
   },
 
   "about": {

@@ -46,7 +46,7 @@
       "seoDescriptionKey": "pages.nase-menu.seoDescription",
       "sections": [
         { "type": "navbar",   "variant": "cafe-03-navbar",  "contentRef": "navbar" },
-        { "type": "hero",     "variant": "hero-centered",   "contentRef": "pages.nase-menu.hero" },
+        { "type": "hero",     "variant": "hero-cafe-03-page",   "contentRef": "pages.nase-menu.hero" },
         { "type": "services", "variant": "cafe-03-menu",    "contentRef": "pages.nase-menu.services" },
         { "type": "footer",   "variant": "cafe-03-footer",  "contentRef": "footer" }
       ]
@@ -58,7 +58,7 @@
       "seoDescriptionKey": "pages.galerie.seoDescription",
       "sections": [
         { "type": "navbar",  "variant": "cafe-03-navbar",  "contentRef": "navbar" },
-        { "type": "hero",    "variant": "hero-centered",   "contentRef": "pages.galerie.hero" },
+        { "type": "hero",    "variant": "hero-cafe-03-page",   "contentRef": "pages.galerie.hero" },
         { "type": "gallery", "variant": "cafe-03-gallery", "contentRef": "pages.galerie.gallery" },
         { "type": "footer",  "variant": "cafe-03-footer",  "contentRef": "footer" }
       ]
