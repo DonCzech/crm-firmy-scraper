@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useStudio } from "./StudioContext";
 import { StudioTopBar } from "./StudioTopBar";
-import { StudioLeftRail } from "./StudioLeftRail";
+import { StudioLeftRail, MODULES_ENABLED } from "./StudioLeftRail";
 import { StudioLeftPanel } from "./StudioLeftPanel";
 import { StudioRightPanel } from "./StudioRightPanel";
 import { StudioCanvas } from "./StudioCanvas";
@@ -75,7 +75,7 @@ export function StudioShell({ state }: { state: StudioState }) {
   useHotkey("cmd+k",  () => studio.setCommandPaletteOpen(true));
   useHotkey("P",      () => studio.setLeftPanel(studio.leftPanel === "pages"   ? null : "pages"));
   useHotkey("D",      () => studio.setLeftPanel(studio.leftPanel === "design"  ? null : "design"));
-  useHotkey("M",      () => studio.setLeftPanel(studio.leftPanel === "modules" ? null : "modules"));
+  useHotkey("M",      () => { if (MODULES_ENABLED) studio.setLeftPanel(studio.leftPanel === "modules" ? null : "modules"); });
   useHotkey("L",      () => studio.setLeftPanel(studio.leftPanel === "layers"  ? null : "layers"));
   useHotkey("A",      () => studio.setLeftPanel(studio.leftPanel === "add"     ? null : "add"));
   useHotkey("B",      () => studio.setLeftPanel(studio.leftPanel === "brand"   ? null : "brand"));

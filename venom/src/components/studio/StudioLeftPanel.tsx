@@ -15,7 +15,7 @@ import type { StudioState } from "./TenantStudioView";
 
 const TITLES: Record<string, string> = {
   add:      "Přidat sekci",
-  layers:   "Vrstvy",
+  layers:   "Přidat blok",
   pages:    "Stránky",
   design:   "Design",
   brand:    "Identita firmy",

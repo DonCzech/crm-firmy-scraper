@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import clsx from "clsx";
 import { useStudio } from "./StudioContext";
+import { MODULES_ENABLED } from "./StudioLeftRail";
 import type { StudioState } from "./TenantStudioView";
 
 interface CmdItem {
@@ -40,6 +41,7 @@ const STATIC_ITEMS: CmdItem[] = [
   { id: "zoom-100",         label: "Zoom: 100%",                category: "Zobrazení",   keys: [],                                      action: "zoom-100" },
   // History
   { id: "undo",             label: "Zpět",                      category: "Akce",        keys: ["⌘", "Z"],         icon: Undo2,         action: "undo" },
+  { id: "redo",             label: "Znovu",                     category: "Akce",        keys: ["⌘", "⇧", "Z"],    icon: Undo2,         action: "redo" },
   // Settings
   { id: "settings-web",     label: "Nastavení webu",            category: "Nastavení",   keys: [],                 icon: Globe,         action: "settings-web" },
   { id: "settings-billing", label: "Fakturace a platby",        category: "Nastavení",   keys: [],                 icon: CreditCard,    action: "settings-billing" },
@@ -103,7 +105,8 @@ export function CommandPalette({ state }: { state?: StudioState }) {
     dynamic: true,
   }));
 
-  const allItems = [...STATIC_ITEMS, ...dynamicPageItems];
+  const allItems = [...STATIC_ITEMS, ...dynamicPageItems]
+    .filter(item => MODULES_ENABLED || item.id !== "modules");
 
   const scored = allItems
     .map(item => ({ item, score: fuzzyScore(query, item.label) + fuzzyScore(query, item.category) * 0.4 }))
@@ -139,14 +142,15 @@ export function CommandPalette({ state }: { state?: StudioState }) {
       case "modules":           studio.setLeftPanel("modules"); break;
       case "pages":             studio.setLeftPanel("pages"); break;
       case "articles":          studio.setLeftPanel("articles"); break;
-      case "analytics":         studio.setLeftPanel("analytics" as Parameters<typeof studio.setLeftPanel>[0]); break;
+      case "analytics":         if (state) window.location.href = `/demo/${state.tenant.slug}/admin/analytics`; break;
       case "assets":            studio.setAssetsOpen(true); break;
       case "desktop":           studio.setBreakpoint("desktop"); break;
       case "tablet":            studio.setBreakpoint("tablet"); break;
       case "mobile":            studio.setBreakpoint("mobile"); break;
       case "zoom-fit":          studio.setZoom("fit"); break;
       case "zoom-100":          studio.setZoom(100); break;
-      case "undo":              break;
+      case "undo":              state?.undo(); break;
+      case "redo":              state?.redo(); break;
       case "settings-web":      studio.setLeftPanel("settings"); studio.setSettingsView("web"); break;
       case "settings-billing":  studio.setLeftPanel("settings"); studio.setSettingsView("billing"); break;
       case "checklist":         studio.setChecklistOpen(true); break;

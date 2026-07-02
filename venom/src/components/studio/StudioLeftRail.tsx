@@ -23,7 +23,10 @@ function PagesIcon({ size = 20 }: { size?: number }) {
 
 type IconProps = { size: number; strokeWidth: number };
 
-export const RAIL_ITEMS: Array<{
+// Moduly (CRM) jsou zatím jen UI skořápka bez CRUD — skryto z railu, dokud nebude reálná implementace
+export const MODULES_ENABLED = false;
+
+const ALL_RAIL_ITEMS: Array<{
   id: Exclude<StudioLeftPanel, null>;
   label: string;
   tourId: string;
@@ -37,6 +40,8 @@ export const RAIL_ITEMS: Array<{
   { id: "modules",  label: "Moduly",       tourId: "rail-modules",  Icon: ({ size, strokeWidth }) => <AlignJustify size={size} strokeWidth={strokeWidth} /> },
   { id: "articles", label: "Články",       tourId: "rail-articles", Icon: ({ size, strokeWidth }) => <LayoutGrid size={size} strokeWidth={strokeWidth} /> },
 ];
+
+export const RAIL_ITEMS = ALL_RAIL_ITEMS.filter((item) => MODULES_ENABLED || item.id !== "modules");
 
 function AccountDropdown({ onClose }: { onClose: () => void }) {
   const studio = useStudio();
