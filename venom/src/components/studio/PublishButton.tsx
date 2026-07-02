@@ -129,6 +129,17 @@ export function PublishButton({ state }: Props) {
     else await saveAsDraft();
   }
 
+  // Publikaci lze vyvolat i odjinud (command palette) přes custom event
+  useEffect(() => {
+    function onPublishEvent(e: Event) {
+      const detail = (e as CustomEvent<{ mode?: Mode }>).detail;
+      void runMode(detail?.mode ?? "page");
+    }
+    window.addEventListener("venom-studio:publish", onPublishEvent);
+    return () => window.removeEventListener("venom-studio:publish", onPublishEvent);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.page.id, state.tenant.slug]);
+
   const label =
     mode === "draft" ? "Uložit koncept" : mode === "site" ? "Publikovat web" : "Publikovat";
 

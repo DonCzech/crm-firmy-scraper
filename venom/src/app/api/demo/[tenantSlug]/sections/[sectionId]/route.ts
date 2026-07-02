@@ -8,9 +8,15 @@ import { revalidatePath } from "next/cache";
 const BodySchema = z.object({
   settings: z.record(z.unknown()).optional(),
   is_visible: z.boolean().optional(),
+  // section_variant: used by the "Změnit rozložení" action — swaps the visual
+  // variant of an existing section without recreating it (preserves id,
+  // content_overrides, layout settings). We deliberately don't expose
+  // section_type swaps from this endpoint; mixing variant pools across types
+  // produces nonsense.
+  section_variant: z.string().min(1).max(80).optional(),
 }).refine(
-  (v) => v.settings !== undefined || v.is_visible !== undefined,
-  { message: "Nothing to update — provide settings or is_visible" }
+  (v) => v.settings !== undefined || v.is_visible !== undefined || v.section_variant !== undefined,
+  { message: "Nothing to update — provide settings, is_visible or section_variant" }
 );
 
 interface RouteParams {
@@ -36,11 +42,24 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
 
   // Security: section must belong to this tenant — filter by tenant_id in WHERE
   // Also fetch content_source + structural metadata for v2 sparse-override routing.
-  const sectionRow = await queryOne<Section & { content_source: string | null; content_overrides: Record<string, unknown> }>(
+  const sectionRow = await queryOne<Section & { content_source: string | null; content_overrides: Record<string, unknown>; updated_at: string }>(
     "SELECT * FROM sections WHERE id = $1 AND tenant_id = $2",
     [sid, tenant.id]
   );
   if (!sectionRow) return Response.json({ error: "Section not found" }, { status: 404 });
+
+  // Optimistic concurrency (LIVE_EDITOR_STANDARD): klient posílá If-Match = updated_at
+  // epoch ms z posledního čtení/zápisu. Nesouhlas ⇒ 412 a klient nabídne reload/přepsat.
+  const ifMatch = req.headers.get("if-match");
+  if (ifMatch) {
+    const currentRev = String(new Date(sectionRow.updated_at).getTime());
+    if (ifMatch !== currentRev) {
+      return Response.json(
+        { error: "Sekce byla mezitím změněna jinde.", conflict: true, revision: currentRev },
+        { status: 412 }
+      );
+    }
+  }
 
   const updates: string[] = ["updated_at = now()"];
   const values: unknown[] = [];
@@ -72,17 +91,22 @@ export async function PATCH(req: NextRequest, { params }: RouteParams) {
     updates.push(`is_visible = $${values.length + 1}`);
     values.push(parsed.data.is_visible);
   }
+  if (parsed.data.section_variant !== undefined) {
+    updates.push(`section_variant = $${values.length + 1}`);
+    values.push(parsed.data.section_variant);
+  }
 
   values.push(sid, tenant.id); // WHERE id = $N AND tenant_id = $N+1
-  await query(
-    `UPDATE sections SET ${updates.join(", ")} WHERE id = $${values.length - 1} AND tenant_id = $${values.length}`,
+  const updatedRows = await query<{ updated_at: string }>(
+    `UPDATE sections SET ${updates.join(", ")} WHERE id = $${values.length - 1} AND tenant_id = $${values.length} RETURNING updated_at`,
     values
   );
 
   await auditLog("section_updated", { tenantId: tenant.id, targetType: "section", targetId: String(sid) });
   revalidatePath(`/demo/${tenantSlug}`);
   revalidatePath(`/demo/${tenantSlug}`, "layout");
-  return Response.json({ ok: true });
+  const newRev = updatedRows[0] ? String(new Date(updatedRows[0].updated_at).getTime()) : null;
+  return Response.json({ ok: true, revision: newRev });
 }
 
 export async function DELETE(req: NextRequest, { params }: RouteParams) {

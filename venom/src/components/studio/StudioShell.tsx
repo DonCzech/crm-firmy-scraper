@@ -167,7 +167,7 @@ export function StudioShell({ state }: { state: StudioState }) {
       <KeyboardShortcutsOverlay open={studio.shortcutsOpen} onClose={() => studio.setShortcutsOpen(false)} />
       <CommandPalette state={state} />
       <NotificationsPanel />
-      <HelpPanel />
+      <HelpPanel tenantSlug={state.tenant.slug} />
       <OnboardingTour tenantSlug={state.tenant.slug} />
 
       {studio.assetsOpen && (

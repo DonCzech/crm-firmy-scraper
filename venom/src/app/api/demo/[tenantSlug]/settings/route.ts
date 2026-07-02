@@ -15,7 +15,7 @@ export async function GET(_req: NextRequest, { params }: RouteParams) {
   const row = await queryOne<Record<string, unknown>>(
     `SELECT slug, email, plan, status, business_name,
             seo_default_title, seo_title_prefix, seo_title_suffix, seo_default_description,
-            allow_indexing, canonical_enabled, maintenance_mode, maintenance_message,
+            allow_indexing, canonical_enabled, maintenance_mode, maintenance_message, site_mode,
             cookie_enabled, cookie_text, cookie_show_more,
             gtm_id, ga_measurement_id,
             billing_data, email_settings, brand_data,
@@ -46,6 +46,7 @@ const PatchSchema = z.object({
   billing_data: z.record(z.unknown()).nullish(),
   email_settings: z.record(z.unknown()).nullish(),
   brand_data: z.record(z.unknown()).nullish(),
+  site_mode: z.enum(["onepage", "multipage"]).nullish(),
 }).partial();
 
 export async function PATCH(req: NextRequest, { params }: RouteParams) {

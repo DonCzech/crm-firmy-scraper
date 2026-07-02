@@ -94,6 +94,8 @@ export interface StudioState {
   canRedo: boolean;
   undo: () => void;
   redo: () => void;
+  /** Push aktuální stav sekcí do globální undo historie (např. před overlay editem). */
+  recordSectionHistory: (sectionId: number, field?: string) => void;
   flushSave: () => Promise<void>;
   saveSectionsBatch: (next: Section[]) => Promise<void>;
   saveAsteraContent: (section: Section, content: SiteContent) => Promise<void>;
@@ -130,6 +132,13 @@ function InnerStudio({
   const [sections, setSections] = useState<Section[]>(initialSections);
   const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
   const [saveError, setSaveError] = useState<string | null>(null);
+  const [conflictSectionId, setConflictSectionId] = useState<number | null>(null);
+  // Revize sekcí (updated_at epoch ms) pro optimistic concurrency — If-Match na PATCH
+  const revisionsRef = useRef<Map<number, string>>(new Map(
+    initialSections
+      .filter(s => (s as Section & { updated_at?: string }).updated_at)
+      .map(s => [s.id, String(new Date((s as Section & { updated_at?: string }).updated_at!).getTime())])
+  ));
   const [highlighted, setHighlighted] = useState<GenericHighlightChange[]>([]);
   const historyRef = useRef<HistoryEntry[]>([]);
   const redoRef = useRef<HistoryEntry[]>([]);
@@ -161,27 +170,48 @@ function InnerStudio({
     return `HTTP ${res.status} ${res.statusText}`.trim();
   }
 
-  const flushGenericSave = useCallback(async () => {
+  /** PATCH sekce s If-Match revizí. 412 ⇒ konfliktní modal (vrací false, nevyhazuje). */
+  const patchSectionRequest = useCallback(async (
+    id: number,
+    body: Record<string, unknown>,
+    opts?: { force?: boolean }
+  ): Promise<boolean> => {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    const rev = revisionsRef.current.get(id);
+    if (rev && !opts?.force) headers["If-Match"] = rev;
+    const res = await fetch(`/api/demo/${tenant.slug}/sections/${id}`, {
+      method: "PATCH",
+      headers,
+      body: JSON.stringify(body),
+    });
+    if (res.status === 412) {
+      setConflictSectionId(id);
+      // Sekci vrátíme do fronty, aby ji „Přepsat" mohlo uložit
+      pendingIdsRef.current.add(id);
+      return false;
+    }
+    if (!res.ok) throw new Error(await extractError(res));
+    const data = (await res.json().catch(() => ({}))) as { revision?: string | null };
+    if (data.revision) revisionsRef.current.set(id, data.revision);
+    return true;
+  }, [tenant.slug]);
+
+  const flushGenericSave = useCallback(async (opts?: { force?: boolean }) => {
     const ids = Array.from(pendingIdsRef.current);
     if (!ids.length) return;
     pendingIdsRef.current.clear();
     markStatus("saving");
     try {
-      await Promise.all(ids.map(async (id) => {
+      const results = await Promise.all(ids.map(async (id) => {
         const section = sectionsRef.current.find(s => s.id === id);
-        if (!section) return;
-        const res = await fetch(`/api/demo/${tenant.slug}/sections/${id}`, {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ settings: section.settings ?? {} }),
-        });
-        if (!res.ok) throw new Error(await extractError(res));
+        if (!section) return true;
+        return patchSectionRequest(id, { settings: section.settings ?? {} }, opts);
       }));
-      markStatus("saved");
+      markStatus(results.every(Boolean) ? "saved" : "idle");
     } catch (e) {
       markStatus("error", e instanceof Error ? e.message : "Síťová chyba");
     }
-  }, [tenant.slug, markStatus]);
+  }, [markStatus, patchSectionRequest]);
 
   const queueGenericSave = useCallback((sectionId: number) => {
     pendingIdsRef.current.add(sectionId);
@@ -265,6 +295,15 @@ function InnerStudio({
     });
   }, []);
 
+  const recordSectionHistory = useCallback((sectionId: number, field = "overlay") => {
+    historyRef.current = [...historyRef.current.slice(-(MAX_HISTORY - 1)), {
+      sections: cloneSections(sectionsRef.current),
+      changed: [{ sectionId, field, snippets: [] }],
+    }];
+    redoRef.current = [];
+    setHistoryTick(t => t + 1);
+  }, []);
+
   const undo = useCallback(() => {
     const entry = historyRef.current[historyRef.current.length - 1];
     if (!entry) return;
@@ -300,6 +339,8 @@ function InnerStudio({
         body: JSON.stringify({ sections: next }),
       });
       if (!res.ok) throw new Error(await extractError(res));
+      // Batch zápis mění updated_at všech sekcí — lokální revize jsou po něm stale
+      revisionsRef.current.clear();
       const body = (await res.json().catch(() => ({}))) as { idMap?: Record<string, number> };
       if (body.idMap && Object.keys(body.idMap).length > 0) {
         const map = body.idMap;
@@ -319,18 +360,17 @@ function InnerStudio({
     markStatus("saving");
     try {
       const settings = { ...(section.settings ?? {}), content };
-      const res = await fetch(`/api/demo/${tenant.slug}/sections/${section.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ settings }),
-      });
-      if (!res.ok) throw new Error(await extractError(res));
-      setSections(prev => prev.map(s => s.id === section.id ? { ...s, settings } : s));
-      markStatus("saved");
+      const ok = await patchSectionRequest(section.id, { settings });
+      if (ok) {
+        setSections(prev => prev.map(s => s.id === section.id ? { ...s, settings } : s));
+        markStatus("saved");
+      } else {
+        markStatus("idle");
+      }
     } catch (e) {
       markStatus("error", e instanceof Error ? e.message : "Síťová chyba");
     }
-  }, [tenant.slug, markStatus]);
+  }, [markStatus, patchSectionRequest]);
 
   const patchSection = useCallback(async (id: number, patch: Partial<Pick<Section, "settings" | "is_visible">>) => {
     setSections(prev => {
@@ -340,17 +380,12 @@ function InnerStudio({
     });
     markStatus("saving");
     try {
-      const res = await fetch(`/api/demo/${tenant.slug}/sections/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(patch),
-      });
-      if (!res.ok) throw new Error(await extractError(res));
-      markStatus("saved");
+      const ok = await patchSectionRequest(id, patch as Record<string, unknown>);
+      markStatus(ok ? "saved" : "idle");
     } catch (e) {
       markStatus("error", e instanceof Error ? e.message : "Síťová chyba");
     }
-  }, [tenant.slug, markStatus]);
+  }, [markStatus, patchSectionRequest]);
 
   const patchSectionContent = useCallback(async (id: number, fieldPath: string, value: unknown) => {
     const section = sectionsRef.current.find(s => s.id === id);
@@ -442,7 +477,11 @@ function InnerStudio({
   }, [tenant.id, page.id, saveSectionsBatch]);
 
   const updateSectionLocal = useCallback((id: number, patch: Partial<Section>) => {
-    setSections(prev => prev.map(s => s.id === id ? { ...s, ...patch } : s));
+    setSections(prev => {
+      const next = prev.map(s => s.id === id ? { ...s, ...patch } : s);
+      sectionsRef.current = next;
+      return next;
+    });
   }, []);
 
   const reorderArrayField = useCallback((sectionId: number, field: string, newArray: unknown[]) => {
@@ -526,6 +565,7 @@ function InnerStudio({
     canRedo: redoRef.current.length > 0,
     undo,
     redo,
+    recordSectionHistory,
     flushSave: flushGenericSave,
     saveSectionsBatch,
     saveAsteraContent,
@@ -541,6 +581,48 @@ function InnerStudio({
   return (
     <GenericInlineEditorProvider value={genericEditorValue}>
       <StudioShell state={studioState} />
+      {conflictSectionId !== null && (
+        <ConflictModal
+          onReload={() => window.location.reload()}
+          onOverwrite={async () => {
+            setConflictSectionId(null);
+            revisionsRef.current.delete(conflictSectionId);
+            await flushGenericSave({ force: true });
+          }}
+        />
+      )}
     </GenericInlineEditorProvider>
+  );
+}
+
+/** 412 konflikt — sekci mezitím uložil někdo jiný (druhé okno / kolega). */
+function ConflictModal({ onReload, onOverwrite }: { onReload: () => void; onOverwrite: () => void }) {
+  return (
+    <div data-studio className="fixed inset-0 z-[400] flex items-center justify-center bg-black/60 backdrop-blur-[2px]">
+      <div className="w-full max-w-[420px] mx-4 rounded-2xl bg-[var(--vs-surface)] p-6 shadow-[var(--vs-shadow-xl)] ring-1 ring-[var(--vs-border-strong)]">
+        <h2 className="text-[16px] font-bold text-[var(--vs-text)] mb-2">Někdo jiný uložil změny</h2>
+        <p className="text-[13px] leading-relaxed text-[var(--vs-text-muted)] mb-5">
+          Tato sekce byla mezitím změněna v jiném okně nebo jiným uživatelem.
+          Můžeš načíst aktuální verzi (tvé neuložené úpravy této sekce se zahodí),
+          nebo ji přepsat svou verzí.
+        </p>
+        <div className="flex gap-2 justify-end">
+          <button
+            type="button"
+            onClick={onOverwrite}
+            className="rounded-lg border border-[var(--vs-border-strong)] px-4 py-2 text-[13px] font-medium text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
+          >
+            Přepsat mou verzí
+          </button>
+          <button
+            type="button"
+            onClick={onReload}
+            className="vs-grad-accent rounded-lg px-4 py-2 text-[13px] font-semibold text-white shadow-[var(--vs-glow-brand)]"
+          >
+            Načíst znovu
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }

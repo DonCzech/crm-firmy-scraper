@@ -39,9 +39,11 @@ const STATIC_ITEMS: CmdItem[] = [
   { id: "mobile",           label: "Zobrazení: Mobil",          category: "Zobrazení",   keys: ["3"],              icon: Smartphone,    action: "mobile" },
   { id: "zoom-fit",         label: "Zoom: Přizpůsobit",         category: "Zobrazení",   keys: [],                                      action: "zoom-fit" },
   { id: "zoom-100",         label: "Zoom: 100%",                category: "Zobrazení",   keys: [],                                      action: "zoom-100" },
-  // History
+  // History & publish
   { id: "undo",             label: "Zpět",                      category: "Akce",        keys: ["⌘", "Z"],         icon: Undo2,         action: "undo" },
   { id: "redo",             label: "Znovu",                     category: "Akce",        keys: ["⌘", "⇧", "Z"],    icon: Undo2,         action: "redo" },
+  { id: "publish-page",     label: "Publikovat stránku",        category: "Akce",        keys: [],                 icon: Globe,         action: "publish-page" },
+  { id: "publish-site",     label: "Publikovat celý web",       category: "Akce",        keys: [],                 icon: Globe,         action: "publish-site" },
   // Settings
   { id: "settings-web",     label: "Nastavení webu",            category: "Nastavení",   keys: [],                 icon: Globe,         action: "settings-web" },
   { id: "settings-billing", label: "Fakturace a platby",        category: "Nastavení",   keys: [],                 icon: CreditCard,    action: "settings-billing" },
@@ -151,6 +153,8 @@ export function CommandPalette({ state }: { state?: StudioState }) {
       case "zoom-100":          studio.setZoom(100); break;
       case "undo":              state?.undo(); break;
       case "redo":              state?.redo(); break;
+      case "publish-page":      window.dispatchEvent(new CustomEvent("venom-studio:publish", { detail: { mode: "page" } })); break;
+      case "publish-site":      window.dispatchEvent(new CustomEvent("venom-studio:publish", { detail: { mode: "site" } })); break;
       case "settings-web":      studio.setLeftPanel("settings"); studio.setSettingsView("web"); break;
       case "settings-billing":  studio.setLeftPanel("settings"); studio.setSettingsView("billing"); break;
       case "checklist":         studio.setChecklistOpen(true); break;

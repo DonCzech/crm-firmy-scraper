@@ -231,6 +231,12 @@ export function SectionFrame({
         isAdmin
         selected={selected}
         tenantSlug={state.tenant.slug}
+        recordHistory={state.recordSectionHistory}
+        onUndo={state.undo}
+        onRedo={state.redo}
+        canUndo={state.canUndo}
+        canRedo={state.canRedo}
+        updateSectionLocal={state.updateSectionLocal}
       />
       {children}
       {/* Overlay layer ABOVE variant content (z-index 15) */}
@@ -241,6 +247,12 @@ export function SectionFrame({
         isAdmin
         selected={selected}
         tenantSlug={state.tenant.slug}
+        recordHistory={state.recordSectionHistory}
+        onUndo={state.undo}
+        onRedo={state.redo}
+        canUndo={state.canUndo}
+        canRedo={state.canRedo}
+        updateSectionLocal={state.updateSectionLocal}
       />
       {/* Hidden-section dim overlay */}
       {!section.is_visible && (

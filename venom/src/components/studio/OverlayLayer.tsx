@@ -62,11 +62,19 @@ interface Props {
   isAdmin: boolean;
   selected: boolean;
   tenantSlug?: string;
+  /** Globální undo historie (TenantStudioView) — overlay edity se zapisují tam,
+   *  žádný lokální undo stack (dřív ⌘Z spouštěl obě historie najednou). */
+  recordHistory?: (sectionId: number) => void;
+  onUndo?: () => void;
+  onRedo?: () => void;
+  canUndo?: boolean;
+  canRedo?: boolean;
+  /** Okamžitý lokální sync elementů do sections state (bez PATCH) — historie
+   *  pak snapshotuje aktuální overlay stav, ne 600 ms starý. */
+  updateSectionLocal?: (id: number, patch: Partial<Section>) => void;
 }
 
-const MAX_HISTORY = 30;
-
-export function OverlayLayer({ section, layer, patchSection, isAdmin, selected, tenantSlug }: Props) {
+export function OverlayLayer({ section, layer, patchSection, isAdmin, selected, tenantSlug, recordHistory, onUndo, onRedo, canUndo, canRedo, updateSectionLocal }: Props) {
   const overlay = readOverlay(section);
 
   // Nothing to render: overlay disabled or wrong layer
@@ -80,6 +88,12 @@ export function OverlayLayer({ section, layer, patchSection, isAdmin, selected, 
       isAdmin={isAdmin}
       selected={selected}
       tenantSlug={tenantSlug}
+      recordHistory={recordHistory}
+      onUndo={onUndo}
+      onRedo={onRedo}
+      canUndo={canUndo}
+      canRedo={canRedo}
+      updateSectionLocal={updateSectionLocal}
       initialElements={overlay.elements}
     />
   );
@@ -87,6 +101,7 @@ export function OverlayLayer({ section, layer, patchSection, isAdmin, selected, 
 
 function OverlayLayerInner({
   section, layer, patchSection, isAdmin, selected, tenantSlug, initialElements,
+  recordHistory, onUndo, onRedo, canUndo, canRedo, updateSectionLocal,
 }: Props & { initialElements: FreeformEl[] }) {
   const [elements, setElements]    = useState<FreeformEl[]>(initialElements);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -96,8 +111,6 @@ function OverlayLayerInner({
 
   const elementsRef  = useRef(elements);
   elementsRef.current = elements;
-  const undoStack    = useRef<FreeformEl[][]>([]);
-  const redoStack    = useRef<FreeformEl[][]>([]);
   const saveTimer    = useRef<ReturnType<typeof setTimeout> | null>(null);
   const studio       = useStudioOptional();
 
@@ -112,6 +125,9 @@ function OverlayLayerInner({
   useEffect(() => {
     if (rawOverlayElements !== prevSettingsRef.current) {
       prevSettingsRef.current = rawOverlayElements;
+      // Externí změna (typicky globální undo/redo) má přednost — zruš rozjetý
+      // persist timer, jinak by stale elementy přepsaly právě vrácený stav.
+      if (saveTimer.current) { clearTimeout(saveTimer.current); saveTimer.current = null; }
       setElements(rawOverlayElements ?? []);
     }
   }, [rawOverlayElements]);
@@ -178,61 +194,38 @@ function OverlayLayerInner({
     const base = defaultElement(elementType as ElementType, Date.now());
     // Center vertically in the visible canvas area
     const el: FreeformEl = { ...base, y: Math.max(0, Math.round(canvasH / 3)) };
-    undoStack.current.push(JSON.parse(JSON.stringify(elementsRef.current)));
-    if (undoStack.current.length > MAX_HISTORY) undoStack.current.shift();
-    redoStack.current = [];
+    recordHistory?.(section.id);
     const next = [...elementsRef.current, el];
     setElements(next);
     setSelectedId(el.id);
-    // persist is stable ref but we call it directly to avoid stale closure
-    if (saveTimer.current) clearTimeout(saveTimer.current);
-    saveTimer.current = setTimeout(() => {
-      const nextSettings = {
-        ...(section.settings as Record<string, unknown>),
-        overlay: {
-          ...(section.settings as Record<string, unknown>).overlay as object,
-          elements: next,
-        },
-      };
-      void patchSection(section.id, { settings: nextSettings as Section["settings"] });
-    }, 600);
+    persist(next);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [studio?.pendingAddEl]);
 
   const persist = useCallback((els: FreeformEl[]) => {
     if (!isAdmin) return;
+    const nextSettings = {
+      ...(section.settings as Record<string, unknown>),
+      overlay: {
+        ...(section.settings as Record<string, unknown>).overlay as object,
+        elements: els,
+      },
+    };
+    // Okamžitý sync do sections state (kvůli globální historii) — označíme si ho
+    // jako vlastní, aby ho sync-effect nepovažoval za externí změnu.
+    prevSettingsRef.current = els;
+    updateSectionLocal?.(section.id, { settings: nextSettings as Section["settings"] });
     if (saveTimer.current) clearTimeout(saveTimer.current);
     saveTimer.current = setTimeout(() => {
-      const nextSettings = {
-        ...(section.settings as Record<string, unknown>),
-        overlay: {
-          ...(section.settings as Record<string, unknown>).overlay as object,
-          elements: els,
-        },
-      };
       void patchSection(section.id, { settings: nextSettings as Section["settings"] });
     }, 600);
-  }, [isAdmin, patchSection, section]);
+  }, [isAdmin, patchSection, section, updateSectionLocal]);
 
+  // Historie žije globálně v TenantStudioView. Pozor: snapshot sekcí se bere
+  // PŘED lokální mutací — overlay elementy doputují do sections až přes persist.
   const commitHistory = useCallback(() => {
-    undoStack.current.push(JSON.parse(JSON.stringify(elementsRef.current)));
-    if (undoStack.current.length > MAX_HISTORY) undoStack.current.shift();
-    redoStack.current = [];
-  }, []);
-
-  const undo = useCallback(() => {
-    const prev = undoStack.current.pop();
-    if (!prev) return;
-    redoStack.current.push(JSON.parse(JSON.stringify(elementsRef.current)));
-    setElements(prev); persist(prev);
-  }, [persist]);
-
-  const redo = useCallback(() => {
-    const next = redoStack.current.pop();
-    if (!next) return;
-    undoStack.current.push(JSON.parse(JSON.stringify(elementsRef.current)));
-    setElements(next); persist(next);
-  }, [persist]);
+    recordHistory?.(section.id);
+  }, [recordHistory, section.id]);
 
   function handleChange(next: FreeformEl[]) {
     setElements(next);
@@ -246,14 +239,8 @@ function OverlayLayerInner({
       const active = document.activeElement;
       const inField = (active && (active as HTMLElement).isContentEditable) ||
                       active?.tagName === "INPUT" || active?.tagName === "TEXTAREA";
-      const meta = e.metaKey || e.ctrlKey;
+      // ⌘Z/⌘⇧Z řeší globální handler v TenantStudioView (jednotná historie)
       if (e.key === "Escape") { setSelectedId(null); return; }
-      if (meta && e.key.toLowerCase() === "z") {
-        if (inField) return;
-        e.preventDefault();
-        if (e.shiftKey) redo(); else undo();
-        return;
-      }
       if ((e.key === "Delete" || e.key === "Backspace") && selectedId) {
         if (inField) return;
         e.preventDefault();
@@ -267,7 +254,7 @@ function OverlayLayerInner({
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAdmin, selected, selectedId, undo, redo]);
+  }, [isAdmin, selected, selectedId]);
 
   const zIndex = layer === "above" ? 15 : 5;
 
@@ -374,10 +361,10 @@ function OverlayLayerInner({
           background="transparent"
           isAdmin={isAdmin}
           tenantSlug={tenantSlug}
-          canUndo={undoStack.current.length > 0}
-          canRedo={redoStack.current.length > 0}
-          onUndo={undo}
-          onRedo={redo}
+          canUndo={!!canUndo}
+          canRedo={!!canRedo}
+          onUndo={onUndo ?? (() => {})}
+          onRedo={onRedo ?? (() => {})}
         />
       </div>
     </div>

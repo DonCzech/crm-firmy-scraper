@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { X, Pencil, Plus, Palette, Rocket } from "lucide-react";
+import { X, Pencil, Plus, Palette, Rocket, Sparkles, Images, Keyboard, RefreshCw } from "lucide-react";
 import { useStudio } from "./StudioContext";
 
 const FEATURES = [
@@ -12,13 +12,23 @@ const FEATURES = [
   },
   {
     Icon: Plus,
-    title: "Přidat novou stránku",
-    desc: "V panelu Stránky vlevo přidáš nové URL, nastavíš nadpis a SEO meta tagy.",
+    title: "Přidat sekci nebo stránku",
+    desc: "Tlačítko + Přidat nahoře otevře knihovnu sekcí, prvků i hotových stránek. Sekce jde přetáhnout rovnou na plátno.",
   },
   {
     Icon: Palette,
     title: "Změnit barvy a branding",
     desc: "Sekce Design ti umožní nastavit primární barvu, font a logo, které se promítnou do celého webu.",
+  },
+  {
+    Icon: Sparkles,
+    title: "Pomocník AI",
+    desc: "Vylepší, zkrátí nebo přeloží texty. Najdeš ho v liště nad plátnem.",
+  },
+  {
+    Icon: Images,
+    title: "Obrázky a soubory",
+    desc: "Panel Soubory drží všechna tvá média — nahrávej přetažením, ořezávej a používej napříč webem.",
   },
   {
     Icon: Rocket,
@@ -27,9 +37,15 @@ const FEATURES = [
   },
 ];
 
-export function HelpPanel() {
+export function HelpPanel({ tenantSlug }: { tenantSlug?: string }) {
   const studio = useStudio();
   const panelRef = useRef<HTMLDivElement>(null);
+
+  function restartTour() {
+    if (tenantSlug) localStorage.removeItem(`webero-studio-onboarding-done:${tenantSlug}`);
+    studio.setHelpPanelOpen(false);
+    window.location.reload();
+  }
 
   useEffect(() => {
     if (!studio.helpPanelOpen) return;
@@ -64,7 +80,7 @@ export function HelpPanel() {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--vs-surface-2)]">
-          <span className="text-[17px] font-black tracking-tight text-white">solidpixels.</span>
+          <span className="text-[17px] font-black tracking-tight text-white">Nápověda</span>
           <button
             type="button"
             onClick={() => studio.setHelpPanelOpen(false)}
@@ -101,13 +117,22 @@ export function HelpPanel() {
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-4 border-t border-[var(--vs-surface-2)]">
+        <div className="px-5 py-4 border-t border-[var(--vs-surface-2)] space-y-2">
           <button
             type="button"
-            onClick={() => studio.setHelpPanelOpen(false)}
-            className="w-full rounded-lg border border-[var(--vs-border-strong)] py-2 text-[13px] font-medium text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-white transition-colors"
+            onClick={() => { studio.setHelpPanelOpen(false); studio.setShortcutsOpen(true); }}
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--vs-border-strong)] py-2 text-[13px] font-medium text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-white transition-colors"
           >
-            Přeskočit
+            <Keyboard className="h-3.5 w-3.5" strokeWidth={1.75} />
+            Klávesové zkratky
+          </button>
+          <button
+            type="button"
+            onClick={restartTour}
+            className="flex w-full items-center justify-center gap-2 rounded-lg border border-[var(--vs-border-strong)] py-2 text-[13px] font-medium text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-white transition-colors"
+          >
+            <RefreshCw className="h-3.5 w-3.5" strokeWidth={1.75} />
+            Spustit průvodce znovu
           </button>
         </div>
       </div>
