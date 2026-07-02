@@ -108,7 +108,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
   if (!ok) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) return Response.json({ error: "ANTHROPIC_API_KEY není nastavený" }, { status: 503 });
+  if (!apiKey) return Response.json({ error: "AI asistent není na tomto serveru nakonfigurovaný. Kontaktujte podporu." }, { status: 503 });
 
   let body: unknown;
   try { body = await req.json(); } catch { return Response.json({ error: "Invalid JSON" }, { status: 400 }); }

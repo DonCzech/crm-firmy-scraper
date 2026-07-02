@@ -129,7 +129,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return Response.json({ error: "ANTHROPIC_API_KEY není nastavený" }, { status: 503 });
+    return Response.json({ error: "AI asistent není na tomto serveru nakonfigurovaný. Kontaktujte podporu." }, { status: 503 });
   }
 
   let body: unknown;

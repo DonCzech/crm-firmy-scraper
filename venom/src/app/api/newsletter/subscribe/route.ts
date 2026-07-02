@@ -1,9 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
+import { query } from "@/lib/db";
 
-/** Newsletter subscription stub. Logs to console.
+/** Newsletter subscription — persistuje do newsletter_subscribers.
  *  TODO: wire up Mailchimp / Resend / Brevo when API key is available. */
 
 export const dynamic = "force-dynamic";
+
+let tableReady = false;
+async function ensureTable() {
+  if (tableReady) return;
+  await query(`
+    CREATE TABLE IF NOT EXISTS newsletter_subscribers (
+      id SERIAL PRIMARY KEY,
+      email TEXT NOT NULL UNIQUE,
+      source_url TEXT,
+      created_at TIMESTAMPTZ DEFAULT now()
+    )
+  `);
+  tableReady = true;
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -14,8 +29,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Neplatný e-mail" }, { status: 400 });
     }
 
-    /* eslint-disable-next-line no-console */
-    console.log("[newsletter] new subscriber:", email);
+    await ensureTable();
+    await query(
+      `INSERT INTO newsletter_subscribers (email, source_url)
+       VALUES ($1, $2)
+       ON CONFLICT (email) DO NOTHING`,
+      [email, req.headers.get("referer") ?? null]
+    );
 
     /* TODO: forward to Mailchimp/Resend list */
 

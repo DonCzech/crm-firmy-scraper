@@ -53,7 +53,7 @@ export async function POST(req: NextRequest, { params }: RouteParams) {
   if (!apiKey) {
     return Response.json(
       {
-        error: "AI is not configured. Set ANTHROPIC_API_KEY in your environment.",
+        error: "AI asistent není na tomto serveru nakonfigurovaný. Kontaktujte podporu.",
         hint: "V .env.local nastav ANTHROPIC_API_KEY a restartuj server.",
       },
       { status: 503 }

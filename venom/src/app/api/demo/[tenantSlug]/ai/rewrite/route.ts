@@ -26,7 +26,8 @@ const MODE_INSTRUCTIONS: Record<string, string> = {
 export async function POST(req: NextRequest, { params }: RouteParams) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    return NextResponse.json({ error: "ANTHROPIC_API_KEY není nastaven." }, { status: 503 });
+    console.warn("[ai/rewrite] ANTHROPIC_API_KEY chybí v env — AI funkce nedostupné");
+    return NextResponse.json({ error: "AI asistent není na tomto serveru nakonfigurovaný. Kontaktujte podporu." }, { status: 503 });
   }
 
   let body: unknown;
