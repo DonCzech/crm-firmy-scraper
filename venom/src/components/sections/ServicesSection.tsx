@@ -4697,93 +4697,192 @@ function ServicesRestaurant03({ content, sectionId }: { content: Record<string, 
 }
 
 // ── cafe-03-menu ───────────────────────────────────────────────────────────────
-// Ref: cathedral.cz — nase-menu page s záložkami
-// Bílé bg, tab navigace 01/02/03/04, tabulka položek (název + popis + cena)
+// Cathedral Menu — luxe editorial (2026-07-02)
+// Parchment bg, editorial header (eyebrow + Great Vibes H2 + Cormorant kicker),
+// gothic arch watermarks; tabs jako Cormorant italic pill row s gold underline
+// slide-in + Cormorant italic 01/02/… number, aktivní má gold fill; item list
+// s **dashed gold leader dots** (menu-style) mezi názvem a cenou, Cormorant italic
+// popis, allergen tags micro-pills, closing signature Great Vibes.
 // ─────────────────────────────────────────────────────────────────────────────
 function ServicesCafe03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const GOLD  = "#C69C60";
-  const DARK  = "#1a1a1a";
-  const MUTED = "#6b6b6b";
-  const SANS  = "'Open Sans', sans-serif";
-  const SERIF = "'Great Vibes', cursive";
+  const GOLD    = "#C69C60";
+  const GOLD_LT = "#D8B57A";
+  const GOLD_DK = "#8F6A38";
+  const NOIR    = "#0d0d0d";
+  const INK     = "#1a1a1a";
+  const MUTED   = "#5a544a";
+  const PARCH   = "#F5EFE4";
+  const CREAM   = "#FBF7EF";
+  const SCRIPT  = "'Great Vibes', cursive";
+  const ITAL    = "'Cormorant Garamond', 'Playfair Display', Georgia, serif";
+  const SANS    = "'Inter', 'Open Sans', system-ui, sans-serif";
 
-  const title = String(content.title ?? "Jídelní & nápojový lístek");
-  const tabs  = (content.tabs as Array<{
-    label: string; number: string; subtitle?: string;
-    items: Array<{ name: string; description?: string; price: string }>;
-  }>) ?? [];
+  type Item = { name: string; description?: string; price: string; tags?: string[] };
+  type Tab  = { label: string; number: string; subtitle?: string; items: Item[]; note?: string };
 
-  const defaultTabs = [
-    { label: "Snídaně",         number: "01", subtitle: "Každý den do 12:00", items: [{ name: "Vejce Benedikt", description: "bagel, sázené vejce, holandská omáčka", price: "239 Kč" }, { name: "Healthy Bowl", description: "jogurt, granola, ovoce", price: "189 Kč" }] },
-    { label: "Menu",             number: "02", subtitle: "Obědové menu 11–15h", items: [{ name: "Svíčková", description: "hovězí, knedlík, brusinky", price: "289 Kč" }, { name: "Burger Cathedral", description: "hovězí patty, cheddar, BBQ", price: "299 Kč" }] },
-    { label: "Nápojový lístek",  number: "03", subtitle: "Káva, čaj, koktejly", items: [{ name: "Espresso", description: "", price: "59 Kč" }, { name: "Aperol Spritz", description: "", price: "149 Kč" }] },
-    { label: "Vinný lístek",     number: "04", subtitle: "Česká i zahraniční vína", items: [{ name: "Veltlínské zelené", description: "sklenka / lahev", price: "89 / 349 Kč" }] },
+  const eyebrow = String(content.eyebrow ?? "GASTRONOMIE CATHEDRAL");
+  const title   = String(content.title   ?? "Jídelní & nápojový lístek");
+  const kicker  = String(content.kicker  ?? "sezónní menu · aktualizováno každý týden");
+  const signature = String(content.signature ?? "Adam Hála");
+  const signRole  = String(content.signRole  ?? "Šéfkuchař & sommelier");
+
+  const defaultTabs: Tab[] = [
+    { label: "Snídaně", number: "01", subtitle: "Podáváme každý den do 12:00", items: [
+      { name: "Vejce Benedikt Cathedral", description: "krevety pošírované ve vodním chlazení, holandská omáčka, briošový chlebík", price: "289 Kč", tags: ["G"] },
+      { name: "Healthy Bowl",              description: "řecký jogurt Doubleshot, granola, sezónní ovoce, med z Bílých Karpat", price: "219 Kč", tags: ["V"] },
+      { name: "Avokádový toast",           description: "kváskový chleba, avokádo, sázené vejce, chilli olej",                   price: "239 Kč", tags: ["V"] },
+      { name: "Croque Cathedral",          description: "šunka z Vysočiny, ementál, béchamel, křupavý plátek",                   price: "249 Kč" },
+    ], note: "Snídaně 9:00 — 12:00 · víkendový brunch do 14:00" },
+    { label: "Poledne", number: "02", subtitle: "Obědové menu 11:30 — 15:00", items: [
+      { name: "Vývar z volně žijících kachen", description: "domácí nudle, kořenová zelenina, čerstvé bylinky",                    price: "129 Kč" },
+      { name: "Konfitovaná telecí lička",       description: "bramborová kaše s pórkem, redukce z portského, mladá karotka",         price: "389 Kč" },
+      { name: "Rizoto z carnaroli",             description: "hříbky, parmigiano reggiano 24m, bílý lanýž",                          price: "329 Kč", tags: ["V"] },
+      { name: "Cathedral Burger",               description: "180g dry-aged hovězí, čedar, karamelizovaná cibule, briošová bulka",  price: "329 Kč" },
+    ], note: "Denní polední menu za 189 Kč — polévka a hlavní jídlo dle nabídky dne" },
+    { label: "Večerní", number: "03", subtitle: "Bistro menu 18:00 — 22:00", items: [
+      { name: "Steak tartar z Charolais",  description: "žloutek, kapary, cornichons, čerstvé pečivo",             price: "349 Kč" },
+      { name: "Rib-eye 300 g",             description: "grilované chřestíky, béarnaise, pečené brambory",         price: "689 Kč" },
+      { name: "Losos sous vide",           description: "pyré z pastináku, blanšírovaná zelenina, citrusová emulze", price: "459 Kč" },
+      { name: "Čokoládový fondant",        description: "vanilková zmrzlina, sůl z Fleur de sel, malinová redukce",  price: "179 Kč", tags: ["V"] },
+    ] },
+    { label: "Nápoje", number: "04", subtitle: "Káva · čaj · koktejly · signature", items: [
+      { name: "Espresso Doubleshot",  description: "specialty blend Sao Silvestre & Sidamo",                        price: "69 Kč" },
+      { name: "Cappuccino",           description: "180 ml, mikropěna, alternativní mléko za 15 Kč",                 price: "89 Kč" },
+      { name: "Cold Brew Cathedral",  description: "24h loužení, syrupem z bezinek",                                price: "129 Kč" },
+      { name: "Aperol Spritz",        description: "prosecco, aperol, soda, plátek pomeranče",                     price: "179 Kč" },
+      { name: "Cathedral Sazerac",    description: "signature: koňak, absinth, cukr, bitters — house cocktail",   price: "229 Kč" },
+    ] },
+    { label: "Vinný sklep", number: "05", subtitle: "Moravská rukojmí + import z Burgundska", items: [
+      { name: "Ryzlink rýnský · Sonberk 2022",    description: "Pavlov, Morava · minerální, hruška, med",                 price: "89 / 429 Kč" },
+      { name: "Pinot Noir · Nešetřil 2021",       description: "Mikulov, Morava · třešně, kůže, kouř",                     price: "119 / 549 Kč" },
+      { name: "Champagne · Pierre Gimonnet",     description: "Blanc de Blancs, Cuis Premier Cru · citrus, brioche",       price: "1 890 Kč (lahev)" },
+      { name: "Chablis · Domaine Vocoret 2021",  description: "Burgundsko · křída, jablko, citron",                       price: "149 / 690 Kč" },
+    ], note: "Kompletní vinný lístek s 42 pozicemi na vyžádání u obsluhy" },
   ];
-  const tabList = tabs.length > 0 ? tabs : defaultTabs;
+
+  const rawTabs = (content.tabs as Tab[]) ?? [];
+  const tabList = rawTabs.length > 0 ? rawTabs : defaultTabs;
 
   const [activeTab, setActiveTab] = useState(0);
+  const active = tabList[Math.min(activeTab, tabList.length - 1)];
 
   return (
-    <section style={{ backgroundColor: "#fff", padding: "clamp(48px, 8vw, 96px) 0", fontFamily: SANS }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
-        <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2">
-          <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 400, color: DARK, margin: "0 0 48px", textAlign: "center" }}>{title}</h2>
-        </GenericEditableText>
+    <section data-template="cafe-03" className="c3sv" style={{ backgroundColor: PARCH, padding: "clamp(64px, 8vw, 112px) 0", fontFamily: SANS, position: "relative", overflow: "hidden" }}>
+      {/* Watermarks */}
+      <svg aria-hidden width="380" height="500" viewBox="0 0 380 500" style={{ position: "absolute", right: -100, top: 60, opacity: 0.05, pointerEvents: "none" }}>
+        <path d="M40 480 V 180 A 150 150 0 0 1 340 180 V 480" stroke={INK} strokeWidth="1" fill="none" />
+      </svg>
+      <svg aria-hidden width="300" height="400" viewBox="0 0 300 400" style={{ position: "absolute", left: -80, bottom: 40, opacity: 0.04, pointerEvents: "none" }}>
+        <path d="M30 380 V 140 A 120 120 0 0 1 270 140 V 380" stroke={INK} strokeWidth="1" fill="none" />
+      </svg>
+
+      <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", position: "relative", zIndex: 1 }}>
+        {/* Header */}
+        <header style={{ textAlign: "center", marginBottom: "clamp(40px, 5vw, 64px)" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+            <span aria-hidden style={{ display: "inline-block", width: 32, height: 1, backgroundColor: GOLD }} />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span">
+              <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.36em", textTransform: "uppercase", color: GOLD_DK }}>{eyebrow}</span>
+            </GenericEditableText>
+            <span aria-hidden style={{ display: "inline-block", width: 32, height: 1, backgroundColor: GOLD }} />
+          </div>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2">
+            <h2 style={{ fontFamily: SCRIPT, fontSize: "clamp(44px, 6vw, 76px)", fontWeight: 400, color: INK, margin: 0, lineHeight: 1.05 }}>{title}</h2>
+          </GenericEditableText>
+          <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="p">
+            <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(15px, 1.4vw, 18px)", color: GOLD_DK, margin: "10px 0 0", letterSpacing: "0.02em" }}>— {kicker}</p>
+          </GenericEditableText>
+        </header>
 
         {/* Tab nav */}
-        <nav style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "clamp(16px, 4vw, 48px)", marginBottom: 48, borderBottom: `1px solid #E8E2D8`, paddingBottom: 0 }}>
-          {tabList.map((tab, i) => (
-            <button
-              key={i}
-              onClick={() => setActiveTab(i)}
-              style={{ background: "none", border: "none", cursor: "pointer", fontFamily: SANS, padding: "12px 0 16px", display: "flex", alignItems: "center", gap: 10, borderBottom: `2px solid ${i === activeTab ? GOLD : "transparent"}`, transition: "border-color 0.2s", marginBottom: -1 }}
-            >
-              <span style={{ fontFamily: SERIF, fontSize: "clamp(22px, 3vw, 32px)", color: i === activeTab ? GOLD : "#ccc", transition: "color 0.2s" }}>{tab.number}</span>
-              <GenericEditableText sectionId={sectionId} field={`tabs.${i}.label`} value={tab.label} tag="span">
-                <span style={{ fontFamily: SANS, fontSize: "clamp(14px, 1.8vw, 17px)", fontWeight: i === activeTab ? 600 : 400, color: i === activeTab ? DARK : MUTED, transition: "color 0.2s", letterSpacing: "0.02em" }}>{tab.label}</span>
-              </GenericEditableText>
-            </button>
-          ))}
+        <nav className="c3sv-tabs" style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: "clamp(8px, 2vw, 24px)", marginBottom: "clamp(40px, 5vw, 56px)", paddingBottom: 0 }} role="tablist">
+          {tabList.map((tab, i) => {
+            const isActive = i === activeTab;
+            return (
+              <button
+                key={i}
+                onClick={() => setActiveTab(i)}
+                role="tab"
+                aria-selected={isActive}
+                className="c3sv-tab"
+                style={{ background: "none", border: "none", cursor: "pointer", padding: "12px 8px 14px", display: "inline-flex", alignItems: "baseline", gap: 10, position: "relative", transition: "color 0.25s ease" }}
+              >
+                <span style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 18, color: isActive ? GOLD : `${GOLD_DK}80`, letterSpacing: "0.02em", transition: "color 0.25s" }}>{tab.number}</span>
+                <GenericEditableText sectionId={sectionId} field={`tabs.${i}.label`} value={tab.label} tag="span">
+                  <span style={{ fontFamily: SANS, fontSize: "clamp(12px, 1.2vw, 14px)", fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: isActive ? INK : MUTED, transition: "color 0.25s" }}>{tab.label}</span>
+                </GenericEditableText>
+                <span aria-hidden style={{ position: "absolute", left: isActive ? 0 : "50%", right: isActive ? 0 : "50%", bottom: 0, height: 1, backgroundColor: GOLD, transition: "left 0.35s cubic-bezier(.4,0,.2,1), right 0.35s cubic-bezier(.4,0,.2,1)" }} />
+              </button>
+            );
+          })}
         </nav>
 
         {/* Active tab content */}
-        {tabList[activeTab] && (
-          <div>
-            {tabList[activeTab].subtitle && (
-              <GenericEditableText sectionId={sectionId} field={`tabs.${activeTab}.subtitle`} value={tabList[activeTab].subtitle!} tag="p">
-                <p style={{ fontFamily: SANS, fontSize: 14, fontWeight: 400, color: GOLD, margin: "0 0 24px", textAlign: "center", letterSpacing: "0.04em" }}>{tabList[activeTab].subtitle}</p>
+        {active && (
+          <div key={activeTab} className="c3sv-panel">
+            {active.subtitle && (
+              <GenericEditableText sectionId={sectionId} field={`tabs.${activeTab}.subtitle`} value={active.subtitle} tag="p">
+                <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(16px, 1.4vw, 20px)", color: GOLD_DK, margin: "0 0 32px", textAlign: "center", letterSpacing: "0.02em" }}>— {active.subtitle} —</p>
               </GenericEditableText>
             )}
-            <table style={{ width: "100%", borderCollapse: "collapse" }}>
-              <tbody>
-                {tabList[activeTab].items.map((item, j) => (
-                  <tr key={j} style={{ borderBottom: `1px solid #E8E2D8` }}>
-                    <td style={{ padding: "16px 16px 16px 0", verticalAlign: "top" }}>
+
+            <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 22 }}>
+              {active.items.map((item, j) => (
+                <li key={j} className="c3sv-item" style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: 10 }}>
                       <GenericEditableText sectionId={sectionId} field={`tabs.${activeTab}.items.${j}.name`} value={item.name} tag="strong">
-                        <strong style={{ fontFamily: SANS, fontSize: 15, fontWeight: 600, color: DARK, display: "block", marginBottom: 4 }}>{item.name}</strong>
+                        <strong style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(18px, 1.7vw, 22px)", fontWeight: 500, color: INK, letterSpacing: "0.01em" }}>{item.name}</strong>
                       </GenericEditableText>
-                      {item.description && (
-                        <GenericEditableText sectionId={sectionId} field={`tabs.${activeTab}.items.${j}.description`} value={item.description} tag="span">
-                          <span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, color: MUTED }}>{item.description}</span>
-                        </GenericEditableText>
+                      {item.tags && item.tags.length > 0 && (
+                        <span style={{ display: "inline-flex", gap: 6 }}>
+                          {item.tags.map((t, k) => (
+                            <span key={k} style={{ fontFamily: SANS, fontSize: 9, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD_DK, border: `1px solid ${GOLD}66`, padding: "2px 6px" }}>{t}</span>
+                          ))}
+                        </span>
                       )}
-                    </td>
-                    <td style={{ padding: "16px 0 16px 16px", textAlign: "right", verticalAlign: "top", whiteSpace: "nowrap" }}>
-                      <GenericEditableText sectionId={sectionId} field={`tabs.${activeTab}.items.${j}.price`} value={item.price} tag="span">
-                        <span style={{ fontFamily: SANS, fontSize: 15, fontWeight: 600, color: DARK }}>{item.price}</span>
+                    </div>
+                    {item.description && (
+                      <GenericEditableText sectionId={sectionId} field={`tabs.${activeTab}.items.${j}.description`} value={item.description} tag="p">
+                        <p style={{ fontFamily: SANS, fontSize: "clamp(13px, 1vw, 14px)", fontWeight: 400, color: MUTED, margin: "4px 0 0", lineHeight: 1.6 }}>{item.description}</p>
                       </GenericEditableText>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                    )}
+                  </div>
+                  <span aria-hidden className="c3sv-leader" style={{ flex: "0 1 auto", minWidth: 40, alignSelf: "flex-end", marginBottom: 8, borderBottom: `1px dashed ${GOLD}66` }} />
+                  <GenericEditableText sectionId={sectionId} field={`tabs.${activeTab}.items.${j}.price`} value={item.price} tag="span">
+                    <span style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(18px, 1.6vw, 22px)", fontWeight: 500, color: GOLD_DK, whiteSpace: "nowrap", letterSpacing: "0.01em" }}>{item.price}</span>
+                  </GenericEditableText>
+                </li>
+              ))}
+            </ul>
+
+            {active.note && (
+              <GenericEditableText sectionId={sectionId} field={`tabs.${activeTab}.note`} value={active.note} tag="p">
+                <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 14, color: MUTED, margin: "32px 0 0", textAlign: "center", opacity: 0.85 }}>{active.note}</p>
+              </GenericEditableText>
+            )}
           </div>
         )}
+
+        {/* Signature */}
+        <div style={{ marginTop: "clamp(48px, 6vw, 72px)", paddingTop: 32, borderTop: `1px solid ${GOLD}55`, display: "flex", justifyContent: "center", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+          <GenericEditableText sectionId={sectionId} field="signature" value={signature} tag="span">
+            <span style={{ fontFamily: SCRIPT, fontSize: 34, color: INK, lineHeight: 1 }}>{signature}</span>
+          </GenericEditableText>
+          <span aria-hidden style={{ display: "inline-block", width: 40, height: 1, backgroundColor: GOLD }} />
+          <GenericEditableText sectionId={sectionId} field="signRole" value={signRole} tag="span">
+            <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.24em", textTransform: "uppercase", color: MUTED }}>{signRole}</span>
+          </GenericEditableText>
+        </div>
       </div>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400;600&display=swap" />
-      <style>{`      `}</style>
+
+      <style>{`
+        [data-template="cafe-03"].c3sv .c3sv-panel { animation: c3svFade 0.4s cubic-bezier(.4,0,.2,1); }
+        @keyframes c3svFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+        [data-template="cafe-03"].c3sv .c3sv-tab:hover span { color: ${INK} !important; }
+        [data-template="cafe-03"].c3sv .c3sv-tab:hover > span:first-child { color: ${GOLD} !important; }
+        [data-template="cafe-03"].c3sv .c3sv-tab:hover > span:last-child { left: 0 !important; right: 0 !important; }
+      `}</style>
     </section>
   );
 }
@@ -4877,50 +4976,73 @@ function ServicesBakery01({ content, sectionId }: { content: Record<string, unkn
 }
 
 // ── cafe-04-menu ──────────────────────────────────────────────────────────────
-// Ref: coffeeroom.cz coffeebar — centered label + deco lines, items as list
+// Editorial menu list — coffee-gold hairlines, sekce (groups) volitelně,
+// dotted leader mezi item name a cenou, hover row lift
 // ─────────────────────────────────────────────────────────────────────────────
 function ServicesCafe04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   type Item = { name: string; price: string; description?: string };
-  const heading = String(content.heading ?? "Naše menu");
-  const items   = (content.items as Item[] | undefined) ?? [];
+  type Group = { title?: string; items: Item[] };
+  const eyebrow  = String(content.eyebrow  ?? "Menu");
+  const heading  = String(content.heading  ?? "Naše menu");
+  const tagline  = String(content.tagline  ?? "Chuťovky, snídaně a specialty káva — od espressa přes cold brew po sourdough s vejcem.");
+
+  // Support both legacy flat items[] and new groups[]
+  const groupsRaw = (content.groups as Group[] | undefined);
+  const legacyItems = (content.items as Item[] | undefined) ?? [];
+  const groups: Group[] = groupsRaw && groupsRaw.length
+    ? groupsRaw
+    : (legacyItems.length ? [{ title: "", items: legacyItems }] : []);
+
+  const hideHeader = !heading && !eyebrow && !tagline;
 
   return (
-    <section style={{ backgroundColor: "#fff", fontFamily: "Montserrat, sans-serif", padding: "80px 0 100px" }}>
-      <style>{`
-        .cr04-menu-wrap { width: 70%; margin: 0 auto; }
-        .cr04-menu-header { display: flex; justify-content: center; align-items: center; margin-bottom: 60px; }
-        .cr04-menu-deco { background-color: #ececed; width: 30px; height: 1px; display: inline-block; }
-        .cr04-menu-label { opacity: 0.9; color: #b79570; letter-spacing: 2px; text-transform: uppercase; font-size: 12px; font-weight: 700; font-family: Montserrat, sans-serif; margin: 0 15px; }
-        .cr04-menu-item { display: flex; align-items: flex-start; justify-content: space-between; padding: 20px 0; border-bottom: 1px solid #ececed; gap: 16px; }
-        .cr04-menu-item:last-child { border-bottom: none; }
-        .cr04-menu-name { font-family: Montserrat, sans-serif; font-size: 16px; font-weight: 600; color: #1d1f2e; margin: 0 0 4px; }
-        .cr04-menu-desc { font-family: 'Karla', sans-serif; font-size: 14px; color: rgba(29,31,46,0.6); margin: 0; }
-        .cr04-menu-price { font-family: Montserrat, sans-serif; font-size: 15px; font-weight: 600; color: #b79570; white-space: nowrap; flex-shrink: 0; }
-        @media (max-width: 828px) { .cr04-menu-wrap { width: 90%; } }
-      `}</style>
-      <div className="cr04-menu-wrap">
+    <section className="cr04-menu" data-template="cafe-04">
+      {!hideHeader && (
         <div className="cr04-menu-header">
-          <div className="cr04-menu-deco" />
-          <span className="cr04-menu-label">
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+          <span className="cr04-menu-eyebrow">
+            <span className="cr04-menu-eyebrow-rule" aria-hidden />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
           </span>
-          <div className="cr04-menu-deco" />
+          <h2 className="cr04-menu-title">
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+          </h2>
+          <p className="cr04-menu-tagline">
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+          </p>
         </div>
-        {items.map((item, i) => (
-          <div key={i} className="cr04-menu-item">
-            <div>
-              <p className="cr04-menu-name">
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
-              </p>
-              {item.description && (
-                <p className="cr04-menu-desc">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description} tag="span" />
-                </p>
-              )}
+      )}
+
+      <div className="cr04-menu-groups">
+        {groups.map((group, gi) => (
+          <div key={gi} className="cr04-menu-group">
+            {group.title && (
+              <h3 className="cr04-menu-group-title">
+                <GenericEditableText sectionId={sectionId} field={groupsRaw ? `groups.${gi}.title` : "groupTitle"} value={group.title} tag="span" />
+              </h3>
+            )}
+            <div className="cr04-menu-list">
+              {group.items.map((item, i) => {
+                const field = groupsRaw ? `groups.${gi}.items.${i}` : `items.${i}`;
+                return (
+                  <div key={i} className="cr04-menu-item">
+                    <div className="cr04-menu-item-body">
+                      <p className="cr04-menu-name">
+                        <GenericEditableText sectionId={sectionId} field={`${field}.name`} value={item.name} tag="span" />
+                      </p>
+                      {item.description && (
+                        <p className="cr04-menu-desc">
+                          <GenericEditableText sectionId={sectionId} field={`${field}.description`} value={item.description} tag="span" />
+                        </p>
+                      )}
+                    </div>
+                    <span className="cr04-menu-dots" aria-hidden />
+                    <span className="cr04-menu-price">
+                      <GenericEditableText sectionId={sectionId} field={`${field}.price`} value={item.price} tag="span" />
+                    </span>
+                  </div>
+                );
+              })}
             </div>
-            <span className="cr04-menu-price">
-              <GenericEditableText sectionId={sectionId} field={`items.${i}.price`} value={item.price} tag="span" />
-            </span>
           </div>
         ))}
       </div>

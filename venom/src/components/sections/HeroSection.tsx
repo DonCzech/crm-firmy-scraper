@@ -2792,11 +2792,20 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "cafe-02-hero") {
     return <HeroCafe02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-cafe-02-page") {
+    return <HeroCafe02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "cafe-03-hero") {
     return <HeroCafe03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-cafe-03-page" || variant === "cafe-03-hero-page") {
+    return <HeroCafe03Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "cafe-04-hero") {
     return <HeroCafe04 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-cafe-04-page" || variant === "cafe-04-hero-page") {
+    return <HeroCafe04Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "bakery-01-hero") {
     return <HeroBakery01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -6998,6 +7007,82 @@ function HeroRestaurant03({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
   );
 }
 
+// ── hero-cafe-02-page ────────────────────────────────────────────────────────
+// Slim banner pro subpages: burgundy bg + gold hairline eyebrow rule + Georgia H1
+// + breadcrumb + gold ornamental rule + optional subtitle
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroCafe02Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const eyebrow        = String(c.eyebrow ?? "");
+  const title          = String(c.title ?? "Podstránka");
+  const subtitle       = String(c.subtitle ?? "");
+  const breadcrumb     = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const bgImage        = String(c.backgroundImage ?? c.image ?? "");
+  const resolvedHref = tenantSlug && breadcrumbHref.startsWith("/")
+    ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${breadcrumbHref === "/" ? "" : breadcrumbHref}`
+    : breadcrumbHref;
+
+  return (
+    <section
+      data-template="cafe-02"
+      data-variant="hero-cafe-02-page"
+      className="cafe02-hero-page"
+      aria-label={title}
+    >
+      {bgImage && (
+        <div className="cafe02-hero-page__bg" aria-hidden>
+          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+            <img loading="eager" src={bgImage} alt="" aria-hidden className="cafe02-hero-page__bg-img" />
+          </GenericEditableImage>
+        </div>
+      )}
+      <div className="cafe02-hero-page__overlay" aria-hidden />
+
+      {(["tl","br"] as const).map(pos => (
+        <span key={pos} className={`cafe02-hero-page__corner cafe02-hero-page__corner--${pos}`} aria-hidden>
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M0 0 H26 M0 0 V26" stroke="currentColor" strokeWidth="1"/>
+            <circle cx="30" cy="30" r="1.6" fill="currentColor"/>
+          </svg>
+        </span>
+      ))}
+
+      <div className="cafe02-hero-page__inner">
+        <nav aria-label="Drobečková navigace" className="cafe02-hero-page__crumbs">
+          <a href={resolvedHref} className="cafe02-hero-page__crumb-link">
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden className="cafe02-hero-page__crumb-sep" />
+          <span className="cafe02-hero-page__crumb-current">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+
+        {eyebrow && (
+          <div className="cafe02-hero-page__eyebrow">
+            <span className="cafe02-hero-page__eyebrow-rule" />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            <span className="cafe02-hero-page__eyebrow-rule" />
+          </div>
+        )}
+
+        <h1 className="cafe02-hero-page__title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        <div className="cafe02-hero-page__rule" aria-hidden><span /></div>
+
+        {subtitle && (
+          <p className="cafe02-hero-page__subtitle">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
 // ── cafe-03-hero ──────────────────────────────────────────────────────────────
 // Cathedral Gilded Noir hero — luxe redesign (2026-07-02)
 // Fullscreen 3-slide Ken-Burns cinematic (7s interval, 1.4s crossfade + slow scale)
@@ -7198,6 +7283,85 @@ function HeroCafe03({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
   );
 }
 
+// ── hero-cafe-03-page ─────────────────────────────────────────────────────────
+// Slim subpage banner (~360px) — noir bg s decorative gold hairline & diamond,
+// breadcrumb Domů → aktuální, editorial H1 (Great Vibes) + Cormorant italic subtitle,
+// gothic arch watermark, ne fullscreen.
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroCafe03Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const GOLD    = "#C69C60";
+  const GOLD_LT = "#D8B57A";
+  const GOLD_DK = "#8F6A38";
+  const NOIR    = "#0d0d0d";
+  const NOIR_D  = "#050505";
+  const CREAM   = "#F5EFE4";
+  const SCRIPT  = "'Great Vibes', cursive";
+  const ITAL    = "'Cormorant Garamond', 'Playfair Display', Georgia, serif";
+  const SANS    = "'Inter', 'Open Sans', system-ui, sans-serif";
+
+  const title      = String(content.title      ?? "Podstránka");
+  const subtitle   = String(content.subtitle   ?? "");
+  const eyebrow    = String(content.eyebrow    ?? "CATHEDRAL CAFÉ");
+  const breadcrumb = String(content.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (h: string) => resolveNavHref(h, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section data-template="cafe-03" className="c3hp" style={{ position: "relative", backgroundColor: NOIR, backgroundImage: `linear-gradient(180deg, ${NOIR} 0%, ${NOIR_D} 100%)`, color: CREAM, fontFamily: SANS, minHeight: 360, padding: "clamp(140px, 16vw, 200px) clamp(20px, 5vw, 60px) clamp(60px, 8vw, 80px)", overflow: "hidden", textAlign: "center" }}>
+      {/* Gothic arch watermark */}
+      <svg aria-hidden width="360" height="360" viewBox="0 0 360 360" style={{ position: "absolute", right: -80, top: 20, opacity: 0.06, pointerEvents: "none" }}>
+        <path d="M40 340 V 140 A 140 140 0 0 1 320 140 V 340" stroke={GOLD} strokeWidth="1" fill="none" />
+      </svg>
+      <svg aria-hidden width="260" height="260" viewBox="0 0 260 260" style={{ position: "absolute", left: -60, bottom: -40, opacity: 0.05, pointerEvents: "none" }}>
+        <path d="M20 240 V 100 A 100 100 0 0 1 240 100 V 240" stroke={GOLD} strokeWidth="1" fill="none" />
+      </svg>
+
+      {/* Corner brackets */}
+      <svg aria-hidden width="56" height="56" viewBox="0 0 56 56" style={{ position: "absolute", top: 116, left: 24, opacity: 0.5 }}><path d="M4 22 V 4 H 22" stroke={GOLD} strokeWidth="1" fill="none" /></svg>
+      <svg aria-hidden width="56" height="56" viewBox="0 0 56 56" style={{ position: "absolute", top: 116, right: 24, opacity: 0.5 }}><path d="M34 4 H 52 V 22" stroke={GOLD} strokeWidth="1" fill="none" /></svg>
+      <svg aria-hidden width="56" height="56" viewBox="0 0 56 56" style={{ position: "absolute", bottom: 24, left: 24, opacity: 0.5 }}><path d="M4 34 V 52 H 22" stroke={GOLD} strokeWidth="1" fill="none" /></svg>
+      <svg aria-hidden width="56" height="56" viewBox="0 0 56 56" style={{ position: "absolute", bottom: 24, right: 24, opacity: 0.5 }}><path d="M34 52 H 52 V 34" stroke={GOLD} strokeWidth="1" fill="none" /></svg>
+
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 900, margin: "0 auto" }}>
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 10, marginBottom: 20, fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.28em", textTransform: "uppercase", color: GOLD_LT }}>
+          <a href={resolve(breadcrumbHref)} style={{ color: GOLD_LT, textDecoration: "none", opacity: 0.75, transition: "opacity 0.2s" }} onMouseEnter={e => (e.currentTarget.style.opacity = "1")} onMouseLeave={e => (e.currentTarget.style.opacity = "0.75")}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden style={{ color: GOLD, fontFamily: ITAL, fontStyle: "italic", textTransform: "none", letterSpacing: 0, fontSize: 15 }}>→</span>
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span">
+            <span style={{ color: GOLD }}>{eyebrow}</span>
+          </GenericEditableText>
+        </nav>
+
+        {/* H1 Great Vibes */}
+        <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1">
+          <h1 style={{ fontFamily: SCRIPT, fontSize: "clamp(52px, 8vw, 96px)", fontWeight: 400, color: "#fff", margin: 0, lineHeight: 1.05, letterSpacing: "0.005em", textShadow: "0 4px 24px rgba(0,0,0,0.4)" }}>{title}</h1>
+        </GenericEditableText>
+
+        {/* Diamond divider */}
+        <div aria-hidden style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, margin: "18px 0 14px" }}>
+          <span style={{ display: "inline-block", width: 44, height: 1, backgroundColor: GOLD }} />
+          <span style={{ display: "inline-block", width: 5, height: 5, transform: "rotate(45deg)", border: `1px solid ${GOLD}` }} />
+          <span style={{ display: "inline-block", width: 44, height: 1, backgroundColor: GOLD }} />
+        </div>
+
+        {/* Subtitle */}
+        {subtitle && (
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p">
+            <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(16px, 1.5vw, 20px)", color: GOLD_LT, margin: "0 auto", maxWidth: 620, letterSpacing: "0.02em", lineHeight: 1.5 }}>— {subtitle}</p>
+          </GenericEditableText>
+        )}
+      </div>
+
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600&display=swap" />
+    </section>
+  );
+}
+
 // ── cafe-04-hero ──────────────────────────────────────────────────────────────
 // Specialty kavárna urban editorial hero — fullscreen Ken-Burns slider s kinetic reveal
 // Layout: eyebrow + display title + tagline vlevo dole; slide counter + progress vpravo dole
@@ -7326,6 +7490,51 @@ function HeroCafe04({ content, sectionId }: { content: Record<string, unknown>; 
         <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span" className="cr04-hero-scroll-label" />
         <span className="cr04-hero-scroll-line" aria-hidden><span /></span>
       </button>
+    </section>
+  );
+}
+
+// ── hero-cafe-04-page (slim subpage banner) ───────────────────────────────────
+function HeroCafe04Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const eyebrow        = String(content.eyebrow        ?? "Coffee Room");
+  const title          = String(content.title          ?? "Stránka");
+  const breadcrumbLabel = String(content.breadcrumbLabel ?? "Domů");
+  const breadcrumbHref  = String(content.breadcrumbHref  ?? "/");
+  const backgroundImage = String(content.backgroundImage ?? "/assets/cafe-04/hero-1.webp");
+
+  const homeHref = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${breadcrumbHref === "/" ? "" : breadcrumbHref}` : breadcrumbHref;
+
+  return (
+    <section className="cr04-heropg" data-template="cafe-04">
+      <GenericEditableImage
+        sectionId={sectionId}
+        field="backgroundImage"
+        src={backgroundImage}
+        alt=""
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}
+      >
+        <img src={backgroundImage} alt="" loading="eager" className="cr04-heropg-bg" />
+      </GenericEditableImage>
+      <div className="cr04-heropg-veil" aria-hidden />
+
+      <div className="cr04-heropg-inner">
+        <nav className="cr04-heropg-crumb" aria-label="Breadcrumb">
+          <a href={homeHref} className="cr04-heropg-crumb-link">
+            <GenericEditableText sectionId={sectionId} field="breadcrumbLabel" value={breadcrumbLabel} tag="span" />
+          </a>
+          <span className="cr04-heropg-crumb-sep" aria-hidden>/</span>
+          <span className="cr04-heropg-crumb-current">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+        <span className="cr04-heropg-eyebrow">
+          <span className="cr04-heropg-eyebrow-rule" aria-hidden />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </span>
+        <h1 className="cr04-heropg-title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+      </div>
     </section>
   );
 }

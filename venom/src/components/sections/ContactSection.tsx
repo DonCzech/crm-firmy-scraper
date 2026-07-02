@@ -4052,97 +4052,103 @@ function FieldC3({ label, type, defaultValue }: { label: string; type: string; d
 // .contact-form-wrap border #b7957080, .text-field coffeebrown border, dark-button
 // ─────────────────────────────────────────────────────────────────────────────
 function ContactCafe04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const heading    = String(content.heading    ?? "Napište nám");
-  const subheading = String(content.subheading ?? "Rádi vám odpovíme. Neváhejte se ozvat.");
-  const email      = String(content.email      ?? "");
-  const phone      = String(content.phone      ?? "");
-  const address    = String(content.address    ?? "");
+  const eyebrow    = String(content.eyebrow    ?? "Napište nám");
+  const heading    = String(content.heading    ?? "Ozvěte se, jsme na příjmu.");
+  const subheading = String(content.subheading ?? "Rezervace většího stolu, spolupráce nebo jen zpětná vazba — rádi si vás poslechneme.");
+  const email      = String(content.email      ?? "ahoj@coffeeroom.cz");
+  const phone      = String(content.phone      ?? "+420 704 123 456");
+  const address    = String(content.address    ?? "Rumunská 74\n120 00 Praha 2");
+  const emailLabel = String(content.emailLabel ?? "E-mail");
+  const phoneLabel = String(content.phoneLabel ?? "Telefon");
+  const addressLabel = String(content.addressLabel ?? "Adresa");
+  const successText  = String(content.successText  ?? "Díky, ozveme se do 24 hodin.");
   const fields     = (content.formFields as { name?: string; email?: string; message?: string; submit?: string }) ?? {};
 
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
-  const SANS   = "Montserrat, sans-serif";
-  const KARLA  = "'Karla', sans-serif";
-  const DARK   = "#1d1f2e";
-  const COFFEE = "#b79570";
-  const BORDER = "rgba(183,149,112,0.5)";
+  const hideHeader = content.showHeader === false || (!heading && !eyebrow && !subheading);
 
   return (
-    <section style={{ backgroundColor: "#fff", fontFamily: SANS, padding: "100px 0" }}>
-      <style>{`
-        .cr04-contact-outer { width: 70%; margin: 0 auto; }
-        .cr04-contact-box { border: 1px solid ${BORDER}; padding: 60px; display: flex; flex-direction: row; gap: 60px; }
-        .cr04-form-side { flex: 1; min-width: 0; }
-        .cr04-info-side { flex: 0 0 260px; }
-        .cr04-field { border: 1px solid ${COFFEE}; border-radius: 0; width: 100%; height: 54px; padding: 0 20px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-family: ${SANS}; color: ${DARK}; background: #fff; box-sizing: border-box; margin-bottom: 20px; display: block; transition: border .4s; }
-        .cr04-field:focus { outline: none; border-color: ${DARK}; }
-        .cr04-field::placeholder { color: rgba(29,31,46,0.35); }
-        .cr04-textarea { height: 100px; padding-top: 16px; resize: vertical; }
-        .cr04-label { display: block; font-family: ${SANS}; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: ${DARK}; opacity: 0.6; margin-bottom: 8px; }
-        .cr04-submit { border: 1px solid ${COFFEE}; color: ${COFFEE}; background: transparent; padding: 18px 24px; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-family: ${SANS}; cursor: pointer; border-radius: 0; transition: background-color .4s, color .4s; }
-        .cr04-submit:hover { background-color: ${COFFEE}; color: #fff; }
-        .cr04-office { font-family: ${SANS}; font-size: 18px; font-weight: 600; color: ${DARK}; margin: 0 0 10px; }
-        .cr04-addr { font-family: ${SANS}; font-size: 15px; line-height: 28px; color: ${DARK}; margin: 0 0 20px; }
-        .cr04-contact-link { display: block; font-family: ${SANS}; font-size: 15px; color: ${DARK}; text-decoration: underline; margin-bottom: 8px; transition: color .4s; }
-        .cr04-contact-link:hover { color: ${COFFEE}; }
-        @media (max-width: 828px) {
-          .cr04-contact-outer { width: 90%; }
-          .cr04-contact-box { flex-direction: column; padding: 32px; gap: 40px; }
-          .cr04-info-side { flex: none; }
-        }
-      `}</style>
-      <div className="cr04-contact-outer">
-        <div className="cr04-contact-box">
-          {/* Form side */}
-          <div className="cr04-form-side">
-            <p style={{ fontFamily: KARLA, fontSize: 14, lineHeight: "25px", color: DARK, marginBottom: 32 }}>
+    <section className="cr04-ct" data-template="cafe-04">
+      <div className="cr04-ct-inner">
+        {!hideHeader && (
+          <div className="cr04-ct-header">
+            <span className="cr04-ct-eyebrow">
+              <span className="cr04-ct-eyebrow-rule" aria-hidden />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </span>
+            <h2 className="cr04-ct-title">
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h2>
+            <p className="cr04-ct-sub">
               <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
             </p>
+          </div>
+        )}
+
+        <div className="cr04-ct-grid">
+          {/* Left: info */}
+          <div className="cr04-ct-info">
+            <div className="cr04-ct-info-item">
+              <span className="cr04-ct-info-lbl">
+                <GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="span" />
+              </span>
+              <a href={`mailto:${email}`} className="cr04-ct-info-val cr04-ct-info-link">
+                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+              </a>
+            </div>
+            <div className="cr04-ct-info-item">
+              <span className="cr04-ct-info-lbl">
+                <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" />
+              </span>
+              <a href={`tel:${phone.replace(/\s/g, "")}`} className="cr04-ct-info-val cr04-ct-info-link">
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+              </a>
+            </div>
+            <div className="cr04-ct-info-item">
+              <span className="cr04-ct-info-lbl">
+                <GenericEditableText sectionId={sectionId} field="addressLabel" value={addressLabel} tag="span" />
+              </span>
+              <p className="cr04-ct-info-val">
+                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+              </p>
+            </div>
+          </div>
+
+          {/* Right: form */}
+          <div className="cr04-ct-form-wrap">
             {!submitted ? (
-              <form onSubmit={e => { e.preventDefault(); setSubmitted(true); }}>
-                <label className="cr04-label" htmlFor="cr04-name">
-                  <GenericEditableText sectionId={sectionId} field="formFields.name" value={fields.name ?? "Jméno"} tag="span" />
+              <form className="cr04-ct-form" onSubmit={e => { e.preventDefault(); setSubmitted(true); }}>
+                <label className="cr04-ct-field">
+                  <span className="cr04-ct-field-lbl">
+                    <GenericEditableText sectionId={sectionId} field="formFields.name" value={fields.name ?? "Jméno"} tag="span" />
+                  </span>
+                  <input type="text" required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="cr04-ct-input" />
                 </label>
-                <input id="cr04-name" type="text" className="cr04-field" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} required />
-                <label className="cr04-label" htmlFor="cr04-email">
-                  <GenericEditableText sectionId={sectionId} field="formFields.email" value={fields.email ?? "E-mail"} tag="span" />
+                <label className="cr04-ct-field">
+                  <span className="cr04-ct-field-lbl">
+                    <GenericEditableText sectionId={sectionId} field="formFields.email" value={fields.email ?? "E-mail"} tag="span" />
+                  </span>
+                  <input type="email" required value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="cr04-ct-input" />
                 </label>
-                <input id="cr04-email" type="email" className="cr04-field" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} required />
-                <label className="cr04-label" htmlFor="cr04-message">
-                  <GenericEditableText sectionId={sectionId} field="formFields.message" value={fields.message ?? "Zpráva"} tag="span" />
+                <label className="cr04-ct-field">
+                  <span className="cr04-ct-field-lbl">
+                    <GenericEditableText sectionId={sectionId} field="formFields.message" value={fields.message ?? "Zpráva"} tag="span" />
+                  </span>
+                  <textarea rows={4} required value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} className="cr04-ct-textarea" />
                 </label>
-                <textarea id="cr04-message" className="cr04-field cr04-textarea" value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} required />
-                <button type="submit" className="cr04-submit">
+                <button type="submit" className="cr04-ct-submit">
                   <GenericEditableText sectionId={sectionId} field="formFields.submit" value={fields.submit ?? "Odeslat"} tag="span" />
+                  <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden>
+                    <path d="M1 5H13M9 1L13 5L9 9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </button>
               </form>
             ) : (
-              <p style={{ fontFamily: SANS, fontSize: 14, fontWeight: 600, color: COFFEE, letterSpacing: 1 }}>
-                Díky! Brzy se ozveme.
+              <p className="cr04-ct-success">
+                <GenericEditableText sectionId={sectionId} field="successText" value={successText} tag="span" />
               </p>
-            )}
-          </div>
-
-          {/* Info side */}
-          <div className="cr04-info-side">
-            <p className="cr04-office">
-              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-            </p>
-            {address && (
-              <p className="cr04-addr">
-                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
-              </p>
-            )}
-            {email && (
-              <a href={`mailto:${email}`} className="cr04-contact-link">
-                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-              </a>
-            )}
-            {phone && (
-              <a href={`tel:${phone.replace(/\s/g, "")}`} className="cr04-contact-link">
-                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-              </a>
             )}
           </div>
         </div>

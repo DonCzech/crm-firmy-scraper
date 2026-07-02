@@ -4479,118 +4479,128 @@ function FooterFyzio02({ content, sectionId, tenantSlug, isAdmin }: { content: R
 // Bottom: dark copyright + IČO bar
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterCafe02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const siteName     = String(content.siteName     ?? "Kavárna Republica");
+  const siteName     = String(content.siteName     ?? "Demo Café Belvedere");
   const logoUrl      = String(content.logoUrl      ?? "/templates/cafe-02/logo.svg");
-  const tagline      = String(content.tagline      ?? "Vídeňská elegance v srdci Prahy.");
-  const address      = String(content.address      ?? "Ukázková 123, 110 00 Praha 1");
-  const phone        = String(content.phone        ?? "704 123 456");
-  const email        = String(content.email        ?? "info@demo.cz");
-  const hours        = String(content.hours        ?? "Po–Pá 8:00–22:00, So–Ne 9:00–22:00");
+  const tagline      = String(content.tagline      ?? "Vídeňská elegance v srdci Prahy — kavárna, jídlo, víno a pomalý čas.");
+  const address      = String(content.address      ?? "Národní 12, 110 00 Praha 1");
+  const phone        = String(content.phone        ?? "+420 700 111 222");
+  const email        = String(content.email        ?? "rezervace@belvedere-demo.cz");
+  const hours        = String(content.hours        ?? "Po–Ne · 8:00 – 23:00");
   const ico          = String(content.ico          ?? "12345678");
-  const facebookUrl  = String(content.facebookUrl  ?? "https://facebook.com/demo");
-  const instagramUrl = String(content.instagramUrl ?? "https://instagram.com/demo");
+  const dic          = String(content.dic          ?? "CZ12345678");
+  const newsletterLabel = String(content.newsletterLabel ?? "Novinky & víkendová menu");
+  const newsletterPlaceholder = String(content.newsletterPlaceholder ?? "Váš e-mail");
+  const newsletterCta = String(content.newsletterCta ?? "Odebírat");
   const links        = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const socials = (content.socials as Array<{ label?: string; href?: string; icon?: string }>) ?? [
+    { icon: "instagram", label: "Instagram", href: String(content.instagramUrl ?? "https://instagram.com/") },
+    { icon: "facebook",  label: "Facebook",  href: String(content.facebookUrl ?? "https://facebook.com/") },
+    { icon: "google",    label: "Google",    href: "https://google.com/" },
+  ];
 
-  const BG   = "#F7F4EF";
-  const GOLD = "#A89B67";
-  const BURG = "#6C1D45";
-  const TEXT = "#1A0E0A";
-  const MUTED = "#8C7B6A";
-  const BORDER = "#E8E0D5";
-  const FONT = "Georgia, 'Times New Roman', serif";
-  const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
   const year = new Date().getFullYear();
 
+  const SocialIcon = ({ name }: { name?: string }) => {
+    const p = { width: 15, height: 15, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true as const };
+    switch ((name || "").toLowerCase()) {
+      case "instagram": return (<svg {...p}><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>);
+      case "facebook":  return (<svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>);
+      case "tripadvisor":
+      case "google":    return (<svg {...p}><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>);
+      default:          return (<svg {...p}><circle cx="12" cy="12" r="9"/></svg>);
+    }
+  };
+
   return (
-    <footer data-variant="cafe-02-footer" style={{ backgroundColor: BG, fontFamily: SANS, borderTop: `2px solid ${GOLD}` }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "64px clamp(24px, 5vw, 64px) 40px" }}>
-        <div className="c02f-grid" style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: "clamp(32px, 5vw, 64px)" }}>
-          {/* Sloupec 1: Brand */}
-          <div>
-            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block", marginBottom: 20 }}>
-              <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 44, display: "block", filter: "brightness(0)" }} />
-            </GenericEditableImage>
-            <p style={{ fontSize: 13, fontWeight: 400, color: MUTED, lineHeight: 1.7, margin: "0 0 24px" }}>
+    <footer data-template="cafe-02" data-variant="cafe-02-footer" className="cafe02-footer">
+      <div className="cafe02-footer__band" aria-hidden>
+        <span className="cafe02-footer__band-dot" />
+      </div>
+
+      <div className="cafe02-footer__inner">
+        <div className="cafe02-footer__grid">
+          <div className="cafe02-footer__col cafe02-footer__col--brand">
+            <a href="/" aria-label={siteName} className="cafe02-footer__brand">
+              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "flex", alignItems: "center" }}>
+                <img loading="lazy" src={logoUrl} alt={siteName} className="cafe02-footer__logo" />
+              </GenericEditableImage>
+            </a>
+            <p className="cafe02-footer__tagline">
               <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
             </p>
-            <div style={{ display: "flex", gap: 12 }}>
-              {facebookUrl && (
-                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-                  style={{ width: 36, height: 36, borderRadius: "50%", border: `1px solid ${GOLD}60`, display: "flex", alignItems: "center", justifyContent: "center", color: GOLD, textDecoration: "none", transition: "border-color 0.2s, color 0.2s" }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = BURG; e.currentTarget.style.color = BURG; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = `${GOLD}60`; e.currentTarget.style.color = GOLD; }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-                </a>
-              )}
-              {instagramUrl && (
-                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-                  style={{ width: 36, height: 36, borderRadius: "50%", border: `1px solid ${GOLD}60`, display: "flex", alignItems: "center", justifyContent: "center", color: GOLD, textDecoration: "none", transition: "border-color 0.2s, color 0.2s" }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = BURG; e.currentTarget.style.color = BURG; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = `${GOLD}60`; e.currentTarget.style.color = GOLD; }}
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                </a>
-              )}
-            </div>
+            <ul className="cafe02-footer__socials">
+              {socials.map((s, i) => (
+                <li key={i}>
+                  <a href={s.href || "#"} target="_blank" rel="noopener noreferrer" aria-label={s.label || s.icon}>
+                    <SocialIcon name={s.icon} />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Sloupec 2: Navigace */}
-          <div>
-            <h4 style={{ fontFamily: FONT, fontSize: 13, fontWeight: 400, color: TEXT, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 20px" }}>Navigace</h4>
-            <nav>
+          <div className="cafe02-footer__col">
+            <h4 className="cafe02-footer__heading">
+              <GenericEditableText sectionId={sectionId} field="navLabel" value={String(content.navLabel ?? "Navigace")} tag="span" />
+            </h4>
+            <nav aria-label="Zápatí navigace">
               {links.map((l, i) => (
-                <a key={i} href={l.href}
-                  style={{ display: "block", fontSize: 13, fontWeight: 400, color: MUTED, textDecoration: "none", marginBottom: 10, transition: "color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = BURG)}
-                  onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-                >
+                <a key={i} href={l.href} className="cafe02-footer__link">
+                  <span className="cafe02-footer__link-mark" aria-hidden />
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                 </a>
               ))}
             </nav>
           </div>
 
-          {/* Sloupec 3: Kontakt */}
-          <div>
-            <h4 style={{ fontFamily: FONT, fontSize: 13, fontWeight: 400, color: TEXT, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 20px" }}>Kontakt</h4>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <p style={{ fontSize: 13, fontWeight: 400, color: MUTED, margin: 0, lineHeight: 1.6 }}>
+          <div className="cafe02-footer__col">
+            <h4 className="cafe02-footer__heading">
+              <GenericEditableText sectionId={sectionId} field="contactLabel" value={String(content.contactLabel ?? "Kontakt")} tag="span" />
+            </h4>
+            <div className="cafe02-footer__contact">
+              <p>
                 <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
               </p>
-              <a href={`tel:+420${phone.replace(/\s/g, "")}`}
-                style={{ fontSize: 13, fontWeight: 400, color: MUTED, textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = BURG)}
-                onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-              >
+              <a href={"tel:" + phone.replace(/\s+/g, "")}>
                 <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
               </a>
-              <a href={`mailto:${email}`}
-                style={{ fontSize: 13, fontWeight: 400, color: MUTED, textDecoration: "none", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = BURG)}
-                onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-              >
+              <a href={"mailto:" + email}>
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>
-              <p style={{ fontSize: 13, fontWeight: 400, color: MUTED, margin: 0, lineHeight: 1.6 }}>
+              <p className="cafe02-footer__contact-hours">
                 <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
               </p>
             </div>
           </div>
+
+          <div className="cafe02-footer__col cafe02-footer__col--news">
+            <h4 className="cafe02-footer__heading">
+              <GenericEditableText sectionId={sectionId} field="newsletterLabel" value={newsletterLabel} tag="span" />
+            </h4>
+            <p className="cafe02-footer__news-note">
+              <GenericEditableText sectionId={sectionId} field="newsletterNote" value={String(content.newsletterNote ?? "Sezónní menu, akce a připomenutí rezervace přímo do vaší schránky.")} tag="span" />
+            </p>
+            <form className="cafe02-footer__news" onSubmit={(e) => e.preventDefault()}>
+              <input type="email" placeholder={newsletterPlaceholder} aria-label={newsletterPlaceholder} className="cafe02-footer__news-input" />
+              <button type="submit" className="cafe02-footer__news-btn">
+                <GenericEditableText sectionId={sectionId} field="newsletterCta" value={newsletterCta} tag="span" />
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div className="cafe02-footer__legal">
+          <div className="cafe02-footer__legal-left">
+            <span className="cafe02-footer__legal-mono" aria-hidden>&#10052;</span>
+            <span>© {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
+            <span className="cafe02-footer__legal-sep" aria-hidden />
+            <span>IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></span>
+            <span className="cafe02-footer__legal-sep" aria-hidden />
+            <span>DIČ: <GenericEditableText sectionId={sectionId} field="dic" value={dic} tag="span" /></span>
+          </div>
+          <WeberoCredit />
         </div>
       </div>
-
-      <div style={{ borderTop: `1px solid ${BORDER}`, padding: "16px clamp(24px, 5vw, 64px)" }}>
-        <div className="c02f-copyright" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-          <p style={{ fontSize: 11, color: MUTED, margin: 0 }}>© {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /> · IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></p>
-          <p style={{ fontSize: 11, color: `${MUTED}88`, margin: 0 }}>Vytvořeno s Webero</p>
-        </div>
-      </div>
-
-      <style>{`
-        @media(max-width:768px){.c02f-grid{grid-template-columns:1fr!important}}
-        @media(max-width:480px){.c02f-copyright{flex-direction:column!important;text-align:center}}
-      `}</style>
     </footer>
   );
 }
