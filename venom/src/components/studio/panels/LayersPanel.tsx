@@ -76,7 +76,7 @@ function OverlaySubRow({ el, sectionId, selected, onSelect, onToggleMobile, onDe
         "group relative flex h-8 items-center gap-1.5 rounded-lg pl-7 pr-1.5 text-[12px] transition-colors duration-100 cursor-pointer",
         selected
           ? "bg-[rgba(99,102,241,0.18)] text-white ring-1 ring-inset ring-[rgba(99,102,241,0.35)]"
-          : "text-[#71717a] hover:bg-white/[0.05] hover:text-[#a1a1aa]",
+          : "text-[var(--vs-text-dim)] hover:bg-white/[0.05] hover:text-[var(--vs-text-muted)]",
         el.mobileHidden && "opacity-60"
       )}
     >
@@ -117,7 +117,7 @@ function scrollToSection(sectionId: number) {
   el.scrollIntoView({ behavior: "smooth", block: "center" });
   // Brief highlight flash so the user sees which section was jumped to
   const prev = el.style.outline;
-  el.style.outline = "2px solid rgba(59,130,246,0.7)";
+  el.style.outline = "2px solid rgba(129,140,248,0.7)";
   el.style.outlineOffset = "2px";
   setTimeout(() => { el.style.outline = prev; el.style.outlineOffset = ""; }, 900);
 }
@@ -214,7 +214,7 @@ function LayersPopup({ state, onClose, pending }: { state: StudioState; onClose:
           isInsert && "bg-blue-950/40"
         )}>
           <div className="flex items-center gap-2.5">
-            <LayersIcon className={clsx("h-4 w-4", isInsert ? "text-blue-400" : "text-[#60a5fa]")} strokeWidth={1.75} />
+            <LayersIcon className={clsx("h-4 w-4", isInsert ? "text-blue-400" : "text-[var(--vs-accent-hi)]")} strokeWidth={1.75} />
             <div>
               <div className="text-[14px] font-semibold text-white tracking-[-0.01em]">
                 {isInsert ? "Kam vložit?" : "Pořadí sekcí"}
@@ -229,7 +229,7 @@ function LayersPopup({ state, onClose, pending }: { state: StudioState; onClose:
           <button
             type="button"
             onClick={onClose}
-            className="flex h-7 w-7 items-center justify-center rounded-lg text-[#71717a] hover:bg-white/[0.08] hover:text-white transition-colors"
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-[var(--vs-text-dim)] hover:bg-white/[0.08] hover:text-white transition-colors"
           >
             <X className="h-4 w-4" strokeWidth={2} />
           </button>
@@ -401,8 +401,8 @@ function PopupRow({
           "group relative flex h-10 items-center gap-2 rounded-xl px-2 text-[13px] transition-colors duration-100",
           dimmed ? "cursor-default opacity-40" : "cursor-pointer",
           !dimmed && selected
-            ? "bg-[rgba(59,130,246,0.15)] text-white ring-1 ring-inset ring-[rgba(59,130,246,0.3)]"
-            : "text-[#a1a1aa] hover:bg-white/[0.06] hover:text-white",
+            ? "bg-[rgba(129,140,248,0.15)] text-white ring-1 ring-inset ring-[rgba(129,140,248,0.3)]"
+            : "text-[var(--vs-text-muted)] hover:bg-white/[0.06] hover:text-white",
           !section.is_visible && "opacity-40"
         )}
       >
@@ -412,9 +412,9 @@ function PopupRow({
         {/* Section icon */}
         <div className={clsx(
           "flex h-6 w-6 shrink-0 items-center justify-center rounded-md",
-          selected ? "bg-[rgba(59,130,246,0.25)]" : "bg-white/[0.06]"
+          selected ? "bg-[rgba(129,140,248,0.25)]" : "bg-white/[0.06]"
         )}>
-          <Icon className={clsx("h-3.5 w-3.5", selected ? "text-[#60a5fa]" : "text-[#71717a]")} strokeWidth={1.75} />
+          <Icon className={clsx("h-3.5 w-3.5", selected ? "text-[var(--vs-accent-hi)]" : "text-[var(--vs-text-dim)]")} strokeWidth={1.75} />
         </div>
 
         {/* Label */}
@@ -430,14 +430,14 @@ function PopupRow({
               e.stopPropagation();
             }}
             onClick={e => e.stopPropagation()}
-            className="flex-1 min-w-0 rounded bg-[rgba(59,130,246,0.15)] px-1.5 py-0.5 text-[13px] font-medium text-white outline-none ring-1 ring-[rgba(59,130,246,0.5)]"
+            className="flex-1 min-w-0 rounded bg-[rgba(129,140,248,0.15)] px-1.5 py-0.5 text-[13px] font-medium text-white outline-none ring-1 ring-[rgba(129,140,248,0.5)]"
           />
         ) : (
           <span
             className={clsx(
               "flex-1 truncate font-medium",
               !section.is_visible && "line-through decoration-[#4b5563]",
-              customLabel && "text-[#93c5fd]"
+              customLabel && "text-[var(--vs-accent-hi)]"
             )}
             onDoubleClick={!dimmed ? startEdit : undefined}
             title={!dimmed ? "Dvojklikem přejmenovat" : undefined}
@@ -452,7 +452,7 @@ function PopupRow({
             type="button"
             title={expanded ? "Sbalit elementy" : "Zobrazit overlay elementy"}
             onClick={(e) => { e.stopPropagation(); setExpanded(v => !v); }}
-            className="flex shrink-0 items-center gap-1 rounded-md px-1 py-0.5 text-[10px] text-[#6b7280] hover:bg-white/[0.1] hover:text-[#a1a1aa] transition-colors"
+            className="flex shrink-0 items-center gap-1 rounded-md px-1 py-0.5 text-[10px] text-[#6b7280] hover:bg-white/[0.1] hover:text-[var(--vs-text-muted)] transition-colors"
           >
             <span className="rounded-full bg-white/[0.08] px-1.5">{overlayEls.length}</span>
             <ChevronRight className={clsx("h-3 w-3 transition-transform duration-150", expanded && "rotate-90")} strokeWidth={2} />
@@ -492,10 +492,10 @@ function PopupRow({
               {menu && (
                 <>
                   <div className="fixed inset-0 z-[210]" onClick={(e) => { e.stopPropagation(); setMenu(false); }} />
-                  <div className="absolute right-0 top-full z-[211] mt-1 w-40 rounded-xl border border-white/[0.08] bg-[#18181b] py-1.5 shadow-2xl">
+                  <div className="absolute right-0 top-full z-[211] mt-1 w-40 rounded-xl border border-white/[0.08] bg-[var(--vs-surface)] py-1.5 shadow-2xl">
                     <button
                       onClick={(e) => { e.stopPropagation(); setMenu(false); void state.duplicateSection(section.id); }}
-                      className="flex w-full items-center gap-2.5 px-3 py-2 text-[12px] text-[#a1a1aa] hover:bg-white/[0.06] hover:text-white"
+                      className="flex w-full items-center gap-2.5 px-3 py-2 text-[12px] text-[var(--vs-text-muted)] hover:bg-white/[0.06] hover:text-white"
                     >
                       <Copy className="h-3.5 w-3.5" strokeWidth={1.75} /> Duplikovat
                     </button>
@@ -553,7 +553,7 @@ function PopupSortableRow(props: { section: Section; selected: boolean; onSelect
             type="button"
             aria-label="Přesunout"
             onClick={(e) => e.stopPropagation()}
-            className="flex h-4 w-4 shrink-0 cursor-grab items-center justify-center text-[#3f3f46] hover:text-[#71717a] active:cursor-grabbing"
+            className="flex h-4 w-4 shrink-0 cursor-grab items-center justify-center text-[#3f3f46] hover:text-[var(--vs-text-dim)] active:cursor-grabbing"
           >
             <GripVertical className="h-4 w-4" strokeWidth={1.75} />
           </button>
@@ -647,7 +647,7 @@ export function LayersPanel({ state }: { state: StudioState }) {
                       e.dataTransfer.effectAllowed = "copy";
                     }}
                     onClick={() => openInsert(item.sectionType, item.variant ?? "default", item.label)}
-                    className="group flex flex-col items-center gap-1.5 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-2 py-3 transition-[border-color,background] duration-100 hover:border-[rgba(59,130,246,0.45)] hover:bg-[var(--vs-surface-2)] focus:outline-none cursor-grab active:cursor-grabbing"
+                    className="group flex flex-col items-center gap-1.5 rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-2 py-3 transition-[border-color,background] duration-100 hover:border-[rgba(129,140,248,0.45)] hover:bg-[var(--vs-surface-2)] focus:outline-none cursor-grab active:cursor-grabbing"
                     aria-label={item.label}
                   >
                     <span className="text-[var(--vs-text-muted)] transition-colors duration-100 group-hover:text-[var(--vs-text-soft)]">
@@ -669,7 +669,7 @@ export function LayersPanel({ state }: { state: StudioState }) {
           <button
             type="button"
             onClick={() => { setPending(undefined); setPopupOpen(true); }}
-            className="flex w-full items-center gap-2 rounded-xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2.5 text-[12px] font-medium text-[var(--vs-text-muted)] transition-[border-color,background,color] duration-100 hover:border-[rgba(59,130,246,0.35)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]"
+            className="flex w-full items-center gap-2 rounded-xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2.5 text-[12px] font-medium text-[var(--vs-text-muted)] transition-[border-color,background,color] duration-100 hover:border-[rgba(129,140,248,0.35)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]"
           >
             <LayersIcon className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
             <span className="flex-1 text-left">Pořadí sekcí</span>

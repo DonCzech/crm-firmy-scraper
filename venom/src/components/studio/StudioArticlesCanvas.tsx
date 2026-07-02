@@ -89,7 +89,7 @@ function ListMode({ state, posts, loading, onNewArticle }: {
           <button
             type="button"
             onClick={onNewArticle}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-[#2563eb] px-4 py-2 text-[13.5px] font-semibold text-white hover:bg-[#1d4ed8] transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-[#6366f1] px-4 py-2 text-[13.5px] font-semibold text-white hover:bg-[#4f46e5] transition-colors"
           >
             <Plus className="h-4 w-4" strokeWidth={2.5} />
             Nový článek
@@ -113,7 +113,7 @@ function ListMode({ state, posts, loading, onNewArticle }: {
         <button
           type="button"
           onClick={onNewArticle}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-[#2563eb] px-4 py-2 text-[13.5px] font-semibold text-white hover:bg-[#1d4ed8] transition-colors"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-[#6366f1] px-4 py-2 text-[13.5px] font-semibold text-white hover:bg-[#4f46e5] transition-colors"
         >
           <Plus className="h-4 w-4" strokeWidth={2.5} />
           Nový článek
@@ -301,7 +301,7 @@ function EditorMode({ state, post, onRefresh }: {
           <button
             type="button"
             onClick={handlePublish}
-            className="bg-[#2563eb] text-white rounded-lg px-4 py-1.5 text-[13px] font-semibold hover:bg-[#1d4ed8] transition-colors"
+            className="bg-[#6366f1] text-white rounded-lg px-4 py-1.5 text-[13px] font-semibold hover:bg-[#4f46e5] transition-colors"
           >
             Publikovat
           </button>

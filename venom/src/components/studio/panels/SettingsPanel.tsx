@@ -13,6 +13,7 @@ interface SettingsItem {
 const OBECNE: SettingsItem[] = [
   { label: "Identita",               view: "identita" },
   { label: "Web",                    view: "web" },
+  { label: "Vlastní doména",         view: "domain",    hasChevron: true },
   { label: "SEO",                    view: "seo" },
   { label: "Cookie lišta",           view: "cookies" },
   { label: "Uživatelské přístupy",   view: "access",    hasChevron: true },

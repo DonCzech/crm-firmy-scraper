@@ -50,7 +50,7 @@ export function StudioModulesCanvas({ state: _state }: { state: StudioState }) {
         <h1 className="text-[22px] font-bold text-gray-900">{title}</h1>
         <button
           type="button"
-          className="bg-[#2563eb] text-white rounded-lg px-4 py-2 text-[13.5px] font-semibold hover:bg-[#1d4ed8] transition-colors"
+          className="bg-[#6366f1] text-white rounded-lg px-4 py-2 text-[13.5px] font-semibold hover:bg-[#4f46e5] transition-colors"
         >
           Nový záznam
         </button>
@@ -65,7 +65,7 @@ export function StudioModulesCanvas({ state: _state }: { state: StudioState }) {
         <div className="flex items-center gap-3 mt-6">
           <button
             type="button"
-            className="bg-[#2563eb] text-white rounded-lg px-4 py-2 text-[13.5px] font-semibold hover:bg-[#1d4ed8] transition-colors"
+            className="bg-[#6366f1] text-white rounded-lg px-4 py-2 text-[13.5px] font-semibold hover:bg-[#4f46e5] transition-colors"
           >
             Nový záznam
           </button>

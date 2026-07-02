@@ -1,6 +1,7 @@
 "use client";
 
-import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Type } from "lucide-react";
+import { useState } from "react";
+import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Type, Image as ImageIcon, Droplet } from "lucide-react";
 import clsx from "clsx";
 import { useGenericInlineEditor, type GenericTextStyle } from "@/components/tenant/GenericInlineEditorContext";
 import { useStudio } from "../StudioContext";
@@ -18,22 +19,157 @@ const WEIGHTS: Array<{ value: string; label: string }> = [
   { value: "800", label: "Black" },
 ];
 
-export function StyleInspectorTab({ section }: { section: Section; state: StudioState }) {
+export function StyleInspectorTab({ section, state }: { section: Section; state: StudioState }) {
   const studio = useStudio();
   const editor = useGenericInlineEditor();
   const field = studio.selectedField;
 
-  if (!field) {
-    return (
-      <div className="flex h-full flex-col items-center justify-center px-6 text-center">
-        <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-[var(--vs-surface)] text-[var(--vs-text-dim)]">
-          <Type className="h-4 w-4" strokeWidth={1.75} />
-        </div>
-        <p className="text-xs text-[var(--vs-text-muted)]">Klikni na text v náhledu pro stylování.</p>
-      </div>
-    );
+  return (
+    <div className="space-y-5 p-3">
+      {/* Section background — section-level, always visible regardless of
+          text-field selection. Wires through state.patchSection so the
+          public site picks it up the same way as the hero inspector. */}
+      <SectionBackground section={section} state={state} />
+
+      <div className="-mx-3 h-px bg-[var(--vs-border)]" />
+
+      {field
+        ? <FieldStyling section={section} editor={editor} field={field} />
+        : (
+          <div className="flex flex-col items-center px-6 py-6 text-center">
+            <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--vs-surface)] text-[var(--vs-text-dim)]">
+              <Type className="h-4 w-4" strokeWidth={1.75} />
+            </div>
+            <p className="text-[11.5px] text-[var(--vs-text-muted)]">Klikni na text v náhledu pro stylování písma.</p>
+          </div>
+        )
+      }
+    </div>
+  );
+}
+
+/* ── Section background ────────────────────────────────────────────────── */
+
+type BgTab = "color" | "image" | "video";
+
+function SectionBackground({ section, state }: { section: Section; state: StudioState }) {
+  // Read current bg from settings. Hero variants persist into settings.heroBg;
+  // every other section uses settings.layout.backgroundColor + settings.layout.backgroundImage.
+  // We expose a unified UI and write to both shapes so the chosen renderer
+  // picks up the change regardless of where it reads from.
+  const settings = (section.settings ?? {}) as Record<string, unknown>;
+  const heroBg = (settings.heroBg ?? {}) as { tab?: BgTab; color?: string; imageUrl?: string; videoUrl?: string };
+  const layout = (settings.layout ?? {}) as { backgroundColor?: string; backgroundImage?: string };
+
+  const initialTab: BgTab = heroBg.tab ?? (layout.backgroundImage ? "image" : "color");
+  const [tab, setTab] = useState<BgTab>(initialTab);
+
+  const color    = heroBg.color    ?? layout.backgroundColor ?? "#ffffff";
+  const imageUrl = heroBg.imageUrl ?? layout.backgroundImage ?? "";
+  const videoUrl = heroBg.videoUrl ?? "";
+
+  async function commit(patch: Partial<{ tab: BgTab; color: string; imageUrl: string; videoUrl: string }>) {
+    const nextHeroBg = { ...heroBg, ...patch };
+    const nextLayout = { ...layout };
+    if (patch.color !== undefined)    nextLayout.backgroundColor = patch.color;
+    if (patch.imageUrl !== undefined) nextLayout.backgroundImage = patch.imageUrl;
+    await state.patchSection(section.id, {
+      settings: { ...settings, heroBg: nextHeroBg, layout: nextLayout },
+    });
   }
 
+  const tabs: Array<{ id: BgTab; label: string; Icon: typeof Droplet }> = [
+    { id: "color", label: "Barva",   Icon: Droplet },
+    { id: "image", label: "Obrázek", Icon: ImageIcon },
+    { id: "video", label: "Video",   Icon: Type },
+  ];
+
+  return (
+    <div>
+      <Label>Pozadí sekce</Label>
+      <div className="mt-1.5 flex gap-1">
+        {tabs.map(t => (
+          <button
+            key={t.id}
+            type="button"
+            onClick={() => { setTab(t.id); void commit({ tab: t.id }); }}
+            className={clsx(
+              "inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-md border text-[11.5px] font-medium transition-colors",
+              tab === t.id
+                ? "border-[var(--vs-accent)] bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)]"
+                : "border-[var(--vs-border)] bg-[var(--vs-bg-soft)] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)]",
+            )}
+          >
+            <t.Icon className="h-3.5 w-3.5" strokeWidth={1.75} />
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {tab === "color" && (
+        <div className="mt-2 flex items-center gap-2">
+          <input
+            type="color"
+            value={color}
+            onChange={(e) => void commit({ color: e.target.value })}
+            className="h-8 w-10 cursor-pointer rounded border border-[var(--vs-border)] bg-[var(--vs-bg-soft)]"
+            aria-label="Barva pozadí"
+          />
+          <input
+            type="text"
+            value={color}
+            onChange={(e) => void commit({ color: e.target.value })}
+            placeholder="#ffffff"
+            className="h-8 flex-1 rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2.5 font-mono text-xs text-[var(--vs-text)] outline-none focus:border-[var(--vs-accent)]"
+          />
+        </div>
+      )}
+
+      {tab === "image" && (
+        <div className="mt-2 space-y-2">
+          <input
+            type="text"
+            value={imageUrl}
+            onChange={(e) => void commit({ imageUrl: e.target.value })}
+            placeholder="https://… nebo /uploads/…"
+            className="h-8 w-full rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2.5 text-xs text-[var(--vs-text)] outline-none focus:border-[var(--vs-accent)]"
+          />
+          {imageUrl && (
+            <div
+              className="h-20 w-full rounded-md border border-[var(--vs-border)] bg-cover bg-center"
+              style={{ backgroundImage: `url(${imageUrl})` }}
+              aria-label="Náhled pozadí"
+            />
+          )}
+          <p className="text-[10.5px] text-[var(--vs-text-dim)]">Pro upload klikni na obrázek v plátně a vyber Nahrát.</p>
+        </div>
+      )}
+
+      {tab === "video" && (
+        <div className="mt-2 space-y-2">
+          <input
+            type="text"
+            value={videoUrl}
+            onChange={(e) => void commit({ videoUrl: e.target.value })}
+            placeholder="https://… (mp4/webm)"
+            className="h-8 w-full rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2.5 text-xs text-[var(--vs-text)] outline-none focus:border-[var(--vs-accent)]"
+          />
+          <p className="text-[10.5px] text-[var(--vs-text-dim)]">URL videa (mp4/webm). Podporováno pouze hero sekcemi.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ── Field-level text styling (existing) ───────────────────────────────── */
+
+function FieldStyling({
+  section, editor, field,
+}: {
+  section: Section;
+  editor: ReturnType<typeof useGenericInlineEditor>;
+  field: string;
+}) {
   const style = editor.getStyle(section.id, field);
 
   function apply(patch: Partial<GenericTextStyle>) {
@@ -45,7 +181,7 @@ export function StyleInspectorTab({ section }: { section: Section; state: Studio
   const isUnderline = style.textDecoration === "underline";
 
   return (
-    <div className="space-y-4 p-3">
+    <div className="space-y-4">
       <div>
         <Label>Pole</Label>
         <div className="mt-1 truncate rounded-md bg-[var(--vs-bg-soft)] px-2.5 py-1.5 font-mono text-[11px] text-[var(--vs-accent-hi)]">{field}</div>

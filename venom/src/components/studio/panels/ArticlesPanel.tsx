@@ -30,10 +30,10 @@ function SmallIllustration() {
         </div>
       ))}
       <div className="flex items-center gap-1.5 mt-0.5">
-        <div className="h-3.5 w-3.5 rounded-full bg-[rgba(59,130,246,0.4)] shrink-0 flex items-center justify-center">
-          <Plus className="h-2 w-2 text-[#60a5fa]" strokeWidth={2.5} />
+        <div className="h-3.5 w-3.5 rounded-full bg-[rgba(129,140,248,0.4)] shrink-0 flex items-center justify-center">
+          <Plus className="h-2 w-2 text-[var(--vs-accent-hi)]" strokeWidth={2.5} />
         </div>
-        <div className="h-1 rounded-full bg-[rgba(59,130,246,0.4)]" style={{ width: "60%" }} />
+        <div className="h-1 rounded-full bg-[rgba(129,140,248,0.4)]" style={{ width: "60%" }} />
       </div>
     </div>
   );
@@ -165,7 +165,7 @@ export function ArticlesPanel({ state }: { state: StudioState }) {
     <div className="vs-enter flex-1 overflow-y-auto vs-scroll">
       {loading ? (
         <div className="flex items-center justify-center h-32">
-          <div className="h-5 w-5 rounded-full border-2 border-[var(--vs-border)] border-t-[#3b82f6] animate-spin" />
+          <div className="h-5 w-5 rounded-full border-2 border-[var(--vs-border)] border-t-[#6366f1] animate-spin" />
         </div>
       ) : posts.length === 0 ? (
         /* Empty state */
@@ -178,7 +178,7 @@ export function ArticlesPanel({ state }: { state: StudioState }) {
             <button
               type="button"
               onClick={handleNewArticle}
-              className="inline-flex items-center gap-1.5 rounded-md bg-[#2563eb] px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-[#1d4ed8] transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-md bg-[#6366f1] px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-[#4f46e5] transition-colors"
             >
               <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
               Nový článek
@@ -199,7 +199,7 @@ export function ArticlesPanel({ state }: { state: StudioState }) {
             <button
               type="button"
               onClick={handleNewArticle}
-              className="inline-flex items-center gap-1.5 rounded-md bg-[#2563eb] px-2.5 py-1.5 text-[11.5px] font-semibold text-white hover:bg-[#1d4ed8] transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-md bg-[#6366f1] px-2.5 py-1.5 text-[11.5px] font-semibold text-white hover:bg-[#4f46e5] transition-colors"
             >
               <Plus className="h-3 w-3" strokeWidth={2.5} />
               Nový

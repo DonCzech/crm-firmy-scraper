@@ -26,6 +26,7 @@ export function MediaPickerModal({
   const [items, setItems] = useState<MediaItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [uploadCount, setUploadCount] = useState(0);
   const [activeFolder, setActiveFolder] = useState<string | null>(null);
   const [deletingFolder, setDeletingFolder] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -51,33 +52,27 @@ export function MediaPickerModal({
   const ownItems  = items.filter((i) => i.folder !== DEMO_FOLDER);
   const visible   = activeFolder === "demo" ? demoItems : ownItems;
 
-  async function handleUpload(file: File) {
+  async function handleUpload(files: FileList | File[]) {
+    const arr = Array.from(files);
     setUploading(true);
+    setUploadCount(arr.length);
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("targetWidth", "1920");
-      fd.append("targetHeight", "1080");
-      const res = await fetch(`/api/demo/${tenantSlug}/upload-image`, {
-        method: "POST",
-        body: fd,
-      });
-      if (res.ok) {
-        const data = (await res.json()) as { url?: string; filename?: string };
-        if (data.url) {
-          // Pick immediately
-          onPick(data.url, data.filename ?? file.name);
-          onClose();
-          return;
-        }
-      }
+      await Promise.all(arr.map(async (file) => {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("targetWidth", "1920");
+        fd.append("targetHeight", "1080");
+        await fetch(`/api/demo/${tenantSlug}/upload-image`, { method: "POST", body: fd });
+      }));
     } catch {
       // ignore
     } finally {
       setUploading(false);
+      setUploadCount(0);
     }
-    // If we get here, upload failed — reload media anyway
+    // Reload grid and switch to own folder so user sees the uploaded files
     load();
+    setActiveFolder("own");
   }
 
   async function deleteFolder(folder: string) {
@@ -103,11 +98,11 @@ export function MediaPickerModal({
       onClick={onClose}
     >
       <div
-        className="relative flex flex-col w-[min(720px,95vw)] max-h-[80vh] rounded-2xl border border-[#2a2a2e] bg-[#141416] shadow-2xl"
+        className="relative flex flex-col w-[min(720px,95vw)] max-h-[80vh] rounded-2xl border border-[#2a2a2e] bg-[var(--vs-surface)] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex shrink-0 items-center justify-between border-b border-[#27272a] px-5 py-3.5">
+        <div className="flex shrink-0 items-center justify-between border-b border-[var(--vs-surface-2)] px-5 py-3.5">
           <span className="text-[14px] font-semibold text-white">Vybrat obrázek</span>
           <div className="flex items-center gap-3">
             {/* Upload button */}
@@ -118,23 +113,23 @@ export function MediaPickerModal({
               className="flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5 text-[12.5px] font-semibold text-white hover:bg-blue-500 transition-colors disabled:opacity-50"
             >
               <Upload className="h-3.5 w-3.5" strokeWidth={2} />
-              {uploading ? "Nahrávám…" : "Nahrát"}
+              {uploading ? `Nahrávám ${uploadCount > 1 ? `(${uploadCount})` : ""}…` : "Nahrát"}
             </button>
             <input
               ref={fileInputRef}
               type="file"
               accept="image/*"
+              multiple
               className="hidden"
               onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) void handleUpload(f);
+                if (e.target.files?.length) void handleUpload(e.target.files);
                 e.target.value = "";
               }}
             />
             <button
               type="button"
               onClick={onClose}
-              className="text-[#71717a] hover:text-white text-lg leading-none"
+              className="text-[var(--vs-text-dim)] hover:text-white text-lg leading-none"
             >
               ✕
             </button>
@@ -143,7 +138,7 @@ export function MediaPickerModal({
 
         {/* Folder tabs */}
         {folders.length > 1 && (
-          <div className="flex shrink-0 gap-1 border-b border-[#27272a] px-5 pt-3 pb-0">
+          <div className="flex shrink-0 gap-1 border-b border-[var(--vs-surface-2)] px-5 pt-3 pb-0">
             {folders.map((f) => (
               <button
                 key={f.key}
@@ -152,12 +147,12 @@ export function MediaPickerModal({
                 className={`relative flex items-center gap-1.5 px-3 pb-2.5 text-[12.5px] font-medium transition-colors ${
                   activeFolder === f.key
                     ? "text-white"
-                    : "text-[#71717a] hover:text-[#a1a1aa]"
+                    : "text-[var(--vs-text-dim)] hover:text-[var(--vs-text-muted)]"
                 }`}
               >
                 <FolderOpen className="h-3.5 w-3.5" strokeWidth={1.75} />
                 {f.label}
-                <span className="text-[10px] text-[#52525b]">({f.count})</span>
+                <span className="text-[10px] text-[var(--vs-text-dim)]">({f.count})</span>
                 {activeFolder === f.key && (
                   <span className="absolute inset-x-0 bottom-0 h-[2px] rounded-t bg-blue-500" />
                 )}
@@ -169,12 +164,12 @@ export function MediaPickerModal({
         {/* Grid */}
         <div className="flex-1 overflow-y-auto p-5">
           {loading ? (
-            <div className="flex h-40 items-center justify-center text-[#71717a] text-[13px]">
+            <div className="flex h-40 items-center justify-center text-[var(--vs-text-dim)] text-[13px]">
               Načítám…
             </div>
           ) : items.length === 0 ? (
             <div className="flex flex-col h-40 items-center justify-center gap-3 text-center">
-              <p className="text-[#71717a] text-[13px]">Žádná média</p>
+              <p className="text-[var(--vs-text-dim)] text-[13px]">Žádná média</p>
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
@@ -185,7 +180,7 @@ export function MediaPickerModal({
               </button>
             </div>
           ) : visible.length === 0 ? (
-            <div className="flex h-40 items-center justify-center text-[#71717a] text-[13px]">
+            <div className="flex h-40 items-center justify-center text-[var(--vs-text-dim)] text-[13px]">
               Tato složka je prázdná
             </div>
           ) : (
@@ -195,7 +190,7 @@ export function MediaPickerModal({
                   key={item.id}
                   type="button"
                   onClick={() => { onPick(item.url, item.alt_text ?? item.filename); onClose(); }}
-                  className="group relative aspect-square overflow-hidden rounded-xl border border-[#27272a] hover:border-blue-500 transition-colors"
+                  className="group relative aspect-square overflow-hidden rounded-xl border border-[var(--vs-surface-2)] hover:border-blue-500 transition-colors"
                 >
                   <img src={item.url} alt={item.filename} className="h-full w-full object-cover" />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition-colors" />
@@ -207,8 +202,8 @@ export function MediaPickerModal({
 
         {/* Folder actions footer (only for Demo folder) */}
         {folders.find((f) => f.key === activeFolder && f.isDemoFolder) && demoItems.length > 0 && (
-          <div className="shrink-0 border-t border-[#27272a] px-5 py-3 flex items-center justify-between">
-            <span className="text-[11.5px] text-[#52525b]">
+          <div className="shrink-0 border-t border-[var(--vs-surface-2)] px-5 py-3 flex items-center justify-between">
+            <span className="text-[11.5px] text-[var(--vs-text-dim)]">
               Demonstrační obrázky lze hromadně smazat
             </span>
             <button

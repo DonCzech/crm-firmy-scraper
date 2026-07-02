@@ -98,16 +98,16 @@ function AccountDropdown({ onClose }: { onClose: () => void }) {
   return (
     <div
       ref={ref}
-      className="absolute left-[59px] bottom-0 z-[200] w-[220px] rounded-xl bg-[#1c1c1e] shadow-[0_8px_32px_rgba(0,0,0,0.6)] ring-1 ring-[#3a3a3c] overflow-hidden vs-enter"
+      className="vs-glass vs-pop absolute left-[59px] bottom-0 z-[200] w-[220px] rounded-xl shadow-[var(--vs-shadow-xl)] ring-1 ring-[var(--vs-border-strong)] overflow-hidden"
     >
       {/* User header */}
-      <div className="flex items-center gap-2.5 px-3 py-3 border-b border-[#27272a]">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white text-[11px] font-bold" style={{ background: "linear-gradient(135deg, #0d9488 0%, #0891b2 100%)" }}>
+      <div className="flex items-center gap-2.5 px-3 py-3 border-b border-[var(--vs-border)]">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white text-[11px] font-bold shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_2px_8px_rgba(99,102,241,0.4)]" style={{ background: "var(--vs-grad-brand)" }}>
           TB
         </div>
         <div className="min-w-0">
-          <p className="text-[13px] font-semibold text-white truncate">Tomas Bartak</p>
-          <p className="text-[11px] text-[#6b7280]">admin</p>
+          <p className="text-[13px] font-semibold text-[var(--vs-text)] truncate">Tomas Bartak</p>
+          <p className="text-[11px] text-[var(--vs-text-muted)]">admin</p>
         </div>
       </div>
 
@@ -118,28 +118,28 @@ function AccountDropdown({ onClose }: { onClose: () => void }) {
             key={label}
             type="button"
             onClick={action}
-            className="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left hover:bg-[#27272a] transition-colors"
+            className="w-full flex items-center justify-between gap-2 px-3 py-2.5 text-left hover:bg-[var(--vs-surface-2)] transition-colors"
           >
             <div className="flex items-center gap-2.5">
-              <Icon className="h-4 w-4 text-[#6b7280] shrink-0" strokeWidth={1.5} />
-              <span className="text-[13px] text-[#e4e4e7]">{label}</span>
+              <Icon className="h-4 w-4 text-[var(--vs-text-muted)] shrink-0" strokeWidth={1.5} />
+              <span className="text-[13px] text-[var(--vs-text-soft)]">{label}</span>
             </div>
             {shortcut && (
-              <kbd className="rounded bg-[#27272a] px-1.5 py-0.5 text-[10px] font-mono text-[#6b7280]">{shortcut}</kbd>
+              <kbd className="rounded bg-[var(--vs-surface-2)] px-1.5 py-0.5 text-[10px] font-mono text-[var(--vs-text-muted)]">{shortcut}</kbd>
             )}
           </button>
         ))}
       </div>
 
       {/* Sign out */}
-      <div className="border-t border-[#27272a] py-1">
+      <div className="border-t border-[var(--vs-border)] py-1">
         <button
           type="button"
           onClick={onClose}
-          className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left hover:bg-[#27272a] transition-colors"
+          className="w-full flex items-center gap-2.5 px-3 py-2.5 text-left hover:bg-[var(--vs-danger-bg)] transition-colors"
         >
-          <LogOut className="h-4 w-4 text-[#ef4444] shrink-0" strokeWidth={1.5} />
-          <span className="text-[13px] text-[#ef4444]">Odhlásit se</span>
+          <LogOut className="h-4 w-4 text-[var(--vs-danger)] shrink-0" strokeWidth={1.5} />
+          <span className="text-[13px] text-[var(--vs-danger)]">Odhlásit se</span>
         </button>
       </div>
     </div>
@@ -163,7 +163,7 @@ export function StudioLeftRail() {
             type="button"
             aria-label={studio.sidebarOpen ? "Skrýt panel" : "Zobrazit panel"}
             onClick={studio.toggleSidebar}
-            className={`flex h-9 w-9 items-center justify-center rounded-lg transition-[background,color] duration-100 ${studio.sidebarOpen ? "text-[#9ca3af] hover:bg-[var(--vs-surface-2)] hover:text-[#d1d5db]" : "bg-[rgba(59,130,246,0.14)] text-[#60a5fa]"}`}
+            className={`flex h-9 w-9 items-center justify-center rounded-lg transition-[background,color] duration-100 ${studio.sidebarOpen ? "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]" : "bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)]"}`}
           >
             <PanelLeft size={18} strokeWidth={1.6} />
           </button>
@@ -185,7 +185,7 @@ export function StudioLeftRail() {
               className="relative w-full flex justify-center px-[3.5px] py-0.5"
             >
               {active && (
-                <span className="pointer-events-none absolute left-0 top-1/2 h-6 w-[3px] -translate-y-1/2 rounded-r-full bg-[#3b82f6]" />
+                <span className="pointer-events-none absolute left-0 top-1/2 h-6 w-[3px] -translate-y-1/2 rounded-r-full bg-[var(--vs-accent)] shadow-[0_0_10px_var(--vs-accent-ring)]" />
               )}
               <Tooltip side="right" label={item.label}>
                 <button
@@ -199,10 +199,10 @@ export function StudioLeftRail() {
                     }
                   }}
                   className={clsx(
-                    "flex h-11 w-11 items-center justify-center rounded-xl transition-[background,color] duration-100",
+                    "flex h-11 w-11 items-center justify-center rounded-xl transition-[background,color,transform] duration-100 active:scale-95",
                     active
-                      ? "bg-[rgba(59,130,246,0.14)] text-[#60a5fa]"
-                      : "text-[#6b7280] hover:bg-[var(--vs-surface-2)] hover:text-[#9ca3af]"
+                      ? "bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)] shadow-[inset_0_0_0_1px_rgba(129,140,248,0.22)]"
+                      : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]"
                   )}
                 >
                   <item.Icon size={20} strokeWidth={sw} />
@@ -222,7 +222,7 @@ export function StudioLeftRail() {
             type="button"
             aria-label="Hledat"
             onClick={() => studio.setCommandPaletteOpen(true)}
-            className="flex h-10 w-10 items-center justify-center rounded-xl text-[#6b7280] hover:bg-[var(--vs-surface-2)] hover:text-[#9ca3af] transition-colors duration-100"
+            className="flex h-10 w-10 items-center justify-center rounded-xl text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)] transition-colors duration-100"
           >
             <Search size={20} strokeWidth={1.5} />
           </button>
@@ -235,8 +235,8 @@ export function StudioLeftRail() {
             className={clsx(
               "flex h-10 w-10 items-center justify-center rounded-xl transition-colors duration-100",
               studio.checklistOpen
-                ? "bg-[rgba(59,130,246,0.14)] text-[#60a5fa]"
-                : "text-[#6b7280] hover:bg-[var(--vs-surface-2)] hover:text-[#9ca3af]"
+                ? "bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)]"
+                : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]"
             )}
           >
             <CheckSquare size={20} strokeWidth={1.5} />
@@ -250,8 +250,8 @@ export function StudioLeftRail() {
             className={clsx(
               "flex h-10 w-10 items-center justify-center rounded-xl transition-colors duration-100",
               studio.notificationsOpen
-                ? "bg-[rgba(59,130,246,0.14)] text-[#60a5fa]"
-                : "text-[#6b7280] hover:bg-[var(--vs-surface-2)] hover:text-[#9ca3af]"
+                ? "bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)]"
+                : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]"
             )}
           >
             <Bell size={20} strokeWidth={1.5} />
@@ -265,8 +265,8 @@ export function StudioLeftRail() {
               type="button"
               aria-label="Profil"
               onClick={() => setAccountOpen((v) => !v)}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-white text-[12px] font-bold shrink-0 hover:opacity-85 transition-opacity"
-              style={{ background: "linear-gradient(135deg, #0d9488 0%, #0891b2 100%)" }}
+              className="flex h-9 w-9 items-center justify-center rounded-full text-white text-[12px] font-bold shrink-0 hover:opacity-85 transition-opacity shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_2px_8px_rgba(99,102,241,0.35)]"
+              style={{ background: "var(--vs-grad-brand)" }}
             >
               TB
             </button>
@@ -274,11 +274,6 @@ export function StudioLeftRail() {
           {accountOpen && <AccountDropdown onClose={() => setAccountOpen(false)} />}
         </div>
 
-        <Tooltip side="right" label="Webero Studio">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl text-white text-[13px] font-black tracking-tight shrink-0 select-none" style={{ background: "linear-gradient(135deg, #2563eb 0%, #4f46e5 100%)" }}>
-            S.
-          </div>
-        </Tooltip>
       </div>
     </aside>
   );

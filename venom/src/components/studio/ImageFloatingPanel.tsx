@@ -197,7 +197,7 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
         ref={panelRef}
         role="dialog"
         aria-label="Nastavení obrázku"
-        className="fixed z-[210] flex w-[300px] flex-col rounded-2xl border border-[#2a2a2e] bg-[#141416] shadow-[0_24px_80px_rgba(0,0,0,.75)]"
+        className="fixed z-[210] flex w-[300px] flex-col rounded-2xl border border-[#2a2a2e] bg-[var(--vs-surface)] shadow-[0_24px_80px_rgba(0,0,0,.75)]"
         style={{ left: clampedX, top: clampedY, maxHeight: panelMaxH }}
         onClick={e => e.stopPropagation()}
       >
@@ -228,55 +228,70 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
           />
 
           {/* Action row */}
-          <div className="flex items-center justify-center gap-4">
-            <button type="button" title="Info o obrázku" className="text-[#71717a] hover:text-white transition-colors">
-              <Info className="h-4 w-4" strokeWidth={1.75} />
-            </button>
-            <button
-              type="button"
-              title="Vyměnit obrázek"
-              onClick={() => setPickerOpen(true)}
-              className="text-[#71717a] hover:text-blue-400 transition-colors"
-            >
-              <Pencil className="h-4 w-4" strokeWidth={1.75} />
-            </button>
-            {panel.onDelete && (
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <button type="button" title="Info o obrázku" className="text-[var(--vs-text-dim)] hover:text-white transition-colors">
+                <Info className="h-4 w-4" strokeWidth={1.75} />
+              </button>
               <button
                 type="button"
-                title="Smazat z galerie"
-                onClick={() => { panel.onDelete!(); close(); }}
-                className="text-[#71717a] hover:text-red-400 transition-colors"
+                title="Vyměnit obrázek"
+                onClick={() => setPickerOpen(true)}
+                className="text-[var(--vs-text-dim)] hover:text-blue-400 transition-colors"
               >
-                <Trash2 className="h-4 w-4" strokeWidth={1.75} />
+                <Pencil className="h-4 w-4" strokeWidth={1.75} />
               </button>
-            )}
+              {panel.onDelete && (
+                <button
+                  type="button"
+                  title="Smazat z galerie"
+                  onClick={() => { panel.onDelete!(); close(); }}
+                  className="text-[var(--vs-text-dim)] hover:text-red-400 transition-colors"
+                >
+                  <Trash2 className="h-4 w-4" strokeWidth={1.75} />
+                </button>
+              )}
+            </div>
+            {/* Reset focal point to center */}
+            <button
+              type="button"
+              title="Zarovnat na střed (50% 50%)"
+              onClick={() => {
+                const center = { x: 50, y: 50 };
+                setFocus(center);
+                panelRef2.current?.onFocusChange?.(center);
+              }}
+              className="rounded-lg border border-[var(--vs-surface-2)] bg-[#1a1a1d] px-2.5 py-1 text-[11px] text-[var(--vs-text-dim)] hover:text-white hover:border-[#3f3f46] transition-colors"
+            >
+              Střed
+            </button>
           </div>
 
           {/* Vzhled row */}
           <button
             type="button"
-            className="flex w-full items-center justify-between rounded-lg border border-[#27272a] bg-[#1a1a1d] px-3 py-2.5 text-[13px] text-[#a1a1aa] hover:text-white transition-colors"
+            className="flex w-full items-center justify-between rounded-lg border border-[var(--vs-surface-2)] bg-[#1a1a1d] px-3 py-2.5 text-[13px] text-[var(--vs-text-muted)] hover:text-white transition-colors"
           >
             Vzhled <ChevronRight className="h-4 w-4" strokeWidth={1.75} />
           </button>
 
           {/* Odkaz */}
           <div>
-            <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wide text-[#71717a]">Odkaz</p>
-            <div className="flex items-center gap-2 rounded-lg border border-[#27272a] bg-[#1a1a1d] px-3 py-2">
-              <Link2 className="h-4 w-4 shrink-0 text-[#71717a]" strokeWidth={1.75} />
-              <span className="flex-1 truncate text-[12.5px] text-[#a1a1aa]">CMS odkaz</span>
-              <div className="flex items-center gap-1.5 text-[#52525b]">
-                <button type="button" className="hover:text-[#a1a1aa]"><Pencil      className="h-3.5 w-3.5" strokeWidth={1.75} /></button>
-                <button type="button" className="hover:text-[#a1a1aa]"><Link2Off    className="h-3.5 w-3.5" strokeWidth={1.75} /></button>
-                <button type="button" className="hover:text-[#a1a1aa]"><Settings2   className="h-3.5 w-3.5" strokeWidth={1.75} /></button>
+            <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wide text-[var(--vs-text-dim)]">Odkaz</p>
+            <div className="flex items-center gap-2 rounded-lg border border-[var(--vs-surface-2)] bg-[#1a1a1d] px-3 py-2">
+              <Link2 className="h-4 w-4 shrink-0 text-[var(--vs-text-dim)]" strokeWidth={1.75} />
+              <span className="flex-1 truncate text-[12.5px] text-[var(--vs-text-muted)]">CMS odkaz</span>
+              <div className="flex items-center gap-1.5 text-[var(--vs-text-dim)]">
+                <button type="button" className="hover:text-[var(--vs-text-muted)]"><Pencil      className="h-3.5 w-3.5" strokeWidth={1.75} /></button>
+                <button type="button" className="hover:text-[var(--vs-text-muted)]"><Link2Off    className="h-3.5 w-3.5" strokeWidth={1.75} /></button>
+                <button type="button" className="hover:text-[var(--vs-text-muted)]"><Settings2   className="h-3.5 w-3.5" strokeWidth={1.75} /></button>
               </div>
             </div>
           </div>
 
           {/* Lightbox */}
           <div>
-            <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wide text-[#71717a]">Otevřít v lightboxu</p>
+            <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wide text-[var(--vs-text-dim)]">Otevřít v lightboxu</p>
             <div className="flex gap-1">
               {(["off","image","url"] as const).map(opt => (
                 <button
@@ -287,7 +302,7 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
                     "flex-1 rounded-lg border py-1.5 text-[11.5px] transition-colors",
                     lightbox === opt
                       ? "border-white/30 bg-white/10 text-white"
-                      : "border-[#27272a] bg-[#1a1a1d] text-[#71717a] hover:text-[#a1a1aa]"
+                      : "border-[var(--vs-surface-2)] bg-[#1a1a1d] text-[var(--vs-text-dim)] hover:text-[var(--vs-text-muted)]"
                   )}
                 >
                   {opt === "off" ? "Vypnuto" : opt === "image" ? "Obrázek" : "Odkaz"}
@@ -298,18 +313,18 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
 
           {/* Další obsah */}
           <div>
-            <p className="mb-2 text-[11px] font-bold uppercase tracking-[.10em] text-[#52525b]">Další obsah</p>
+            <p className="mb-2 text-[11px] font-bold uppercase tracking-[.10em] text-[var(--vs-text-dim)]">Další obsah</p>
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[13px] text-[#a1a1aa]">Zobrazit tlačítko</span>
+              <span className="text-[13px] text-[var(--vs-text-muted)]">Zobrazit tlačítko</span>
               <Toggle checked={showBtn} onChange={setShowBtn} />
             </div>
             <div>
-              <label className="block mb-1 text-[11.5px] text-[#71717a]">Alternativní popisek</label>
+              <label className="block mb-1 text-[11.5px] text-[var(--vs-text-dim)]">Alternativní popisek</label>
               <input
                 type="text"
                 value={altText}
                 onChange={e => setAltText(e.target.value)}
-                className="w-full rounded-lg border border-[#27272a] bg-[#1a1a1d] px-3 py-2 text-[12.5px] text-[#a1a1aa] outline-none focus:border-[#3f3f46] placeholder-[#52525b]"
+                className="w-full rounded-lg border border-[var(--vs-surface-2)] bg-[#1a1a1d] px-3 py-2 text-[12.5px] text-[var(--vs-text-muted)] outline-none focus:border-[#3f3f46] placeholder-[var(--vs-text-dim)]"
               />
             </div>
           </div>
@@ -317,18 +332,18 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
           {/* Pokročilé */}
           <button
             type="button"
-            className="flex w-full items-center justify-between rounded-lg border border-[#27272a] bg-[#1a1a1d] px-3 py-2.5 text-[13px] text-[#a1a1aa] hover:text-white transition-colors"
+            className="flex w-full items-center justify-between rounded-lg border border-[var(--vs-surface-2)] bg-[#1a1a1d] px-3 py-2.5 text-[13px] text-[var(--vs-text-muted)] hover:text-white transition-colors"
           >
             Pokročilé <ChevronRight className="h-4 w-4" strokeWidth={1.75} />
           </button>
         </div>
 
         {/* Footer */}
-        <div className="shrink-0 border-t border-[#27272a] px-4 py-3">
+        <div className="shrink-0 border-t border-[var(--vs-surface-2)] px-4 py-3">
           <button
             type="button"
             onClick={() => { panelRef2.current?.onFocusSave?.(focus); close(); }}
-            className="w-full rounded-xl bg-[#1f1f22] py-2.5 text-[13.5px] font-semibold text-white hover:bg-[#2a2a2e] transition-colors"
+            className="w-full rounded-xl bg-[var(--vs-surface-2)] py-2.5 text-[13.5px] font-semibold text-white hover:bg-[#2a2a2e] transition-colors"
           >
             Hotovo
           </button>
@@ -341,7 +356,17 @@ export function ImageFloatingPanel({ state }: { state: StudioState }) {
           tenantSlug={state.tenant.slug}
           onPick={(url, alt) => {
             if (panel.onReplace) panel.onReplace(url, alt);
-            studio.setImagePanel({ ...panel, src: url, alt });
+            // Auto-align focal point to center when replacing image
+            const center = { x: 50, y: 50 };
+            setFocus(center);
+            panelRef2.current?.onFocusChange?.(center);
+            panelRef2.current?.onFocusSave?.(center);
+            studio.setImagePanel({ ...panel, src: url, alt, focus: center });
+            // Refresh mobile/tablet iframe preview (no-op on desktop canvas).
+            if (typeof window !== "undefined") {
+              window.dispatchEvent(new CustomEvent("studio:request-iframe-refresh"));
+            }
+            setPickerOpen(false);
           }}
           onClose={() => setPickerOpen(false)}
         />

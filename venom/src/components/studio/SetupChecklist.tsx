@@ -126,7 +126,7 @@ export function SetupChecklist({ state }: { state: StudioState }) {
       <div className="px-4 pt-3 pb-1">
         <div className="h-1.5 w-full rounded-full bg-[var(--vs-surface)]">
           <div
-            className="h-full rounded-full bg-[#2563eb] transition-all duration-500"
+            className="h-full rounded-full bg-[#6366f1] transition-all duration-500"
             style={{ width: `${pct}%` }}
           />
         </div>
@@ -151,8 +151,8 @@ export function SetupChecklist({ state }: { state: StudioState }) {
                 className={clsx(
                   "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border-2 transition-all",
                   isDone
-                    ? "border-[#2563eb] bg-[#2563eb] text-white"
-                    : "border-[var(--vs-border-strong)] text-[var(--vs-text-muted)] hover:border-[#2563eb]"
+                    ? "border-[#6366f1] bg-[#6366f1] text-white"
+                    : "border-[var(--vs-border-strong)] text-[var(--vs-text-muted)] hover:border-[#6366f1]"
                 )}
                 aria-label={isDone ? "Označit jako nedokončeno" : "Označit jako dokončeno"}
               >
@@ -182,7 +182,7 @@ export function SetupChecklist({ state }: { state: StudioState }) {
                 <button
                   type="button"
                   onClick={() => handleAction(step)}
-                  className="shrink-0 flex items-center gap-0.5 rounded-lg px-2 py-1 text-[11px] font-medium text-[#60a5fa] hover:bg-[rgba(59,130,246,0.12)] transition-colors opacity-0 group-hover:opacity-100 whitespace-nowrap"
+                  className="shrink-0 flex items-center gap-0.5 rounded-lg px-2 py-1 text-[11px] font-medium text-[var(--vs-accent-hi)] hover:bg-[rgba(129,140,248,0.12)] transition-colors opacity-0 group-hover:opacity-100 whitespace-nowrap"
                 >
                   {step.action}
                   <ChevronRight className="h-3 w-3" />

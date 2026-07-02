@@ -100,11 +100,11 @@ export function ChangeTemplateModal({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={onClose}>
       <div
-        className="flex h-[80vh] w-full max-w-5xl flex-col overflow-hidden rounded-lg border border-[#27272a] bg-[#0f0f10]"
+        className="flex h-[80vh] w-full max-w-5xl flex-col overflow-hidden rounded-lg border border-[var(--vs-surface-2)] bg-[#0f0f10]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex h-12 shrink-0 items-center justify-between border-b border-[#27272a] px-4">
+        <div className="flex h-12 shrink-0 items-center justify-between border-b border-[var(--vs-surface-2)] px-4">
           <h2 className="text-sm font-semibold text-white">
             {step === "pick" && "Vyber novou šablonu"}
             {step === "preview" && "Náhled změny šablony"}
@@ -112,7 +112,7 @@ export function ChangeTemplateModal({
             {step === "done" && "Šablona změněna"}
             {step === "error" && "Chyba"}
           </h2>
-          <button type="button" onClick={onClose} className="rounded p-1 text-[#a1a1aa] hover:bg-[#27272a] hover:text-white">
+          <button type="button" onClick={onClose} className="rounded p-1 text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-white">
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -126,10 +126,10 @@ export function ChangeTemplateModal({
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
                 placeholder="Hledat (název, odvětví, klíč…)"
-                className="mb-3 w-full rounded-md border border-[#27272a] bg-[#1a1a1c] px-3 py-2 text-[13px] text-white placeholder-[#52525b] focus:border-blue-500 focus:outline-none"
+                className="mb-3 w-full rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-white placeholder-[var(--vs-text-dim)] focus:border-blue-500 focus:outline-none"
               />
               {catalog.length === 0 && (
-                <div className="px-2 py-8 text-center text-[12px] text-[#71717a]">
+                <div className="px-2 py-8 text-center text-[12px] text-[var(--vs-text-dim)]">
                   Katalog šablon se nepodařilo načíst.
                 </div>
               )}
@@ -139,7 +139,7 @@ export function ChangeTemplateModal({
                     key={c.key}
                     type="button"
                     onClick={() => loadPreview(c.key)}
-                    className="group flex flex-col overflow-hidden rounded-md border border-[#27272a] bg-[#1a1a1c] text-left transition-colors hover:border-blue-500"
+                    className="group flex flex-col overflow-hidden rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)] text-left transition-colors hover:border-blue-500"
                   >
                     <div
                       className="aspect-video w-full bg-cover bg-center"
@@ -151,7 +151,7 @@ export function ChangeTemplateModal({
                     />
                     <div className="px-2.5 py-2">
                       <div className="truncate text-[12px] font-medium text-white">{c.name}</div>
-                      <div className="truncate text-[10.5px] text-[#71717a]">{c.industry} · {c.key}</div>
+                      <div className="truncate text-[10.5px] text-[var(--vs-text-dim)]">{c.industry} · {c.key}</div>
                     </div>
                   </button>
                 ))}
@@ -165,11 +165,11 @@ export function ChangeTemplateModal({
                 <div className="mb-1 flex items-center gap-1.5 text-[12px] font-semibold text-emerald-300">
                   <Check className="h-3.5 w-3.5" /> Zachová se
                 </div>
-                <ul className="space-y-0.5 pl-5 text-[11px] text-[#d4d4d8]">
+                <ul className="space-y-0.5 pl-5 text-[11px] text-[var(--vs-text-soft)]">
                   {preview.preserved.dataSlots.length > 0 ? (
                     preview.preserved.dataSlots.map((k) => <li key={k}>· {k}</li>)
                   ) : (
-                    <li className="text-[#71717a]">Žádné slot data zatím nevyplněna</li>
+                    <li className="text-[var(--vs-text-dim)]">Žádné slot data zatím nevyplněna</li>
                   )}
                   <li>· Blog příspěvky ({preview.preserved.blogPosts ? "ano" : "ne"})</li>
                   <li>· Nahrané obrázky / média</li>
@@ -181,9 +181,9 @@ export function ChangeTemplateModal({
                 <div className="mb-1 flex items-center gap-1.5 text-[12px] font-semibold text-amber-300">
                   <AlertCircle className="h-3.5 w-3.5" /> Smaže se
                 </div>
-                <ul className="space-y-0.5 pl-5 text-[11px] text-[#d4d4d8]">
+                <ul className="space-y-0.5 pl-5 text-[11px] text-[var(--vs-text-soft)]">
                   <li>· Stávajících {preview.from.sectionsCount} sekcí (text/obrázky upravené ve studiu)</li>
-                  <li className="text-[#71717a]">Pozn.: vyplněné kontakt/brand údaje zůstanou (jsou v data slotech)</li>
+                  <li className="text-[var(--vs-text-dim)]">Pozn.: vyplněné kontakt/brand údaje zůstanou (jsou v data slotech)</li>
                 </ul>
               </div>
 
@@ -191,10 +191,10 @@ export function ChangeTemplateModal({
                 <div className="mb-1 flex items-center gap-1.5 text-[12px] font-semibold text-blue-300">
                   <ArrowRight className="h-3.5 w-3.5" /> Nová šablona
                 </div>
-                <div className="text-[11px] text-[#d4d4d8]">
+                <div className="text-[11px] text-[var(--vs-text-soft)]">
                   <strong className="text-white">{preview.to.name}</strong> ({preview.to.industry})
                 </div>
-                <div className="mt-1 text-[10.5px] text-[#71717a]">
+                <div className="mt-1 text-[10.5px] text-[var(--vs-text-dim)]">
                   {preview.to.sectionsCount} sekcí: {preview.to.sectionTypes.join(" → ")}
                 </div>
               </div>
@@ -203,7 +203,7 @@ export function ChangeTemplateModal({
                 <button
                   type="button"
                   onClick={() => { setStep("pick"); setPreview(null); setTarget(null); }}
-                  className="rounded-md border border-[#27272a] px-3 py-1.5 text-[12px] text-[#d4d4d8] hover:bg-[#1f1f22]"
+                  className="rounded-md border border-[var(--vs-surface-2)] px-3 py-1.5 text-[12px] text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)]"
                 >
                   Zpět
                 </button>
@@ -219,7 +219,7 @@ export function ChangeTemplateModal({
           )}
 
           {step === "applying" && (
-            <div className="flex h-full flex-col items-center justify-center gap-3 text-[12px] text-[#d4d4d8]">
+            <div className="flex h-full flex-col items-center justify-center gap-3 text-[12px] text-[var(--vs-text-soft)]">
               <Loader2 className="h-8 w-8 animate-spin text-blue-400" />
               Aplikuji novou šablonu…
             </div>
@@ -239,7 +239,7 @@ export function ChangeTemplateModal({
               <button
                 type="button"
                 onClick={() => { setStep("pick"); setError(null); }}
-                className="rounded-md border border-[#27272a] px-3 py-1.5 text-[11px] text-[#d4d4d8] hover:bg-[#1f1f22]"
+                className="rounded-md border border-[var(--vs-surface-2)] px-3 py-1.5 text-[11px] text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)]"
               >
                 Zkusit znovu
               </button>

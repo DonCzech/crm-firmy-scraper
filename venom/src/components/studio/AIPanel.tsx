@@ -91,7 +91,7 @@ export function AIPanel({ state }: { state: StudioState }) {
             onChange={e => setInputText(e.target.value)}
             placeholder="Vložte text, který chcete upravit…"
             rows={4}
-            className="w-full rounded-xl bg-[var(--vs-surface)] border border-[var(--vs-border)] px-3 py-2.5 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-muted)] outline-none focus:border-[#3b82f6] resize-none transition-colors"
+            className="w-full rounded-xl bg-[var(--vs-surface)] border border-[var(--vs-border)] px-3 py-2.5 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-muted)] outline-none focus:border-[#6366f1] resize-none transition-colors"
           />
         </div>
 
@@ -110,7 +110,7 @@ export function AIPanel({ state }: { state: StudioState }) {
                 className={clsx(
                   "flex flex-col items-center gap-0.5 rounded-xl border px-2 py-2 text-[11.5px] font-medium transition-all",
                   mode === m.id
-                    ? "border-[#3b82f6] bg-[rgba(59,130,246,0.12)] text-[#60a5fa]"
+                    ? "border-[#6366f1] bg-[rgba(129,140,248,0.12)] text-[var(--vs-accent-hi)]"
                     : "border-[var(--vs-border)] text-[var(--vs-text-muted)] hover:border-[var(--vs-border-strong)] hover:text-[var(--vs-text)]"
                 )}
               >

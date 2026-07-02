@@ -141,7 +141,7 @@ export function SectionResizeHandle({
       {/* Value tooltip during drag */}
       {dragging && (
         <span
-          className="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 rounded-md bg-[#141416] px-2 py-0.5 text-[11px] font-mono text-white shadow-lg ring-1 ring-white/10"
+          className="pointer-events-none absolute -bottom-7 left-1/2 -translate-x-1/2 rounded-md bg-[var(--vs-surface)] px-2 py-0.5 text-[11px] font-mono text-white shadow-lg ring-1 ring-white/10"
         >
           {draggingValue} px
         </span>

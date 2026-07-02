@@ -1,7 +1,7 @@
 "use client";
 
 import { useStudio } from "./StudioContext";
-import { ArrowUp, ArrowDown, Copy, Trash2, Eye, EyeOff, GripVertical } from "lucide-react";
+import { ArrowUp, ArrowDown, Copy, Trash2, Eye, EyeOff, GripVertical, Plus, Type, AlignLeft, MousePointer, Image as ImageIcon, Minus, Square } from "lucide-react";
 import clsx from "clsx";
 import { getSectionLabel } from "./studio-icons";
 import { SectionResizeHandle } from "./SectionResizeHandle";
@@ -12,10 +12,12 @@ import {
   type CSSProperties,
   type Ref,
   useEffect,
+  useState,
 } from "react";
 import { findFieldBySrc, readFocus } from "@/lib/studio-focus";
 import type { DraggableAttributes } from "@dnd-kit/core";
 import type { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
+import { OverlayLayer } from "./OverlayLayer";
 
 export interface SectionDragProps {
   dragAttributes?: DraggableAttributes;
@@ -53,9 +55,15 @@ export function SectionFrame({
       if (focus) img.style.objectPosition = `${focus.x}% ${focus.y}%`;
     });
   }, [section.settings, section.id]);
+  const [addOpen, setAddOpen] = useState(false);
+
   const selected = studio.selectedSectionId === section.id;
   const hover = studio.hoverSectionId === section.id;
   const label = getSectionLabel(section.section_type, section.section_variant);
+
+  // Show "+" only when overlay is enabled on this section
+  const overlayEnabled = !!(section.settings as Record<string, unknown> | undefined)?.overlay &&
+    !!((section.settings as Record<string, unknown>)?.overlay as Record<string, unknown>)?.enabled;
 
   const sorted = [...state.sections].sort((a, b) => a.order_index - b.order_index);
   const idx = sorted.findIndex(s => s.id === section.id);
@@ -215,7 +223,25 @@ export function SectionFrame({
         }
       }}
     >
+      {/* Overlay layer BELOW variant content (z-index 5) */}
+      <OverlayLayer
+        section={section}
+        layer="below"
+        patchSection={state.patchSection}
+        isAdmin
+        selected={selected}
+        tenantSlug={state.tenant.slug}
+      />
       {children}
+      {/* Overlay layer ABOVE variant content (z-index 15) */}
+      <OverlayLayer
+        section={section}
+        layer="above"
+        patchSection={state.patchSection}
+        isAdmin
+        selected={selected}
+        tenantSlug={state.tenant.slug}
+      />
       {/* Hidden-section dim overlay */}
       {!section.is_visible && (
         <div className="pointer-events-none absolute inset-0 z-[5] bg-[var(--vs-bg-soft)]/60 backdrop-grayscale" />
@@ -273,14 +299,14 @@ export function SectionFrame({
         <SectionResizeHandle section={section} state={state} />
       )}
       {selected && (
-        <div className="absolute right-2 top-2 z-[60] flex items-center gap-0.5 rounded-md border border-[#27272a] bg-[#141416]/95 p-0.5 shadow-lg backdrop-blur">
+        <div className="absolute right-2 top-2 z-[60] flex items-center gap-0.5 rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)]/95 p-0.5 shadow-lg backdrop-blur">
           <FrameBtn label="Posunout nahoru" disabled={!canUp} onClick={() => move(-1)}>
             <ArrowUp className="h-3.5 w-3.5" strokeWidth={1.75} />
           </FrameBtn>
           <FrameBtn label="Posunout dolů" disabled={!canDown} onClick={() => move(1)}>
             <ArrowDown className="h-3.5 w-3.5" strokeWidth={1.75} />
           </FrameBtn>
-          <div className="mx-0.5 h-4 w-px bg-[#27272a]" />
+          <div className="mx-0.5 h-4 w-px bg-[var(--vs-surface-2)]" />
           <FrameBtn
             label={section.is_visible ? "Skrýt sekci" : "Zobrazit sekci"}
             onClick={() => void state.patchSection(section.id, { is_visible: !section.is_visible })}
@@ -292,7 +318,30 @@ export function SectionFrame({
           <FrameBtn label="Duplikovat" onClick={() => void state.duplicateSection(section.id)}>
             <Copy className="h-3.5 w-3.5" strokeWidth={1.75} />
           </FrameBtn>
-          <div className="mx-0.5 h-4 w-px bg-[#27272a]" />
+          {overlayEnabled && (
+            <>
+              <div className="mx-0.5 h-4 w-px bg-[var(--vs-surface-2)]" />
+              <div className="relative">
+                <FrameBtn
+                  label="Přidat element do overlay"
+                  onClick={() => setAddOpen(o => !o)}
+                  active={addOpen}
+                >
+                  <Plus className="h-3.5 w-3.5" strokeWidth={2} />
+                </FrameBtn>
+                {addOpen && (
+                  <AddElementPopover
+                    onAdd={(type) => {
+                      studio.setPendingAddEl({ sectionId: section.id, elementType: type });
+                      setAddOpen(false);
+                    }}
+                    onClose={() => setAddOpen(false)}
+                  />
+                )}
+              </div>
+            </>
+          )}
+          <div className="mx-0.5 h-4 w-px bg-[var(--vs-surface-2)]" />
           <FrameBtn label="Smazat" onClick={() => void state.deleteSection(section.id)} danger>
             <Trash2 className="h-3.5 w-3.5" strokeWidth={1.75} />
           </FrameBtn>
@@ -303,13 +352,14 @@ export function SectionFrame({
 }
 
 function FrameBtn({
-  children, label, onClick, disabled, danger,
+  children, label, onClick, disabled, danger, active,
 }: {
   children: ReactNode;
   label: string;
   onClick: () => void;
   disabled?: boolean;
   danger?: boolean;
+  active?: boolean;
 }) {
   return (
     <button
@@ -319,12 +369,54 @@ function FrameBtn({
       onClick={(e) => { e.stopPropagation(); if (!disabled) onClick(); }}
       disabled={disabled}
       className={clsx(
-        "inline-flex h-6 w-6 items-center justify-center rounded text-[#a1a1aa] transition-colors duration-150 hover:bg-[#27272a]",
-        danger ? "hover:text-red-400" : "hover:text-white",
+        "inline-flex h-6 w-6 items-center justify-center rounded transition-colors duration-150 hover:bg-[var(--vs-surface-2)]",
+        active ? "bg-blue-600 text-white hover:bg-blue-700" : "text-[var(--vs-text-muted)]",
+        danger ? "hover:text-red-400" : !active && "hover:text-white",
         disabled && "opacity-30 hover:bg-transparent"
       )}
     >
       {children}
     </button>
+  );
+}
+
+const ADD_TYPES = [
+  { type: "heading", label: "Nadpis",    icon: <Type className="h-3.5 w-3.5" /> },
+  { type: "text",    label: "Text",      icon: <AlignLeft className="h-3.5 w-3.5" /> },
+  { type: "button",  label: "Tlačítko",  icon: <MousePointer className="h-3.5 w-3.5" /> },
+  { type: "image",   label: "Obrázek",   icon: <ImageIcon className="h-3.5 w-3.5" /> },
+  { type: "divider", label: "Oddělovač", icon: <Minus className="h-3.5 w-3.5" /> },
+  { type: "shape",   label: "Tvar",      icon: <Square className="h-3.5 w-3.5" /> },
+] as const;
+
+function AddElementPopover({ onAdd, onClose }: { onAdd: (type: string) => void; onClose: () => void }) {
+  // Close on outside click
+  useEffect(() => {
+    function onDown(e: MouseEvent) {
+      const t = e.target as HTMLElement;
+      if (!t.closest("[data-add-popover]")) onClose();
+    }
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, [onClose]);
+
+  return (
+    <div
+      data-add-popover
+      className="absolute right-0 top-8 z-[70] w-40 rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)]/98 p-1.5 shadow-xl backdrop-blur"
+    >
+      <p className="mb-1 px-1 text-[9px] font-medium uppercase tracking-widest text-[var(--vs-text-dim)]">Přidat element</p>
+      {ADD_TYPES.map(({ type, label, icon }) => (
+        <button
+          key={type}
+          type="button"
+          onClick={(e) => { e.stopPropagation(); onAdd(type); }}
+          className="flex w-full items-center gap-2 rounded px-2 py-1.5 text-[11px] text-[var(--vs-text-muted)] transition-colors hover:bg-[var(--vs-surface-2)] hover:text-white"
+        >
+          <span className="text-[var(--vs-text-dim)]">{icon}</span>
+          {label}
+        </button>
+      ))}
+    </div>
   );
 }

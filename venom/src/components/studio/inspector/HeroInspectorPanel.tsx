@@ -3,11 +3,12 @@
 import {
   useState, useRef, useCallback, useEffect, type PointerEvent as ReactPointerEvent,
 } from "react";
-import { Monitor, Tablet, Info, Pencil, Trash2, AlignStartVertical, AlignCenterVertical, AlignEndVertical } from "lucide-react";
+import { Monitor, Smartphone, Info, Pencil, Trash2, AlignStartVertical, AlignCenterVertical, AlignEndVertical } from "lucide-react";
+import { useStudio } from "../StudioContext";
+import { MediaPickerModal } from "../MediaPickerModal";
 import clsx from "clsx";
 import type { Section } from "@/lib/db";
 import type { StudioState } from "../TenantStudioView";
-import { useStudio } from "../StudioContext";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -27,6 +28,7 @@ export interface HeroBgSettings {
   // image
   imageUrl: string;
   imageFocus: { x: number; y: number };
+  imageFocusMobile: { x: number; y: number };
   imageFit: FitOption;
   // video
   videoUrl: string;
@@ -40,7 +42,7 @@ export interface HeroBgSettings {
 
 const DEFAULTS: HeroBgSettings = {
   tab: "image", color: "#1e3a5f", gradType: "solid",
-  imageUrl: "", imageFocus: { x: 50, y: 50 }, imageFit: "cover",
+  imageUrl: "", imageFocus: { x: 50, y: 50 }, imageFocusMobile: { x: 50, y: 50 }, imageFit: "cover",
   videoUrl: "", videoMobile: false,
   height: "m", contentWidth: "grid", align: "center", textColor: "default",
 };
@@ -431,27 +433,74 @@ function ColorTab({ s, update }: { s: HeroBgSettings; update: (p: Partial<HeroBg
 }
 
 function ImageTab({
-  s, update, onOpenPicker,
+  s, update, onOpenPicker, sectionId,
 }: {
   s: HeroBgSettings;
   update: (p: Partial<HeroBgSettings>) => void;
   onOpenPicker: () => void;
+  sectionId: number;
 }) {
+  const studio = useStudio();
+  const [focusDevice, setFocusDevice] = useState<"desktop" | "mobile">("desktop");
+
+  function switchDevice(d: "desktop" | "mobile") {
+    setFocusDevice(d);
+    studio.setBreakpoint(d === "mobile" ? "mobile" : "desktop");
+  }
+
+  const activeFocus = focusDevice === "mobile" ? s.imageFocusMobile : s.imageFocus;
+
+  function dispatchIframeFocus(f: { x: number; y: number }) {
+    if (typeof window === "undefined") return;
+    if (studio.breakpoint === "desktop") return;
+    window.dispatchEvent(new CustomEvent("studio:request-iframe-live-focus", {
+      detail: { sectionId, focus: f },
+    }));
+  }
+
   return (
     <div className="space-y-3 p-3">
       <div className="flex items-center justify-between">
         <p className="text-[10px] font-bold tracking-[.10em] uppercase text-[var(--vs-text-dim)]">Nastavení obrázku</p>
-        <div className="flex gap-1 text-[var(--vs-text-dim)]">
-          <button type="button" title="Tablet" className="rounded p-0.5 hover:text-[var(--vs-text-soft)]"><Tablet className="h-3.5 w-3.5" strokeWidth={1.75} /></button>
-          <button type="button" title="Desktop" className="rounded p-0.5 text-[var(--vs-accent-hi)]"><Monitor className="h-3.5 w-3.5" strokeWidth={1.75} /></button>
+        <div className="flex gap-1">
+          <button
+            type="button"
+            title="Desktop"
+            onClick={() => switchDevice("desktop")}
+            className={clsx(
+              "rounded p-0.5 transition-colors",
+              focusDevice === "desktop" ? "text-[var(--vs-accent-hi)]" : "text-[var(--vs-text-dim)] hover:text-[var(--vs-text-soft)]"
+            )}
+          >
+            <Monitor className="h-3.5 w-3.5" strokeWidth={1.75} />
+          </button>
+          <button
+            type="button"
+            title="Mobil"
+            onClick={() => switchDevice("mobile")}
+            className={clsx(
+              "rounded p-0.5 transition-colors",
+              focusDevice === "mobile" ? "text-[var(--vs-accent-hi)]" : "text-[var(--vs-text-dim)] hover:text-[var(--vs-text-soft)]"
+            )}
+          >
+            <Smartphone className="h-3.5 w-3.5" strokeWidth={1.75} />
+          </button>
         </div>
       </div>
+
+      {focusDevice === "mobile" && (
+        <p className="text-[10px] text-[var(--vs-accent-hi)] -mt-1">Nastavuješ polohu pro mobil</p>
+      )}
 
       {/* Thumbnail + focus picker */}
       <FocusPicker
         src={s.imageUrl}
-        focus={s.imageFocus}
-        onFocusChange={(f) => update({ imageFocus: f })}
+        focus={activeFocus}
+        onFocusChange={(f) => {
+          if (focusDevice === "mobile") update({ imageFocusMobile: f });
+          else update({ imageFocus: f });
+          dispatchIframeFocus(f);
+        }}
       />
 
       {/* Action icons */}
@@ -518,58 +567,44 @@ function VideoTab({ s, update }: { s: HeroBgSettings; update: (p: Partial<HeroBg
   );
 }
 
-// ─── ImagePickerModal ──────────────────────────────────────────────────────────
+// ─── Slide chip selector ──────────────────────────────────────────────────────
 
-function ImagePickerModal({
-  tenantSlug, onPick, onClose,
+function SlideChips({
+  slides,
+  activeIdx,
+  onSelect,
+  onAdd,
 }: {
-  tenantSlug: string;
-  onPick: (url: string) => void;
-  onClose: () => void;
+  slides: Array<{ backgroundImage?: string }>;
+  activeIdx: number;
+  onSelect: (i: number) => void;
+  onAdd: () => void;
 }) {
-  const [items, setItems] = useState<{ id: number; url: string; filename: string }[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(`/api/demo/${tenantSlug}/media`)
-      .then(r => r.json())
-      .then((d: { items?: { id: number; url: string; filename: string }[] }) => setItems(d.items ?? []))
-      .catch(() => void 0)
-      .finally(() => setLoading(false));
-  }, [tenantSlug]);
-
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm" onClick={onClose}>
-      <div
-        className="relative w-[640px] max-h-[80vh] flex flex-col rounded-xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] shadow-2xl"
-        onClick={e => e.stopPropagation()}
-      >
-        <div className="flex items-center justify-between border-b border-[var(--vs-border)] px-4 py-3">
-          <span className="text-[14px] font-semibold text-[var(--vs-text)]">Vybrat obrázek</span>
-          <button type="button" onClick={onClose} className="text-[var(--vs-text-dim)] hover:text-[var(--vs-text)]">✕</button>
-        </div>
-        <div className="flex-1 overflow-y-auto p-4">
-          {loading ? (
-            <div className="flex h-32 items-center justify-center text-[var(--vs-text-muted)] text-[13px]">Načítám…</div>
-          ) : items.length === 0 ? (
-            <div className="flex h-32 items-center justify-center text-[var(--vs-text-muted)] text-[13px]">Žádná média</div>
-          ) : (
-            <div className="grid grid-cols-4 gap-3">
-              {items.map(item => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => { onPick(item.url); onClose(); }}
-                  className="group relative aspect-square overflow-hidden rounded-lg border border-[var(--vs-border)] hover:border-[var(--vs-accent)] transition-colors"
-                >
-                  <img src={item.url} alt={item.filename} className="h-full w-full object-cover" />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-                </button>
-              ))}
-            </div>
+    <div className="flex shrink-0 items-center gap-1.5 border-b border-[var(--vs-border)] px-3 py-2 overflow-x-auto">
+      {slides.map((_, i) => (
+        <button
+          key={i}
+          type="button"
+          onClick={() => onSelect(i)}
+          className={clsx(
+            "shrink-0 rounded px-2.5 py-1 text-[11px] font-medium transition-colors",
+            i === activeIdx
+              ? "bg-[var(--vs-accent)] text-white"
+              : "bg-[var(--vs-bg-soft)] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] border border-[var(--vs-border)]"
           )}
-        </div>
-      </div>
+        >
+          Slide {i + 1}
+        </button>
+      ))}
+      <button
+        type="button"
+        onClick={onAdd}
+        title="Přidat slide"
+        className="shrink-0 flex h-6 w-6 items-center justify-center rounded border border-dashed border-[var(--vs-border-strong)] text-[var(--vs-text-muted)] hover:text-[var(--vs-accent-hi)]"
+      >
+        <span className="text-sm leading-none">+</span>
+      </button>
     </div>
   );
 }
@@ -580,27 +615,61 @@ export function HeroInspectorPanel({ section, state }: { section: Section; state
   const studio = useStudio();
   const [pickerOpen, setPickerOpen] = useState(false);
 
-  const stored = (section.settings?.heroBg ?? {}) as Partial<HeroBgSettings>;
+  // Detect slider sections — slides[] live in section.settings.content.slides
   const cnt = (section.settings?.content ?? {}) as Record<string, unknown>;
-  const fallbackImageUrl =
-    (cnt.backgroundImage as string | undefined) ||
-    (cnt.image as string | undefined) ||
-    ((section.settings as Record<string, unknown>)?.backgroundImage as string | undefined) ||
-    "";
+  const rawSlides = cnt.slides as Array<{ backgroundImage?: string }> | undefined;
+  const hasSlides = Array.isArray(rawSlides) && rawSlides.length > 0;
+  const slides = hasSlides ? rawSlides! : [];
+
+  // Active slide index — driven by StudioContext so the canvas stays in sync
+  const activeSlideIdx =
+    studio.heroSlideIdx?.sectionId === section.id ? studio.heroSlideIdx.idx : 0;
+
+  function handleSlideSelect(i: number) {
+    studio.setHeroSlideIdx({ sectionId: section.id, idx: i });
+  }
+
+  function handleSlideAdd() {
+    const allSlides = (cnt.slides as Array<Record<string, unknown>> | undefined) ?? [];
+    const next = [...allSlides, { title: "", subtitle: "", backgroundImage: "" }];
+    void state.patchSectionContent(section.id, "slides", next);
+    studio.setHeroSlideIdx({ sectionId: section.id, idx: next.length - 1 });
+  }
+
+  // For slider sections the active image is the slide's backgroundImage.
+  // Picking a new image saves directly to slides[idx].backgroundImage.
+  const slideImageUrl = hasSlides
+    ? (slides[activeSlideIdx]?.backgroundImage ?? "")
+    : "";
+
+  const stored = (section.settings?.heroBg ?? {}) as Partial<HeroBgSettings>;
+  const fallbackImageUrl = hasSlides
+    ? slideImageUrl
+    : (cnt.backgroundImage as string | undefined) ||
+      (cnt.image as string | undefined) ||
+      ((section.settings as Record<string, unknown>)?.backgroundImage as string | undefined) ||
+      "";
   const savedBg: HeroBgSettings = { ...DEFAULTS, imageUrl: fallbackImageUrl, ...stored };
+
+  // When the active slide changes, update the fallback imageUrl in liveBg
+  // so the FocusPicker always shows the right slide image.
+  const liveBgBase: HeroBgSettings = hasSlides
+    ? { ...savedBg, imageUrl: slideImageUrl }
+    : savedBg;
 
   // Live override — all changes here go directly to heroOverride in StudioContext
   // so StudioCanvas re-renders instantly (no DB round trips during drag/picking).
   const liveBg: HeroBgSettings =
     studio.heroOverride?.sectionId === section.id
       ? (studio.heroOverride.bg as unknown as HeroBgSettings)
-      : savedBg;
+      : liveBgBase;
 
   // Tab is local — switching is instant
   const [activeTab, setActiveTab] = useState<BgTab>(savedBg.tab);
   useEffect(() => {
     setActiveTab(savedBg.tab);
     studio.setHeroOverride(null); // clear live override when section changes
+    if (hasSlides) studio.setHeroSlideIdx({ sectionId: section.id, idx: 0 });
   }, [section.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Use a ref so live() always reads the latest liveBg/activeTab without stale closure
@@ -644,6 +713,16 @@ export function HeroInspectorPanel({ section, state }: { section: Section; state
           <span className="text-[13px] font-semibold text-[var(--vs-text)]">Nastavení sekce</span>
         </div>
 
+        {/* Slide chip selector — only shown for slider hero variants */}
+        {hasSlides && (
+          <SlideChips
+            slides={slides}
+            activeIdx={activeSlideIdx}
+            onSelect={handleSlideSelect}
+            onAdd={handleSlideAdd}
+          />
+        )}
+
         {/* Tab selector */}
         <div className="flex shrink-0 border-b border-[var(--vs-border)]">
           {tabs.map(([key, icon, lbl]) => (
@@ -668,7 +747,15 @@ export function HeroInspectorPanel({ section, state }: { section: Section; state
         <div className="flex-1 overflow-y-auto vs-scroll">
           {activeTab === "color" && <ColorTab s={liveBg} update={live} />}
           {activeTab === "image" && (
-            <ImageTab s={liveBg} update={live} onOpenPicker={() => setPickerOpen(true)} />
+            <ImageTab
+              s={hasSlides ? { ...liveBg, imageUrl: slideImageUrl } : liveBg}
+              update={hasSlides ? (p) => {
+                // Slide images save directly — no live override needed
+                if (p.imageFocus || p.imageFocusMobile) live(p); // focus changes still go live
+              } : live}
+              onOpenPicker={() => setPickerOpen(true)}
+              sectionId={section.id}
+            />
           )}
           {activeTab === "video" && <VideoTab s={liveBg} update={live} />}
         </div>
@@ -693,9 +780,19 @@ export function HeroInspectorPanel({ section, state }: { section: Section; state
       </div>
 
       {pickerOpen && (
-        <ImagePickerModal
+        <MediaPickerModal
           tenantSlug={state.tenant.slug}
-          onPick={(url) => live({ imageUrl: url, tab: "image" })}
+          onPick={(url) => {
+            if (hasSlides) {
+              void state.patchSectionContent(
+                section.id,
+                `slides.${activeSlideIdx}.backgroundImage`,
+                url
+              );
+            } else {
+              live({ imageUrl: url, tab: "image" });
+            }
+          }}
           onClose={() => setPickerOpen(false)}
         />
       )}

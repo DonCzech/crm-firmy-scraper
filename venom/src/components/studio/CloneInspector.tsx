@@ -56,15 +56,15 @@ export function CloneInspector({ selected }: { selected: CloneSelection }) {
   const align = (selected.style.textAlign || "left") as "left" | "center" | "right" | "justify" | "start" | "end";
 
   return (
-    <div className="space-y-4 p-3 text-xs text-[#d4d4d8]">
+    <div className="space-y-4 p-3 text-xs text-[var(--vs-text-soft)]">
       <div>
         <Label>Vybraný prvek</Label>
         <div className="mt-1 flex items-center gap-2 rounded-md bg-[#0f0f10] px-2.5 py-2 font-mono text-[11px]">
           <span className="text-blue-400">{`<${selected.tag}>`}</span>
           {selected.tag === "img" ? (
-            <span className="truncate text-[#a1a1aa]">{selected.src?.split("/").pop()}</span>
+            <span className="truncate text-[var(--vs-text-muted)]">{selected.src?.split("/").pop()}</span>
           ) : (
-            <span className="truncate text-[#a1a1aa]">{selected.text.slice(0, 40) || "(prázdné)"}</span>
+            <span className="truncate text-[var(--vs-text-muted)]">{selected.text.slice(0, 40) || "(prázdné)"}</span>
           )}
         </div>
       </div>
@@ -92,7 +92,7 @@ export function CloneInspector({ selected }: { selected: CloneSelection }) {
           <div>
             <Label>Velikost</Label>
             <select
-              className="mt-1 w-full rounded-md border border-[#27272a] bg-[#0f0f10] px-2 py-1.5 text-[12px] text-white focus:border-blue-500 focus:outline-none"
+              className="mt-1 w-full rounded-md border border-[var(--vs-surface-2)] bg-[#0f0f10] px-2 py-1.5 text-[12px] text-white focus:border-blue-500 focus:outline-none"
               value={pxToNearest(selected.style.fontSize, SIZES)}
               onChange={(e) => send({ fontSize: e.target.value })}
             >
@@ -103,7 +103,7 @@ export function CloneInspector({ selected }: { selected: CloneSelection }) {
           <div>
             <Label>Tloušťka písma</Label>
             <select
-              className="mt-1 w-full rounded-md border border-[#27272a] bg-[#0f0f10] px-2 py-1.5 text-[12px] text-white focus:border-blue-500 focus:outline-none"
+              className="mt-1 w-full rounded-md border border-[var(--vs-surface-2)] bg-[#0f0f10] px-2 py-1.5 text-[12px] text-white focus:border-blue-500 focus:outline-none"
               value={selected.style.fontWeight || "400"}
               onChange={(e) => send({ fontWeight: e.target.value })}
             >
@@ -118,9 +118,9 @@ export function CloneInspector({ selected }: { selected: CloneSelection }) {
                 type="color"
                 value={cssColorToHex(selected.style.color)}
                 onChange={(e) => send({ color: e.target.value })}
-                className="h-8 w-12 cursor-pointer rounded-md border border-[#27272a] bg-transparent"
+                className="h-8 w-12 cursor-pointer rounded-md border border-[var(--vs-surface-2)] bg-transparent"
               />
-              <code className="font-mono text-[11px] text-[#a1a1aa]">{cssColorToHex(selected.style.color)}</code>
+              <code className="font-mono text-[11px] text-[var(--vs-text-muted)]">{cssColorToHex(selected.style.color)}</code>
             </div>
           </div>
         </>
@@ -133,13 +133,13 @@ export function CloneInspector({ selected }: { selected: CloneSelection }) {
             type="color"
             value={cssColorToHex(selected.style.backgroundColor)}
             onChange={(e) => send({ backgroundColor: e.target.value })}
-            className="h-8 w-12 cursor-pointer rounded-md border border-[#27272a] bg-transparent"
+            className="h-8 w-12 cursor-pointer rounded-md border border-[var(--vs-surface-2)] bg-transparent"
           />
-          <code className="font-mono text-[11px] text-[#a1a1aa]">{cssColorToHex(selected.style.backgroundColor)}</code>
+          <code className="font-mono text-[11px] text-[var(--vs-text-muted)]">{cssColorToHex(selected.style.backgroundColor)}</code>
           <button
             type="button"
             onClick={() => send({ backgroundColor: "transparent" })}
-            className="ml-auto rounded-md border border-[#27272a] bg-[#0f0f10] px-2 py-1 text-[11px] text-[#a1a1aa] hover:text-white"
+            className="ml-auto rounded-md border border-[var(--vs-surface-2)] bg-[#0f0f10] px-2 py-1 text-[11px] text-[var(--vs-text-muted)] hover:text-white"
           >
             Průhledné
           </button>
@@ -158,12 +158,12 @@ export function CloneInspector({ selected }: { selected: CloneSelection }) {
                 studio.cloneCommand?.({ type: "setSrc", editId: selected.editId, src: v });
               }
             }}
-            className="mt-1 w-full rounded-md border border-[#27272a] bg-[#0f0f10] px-2 py-1.5 font-mono text-[11px] text-white focus:border-blue-500 focus:outline-none"
+            className="mt-1 w-full rounded-md border border-[var(--vs-surface-2)] bg-[#0f0f10] px-2 py-1.5 font-mono text-[11px] text-white focus:border-blue-500 focus:outline-none"
           />
         </div>
       )}
 
-      <div className="border-t border-[#27272a] pt-3 text-[10px] uppercase tracking-wider text-[#52525b]">
+      <div className="border-t border-[var(--vs-surface-2)] pt-3 text-[10px] uppercase tracking-wider text-[var(--vs-text-dim)]">
         <Type className="mr-1 inline h-3 w-3" />Tip: Klikni v náhledu na text pro inline úpravu.
       </div>
     </div>
@@ -171,7 +171,7 @@ export function CloneInspector({ selected }: { selected: CloneSelection }) {
 }
 
 function Label({ children }: { children: React.ReactNode }) {
-  return <div className="text-[10px] font-semibold uppercase tracking-wider text-[#71717a]">{children}</div>;
+  return <div className="text-[10px] font-semibold uppercase tracking-wider text-[var(--vs-text-dim)]">{children}</div>;
 }
 
 function ToggleBtn({ active, onClick, children }: { active?: boolean; onClick: () => void; children: React.ReactNode }) {
@@ -183,7 +183,7 @@ function ToggleBtn({ active, onClick, children }: { active?: boolean; onClick: (
         "flex h-8 w-8 items-center justify-center rounded-md border transition-colors",
         active
           ? "border-blue-500 bg-blue-500/10 text-blue-400"
-          : "border-[#27272a] bg-[#0f0f10] text-[#a1a1aa] hover:border-[#3f3f46] hover:text-white"
+          : "border-[var(--vs-surface-2)] bg-[#0f0f10] text-[var(--vs-text-muted)] hover:border-[#3f3f46] hover:text-white"
       )}
     >
       {children}

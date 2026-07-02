@@ -182,12 +182,12 @@ export function CommandPalette({ state }: { state?: StudioState }) {
       onClick={() => studio.setCommandPaletteOpen(false)}
     >
       <div
-        className="w-full max-w-[560px] mx-4 rounded-2xl bg-[#1c1c1e] shadow-[0_24px_64px_rgba(0,0,0,0.85)] overflow-hidden ring-1 ring-[#3a3a3c]"
+        className="w-full max-w-[560px] mx-4 rounded-2xl bg-[var(--vs-surface)] shadow-[0_24px_64px_rgba(0,0,0,0.85)] overflow-hidden ring-1 ring-[var(--vs-border-strong)]"
         onClick={e => e.stopPropagation()}
         onKeyDown={onKeyDown}
       >
         {/* Search bar */}
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[#27272a]">
+        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-[var(--vs-surface-2)]">
           <Search className="h-4 w-4 text-[#6b7280] shrink-0" strokeWidth={1.75} />
           <input
             ref={inputRef}
@@ -196,7 +196,7 @@ export function CommandPalette({ state }: { state?: StudioState }) {
             placeholder="Hledat příkazy, stránky, nastavení…"
             className="flex-1 bg-transparent text-[14px] text-white placeholder-[#6b7280] outline-none"
           />
-          <kbd className="shrink-0 rounded-md bg-[#27272a] px-2 py-1 text-[10px] font-mono text-[#a1a1aa]">ESC</kbd>
+          <kbd className="shrink-0 rounded-md bg-[var(--vs-surface-2)] px-2 py-1 text-[10px] font-mono text-[var(--vs-text-muted)]">ESC</kbd>
         </div>
 
         {/* Results */}
@@ -206,7 +206,7 @@ export function CommandPalette({ state }: { state?: StudioState }) {
           ) : (
             groups.map(group => (
               <div key={group.category}>
-                <div className="px-4 py-1.5 text-[10.5px] font-semibold tracking-wider text-[#52525b] uppercase">
+                <div className="px-4 py-1.5 text-[10.5px] font-semibold tracking-wider text-[var(--vs-text-dim)] uppercase">
                   {group.category}
                 </div>
                 {group.items.map(item => {
@@ -222,25 +222,25 @@ export function CommandPalette({ state }: { state?: StudioState }) {
                       onMouseEnter={() => setCursor(myIdx)}
                       className={clsx(
                         "w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors duration-75",
-                        active ? "bg-[#27272a]" : "hover:bg-[#232325]"
+                        active ? "bg-[var(--vs-surface-2)]" : "hover:bg-[#232325]"
                       )}
                     >
                       {Icon ? (
-                        <Icon className="h-4 w-4 text-[#71717a] shrink-0" strokeWidth={1.6} />
+                        <Icon className="h-4 w-4 text-[var(--vs-text-dim)] shrink-0" strokeWidth={1.6} />
                       ) : (
                         <span className="h-4 w-4 shrink-0" />
                       )}
-                      <span className={clsx("flex-1 text-[13px]", active ? "text-white" : "text-[#e4e4e7]")}>
+                      <span className={clsx("flex-1 text-[13px]", active ? "text-white" : "text-[var(--vs-text-soft)]")}>
                         {item.label}
                       </span>
                       {item.keys && item.keys.length > 0 && (
                         <span className="flex items-center gap-0.5 shrink-0">
                           {item.keys.map((k, i) => (
-                            <kbd key={i} className="rounded bg-[#3a3a3c] px-1.5 py-0.5 text-[10px] font-mono text-[#a1a1aa]">{k}</kbd>
+                            <kbd key={i} className="rounded bg-[var(--vs-border-strong)] px-1.5 py-0.5 text-[10px] font-mono text-[var(--vs-text-muted)]">{k}</kbd>
                           ))}
                         </span>
                       )}
-                      {active && <ChevronRight className="h-3.5 w-3.5 text-[#52525b] shrink-0" strokeWidth={2} />}
+                      {active && <ChevronRight className="h-3.5 w-3.5 text-[var(--vs-text-dim)] shrink-0" strokeWidth={2} />}
                     </button>
                   );
                 })}
@@ -250,10 +250,10 @@ export function CommandPalette({ state }: { state?: StudioState }) {
         </div>
 
         {/* Footer */}
-        <div className="border-t border-[#27272a] px-4 py-2 flex items-center gap-4 text-[11px] text-[#52525b]">
-          <span className="flex items-center gap-1"><kbd className="rounded bg-[#27272a] px-1 py-0.5 text-[10px] font-mono text-[#71717a]">↑↓</kbd> navigace</span>
-          <span className="flex items-center gap-1"><kbd className="rounded bg-[#27272a] px-1 py-0.5 text-[10px] font-mono text-[#71717a]">↵</kbd> vybrat</span>
-          <span className="flex items-center gap-1"><kbd className="rounded bg-[#27272a] px-1 py-0.5 text-[10px] font-mono text-[#71717a]">ESC</kbd> zavřít</span>
+        <div className="border-t border-[var(--vs-surface-2)] px-4 py-2 flex items-center gap-4 text-[11px] text-[var(--vs-text-dim)]">
+          <span className="flex items-center gap-1"><kbd className="rounded bg-[var(--vs-surface-2)] px-1 py-0.5 text-[10px] font-mono text-[var(--vs-text-dim)]">↑↓</kbd> navigace</span>
+          <span className="flex items-center gap-1"><kbd className="rounded bg-[var(--vs-surface-2)] px-1 py-0.5 text-[10px] font-mono text-[var(--vs-text-dim)]">↵</kbd> vybrat</span>
+          <span className="flex items-center gap-1"><kbd className="rounded bg-[var(--vs-surface-2)] px-1 py-0.5 text-[10px] font-mono text-[var(--vs-text-dim)]">ESC</kbd> zavřít</span>
         </div>
       </div>
     </div>

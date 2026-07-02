@@ -134,12 +134,12 @@ export function PublishButton({ state }: Props) {
 
   return (
     <div ref={rootRef} className="relative">
-      <div className="inline-flex h-8 overflow-hidden rounded-md shadow-sm">
+      <div className="inline-flex h-8 overflow-hidden rounded-lg shadow-[var(--vs-glow-brand)]">
         <button
           type="button"
           onClick={() => void runMode(mode)}
           disabled={busy}
-          className="inline-flex items-center gap-1.5 bg-[#2563eb] px-3.5 text-[12.5px] font-semibold text-white hover:bg-[#1d4ed8] transition-colors disabled:opacity-60"
+          className="vs-grad-accent inline-flex items-center gap-1.5 px-3.5 text-[12.5px] font-semibold text-white transition-colors disabled:opacity-60"
         >
           {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
           {label}
@@ -148,14 +148,14 @@ export function PublishButton({ state }: Props) {
           type="button"
           aria-label="Možnosti publikace"
           onClick={() => setOpen((o) => !o)}
-          className="grid place-items-center w-7 bg-[#2563eb] text-white border-l border-white/15 hover:bg-[#1d4ed8] transition-colors"
+          className="vs-grad-accent grid place-items-center w-7 text-white border-l border-white/20 transition-colors"
         >
           <ChevronDown className="h-3.5 w-3.5" />
         </button>
       </div>
 
       {open && (
-        <div className="absolute right-0 top-[calc(100%+6px)] z-50 w-[340px] rounded-xl bg-white text-[#0a0a0a] shadow-[0_18px_44px_rgba(0,0,0,0.32)] border border-black/5 overflow-hidden">
+        <div className="vs-glass vs-pop absolute right-0 top-[calc(100%+6px)] z-50 w-[340px] rounded-xl text-[var(--vs-text)] shadow-[var(--vs-shadow-xl)] border border-[var(--vs-border-strong)] overflow-hidden">
           <Option
             indicator="filled"
             active={mode === "page"}
@@ -211,13 +211,13 @@ function Option({
       type="button"
       onClick={onClick}
       className={`flex w-full items-start gap-3 px-5 py-4 text-left transition-colors ${
-        active ? "bg-[#f5f5f5]" : "hover:bg-[#fafafa]"
+        active ? "bg-[var(--vs-surface-2)]" : "hover:bg-[var(--vs-surface)]"
       }`}
     >
       <Indicator kind={indicator} />
       <div className="flex-1">
         <div className="text-[14.5px] font-semibold leading-tight">{title}</div>
-        <div className="mt-1 text-[12.5px] leading-snug text-[#6b7280]">{desc}</div>
+        <div className="mt-1 text-[12.5px] leading-snug text-[var(--vs-text-muted)]">{desc}</div>
       </div>
     </button>
   );

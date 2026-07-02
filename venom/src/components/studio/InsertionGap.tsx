@@ -73,7 +73,7 @@ export function InsertionGap({
         className={clsx(
           "absolute inset-x-0 top-1/2 -translate-y-1/2 transition-all duration-150",
           dragOver
-            ? "h-0.5 bg-blue-500 shadow-[0_0_8px_2px_rgba(59,130,246,0.5)]"
+            ? "h-0.5 bg-blue-500 shadow-[0_0_8px_2px_rgba(129,140,248,0.5)]"
             : "h-px bg-transparent group-hover:bg-blue-500/60"
         )}
       />
@@ -111,18 +111,18 @@ export function InsertionGap({
       {open && (
         <div
           ref={popoverRef}
-          className="absolute left-1/2 top-full z-30 mt-2 w-[440px] max-w-[90vw] -translate-x-1/2 rounded-lg border border-[#27272a] bg-[#141416] p-3 shadow-2xl"
+          className="absolute left-1/2 top-full z-30 mt-2 w-[440px] max-w-[90vw] -translate-x-1/2 rounded-lg border border-[var(--vs-surface-2)] bg-[var(--vs-surface)] p-3 shadow-2xl"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="mb-2 flex items-center justify-between">
-            <div className="text-[11px] font-medium uppercase tracking-wide text-[#a1a1aa]">
+            <div className="text-[11px] font-medium uppercase tracking-wide text-[var(--vs-text-muted)]">
               Přidat sekci na pozici #{insertAtIndex + 1}
             </div>
             <button
               type="button"
               aria-label="Zavřít"
               onClick={() => setOpen(false)}
-              className="rounded p-1 text-[#a1a1aa] hover:bg-[#27272a] hover:text-white"
+              className="rounded p-1 text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-white"
             >
               <X className="h-3.5 w-3.5" strokeWidth={2} />
             </button>
@@ -138,15 +138,15 @@ export function InsertionGap({
                     setOpen(false);
                     void state.addSection(item.type, item.variant, insertAtIndex);
                   }}
-                  className="group/btn flex flex-col items-start gap-1.5 rounded-md border border-[#27272a] bg-[#1a1a1c] p-2.5 text-left text-xs transition-colors duration-150 hover:border-blue-500/50 hover:bg-[#1f1f22]"
+                  className="group/btn flex flex-col items-start gap-1.5 rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)] p-2.5 text-left text-xs transition-colors duration-150 hover:border-blue-500/50 hover:bg-[var(--vs-surface-2)]"
                   aria-label={`Přidat ${getSectionLabel(item.type)}`}
                   title={`Přidat ${getSectionLabel(item.type)}`}
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded bg-[#27272a] text-[#a1a1aa] group-hover/btn:bg-blue-500/10 group-hover/btn:text-blue-400">
+                  <div className="flex h-8 w-8 items-center justify-center rounded bg-[var(--vs-surface-2)] text-[var(--vs-text-muted)] group-hover/btn:bg-blue-500/10 group-hover/btn:text-blue-400">
                     <Icon className="h-4 w-4" strokeWidth={1.75} />
                   </div>
                   <div className="text-[12px] font-medium text-white">{item.label}</div>
-                  <div className="text-[10.5px] leading-snug text-[#71717a]">{item.description}</div>
+                  <div className="text-[10.5px] leading-snug text-[var(--vs-text-dim)]">{item.description}</div>
                 </button>
               );
             })}

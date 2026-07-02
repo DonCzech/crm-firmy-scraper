@@ -19,6 +19,8 @@ import { NotificationsPanel } from "./NotificationsPanel";
 import { HelpPanel } from "./HelpPanel";
 import { WixAddOverlay } from "./panels/WixAddOverlay";
 import { WixAddButton } from "./panels/WixAddButton";
+import { ReorderSectionsModal } from "./panels/ReorderSectionsModal";
+import { ArrowUpDown } from "lucide-react";
 import { SetupChecklist } from "./SetupChecklist";
 import { AIPanel } from "./AIPanel";
 import { useHotkey } from "./ui";
@@ -40,6 +42,7 @@ export function StudioShell({ state }: { state: StudioState }) {
   const studio = useStudio();
   const { sidebarOpen } = studio;
   const isMobile = useIsMobile();
+  const [reorderOpen, setReorderOpen] = useState(false);
 
   // Right panel drag — desktop only
   const rpDrag = useRef<{ mx: number; my: number; px: number; py: number } | null>(null);
@@ -84,7 +87,7 @@ export function StudioShell({ state }: { state: StudioState }) {
       onKeyDown={(e) => { if (e.key === "Escape") studio.setSelection(null); }}
     >
       <StudioTopBar state={state} onHelp={() => studio.setShortcutsOpen(true)} isMobile={isMobile} />
-      {!isMobile && <SecondaryActionBar />}
+      {!isMobile && <SecondaryActionBar state={state} onOpenReorder={() => setReorderOpen(true)} />}
       <SaveErrorBanner state={state} />
 
       <div className="relative flex flex-1 min-h-0">
@@ -114,7 +117,7 @@ export function StudioShell({ state }: { state: StudioState }) {
         )}
 
         {/* Canvas */}
-        <div data-tour-id="canvas" className="flex-1 min-w-0 bg-[var(--vs-bg-soft)]">
+        <div data-tour-id="canvas" className="flex-1 min-w-0 vs-canvas-bg">
           {studio.settingsView
             ? <StudioSettingsCanvas state={state} />
             : studio.leftPanel === "modules"
@@ -151,7 +154,7 @@ export function StudioShell({ state }: { state: StudioState }) {
       {/* Floating right panel — desktop only */}
       {studio.rightPanel && rpPos && !isMobile && (
         <div
-          className="fixed z-[150] flex flex-col w-[260px] rounded-xl border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] shadow-[0_8px_40px_rgba(0,0,0,.5)] overflow-hidden"
+          className="vs-glass fixed z-[150] flex flex-col w-[260px] rounded-xl border border-[var(--vs-border-strong)] shadow-[var(--vs-shadow-xl)] overflow-hidden"
           style={{ left: rpPos.x, top: rpPos.y, maxHeight: `calc(100vh - ${rpPos.y + 16}px)` }}
         >
           <StudioRightPanel state={state} onStartDrag={startRpDrag} isFloating />
@@ -159,7 +162,7 @@ export function StudioShell({ state }: { state: StudioState }) {
       )}
 
       {/* Trial banner — desktop only */}
-      {!isMobile && <TrialBanner sidebarOpen={sidebarOpen} />}
+      {!isMobile && <TrialBanner sidebarOpen={sidebarOpen} state={state} />}
 
       <KeyboardShortcutsOverlay open={studio.shortcutsOpen} onClose={() => studio.setShortcutsOpen(false)} />
       <CommandPalette state={state} />
@@ -174,6 +177,7 @@ export function StudioShell({ state }: { state: StudioState }) {
       {studio.imagePanel && <ImageFloatingPanel state={state} />}
 
       {!isMobile && <WixAddOverlay state={state} />}
+      {!isMobile && <ReorderSectionsModal open={reorderOpen} onClose={() => setReorderOpen(false)} state={state} />}
 
       {studio.checklistOpen && !isMobile && <SetupChecklist state={state} />}
       {studio.aiPanelOpen && !isMobile && <AIPanel state={state} />}
@@ -187,64 +191,81 @@ export function StudioShell({ state }: { state: StudioState }) {
  * "Ask Aria / Change Layout / Replace Background" cluster. We keep our
  * dark surface but mimic the airy spacing and pill divider pattern.
  */
-function SecondaryActionBar() {
+function SecondaryActionBar({ state, onOpenReorder }: { state: StudioState; onOpenReorder: () => void }) {
   const studio = useStudio();
+  const hasSections = state.sections.length > 0;
+
   return (
-    <div className="shrink-0 grid h-[42px] grid-cols-[1fr_auto_1fr] items-center border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-3">
-      {/* Left: primary +Add button (Wix-style) */}
-      <div className="flex items-center justify-start">
-        <WixAddButton />
-      </div>
-      {/* Center: secondary actions */}
-      <div className="flex items-center gap-1 justify-center">
-        <button
-          type="button"
-          title="AI návrhy a opravy textů"
-          onClick={() => studio.setAiPanelOpen(!studio.aiPanelOpen)}
-          className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12.5px] transition-colors ${studio.aiPanelOpen ? "bg-[rgba(167,139,250,0.15)] text-[#a78bfa]" : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"}`}
-        >
-          <span className="text-[#a78bfa]">✨</span>
-          <span>Pomocník AI</span>
-        </button>
-        <span className="mx-1 h-3.5 w-px bg-[var(--vs-border)]" />
-        <button
-          type="button"
-          title="Vyměnit layout aktuální sekce"
-          className="flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12.5px] text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
-        >
-          <span>▢▢</span>
-          <span>Změnit rozložení</span>
-        </button>
-        <span className="mx-1 h-3.5 w-px bg-[var(--vs-border)]" />
-        <button
-          type="button"
-          title="Změnit pozadí sekce"
-          className="flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12.5px] text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
-        >
-          <span>○</span>
-          <span>Pozadí</span>
-        </button>
-      </div>
-      {/* Right: reserved for breakpoint/zoom mirrors if needed later */}
-      <div />
+    <div className="shrink-0 flex h-[42px] items-center justify-center gap-1 border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-3">
+      <WixAddButton />
+      <span className="mx-2 h-3.5 w-px bg-[var(--vs-border)]" />
+
+      <button
+        type="button"
+        title="AI návrhy a opravy textů"
+        onClick={() => studio.setAiPanelOpen(!studio.aiPanelOpen)}
+        className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12.5px] transition-colors ${studio.aiPanelOpen ? "bg-[rgba(167,139,250,0.15)] text-[#a78bfa]" : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"}`}
+      >
+        <span className="text-[#a78bfa]">✨</span>
+        <span>Pomocník AI</span>
+      </button>
+      <span className="mx-1 h-3.5 w-px bg-[var(--vs-border)]" />
+
+      <button
+        type="button"
+        title={hasSections ? "Drag-and-drop přeuspořádání sekcí na stránce" : "Stránka nemá žádné sekce"}
+        onClick={onOpenReorder}
+        disabled={!hasSections}
+        className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12.5px] transition-colors ${hasSections ? "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]" : "text-[var(--vs-text-dim)] opacity-50 cursor-not-allowed"}`}
+      >
+        <ArrowUpDown size={14} strokeWidth={1.8} />
+        <span>Změnit pořadí</span>
+      </button>
     </div>
   );
 }
 
-function TrialBanner({ sidebarOpen }: { sidebarOpen: boolean }) {
+function TrialBanner({ sidebarOpen, state }: { sidebarOpen: boolean; state: StudioState }) {
+  const studio = useStudio();
+  const [sub, setSub] = useState<{ status: string; days_remaining: number | null } | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/billing/gopay/status?tenantSlug=${encodeURIComponent(state.tenant.slug)}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => { if (d?.subscription) setSub(d.subscription); })
+      .catch(() => {});
+  }, [state.tenant.slug]);
+
+  // Hide banner if paid/active
+  if (sub?.status === "active") return null;
+
+  const days = sub?.days_remaining ?? null;
+  const expired = days !== null && days <= 0;
+  const urgent = days !== null && days <= 7 && days > 0;
+
+  function goToBilling() {
+    studio.setLeftPanel("settings");
+    studio.setSettingsView("billing");
+  }
+
   return (
     <div className="shrink-0 flex border-t border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
       <div style={{ width: sidebarOpen ? 275 : 55, transition: "width 0.2s ease-in-out" }} className="shrink-0 border-r border-[var(--vs-border)]" />
       <div className="flex flex-1 items-center justify-center gap-4 px-4 py-2.5">
         <span className="text-[12px] text-[var(--vs-text-muted)] text-center">
-          Vaše bezplatná zkušební verze končí za <strong className="text-[var(--vs-text-soft)]">15 dní</strong>.
-          Upgrade na některý z našich plánů vám umožní naplno využít potenciál vašich webových stránek.
+          {expired
+            ? <><strong className="text-red-400">Zkušební verze vypršela.</strong> Web je pozastaven. Aktivujte předplatné pro obnovu.</>
+            : days !== null
+            ? <>Zkušební verze: zbývá <strong className={urgent ? "text-amber-400" : "text-[var(--vs-text-soft)]"}>{days} {days === 1 ? "den" : days < 5 ? "dny" : "dní"}</strong>. Upgrade pro plný přístup.</>
+            : <>Bezplatná zkušební verze. Upgrade pro plný přístup.</>
+          }
         </span>
         <button
           type="button"
-          className="shrink-0 rounded-md bg-[#2563eb] px-3.5 py-1.5 text-[12px] font-semibold text-white hover:bg-[#1d4ed8] transition-colors duration-100"
+          onClick={goToBilling}
+          className="vs-grad-accent shrink-0 rounded-md px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-[var(--vs-glow-brand)] transition-[box-shadow] duration-100"
         >
-          Předplatit plán
+          Předplatit · 499 Kč/měs.
         </button>
       </div>
     </div>

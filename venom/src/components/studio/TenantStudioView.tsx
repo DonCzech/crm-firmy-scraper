@@ -249,6 +249,22 @@ function InnerStudio({
     queueGenericSave(sectionId);
   }, [queueGenericSave]);
 
+  /** Like updateStyle but skips the save queue — for live preview in toolbar draft mode. */
+  const updateStyleLocal = useCallback((sectionId: number, field: string, style: GenericTextStyle) => {
+    setSections(prev => {
+      const next = prev.map(section => {
+        if (section.id !== sectionId) return section;
+        const content = (section.settings?.content ?? {}) as Record<string, unknown>;
+        const styles = { ...((content.__styles as Record<string, GenericTextStyle> | undefined) ?? {}) };
+        styles[field] = Object.fromEntries(Object.entries(style).filter(([, v]) => v !== undefined)) as GenericTextStyle;
+        const nextContent = { ...content, __styles: styles };
+        return { ...section, settings: { ...(section.settings ?? {}), content: nextContent } };
+      });
+      sectionsRef.current = next;
+      return next;
+    });
+  }, []);
+
   const undo = useCallback(() => {
     const entry = historyRef.current[historyRef.current.length - 1];
     if (!entry) return;
@@ -317,7 +333,11 @@ function InnerStudio({
   }, [tenant.slug, markStatus]);
 
   const patchSection = useCallback(async (id: number, patch: Partial<Pick<Section, "settings" | "is_visible">>) => {
-    setSections(prev => prev.map(s => s.id === id ? { ...s, ...patch } : s));
+    setSections(prev => {
+      const next = prev.map(s => s.id === id ? { ...s, ...patch } : s);
+      sectionsRef.current = next;
+      return next;
+    });
     markStatus("saving");
     try {
       const res = await fetch(`/api/demo/${tenant.slug}/sections/${id}`, {
@@ -457,9 +477,10 @@ function InnerStudio({
     highlighted,
     updateField,
     updateStyle,
+    updateStyleLocal,
     reorderField: reorderArrayField,
     getStyle: (sectionId: number, field: string) => getSectionStyle(sections, sectionId, field),
-  }), [genericEditorEnabled, highlighted, sections, updateField, updateStyle, reorderArrayField]);
+  }), [genericEditorEnabled, highlighted, sections, updateField, updateStyle, updateStyleLocal, reorderArrayField]);
 
   // Keyboard shortcuts
   useEffect(() => {

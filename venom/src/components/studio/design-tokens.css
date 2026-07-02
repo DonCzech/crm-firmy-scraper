@@ -6,25 +6,27 @@
  * Studio shell carries the `data-studio` attribute that scopes these tokens.
  */
 [data-studio] {
-  /* ── Color tokens (dark navy shell — solidpixels-inspired) ──────────── */
-  --vs-bg:            #10111a;            /* viewport / canvas backdrop      */
-  --vs-bg-soft:       #161721;            /* sidebar rail + top bar          */
-  --vs-surface:       #1c1d2a;            /* panels, cards                   */
-  --vs-surface-2:     #212230;            /* nested surfaces, hover          */
-  --vs-surface-3:     #272838;            /* active hover, popovers          */
-  --vs-border:        #21223080;          /* subtle dividers                 */
-  --vs-border-strong: #2e2f44;            /* strong dividers / inputs        */
-  --vs-text:          #f4f4f7;            /* primary text                    */
-  --vs-text-soft:     #d1d1d9;            /* secondary text                  */
-  --vs-text-muted:    #8a8a96;            /* muted text                      */
-  --vs-text-dim:      #5b5b66;            /* dimmest readable                */
-  --vs-text-disabled: #3a3a44;            /* disabled                        */
+  /* ── Color tokens (deep indigo-navy shell — premium dark studio) ────── */
+  --vs-bg:            #0b0c14;            /* viewport / canvas backdrop      */
+  --vs-bg-soft:       #12131e;            /* sidebar rail + top bar          */
+  --vs-surface:       #191a29;            /* panels, cards                   */
+  --vs-surface-2:     #1f2131;            /* nested surfaces, hover          */
+  --vs-surface-3:     #272a3d;            /* active hover, popovers          */
+  --vs-border:        rgba(148,156,255,0.08); /* subtle dividers             */
+  --vs-border-strong: #2d3048;            /* strong dividers / inputs        */
+  --vs-text:          #f5f5f9;            /* primary text                    */
+  --vs-text-soft:     #d3d4de;            /* secondary text                  */
+  --vs-text-muted:    #8b8d9e;            /* muted text                      */
+  --vs-text-dim:      #5c5e6e;            /* dimmest readable                */
+  --vs-text-disabled: #3a3c4a;            /* disabled                        */
 
   /* Brand + semantic */
   --vs-accent:        #818cf8;            /* indigo-400 — primary brand      */
   --vs-accent-hi:     #a5b4fc;            /* indigo-300 — focused/hover      */
-  --vs-accent-bg:     rgba(129,140,248,0.12);
+  --vs-accent-bg:     rgba(129,140,248,0.13);
   --vs-accent-ring:   rgba(129,140,248,0.40);
+  --vs-grad-brand:    linear-gradient(135deg, #3b82f6 0%, #6366f1 60%, #7c5cf6 100%);
+  --vs-grad-brand-hi: linear-gradient(135deg, #60a5fa 0%, #818cf8 60%, #957af8 100%);
   --vs-success:       #34d399;            /* emerald-400                     */
   --vs-success-bg:    rgba(52,211,153,0.10);
   --vs-warning:       #fbbf24;            /* amber-400                       */
@@ -94,6 +96,10 @@
   --vs-glow-accent:
     0 0 0 1px rgba(129,140,248,0.35),
     0 8px 24px rgba(129,140,248,0.18);
+  --vs-glow-brand:
+    0 1px 0 0 rgba(255,255,255,0.18) inset,
+    0 2px 10px rgba(99,102,241,0.45),
+    0 6px 22px rgba(99,102,241,0.25);
 
   /* ── Motion ────────────────────────────────────────────────────────────── */
   --vs-ease-out:    cubic-bezier(0.18, 0.89, 0.32, 1);
@@ -173,10 +179,37 @@
 
 /* Subtle gradient overlay for hero buttons (used by primary CTA) */
 .vs-grad-accent {
-  background-image: linear-gradient(135deg, #818cf8 0%, #6366f1 100%);
+  background-image: var(--vs-grad-brand);
 }
 .vs-grad-accent:hover {
-  background-image: linear-gradient(135deg, #a5b4fc 0%, #818cf8 100%);
+  background-image: var(--vs-grad-brand-hi);
+}
+
+/* Frosted-glass surface for floating chrome (popovers, dropdowns, bars) */
+.vs-glass {
+  background: rgba(18,19,30,0.86);
+  backdrop-filter: blur(16px) saturate(1.5);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+}
+
+/* Canvas backdrop — faint dot grid + top brand glow, Figma/Framer style.
+   Gives the page frame depth so the edited site reads as an artboard. */
+.vs-canvas-bg {
+  background-color: var(--vs-bg);
+  background-image:
+    radial-gradient(900px 420px at 50% -80px, rgba(99,102,241,0.10), transparent 65%),
+    radial-gradient(rgba(148,156,255,0.075) 1px, transparent 1.2px);
+  background-size: auto, 22px 22px;
+}
+
+/* Popover entrance — slight scale + fade, anchored to top */
+@keyframes vs-pop-in {
+  from { opacity: 0; transform: translateY(-3px) scale(0.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.vs-pop {
+  animation: vs-pop-in var(--vs-dur-2) var(--vs-ease-out);
+  transform-origin: top center;
 }
 
 /* Per-breakpoint section visibility — set by ElementMicroRail's

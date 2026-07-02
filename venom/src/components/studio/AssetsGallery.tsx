@@ -96,11 +96,11 @@ function MoznostiDropdown({
   }, [onClose]);
 
   return (
-    <div ref={ref} className="absolute top-full left-0 mt-2 w-[360px] rounded-2xl border border-[#2a2a2e] bg-[#141416] shadow-2xl p-6 z-50">
+    <div ref={ref} className="absolute top-full left-0 mt-2 w-[360px] rounded-2xl border border-[#2a2a2e] bg-[var(--vs-surface)] shadow-2xl p-6 z-50">
       <h3 className="text-[15px] font-semibold text-white mb-5">Možnosti</h3>
 
       <div className="flex items-center justify-between mb-4">
-        <span className="text-[13px] text-[#a1a1aa]">Seřadit podle</span>
+        <span className="text-[13px] text-[var(--vs-text-muted)]">Seřadit podle</span>
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value as SortBy)}
@@ -114,7 +114,7 @@ function MoznostiDropdown({
       </div>
 
       <div className="flex items-center justify-between mb-5">
-        <span className="text-[13px] text-[#a1a1aa]">Rozložení</span>
+        <span className="text-[13px] text-[var(--vs-text-muted)]">Rozložení</span>
         <select
           value={layout}
           onChange={(e) => setLayout(e.target.value as Layout)}
@@ -128,8 +128,8 @@ function MoznostiDropdown({
       <div className="border-t border-[#2a2a2e] pt-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
-            <p className="text-[13px] font-medium text-[#e4e4e7]">Převést obrázky do WebP</p>
-            <p className="text-[12px] text-[#71717a] mt-1 leading-relaxed">
+            <p className="text-[13px] font-medium text-[var(--vs-text-soft)]">Převést obrázky do WebP</p>
+            <p className="text-[12px] text-[var(--vs-text-dim)] mt-1 leading-relaxed">
               Nahrané JPG nebo PNG obrázky budou automaticky převedené do WebP
             </p>
           </div>
@@ -174,7 +174,7 @@ function UploadTile({
           )}>
             <Upload className="h-7 w-7 text-blue-400" strokeWidth={1.5} />
           </div>
-          <p className="text-[10.5px] font-bold tracking-[0.15em] text-[#71717a] uppercase">
+          <p className="text-[10.5px] font-bold tracking-[0.15em] text-[var(--vs-text-dim)] uppercase">
             Nahrát soubor
           </p>
         </>
@@ -223,7 +223,7 @@ function MediaTile({
             draggable={false}
           />
         ) : (
-          <div className="flex items-center justify-center h-full text-[#a1a1aa] text-[11px]">
+          <div className="flex items-center justify-center h-full text-[var(--vs-text-muted)] text-[11px]">
             {item.mime_type}
           </div>
         )}
@@ -261,11 +261,11 @@ function MediaTile({
       </div>
 
       {/* Info below */}
-      <p className="text-[12px] text-[#d4d4d8] leading-tight truncate px-0.5" title={item.filename}>
+      <p className="text-[12px] text-[var(--vs-text-soft)] leading-tight truncate px-0.5" title={item.filename}>
         {truncate(item.filename)}
       </p>
       <div className="flex items-center justify-between px-0.5">
-        <p className="text-[10.5px] text-[#52525b] leading-tight">
+        <p className="text-[10.5px] text-[var(--vs-text-dim)] leading-tight">
           {formatSize(item.size_bytes)}
           {item.width && item.height ? ` ${item.width} × ${item.height}` : ""}
         </p>
@@ -291,7 +291,7 @@ function MediaRow({
         onClick={onSelect}
         className={clsx(
           "flex items-center justify-center w-5 h-5 rounded border-2 shrink-0 transition-colors",
-          selected ? "bg-blue-500 border-blue-500" : "border-[#52525b] hover:border-white"
+          selected ? "bg-blue-500 border-blue-500" : "border-[var(--vs-text-dim)] hover:border-white"
         )}
       >
         {selected && <Check className="h-3 w-3 text-white" strokeWidth={3} />}
@@ -302,15 +302,15 @@ function MediaRow({
           <img src={item.url} alt="" className="w-full h-full object-cover" loading="lazy" />
         )}
       </div>
-      <p className="flex-1 text-[13px] text-[#d4d4d8] truncate">{item.filename}</p>
-      <p className="text-[11px] text-[#52525b] shrink-0 w-24 text-right">{formatSize(item.size_bytes)}</p>
-      <p className="text-[11px] text-[#52525b] shrink-0 w-28 text-right">
+      <p className="flex-1 text-[13px] text-[var(--vs-text-soft)] truncate">{item.filename}</p>
+      <p className="text-[11px] text-[var(--vs-text-dim)] shrink-0 w-24 text-right">{formatSize(item.size_bytes)}</p>
+      <p className="text-[11px] text-[var(--vs-text-dim)] shrink-0 w-28 text-right">
         {item.width && item.height ? `${item.width} × ${item.height}` : "—"}
       </p>
-      <p className="text-[11px] text-[#52525b] shrink-0 w-28 text-right">
+      <p className="text-[11px] text-[var(--vs-text-dim)] shrink-0 w-28 text-right">
         {new Date(item.created_at).toLocaleDateString("cs-CZ")}
       </p>
-      <button type="button" onClick={onInfo} className="text-[#52525b] hover:text-white transition-colors shrink-0">
+      <button type="button" onClick={onInfo} className="text-[var(--vs-text-dim)] hover:text-white transition-colors shrink-0">
         <Info className="h-4 w-4" />
       </button>
     </div>
@@ -359,16 +359,16 @@ function InfoPopup({ item, onClose }: { item: MediaItem; onClose: () => void }) 
               style={{ display: "block" }}
             />
           ) : (
-            <div className="text-[#52525b] text-sm">{item.mime_type}</div>
+            <div className="text-[var(--vs-text-dim)] text-sm">{item.mime_type}</div>
           )}
         </div>
 
         {/* Right side info panel */}
-        <div className="w-72 shrink-0 bg-[#141416] border-l border-[#2a2a2e] flex flex-col overflow-y-auto">
+        <div className="w-72 shrink-0 bg-[var(--vs-surface)] border-l border-[#2a2a2e] flex flex-col overflow-y-auto">
           <div className="p-5 border-b border-[#2a2a2e]">
             <p className="text-[13px] font-semibold text-white break-all leading-snug">{item.filename}</p>
             {item.alt_text && (
-              <p className="mt-1 text-[11px] text-[#71717a]">{item.alt_text}</p>
+              <p className="mt-1 text-[11px] text-[var(--vs-text-dim)]">{item.alt_text}</p>
             )}
           </div>
 
@@ -380,9 +380,9 @@ function InfoPopup({ item, onClose }: { item: MediaItem; onClose: () => void }) 
           </div>
 
           <div className="p-5 border-t border-[#2a2a2e]">
-            <p className="text-[11px] text-[#71717a] mb-2">URL souboru</p>
+            <p className="text-[11px] text-[var(--vs-text-dim)] mb-2">URL souboru</p>
             <div className="rounded-xl bg-[#1a1a1d] p-3 mb-3">
-              <p className="text-[11px] text-[#a1a1aa] font-mono break-all leading-relaxed">{item.url}</p>
+              <p className="text-[11px] text-[var(--vs-text-muted)] font-mono break-all leading-relaxed">{item.url}</p>
             </div>
             <button
               type="button"
@@ -410,8 +410,8 @@ function InfoPopup({ item, onClose }: { item: MediaItem; onClose: () => void }) 
 function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-[11px] text-[#52525b] mb-0.5 uppercase tracking-wide font-medium">{label}</p>
-      <p className="text-[13px] text-[#d4d4d8]">{value}</p>
+      <p className="text-[11px] text-[var(--vs-text-dim)] mb-0.5 uppercase tracking-wide font-medium">{label}</p>
+      <p className="text-[13px] text-[var(--vs-text-soft)]">{value}</p>
     </div>
   );
 }
@@ -439,21 +439,21 @@ function SelectionBar({
         <button
           type="button"
           onClick={() => setMovePanelOpen((v) => !v)}
-          className="flex items-center gap-1.5 rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-3 py-1.5 text-[12px] text-[#a1a1aa] hover:text-white transition-colors"
+          className="flex items-center gap-1.5 rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-3 py-1.5 text-[12px] text-[var(--vs-text-muted)] hover:text-white transition-colors"
         >
           <ArrowRight className="h-3.5 w-3.5" /> Přesunout do složky
         </button>
         {movePanelOpen && (
-          <div className="absolute top-full right-0 mt-1 w-[200px] rounded-xl border border-[#2a2a2e] bg-[#141416] shadow-xl p-2 z-50">
+          <div className="absolute top-full right-0 mt-1 w-[200px] rounded-xl border border-[#2a2a2e] bg-[var(--vs-surface)] shadow-xl p-2 z-50">
             {folders.length === 0 ? (
-              <p className="px-3 py-2 text-[12px] text-[#71717a]">Žádné složky</p>
+              <p className="px-3 py-2 text-[12px] text-[var(--vs-text-dim)]">Žádné složky</p>
             ) : (
               folders.map((f) => (
                 <button
                   key={f.id}
                   type="button"
                   onClick={() => { onMoveToFolder(f.id); setMovePanelOpen(false); }}
-                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[13px] text-[#a1a1aa] hover:bg-white/[0.05] hover:text-white transition-colors"
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-[13px] text-[var(--vs-text-muted)] hover:bg-white/[0.05] hover:text-white transition-colors"
                 >
                   <Folder className="h-3.5 w-3.5" /> {f.name}
                 </button>
@@ -476,7 +476,7 @@ function SelectionBar({
       <button
         type="button"
         onClick={onClearSelection}
-        className="flex items-center justify-center w-7 h-7 rounded-lg text-[#71717a] hover:text-white hover:bg-white/[0.06] transition-colors"
+        className="flex items-center justify-center w-7 h-7 rounded-lg text-[var(--vs-text-dim)] hover:text-white hover:bg-white/[0.06] transition-colors"
       >
         <X className="h-4 w-4" />
       </button>
@@ -690,7 +690,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
             type="button"
             title="Nová složka"
             onClick={() => { setCreatingFolder(true); setNewFolderName(""); }}
-            className="text-[#71717a] hover:text-white transition-colors rounded-lg p-1 hover:bg-white/[0.06]"
+            className="text-[var(--vs-text-dim)] hover:text-white transition-colors rounded-lg p-1 hover:bg-white/[0.06]"
           >
             <FolderPlus className="h-4 w-4" strokeWidth={1.75} />
           </button>
@@ -706,12 +706,12 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
               "w-full text-left flex items-center gap-2.5 px-4 py-2 text-[13px] transition-colors rounded-none",
               activeFolder === null
                 ? "text-white font-medium bg-white/[0.06]"
-                : "text-[#a1a1aa] hover:text-white hover:bg-white/[0.03]"
+                : "text-[var(--vs-text-muted)] hover:text-white hover:bg-white/[0.03]"
             )}
           >
             Vše
             {totalCount > 0 && (
-              <span className="ml-auto text-[11px] text-[#52525b]">{totalCount}</span>
+              <span className="ml-auto text-[11px] text-[var(--vs-text-dim)]">{totalCount}</span>
             )}
           </button>
 
@@ -723,7 +723,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
               "w-full text-left flex items-center gap-2.5 px-4 py-2 text-[13px] transition-colors",
               activeFolder === "uncategorized"
                 ? "text-white font-medium bg-white/[0.06]"
-                : "text-[#a1a1aa] hover:text-white hover:bg-white/[0.03]"
+                : "text-[var(--vs-text-muted)] hover:text-white hover:bg-white/[0.03]"
             )}
           >
             Nezařazené
@@ -743,14 +743,14 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
                 "w-full text-left flex items-center gap-2.5 px-4 py-2 text-[13px] transition-colors",
                 activeFolder === f.id
                   ? "text-white font-medium bg-white/[0.06]"
-                  : "text-[#a1a1aa] hover:text-white hover:bg-white/[0.03]",
+                  : "text-[var(--vs-text-muted)] hover:text-white hover:bg-white/[0.03]",
                 folderDragOver === f.id && "bg-blue-500/15 text-blue-300 !border-l-2 border-blue-500"
               )}
             >
               <Folder className="h-3.5 w-3.5 shrink-0" strokeWidth={1.75} />
               <span className="truncate">{f.name}</span>
               {f.itemIds.length > 0 && (
-                <span className="ml-auto text-[11px] text-[#52525b]">{f.itemIds.length}</span>
+                <span className="ml-auto text-[11px] text-[var(--vs-text-dim)]">{f.itemIds.length}</span>
               )}
             </button>
           ))}
@@ -769,7 +769,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
                   if (e.key === "Escape") setCreatingFolder(false);
                 }}
                 placeholder="název složky"
-                className="flex-1 min-w-0 rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-2.5 py-1.5 text-[12px] text-white placeholder-[#52525b] focus:border-blue-500 focus:outline-none transition-colors"
+                className="flex-1 min-w-0 rounded-lg border border-[#3f3f46] bg-[#1a1a1d] px-2.5 py-1.5 text-[12px] text-white placeholder-[var(--vs-text-dim)] focus:border-blue-500 focus:outline-none transition-colors"
               />
               <button
                 type="button"
@@ -793,7 +793,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
             <button
               type="button"
               onClick={() => setOptionsOpen((v) => !v)}
-              className="flex items-center gap-2 rounded-xl border border-[#3f3f46] bg-[#1a1a1d] px-3.5 py-2 text-[13px] text-[#a1a1aa] hover:text-white hover:border-[#52525b] transition-colors"
+              className="flex items-center gap-2 rounded-xl border border-[#3f3f46] bg-[#1a1a1d] px-3.5 py-2 text-[13px] text-[var(--vs-text-muted)] hover:text-white hover:border-[var(--vs-text-dim)] transition-colors"
             >
               Možnosti <ChevronDown className="h-3.5 w-3.5" strokeWidth={2} />
             </button>
@@ -809,19 +809,19 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
 
           {/* Search */}
           <div className="relative w-[340px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[#52525b] pointer-events-none" strokeWidth={1.75} />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--vs-text-dim)] pointer-events-none" strokeWidth={1.75} />
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Hledat v galerii"
-              className="w-full rounded-xl border border-[#3f3f46] bg-[#1a1a1d] pl-9 pr-4 py-2 text-[13px] text-white placeholder-[#52525b] focus:border-[#71717a] focus:outline-none transition-colors"
+              className="w-full rounded-xl border border-[#3f3f46] bg-[#1a1a1d] pl-9 pr-4 py-2 text-[13px] text-white placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-text-dim)] focus:outline-none transition-colors"
             />
             {search && (
               <button
                 type="button"
                 onClick={() => setSearch("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#52525b] hover:text-white transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--vs-text-dim)] hover:text-white transition-colors"
               >
                 <X className="h-3.5 w-3.5" />
               </button>
@@ -835,14 +835,14 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
             <button
               type="button"
               onClick={() => setLayout("grid")}
-              className={clsx("flex items-center justify-center w-7 h-7 rounded-lg transition-colors", layout === "grid" ? "bg-white/[0.1] text-white" : "text-[#71717a] hover:text-white")}
+              className={clsx("flex items-center justify-center w-7 h-7 rounded-lg transition-colors", layout === "grid" ? "bg-white/[0.1] text-white" : "text-[var(--vs-text-dim)] hover:text-white")}
             >
               <LayoutGrid className="h-3.5 w-3.5" />
             </button>
             <button
               type="button"
               onClick={() => setLayout("list")}
-              className={clsx("flex items-center justify-center w-7 h-7 rounded-lg transition-colors", layout === "list" ? "bg-white/[0.1] text-white" : "text-[#71717a] hover:text-white")}
+              className={clsx("flex items-center justify-center w-7 h-7 rounded-lg transition-colors", layout === "list" ? "bg-white/[0.1] text-white" : "text-[var(--vs-text-dim)] hover:text-white")}
             >
               <List className="h-3.5 w-3.5" />
             </button>
@@ -862,7 +862,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
           <button
             type="button"
             onClick={onClose}
-            className="flex h-9 w-9 items-center justify-center rounded-xl text-[#71717a] hover:text-white hover:bg-white/[0.06] transition-colors"
+            className="flex h-9 w-9 items-center justify-center rounded-xl text-[var(--vs-text-dim)] hover:text-white hover:bg-white/[0.06] transition-colors"
           >
             <X className="h-5 w-5" strokeWidth={2} />
           </button>
@@ -890,7 +890,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
         {/* Grid / List content */}
         <div className="flex-1 overflow-y-auto">
           {items === null ? (
-            <div className="flex flex-col items-center justify-center h-full gap-3 text-[#52525b]">
+            <div className="flex flex-col items-center justify-center h-full gap-3 text-[var(--vs-text-dim)]">
               <Loader2 className="h-8 w-8 animate-spin" />
               <p className="text-[13px]">Načítám galerii…</p>
             </div>
@@ -927,7 +927,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
               </div>
 
               {filtered.length === 0 && items.length > 0 && (
-                <div className="flex flex-col items-center justify-center py-20 text-[#52525b]">
+                <div className="flex flex-col items-center justify-center py-20 text-[var(--vs-text-dim)]">
                   <Search className="h-8 w-8 mb-3 opacity-50" />
                   <p className="text-[13px]">Žádné soubory neodpovídají vyhledávání</p>
                 </div>
@@ -936,7 +936,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
           ) : (
             <div className="p-5">
               {/* List header */}
-              <div className="flex items-center gap-4 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-[#52525b] border-b border-white/[0.05] mb-1">
+              <div className="flex items-center gap-4 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-[var(--vs-text-dim)] border-b border-white/[0.05] mb-1">
                 <div className="w-5 shrink-0" />
                 <div className="w-10 shrink-0" />
                 <div className="flex-1">Název</div>
@@ -955,7 +955,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
                 <div className="w-10 h-10 rounded-lg bg-[#1a1a1d] flex items-center justify-center shrink-0">
                   <Upload className="h-4 w-4 text-blue-400" />
                 </div>
-                <span className="text-[12px] font-bold tracking-widest text-[#71717a] uppercase">Nahrát soubor</span>
+                <span className="text-[12px] font-bold tracking-widest text-[var(--vs-text-dim)] uppercase">Nahrát soubor</span>
               </div>
 
               {filtered.map((item) => (
@@ -969,7 +969,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
               ))}
 
               {filtered.length === 0 && items.length > 0 && (
-                <div className="py-16 text-center text-[13px] text-[#52525b]">
+                <div className="py-16 text-center text-[13px] text-[var(--vs-text-dim)]">
                   Žádné soubory neodpovídají vyhledávání
                 </div>
               )}
@@ -979,7 +979,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
 
         {/* Status bar */}
         <div className="shrink-0 flex items-center gap-3 border-t border-white/[0.07] px-5 py-2 bg-[#0f0f11]">
-          <p className="text-[11.5px] text-[#52525b]">
+          <p className="text-[11.5px] text-[var(--vs-text-dim)]">
             {items === null ? "…" : `${shownCount} ${shownCount === 1 ? "soubor" : shownCount < 5 ? "soubory" : "souborů"}`}
             {shownCount !== totalCount && ` z ${totalCount}`}
           </p>

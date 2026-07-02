@@ -31,12 +31,12 @@ function NavItem({ id, label }: { id: string; label: string }) {
       className={clsx(
         "relative flex w-full items-center px-4 py-[8px] text-[13px] transition-colors duration-100 text-left",
         active
-          ? "text-[#60a5fa] bg-[rgba(59,130,246,0.08)]"
+          ? "text-[var(--vs-accent-hi)] bg-[rgba(129,140,248,0.08)]"
           : "text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
       )}
     >
       {active && (
-        <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r-full bg-[#3b82f6]" />
+        <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r-full bg-[#6366f1]" />
       )}
       {label}
     </button>
@@ -54,12 +54,12 @@ function SubNavItem({ id, label }: { id: string; label: string }) {
       className={clsx(
         "relative flex w-full items-center pl-6 pr-4 py-[7px] text-[12.5px] transition-colors duration-100 text-left",
         active
-          ? "text-[#60a5fa] bg-[rgba(59,130,246,0.08)]"
+          ? "text-[var(--vs-accent-hi)] bg-[rgba(129,140,248,0.08)]"
           : "text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
       )}
     >
       {active && (
-        <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r-full bg-[#3b82f6]" />
+        <span className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-[3px] rounded-r-full bg-[#6366f1]" />
       )}
       {label}
     </button>

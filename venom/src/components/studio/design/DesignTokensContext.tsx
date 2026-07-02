@@ -30,6 +30,13 @@ interface Ctx {
   reset: (prefixes: string[]) => void;
   /** Clear every persisted token — reverts the whole site to template defaults. */
   resetAll: () => void;
+  /** Start draft mode — snapshot current tokens. Changes are live on canvas but not saved. */
+  enterDraftMode: () => void;
+  /** Persist draft changes to server and exit draft mode. */
+  commitDraft: () => void;
+  /** Discard draft changes, restore snapshot, and exit draft mode. */
+  revertDraft: () => void;
+  isDraft: boolean;
 }
 
 const TokensCtx = createContext<Ctx | null>(null);
@@ -54,6 +61,10 @@ export function DesignTokensProvider({
   const [saveState, setSaveState] = useState<Ctx["saveState"]>("idle");
   const pendingRef = useRef<Record<string, TokenValue>>({});
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isDraftRef = useRef(false);
+  const [isDraft, setIsDraft] = useState(false);
+  /** Snapshot of tokens at the moment enterDraftMode() was called. */
+  const draftSnapshotRef = useRef<Record<string, TokenValue> | null>(null);
   // Stable ref to updateSectionLocal so callbacks don't rebuild on every render.
   const updateLocalRef = useRef(state.updateSectionLocal);
   updateLocalRef.current = state.updateSectionLocal;
@@ -102,9 +113,7 @@ export function DesignTokensProvider({
   const set = useCallback((patch: Record<string, TokenValue>) => {
     setTokens(prev => {
       const next = { ...prev, ...patch };
-      // Immediate canvas update: mirror tokens into every section's
-      // settings.designTokens so StudioCanvas (which reads sections[0]) and
-      // any SectionRenderer that consults settings.designTokens re-render now.
+      // Immediate canvas update — always, even in draft mode (live preview).
       const sections = sectionsRef.current;
       for (const s of sections) {
         const currentSettings = (s.settings ?? {}) as Record<string, unknown>;
@@ -113,9 +122,13 @@ export function DesignTokensProvider({
       }
       return next;
     });
+    // In draft mode: accumulate pending but do NOT start save timer.
+    // Server save happens only on commitDraft().
     pendingRef.current = { ...pendingRef.current, ...patch };
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => { void flush(); }, 500);
+    if (!isDraftRef.current) {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => { void flush(); }, 500);
+    }
   }, [flush]);
 
   const reset = useCallback((prefixes: string[]) => {
@@ -137,10 +150,45 @@ export function DesignTokensProvider({
     set(patch);
   }, [tokens, set]);
 
+  const enterDraftMode = useCallback(() => {
+    isDraftRef.current = true;
+    setIsDraft(true);
+    draftSnapshotRef.current = { ...tokens };
+    pendingRef.current = {};
+    if (timerRef.current) { clearTimeout(timerRef.current); timerRef.current = null; }
+  // tokens intentionally omitted — snapshot is taken once at call time
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const commitDraft = useCallback(() => {
+    isDraftRef.current = false;
+    setIsDraft(false);
+    draftSnapshotRef.current = null;
+    // Flush everything accumulated during draft mode
+    void flush();
+  }, [flush]);
+
+  const revertDraft = useCallback(() => {
+    const snap = draftSnapshotRef.current;
+    isDraftRef.current = false;
+    setIsDraft(false);
+    draftSnapshotRef.current = null;
+    pendingRef.current = {};
+    if (!snap) return;
+    // Restore snapshot to state and canvas
+    setTokens(snap);
+    const sections = sectionsRef.current;
+    for (const s of sections) {
+      const currentSettings = (s.settings ?? {}) as Record<string, unknown>;
+      updateLocalRef.current(s.id, { settings: { ...currentSettings, designTokens: snap } });
+    }
+  }, []);
+
   const value = useMemo<Ctx>(() => ({
     tokens,
     loading,
     saveState,
+    isDraft,
     get: <T extends TokenValue = string>(key: string, fallback: T) => {
       const v = tokens[key];
       return (v === undefined || v === null ? fallback : (v as T));
@@ -148,7 +196,10 @@ export function DesignTokensProvider({
     set,
     reset,
     resetAll,
-  }), [tokens, loading, saveState, set, reset, resetAll]);
+    enterDraftMode,
+    commitDraft,
+    revertDraft,
+  }), [tokens, loading, saveState, isDraft, set, reset, resetAll, enterDraftMode, commitDraft, revertDraft]);
 
   return <TokensCtx.Provider value={value}>{children}</TokensCtx.Provider>;
 }

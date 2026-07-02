@@ -164,16 +164,193 @@ function useSettingsSave(slug: string, getBody: () => Record<string, unknown>) {
   return { status, save };
 }
 
+// ─── DOMAINS ─────────────────────────────────────────────────────────────────
+
+interface DomainRow { id: number; domain: string; verified: boolean; created_at: string }
+
+function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
+  const [domains, setDomains] = useState<DomainRow[]>([]);
+  const [newDomain, setNewDomain] = useState("");
+  const [adding, setAdding] = useState(false);
+  const [addError, setAddError] = useState<string | null>(null);
+  const [verifying, setVerifying] = useState<number | null>(null);
+  const [verifyResult, setVerifyResult] = useState<Record<number, { verified: boolean; message: string }>>({});
+  const [dnsInfo, setDnsInfo] = useState<{ ip: string; cname: string } | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/studio/domains?tenantSlug=${encodeURIComponent(tenant.slug)}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => {
+        if (d) {
+          setDomains(d.domains ?? []);
+          setDnsInfo(d.dnsInstructions ?? null);
+        }
+      })
+      .catch(() => {});
+  }, [tenant.slug]);
+
+  async function addDomain(e: React.FormEvent) {
+    e.preventDefault();
+    setAdding(true);
+    setAddError(null);
+    try {
+      const res = await fetch("/api/studio/domains", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tenantSlug: tenant.slug, domain: newDomain }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Chyba");
+      setNewDomain("");
+      setDomains((prev) => [...prev, { id: Date.now(), domain: data.domain, verified: false, created_at: new Date().toISOString() }]);
+    } catch (err) {
+      setAddError(String(err).replace("Error: ", ""));
+    } finally {
+      setAdding(false);
+    }
+  }
+
+  async function removeDomain(id: number) {
+    await fetch(`/api/studio/domains?id=${id}&tenantSlug=${encodeURIComponent(tenant.slug)}`, { method: "DELETE" });
+    setDomains((prev) => prev.filter((d) => d.id !== id));
+  }
+
+  async function verifyDomain(d: DomainRow) {
+    setVerifying(d.id);
+    try {
+      const res = await fetch("/api/studio/domains", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tenantSlug: tenant.slug, domainId: d.id }),
+      });
+      const data = await res.json() as { verified: boolean };
+      setVerifyResult((prev) => ({
+        ...prev,
+        [d.id]: { verified: data.verified, message: data.verified ? "DNS záznamy jsou správně nastavené!" : "DNS záznamy zatím nenalezeny. Počkejte na propagaci (1–24 h)." },
+      }));
+      if (data.verified) {
+        setDomains((prev) => prev.map((x) => x.id === d.id ? { ...x, verified: true } : x));
+      }
+    } catch {
+      setVerifyResult((prev) => ({ ...prev, [d.id]: { verified: false, message: "Chyba při ověřování DNS." } }));
+    } finally {
+      setVerifying(null);
+    }
+  }
+
+  return (
+    <>
+      <PageHeader title="Vlastní doména" onBack={onBack} status="idle" onSave={async () => {}} />
+      <div className="max-w-2xl mx-auto px-8 py-6">
+
+        {/* Webero URL */}
+        <LCard>
+          <LSectionTitle>Webero URL</LSectionTitle>
+          <LFormRow label="Výchozí adresa" help="Tato adresa vždy funguje, bez nutnosti nastavení DNS.">
+            <LInput value={`https://${tenant.slug}.webero.co`} disabled />
+          </LFormRow>
+        </LCard>
+
+        {/* DNS instructions */}
+        {dnsInfo && (
+          <LCard>
+            <LSectionTitle>Jak nastavit vlastní doménu</LSectionTitle>
+            <div className="rounded-lg bg-blue-50 border border-blue-200 p-4 text-[12.5px] text-blue-900 space-y-2.5">
+              <p className="font-semibold">U svého registrátora domény přidejte tyto záznamy:</p>
+              <div className="rounded-md bg-white border border-blue-100 divide-y divide-blue-100 font-mono text-[11.5px]">
+                <div className="flex gap-4 px-3 py-2"><span className="w-16 text-blue-400">Typ</span><span className="w-20 text-blue-400">Název</span><span className="text-blue-400">Hodnota</span></div>
+                <div className="flex gap-4 px-3 py-2 text-blue-900"><span className="w-16">A</span><span className="w-20">@</span><span>{dnsInfo.ip}</span></div>
+                <div className="flex gap-4 px-3 py-2 text-blue-900"><span className="w-16">CNAME</span><span className="w-20">www</span><span>{dnsInfo.cname}</span></div>
+              </div>
+              <p className="text-[11px] text-blue-600">Propagace DNS může trvat 1–24 hodin. Po přidání domény klikněte na Ověřit.</p>
+            </div>
+          </LCard>
+        )}
+
+        {/* Domain list */}
+        <LCard>
+          <LSectionTitle>Vlastní domény</LSectionTitle>
+          {domains.length === 0 ? (
+            <p className="py-4 text-[13px] text-gray-400">Zatím žádná vlastní doména.</p>
+          ) : (
+            <div className="mb-4 divide-y divide-gray-100">
+              {domains.map((d) => (
+                <div key={d.id} className="flex items-center justify-between py-3 gap-3">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[13px] font-medium text-gray-800 truncate">{d.domain}</span>
+                      {d.verified
+                        ? <span className="shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-[10.5px] font-medium text-emerald-700">Ověřeno</span>
+                        : <span className="shrink-0 rounded-full bg-amber-100 px-2 py-0.5 text-[10.5px] font-medium text-amber-700">Čeká na ověření</span>
+                      }
+                    </div>
+                    {verifyResult[d.id] && (
+                      <p className={`mt-0.5 text-[11.5px] ${verifyResult[d.id].verified ? "text-emerald-600" : "text-amber-600"}`}>
+                        {verifyResult[d.id].message}
+                      </p>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    {!d.verified && (
+                      <button
+                        type="button"
+                        onClick={() => void verifyDomain(d)}
+                        disabled={verifying === d.id}
+                        className="rounded-md border border-blue-200 bg-blue-50 px-3 py-1.5 text-[12px] font-medium text-blue-700 hover:bg-blue-100 disabled:opacity-50 transition-colors"
+                      >
+                        {verifying === d.id ? <Loader2 className="h-3 w-3 animate-spin" /> : "Ověřit"}
+                      </button>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => void removeDomain(d.id)}
+                      className="rounded-md border border-gray-200 bg-gray-50 p-1.5 text-gray-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-colors"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Add domain form */}
+          <form onSubmit={addDomain} className="flex gap-2">
+            <input
+              type="text"
+              value={newDomain}
+              onChange={(e) => setNewDomain(e.target.value)}
+              placeholder="mujweb.cz"
+              className="flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-[13px] placeholder-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+            />
+            <button
+              type="submit"
+              disabled={adding || !newDomain.trim()}
+              className="shrink-0 inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-4 py-2 text-[13px] font-semibold text-white hover:bg-blue-700 disabled:opacity-50 transition-colors"
+            >
+              {adding ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
+              Přidat
+            </button>
+          </form>
+          {addError && <p className="mt-2 text-[12px] text-red-500">{addError}</p>}
+        </LCard>
+      </div>
+    </>
+  );
+}
+
 // ─── WEB ──────────────────────────────────────────────────────────────────────
 
 function WebView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
   const [allowIndexing, setAllowIndexing] = useState(tenant.allow_indexing ?? true);
   const [maintenanceMode, setMaintenanceMode] = useState(tenant.maintenance_mode ?? false);
   const [maintenanceMessage, setMaintenanceMessage] = useState(tenant.maintenance_message ?? "Na stránkách právě probíhá aktualizace");
+  const [siteMode, setSiteMode] = useState<"onepage" | "multipage">(tenant.site_mode ?? "multipage");
   const { status, save } = useSettingsSave(tenant.slug, () => ({
     allow_indexing: allowIndexing,
     maintenance_mode: maintenanceMode,
     maintenance_message: maintenanceMessage,
+    site_mode: siteMode,
   }));
 
   return (
@@ -184,7 +361,14 @@ function WebView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
           <LSectionTitle>Doména</LSectionTitle>
           <LFormRow label="URL webu" help="Výchozí adresa vašeho webu na platformě.">
             <LInput value={`https://${tenant.slug}.webero.co`} disabled />
-            <p className="mt-1.5 text-[11.5px] text-gray-400">Pro vlastní doménu přejděte do sekce Domény.</p>
+            <button
+              type="button"
+              onClick={() => { /* handled by parent */ }}
+              className="mt-1.5 text-[11.5px] text-blue-500 hover:underline text-left"
+              data-settings-view="domain"
+            >
+              + Přidat vlastní doménu
+            </button>
           </LFormRow>
 
           <LSectionTitle>Dostupnost</LSectionTitle>
@@ -192,6 +376,36 @@ function WebView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
             <div className="flex items-center gap-3">
               <LToggle checked={allowIndexing} onChange={setAllowIndexing} />
               <span className="text-[13px] text-gray-500">{allowIndexing ? "Povoleno" : "Zakázáno"}</span>
+            </div>
+          </LFormRow>
+
+          <LSectionTitle>Typ webu</LSectionTitle>
+          <LFormRow label="One-page / Multi-page" help="One-page: veškerý obsah na jedné stránce se scroll navigací. Multi-page: samostatné podstránky.">
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setSiteMode(siteMode === "onepage" ? "multipage" : "onepage")}
+                className="flex rounded-lg overflow-hidden border border-gray-200 text-[12px] font-medium"
+              >
+                <span
+                  className="px-3 py-1.5 transition-colors"
+                  style={{
+                    background: siteMode === "onepage" ? "#111" : "#fff",
+                    color: siteMode === "onepage" ? "#fff" : "#666",
+                  }}
+                >
+                  One-page
+                </span>
+                <span
+                  className="px-3 py-1.5 transition-colors"
+                  style={{
+                    background: siteMode === "multipage" ? "#111" : "#fff",
+                    color: siteMode === "multipage" ? "#fff" : "#666",
+                  }}
+                >
+                  Multi-page
+                </span>
+              </button>
             </div>
           </LFormRow>
 
@@ -314,18 +528,115 @@ function CookiesView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
 
 // ─── USER ACCESS ──────────────────────────────────────────────────────────────
 
-function AccessView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
+function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
+  const [tab, setTab] = useState<"all" | "pending">("all");
+
+  const users = [
+    { initials: "TB", name: "Tomas Bartak", email: "group@email.cz", login: "group@email.cz", twofa: false, roles: "admin, owner", inviteStatus: "none" },
+  ];
+
   return (
     <>
-      <PageHeader title="Uživatelské přístupy" onBack={onBack} status="idle" onSave={() => void 0} />
-      <div className="max-w-2xl mx-auto px-8 py-6">
-        <LCard>
-          <LSectionTitle>Správa přístupů</LSectionTitle>
-          <div className="py-8 text-center text-gray-400">
-            <p className="text-[13px]">Správa uživatelů bude dostupná v následující verzi.</p>
-            <p className="text-[12px] mt-1 text-gray-300">Tenant: <strong className="text-gray-500">{tenant.slug}</strong></p>
+      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-gray-200 bg-white/95 backdrop-blur-sm px-8 py-4">
+        <div className="flex items-center gap-3">
+          <button type="button" onClick={onBack} className="flex items-center gap-1.5 text-[13px] text-gray-500 hover:text-gray-900 transition-colors">
+            <ArrowLeft className="h-4 w-4" strokeWidth={2} />
+            Nastavení
+          </button>
+          <span className="text-gray-300">/</span>
+          <h1 className="text-[15px] font-semibold text-gray-900">Uživatelské přístupy</h1>
+        </div>
+        <div className="flex items-center gap-2">
+          <button type="button" className="flex items-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-2 text-[13px] font-semibold text-white hover:bg-blue-700 transition-colors">
+            <Plus className="h-3.5 w-3.5" /> Nový záznam
+          </button>
+          <button type="button" className="rounded-lg border border-gray-300 px-3.5 py-2 text-[13px] font-medium text-gray-700 hover:bg-gray-50 transition-colors">
+            Pozvat uživatele
+          </button>
+        </div>
+      </div>
+      <div className="max-w-5xl mx-auto px-8 py-6">
+        {/* Tabs */}
+        <div className="flex gap-4 border-b border-gray-200 mb-5">
+          {(["all", "pending"] as const).map((t) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => setTab(t)}
+              className={`pb-2.5 text-[13px] font-medium border-b-2 transition-colors -mb-px ${
+                tab === t ? "border-blue-600 text-blue-600" : "border-transparent text-gray-500 hover:text-gray-900"
+              }`}
+            >
+              {t === "all" ? "Všechny" : "Čekající pozvánky"}
+            </button>
+          ))}
+        </div>
+
+        {/* Filter bar */}
+        <div className="flex items-center gap-2 mb-4">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Vyhledávat ve všech sloupcích"
+              className="rounded-lg border border-gray-300 bg-white pl-3 pr-3 py-1.5 text-[13px] text-gray-700 placeholder-gray-400 focus:border-blue-500 focus:outline-none w-56"
+            />
           </div>
-        </LCard>
+          {["Název", "Přihlašovací jméno", "E-mail"].map((f) => (
+            <button key={f} type="button" className="flex items-center gap-1 rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-[12.5px] text-gray-600 hover:bg-gray-50 transition-colors">
+              {f} <span className="text-gray-400">↓</span>
+            </button>
+          ))}
+          <button type="button" className="text-[12.5px] text-gray-400 hover:text-gray-600 px-1 transition-colors">Zrušit filtry</button>
+        </div>
+
+        {/* Table */}
+        <div className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+          <table className="w-full text-[12.5px]">
+            <thead>
+              <tr className="border-b border-gray-100 bg-gray-50">
+                <th className="w-8 px-3 py-3"><input type="checkbox" className="rounded" /></th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-500 uppercase text-[10.5px] tracking-wide">Uživatel</th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-500 uppercase text-[10.5px] tracking-wide">Přihlašovací jméno</th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-500 uppercase text-[10.5px] tracking-wide">2FA</th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-500 uppercase text-[10.5px] tracking-wide">Role</th>
+                <th className="px-4 py-3 text-left font-semibold text-gray-500 uppercase text-[10.5px] tracking-wide">Stav pozvánky</th>
+                <th className="w-10 px-3 py-3" />
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((u) => (
+                <tr key={u.email} className="border-b border-gray-50 hover:bg-gray-50/50">
+                  <td className="px-3 py-3"><input type="checkbox" className="rounded" /></td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-2.5">
+                      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-white text-[10px] font-bold" style={{ background: "linear-gradient(135deg, #0d9488 0%, #0891b2 100%)" }}>
+                        {u.initials}
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-800">{u.name}</p>
+                        <p className="text-[11.5px] text-blue-500">{u.email}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 text-gray-600">{u.login}</td>
+                  <td className="px-4 py-3 text-gray-400">—</td>
+                  <td className="px-4 py-3 text-gray-600">{u.roles}</td>
+                  <td className="px-4 py-3 text-gray-400">{u.inviteStatus}</td>
+                  <td className="px-3 py-3">
+                    <button type="button" className="text-gray-300 hover:text-gray-500 px-1">···</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="flex items-center justify-between px-4 py-3 border-t border-gray-100 bg-gray-50/50">
+            <p className="text-[12px] text-gray-400">Zobrazuji 1–1 z 1 záznamů</p>
+            <select className="rounded border border-gray-200 bg-white px-2 py-1 text-[12px] text-gray-500">
+              <option>20 záznamů</option>
+              <option>50 záznamů</option>
+            </select>
+          </div>
+        </div>
       </div>
     </>
   );
@@ -410,6 +721,24 @@ function EmailsView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
 
 // ─── BILLING ──────────────────────────────────────────────────────────────────
 
+interface SubStatus {
+  status: string;
+  plan: string;
+  trial_ends_at: string | null;
+  paid_at: string | null;
+  next_billing_at: string | null;
+  next_charge_at: string | null;
+  days_remaining: number | null;
+  payment_provider: string | null;
+}
+interface PaymentRow {
+  gopay_id: string;
+  order_number: string;
+  status: string;
+  amount_cents: number;
+  created_at: string;
+}
+
 function BillingView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
   const billingData = (tenant.billing_data ?? {}) as Record<string, string>;
   const [companyName, setCompanyName] = useState(billingData.company_name ?? "");
@@ -422,10 +751,168 @@ function BillingView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
     billing_data: { company_name: companyName, ico, dic, address, city, zip },
   }));
 
+  const [sub, setSub] = useState<SubStatus | null>(null);
+  const [payments, setPayments] = useState<PaymentRow[]>([]);
+  const [paying, setPaying] = useState(false);
+  const [payError, setPayError] = useState<string | null>(null);
+
+  // Read payment result from URL (?payment=success|failed)
+  const [payResult, setPayResult] = useState<string | null>(null);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const p = new URLSearchParams(window.location.search).get("payment");
+    if (p) { setPayResult(p); }
+  }, []);
+
+  useEffect(() => {
+    fetch(`/api/billing/gopay/status?tenantSlug=${encodeURIComponent(tenant.slug)}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => {
+        if (d) {
+          setSub(d.subscription);
+          setPayments(d.recent_payments ?? []);
+        }
+      })
+      .catch(() => {});
+  }, [tenant.slug]);
+
+  async function handleSubscribe() {
+    setPaying(true);
+    setPayError(null);
+    try {
+      const res = await fetch("/api/billing/gopay/create-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tenantSlug: tenant.slug }),
+      });
+      const data = (await res.json()) as { url?: string; error?: string };
+      if (!res.ok || !data.url) throw new Error(data.error || "Chyba při zahájení platby");
+      window.location.href = data.url;
+    } catch (err) {
+      setPayError(String(err).replace("Error: ", ""));
+      setPaying(false);
+    }
+  }
+
+  const isActive = sub?.status === "active";
+  const isTrial = !sub || sub.status === "trial";
+  const isExpired = sub?.status === "expired" || (isTrial && (sub?.days_remaining ?? 1) <= 0);
+  const days = sub?.days_remaining ?? null;
+
+  function fmtDate(iso: string | null) {
+    if (!iso) return "—";
+    return new Date(iso).toLocaleDateString("cs-CZ", { day: "numeric", month: "long", year: "numeric" });
+  }
+
   return (
     <>
       <PageHeader title="Fakturace a platby" onBack={onBack} status={status} onSave={save} />
       <div className="max-w-2xl mx-auto px-8 py-6">
+
+        {/* Payment result banner */}
+        {payResult === "success" && (
+          <div className="mb-4 rounded-lg bg-emerald-50 border border-emerald-200 px-4 py-3 flex items-center gap-2.5 text-[13px] text-emerald-800">
+            <Check className="h-4 w-4 shrink-0 text-emerald-600" />
+            Platba proběhla úspěšně! Váš plán je nyní aktivní.
+          </div>
+        )}
+        {payResult === "failed" && (
+          <div className="mb-4 rounded-lg bg-red-50 border border-red-200 px-4 py-3 flex items-center gap-2.5 text-[13px] text-red-800">
+            <AlertCircle className="h-4 w-4 shrink-0 text-red-500" />
+            Platba nebyla dokončena. Zkuste to prosím znovu.
+          </div>
+        )}
+
+        {/* Current plan */}
+        <LCard>
+          <LSectionTitle>Aktuální plán</LSectionTitle>
+          <div className="py-5 flex items-start justify-between gap-6">
+            <div>
+              {isActive ? (
+                <>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[15px] font-semibold text-gray-900">Webero Basic</span>
+                    <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-medium text-emerald-700">Aktivní</span>
+                  </div>
+                  <p className="text-[13px] text-gray-500">
+                    Příští platba: <span className="text-gray-700 font-medium">{fmtDate(sub?.next_billing_at ?? null)} · 499 Kč</span>
+                  </p>
+                </>
+              ) : isExpired ? (
+                <>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[15px] font-semibold text-gray-900">Trial</span>
+                    <span className="rounded-full bg-red-100 px-2 py-0.5 text-[11px] font-medium text-red-600">Vypršel</span>
+                  </div>
+                  <p className="text-[13px] text-gray-500">Web je pozastaven. Aktivujte předplatné pro obnovu.</p>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-[15px] font-semibold text-gray-900">Trial</span>
+                    <span className="rounded-full bg-blue-100 px-2 py-0.5 text-[11px] font-medium text-blue-700">zdarma</span>
+                  </div>
+                  <p className="text-[13px] text-gray-500">
+                    {days !== null
+                      ? `Zbývá ${days} ${days === 1 ? "den" : days < 5 ? "dny" : "dní"} · do ${fmtDate(sub?.trial_ends_at ?? null)}`
+                      : `Platné do ${fmtDate(sub?.trial_ends_at ?? null)}`}
+                  </p>
+                </>
+              )}
+            </div>
+            {!isActive && (
+              <div className="shrink-0 flex flex-col items-end gap-1">
+                <button
+                  type="button"
+                  onClick={handleSubscribe}
+                  disabled={paying}
+                  className="rounded-lg bg-blue-600 px-5 py-2 text-[13px] font-semibold text-white hover:bg-blue-700 disabled:opacity-60 transition-colors flex items-center gap-1.5"
+                >
+                  {paying && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+                  {paying ? "Přesměrování…" : "Předplatit · 499 Kč/měs."}
+                </button>
+                {payError && <p className="text-[11px] text-red-500">{payError}</p>}
+              </div>
+            )}
+          </div>
+
+          {isActive && (
+            <div className="border-t border-gray-100 pt-4 pb-1">
+              <p className="text-[12px] text-gray-400">
+                Opakovaná platba kartou přes GoPay. Pro zrušení předplatného kontaktujte podporu.
+              </p>
+            </div>
+          )}
+        </LCard>
+
+        {/* Payment history */}
+        <LCard>
+          <LSectionTitle>Objednávky a platby</LSectionTitle>
+          {payments.length === 0 ? (
+            <div className="py-8 text-center text-[13px] text-gray-400">Zatím žádné platby</div>
+          ) : (
+            <div className="divide-y divide-gray-100">
+              {payments.map((p) => (
+                <div key={p.order_number} className="flex items-center justify-between py-3 text-[13px]">
+                  <div>
+                    <span className="text-gray-700 font-medium">{(p.amount_cents / 100).toFixed(0)} Kč</span>
+                    <span className="ml-2 text-gray-400 font-mono text-[11px]">{p.order_number}</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${
+                      p.status === "paid" ? "bg-emerald-100 text-emerald-700" :
+                      p.status === "failed" ? "bg-red-100 text-red-600" :
+                      "bg-gray-100 text-gray-500"
+                    }`}>{p.status === "paid" ? "Zaplaceno" : p.status === "failed" ? "Selhalo" : p.status}</span>
+                    <span className="text-gray-400 text-[11px]">{fmtDate(p.created_at)}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </LCard>
+
+        {/* Billing address */}
         <LCard>
           <LSectionTitle>Fakturační údaje</LSectionTitle>
           <LFormRow label="Název firmy">
@@ -1106,7 +1593,7 @@ function IdentitaView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }
 // ─── Main canvas component ────────────────────────────────────────────────────
 
 const VIEW_LABELS: Record<string, string> = {
-  identita: "Identita", web: "Web", seo: "SEO", cookies: "Cookie lišta", access: "Přístupy",
+  identita: "Identita", web: "Web", domain: "Doména", seo: "SEO", cookies: "Cookie lišta", access: "Přístupy",
   languages: "Jazyky", emails: "E-maily", billing: "Fakturace",
   api: "Integrace", activity: "Aktivita", css: "CSS třídy",
   headers: "HTTP Hlavičky", redirects: "Přesměrování",
@@ -1127,6 +1614,7 @@ export function StudioSettingsCanvas({ state }: { state: StudioState }) {
     <div className="h-full overflow-x-hidden overflow-y-auto bg-[#f5f5f7]">
       {view === "identita"  && <IdentitaView  {...props} />}
       {view === "web"       && <WebView       {...props} />}
+      {view === "domain"    && <DomainView    {...props} />}
       {view === "seo"       && <SeoView       {...props} />}
       {view === "cookies"   && <CookiesView   {...props} />}
       {view === "access"    && <AccessView    {...props} />}

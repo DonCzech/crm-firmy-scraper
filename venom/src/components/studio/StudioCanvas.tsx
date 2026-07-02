@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Plus } from "lucide-react";
 import clsx from "clsx";
 import {
@@ -92,7 +92,7 @@ function CanvasDropZone({ insertAtIndex, state }: { insertAtIndex: number; state
     <div
       className={clsx(
         "relative flex min-h-[80px] cursor-pointer items-center justify-center transition-colors duration-150",
-        dragOver ? "bg-blue-500/10" : "hover:bg-[rgba(59,130,246,0.04)]"
+        dragOver ? "bg-indigo-500/10" : "hover:bg-[rgba(129,140,248,0.05)]"
       )}
       onDragOver={(e) => { e.preventDefault(); e.dataTransfer.dropEffect = "copy"; setDragOver(true); }}
       onDragLeave={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setDragOver(false); }}
@@ -102,8 +102,8 @@ function CanvasDropZone({ insertAtIndex, state }: { insertAtIndex: number; state
       <div className={clsx(
         "flex items-center gap-2 rounded-full border px-4 py-2 text-[12px] font-medium transition-all duration-150 select-none",
         dragOver
-          ? "border-blue-500 bg-blue-600 text-white shadow-lg"
-          : "border-dashed border-[rgba(59,130,246,0.3)] text-[#4b5563] hover:border-[#3b82f6] hover:text-[#60a5fa]"
+          ? "border-indigo-400 bg-indigo-500 text-white shadow-[var(--vs-glow-brand)]"
+          : "border-dashed border-[rgba(129,140,248,0.35)] text-[#6b7280] hover:border-[var(--vs-accent)] hover:text-[var(--vs-accent-hi)] hover:bg-[rgba(129,140,248,0.08)]"
       )}>
         <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
         {dragOver ? "Pustit sem — přidat sekci" : "Přidat sekci"}
@@ -112,10 +112,10 @@ function CanvasDropZone({ insertAtIndex, state }: { insertAtIndex: number; state
       {open && (
         <div
           ref={ref}
-          className="absolute bottom-full left-1/2 z-30 mb-2 w-[440px] max-w-[90vw] -translate-x-1/2 rounded-lg border border-[#27272a] bg-[#141416] p-3 shadow-2xl"
+          className="vs-glass vs-pop absolute bottom-full left-1/2 z-30 mb-2 w-[440px] max-w-[90vw] -translate-x-1/2 rounded-xl border border-[var(--vs-border-strong)] p-3 shadow-[var(--vs-shadow-xl)]"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="mb-2 text-[11px] font-medium uppercase tracking-wide text-[#a1a1aa]">
+          <div className="mb-2 text-[11px] font-medium uppercase tracking-wide text-[var(--vs-text-muted)]">
             Přidat sekci na konec
           </div>
           <div className="grid max-h-[320px] grid-cols-2 gap-2 overflow-y-auto">
@@ -126,13 +126,13 @@ function CanvasDropZone({ insertAtIndex, state }: { insertAtIndex: number; state
                   key={`${item.type}-${item.variant}`}
                   type="button"
                   onClick={() => { setOpen(false); void state.addSection(item.type, item.variant, insertAtIndex); }}
-                  className="group/btn flex flex-col items-start gap-1.5 rounded-md border border-[#27272a] bg-[#1a1a1c] p-2.5 text-left text-xs transition-colors duration-150 hover:border-blue-500/50 hover:bg-[#1f1f22]"
+                  className="group/btn flex flex-col items-start gap-1.5 rounded-lg border border-[var(--vs-border)] bg-[var(--vs-surface)] p-2.5 text-left text-xs transition-[border,background,transform] duration-150 hover:border-[var(--vs-accent-ring)] hover:bg-[var(--vs-surface-2)] hover:-translate-y-[1px]"
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded bg-[#27272a] text-[#a1a1aa] group-hover/btn:bg-blue-500/10 group-hover/btn:text-blue-400">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-md bg-[var(--vs-surface-2)] text-[var(--vs-text-muted)] group-hover/btn:bg-[var(--vs-accent-bg)] group-hover/btn:text-[var(--vs-accent-hi)]">
                     <Icon className="h-4 w-4" strokeWidth={1.75} />
                   </div>
-                  <div className="text-[12px] font-medium text-white">{item.label}</div>
-                  <div className="text-[10.5px] leading-snug text-[#71717a]">{item.description}</div>
+                  <div className="text-[12px] font-medium text-[var(--vs-text)]">{item.label}</div>
+                  <div className="text-[10.5px] leading-snug text-[var(--vs-text-dim)]">{item.description}</div>
                 </button>
               );
             })}
@@ -145,7 +145,7 @@ function CanvasDropZone({ insertAtIndex, state }: { insertAtIndex: number; state
 
 const WIDTHS: Record<string, number> = {
   desktop: 1280,
-  tablet: 768,
+  tablet: 1024,
   mobile: 390,
 };
 
@@ -154,7 +154,50 @@ const PAD_TOP = 0; // template starts flush at top
 export function StudioCanvas({ state }: { state: StudioState }) {
   const studio = useStudio();
   const outerRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const [canvasW, setCanvasW] = useState(0);
+  // Refresh key for mobile/tablet iframe — increments to force a reload after saves
+  const [iframeRefreshKey, setIframeRefreshKey] = useState(0);
+  const [iframeLoading, setIframeLoading] = useState(false);
+
+  const refreshIframe = useCallback(() => {
+    setIframeLoading(true);
+    setIframeRefreshKey(k => k + 1);
+  }, []);
+
+  // Auto-refresh iframe when switching TO mobile/tablet breakpoint
+  const prevBreakpoint = useRef(studio.breakpoint);
+  useEffect(() => {
+    if (prevBreakpoint.current === "desktop" && studio.breakpoint !== "desktop") {
+      refreshIframe();
+    }
+    prevBreakpoint.current = studio.breakpoint;
+  }, [studio.breakpoint, refreshIframe]);
+
+  // Bridge: allow other studio components to refresh the iframe and to
+  // live-patch the hero background object-position inside the iframe DOM
+  // (used by the focus picker on mobile/tablet breakpoints).
+  useEffect(() => {
+    function onRefresh() { refreshIframe(); }
+    function onLiveFocus(e: Event) {
+      const ev = e as CustomEvent<{ sectionId: number; focus: { x: number; y: number } }>;
+      const doc = iframeRef.current?.contentDocument;
+      if (!doc || !ev.detail) return;
+      const sel = `[data-sr-id="${ev.detail.sectionId}"],[data-section-id="${ev.detail.sectionId}"]`;
+      const root = doc.querySelector(sel) ?? doc;
+      const imgs = root.querySelectorAll("img");
+      const pos = `${ev.detail.focus.x}% ${ev.detail.focus.y}%`;
+      imgs.forEach((img) => {
+        (img as HTMLImageElement).style.objectPosition = pos;
+      });
+    }
+    window.addEventListener("studio:request-iframe-refresh", onRefresh);
+    window.addEventListener("studio:request-iframe-live-focus", onLiveFocus as EventListener);
+    return () => {
+      window.removeEventListener("studio:request-iframe-refresh", onRefresh);
+      window.removeEventListener("studio:request-iframe-live-focus", onLiveFocus as EventListener);
+    };
+  }, [refreshIframe]);
 
   // Track outer container width so we can scale the template to fit.
   useEffect(() => {
@@ -264,10 +307,13 @@ export function StudioCanvas({ state }: { state: StudioState }) {
         // Always inject image tab overrides — imageUrl may be empty if template default is used
         const imgOverride: Record<string, unknown> = { __heroBgTab: "image" };
         if (liveBg.imageUrl) imgOverride.backgroundImage = liveBg.imageUrl as string;
-        if (liveBg.imageFocus) {
-          imgOverride.__heroBgFocus = liveBg.imageFocus;
-          // Also inject as standard backgroundImageFocus so GenericEditableImage + readFocus works
-          imgOverride.backgroundImageFocus = liveBg.imageFocus;
+        // In mobile preview, show mobile focus; otherwise show desktop focus
+        const focusToShow = (studio.breakpoint === "mobile" && liveBg.imageFocusMobile)
+          ? liveBg.imageFocusMobile
+          : liveBg.imageFocus;
+        if (focusToShow) {
+          imgOverride.__heroBgFocus = focusToShow;
+          imgOverride.backgroundImageFocus = focusToShow;
         }
         overridden = { ...overridden, ...imgOverride };
       } else if (liveBg?.tab === "video") {
@@ -301,7 +347,7 @@ export function StudioCanvas({ state }: { state: StudioState }) {
         <SectionRenderer section={patched} tenantId={state.tenant.id} tenantSlug={state.tenant.slug} isAdmin={false} onSaveAsteraContent={state.saveAsteraContent} />
         {isHiddenOnBreakpoint && (
           <div className="absolute inset-0 flex items-center justify-center bg-[rgba(0,0,0,0.55)] pointer-events-none z-10">
-            <span className="rounded-full bg-[#1c1c1e] border border-[#3a3a3c] px-3 py-1 text-[11px] font-medium text-[#a1a1aa]">
+            <span className="rounded-full bg-[var(--vs-surface)] border border-[var(--vs-border-strong)] px-3 py-1 text-[11px] font-medium text-[var(--vs-text-muted)]">
               Skryto na {studio.breakpoint === "mobile" ? "mobilu" : "tabletu"}
             </span>
           </div>
@@ -397,7 +443,7 @@ export function StudioCanvas({ state }: { state: StudioState }) {
   return (
     <div
       ref={outerRef}
-      className={`h-full overflow-y-auto bg-[var(--vs-bg-soft)] ${effectiveZoom > 1 ? "overflow-x-auto" : "overflow-x-hidden"}`}
+      className={`vs-canvas-bg h-full overflow-y-auto ${effectiveZoom > 1 ? "overflow-x-auto" : "overflow-x-hidden"}`}
     >
       {isDesktop ? (
         /* Desktop — flush to right edge, scales to fill canvas width */
@@ -406,7 +452,7 @@ export function StudioCanvas({ state }: { state: StudioState }) {
           data-studio-canvas-preview
           data-design-host
           className="mx-auto"
-          style={{ width, zoom: effectiveZoom, ...templateStyle, backgroundColor: "transparent" }}
+          style={{ width, zoom: effectiveZoom, ...templateStyle, backgroundColor: "transparent", boxShadow: "0 0 0 1px rgba(148,156,255,0.10), 0 24px 64px rgba(0,0,0,0.55)" }}
         >
           <DesignOverrides tokens={designTokens} hostSelector="[data-design-host]" />
           {/*
@@ -428,33 +474,149 @@ export function StudioCanvas({ state }: { state: StudioState }) {
           />
         </div>
       ) : (
-        /* Tablet / Mobile — direct render in device frame, same editing as desktop */
-        <div className="flex justify-center items-start py-8 px-4 min-h-full">
-          <div
-            style={{
-              borderRadius: studio.breakpoint === "mobile" ? "44px" : "22px",
-              border: "8px solid #1c1c1e",
-              boxShadow: "0 0 0 1px #3a3a3c, 0 40px 80px -16px rgba(0,0,0,0.8)",
-              overflow: "hidden",
-              zoom: effectiveZoom,
-              width,
-              minHeight: studio.breakpoint === "mobile" ? 844 : 1024,
-            }}
-          >
-            <div
-              data-breakpoint={studio.breakpoint}
-              data-studio-canvas-preview
-              data-design-host
-              style={{ width: "100%", ...templateStyle }}
-            >
-              <DesignOverrides tokens={designTokens} hostSelector="[data-design-host]" />
-              <h1 style={{ position: "absolute", width: 1, height: 1, padding: 0, margin: -1, overflow: "hidden", clip: "rect(0,0,0,0)", whiteSpace: "nowrap", border: 0 }}>
-                {state.page?.title ?? state.tenant?.slug ?? "Úvod"}
-              </h1>
-              {renderSectionList()}
+        /* Tablet / Mobile — iframe with real viewport so CSS media queries fire correctly */
+        (() => {
+          const isMobile = studio.breakpoint === "mobile";
+          // Status bar: shown only on mobile (like iPhone). Sits between bezel and iframe.
+          const statusBarH = isMobile ? 44 : 0;
+          const iframeH = (isMobile ? 844 : 1366) - statusBarH;
+          const deviceH = iframeH + statusBarH; // = 844 or 1024
+          const borderPx = 8;
+          const framedW = width + borderPx * 2;
+          const framedH = deviceH + borderPx * 2;
+          const scaledH = framedH * effectiveZoom;
+          const marginH = -(framedH - scaledH);
+          const iframeSrc = `${pageUrl}?_preview=${iframeRefreshKey}`;
+
+          return (
+            <div className="flex flex-col items-center py-8 px-4 min-h-full gap-3">
+              {/* Refresh button */}
+              <button
+                type="button"
+                onClick={refreshIframe}
+                title="Načíst aktuální verzi stránky"
+                className="flex items-center gap-1.5 rounded-full border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-1.5 text-[11px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] hover:border-[var(--vs-accent-ring)] transition-colors shrink-0 shadow-[var(--vs-shadow-sm)]"
+              >
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.75" className="h-3.5 w-3.5">
+                  <path d="M14 8A6 6 0 1 1 8 2a6 6 0 0 1 4.24 1.76L14 2v4h-4l1.42-1.42A4 4 0 1 0 12 8" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                Aktualizovat náhled
+              </button>
+
+              {/* Device frame */}
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <div
+                  style={{
+                    transform: `scale(${effectiveZoom})`,
+                    transformOrigin: "top center",
+                    marginBottom: marginH,
+                    width: framedW,
+                    height: framedH,
+                    borderRadius: isMobile ? "52px" : "28px",
+                    border: `${borderPx}px solid #1c1c1e`,
+                    boxShadow: "0 0 0 1px #3a3a3c, inset 0 0 0 1px #3a3a3c, 0 40px 100px -16px rgba(0,0,0,0.9)",
+                    overflow: "hidden",
+                    position: "relative",
+                    background: "#000",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  {/* Status bar — part of the device chrome, ABOVE the iframe */}
+                  {isMobile && (
+                    <div style={{
+                      height: statusBarH,
+                      background: "#000",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "0 28px",
+                      flexShrink: 0,
+                    }}>
+                      {/* Time */}
+                      <span style={{ color: "#fff", fontSize: 15, fontWeight: 600, fontFamily: "-apple-system, sans-serif", letterSpacing: "-0.3px" }}>9:41</span>
+                      {/* Dynamic Island pill */}
+                      <div style={{
+                        position: "absolute",
+                        top: 10,
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        width: 116,
+                        height: 34,
+                        background: "#000",
+                        borderRadius: 20,
+                        border: "1px solid #2a2a2a",
+                      }} />
+                      {/* Status icons */}
+                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                        {/* Signal */}
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="white">
+                          <rect x="0" y="4" width="3" height="8" rx="1" />
+                          <rect x="4.5" y="2.5" width="3" height="9.5" rx="1" />
+                          <rect x="9" y="1" width="3" height="11" rx="1" />
+                          <rect x="13.5" y="0" width="3" height="12" rx="1" />
+                        </svg>
+                        {/* WiFi */}
+                        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round">
+                          <path d="M1 4.5C3.8 1.8 12.2 1.8 15 4.5" />
+                          <path d="M3.2 6.8C5.1 4.9 10.9 4.9 12.8 6.8" />
+                          <path d="M5.5 9.1C6.6 8 9.4 8 10.5 9.1" />
+                          <circle cx="8" cy="11.5" r="1" fill="white" stroke="none" />
+                        </svg>
+                        {/* Battery */}
+                        <svg width="25" height="12" viewBox="0 0 25 12" fill="none">
+                          <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" stroke="white" strokeOpacity="0.35" />
+                          <rect x="2" y="2" width="17" height="8" rx="2" fill="white" />
+                          <path d="M23 4v4a2 2 0 0 0 0-4z" fill="white" fillOpacity="0.4" />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Loading overlay */}
+                  {iframeLoading && (
+                    <div style={{
+                      position: "absolute",
+                      inset: 0,
+                      top: statusBarH,
+                      background: "rgba(0,0,0,0.6)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      zIndex: 50,
+                    }}>
+                      <svg className="animate-spin" style={{ width: 28, height: 28, color: "#a1a1aa" }} fill="none" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" strokeOpacity="0.3" />
+                        <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                      </svg>
+                    </div>
+                  )}
+
+                  <iframe
+                    key={iframeRefreshKey}
+                    ref={iframeRef}
+                    src={iframeSrc}
+                    title={`${isMobile ? "Mobilní" : "Tabletový"} náhled`}
+                    onLoad={() => setIframeLoading(false)}
+                    style={{
+                      width,
+                      height: iframeH,
+                      border: "none",
+                      display: "block",
+                      background: "#fff",
+                      flex: "1 0 auto",
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* Dimensions badge */}
+              <p className="text-[10px] text-[var(--vs-text-dim)] shrink-0" style={{ marginTop: marginH < 0 ? marginH + 8 : 8 }}>
+                {width} × {iframeH} px
+              </p>
             </div>
-          </div>
-        </div>
+          );
+        })()
       )}
     </div>
   );

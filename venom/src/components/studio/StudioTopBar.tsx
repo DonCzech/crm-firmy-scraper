@@ -35,7 +35,7 @@ export function StudioTopBar({
   const leftZoneWidth = isMobile ? 55 : (sidebarOpen ? 275 : 55);
 
   return (
-    <header className="flex h-[53px] shrink-0 items-center bg-[var(--vs-bg-soft)]">
+    <header className="flex h-[53px] shrink-0 items-center bg-[var(--vs-bg-soft)] border-b border-[var(--vs-border)] shadow-[0_1px_0_rgba(255,255,255,0.03)]">
 
       {/* Left sidebar zone */}
       <div
@@ -50,8 +50,8 @@ export function StudioTopBar({
           title="Webero"
         >
           <div
-            className="flex h-9 w-9 items-center justify-center rounded-lg select-none"
-            style={{ background: "linear-gradient(135deg, #2563eb 0%, #4f46e5 100%)" }}
+            className="flex h-9 w-9 items-center justify-center rounded-[10px] select-none shadow-[0_1px_0_rgba(255,255,255,0.2)_inset,0_2px_10px_rgba(99,102,241,0.4)]"
+            style={{ background: "var(--vs-grad-brand)" }}
           >
             <svg width="22" height="22" viewBox="0 0 30 30" fill="none" aria-hidden>
               <path
@@ -104,17 +104,20 @@ export function StudioTopBar({
           isMobile ? "justify-start" : "justify-center px-2"
         )}>
           <div className="flex items-center gap-1.5 text-[13px] text-[var(--vs-text-muted)] min-w-0">
-            {!isMobile && <Folder className="h-4 w-4 shrink-0 opacity-70" strokeWidth={1.75} />}
-            {!isMobile && <span className="shrink-0">Statické stránky</span>}
-            {!isMobile && <span className="shrink-0 opacity-50">/</span>}
-            <span className="font-semibold text-[var(--vs-text)] truncate" style={{ maxWidth: isMobile ? 110 : 154 }}>
+            {!isMobile && <Folder className="h-4 w-4 shrink-0 opacity-70 max-[1180px]:hidden" strokeWidth={1.75} />}
+            {!isMobile && <span className="shrink-0 max-[1180px]:hidden">Statické stránky</span>}
+            {!isMobile && <span className="shrink-0 opacity-50 max-[1180px]:hidden">/</span>}
+            <span
+              className="truncate rounded-md px-2 py-1 font-semibold text-[var(--vs-text)] transition-colors duration-100 hover:bg-[var(--vs-surface-2)]"
+              style={{ maxWidth: isMobile ? 110 : 154 }}
+            >
               {state.page?.title ?? state.page?.slug ?? "Úvod"}
             </span>
           </div>
           {!isMobile && (
             <span
               title="Demo verze webu není indexována vyhledávači. Po spuštění na vlastní doméně se indexace zapne automaticky."
-              className="inline-flex items-center gap-1.5 shrink-0 cursor-default rounded-full bg-[var(--vs-warning-bg)] px-2.5 py-[3px] text-[11px] font-semibold text-[var(--vs-warning)] ring-1 ring-inset ring-[rgba(251,191,36,0.25)]"
+              className="inline-flex items-center gap-1.5 shrink-0 cursor-default rounded-full bg-[var(--vs-warning-bg)] px-2.5 py-[3px] text-[11px] font-semibold text-[var(--vs-warning)] ring-1 ring-inset ring-[rgba(251,191,36,0.25)] max-[1010px]:hidden"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-[var(--vs-warning)]" />
               Neindexováno
@@ -126,7 +129,7 @@ export function StudioTopBar({
         <div className="flex items-center gap-0.5 shrink-0">
 
           {/* Breakpoint switcher */}
-          <div className="flex items-center gap-0.5 rounded-md bg-[var(--vs-surface)] p-0.5 ring-1 ring-[var(--vs-border)] mr-1">
+          <div className="flex items-center gap-0.5 rounded-lg bg-[var(--vs-bg)] p-[3px] ring-1 ring-inset ring-[var(--vs-border)] shadow-[0_1px_2px_rgba(0,0,0,0.35)_inset] mr-1">
             <BPButton bp="desktop" active={studio.breakpoint === "desktop"} onClick={studio.setBreakpoint} label={isMobile ? "Desktop" : "Desktop (1)"}>
               <Monitor className={isMobile ? "h-3.5 w-3.5" : "h-4 w-4"} strokeWidth={1.75} />
             </BPButton>
@@ -144,7 +147,7 @@ export function StudioTopBar({
             title="Zpět (⌘Z)"
             disabled={!state.canUndo}
             onClick={state.undo}
-            className="flex h-[31px] w-[31px] items-center justify-center rounded text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] disabled:opacity-30 transition-colors duration-100"
+            className="flex h-[31px] w-[31px] items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] disabled:opacity-30 transition-colors duration-100"
           >
             <Undo2 className="h-4 w-4" strokeWidth={1.75} />
           </button>
@@ -154,7 +157,7 @@ export function StudioTopBar({
             title="Vpřed (⌘⇧Z)"
             disabled={!state.canRedo}
             onClick={state.redo}
-            className="flex h-[31px] w-[31px] items-center justify-center rounded text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] disabled:opacity-30 transition-colors duration-100"
+            className="flex h-[31px] w-[31px] items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] disabled:opacity-30 transition-colors duration-100"
           >
             <Redo2 className="h-4 w-4" strokeWidth={1.75} />
           </button>
@@ -171,7 +174,7 @@ export function StudioTopBar({
                 rel="noopener noreferrer"
                 aria-label="Veřejný náhled"
                 title="Veřejný náhled"
-                className="flex h-[31px] w-[31px] items-center justify-center rounded text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
+                className="flex h-[31px] w-[31px] items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
               >
                 <ExternalLink className="h-4 w-4" strokeWidth={1.75} />
               </a>
@@ -240,14 +243,14 @@ function ZoomControl() {
         aria-label="Zmenšit (−10%)"
         title="Zmenšit (−10%)"
         onClick={() => stepZoom(-10)}
-        className="flex h-[28px] w-[26px] items-center justify-center rounded text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
+        className="flex h-[28px] w-[26px] items-center justify-center rounded-md text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
       >
         <ZoomOut className="h-3.5 w-3.5" />
       </button>
       <button
         type="button"
         onClick={() => setOpen(v => !v)}
-        className="flex h-[28px] min-w-[56px] items-center justify-center gap-0.5 rounded px-1.5 text-[12px] font-medium text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
+        className="flex h-[28px] min-w-[56px] items-center justify-center gap-0.5 rounded-md px-1.5 text-[12px] font-medium text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
       >
         {label}
         <ChevronDown className="h-3 w-3 opacity-60 shrink-0" />
@@ -257,12 +260,12 @@ function ZoomControl() {
         aria-label="Přiblížit (+10%)"
         title="Přiblížit (+10%)"
         onClick={() => stepZoom(10)}
-        className="flex h-[28px] w-[26px] items-center justify-center rounded text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
+        className="flex h-[28px] w-[26px] items-center justify-center rounded-md text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
       >
         <ZoomIn className="h-3.5 w-3.5" />
       </button>
       {open && (
-        <div className="absolute right-0 top-full z-50 mt-1 w-[150px] rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] py-1 shadow-[var(--vs-shadow-lg)] vs-enter">
+        <div className="vs-glass vs-pop absolute right-0 top-full z-50 mt-1 w-[150px] rounded-lg border border-[var(--vs-border-strong)] py-1 shadow-[var(--vs-shadow-lg)]">
           {ZOOM_PRESETS.map(p => (
             <button
               key={String(p.value)}
@@ -354,10 +357,10 @@ function BPButton({
       title={label}
       onClick={() => onClick(bp)}
       className={clsx(
-        "flex items-center justify-center rounded transition-[background,color] duration-100",
+        "flex items-center justify-center rounded-md transition-[background,color,box-shadow] duration-100",
         compact ? "h-[24px] w-[26px]" : "h-[26px] w-[31px]",
         active
-          ? "bg-[var(--vs-surface-3)] text-[var(--vs-text)] shadow-[inset_0_0_0_1px_var(--vs-border-strong)]"
+          ? "bg-[var(--vs-surface-3)] text-[var(--vs-accent-hi)] shadow-[inset_0_0_0_1px_var(--vs-accent-ring),0_1px_3px_rgba(0,0,0,0.3)]"
           : "text-[var(--vs-text-muted)] hover:text-[var(--vs-text)]"
       )}
     >
@@ -404,8 +407,8 @@ function UserMenu() {
       >
         {initial ? (
           <span
-            className="flex h-[26px] w-[26px] items-center justify-center rounded-full text-[11px] font-bold text-white"
-            style={{ background: "linear-gradient(135deg,#2563eb,#4f46e5)" }}
+            className="flex h-[26px] w-[26px] items-center justify-center rounded-full text-[11px] font-bold text-white shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_2px_6px_rgba(99,102,241,0.4)]"
+            style={{ background: "var(--vs-grad-brand)" }}
           >
             {initial}
           </span>
@@ -416,8 +419,8 @@ function UserMenu() {
 
       {open && (
         <div
-          className="absolute right-0 top-[calc(100%+6px)] z-[200] w-52 rounded-xl border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] py-1.5 shadow-xl"
-          style={{ boxShadow: "0 8px 30px rgba(0,0,0,0.35)" }}
+          className="vs-glass vs-pop absolute right-0 top-[calc(100%+6px)] z-[200] w-52 rounded-xl border border-[var(--vs-border-strong)] py-1.5"
+          style={{ boxShadow: "var(--vs-shadow-lg)" }}
         >
           {email && (
             <>

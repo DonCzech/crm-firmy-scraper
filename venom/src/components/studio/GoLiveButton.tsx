@@ -93,7 +93,7 @@ export function GoLiveButton({ state }: { state: StudioState }) {
         className={
           blocked
             ? `grid h-8 w-8 place-items-center rounded-md bg-amber-500/15 text-amber-300 hover:bg-amber-500/25 transition-colors disabled:opacity-60`
-            : `inline-flex h-8 items-center gap-1.5 rounded-md px-3 text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-500 transition-colors duration-150 disabled:opacity-60`
+            : `inline-flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs font-semibold bg-gradient-to-br from-emerald-500 to-emerald-700 text-white hover:from-emerald-400 hover:to-emerald-600 shadow-[0_1px_0_rgba(255,255,255,0.2)_inset,0_2px_10px_rgba(16,185,129,0.35)] transition-[background,box-shadow] duration-150 disabled:opacity-60`
         }
         aria-label={blocked ? "Před spuštěním vyplň povinné údaje" : "Spustit web do produkce"}
         title={blocked ? "Před spuštěním vyplň povinné údaje" : "Spustit web do produkce"}
@@ -111,9 +111,9 @@ export function GoLiveButton({ state }: { state: StudioState }) {
       </button>
 
       {blocked && showMissing && (
-        <div className="absolute right-0 top-10 z-50 w-72 rounded-md border border-amber-500/40 bg-[#1a1a1c] p-3 text-[11px] shadow-xl">
+        <div className="vs-glass vs-pop absolute right-0 top-10 z-50 w-72 rounded-lg border border-amber-500/40 p-3 text-[11px] shadow-[var(--vs-shadow-xl)]">
           <div className="mb-1.5 font-medium text-amber-300">Před spuštěním webu doplň:</div>
-          <ul className="space-y-1 text-[#d4d4d8]">
+          <ul className="space-y-1 text-[var(--vs-text-soft)]">
             {pf.missing.map((m, i) => (
               <li key={i} className="flex items-start gap-1.5">
                 <span className="text-amber-400">•</span>
@@ -124,7 +124,7 @@ export function GoLiveButton({ state }: { state: StudioState }) {
           <button
             type="button"
             onClick={() => setShowMissing(false)}
-            className="mt-2 text-[10.5px] text-[#71717a] hover:text-white"
+            className="mt-2 text-[10.5px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)]"
           >
             Zavřít
           </button>

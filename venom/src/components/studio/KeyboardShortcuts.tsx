@@ -1,55 +1,38 @@
 "use client";
 
 import { useEffect } from "react";
-import { X, Command } from "lucide-react";
+import { X } from "lucide-react";
 import { Kbd } from "./ui";
 
-/**
- * Luxury keyboard shortcuts overlay. Triggered by `?` from StudioShell.
- */
 interface Group {
   title: string;
-  items: Array<{ keys: string[]; label: string; mac?: string[] }>;
+  items: Array<{ keys: string[]; label: string }>;
 }
 
 const GROUPS: Group[] = [
   {
-    title: "Navigace",
+    title: "Layout Builder",
     items: [
-      { keys: ["?"],            label: "Zobrazit klávesové zkratky" },
-      { keys: ["Esc"],          label: "Zavřít panel / odznačit" },
-      { keys: ["1"],            label: "Náhled Desktop" },
-      { keys: ["2"],            label: "Náhled Tablet" },
-      { keys: ["3"],            label: "Náhled Mobile" },
+      { keys: ["⌘", "Z"],          label: "Zpět" },
+      { keys: ["⌘", "⇧", "Z"],     label: "Vpřed" },
+      { keys: ["⌥", "+DRAG"],      label: "Duplikovat" },
+      { keys: ["⌘", "D"],          label: "Duplikovat" },
+      { keys: ["⌘", "C"],          label: "Kopírovat" },
+      { keys: ["⌘", "V"],          label: "Vložit" },
+      { keys: ["⌘", "+CLICK"],     label: "Vybrat více" },
     ],
   },
   {
-    title: "Sekce",
+    title: "Textový editor",
     items: [
-      { keys: ["↑"],            label: "Posunout sekci nahoru" },
-      { keys: ["↓"],            label: "Posunout sekci dolů" },
-      { keys: ["⌘", "D"], mac: ["⌘","D"], label: "Duplikovat vybranou sekci" },
-      { keys: ["⌫"],            label: "Smazat vybranou sekci" },
-      { keys: ["V"],            label: "Skrýt / zobrazit sekci" },
-    ],
-  },
-  {
-    title: "Úpravy",
-    items: [
-      { keys: ["⌘", "Z"],        label: "Zpět" },
-      { keys: ["⌘", "⇧", "Z"],   label: "Znovu" },
-      { keys: ["⌘", "S"],        label: "Uložit změny" },
-      { keys: ["⌘", "K"],        label: "Rychlé vyhledávání sekcí" },
-    ],
-  },
-  {
-    title: "Panely",
-    items: [
-      { keys: ["L"],             label: "Vrstvy" },
-      { keys: ["A"],             label: "Přidat sekci" },
-      { keys: ["P"],             label: "Stránky" },
-      { keys: ["I"],             label: "Knihovna obrázků" },
-      { keys: ["B"],             label: "Identita firmy (Brand)" },
+      { keys: ["⌘", "B"],          label: "Tučné" },
+      { keys: ["⌘", "I"],          label: "Kurzíva" },
+      { keys: ["⌘", "U"],          label: "Podtržení" },
+      { keys: ["⌘", "⇧", "K"],    label: "Odkaz" },
+      { keys: ["⌘", "⇧", "L"],    label: "Zarovnat doleva" },
+      { keys: ["⌘", "⇧", "C"],    label: "Zarovnat na střed" },
+      { keys: ["⌘", "⇧", "R"],    label: "Zarovnat doprava" },
+      { keys: ["⌥", "SPACE"],      label: "Nedělitelná mezera" },
     ],
   },
 ];
@@ -68,46 +51,38 @@ export function KeyboardShortcutsOverlay({ open, onClose }: { open: boolean; onC
     <div
       role="dialog"
       aria-modal
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/70 p-6 backdrop-blur-sm vs-enter"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-6 backdrop-blur-sm vs-enter"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl overflow-hidden rounded-xl bg-[var(--vs-surface)] shadow-[var(--vs-shadow-xl)] ring-1 ring-[var(--vs-border-strong)]"
+        className="relative w-full max-w-xl overflow-hidden rounded-2xl bg-[var(--vs-surface)] shadow-2xl ring-1 ring-[var(--vs-border-strong)]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[var(--vs-border)] px-5 py-3.5">
-          <div className="flex items-center gap-2.5">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)] ring-1 ring-[var(--vs-accent-ring)]">
-              <Command className="h-3.5 w-3.5" strokeWidth={2} />
-            </div>
-            <div>
-              <h2 className="text-[14px] font-semibold tracking-tight text-[var(--vs-text)]">Klávesové zkratky</h2>
-              <p className="text-[10.5px] text-[var(--vs-text-muted)]">Pracuj rychleji a pohodlněji</p>
-            </div>
-          </div>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--vs-surface-2)]">
+          <h2 className="text-[15px] font-semibold text-white">Klávesové zkratky</h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-md p-1.5 text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
+            className="flex h-7 w-7 items-center justify-center rounded-lg text-[#6b7280] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-muted)] transition-colors"
             aria-label="Zavřít"
           >
             <X className="h-4 w-4" />
           </button>
         </div>
 
-        {/* Groups */}
-        <div className="grid max-h-[68vh] grid-cols-1 gap-x-8 gap-y-5 overflow-y-auto vs-scroll p-5 md:grid-cols-2">
+        {/* Groups — side by side */}
+        <div className="grid grid-cols-2 gap-0 divide-x divide-[var(--vs-surface-2)]">
           {GROUPS.map((g) => (
-            <div key={g.title}>
-              <h3 className="mb-2 text-[10px] font-semibold uppercase tracking-[var(--vs-tracking-wider)] text-[var(--vs-text-muted)]">
+            <div key={g.title} className="px-5 py-4">
+              <h3 className="mb-3 text-[10px] font-bold uppercase tracking-widest text-[#6b7280]">
                 {g.title}
               </h3>
-              <ul className="space-y-1.5">
+              <ul className="space-y-1">
                 {g.items.map((it, idx) => (
-                  <li key={idx} className="flex items-center justify-between gap-3 rounded-md px-2 py-1.5 hover:bg-[var(--vs-surface-2)]">
-                    <span className="text-[12px] text-[var(--vs-text-soft)]">{it.label}</span>
-                    <span className="flex items-center gap-1">
+                  <li key={idx} className="flex items-center justify-between gap-3 rounded-lg px-2 py-1.5 hover:bg-[var(--vs-surface-2)] transition-colors">
+                    <span className="text-[12.5px] text-[var(--vs-text-muted)]">{it.label}</span>
+                    <span className="flex items-center gap-0.5 shrink-0">
                       {it.keys.map((k, i) => (
                         <Kbd key={i}>{k}</Kbd>
                       ))}
@@ -120,9 +95,14 @@ export function KeyboardShortcutsOverlay({ open, onClose }: { open: boolean; onC
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between border-t border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-5 py-2.5 text-[10.5px] text-[var(--vs-text-muted)]">
-          <span>Stiskni <Kbd>Esc</Kbd> pro zavření</span>
-          <span>Webero Studio</span>
+        <div className="flex items-center justify-end border-t border-[var(--vs-surface-2)] px-5 py-3">
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg bg-[#6366f1] px-5 py-1.5 text-[13px] font-semibold text-white hover:bg-[#4f46e5] transition-colors"
+          >
+            Hotovo
+          </button>
         </div>
       </div>
     </div>

@@ -22,6 +22,8 @@ type LayoutSettings = {
   anchorId?: string;
 };
 
+type OverlayLayer = "above" | "below";
+
 const PAD_MAX_Y = 240;
 const PAD_MAX_X = 80;
 const PAD_STEP = 4;
@@ -30,6 +32,8 @@ const COMMIT_DEBOUNCE_MS = 250;
 export function LayoutInspectorTab({ section, state }: { section: Section; state: StudioState }) {
   const layout = (section.settings?.layout ?? {}) as LayoutSettings;
   const hiddenOn = ((section.settings?.hiddenOn as string[] | undefined) ?? []);
+  const overlaySettings = (section.settings as Record<string, unknown> | undefined)?.overlay as
+    { enabled?: boolean; layer?: OverlayLayer } | undefined;
 
   const [pt, setPt] = useState<number>(layout.paddingTop ?? 0);
   const [pb, setPb] = useState<number>(layout.paddingBottom ?? 0);
@@ -38,6 +42,8 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
   const [hideMobile, setHideMobile] = useState(hiddenOn.includes("mobile"));
   const [hideTablet, setHideTablet] = useState(hiddenOn.includes("tablet"));
   const [anchor, setAnchor] = useState(layout.anchorId ?? "");
+  const [overlayEnabled, setOverlayEnabled] = useState(!!overlaySettings?.enabled);
+  const [overlayLayer, setOverlayLayer] = useState<OverlayLayer>(overlaySettings?.layer ?? "above");
 
   // Debounce timers per slider — separate so simultaneous edits aren't
   // overwritten by a single trailing commit (e.g. quick drag pt → px).
@@ -47,6 +53,7 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
   useEffect(() => {
     const ho = ((section.settings?.hiddenOn as string[] | undefined) ?? []);
     const lay = (section.settings?.layout ?? {}) as LayoutSettings;
+    const ov = (section.settings as Record<string, unknown> | undefined)?.overlay as { enabled?: boolean; layer?: OverlayLayer } | undefined;
     setPt(lay.paddingTop ?? 0);
     setPb(lay.paddingBottom ?? 0);
     setPx(lay.paddingX ?? 0);
@@ -54,6 +61,8 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
     setHideMobile(ho.includes("mobile"));
     setHideTablet(ho.includes("tablet"));
     setAnchor(lay.anchorId ?? "");
+    setOverlayEnabled(!!ov?.enabled);
+    setOverlayLayer(ov?.layer ?? "above");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [section.id]);
 
@@ -74,6 +83,16 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
       commitTimer.current = null;
       commitLayout(merged);
     }, COMMIT_DEBOUNCE_MS);
+  }
+
+  function commitOverlay(enabled: boolean, layer: OverlayLayer) {
+    const prevOverlay = (section.settings as Record<string, unknown> | undefined)?.overlay as Record<string, unknown> | undefined;
+    void state.patchSection(section.id, {
+      settings: {
+        ...(section.settings ?? {}),
+        overlay: { ...prevOverlay, enabled, layer },
+      },
+    });
   }
 
   function commitHiddenOn(mobile: boolean, tablet: boolean) {
@@ -213,6 +232,43 @@ export function LayoutInspectorTab({ section, state }: { section: Section; state
           onChange={() => void state.patchSection(section.id, { is_visible: !section.is_visible })}
         />
       </div>
+
+      {/* T2.3 — Overlay layer toggle */}
+      <div className="space-y-2">
+        <div className="flex items-center justify-between rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2.5 py-2">
+          <div>
+            <div className="text-xs text-[var(--vs-text)]">✦ Overlay vrstva</div>
+            <div className="text-[10.5px] text-[var(--vs-text-muted)]">Přidá volnou vrstvu pro text, tlačítka, obrázky</div>
+          </div>
+          <Toggle
+            checked={overlayEnabled}
+            onChange={(v) => { setOverlayEnabled(v); commitOverlay(v, overlayLayer); }}
+          />
+        </div>
+        {overlayEnabled && (
+          <div className="rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] p-2.5 space-y-1.5">
+            <div className="text-[10.5px] font-medium text-[var(--vs-text-muted)] uppercase tracking-wide">Pozice vrstvy</div>
+            <div className="flex gap-2">
+              {(["above", "below"] as const).map((l) => (
+                <button
+                  key={l}
+                  type="button"
+                  onClick={() => { setOverlayLayer(l); commitOverlay(overlayEnabled, l); }}
+                  className={clsx(
+                    "flex-1 rounded-md px-2 py-1.5 text-[10.5px] font-medium border transition-colors",
+                    overlayLayer === l
+                      ? "border-blue-500 bg-blue-600 text-white"
+                      : "border-[var(--vs-border)] bg-[var(--vs-surface-3)] text-[var(--vs-text)] hover:border-blue-400"
+                  )}
+                >
+                  {l === "above" ? "↑ Nad obsahem" : "↓ Pod obsahem"}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
     </div>
   );
 }
