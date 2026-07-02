@@ -1,6 +1,6 @@
 "use client";
 
-import { Type, AlignLeft, MousePointer, Image as ImageIcon, Minus, Square, Trash2, Copy as CopyIcon, Plus, ChevronsUp, ChevronUp, ChevronsDown, ChevronDown, Undo2, Redo2, Smartphone, EyeOff } from "lucide-react";
+import { Type, AlignLeft, MousePointer, Image as ImageIcon, Minus, Square, Trash2, Copy as CopyIcon, Plus, ChevronsUp, ChevronUp, ChevronsDown, ChevronDown, Undo2, Redo2, Smartphone, EyeOff } from "@/components/studio/icons";
 import type { ElementType, FreeformEl, ButtonEl, BaseEl } from "./types";
 
 type AnimPreset = NonNullable<BaseEl["animation"]>["preset"];

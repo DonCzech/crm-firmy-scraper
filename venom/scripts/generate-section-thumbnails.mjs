@@ -142,21 +142,29 @@ async function main() {
 
     const url = `${BASE}/studio/preview/section?type=${encodeURIComponent(type)}&variant=${encodeURIComponent(variant)}`;
     try {
-      await page.goto(url, { waitUntil: "networkidle", timeout: 30_000 });
-      // Wait for fonts; ignore if document.fonts unsupported.
+      // domcontentloaded + fixed settle = robust for autoplay/video heroes
+      // that never reach networkidle. Fonts/images that arrive later are
+      // captured by the 1500ms wait below.
+      await page.goto(url, { waitUntil: "domcontentloaded", timeout: 25_000 });
       await page.evaluate(() => document.fonts?.ready).catch(() => {});
-      // Brief settle so any CSS animations finish their initial frame.
-      await page.waitForTimeout(450);
+      await page.waitForTimeout(1500);
 
-      // Locate the section element. We accept either the preview wrapper or
-      // the first <section> inside it.
-      const handle = await page.$('[data-section-preview] section, [data-section-preview]');
+      // Navbar/footer variants are typically position:fixed and report 0
+      // height in isolation. Force a min-height on the preview wrapper so
+      // we always have something to clip.
+      if (type === "navbar" || type === "footer") {
+        await page.evaluate(() => {
+          const el = document.querySelector('[data-section-preview]');
+          if (el) (el).style.minHeight = "120px";
+        });
+        await page.waitForTimeout(150);
+      }
+
+      const handle = await page.$('[data-section-preview] section, [data-section-preview] header, [data-section-preview] footer, [data-section-preview] nav, [data-section-preview]');
       if (!handle) throw new Error("section element not found");
 
-      // Force a fixed-width crop so all shots share the same shape regardless
-      // of section height. We screenshot the element clipped to SHOT_SIZE.
       const box = await handle.boundingBox();
-      if (!box) throw new Error("no bounding box");
+      if (!box || box.height < 8) throw new Error("zero-height bounding box");
       // Playwright 1.59 only supports png/jpeg. We screenshot as a PNG
       // buffer, then pipe through sharp to produce the WebP we actually
       // want. The clip width matches the viewport so all thumbnails

@@ -314,13 +314,17 @@ export async function resolveAllSections(
   sections: SectionV2[]
 ): Promise<SectionResolved[]> {
   // Fast path: if all sections are legacy, skip template_key lookup entirely.
+  const siteModeLegacy = tenant.site_mode ?? "multipage";
   const anyV2 = sections.some((s) => s.content_source === "v2");
   if (!anyV2) {
-    return sections.map((s) => ({
-      ...s,
-      _resolvedSource: "legacy" as const,
-      _modifiedPaths: [],
-    }));
+    return sections.map((s) => {
+      if (s.section_type === "navbar") {
+        const cs = (s.settings ?? {}) as Record<string, unknown>;
+        const ct = (cs.content ?? {}) as Record<string, unknown>;
+        return { ...s, settings: { ...cs, content: { ...ct, siteMode: siteModeLegacy } }, _resolvedSource: "legacy" as const, _modifiedPaths: [] };
+      }
+      return { ...s, _resolvedSource: "legacy" as const, _modifiedPaths: [] };
+    });
   }
 
   const tplKeyRow = await queryOne<{ key: string }>(
@@ -329,13 +333,18 @@ export async function resolveAllSections(
   );
   const tenantWithKey: TenantWithKey = { ...tenant, template_key: tplKeyRow?.key };
 
+  const siteMode = tenant.site_mode ?? "multipage";
+
   return Promise.all(
     sections.map(async (s) => {
       const resolved = await resolveSectionContent(s, tenantWithKey);
       const currentSettings = (s.settings ?? {}) as Record<string, unknown>;
+      const content = s.section_type === "navbar"
+        ? { ...resolved.content, siteMode }
+        : resolved.content;
       return {
         ...s,
-        settings: { ...currentSettings, content: resolved.content },
+        settings: { ...currentSettings, content },
         _resolvedSource: resolved.source,
         _modifiedPaths: resolved.modifiedPaths,
       };

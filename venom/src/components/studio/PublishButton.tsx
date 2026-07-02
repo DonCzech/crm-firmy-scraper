@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Loader2 } from "lucide-react";
+import { ChevronDown, Loader2 } from "@/components/studio/icons";
 import type { StudioState } from "./TenantStudioView";
 
 /**
@@ -145,12 +145,12 @@ export function PublishButton({ state }: Props) {
 
   return (
     <div ref={rootRef} className="relative">
-      <div className="inline-flex h-8 overflow-hidden rounded-lg shadow-[var(--vs-glow-brand)]">
+      <div className="inline-flex h-8 overflow-hidden rounded-lg shadow-[0_1px_0_rgba(255,255,255,0.22)_inset,0_8px_22px_rgba(139,92,246,0.34)]">
         <button
           type="button"
           onClick={() => void runMode(mode)}
           disabled={busy}
-          className="vs-grad-accent inline-flex items-center gap-1.5 px-3.5 text-[12.5px] font-semibold text-white transition-colors disabled:opacity-60"
+          className="inline-flex items-center gap-1.5 bg-[linear-gradient(135deg,#6366f1_0%,#8b5cf6_56%,#a855f7_100%)] px-3.5 text-[12.5px] font-semibold text-white transition-[filter,opacity] hover:brightness-110 disabled:opacity-60"
         >
           {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
           {label}
@@ -159,14 +159,14 @@ export function PublishButton({ state }: Props) {
           type="button"
           aria-label="Možnosti publikace"
           onClick={() => setOpen((o) => !o)}
-          className="vs-grad-accent grid place-items-center w-7 text-white border-l border-white/20 transition-colors"
+          className="grid w-7 place-items-center border-l border-white/20 bg-[linear-gradient(135deg,#6366f1_0%,#8b5cf6_56%,#a855f7_100%)] text-white transition-[filter] hover:brightness-110"
         >
           <ChevronDown className="h-3.5 w-3.5" />
         </button>
       </div>
 
       {open && (
-        <div className="vs-glass vs-pop absolute right-0 top-[calc(100%+6px)] z-50 w-[340px] rounded-xl text-[var(--vs-text)] shadow-[var(--vs-shadow-xl)] border border-[var(--vs-border-strong)] overflow-hidden">
+        <div className="vs-glass vs-pop fixed left-3 right-3 top-[calc(var(--vs-topbar-h)+6px)] z-50 w-auto overflow-hidden rounded-xl border border-[var(--vs-border-strong)] text-[var(--vs-text)] shadow-[var(--vs-shadow-xl)] sm:absolute sm:left-auto sm:right-0 sm:top-[calc(100%+6px)] sm:w-[min(340px,calc(100vw-24px))]">
           <Option
             indicator="filled"
             active={mode === "page"}
@@ -193,7 +193,7 @@ export function PublishButton({ state }: Props) {
 
       {msg && (
         <div
-          className={`absolute right-0 top-[calc(100%+6px)] z-40 rounded-md px-3 py-1.5 text-[11.5px] font-medium shadow-lg ${
+          className={`fixed left-3 right-3 top-[calc(var(--vs-topbar-h)+6px)] z-40 rounded-md px-3 py-1.5 text-[11.5px] font-medium shadow-lg sm:absolute sm:left-auto sm:right-0 sm:top-[calc(100%+6px)] ${
             msg.kind === "ok" ? "bg-emerald-600 text-white" : "bg-red-600 text-white"
           }`}
         >

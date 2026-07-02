@@ -8,11 +8,11 @@
     "email": "info@saveur.cz",
     "links": [
       { "label": "Domů",       "href": "/" },
-      { "label": "Služby",     "href": "/#sluzby" },
-      { "label": "Kdo jsme",   "href": "/#o-nas" },
-      { "label": "Naše práce", "href": "/#galerie" },
-      { "label": "Kontakt",    "href": "/#kontakt" },
-      { "label": "Kariéra",    "href": "/#kariera" }
+      { "label": "Služby",     "href": "/sluzby" },
+      { "label": "Kdo jsme",   "href": "/o-nas" },
+      { "label": "Naše práce", "href": "/galerie" },
+      { "label": "Kontakt",    "href": "/kontakt" },
+      { "label": "Kariéra",    "href": "/kariera" }
     ]
   },
   "hero": {

@@ -4976,57 +4976,114 @@ function FooterRestaurant03({ content, sectionId, tenantSlug, isAdmin }: { conte
 }
 
 // ── cafe-03-footer ────────────────────────────────────────────────────────────
-// Ref: cathedral.cz — dark footer with gold top line
-// Dark #1a1a1a bg, zlatá top linka 2px; 3-col: logo+tagline+social / navigace / kontakt
+// Cathedral Gilded Footer — luxe redesign (2026-07-02)
+// Deep noir gradient, gold top hairline + rotated diamond centered ornament,
+// Great Vibes wordmark s Cormorant italic tagline nahoře centrovaně,
+// 4-col grid: Návštěva (adresa + Maps) · Otevřeno (grid) · Menu (nav) · Sledujte (social),
+// bottom rail: hairline + copyright + IČ + WeberoCredit link, gold arch decorative.
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterCafe03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const BG    = "#1a1a1a";
-  const GOLD  = "#C69C60";
-  const CREAM = "#F8F5F0";
-  const MUTED = "rgba(255,255,255,0.55)";
-  const SANS  = "'Open Sans', sans-serif";
+  const NOIR    = "#0d0d0d";
+  const NOIR_D  = "#050505";
+  const GOLD    = "#C69C60";
+  const GOLD_LT = "#D8B57A";
+  const GOLD_DK = "#8F6A38";
+  const CREAM   = "#F5EFE4";
+  const MUTED   = "rgba(245,239,228,0.55)";
+  const SCRIPT  = "'Great Vibes', cursive";
+  const ITAL    = "'Cormorant Garamond', 'Playfair Display', Georgia, serif";
+  const SANS    = "'Inter', 'Open Sans', system-ui, sans-serif";
 
-  const siteName  = String(content.siteName  ?? "Demo Cathedral Café");
+  const siteName  = String(content.siteName  ?? "Cathedral Café");
   const logoUrl   = String(content.logoUrl   ?? "/templates/cafe-03/logo.svg");
-  const tagline   = String(content.tagline   ?? "Kavárna & restaurace v srdci Prahy");
-  const address   = String(content.address   ?? "Ukázková 123, 110 00 Praha 1");
-  const phone     = String(content.phone     ?? "704 123 456");
-  const email     = String(content.email     ?? "info@demo.cz");
-  const hours     = String(content.hours     ?? "Po–Ne 9:00–21:00");
-  const socialFB  = String(content.socialFacebook  ?? "https://facebook.com/demo");
-  const socialIG  = String(content.socialInstagram ?? "https://instagram.com/demo");
-  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} Demo Cathedral Café. Všechna práva vyhrazena.`);
-  const ico       = String(content.ico       ?? "12345678");
-  const links     = (content.links as Array<{ label: string; href: string }>) ?? [];
-
-  const FBIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>;
-  const IGIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>;
+  const tagline   = String(content.tagline   ?? "kavárna & restaurace v srdci Starého Města");
+  const address   = String(content.address   ?? "Melantrichova 15, 110 00 Praha 1");
+  const mapsHref  = String(content.mapsHref  ?? "https://maps.google.com/?q=Melantrichova+15+Praha");
+  const phone     = String(content.phone     ?? "+420 704 218 640");
+  const phoneHref = String(content.phoneHref ?? "tel:+420704218640");
+  const email     = String(content.email     ?? "hello@cathedral-cafe.cz");
+  const socialFB  = String(content.socialFacebook  ?? "https://facebook.com/cathedralcafe");
+  const socialIG  = String(content.socialInstagram ?? "https://instagram.com/cathedralcafe");
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} Cathedral Café · Všechna práva vyhrazena`);
+  const ico       = String(content.ico       ?? "IČ 07123456");
+  const links     = (content.links as Array<{ label: string; href: string }>) ?? [
+    { label: "Domů",       href: "/" },
+    { label: "Naše menu",  href: "/nase-menu" },
+    { label: "Galerie",    href: "/galerie" },
+    { label: "Kontakt",    href: "/kontakt" },
+  ];
+  const hoursGrid = (content.hoursGrid as Array<{ day: string; time: string }>) ?? [
+    { day: "Po — Čt", time: "9:00 — 22:00" },
+    { day: "Pá — So", time: "9:00 — 24:00" },
+    { day: "Neděle",  time: "9:00 — 21:00" },
+  ];
 
   return (
-    <footer data-variant="cafe-03-footer" style={{ backgroundColor: BG, fontFamily: SANS, borderTop: `2px solid ${GOLD}` }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(48px, 7vw, 80px) clamp(20px, 5vw, 60px) clamp(32px, 4vw, 48px)" }}>
-        <div className="c3-footer-grid" style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1.5fr", gap: "clamp(24px, 5vw, 60px)" }}>
-          {/* Col 1: Brand */}
+    <footer data-template="cafe-03" className="c3ft" style={{ backgroundColor: NOIR, backgroundImage: `linear-gradient(180deg, ${NOIR} 0%, ${NOIR_D} 100%)`, fontFamily: SANS, position: "relative", overflow: "hidden" }}>
+      {/* Gold top hairline with diamond ornament */}
+      <div aria-hidden style={{ position: "relative", height: 1, backgroundColor: `${GOLD}66` }}>
+        <span style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%) rotate(45deg)", width: 10, height: 10, backgroundColor: NOIR, border: `1px solid ${GOLD}`, display: "block" }} />
+      </div>
+
+      {/* Gothic arch watermark */}
+      <svg aria-hidden width="380" height="380" viewBox="0 0 380 380" style={{ position: "absolute", right: -80, top: 60, opacity: 0.06, pointerEvents: "none" }}>
+        <path d="M40 360 V 140 A 150 150 0 0 1 340 140 V 360" stroke={GOLD} strokeWidth="1" fill="none" />
+        <path d="M100 360 V 180 A 90 90 0 0 1 280 180 V 360" stroke={GOLD} strokeWidth="1" fill="none" />
+      </svg>
+
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(60px, 8vw, 96px) clamp(20px, 5vw, 60px) clamp(24px, 3vw, 40px)", position: "relative", zIndex: 1 }}>
+        {/* Brand row centered */}
+        <div style={{ textAlign: "center", marginBottom: "clamp(40px, 5vw, 64px)" }}>
+          <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "inline-flex", marginBottom: 20 }}>
+            <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 60, display: "block", filter: "brightness(0) invert(1)" }} />
+          </GenericEditableImage>
+          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p">
+            <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(17px, 1.5vw, 21px)", color: GOLD_LT, margin: "0 auto", maxWidth: 420, letterSpacing: "0.02em" }}>— {tagline} —</p>
+          </GenericEditableText>
+        </div>
+
+        {/* 4-col grid */}
+        <div className="c3ft-grid" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1fr 1fr", gap: "clamp(24px, 4vw, 48px)", paddingTop: 40, paddingBottom: 40, borderTop: `1px solid ${GOLD}33`, borderBottom: `1px solid ${GOLD}33` }}>
+          {/* Návštěva */}
           <div>
-            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "inline-flex", marginBottom: 16 }}>
-              <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 52, display: "block", filter: "brightness(0) invert(1)" }} />
-            </GenericEditableImage>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p">
-              <p style={{ fontFamily: SANS, fontSize: 14, fontWeight: 300, color: MUTED, margin: "0 0 24px", lineHeight: 1.65, maxWidth: 240 }}>{tagline}</p>
-            </GenericEditableText>
-            <div style={{ display: "flex", gap: 16 }}>
-              <a href={socialFB} target="_blank" rel="nofollow noreferrer" aria-label="Facebook" style={{ color: MUTED, transition: "color 0.2s" }} onMouseEnter={e => (e.currentTarget.style.color = GOLD)} onMouseLeave={e => (e.currentTarget.style.color = MUTED)}><FBIcon /></a>
-              <a href={socialIG} target="_blank" rel="nofollow noreferrer" aria-label="Instagram" style={{ color: MUTED, transition: "color 0.2s" }} onMouseEnter={e => (e.currentTarget.style.color = GOLD)} onMouseLeave={e => (e.currentTarget.style.color = MUTED)}><IGIcon /></a>
+            <h4 style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.36em", textTransform: "uppercase", color: GOLD, margin: "0 0 20px" }}>Návštěva</h4>
+            <address style={{ fontStyle: "normal", display: "flex", flexDirection: "column", gap: 10 }}>
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span">
+                <a href={mapsHref} target="_blank" rel="noreferrer" className="c3ft-link" style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 17, color: CREAM, textDecoration: "none", transition: "color 0.2s" }}>{address}</a>
+              </GenericEditableText>
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span">
+                <a href={phoneHref} className="c3ft-link" style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 17, color: CREAM, textDecoration: "none", transition: "color 0.2s" }}>{phone}</a>
+              </GenericEditableText>
+              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span">
+                <a href={`mailto:${email}`} className="c3ft-link" style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 17, color: CREAM, textDecoration: "none", transition: "color 0.2s" }}>{email}</a>
+              </GenericEditableText>
+            </address>
+          </div>
+
+          {/* Otevřeno */}
+          <div>
+            <h4 style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.36em", textTransform: "uppercase", color: GOLD, margin: "0 0 20px" }}>Otevřeno</h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {hoursGrid.map((row, i) => (
+                <div key={i} style={{ display: "flex", justifyContent: "space-between", gap: 12, fontFamily: ITAL, fontStyle: "italic", fontSize: 15 }}>
+                  <GenericEditableText sectionId={sectionId} field={`hoursGrid.${i}.day`} value={row.day} tag="span">
+                    <span style={{ color: MUTED }}>{row.day}</span>
+                  </GenericEditableText>
+                  <GenericEditableText sectionId={sectionId} field={`hoursGrid.${i}.time`} value={row.time} tag="span">
+                    <span style={{ color: GOLD_LT }}>{row.time}</span>
+                  </GenericEditableText>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Col 2: Nav */}
+          {/* Menu (nav) */}
           <div>
-            <h4 style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: GOLD, margin: "0 0 20px" }}>Navigace</h4>
+            <h4 style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.36em", textTransform: "uppercase", color: GOLD, margin: "0 0 20px" }}>Menu</h4>
             <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
               {links.map((link, i) => (
                 <li key={i}>
-                  <a href={link.href} style={{ fontFamily: SANS, fontSize: 14, fontWeight: 300, color: MUTED, textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => (e.currentTarget.style.color = CREAM)} onMouseLeave={e => (e.currentTarget.style.color = MUTED)}>
+                  <a href={link.href} className="c3ft-link" style={{ fontFamily: SANS, fontSize: 13, fontWeight: 500, letterSpacing: "0.06em", color: CREAM, textDecoration: "none", transition: "color 0.2s, padding-left 0.2s" }}>
                     <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
                   </a>
                 </li>
@@ -5034,44 +5091,43 @@ function FooterCafe03({ content, sectionId }: { content: Record<string, unknown>
             </ul>
           </div>
 
-          {/* Col 3: Contact */}
+          {/* Sledujte */}
           <div>
-            <h4 style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: GOLD, margin: "0 0 20px" }}>Kontakt</h4>
-            <address style={{ fontStyle: "normal", display: "flex", flexDirection: "column", gap: 10 }}>
-              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span">
-                <span style={{ fontFamily: SANS, fontSize: 14, fontWeight: 300, color: MUTED }}>{address}</span>
-              </GenericEditableText>
-              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span">
-                <a href={`tel:+420${phone.replace(/\s/g,"")}`} style={{ fontFamily: SANS, fontSize: 14, fontWeight: 300, color: MUTED, textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => (e.currentTarget.style.color = CREAM)} onMouseLeave={e => (e.currentTarget.style.color = MUTED)}>{phone}</a>
-              </GenericEditableText>
-              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span">
-                <a href={`mailto:${email}`} style={{ fontFamily: SANS, fontSize: 14, fontWeight: 300, color: MUTED, textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => (e.currentTarget.style.color = CREAM)} onMouseLeave={e => (e.currentTarget.style.color = MUTED)}>{email}</a>
-              </GenericEditableText>
-              <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span">
-                <span style={{ fontFamily: SANS, fontSize: 14, fontWeight: 300, color: MUTED }}>{hours}</span>
-              </GenericEditableText>
-            </address>
+            <h4 style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.36em", textTransform: "uppercase", color: GOLD, margin: "0 0 20px" }}>Sledujte</h4>
+            <div style={{ display: "flex", gap: 12 }}>
+              <a href={socialFB} target="_blank" rel="nofollow noreferrer" aria-label="Facebook" className="c3ft-soc" style={{ width: 40, height: 40, borderRadius: "50%", border: `1px solid ${GOLD}66`, display: "flex", alignItems: "center", justifyContent: "center", color: GOLD_LT, transition: "background-color 0.2s, color 0.2s, border-color 0.2s" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+              <a href={socialIG} target="_blank" rel="nofollow noreferrer" aria-label="Instagram" className="c3ft-soc" style={{ width: 40, height: 40, borderRadius: "50%", border: `1px solid ${GOLD}66`, display: "flex", alignItems: "center", justifyContent: "center", color: GOLD_LT, transition: "background-color 0.2s, color 0.2s, border-color 0.2s" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+              </a>
+            </div>
+            <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 13, color: MUTED, margin: "20px 0 0", lineHeight: 1.6 }}>Novinky ze sálu, degustační večery a klavírní soirée.</p>
           </div>
+        </div>
+
+        {/* Bottom rail */}
+        <div className="c3ft-legal" style={{ marginTop: 24, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 16 }}>
+            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span">
+              <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 400, letterSpacing: "0.08em", color: "rgba(245,239,228,0.4)" }}>{copyright}</span>
+            </GenericEditableText>
+            {ico && (
+              <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span">
+                <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 400, letterSpacing: "0.08em", color: "rgba(245,239,228,0.4)" }}>{ico}</span>
+              </GenericEditableText>
+            )}
+          </div>
+          <WeberoCredit />
         </div>
       </div>
 
-      {/* Copyright bar */}
-      <div style={{ borderTop: `1px solid rgba(255,255,255,0.08)`, padding: "16px clamp(20px, 5vw, 60px)", display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 8 }}>
-        <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span">
-          <span style={{ fontFamily: SANS, fontSize: 12, fontWeight: 300, color: "rgba(255,255,255,0.35)" }}>{copyright}</span>
-        </GenericEditableText>
-        {ico && (
-          <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span">
-            <span style={{ fontFamily: SANS, fontSize: 12, fontWeight: 300, color: "rgba(255,255,255,0.35)" }}>IČO: {ico}</span>
-          </GenericEditableText>
-        )}
-      </div>
-
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" />
-      <style>{`        @media(max-width:768px){ .c3-footer-grid { grid-template-columns: 1fr 1fr !important; } }
-        @media(max-width:480px){ .c3-footer-grid { grid-template-columns: 1fr !important; } }
+      <style>{`
+        [data-template="cafe-03"].c3ft .c3ft-link:hover { color: ${GOLD_LT} !important; }
+        [data-template="cafe-03"].c3ft ul .c3ft-link:hover { padding-left: 4px !important; }
+        [data-template="cafe-03"].c3ft .c3ft-soc:hover { background-color: ${GOLD} !important; color: ${NOIR} !important; border-color: ${GOLD} !important; }
+        @media (max-width: 900px) { [data-template="cafe-03"].c3ft .c3ft-grid { grid-template-columns: 1fr 1fr !important; } }
+        @media (max-width: 520px) { [data-template="cafe-03"].c3ft .c3ft-grid { grid-template-columns: 1fr !important; } [data-template="cafe-03"].c3ft .c3ft-legal { flex-direction: column; align-items: flex-start; } }
       `}</style>
     </footer>
   );
@@ -5143,122 +5199,115 @@ function FooterBakery01({ content, sectionId }: { content: Record<string, unknow
 }
 
 // ── cafe-04-footer ────────────────────────────────────────────────────────────
-// Ref: coffeeroom.cz — white bg, CSS grid 4fr 2fr 2fr 4fr, width 940px
-// Logo (dark) | Menu links | Follow us | Contact + addresses | copyright
+// Editorial dark footer — brand column + Menu + Follow + Contact + copyright bar
+// Coffee-gold hairline dividers, siteName wordmark, hover slide-in, WeberoCredit
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterCafe04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const logoUrl   = String(content.logoUrl   ?? "/templates/cafe-04/logo.svg");
   const siteName  = String(content.siteName  ?? "Demo Coffee Room");
-  const tagline   = String(content.tagline   ?? "bringing you the good stuff");
+  const tagline   = String(content.tagline   ?? "Specialty coffee & slow mornings.");
+  const menuLabel     = String(content.menuLabel     ?? "Menu");
+  const followLabel   = String(content.followLabel   ?? "Sledujte");
+  const contactLabel  = String(content.contactLabel  ?? "Kontakt");
+  const brandLabel    = String(content.brandLabel    ?? "Coffee Room");
   const links     = (content.links as Array<{ label: string; href: string }>) ?? [];
   const contact   = (content.contact as { email?: string; phone?: string; address?: string }) ?? {};
   const social    = (content.social as { facebook?: string; instagram?: string }) ?? {};
   const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
+  const icoLabel  = String(content.icoLabel ?? "IČO");
   const ico       = content.ico ? String(content.ico) : null;
 
-  const DARK   = "#1d1f2e";
-  const MUTED  = "rgba(29,31,46,0.7)";
-  const COFFEE = "#b79570";
-  const SANS   = "Montserrat, sans-serif";
-
   return (
-    <footer style={{ backgroundColor: "#fff", overflow: "hidden" }}>
-      <style>{`
-        .cr04-footer-grid {
-          display: grid;
-          grid-template-columns: 4fr 2fr 2fr 4fr;
-          grid-column-gap: 20px;
-          grid-row-gap: 20px;
-          align-items: start;
-          width: 940px;
-          margin: 100px auto 100px;
-        }
-        .cr04-footer-col { display: flex; flex-direction: column; }
-        .cr04-footer-headline { opacity: 0.6; letter-spacing: 2px; text-transform: capitalize; font-size: 12px; font-weight: 700; line-height: 18px; font-family: ${SANS}; color: ${DARK}; margin-bottom: 16px; }
-        .cr04-footer-link { color: ${MUTED}; margin-bottom: 10px; font-family: ${SANS}; font-size: 13px; font-weight: 400; line-height: 18px; text-decoration: none; transition: color .4s; }
-        .cr04-footer-link:hover { color: ${COFFEE}; }
-        .cr04-foot-address { font-family: ${SANS}; font-size: 15px; line-height: 25px; color: ${MUTED}; margin: 0; }
-        .cr04-small-para { font-family: ${SANS}; font-size: 15px; line-height: 18px; color: ${MUTED}; margin: 0 0 10px; }
-        .cr04-copyright { font-family: ${SANS}; font-size: 12px; color: rgba(29,31,46,0.3); text-align: center; padding-bottom: 40px; }
-        @media (max-width: 960px) {
-          .cr04-footer-grid { width: 100%; padding: 0 24px; box-sizing: border-box; grid-template-columns: 1fr 1fr; }
-        }
-        @media (max-width: 600px) {
-          .cr04-footer-grid { grid-template-columns: 1fr; text-align: center; }
-          .cr04-footer-col { align-items: center; }
-        }
-      `}</style>
-
-      <div className="cr04-footer-grid">
-        {/* Col 1 — Logo + tagline */}
-        <div className="cr04-footer-col">
-          <GenericEditableImage
-            sectionId={sectionId}
-            field="logoUrl"
-            src={logoUrl}
-            alt={siteName}
-            style={{ width: 185, marginBottom: 16, filter: "brightness(0)", display: "block" }}
-          >
-            <img loading="lazy" src={logoUrl} alt={siteName} style={{ width: 185, marginBottom: 16, filter: "brightness(0)", display: "block" }} />
-          </GenericEditableImage>
-          {tagline && (
-            <p style={{ fontFamily: SANS, fontSize: 13, color: MUTED, margin: 0, letterSpacing: "0.05em" }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
-          )}
+    <footer className="cr04-ft" data-template="cafe-04">
+      <div className="cr04-ft-grid">
+        {/* Brand column */}
+        <div className="cr04-ft-brand">
+          <a href="#top" className="cr04-ft-lockup" aria-label={siteName}>
+            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block" }}>
+              <img loading="lazy" src={logoUrl} alt={siteName} className="cr04-ft-logo" />
+            </GenericEditableImage>
+            <GenericEditableText sectionId={sectionId} field="brandLabel" value={brandLabel} tag="span" className="cr04-ft-brand-name" />
+          </a>
+          <p className="cr04-ft-tag">
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+          </p>
         </div>
 
-        {/* Col 2 — Menu */}
-        <div className="cr04-footer-col">
-          <span className="cr04-footer-headline">Menu</span>
-          {links.map((l, i) => (
-            <a key={i} href={l.href} className="cr04-footer-link">
-              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-            </a>
-          ))}
+        {/* Menu links */}
+        <div className="cr04-ft-col">
+          <GenericEditableText sectionId={sectionId} field="menuLabel" value={menuLabel} tag="span" className="cr04-ft-head" />
+          <ul className="cr04-ft-list">
+            {links.map((l, i) => (
+              <li key={i}>
+                <a href={l.href} className="cr04-ft-link">
+                  <span className="cr04-ft-link-rule" aria-hidden />
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        {/* Col 3 — Follow us */}
-        <div className="cr04-footer-col">
-          <span className="cr04-footer-headline">Follow us</span>
-          {social.facebook && (
-            <a href={social.facebook} target="_blank" rel="noopener noreferrer" className="cr04-footer-link">Facebook</a>
-          )}
-          {social.instagram && (
-            <a href={social.instagram} target="_blank" rel="noopener noreferrer" className="cr04-footer-link">Instagram</a>
-          )}
+        {/* Follow us */}
+        <div className="cr04-ft-col">
+          <GenericEditableText sectionId={sectionId} field="followLabel" value={followLabel} tag="span" className="cr04-ft-head" />
+          <ul className="cr04-ft-list">
+            {social.instagram && (
+              <li>
+                <a href={social.instagram} target="_blank" rel="noopener noreferrer" className="cr04-ft-link">
+                  <span className="cr04-ft-link-rule" aria-hidden />
+                  Instagram
+                </a>
+              </li>
+            )}
+            {social.facebook && (
+              <li>
+                <a href={social.facebook} target="_blank" rel="noopener noreferrer" className="cr04-ft-link">
+                  <span className="cr04-ft-link-rule" aria-hidden />
+                  Facebook
+                </a>
+              </li>
+            )}
+          </ul>
         </div>
 
-        {/* Col 4 — Contact + addresses */}
-        <div className="cr04-footer-col">
-          <span className="cr04-footer-headline">Contact</span>
-          {contact.email && (
-            <p className="cr04-small-para">
-              <GenericEditableText sectionId={sectionId} field="contact.email" value={contact.email} tag="span" />
-            </p>
-          )}
-          {contact.phone && (
-            <p className="cr04-small-para">
-              <GenericEditableText sectionId={sectionId} field="contact.phone" value={contact.phone} tag="span" />
-            </p>
-          )}
-          {contact.address && (
-            <p className="cr04-foot-address" style={{ marginTop: 12 }}>
-              <GenericEditableText sectionId={sectionId} field="contact.address" value={contact.address} tag="span" />
-            </p>
-          )}
-          {ico && (
-            <p style={{ fontFamily: SANS, fontSize: 12, color: "rgba(29,31,46,0.4)", marginTop: 12 }}>
-              IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
-            </p>
-          )}
+        {/* Contact */}
+        <div className="cr04-ft-col">
+          <GenericEditableText sectionId={sectionId} field="contactLabel" value={contactLabel} tag="span" className="cr04-ft-head" />
+          <div className="cr04-ft-contact">
+            {contact.email && (
+              <a href={`mailto:${contact.email}`} className="cr04-ft-line">
+                <GenericEditableText sectionId={sectionId} field="contact.email" value={contact.email} tag="span" />
+              </a>
+            )}
+            {contact.phone && (
+              <a href={`tel:${contact.phone.replace(/\s/g, "")}`} className="cr04-ft-line">
+                <GenericEditableText sectionId={sectionId} field="contact.phone" value={contact.phone} tag="span" />
+              </a>
+            )}
+            {contact.address && (
+              <p className="cr04-ft-addr">
+                <GenericEditableText sectionId={sectionId} field="contact.address" value={contact.address} tag="span" />
+              </p>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Copyright */}
-      <p className="cr04-copyright">
-        <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
-      </p>
+      <div className="cr04-ft-bottom">
+        <span className="cr04-ft-copy">
+          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+          {ico && (
+            <>
+              {" · "}
+              <GenericEditableText sectionId={sectionId} field="icoLabel" value={icoLabel} tag="span" />
+              {" "}
+              <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
+            </>
+          )}
+        </span>
+        <WeberoCredit />
+      </div>
     </footer>
   );
 }

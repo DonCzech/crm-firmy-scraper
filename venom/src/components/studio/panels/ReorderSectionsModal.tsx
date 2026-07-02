@@ -18,7 +18,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import { X, GripVertical, Lock, RotateCcw, Check } from "lucide-react";
+import { X, GripVertical, Lock, RotateCcw, Check } from "@/components/studio/icons";
 import clsx from "clsx";
 import {
   DndContext, PointerSensor, useSensor, useSensors, type DragEndEvent,

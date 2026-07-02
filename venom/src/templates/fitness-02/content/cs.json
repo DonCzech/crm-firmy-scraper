@@ -3,29 +3,29 @@
     "siteName": "Power Fitness",
     "logoUrl": "/logos/power-fitness-logo.svg",
     "ctaText": "Skupinové lekce",
-    "ctaHref": "#lekce",
+    "ctaHref": "/lekce",
     "links": [
-      { "label": "Úvod",         "href": "#" },
-      { "label": "O nás",        "href": "#o-nas" },
-      { "label": "Lekce",        "href": "#lekce" },
-      { "label": "Galerie",      "href": "#galerie" },
-      { "label": "Kontakt",      "href": "#kontakt" }
+      { "label": "Úvod",    "href": "/" },
+      { "label": "O nás",   "href": "/o-nas" },
+      { "label": "Lekce",   "href": "/lekce" },
+      { "label": "Galerie", "href": "/galerie" },
+      { "label": "Kontakt", "href": "/kontakt" }
     ]
   },
   "hero": {
     "title": "Síla začíná tady",
-    "tagline": "Nejsme jen posilovna. Jsme POWER FITNESS!",
+    "tagline": "Trénuj. Rosteš. Vítězíš.",
     "headline": "Síla začíná\ntady",
     "body": "Moderní vybavení, zkušení trenéři a motivující prostředí — vše, co potřebuješ k dosažení svých cílů. Ať jde o sílu, kondici nebo zdravý životní styl.",
     "ctaText": "Skupinové lekce",
-    "ctaHref": "#lekce",
+    "ctaHref": "/lekce",
     "ctaSecondaryText": "Akce a novinky",
-    "ctaSecondaryHref": "#o-nas",
+    "ctaSecondaryHref": "/o-nas",
     "image": "/images/fitness-02/hero.webp"
   },
   "stats": {
     "items": [
-      { "number": "4",    "suffix": "",  "label": "Pobočky" },
+      { "number": "4",    "suffix": "",  "label": "Studia" },
       { "number": "25",   "suffix": "+", "label": "Trenérů" },
       { "number": "8",    "suffix": "+", "label": "Let na trhu" },
       { "number": "1500", "suffix": "+", "label": "Aktivních klientů" }
@@ -37,7 +37,7 @@
     "body": "V Power Fitness spojujeme špičkové vybavení, profesionální tým a přátelskou atmosféru. Pomůžeme ti dosáhnout výsledků — ať trénuješ poprvé nebo jsi ostřílený sportovec.",
     "body2": "U nás nejde jen o výkon. Jde o pohyb, který tě baví, a prostředí, kam se budeš chtít vracet každý den.",
     "ctaText": "Více o nás",
-    "ctaHref": "#lekce",
+    "ctaHref": "/lekce",
     "image": "/images/fitness-02/about-trainer.webp",
     "image2": "/images/fitness-02/about-reception.webp"
   },
@@ -46,7 +46,7 @@
     "title": "Cvičení pro každého",
     "body": "Vyberte si z naší pestré nabídky skupinových lekcí vedených certifikovanými instruktory.",
     "ctaText": "Rezervovat lekci",
-    "ctaHref": "#kontakt",
+    "ctaHref": "/kontakt",
     "services": [],
     "items": [
       {
@@ -87,14 +87,14 @@
       {
         "name": "Běh & Kardio",
         "title": "Běh & Kardio",
-        "description": "Zlepši kondici a vydržlivost s naším kardiofitness programem.",
+        "description": "Zlepši kondici a výdrž s naším kardiofitness programem.",
         "image": "/images/fitness-02/service-kardio.webp",
         "tag": "Kardio"
       }
     ]
   },
   "gallery": {
-    "tagline": "Naše centra",
+    "tagline": "Naše studia",
     "title": "Moderní vybavení, přátelská atmosféra",
     "images": [
       { "url": "/images/fitness-02/gallery-1.webp",  "alt": "Power Fitness — posilovací stroje" },
@@ -111,65 +111,65 @@
   },
   "contact": {
     "tagline": "Kontakt",
-    "title": "Vyber si svou pobočku",
-    "phone": "704 123 456",
-    "email": "email@demo.cz",
+    "title": "Vyber si své studio",
+    "phone": "704 111 222",
+    "email": "info@demo.cz",
     "address": "Ukázková 123, 110 00 Praha 1",
     "hours": "Po–Pá 6:00–22:00, So–Ne 8:00–20:00",
     "facebookUrl": "https://facebook.com/demo",
     "instagramUrl": "https://instagram.com/demo",
     "locations": [
       {
-        "name": "Power Fitness Centrum",
+        "name": "Studio 01",
         "address": "Ukázková 123, 110 00 Praha 1",
-        "phone": "704 123 456",
-        "email": "email@demo.cz",
-        "hours": "Po–Pá 6:00–22:00, So–Ne 8:00–20:00",
-        "image": "/images/fitness-02/location-centrum.webp"
-      },
-      {
-        "name": "Power Fitness Nusle",
-        "address": "Ukázková 456, 140 00 Praha 4",
-        "phone": "704 654 321",
+        "phone": "704 111 222",
         "email": "info@demo.cz",
         "hours": "Po–Pá 6:00–22:00, So–Ne 8:00–20:00",
-        "image": "/images/fitness-02/location-nusle.webp"
+        "image": "/images/fitness-02/studio-01.webp"
       },
       {
-        "name": "Power Fitness Záběhlice",
-        "address": "Ukázková 789, 110 00 Praha 1",
-        "phone": "704 123 456",
-        "email": "rezervace@demo.cz",
+        "name": "Studio 02",
+        "address": "Ukázková 456, 140 00 Praha 4",
+        "phone": "704 333 444",
+        "email": "info@demo.cz",
         "hours": "Po–Pá 6:00–22:00, So–Ne 8:00–20:00",
-        "image": "/images/fitness-02/location-zabelice.webp"
+        "image": "/images/fitness-02/studio-02.webp"
       },
       {
-        "name": "Power Fitness Smíchov",
+        "name": "Studio 03",
+        "address": "Ukázková 789, 130 00 Praha 3",
+        "phone": "704 555 666",
+        "email": "info@demo.cz",
+        "hours": "Po–Pá 6:00–22:00, So–Ne 8:00–20:00",
+        "image": "/images/fitness-02/studio-03.webp"
+      },
+      {
+        "name": "Studio 04",
         "address": "Ukázková 321, 150 00 Praha 5",
-        "phone": "704 999 888",
-        "email": "smichov@demo.cz",
+        "phone": "704 777 888",
+        "email": "info@demo.cz",
         "hours": "Po–Pá 6:00–22:00, So–Ne 8:00–20:00",
-        "image": "/images/fitness-02/location-smichov.webp"
+        "image": "/images/fitness-02/studio-04.webp"
       }
     ]
   },
   "footer": {
     "siteName": "Power Fitness",
-    "tagline": "Moderní fitness centra v Praze",
+    "tagline": "Moderní fitness studia v Praze",
     "logoUrl": "/logos/power-fitness-logo.svg",
-    "phone": "704 123 456",
-    "email": "email@demo.cz",
+    "phone": "704 111 222",
+    "email": "info@demo.cz",
     "address": "Ukázková 123, 110 00 Praha 1",
     "hours": "Po–Pá 6:00–22:00, So–Ne 8:00–20:00",
     "facebookUrl": "https://facebook.com/demo",
     "instagramUrl": "https://instagram.com/demo",
     "copyright": "© 2025 Power Fitness. Všechna práva vyhrazena.",
     "links": [
-      { "label": "Úvod",    "href": "#" },
-      { "label": "O nás",   "href": "#o-nas" },
-      { "label": "Lekce",   "href": "#lekce" },
-      { "label": "Galerie", "href": "#galerie" },
-      { "label": "Kontakt", "href": "#kontakt" }
+      { "label": "Úvod",    "href": "/" },
+      { "label": "O nás",   "href": "/o-nas" },
+      { "label": "Lekce",   "href": "/lekce" },
+      { "label": "Galerie", "href": "/galerie" },
+      { "label": "Kontakt", "href": "/kontakt" }
     ]
   }
 }

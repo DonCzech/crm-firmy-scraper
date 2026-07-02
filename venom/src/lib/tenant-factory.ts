@@ -218,7 +218,9 @@ async function createSubPagesFromNavbar(
   if (!navRes.rows.length) return;
   const navSection = navRes.rows[0];
   const navContent = (navSection.settings?.content ?? {}) as Record<string, unknown>;
-  const links = Array.isArray(navContent.links) ? (navContent.links as Array<{ href?: string; label?: string }>) : [];
+  const primaryLinks = Array.isArray(navContent.links)    ? (navContent.links    as Array<{ href?: string; label?: string }>) : [];
+  const topLinks     = Array.isArray(navContent.topLinks) ? (navContent.topLinks as Array<{ href?: string; label?: string }>) : [];
+  const links = [...primaryLinks, ...topLinks];
   if (!links.length) return;
 
   // 2. Footer section (we'll clone it onto every sub-page so the layout stays consistent).
@@ -246,16 +248,21 @@ async function createSubPagesFromNavbar(
   // templates that use a pricing variant instead of a dedicated services list.
   function slugToTopics(s: string): string[] {
     const norm = s.toLowerCase();
-    if (/^(sluzby|sluzba|services|service|lekce|nase-sluzby|nabidka)$/.test(norm)) return ["services", "pricing", "promo"];
-    if (/^(cenik|ceny|pricing|price-list)$/.test(norm))                              return ["pricing", "services"];
-    if (/^(galerie|gallery|fotky|portfolio|projekty|realizace)$/.test(norm))         return ["gallery"];
+    if (/^(sluzby|sluzba|services|service|lekce|nase-sluzby|nabidka|zakroky)$/.test(norm)) return ["services", "pricing", "promo"];
+    if (/^(cenik|ceny|pricing|price-list)$/.test(norm))                              return ["pricing", "about", "services"];
+    if (/^(galerie|gallery|fotky|portfolio|projekty|realizace|promeny)$/.test(norm)) return ["gallery"];
     if (/^(kontakt|kontakty|contact|napiste-nam|kde-jsme)$/.test(norm))              return ["contact", "opening-hours"];
-    if (/^(o-nas|onas|o-mne|about|o-spolecnosti|atelier)$/.test(norm))               return ["about", "stats"];
+    if (/^(o-nas|onas|o-mne|about|o-spolecnosti|atelier|o-klinice|klinika)$/.test(norm)) return ["about", "stats"];
+    if (/^(kariera|karriera|jobs|prace|nabor)$/.test(norm))                          return ["team", "about"];
     if (/^(faq|otazky|caste-otazky)$/.test(norm))                                    return ["faq", "testimonials"];
     if (/^(akce|promo|nabidka-akci|specialni-nabidka)$/.test(norm))                  return ["promo", "services"];
+    if (/^(lekari|doktori|doctors)$/.test(norm))                                     return ["about", "team"];
+    if (/^(celebrity|celebrities|slavni)$/.test(norm))                               return ["about", "gallery", "testimonials"];
     if (/^(tym|team|nas-tym|architekti)$/.test(norm))                                return ["team", "about"];
     if (/^(reference|recenze|testimonials|hodnoceni)$/.test(norm))                   return ["testimonials"];
-    if (/^(blog|novinky|clanky|aktuality)$/.test(norm))                              return ["blog-preview"];
+    if (/^(blog|novinky|clanky|aktuality)$/.test(norm))                              return ["blog-preview", "about"];
+    if (/^(voucher|vouchery|darkovy-poukaz|poukaz|gift)$/.test(norm))                return ["promo", "about"];
+    if (/^(rezervace|rezervovat|objednavka|booking)$/.test(norm))                    return ["contact", "about"];
     return [];
   }
 

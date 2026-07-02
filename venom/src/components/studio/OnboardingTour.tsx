@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowRight, X, Sparkles, Rocket } from "lucide-react";
+import { ArrowRight, X, Sparkles, Rocket } from "@/components/studio/icons";
 import { Button } from "./ui";
 
 /**
@@ -189,30 +189,60 @@ function Card({
   total: number;
   children: React.ReactNode;
 }) {
+  const [viewport, setViewport] = useState({ width: 1024, height: 768 });
+
+  useEffect(() => {
+    const update = () => setViewport({ width: window.innerWidth, height: window.innerHeight });
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
   const style: React.CSSProperties = (() => {
-    if (!target) return { left: "50%", top: "50%", transform: "translate(-50%, -50%)" };
-    const W = 340, gap = 16;
+    const W = Math.min(340, Math.max(280, viewport.width - 24));
+    const H = 220;
+    const gap = 16;
+    const clampLeft = (value: number) => Math.max(12, Math.min(value, viewport.width - W - 12));
+    const clampTop = (value: number) => Math.max(12, Math.min(value, viewport.height - H - 12));
+
+    if (!target) {
+      return {
+        left: "50%",
+        top: "50%",
+        width: W,
+        transform: "translate(-50%, -50%)",
+      };
+    }
+
+    let left = target.left + target.width / 2 - W / 2;
+    let top = target.bottom + gap;
     switch (side) {
       case "right":
-        return { left: target.right + gap, top: target.top };
+        left = target.right + gap;
+        top = target.top;
+        break;
       case "left":
-        return { left: target.left - W - gap, top: target.top };
+        left = target.left - W - gap;
+        top = target.top;
+        break;
       case "top":
-        return { left: target.left + target.width / 2 - W / 2, top: target.top - 180 - gap };
+        top = target.top - H - gap;
+        break;
       case "bottom":
       default:
-        return { left: target.left + target.width / 2 - W / 2, top: target.bottom + gap };
+        break;
     }
+    return { left: clampLeft(left), top: clampTop(top), width: W };
   })();
 
   return (
     <div
-      className="pointer-events-auto absolute w-[340px] rounded-xl bg-[var(--vs-surface)] p-4 shadow-[var(--vs-shadow-xl)] ring-1 ring-[var(--vs-border-strong)] vs-enter"
+      className="pointer-events-auto absolute rounded-xl bg-[var(--vs-surface)] p-4 shadow-[var(--vs-shadow-xl)] ring-1 ring-[var(--vs-border-strong)] vs-enter"
       style={style}
     >
       <div className="mb-3 flex items-center justify-between text-[10px] uppercase tracking-[var(--vs-tracking-wider)] text-[var(--vs-text-muted)]">
         <span>Průvodce {step + 1} z {total}</span>
-        <span>Webero Studio</span>
+        <span className="max-[380px]:hidden">Webero Studio</span>
       </div>
       {children}
     </div>

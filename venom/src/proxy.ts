@@ -8,6 +8,24 @@ const PLATFORM_DOMAINS = new Set([
 
 // Edge-compatible cookie name (must match @/lib/auth COOKIE_NAME)
 const ADMIN_COOKIE_NAME = "webero_admin_token";
+const LOCALE_PREFERENCE_COOKIE = "webero-locale-preference";
+const LOCALE_SUGGESTED_COOKIE = "webero-locale-suggested";
+
+function detectsCzechVisitor(request: NextRequest) {
+  const country = (
+    request.headers.get("x-vercel-ip-country") ||
+    request.headers.get("cf-ipcountry") ||
+    request.headers.get("x-country-code") ||
+    ""
+  ).toUpperCase();
+  if (country === "CZ") return true;
+
+  const acceptLanguage = request.headers.get("accept-language")?.toLowerCase() ?? "";
+  return acceptLanguage
+    .split(",")
+    .map((part) => part.trim().split(";")[0])
+    .some((lang) => lang === "cs" || lang === "cs-cz");
+}
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -71,7 +89,24 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  return NextResponse.next();
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-pathname", pathname);
+
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
+
+  if (!request.cookies.get(LOCALE_PREFERENCE_COOKIE)?.value && detectsCzechVisitor(request)) {
+    response.cookies.set(LOCALE_SUGGESTED_COOKIE, "cs", {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 30,
+      sameSite: "lax",
+    });
+  }
+
+  return response;
 }
 
 export const config = {

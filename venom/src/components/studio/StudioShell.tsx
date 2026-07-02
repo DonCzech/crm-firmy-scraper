@@ -20,7 +20,7 @@ import { HelpPanel } from "./HelpPanel";
 import { WixAddOverlay } from "./panels/WixAddOverlay";
 import { WixAddButton } from "./panels/WixAddButton";
 import { ReorderSectionsModal } from "./panels/ReorderSectionsModal";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown } from "@/components/studio/icons";
 import { SetupChecklist } from "./SetupChecklist";
 import { AIPanel } from "./AIPanel";
 import { useHotkey } from "./ui";
@@ -43,12 +43,31 @@ export function StudioShell({ state }: { state: StudioState }) {
   const { sidebarOpen } = studio;
   const isMobile = useIsMobile();
   const [reorderOpen, setReorderOpen] = useState(false);
+  const mobileChromeInitialized = useRef(false);
 
   // Right panel drag — desktop only
   const rpDrag = useRef<{ mx: number; my: number; px: number; py: number } | null>(null);
   const [rpPos, setRpPos] = useState<{ x: number; y: number } | null>(null);
 
   useEffect(() => { setRpPos(null); }, [studio.selectedSectionId]);
+
+  useEffect(() => {
+    if (!isMobile || mobileChromeInitialized.current) return;
+    mobileChromeInitialized.current = true;
+    const untouchedDefaultChrome =
+      studio.leftPanel === "layers" &&
+      studio.sidebarOpen &&
+      studio.rightPanel &&
+      !studio.settingsView &&
+      !studio.assetsOpen;
+    const alreadyClosed = !studio.sidebarOpen && !studio.rightPanel;
+
+    studio.setRightPanel(false);
+    if (untouchedDefaultChrome || alreadyClosed || studio.leftPanel === null) {
+      studio.setSidebarOpen(false);
+      studio.setMobileRailCollapsed(true);
+    }
+  }, [isMobile, studio]);
 
   function startRpDrag(e: React.PointerEvent) {
     if (isMobile) return;
@@ -91,23 +110,23 @@ export function StudioShell({ state }: { state: StudioState }) {
       <SaveErrorBanner state={state} />
 
       <div className="relative flex flex-1 min-h-0">
-        {/* Rail — always 55px */}
-        <StudioLeftRail />
+        {/* Rail — mobile can collapse it so the preview uses the full viewport width */}
+        {!(isMobile && studio.mobileRailCollapsed) && <StudioLeftRail />}
 
         {/* Left panel — desktop: inline (pushes canvas); mobile: overlay drawer */}
-        {sidebarOpen && (
+        {sidebarOpen && !(isMobile && studio.settingsView) && !(isMobile && studio.mobileRailCollapsed) && (
           <>
             {isMobile && (
               <div
-                className="absolute inset-0 z-[70] bg-black/40"
+                className="absolute bottom-0 left-[55px] right-0 top-0 z-[70] bg-black/40"
                 onClick={studio.toggleSidebar}
               />
             )}
             <div
-              className="flex flex-col bg-[var(--vs-bg-soft)] border-r border-[var(--vs-border)] overflow-x-hidden"
+              className="flex flex-col border-r border-[var(--vs-border)] bg-[rgba(18,18,20,0.78)] backdrop-blur-xl overflow-x-hidden shadow-[inset_1px_0_rgba(255,255,255,0.035),8px_0_28px_rgba(0,0,0,0.18)]"
               style={
                 isMobile
-                  ? { position: "absolute", left: 55, top: 0, bottom: 0, width: 280, zIndex: 75 }
+                  ? { position: "absolute", left: 55, top: 0, bottom: 0, width: "min(280px, calc(100vw - 55px))", zIndex: 75 }
                   : { width: 220, flexShrink: 0 }
               }
             >
@@ -133,7 +152,7 @@ export function StudioShell({ state }: { state: StudioState }) {
           isMobile ? (
             <div
               className="vs-glass vs-enter absolute bottom-0 left-0 right-0 z-[60] rounded-t-2xl border-t border-[var(--vs-border-strong)] overflow-hidden shadow-[0_-12px_40px_rgba(0,0,0,.55)]"
-              style={{ height: "52vh" }}
+              style={{ height: "min(58vh, calc(100vh - 96px))" }}
             >
               {/* Mobile drag handle */}
               <div className="flex justify-center py-2">
@@ -144,7 +163,7 @@ export function StudioShell({ state }: { state: StudioState }) {
               </div>
             </div>
           ) : (
-            <div className="absolute right-0 top-0 bottom-0 w-[260px] z-[50] border-l border-[var(--vs-border)] bg-[var(--vs-bg-soft)] overflow-hidden shadow-[-4px_0_16px_rgba(0,0,0,.25)]">
+            <div className="absolute right-0 top-0 bottom-0 w-[260px] z-[50] border-l border-[var(--vs-border)] bg-[rgba(18,18,20,0.78)] backdrop-blur-xl overflow-hidden shadow-[-8px_0_28px_rgba(0,0,0,0.24),inset_1px_0_rgba(255,255,255,0.035)]">
               <StudioRightPanel state={state} onStartDrag={startRpDrag} />
             </div>
           )
@@ -179,7 +198,7 @@ export function StudioShell({ state }: { state: StudioState }) {
       {!isMobile && <WixAddOverlay state={state} />}
       {!isMobile && <ReorderSectionsModal open={reorderOpen} onClose={() => setReorderOpen(false)} state={state} />}
 
-      {studio.checklistOpen && !isMobile && <SetupChecklist state={state} />}
+      {studio.checklistOpen && <SetupChecklist state={state} />}
       {studio.aiPanelOpen && !isMobile && <AIPanel state={state} />}
     </div>
   );
@@ -196,7 +215,7 @@ function SecondaryActionBar({ state, onOpenReorder }: { state: StudioState; onOp
   const hasSections = state.sections.length > 0;
 
   return (
-    <div className="shrink-0 flex h-[42px] items-center justify-center gap-1 border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-3">
+    <div className="shrink-0 flex h-[42px] items-center justify-center gap-1 border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.72)] px-3 backdrop-blur-xl">
       <WixAddButton />
       <span className="mx-2 h-3.5 w-px bg-[var(--vs-border)]" />
 
@@ -249,7 +268,7 @@ function TrialBanner({ sidebarOpen, state }: { sidebarOpen: boolean; state: Stud
   }
 
   return (
-    <div className="shrink-0 flex border-t border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
+    <div className="shrink-0 flex border-t border-[var(--vs-border)] bg-[rgba(18,18,20,0.78)] backdrop-blur-xl">
       <div style={{ width: sidebarOpen ? 275 : 55, transition: "width 0.2s ease-in-out" }} className="shrink-0 border-r border-[var(--vs-border)]" />
       <div className="flex flex-1 items-center justify-center gap-4 px-4 py-2.5">
         <span className="text-[12px] text-[var(--vs-text-muted)] text-center">
@@ -263,7 +282,7 @@ function TrialBanner({ sidebarOpen, state }: { sidebarOpen: boolean; state: Stud
         <button
           type="button"
           onClick={goToBilling}
-          className="vs-grad-accent shrink-0 rounded-md px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-[var(--vs-glow-brand)] transition-[box-shadow] duration-100"
+          className="shrink-0 rounded-md bg-[linear-gradient(135deg,#6366f1_0%,#8b5cf6_56%,#a855f7_100%)] px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-[0_1px_0_rgba(255,255,255,0.22)_inset,0_8px_22px_rgba(139,92,246,0.34)] transition-[filter,box-shadow] duration-100 hover:brightness-110 hover:shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_10px_28px_rgba(139,92,246,0.46)]"
         >
           Předplatit · 499 Kč/měs.
         </button>

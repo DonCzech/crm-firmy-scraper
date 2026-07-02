@@ -1,5 +1,6 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getTenantBySlug, getTenantPage, getPageSections, getTenantOverrides } from "@/lib/db";
+import { resolveAllSections } from "@/lib/section-resolver";
 import { AsteraDemoPageTemplate } from "@/components/templates/AsteraDemoPageTemplate";
 import { TenantPublicView } from "@/components/tenant/TenantPublicView";
 import { ClonedSiteRenderer } from "@/components/tenant/ClonedSiteRenderer";
@@ -52,12 +53,20 @@ export default async function TenantAsteraSubPage({ params }: Props) {
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || tenant.status === "suspended") return notFound();
 
+  if (tenant.site_mode === "onepage") {
+    redirect(`/demo/${tenantSlug}/#${slug}`);
+  }
+
   const tenantPage = await getTenantPage(tenant.id, slug);
   if (tenantPage) {
-    const [pageSections, overrides] = await Promise.all([
+    const [rawSections, overrides] = await Promise.all([
       getPageSections(tenant.id, tenantPage.id),
       getTenantOverrides(tenant.id),
     ]);
+
+    // F1 read-through: merge template defaults + slot refs + sparse content_overrides
+    // into settings.content so the components receive resolved data.
+    const pageSections = await resolveAllSections(tenant, rawSections);
 
     // Clone mode — render original HTML 1:1
     const cloneSection = pageSections.find((s) => s.section_type === "full-page-clone");

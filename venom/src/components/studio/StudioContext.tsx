@@ -138,7 +138,13 @@ export interface StudioContextValue {
   setHeroSlideIdx: (o: { sectionId: number; idx: number } | null) => void;
   /** Whether the 220px left panel is expanded (true) or collapsed (false) */
   sidebarOpen: boolean;
+  setSidebarOpen: (open: boolean) => void;
   toggleSidebar: () => void;
+  /** Mobile-only rail minimized state. When true, canvas can use the full viewport width. */
+  mobileRailCollapsed: boolean;
+  setMobileRailCollapsed: (collapsed: boolean) => void;
+  /** Close every transient editor surface; used as a mobile "back all the way" command. */
+  closeAllPanels: (options?: { collapseMobileRail?: boolean }) => void;
   /** Canvas zoom level: "fit" = auto-fit to container, number = absolute % (40–200) */
   zoom: number | "fit";
   setZoom: (z: number | "fit") => void;
@@ -200,6 +206,7 @@ export function StudioProvider({ children }: { children: ReactNode }) {
   const [transientPadding, setTransientPadding] = useState<{ sectionId: number; paddingTop?: number; paddingBottom?: number; paddingX?: number } | null>(null);
   const [heroSlideIdx, setHeroSlideIdx] = useState<{ sectionId: number; idx: number } | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
+  const [mobileRailCollapsed, setMobileRailCollapsed] = useState<boolean>(false);
   const [zoom, setZoom] = useState<number | "fit">("fit");
   const [shortcutsOpen, setShortcutsOpen] = useState<boolean>(false);
   const [notificationsOpen, setNotificationsOpen] = useState<boolean>(false);
@@ -235,10 +242,14 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     // different rail icon to leave a phantom "back" target behind).
     setLeftPanel: (p: StudioLeftPanel) => {
       setPanelHistory([]);
+      if (p !== "settings") setSettingsView(null);
+      setSidebarOpen(p !== null);
       setLeftPanel(p);
     },
     pushPanel: (p: StudioLeftPanel) => {
       setPanelHistory((prev) => [...prev.slice(-3), leftPanel]);
+      if (p !== "settings") setSettingsView(null);
+      setSidebarOpen(p !== null);
       setLeftPanel(p);
     },
     goBack: () => {
@@ -263,7 +274,10 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     cloneCommand,
     setCloneCommand: (fn) => setCloneCommand(() => fn), // wrap to avoid setState(prev=>fn)
     settingsView,
-    setSettingsView,
+    setSettingsView: (view) => {
+      setSettingsView(view);
+      if (view) setRightPanel(false);
+    },
     assetsOpen,
     setAssetsOpen,
     modulesView,
@@ -281,7 +295,39 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     heroSlideIdx,
     setHeroSlideIdx,
     sidebarOpen,
+    setSidebarOpen,
     toggleSidebar: () => setSidebarOpen(o => !o),
+    mobileRailCollapsed,
+    setMobileRailCollapsed,
+    closeAllPanels: (options) => {
+      setPanelHistory([]);
+      setLeftPanel(null);
+      setSidebarOpen(false);
+      setRightPanel(false);
+      setSettingsView(null);
+      setSelectedSectionId(null);
+      setSelectedField(null);
+      setHoverSectionId(null);
+      setCloneScrollTarget(null);
+      setCloneSelected(null);
+      setAssetsOpen(false);
+      setImagePanel(null);
+      setShortcutsOpen(false);
+      setNotificationsOpen(false);
+      setHelpPanelOpen(false);
+      setCommandPaletteOpen(false);
+      setChecklistOpen(false);
+      setAiPanelOpen(false);
+      setPendingAddEl(null);
+      setSelectedOverlayEl(null);
+      setOverlayZOrderCmd(null);
+      if (options?.collapseMobileRail) setMobileRailCollapsed(true);
+      if (typeof window !== "undefined") {
+        try {
+          window.sessionStorage.setItem(PANEL_STATE_KEY, JSON.stringify({ leftPanel: null, panelHistory: [] }));
+        } catch { /* ignore */ }
+      }
+    },
     zoom,
     setZoom,
     shortcutsOpen,
@@ -302,7 +348,7 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     setSelectedOverlayEl,
     overlayZOrderCmd,
     setOverlayZOrderCmd,
-  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride, transientPadding, heroSlideIdx, sidebarOpen, shortcutsOpen, notificationsOpen, helpPanelOpen, commandPaletteOpen, checklistOpen, aiPanelOpen, pendingAddEl, selectedOverlayEl, overlayZOrderCmd, zoom]);
+  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride, transientPadding, heroSlideIdx, sidebarOpen, mobileRailCollapsed, shortcutsOpen, notificationsOpen, helpPanelOpen, commandPaletteOpen, checklistOpen, aiPanelOpen, pendingAddEl, selectedOverlayEl, overlayZOrderCmd, zoom]);
 
   return <StudioContext.Provider value={value}>{children}</StudioContext.Provider>;
 }

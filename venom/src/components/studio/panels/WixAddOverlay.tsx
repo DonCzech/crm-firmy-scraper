@@ -21,7 +21,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Plus, X, Search, Upload, Sparkles, Image as ImageIcon, FileText, ArrowRight, Layers, Type, MousePointer2, Minus, Square, Shapes } from "lucide-react";
+import { Plus, X, Search, Upload, Sparkles, Image as ImageIcon, FileText, ArrowRight, Layers, Type, MousePointer2, Minus, Square, Shapes } from "@/components/studio/icons";
 import clsx from "clsx";
 import type { StudioState } from "../TenantStudioView";
 import {

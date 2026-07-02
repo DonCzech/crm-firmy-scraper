@@ -5,7 +5,7 @@ import {
   Search, Layers as LayersIcon, Image as ImageIcon, Palette, FileText,
   Settings, Monitor, Tablet, Smartphone, Undo2, Globe, CreditCard,
   AlignJustify, LayoutGrid, Feather, BarChart2, ChevronRight, CheckSquare,
-} from "lucide-react";
+} from "@/components/studio/icons";
 import clsx from "clsx";
 import { useStudio } from "./StudioContext";
 import { MODULES_ENABLED } from "./StudioLeftRail";
@@ -77,9 +77,11 @@ export function CommandPalette({ state }: { state?: StudioState }) {
   useEffect(() => {
     if (!studio.commandPaletteOpen || !state) return;
     fetch(`/api/demo/${state.tenant.slug}/pages`)
-      .then(r => r.ok ? r.json() : [])
-      .then((data: Array<{ id: number; title: string; slug: string }>) => setPages(data))
-      .catch(() => {});
+      .then((r) => r.ok ? r.json() : { pages: [] })
+      .then((data: { pages?: Array<{ id: number; title: string; slug: string }> } | Array<{ id: number; title: string; slug: string }>) => {
+        setPages(Array.isArray(data) ? data : Array.isArray(data.pages) ? data.pages : []);
+      })
+      .catch(() => setPages([]));
   }, [studio.commandPaletteOpen, state]);
 
   useEffect(() => {
@@ -186,11 +188,11 @@ export function CommandPalette({ state }: { state?: StudioState }) {
 
   return (
     <div
-      className="fixed inset-0 z-[300] flex items-start justify-center pt-16 bg-black/60 backdrop-blur-[3px] vs-enter"
+      className="fixed inset-0 z-[300] flex items-start justify-center bg-black/60 p-3 pt-14 backdrop-blur-[3px] vs-enter sm:pt-16"
       onClick={() => studio.setCommandPaletteOpen(false)}
     >
       <div
-        className="w-full max-w-[560px] mx-4 rounded-2xl bg-[var(--vs-surface)] shadow-[0_24px_64px_rgba(0,0,0,0.85)] overflow-hidden ring-1 ring-[var(--vs-border-strong)]"
+        className="flex w-full max-w-[560px] max-h-[calc(100vh-72px)] flex-col overflow-hidden rounded-2xl bg-[var(--vs-surface)] shadow-[0_24px_64px_rgba(0,0,0,0.85)] ring-1 ring-[var(--vs-border-strong)]"
         onClick={e => e.stopPropagation()}
         onKeyDown={onKeyDown}
       >
@@ -208,7 +210,7 @@ export function CommandPalette({ state }: { state?: StudioState }) {
         </div>
 
         {/* Results */}
-        <div ref={listRef} className="max-h-[420px] overflow-y-auto vs-scroll py-2">
+        <div ref={listRef} className="flex-1 overflow-y-auto vs-scroll py-2">
           {groups.length === 0 ? (
             <p className="py-10 text-center text-[13px] text-[#6b7280]">Nic nenalezeno</p>
           ) : (
@@ -258,7 +260,7 @@ export function CommandPalette({ state }: { state?: StudioState }) {
         </div>
 
         {/* Footer */}
-        <div className="border-t border-[var(--vs-surface-2)] px-4 py-2 flex items-center gap-4 text-[11px] text-[var(--vs-text-dim)]">
+        <div className="hidden border-t border-[var(--vs-surface-2)] px-4 py-2 text-[11px] text-[var(--vs-text-dim)] sm:flex sm:items-center sm:gap-4">
           <span className="flex items-center gap-1"><kbd className="rounded bg-[var(--vs-surface-2)] px-1 py-0.5 text-[10px] font-mono text-[var(--vs-text-dim)]">↑↓</kbd> navigace</span>
           <span className="flex items-center gap-1"><kbd className="rounded bg-[var(--vs-surface-2)] px-1 py-0.5 text-[10px] font-mono text-[var(--vs-text-dim)]">↵</kbd> vybrat</span>
           <span className="flex items-center gap-1"><kbd className="rounded bg-[var(--vs-surface-2)] px-1 py-0.5 text-[10px] font-mono text-[var(--vs-text-dim)]">ESC</kbd> zavřít</span>

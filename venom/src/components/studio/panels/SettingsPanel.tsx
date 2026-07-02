@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight } from "lucide-react";
+import { ChevronRight } from "@/components/studio/icons";
 import { useStudio } from "../StudioContext";
 import type { StudioState } from "../TenantStudioView";
 

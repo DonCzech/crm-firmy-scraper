@@ -5,7 +5,7 @@ import {
   ArrowLeft, Settings, Folder, Undo2, Redo2, Plus, Upload,
   Bold, Italic, Underline, Strikethrough,
   AlignLeft, AlignCenter, AlignRight, List, ListOrdered,
-} from "lucide-react";
+} from "@/components/studio/icons";
 import { useStudio } from "./StudioContext";
 import type { StudioState } from "./TenantStudioView";
 
@@ -26,7 +26,7 @@ interface BlogPost {
 
 function EmptyIllustration() {
   return (
-    <div className="w-[280px] rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm p-4">
+    <div className="w-full max-w-[280px] rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl p-4">
       {[0.75, 0.55, 0.65].map((w, i) => (
         <div key={i} className="flex items-center gap-3 mb-3">
           <div className="h-7 w-7 rounded-full bg-[var(--vs-surface-3)] shrink-0" />
@@ -80,7 +80,7 @@ function ListMode({ state, posts, loading, onNewArticle }: {
 
   if (posts.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-full">
+      <div className="flex h-full flex-col items-center justify-center px-4">
         <EmptyIllustration />
         <p className="text-[14px] text-[var(--vs-text-muted)] text-center max-w-sm mt-6 leading-relaxed">
           Vytvořte si svůj první článek. Zajímavý a inspirativní obsah vám pomůže získat nové zákazníky.
@@ -256,7 +256,7 @@ function EditorMode({ state, post, onRefresh }: {
   return (
     <div className="h-full flex flex-col overflow-hidden">
       {/* Top bar */}
-      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[var(--vs-border)] bg-[var(--vs-surface)] px-6 py-3 shrink-0">
+      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.78)] px-6 py-3 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.16)] shrink-0">
         <div className="flex items-center gap-3">
           <button
             type="button"
@@ -316,7 +316,7 @@ function EditorMode({ state, post, onRefresh }: {
       </div>
 
       {/* Content area */}
-      <div className="flex-1 overflow-y-auto bg-[var(--vs-surface)]">
+      <div className="flex-1 overflow-y-auto bg-[radial-gradient(900px_420px_at_50%_-80px,rgba(139,92,246,0.10),transparent_65%),linear-gradient(180deg,rgba(12,12,14,0.92)_0%,rgba(18,18,20,0.86)_100%)]">
         <div className="max-w-3xl mx-auto px-8 pt-10 pb-20">
           <input
             type="text"
@@ -467,7 +467,7 @@ export function StudioArticlesCanvas({ state }: { state: StudioState }) {
   };
 
   return (
-    <div className="h-full overflow-y-auto bg-[var(--vs-surface)]">
+    <div className="h-full overflow-y-auto bg-[radial-gradient(900px_420px_at_50%_-80px,rgba(139,92,246,0.10),transparent_65%),linear-gradient(180deg,rgba(12,12,14,0.92)_0%,rgba(18,18,20,0.86)_100%)]">
       {studio.articleMode === "editor" ? (
         <EditorMode
           state={state}

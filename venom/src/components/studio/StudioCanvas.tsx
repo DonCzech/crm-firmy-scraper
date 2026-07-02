@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { Plus } from "lucide-react";
+import { Plus } from "@/components/studio/icons";
 import clsx from "clsx";
 import {
   DndContext,
@@ -247,7 +247,8 @@ export function StudioCanvas({ state }: { state: StudioState }) {
   const isDesktop = studio.breakpoint === "desktop";
 
   const available = canvasW > 0 ? canvasW : width;
-  const scale = Math.min(1, available / width);
+  const scaleBaseWidth = studio.breakpoint === "desktop" ? width : width + 32;
+  const scale = Math.min(1, available / scaleBaseWidth);
   const effectiveZoom = studio.zoom === "fit" ? scale : (studio.zoom / 100);
 
   // Page URL for iframe preview
@@ -489,7 +490,7 @@ export function StudioCanvas({ state }: { state: StudioState }) {
           const iframeSrc = `${pageUrl}?_preview=${iframeRefreshKey}`;
 
           return (
-            <div className="flex flex-col items-center py-8 px-4 min-h-full gap-3">
+            <div className="flex flex-col items-center py-6 px-1 sm:py-8 sm:px-4 min-h-full gap-3">
               {/* Refresh button */}
               <button
                 type="button"

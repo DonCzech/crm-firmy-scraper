@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import {
   Plus, Upload, AlignLeft, FileText, FolderOpen, Tag, Calendar,
   User, Clock, Image as ImageIcon, Type, ClipboardList, Square, ArrowLeft,
-} from "lucide-react";
+} from "@/components/studio/icons";
 import { useStudio } from "../StudioContext";
 import { SkeletonRows } from "../ui";
 import type { StudioState } from "../TenantStudioView";

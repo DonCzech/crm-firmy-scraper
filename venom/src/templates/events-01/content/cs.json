@@ -3,25 +3,45 @@
     "siteName": "Lumina Events",
     "logoUrl": "",
     "phone": "777 888 999",
-    "poptavkaHref": "#kontakt",
+    "poptavkaHref": "/kontakt",
+    "poptavkaLabel": "POPTÁVKA",
+    "servicesLabel": "Služby",
     "links": [
-      { "label": "Služby",    "href": "#sluzby"    },
-      { "label": "Reference", "href": "#portfolio" },
-      { "label": "O nás",     "href": "#kontakt"   },
-      { "label": "Blog",      "href": "#kontakt"   },
-      { "label": "Kontakt",   "href": "#kontakt"   }
+      { "label": "Služby",    "href": "/sluzby"    },
+      { "label": "Reference", "href": "/portfolio" },
+      { "label": "O nás",     "href": "/o-nas"     },
+      { "label": "Blog",      "href": "/blog"      },
+      { "label": "Kontakt",   "href": "/kontakt"   }
+    ],
+    "serviceItems": [
+      { "label": "TEAMBUILDINGY",   "href": "/sluzby" },
+      { "label": "KONFERENCE",       "href": "/sluzby" },
+      { "label": "FIREMNÍ AKCE",     "href": "/sluzby" },
+      { "label": "VENKOVNÍ EVENTY",  "href": "/sluzby" },
+      { "label": "ROADSHOW",         "href": "/sluzby" },
+      { "label": "VÁNOČNÍ EVENTY",   "href": "/sluzby" },
+      { "label": "ONLINE EVENTY",    "href": "/sluzby" },
+      { "label": "Palladium Roof Top Venue", "href": "/sluzby", "divider": true }
     ]
   },
   "hero": {
+    "eyebrow": "Eventová agentura · Praha",
     "title": "Zážitky, které",
     "titleLine2": "nikdy nezapomenete",
+    "subtitle": "Od intimních firemních večerů po velkolepá gala pro stovky hostů — připravíme akci, kterou si vaši hosté budou pamatovat roky.",
     "imageUrl": "/assets/events-01/b8424c62d9-showcase-1920x1000.jpg",
     "videoUrl": "",
+    "videoText": "Video",
+    "ctaLabel": "Prozkoumat portfolio",
+    "ctaHref": "/portfolio",
+    "scrollLabel": "Objevte více",
     "imageAlt": "Luxusní gala večer"
   },
   "services": {
     "eyebrow": "Naše specializace",
     "title": "Co pro vás připravíme",
+    "linkLabel": "Zjistit více",
+    "linkHref": "/sluzby",
     "items": [
       {
         "icon": "★",
@@ -66,6 +86,8 @@
     ]
   },
   "stats": {
+    "eyebrow": "V číslech",
+    "title": "",
     "items": [
       { "value": "14",  "suffix": "",  "label": "Let na trhu"           },
       { "value": "380", "suffix": "+", "label": "Úspěšných akcí"        },
@@ -81,6 +103,8 @@
     "ctaHref": "mailto:info@luminaevents.cz",
     "phone": "+420 777 888 999",
     "email": "info@luminaevents.cz",
+    "phoneLabel": "Telefon",
+    "emailLabel": "E-mail",
     "imageUrl": "/assets/events-01/133715d130-Vanoce.jpg"
   },
   "footer": {
@@ -92,13 +116,16 @@
     "ico": "09876543",
     "web": "https://luminaevents.cz",
     "copyright": "© 2026 Lumina Events s.r.o. Všechna práva vyhrazena.",
+    "icoLabel": "IČO",
+    "navLabel": "Navigace",
+    "contactLabel": "Kontakt",
     "facebook": "https://facebook.com/luminaevents",
     "instagram": "https://instagram.com/luminaevents",
     "links": [
-      { "label": "Služby",    "href": "#sluzby"    },
-      { "label": "Proces",    "href": "#proces"    },
-      { "label": "Portfolio", "href": "#portfolio" },
-      { "label": "Kontakt",   "href": "#kontakt"   }
+      { "label": "Služby",    "href": "/sluzby" },
+      { "label": "Proces",    "href": "/proces" },
+      { "label": "Portfolio", "href": "/portfolio" },
+      { "label": "Kontakt",   "href": "/kontakt" }
     ]
   }
 }

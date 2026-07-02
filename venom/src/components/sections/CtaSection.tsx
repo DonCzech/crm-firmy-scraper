@@ -1360,63 +1360,105 @@ function CtaCafe02({ content, sectionId }: { content: Record<string, unknown>; s
     return () => obs.disconnect();
   }, []);
 
-  const id      = String(content.id      ?? "rezervace");
-  const tagline = String(content.tagline ?? "Rezervujte si stůl");
-  const title   = String(content.title   ?? "Udělejte si\nvelkolepost ze dne.");
-  const body    = String(content.body    ?? "");
-  const ctaText = String(content.ctaText ?? "Zarezervovat stůl");
-  const ctaHref = String(content.ctaHref ?? "/rezervace");
+  const id            = String(content.id       ?? "rezervace");
+  const eyebrow       = String(content.eyebrow  ?? content.tagline ?? "Rezervujte si stůl");
+  const title         = String(content.title    ?? "Udělejte si\nvelkolepou chvíli.");
+  const body          = String(content.body     ?? "Salon Belvedere vítá hosty od časných snídaní až do noci. Rezervace předem jistí stůl u okna, čerstvý závin i vlastní čas mezi svícny.");
+  const ctaText       = String(content.ctaText  ?? "Rezervovat stůl");
+  const ctaHref       = String(content.ctaHref  ?? "/rezervace");
   const ctaSecondaryText = String(content.ctaSecondaryText ?? "Prohlédnout menu");
   const ctaSecondaryHref = String(content.ctaSecondaryHref ?? "/menu");
-  const PLACEHOLDER = "https://images.unsplash.com/photo-1550966871-3ed3cbe818b0?w=1920&h=1080&fit=crop&fm=webp&q=85";
-  const image   = String(content.image   ?? PLACEHOLDER);
-
-  const GOLD  = "#A89B67";
-  const BURG  = "#6C1D45";
-  const CREAM = "#f7f0e8";
-  const FONT  = "Georgia, 'Times New Roman', serif";
-  const SANS  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+  const PLACEHOLDER = "https://images.unsplash.com/photo-1550966871-3ed3cbe818b0?w=1920&h=1200&fit=crop&fm=webp&q=88";
+  const image       = String(content.image      ?? PLACEHOLDER);
+  const hoursLabel  = String(content.hoursLabel ?? "Otevřeno denně");
+  const hoursValue  = String(content.hoursValue ?? "8:00 – 23:00");
+  const phoneLabel  = String(content.phoneLabel ?? "Rezervace telefonicky");
+  const phoneValue  = String(content.phoneValue ?? "+420 700 111 222");
 
   return (
-    <section ref={secRef} id={id} data-variant="cafe-02-cta" style={{ position: "relative", overflow: "hidden", padding: "120px 0", fontFamily: SANS, backgroundColor: "#1A0E0A" }}>
-      <GenericEditableImage sectionId={sectionId} field="image" src={image || PLACEHOLDER} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-        <img loading="lazy" src={image || PLACEHOLDER} alt="" aria-hidden style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
-      </GenericEditableImage>
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(26,14,10,0.72)" }} />
-
-      <div style={{ position: "relative", zIndex: 2, maxWidth: 700, margin: "0 auto", padding: "0 clamp(24px, 5vw, 64px)", textAlign: "center" }}>
-        <div data-c02cta="0">
-          <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD, margin: "0 0 14px" }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          <div style={{ width: 40, height: 1.5, backgroundColor: GOLD, margin: "0 auto 28px" }} />
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", fontWeight: 400, lineHeight: 1.2, color: CREAM, margin: "0 0 20px", whiteSpace: "pre-line" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          {body && (
-            <p style={{ fontSize: 15, fontWeight: 400, lineHeight: 1.8, color: `${CREAM}bb`, margin: "0 0 40px" }}>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-            </p>
-          )}
-          <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: 16 }}>
-            <a href={ctaHref} data-btn="primary"
-              style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff", textDecoration: "none", padding: "14px 36px", backgroundColor: BURG, borderRadius: 2, display: "inline-block", transition: "background-color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#541636")}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = BURG)}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
-            <a href={ctaSecondaryHref}
-              style={{ fontFamily: SANS, fontSize: 12, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: CREAM, textDecoration: "none", padding: "13px 36px", border: `1.5px solid ${GOLD}80`, borderRadius: 2, display: "inline-block", transition: "border-color 0.2s" }}
-              onMouseEnter={e => (e.currentTarget.style.borderColor = GOLD)}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = `${GOLD}80`)}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
-            </a>
-          </div>
-        </div>
+    <section
+      ref={secRef}
+      id={id}
+      data-template="cafe-02"
+      data-variant="cafe-02-cta"
+      className="cafe02-cta"
+      aria-label="Rezervace"
+    >
+      <div className="cafe02-cta__bg" aria-hidden>
+        <GenericEditableImage sectionId={sectionId} field="image" src={image || PLACEHOLDER} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+          <img
+            loading="lazy"
+            src={image || PLACEHOLDER}
+            alt=""
+            aria-hidden
+            className="cafe02-cta__bg-img"
+          />
+        </GenericEditableImage>
       </div>
-      <style>{`[data-c02cta]{opacity:0;transform:translateY(36px);transition:opacity .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1)}[data-c02cta].c02cta-vis{opacity:1;transform:translateY(0)}`}</style>
+      <div className="cafe02-cta__overlay" aria-hidden />
+      <div className="cafe02-cta__glow" aria-hidden />
+
+      {(["tl","tr","bl","br"] as const).map(pos => (
+        <span key={pos} className={`cafe02-cta__corner cafe02-cta__corner--${pos}`} aria-hidden>
+          <svg viewBox="0 0 40 40" fill="none">
+            <path d="M0 0 H26 M0 0 V26" stroke="currentColor" strokeWidth="1"/>
+            <circle cx="30" cy="30" r="1.6" fill="currentColor"/>
+          </svg>
+        </span>
+      ))}
+
+      <div className="cafe02-cta__inner" data-c02cta="0">
+        <div className="cafe02-cta__eyebrow">
+          <span className="cafe02-cta__eyebrow-rule" />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          <span className="cafe02-cta__eyebrow-rule" />
+        </div>
+
+        <h2 className="cafe02-cta__title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h2>
+
+        <div className="cafe02-cta__rule" aria-hidden><span /></div>
+
+        {body && (
+          <p className="cafe02-cta__body">
+            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+          </p>
+        )}
+
+        <div className="cafe02-cta__ctas">
+          <a href={ctaHref} data-btn="primary" className="cafe02-cta__btn cafe02-cta__btn--gold">
+            <span className="cafe02-nav__cta-shine" aria-hidden />
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+          <a href={ctaSecondaryHref} className="cafe02-cta__btn cafe02-cta__btn--ghost">
+            <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden className="cafe02-cta__arrow">
+              <path d="M1 5H15M10 1L15 5L10 9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <ul className="cafe02-cta__trust">
+          <li>
+            <span className="cafe02-cta__trust-label">
+              <GenericEditableText sectionId={sectionId} field="hoursLabel" value={hoursLabel} tag="span" />
+            </span>
+            <span className="cafe02-cta__trust-value">
+              <GenericEditableText sectionId={sectionId} field="hoursValue" value={hoursValue} tag="span" />
+            </span>
+          </li>
+          <li className="cafe02-cta__trust-sep" aria-hidden />
+          <li>
+            <span className="cafe02-cta__trust-label">
+              <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" />
+            </span>
+            <a href={"tel:" + phoneValue.replace(/\s+/g, "")} className="cafe02-cta__trust-value cafe02-cta__trust-link">
+              <GenericEditableText sectionId={sectionId} field="phoneValue" value={phoneValue} tag="span" />
+            </a>
+          </li>
+        </ul>
+      </div>
     </section>
   );
 }
@@ -1588,173 +1630,251 @@ function CtaRestaurant03({
 }
 
 // ── cafe-03-cta ───────────────────────────────────────────────────────────────
-// Ref: cathedral.cz — rezervace sekce
-// Dark foto bg s rgba(0,0,0,0.55) overlay; centrovaný Great Vibes H2 + Open Sans subtitle
-// + zlaté CTA tlačítko
+// Cathedral Reservation Banner — luxe redesign (2026-07-02)
+// Fixed-attachment parallax background photo, deep noir vignette overlay,
+// gold hairline frame kolem obsahu, Great Vibes H2 vrstvený s Cormorant italic
+// subtitle + diamond divider, dual CTAs (gold-fill + phone ghost), utility rail
+// dole s otvíracími hodinami · adresou · telefonem.
 // ─────────────────────────────────────────────────────────────────────────────
 function CtaCafe03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const GOLD    = "#C69C60";
-  const GOLD_DK = "#A07840";
-  const SERIF   = "'Great Vibes', cursive";
-  const SANS    = "'Open Sans', sans-serif";
+  const GOLD_LT = "#D8B57A";
+  const GOLD_DK = "#8F6A38";
+  const NOIR    = "#0d0d0d";
+  const CREAM   = "#F5EFE4";
+  const SCRIPT  = "'Great Vibes', cursive";
+  const ITAL    = "'Cormorant Garamond', 'Playfair Display', Georgia, serif";
+  const SANS    = "'Inter', 'Open Sans', system-ui, sans-serif";
 
-  const title   = String(content.title   ?? "Zarezervujte si stůl");
-  const subtitle = String(content.subtitle ?? "Otevřeno každý den od 9:00 do 21:00 hod.");
-  const ctaText  = String(content.ctaText  ?? "Zarezervovat stůl");
+  const eyebrow  = String(content.eyebrow  ?? "REZERVUJTE STŮL");
+  const kicker   = String(content.kicker   ?? "otevřeno denně · 9:00 — 22:00");
+  const title    = String(content.title    ?? "Katedrální večeře");
+  const subtitle = String(content.subtitle ?? "vína · sezónní menu · svícený sál");
+  const body     = String(content.body     ?? "Stůl pro dva pod klenutými stropy, tichá klavírní jazz linka a sklenka moravského ryzlinku — Cathedral Café je místem, kam se vracejí ti, kteří vědí, že večer začíná dobře prostřeným stolem.");
+  const ctaText  = String(content.ctaText  ?? "Rezervace stolu");
   const ctaHref  = String(content.ctaHref  ?? "/kontakt");
-  const bgImage  = String(content.backgroundImage ?? "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1920&h=800&fit=crop&fm=webp&q=80");
+  const phone    = String(content.phone    ?? "+420 704 218 640");
+  const phoneHref = String(content.phoneHref ?? "tel:+420704218640");
+  const address  = String(content.address  ?? "Melantrichova 15 · Praha 1");
+  const hours    = String(content.hours    ?? "9:00 — 22:00");
+  const bgImage  = String(content.backgroundImage ?? "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=2000&h=1200&fit=crop&fm=webp&q=88");
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  const resolve = (h: string) => {
-    if (!tenantSlug) return h;
-    const base = isAdmin ? `/admin/${tenantSlug}` : `/demo/${tenantSlug}`;
-    return h.startsWith("/") ? `${base}${h}` : h;
+  // Local resolveNavHref (multipage/onepage compat) — matches NavbarSection helper.
+  const resolve = (href: string): string => {
+    if (!href) return "#";
+    if (siteMode === "onepage") {
+      if (href.startsWith("/") && href !== "/") {
+        const slug = href.replace(/^\//, "");
+        return tenantSlug ? (isAdmin ? `/demo/${tenantSlug}/admin#${slug}` : `/demo/${tenantSlug}#${slug}`) : `/#${slug}`;
+      }
+      if (href.startsWith("#")) {
+        return tenantSlug ? (isAdmin ? `/demo/${tenantSlug}/admin${href}` : `/demo/${tenantSlug}${href}`) : href;
+      }
+      return href;
+    }
+    if (href.startsWith("#")) {
+      const slug = href.replace(/^#/, "");
+      return tenantSlug ? (isAdmin ? `/demo/${tenantSlug}/${slug}/admin` : `/demo/${tenantSlug}/${slug}`) : `/${slug}`;
+    }
+    if (href.startsWith("/") && tenantSlug) {
+      return isAdmin ? `/demo/${tenantSlug}${href === "/" ? "" : href}/admin` : `/demo/${tenantSlug}${href === "/" ? "" : href}`;
+    }
+    return href;
   };
 
   return (
-    <section style={{ position: "relative", overflow: "hidden", padding: "clamp(80px, 12vw, 140px) clamp(20px, 5vw, 60px)", textAlign: "center", fontFamily: SANS }}>
-      {/* Background */}
-      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0 }}>
-        <img src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} loading="lazy" />
+    <section data-template="cafe-03" className="c3cta" style={{ position: "relative", overflow: "hidden", padding: "clamp(96px, 14vw, 180px) clamp(20px, 5vw, 60px)", textAlign: "center", fontFamily: SANS, color: CREAM, backgroundColor: NOIR }}>
+      {/* Parallax background */}
+      <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: `url("${bgImage}")`, backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed", transform: "scale(1.05)" }} />
+      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0, opacity: 0, pointerEvents: "none" }}>
+        <img src={bgImage} alt="" style={{ display: "none" }} />
       </GenericEditableImage>
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.55)" }} />
+
+      {/* Deep noir vignette */}
+      <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: `radial-gradient(ellipse at center, rgba(13,13,13,0.55) 0%, rgba(13,13,13,0.82) 70%, rgba(5,5,5,0.94) 100%), linear-gradient(180deg, rgba(13,13,13,0.4) 0%, rgba(5,5,5,0.7) 100%)` }} />
+
+      {/* Gold hairline frame */}
+      <div aria-hidden className="c3cta-frame" style={{ position: "absolute", inset: "clamp(28px, 5vw, 56px)", border: `1px solid ${GOLD}55`, pointerEvents: "none" }}>
+        <span style={{ position: "absolute", top: -6, left: -6, width: 24, height: 24, borderTop: `1.5px solid ${GOLD}`, borderLeft: `1.5px solid ${GOLD}` }} />
+        <span style={{ position: "absolute", top: -6, right: -6, width: 24, height: 24, borderTop: `1.5px solid ${GOLD}`, borderRight: `1.5px solid ${GOLD}` }} />
+        <span style={{ position: "absolute", bottom: -6, left: -6, width: 24, height: 24, borderBottom: `1.5px solid ${GOLD}`, borderLeft: `1.5px solid ${GOLD}` }} />
+        <span style={{ position: "absolute", bottom: -6, right: -6, width: 24, height: 24, borderBottom: `1.5px solid ${GOLD}`, borderRight: `1.5px solid ${GOLD}` }} />
+      </div>
 
       {/* Content */}
-      <div style={{ position: "relative", zIndex: 1, maxWidth: 640, margin: "0 auto" }}>
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 780, margin: "0 auto" }}>
+        {/* Eyebrow */}
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+          <span aria-hidden style={{ display: "inline-block", width: 32, height: 1, backgroundColor: GOLD }} />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span">
+            <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.36em", textTransform: "uppercase", color: GOLD_LT }}>{eyebrow}</span>
+          </GenericEditableText>
+          <span aria-hidden style={{ display: "inline-block", width: 32, height: 1, backgroundColor: GOLD }} />
+        </div>
+
+        {/* Kicker */}
+        <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="p">
+          <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(15px, 1.4vw, 18px)", color: CREAM, opacity: 0.75, margin: "0 0 4px", letterSpacing: "0.04em" }}>{kicker}</p>
+        </GenericEditableText>
+
+        {/* H2 Great Vibes */}
         <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2">
-          <h2 style={{ fontFamily: SERIF, fontSize: "clamp(36px, 5vw, 64px)", fontWeight: 400, color: "#fff", margin: "0 0 16px", lineHeight: 1.2 }}>
+          <h2 style={{ fontFamily: SCRIPT, fontSize: "clamp(56px, 8vw, 118px)", fontWeight: 400, color: "#fff", margin: 0, lineHeight: 1.05, letterSpacing: "0.01em", textShadow: "0 4px 30px rgba(0,0,0,0.5)" }}>
             {title}
           </h2>
         </GenericEditableText>
+
+        {/* Cormorant italic subtitle */}
         <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p">
-          <p style={{ fontFamily: SANS, fontSize: "clamp(14px, 1.8vw, 17px)", fontWeight: 300, color: "rgba(255,255,255,0.85)", margin: "0 0 36px", letterSpacing: "0.02em" }}>
-            {subtitle}
+          <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(18px, 1.9vw, 24px)", fontWeight: 500, color: GOLD_LT, margin: "8px 0 24px", letterSpacing: "0.02em" }}>— {subtitle}</p>
+        </GenericEditableText>
+
+        {/* Diamond divider */}
+        <div aria-hidden style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 24 }}>
+          <span style={{ display: "inline-block", width: 60, height: 1, backgroundColor: GOLD }} />
+          <span style={{ display: "inline-block", width: 6, height: 6, transform: "rotate(45deg)", border: `1px solid ${GOLD}` }} />
+          <span style={{ display: "inline-block", width: 60, height: 1, backgroundColor: GOLD }} />
+        </div>
+
+        {/* Body */}
+        <GenericEditableText sectionId={sectionId} field="body" value={body} tag="p">
+          <p style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.2vw, 17px)", fontWeight: 400, color: "rgba(245,239,228,0.82)", margin: "0 auto 40px", maxWidth: 620, lineHeight: 1.75 }}>
+            {body}
           </p>
         </GenericEditableText>
-        <a
-          href={resolve(ctaHref)}
-          data-btn="primary"
-          style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#fff", textDecoration: "none", padding: "14px 40px", backgroundColor: GOLD, display: "inline-block", transition: "background-color 0.2s" }}
-          onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_DK)}
-          onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
-        >
-          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-        </a>
+
+        {/* Dual CTAs */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
+          <a
+            href={resolve(ctaHref)}
+            data-btn="primary"
+            className="c3cta-primary"
+            style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: NOIR, textDecoration: "none", padding: "16px 36px", backgroundColor: GOLD, display: "inline-flex", alignItems: "center", gap: 10, transition: "background-color 0.28s ease, letter-spacing 0.28s ease" }}
+          >
+            <span style={{ fontFamily: ITAL, fontStyle: "italic", textTransform: "none", letterSpacing: "0.02em", fontSize: 16, fontWeight: 500 }}>~</span>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+          <a
+            href={phoneHref}
+            data-btn="ghost"
+            className="c3cta-phone"
+            style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: GOLD_LT, textDecoration: "none", padding: "16px 36px", border: `1px solid ${GOLD}88`, backgroundColor: "transparent", display: "inline-flex", alignItems: "center", gap: 10, transition: "background-color 0.28s ease, color 0.28s ease, border-color 0.28s ease" }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+          </a>
+        </div>
+
+        {/* Utility rail */}
+        <div className="c3cta-rail" style={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap", gap: 24, marginTop: 48, paddingTop: 28, borderTop: `1px solid ${GOLD}44`, maxWidth: 620, marginInline: "auto" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, color: GOLD_LT }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 15 }}>
+              <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+            </span>
+          </div>
+          <span aria-hidden style={{ width: 1, height: 16, backgroundColor: `${GOLD}55` }} />
+          <div style={{ display: "flex", alignItems: "center", gap: 10, color: GOLD_LT }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.4} strokeLinecap="round" strokeLinejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+            <span style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 15 }}>
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+            </span>
+          </div>
+        </div>
       </div>
 
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;600&display=swap" />
-      <style>{`      `}</style>
+      <style>{`
+        [data-template="cafe-03"].c3cta .c3cta-primary:hover { background-color: ${GOLD_LT} !important; letter-spacing: 0.28em !important; }
+        [data-template="cafe-03"].c3cta .c3cta-phone:hover { background-color: ${GOLD} !important; color: ${NOIR} !important; border-color: ${GOLD} !important; }
+        @media (max-width: 767px) {
+          [data-template="cafe-03"].c3cta .c3cta-rail { flex-direction: column; gap: 14px; }
+          [data-template="cafe-03"].c3cta .c3cta-rail > span { display: none; }
+        }
+        @media (hover: none) { [data-template="cafe-03"].c3cta > div[aria-hidden]:first-of-type { background-attachment: scroll !important; } }
+      `}</style>
     </section>
   );
 }
 
 // ── cafe-04-newsletter ────────────────────────────────────────────────────────
-// Ref: coffeeroom.cz — parallax bg, "don't miss anything" + email subscribe
-// .parallax_home: fixed bg, height 460px; .white-button: coffeebrown border
+// Editorial newsletter — parallax bg, cinematic dark veil, kinetic reveal,
+// integrated inline form s coffee-gold underline focus + micro-privacy copy
 // ─────────────────────────────────────────────────────────────────────────────
 function NewsletterCafe04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const heading          = String(content.heading          ?? "don't miss anything");
-  const subheading       = String(content.subheading       ?? "");
-  const inputPlaceholder = String(content.inputPlaceholder ?? "your email address");
-  const ctaText          = String(content.ctaText          ?? "Subscribe");
-  const successText      = String(content.successText      ?? "Thank you!");
-  const BG_IMG = "/clones/coffeeroom/cdn/67cc82f0c6e15f8db05a46c0/67cc82f0c6e15f8db05a4785_DSC05499.jpeg";
+  const eyebrow          = String(content.eyebrow          ?? "Newsletter");
+  const heading          = String(content.heading          ?? "Don't miss anything.");
+  const subheading       = String(content.subheading       ?? "Přihlaste se k odběru novinek a buďte první, kdo se dozví o nových kávách, ochutnávkách a příbězích z pražírny.");
+  const inputPlaceholder = String(content.inputPlaceholder ?? "vaše e-mailová adresa");
+  const ctaText          = String(content.ctaText          ?? "Přihlásit se");
+  const successText      = String(content.successText      ?? "Díky, brzy se ozveme!");
+  const privacyText      = String(content.privacyText      ?? "Žádný spam. Odhlásit se můžete kdykoliv.");
+  const bgImage          = String(content.backgroundImage  ?? "/assets/cafe-04/newsletter-bg.webp");
 
   const [submitted, setSubmitted] = useState(false);
   const [email, setEmail] = useState("");
 
   return (
-    <section
-      style={{
-        backgroundImage: `url("${BG_IMG}")`,
-        backgroundPosition: "50%",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundAttachment: "fixed",
-        height: 460,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      {/* Dark overlay */}
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(29,31,46,0.55)" }} aria-hidden />
+    <section className="cr04-nl" data-template="cafe-04">
+      <GenericEditableImage
+        sectionId={sectionId}
+        field="backgroundImage"
+        src={bgImage}
+        alt=""
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}
+      >
+        <img src={bgImage} alt="" loading="lazy" className="cr04-nl-bg" />
+      </GenericEditableImage>
+      <div className="cr04-nl-veil" aria-hidden />
 
-      <div style={{ position: "relative", zIndex: 1, textAlign: "center", color: "#fff", width: "100%", maxWidth: 640, padding: "0 24px" }}>
-        {/* "don't miss anything" label with deco lines */}
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", marginBottom: 50 }}>
-          <div style={{ backgroundColor: "rgba(255,255,255,0.8)", width: 30, height: 1, display: "inline-block" }} />
-          <span style={{ opacity: 0.9, color: "#fff", letterSpacing: 2, textTransform: "uppercase", fontSize: 12, fontWeight: 700, lineHeight: "18px", fontFamily: "Montserrat, sans-serif", margin: "0 15px" }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </span>
-          <div style={{ backgroundColor: "rgba(255,255,255,0.8)", width: 30, height: 1, display: "inline-block" }} />
-        </div>
+      <div className="cr04-nl-inner">
+        <span className="cr04-nl-eyebrow">
+          <span className="cr04-nl-eyebrow-rule" aria-hidden />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          <span className="cr04-nl-eyebrow-rule" aria-hidden />
+        </span>
 
-        {/* Subheading */}
-        {subheading && (
-          <p style={{ fontFamily: "'Karla', sans-serif", fontSize: 16, fontWeight: 400, color: "rgba(255,255,255,0.85)", marginBottom: 32, lineHeight: 1.6 }}>
-            <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-          </p>
-        )}
+        <h2 className="cr04-nl-title">
+          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+        </h2>
 
-        {/* Form */}
+        <p className="cr04-nl-sub">
+          <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
+        </p>
+
         {!submitted ? (
           <form
-            onSubmit={e => { e.preventDefault(); if (email) setSubmitted(true); }}
-            style={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap", gap: 10 }}
+            className="cr04-nl-form"
+            onSubmit={(e) => { e.preventDefault(); if (email) setSubmitted(true); }}
           >
-            <input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder={inputPlaceholder}
-              required
-              style={{
-                border: "1px solid #fff",
-                color: "#1d1f2e",
-                textAlign: "left",
-                backgroundColor: "#fff",
-                width: 300,
-                padding: "18px 24px",
-                fontSize: 12,
-                fontWeight: 400,
-                letterSpacing: "1px",
-                fontFamily: "Montserrat, sans-serif",
-                outline: "none",
-                borderRadius: 0,
-              }}
-            />
-            <button
-              type="submit"
-              style={{
-                border: "1px solid #b79570",
-                color: "#b79570",
-                backgroundColor: "transparent",
-                padding: "18px 24px",
-                fontSize: 12,
-                fontWeight: 700,
-                letterSpacing: 2,
-                textTransform: "uppercase",
-                fontFamily: "Montserrat, sans-serif",
-                cursor: "pointer",
-                borderRadius: 0,
-                transition: "background-color .4s, color .4s",
-              }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#b79570"; e.currentTarget.style.color = "#fff"; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = "#b79570"; }}
-            >
+            <label className="cr04-nl-field">
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={inputPlaceholder}
+                className="cr04-nl-input"
+                aria-label={inputPlaceholder}
+              />
+              <span className="cr04-nl-input-rule" aria-hidden />
+            </label>
+            <button type="submit" className="cr04-nl-btn">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden>
+                <path d="M1 5H15M10 1L15 5L10 9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </button>
           </form>
         ) : (
-          <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 14, fontWeight: 600, color: "#fff", letterSpacing: 1 }}>
+          <p className="cr04-nl-success">
             <GenericEditableText sectionId={sectionId} field="successText" value={successText} tag="span" />
           </p>
         )}
+
+        <p className="cr04-nl-privacy">
+          <GenericEditableText sectionId={sectionId} field="privacyText" value={privacyText} tag="span" />
+        </p>
       </div>
     </section>
   );

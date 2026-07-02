@@ -1,0 +1,21 @@
+{
+  "name": "bombuj-rss-project",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bombuj movie links scraper + DB + RSS feed for Vercel",
+  "scripts": {
+    "postinstall": "prisma generate",
+    "prisma:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "sync": "node src/sync.js",
+    "sync:full": "FULL_SYNC=true SCRAPE_LIMIT=0 node src/sync.js",
+    "build:rss": "node src/build-rss-file.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.19.3",
+    "cheerio": "^1.0.0"
+  },
+  "devDependencies": {
+    "prisma": "^6.19.3"
+  }
+}

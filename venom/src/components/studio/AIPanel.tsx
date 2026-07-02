@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { X, Sparkles, Copy, Check, Loader2 } from "lucide-react";
+import { X, Sparkles, Copy, Check, Loader2 } from "@/components/studio/icons";
 import clsx from "clsx";
 import { useStudio } from "./StudioContext";
 import type { StudioState } from "./TenantStudioView";
@@ -63,7 +63,7 @@ export function AIPanel({ state }: { state: StudioState }) {
   }
 
   return (
-    <div className="fixed bottom-[52px] right-[20px] z-[200] w-[360px] rounded-2xl border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] shadow-[0_8px_40px_rgba(0,0,0,.55)] overflow-hidden vs-enter flex flex-col max-h-[calc(100vh-120px)]">
+    <div className="fixed bottom-[52px] right-[20px] z-[200] w-[360px] rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(18,18,20,0.76)] shadow-[0_18px_58px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl overflow-hidden vs-enter flex flex-col max-h-[calc(100vh-120px)]">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[var(--vs-border)] px-4 py-3 shrink-0">
         <div className="flex items-center gap-2">

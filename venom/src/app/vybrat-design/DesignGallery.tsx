@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, X, Monitor, Smartphone } from "lucide-react";
 import type { ModalTemplate } from "@/components/onboarding/OnboardingModal";
+import type { PlatformLocale } from "@/lib/platform-i18n";
 
 const OnboardingModal = dynamic(
   () => import("@/components/onboarding/OnboardingModal").then((m) => ({ default: m.OnboardingModal })),
@@ -18,11 +19,14 @@ function PreviewModal({
   template,
   onClose,
   onStartFree,
+  locale = "cs",
 }: {
   template: DesignTemplate;
   onClose: () => void;
   onStartFree: (t: DesignTemplate) => void;
+  locale?: PlatformLocale;
 }) {
+  const en = locale === "en";
   const [view, setView] = useState<"desktop" | "mobile">("desktop");
   const [loaded, setLoaded] = useState(false);
   // true only on actual mobile phones (narrow touch screens)
@@ -55,7 +59,7 @@ function PreviewModal({
             className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#374151]"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.3" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
-            Zpět
+            {en ? "Back" : "Zpět"}
           </button>
           <div className="min-w-0 flex-1">
             <div className="truncate text-[13px] font-bold text-[#0a0a0a]">{template.name}</div>
@@ -65,7 +69,7 @@ function PreviewModal({
             onClick={() => { onClose(); onStartFree(template); }}
             className="flex-shrink-0 rounded-full bg-[#6366f1] px-4 py-2 text-[12.5px] font-semibold text-white"
           >
-            Použít →
+            {en ? "Use" : "Použít"} →
           </button>
         </div>
         {/* Fullscreen iframe */}
@@ -100,13 +104,13 @@ function PreviewModal({
             <Monitor size={13} /> Desktop
           </button>
           <button onClick={() => setView("mobile")} className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[12px] font-semibold transition ${view === "mobile" ? "bg-white text-[#0a0a0a] shadow" : "text-white/60 hover:text-white"}`}>
-            <Smartphone size={13} /> Mobil
+            <Smartphone size={13} /> {en ? "Mobile" : "Mobil"}
           </button>
         </div>
         <div className="flex items-center gap-3">
           {demoUrl && (
             <button onClick={() => { onClose(); onStartFree(template); }} className="inline-flex items-center gap-1.5 rounded-full bg-[#6366f1] px-4 py-2 text-[12.5px] font-semibold text-white transition hover:bg-[#4f46e5]">
-              Začít zdarma <ArrowRight size={12} />
+              {en ? "Start free" : "Začít zdarma"} <ArrowRight size={12} />
             </button>
           )}
           <button onClick={onClose} className="grid h-8 w-8 place-items-center rounded-full bg-white/10 text-white/60 transition hover:bg-white/20 hover:text-white">
@@ -173,10 +177,10 @@ function PreviewModal({
       {/* Bottom bar */}
       <div className="flex flex-shrink-0 items-center justify-center gap-3 border-t border-white/10 bg-[#111] px-5 py-4">
         <Link href={`/ukazka-sablon/${template.slug}`} className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-[13px] font-semibold text-white transition hover:border-white/40 hover:bg-white/5">
-          Celý náhled
+          {en ? "Full preview" : "Celý náhled"}
         </Link>
         <button onClick={() => { onClose(); onStartFree(template); }} className="inline-flex items-center gap-2 rounded-full bg-[#6366f1] px-6 py-2.5 text-[13px] font-semibold text-white transition hover:bg-[#4f46e5]">
-          Začít zdarma s touto šablonou <ArrowRight size={14} />
+          {en ? "Start free with this template" : "Začít zdarma s touto šablonou"} <ArrowRight size={14} />
         </button>
       </div>
     </div>
@@ -185,7 +189,7 @@ function PreviewModal({
 
 // ── Design Card ───────────────────────────────────────────────────────────────
 
-function DesignCard({ t, onPreview, onStartFree }: { t: DesignTemplate; onPreview: (t: DesignTemplate) => void; onStartFree: (t: DesignTemplate) => void }) {
+function DesignCard({ t, onPreview, onStartFree, locale = "cs" }: { t: DesignTemplate; onPreview: (t: DesignTemplate) => void; onStartFree: (t: DesignTemplate) => void; locale?: PlatformLocale }) {
   const router = useRouter();
   const wrapRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -270,14 +274,14 @@ function DesignCard({ t, onPreview, onStartFree }: { t: DesignTemplate; onPrevie
               onClick={(e) => { e.stopPropagation(); onPreview(t); }}
               className="inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-white/10 px-4 py-2 text-[12.5px] font-semibold text-white backdrop-blur-md transition hover:bg-white/20 sm:px-5"
             >
-              <Monitor size={12} /> Náhled
+              <Monitor size={12} /> {locale === "en" ? "Preview" : "Náhled"}
             </button>
             <button
               type="button"
               onClick={(e) => { e.stopPropagation(); onStartFree(t); }}
               className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[12.5px] font-semibold text-[#0a0a0a] shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5)] transition hover:bg-white/95 sm:px-5"
             >
-              Začít zdarma
+              {locale === "en" ? "Start free" : "Začít zdarma"}
               <ArrowRight size={13} />
             </button>
           </div>
@@ -309,6 +313,7 @@ interface Category {
 interface Props {
   templates: DesignTemplate[];
   categories: Category[];
+  locale?: PlatformLocale;
 }
 
 function matchesCategory(t: DesignTemplate, cat: Category) {
@@ -318,11 +323,51 @@ function matchesCategory(t: DesignTemplate, cat: Category) {
 
 // ── Main Gallery ──────────────────────────────────────────────────────────────
 
-export function DesignGallery({ templates, categories }: Props) {
+const GALLERY_COPY = {
+  cs: {
+    all: "Vše",
+    search: "Hledat obor nebo koncept…",
+    shown: "Zobrazeno",
+    from: "z",
+    designs: "designů",
+    inCategory: "v kategorii",
+    searchWord: "hledání",
+    empty: "V této kategorii nic není.",
+    showAll: "Zobrazit všechny designy →",
+  },
+  en: {
+    all: "All",
+    search: "Search industry or concept...",
+    shown: "Showing",
+    from: "of",
+    designs: "designs",
+    inCategory: "in category",
+    searchWord: "search",
+    empty: "There are no designs in this category.",
+    showAll: "Show all designs →",
+  },
+} as const;
+
+export function DesignGallery({ templates, categories, locale = "cs" }: Props) {
+  const copy = GALLERY_COPY[locale];
   const [active, setActive] = useState<string>("Vše");
   const [query, setQuery] = useState("");
   const [previewTemplate, setPreviewTemplate] = useState<DesignTemplate | null>(null);
   const [onboardingTemplate, setOnboardingTemplate] = useState<ModalTemplate | null>(null);
+  const categoryLabel = useMemo(() => {
+    const labels: Record<string, string> = {
+      Vše: "All",
+      "Krása & péče": "Beauty & care",
+      Zdraví: "Health",
+      Gastronomie: "Gastronomy",
+      Ubytování: "Accommodation",
+      Reality: "Real estate",
+      Řemesla: "Trades",
+      Služby: "Services",
+      Kreativní: "Creative",
+    };
+    return (label: string) => (locale === "en" ? labels[label] ?? label : label);
+  }, [locale]);
 
   function handleStartFree(t: DesignTemplate) {
     setOnboardingTemplate({
@@ -357,6 +402,7 @@ export function DesignGallery({ templates, categories }: Props) {
       {/* Onboarding modal — opens directly with pre-selected template */}
       {onboardingTemplate && (
         <OnboardingModal
+          locale={locale}
           initialTemplate={onboardingTemplate.key}
           templateName={onboardingTemplate.name}
           onClose={() => setOnboardingTemplate(null)}
@@ -365,7 +411,7 @@ export function DesignGallery({ templates, categories }: Props) {
 
       {/* Preview modal */}
       {previewTemplate && (
-        <PreviewModal template={previewTemplate} onClose={() => setPreviewTemplate(null)} onStartFree={handleStartFree} />
+        <PreviewModal template={previewTemplate} locale={locale} onClose={() => setPreviewTemplate(null)} onStartFree={handleStartFree} />
       )}
 
       {/* Sticky filter bar */}
@@ -386,7 +432,7 @@ export function DesignGallery({ templates, categories }: Props) {
                       : "inline-flex items-center gap-2 rounded-full border border-[#e5e5e5] bg-white px-4 py-2 text-[12.5px] font-medium text-[#374151] transition hover:border-[#0a0a0a] hover:text-[#0a0a0a]"
                   }
                 >
-                  {c.label}
+                  {categoryLabel(c.label)}
                   <span
                     className={
                       isActive
@@ -411,7 +457,7 @@ export function DesignGallery({ templates, categories }: Props) {
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Hledat obor nebo koncept…"
+              placeholder={copy.search}
               className="w-full rounded-full border border-[#e5e5e5] bg-white py-2.5 pl-9 pr-4 text-[13px] text-[#0a0a0a] placeholder:text-[#9ca3af] focus:border-[#0a0a0a] focus:outline-none"
             />
           </div>
@@ -420,23 +466,23 @@ export function DesignGallery({ templates, categories }: Props) {
 
       {/* Count */}
       <p className="mb-8 text-[13px] text-[#6b7280]">
-        Zobrazeno <span className="font-semibold text-[#0a0a0a]">{filtered.length}</span> z {templates.length} designů
-        {active !== "Vše" && <> v kategorii <span className="font-semibold text-[#0a0a0a]">{active}</span></>}
-        {query && <> · hledání „<span className="font-semibold text-[#0a0a0a]">{query}</span>"</>}
+        {copy.shown} <span className="font-semibold text-[#0a0a0a]">{filtered.length}</span> {copy.from} {templates.length} {copy.designs}
+        {active !== "Vše" && <> {copy.inCategory} <span className="font-semibold text-[#0a0a0a]">{categoryLabel(active)}</span></>}
+        {query && <> · {copy.searchWord} &quot;<span className="font-semibold text-[#0a0a0a]">{query}</span>&quot;</>}
       </p>
 
       {/* Grid */}
       {filtered.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-[#e5e5e5] bg-[#fafafa] py-20 text-center">
-          <p className="text-[15px] text-[#666]">V této kategorii nic není.</p>
+          <p className="text-[15px] text-[#666]">{copy.empty}</p>
           <button onClick={() => { setActive("Vše"); setQuery(""); }} className="mt-3 text-[13px] font-semibold text-[#6366f1] hover:underline">
-            Zobrazit všechny designy →
+            {copy.showAll}
           </button>
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3 lg:gap-10">
           {filtered.map((t) => (
-            <DesignCard key={t.slug} t={t} onPreview={setPreviewTemplate} onStartFree={handleStartFree} />
+            <DesignCard key={t.slug} t={t} locale={locale} onPreview={setPreviewTemplate} onStartFree={handleStartFree} />
           ))}
         </div>
       )}

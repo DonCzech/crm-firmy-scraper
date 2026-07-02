@@ -6726,169 +6726,153 @@ function HeroRestaurant02({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroCafe02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = content as Record<string, unknown>;
+  const eyebrow  = String(c.eyebrow  ?? "Vídeňská kavárna · Praha · od 1898");
   const title    = String(c.title    ?? "Vídeňská elegance\nv srdci Prahy");
-  const subtitle = String(c.subtitle ?? "Od rána až do pozdního odpoledne si užijte cvrkot vídeňské kavárny.");
-  const ctaText  = String(c.ctaText  ?? "Zarezervovat stůl");
+  const subtitle = String(c.subtitle ?? "Od ranního espressa přes leniví brunch až po večerní víno — pomalý čas mezi štukovými stropy, mramorem a hlubokým aromátem výběrové kávy.");
+  const ctaText  = String(c.ctaText  ?? "Rezervovat stůl");
   const ctaHref  = String(c.ctaHref  ?? "/rezervace");
   const ctaSecondaryText = String(c.ctaSecondaryText ?? "Prohlédnout menu");
   const ctaSecondaryHref = String(c.ctaSecondaryHref ?? "/menu");
+  const captionLabel = String(c.captionLabel ?? "Chvíle uvnitř");
+  const siteMode = String(c.siteMode ?? "multipage");
 
-  type Slide = { url: string; pos?: string };
-  const slides: Slide[] = Array.isArray(c.slides) ? (c.slides as Slide[]) : [
-    { url: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1920&h=1080&fit=crop&fm=webp&q=85", pos: "center 40%" },
-    { url: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1920&h=1080&fit=crop&fm=webp&q=85", pos: "center center" },
-    { url: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&h=1080&fit=crop&fm=webp&q=85", pos: "center 35%" },
-    { url: "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1920&h=1080&fit=crop&fm=webp&q=85", pos: "center center" },
+  type Slide = { url: string; pos?: string; caption?: string };
+  const defaultSlides: Slide[] = [
+    { url: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1920&h=1080&fit=crop&fm=webp&q=85", pos: "center 40%", caption: "Ranní espresso & čerstvé pečivo" },
+    { url: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1920&h=1080&fit=crop&fm=webp&q=85", pos: "center center", caption: "Belle époque salón" },
+    { url: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&h=1080&fit=crop&fm=webp&q=85", pos: "center 35%", caption: "Vídeňský závin & filtrovaná káva" },
+    { url: "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1920&h=1080&fit=crop&fm=webp&q=85", pos: "center center", caption: "Odpolední chvíle u okna" },
   ];
-
-  const GOLD  = "#A89B67";
-  const CREAM = "#F7F4EF";
-  const SANS  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
-  const SERIF = "Georgia, 'Times New Roman', serif";
+  const slides: Slide[] = Array.isArray(c.slides) && (c.slides as Slide[]).length > 0
+    ? (c.slides as Slide[])
+    : defaultSlides;
 
   const [idx, setIdx] = useState(0);
+  const [mounted, setMounted] = useState(false);
   const count = slides.length;
 
   useEffect(() => {
-    const t = setInterval(() => setIdx(i => (i + 1) % count), 6000);
+    setMounted(true);
+    const t = setInterval(() => setIdx(i => (i + 1) % count), 7000);
     return () => clearInterval(t);
   }, [count]);
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const active = slides[idx] || slides[0];
 
   return (
-    <section style={{
-      position: "relative", width: "100%", height: "100svh", minHeight: 600,
-      overflow: "hidden", display: "flex", alignItems: "center", justifyContent: "center",
-    }}>
-      {/* Slides */}
-      {slides.map((slide, i) => (
-        <div key={i} style={{
-          position: "absolute", inset: 0,
-          opacity: i === idx ? 1 : 0,
-          transition: "opacity 1.4s ease",
-          zIndex: 1,
-        }} aria-hidden={i !== idx}>
-          <GenericEditableImage sectionId={sectionId} field={`slides.${i}.url`} src={slide.url} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-            <img
-              src={slide.url}
-              alt=""
-              aria-hidden
-              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: slide.pos ?? "center center" }}
-            />
-          </GenericEditableImage>
-        </div>
-      ))}
-
-      {/* Dark overlay */}
-      <div style={{
-        position: "absolute", inset: 0, zIndex: 2,
-        background: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.38) 60%, rgba(0,0,0,0.55) 100%)",
-      }} aria-hidden />
-
-      {/* Centrovaný obsah */}
-      <div style={{
-        position: "relative", zIndex: 3,
-        textAlign: "center",
-        padding: "0 clamp(24px, 6vw, 120px)",
-        maxWidth: 860,
-        display: "flex", flexDirection: "column", alignItems: "center",
-      }}>
-        {/* Gold ornament */}
-        <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: 28 }}>
-          <div style={{ width: 48, height: 1, backgroundColor: GOLD }} />
-          <span style={{
-            fontFamily: SANS, fontSize: 11, fontWeight: 500,
-            letterSpacing: "0.22em", textTransform: "uppercase", color: GOLD,
-          }}>Kavárna · Praha</span>
-          <div style={{ width: 48, height: 1, backgroundColor: GOLD }} />
-        </div>
-
-        {/* H1 */}
-        <h1 style={{
-          fontFamily: SERIF, fontWeight: 400,
-          fontSize: "clamp(2.4rem, 6vw, 5rem)",
-          lineHeight: 1.12, color: "#ffffff",
-          margin: "0 0 24px", whiteSpace: "pre-line",
-          textShadow: "0 2px 24px rgba(0,0,0,0.35)",
-        }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h1>
-
-        {/* Subtitle */}
-        <p style={{
-          fontFamily: SANS,
-          fontSize: "clamp(0.95rem, 1.6vw, 1.15rem)",
-          fontWeight: 300, lineHeight: 1.65,
-          color: "rgba(255,255,255,0.82)",
-          margin: "0 0 40px", maxWidth: 560,
-        }}>
-          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-        </p>
-
-        {/* CTA tlačítka */}
-        <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
-          <a
-            href={resolve(ctaHref)}
-            data-btn="primary"
-            style={{
-              fontFamily: SANS, fontSize: 12, fontWeight: 600,
-              letterSpacing: "0.12em", textTransform: "uppercase",
-              color: "#ffffff", textDecoration: "none",
-              padding: "14px 34px", backgroundColor: GOLD,
-              transition: "background-color 0.2s",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#8A7E52")}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
-          <a
-            href={resolve(ctaSecondaryHref)}
-            style={{
-              fontFamily: SANS, fontSize: 12, fontWeight: 600,
-              letterSpacing: "0.12em", textTransform: "uppercase",
-              color: "#ffffff", textDecoration: "none",
-              padding: "14px 34px",
-              border: "1px solid rgba(255,255,255,0.6)",
-              transition: "border-color 0.2s, background-color 0.2s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = "#fff"; e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)"; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.6)"; e.currentTarget.style.backgroundColor = "transparent"; }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
-          </a>
-        </div>
-      </div>
-
-      {/* Dot navigace — uprostřed dole */}
-      <div style={{
-        position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)",
-        zIndex: 4, display: "flex", gap: 8, alignItems: "center",
-      }}>
-        {slides.map((_, i) => (
-          <button
+    <section
+      data-template="cafe-02"
+      data-variant="cafe-02-hero"
+      className="cafe02-hero"
+      aria-label="Úvodní sekce"
+    >
+      <div className="cafe02-hero__slides" aria-hidden>
+        {slides.map((slide, i) => (
+          <div
             key={i}
-            onClick={() => setIdx(i)}
-            aria-label={`Slide ${i + 1}`}
-            style={{
-              width: i === idx ? 28 : 8, height: 2,
-              backgroundColor: i === idx ? GOLD : `${CREAM}60`,
-              border: "none", cursor: "pointer", padding: 0,
-              transition: "width 0.4s ease, background-color 0.3s",
-            }}
-          />
+            className="cafe02-hero__slide"
+            data-active={i === idx ? "y" : "n"}
+          >
+            <GenericEditableImage sectionId={sectionId} field={`slides.${i}.url`} src={slide.url} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+              <img
+                src={slide.url}
+                alt=""
+                aria-hidden
+                loading={i === 0 ? "eager" : "lazy"}
+                style={{ objectPosition: slide.pos ?? "center center" }}
+                className="cafe02-hero__slide-img"
+              />
+            </GenericEditableImage>
+          </div>
         ))}
       </div>
 
-      {/* Šipka dolů — vpravo dole */}
-      <div style={{
-        position: "absolute", bottom: 36, right: "clamp(28px, 5vw, 60px)", zIndex: 4,
-      }}>
-        <svg width="20" height="28" viewBox="0 0 20 28" fill="none">
-          <line x1="10" y1="0" x2="10" y2="22" stroke="rgba(255,255,255,0.5)" strokeWidth="1"/>
-          <polyline points="4,16 10,22 16,16" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="1"/>
-        </svg>
+      <div className="cafe02-hero__overlay" aria-hidden />
+      <div className="cafe02-hero__vignette" aria-hidden />
+
+      {/* Gold corner ornaments — 4 rohy (art nouveau brackets) */}
+      {(["tl","tr","bl","br"] as const).map(pos => (
+        <span key={pos} className={`cafe02-hero__corner cafe02-hero__corner--${pos}`} aria-hidden>
+          <svg viewBox="0 0 44 44" fill="none">
+            <path d="M0 0 H30 M0 0 V30" stroke="currentColor" strokeWidth="1"/>
+            <circle cx="34" cy="34" r="2" fill="currentColor"/>
+            <path d="M8 8 L18 8 M8 8 L8 18" stroke="currentColor" strokeWidth="0.8" opacity="0.55"/>
+          </svg>
+        </span>
+      ))}
+
+      <div className={`cafe02-hero__content ${mounted ? "is-in" : ""}`}>
+        <div className="cafe02-hero__eyebrow">
+          <span className="cafe02-hero__eyebrow-rule" />
+          <span className="cafe02-hero__eyebrow-dot" />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          <span className="cafe02-hero__eyebrow-dot" />
+          <span className="cafe02-hero__eyebrow-rule" />
+        </div>
+
+        <h1 className="cafe02-hero__title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        <div className="cafe02-hero__rule" aria-hidden><span /></div>
+
+        <p className="cafe02-hero__subtitle">
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+        </p>
+
+        <div className="cafe02-hero__ctas">
+          <a href={resolve(ctaHref)} data-btn="primary" className="cafe02-hero__cta cafe02-hero__cta--gold">
+            <span className="cafe02-nav__cta-shine" aria-hidden />
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+          <a href={resolve(ctaSecondaryHref)} className="cafe02-hero__cta cafe02-hero__cta--ghost">
+            <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
+            <svg className="cafe02-hero__cta-arrow" width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden>
+              <path d="M1 5H15M10 1L15 5L10 9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      {/* Bottom rail: slide counter (left) + dot nav (center) + slide caption (right) */}
+      <div className="cafe02-hero__rail">
+        <div className="cafe02-hero__counter">
+          <span className="cafe02-hero__counter-idx">{String(idx + 1).padStart(2, "0")}</span>
+          <span className="cafe02-hero__counter-sep" />
+          <span className="cafe02-hero__counter-total">{String(count).padStart(2, "0")}</span>
+        </div>
+
+        <div className="cafe02-hero__dots" role="tablist" aria-label="Slider navigation">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setIdx(i)}
+              aria-label={`Slide ${i + 1}`}
+              aria-selected={i === idx}
+              role="tab"
+              className="cafe02-hero__dot"
+              data-active={i === idx ? "y" : "n"}
+            >
+              <span className="cafe02-hero__dot-bar" />
+            </button>
+          ))}
+        </div>
+
+        <div className="cafe02-hero__caption">
+          <span className="cafe02-hero__caption-label">
+            <GenericEditableText sectionId={sectionId} field="captionLabel" value={captionLabel} tag="span" />
+          </span>
+          <span className="cafe02-hero__caption-text" key={idx}>
+            <GenericEditableText sectionId={sectionId} field={`slides.${idx}.caption`} value={String(active?.caption ?? "")} tag="span" />
+          </span>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="cafe02-hero__scroll" aria-hidden>
+        <span className="cafe02-hero__scroll-line" />
+        <span className="cafe02-hero__scroll-label">Scroll</span>
       </div>
     </section>
   );
@@ -7015,30 +6999,42 @@ function HeroRestaurant03({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
 }
 
 // ── cafe-03-hero ──────────────────────────────────────────────────────────────
-// Ref: cathedral.cz — fullscreen 3-slide autoplay slider, 5s interval
-// Dark overlay rgba(0,0,0,0.30), centrovaný Great Vibes H1 + Open Sans subtitle
-// + zlaté CTA Rezervace; bez spaceru (navbar je fixed overlay)
+// Cathedral Gilded Noir hero — luxe redesign (2026-07-02)
+// Fullscreen 3-slide Ken-Burns cinematic (7s interval, 1.4s crossfade + slow scale)
+// Vignette + candle-light radial + gold corner brackets (cathedral arch feel)
+// Structure: eyebrow rule + kicker (Cormorant italic) → Great Vibes display H1
+//   → hairline gold divider → Cormorant italic subtitle → dual CTAs (gold-fill + ghost-gold)
+//   → bottom rail: numbered indicator (01/03), progress bar, slide caption Great Vibes
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroCafe03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const GOLD    = "#C69C60";
-  const GOLD_DK = "#A07840";
-  const SERIF   = "'Great Vibes', cursive";
-  const SANS    = "'Open Sans', sans-serif";
-  const INTERVAL = 5000;
+  const GOLD_LT = "#D8B57A";
+  const GOLD_DK = "#8F6A38";
+  const NOIR    = "#0d0d0d";
+  const CREAM   = "#F5EFE4";
+  const SCRIPT  = "'Great Vibes', cursive";
+  const ITAL    = "'Cormorant Garamond', 'Playfair Display', Georgia, serif";
+  const SANS    = "'Inter', 'Open Sans', system-ui, sans-serif";
+  const INTERVAL = 7000;
 
-  interface Slide { url: string; alt?: string; }
+  interface Slide { url: string; alt?: string; caption?: string; }
   const rawSlides = (content.slides as Slide[]) ?? [];
   const slides: Slide[] = rawSlides.length > 0 ? rawSlides : [
-    { url: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&h=1080&fit=crop&fm=webp&q=85" },
-    { url: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1920&h=1080&fit=crop&fm=webp&q=85" },
-    { url: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1920&h=1080&fit=crop&fm=webp&q=85" },
+    { url: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=2000&h=1200&fit=crop&fm=webp&q=88", caption: "Katedrální lounge" },
+    { url: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=2000&h=1200&fit=crop&fm=webp&q=88", caption: "Zimní zahrada" },
+    { url: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=2000&h=1200&fit=crop&fm=webp&q=88", caption: "Vinný sklep" },
   ];
 
-  const title    = String(content.title    ?? "Vítáme Vás v Cathedral Café");
-  const subtitle = String(content.subtitle ?? "Rádi Vás přivítáme každý den od 9:00 do 21:00 hod.");
-  const ctaText  = String(content.ctaText  ?? "Rezervace");
+  const eyebrow  = String(content.eyebrow  ?? "PRAHA · MMXVI");
+  const kicker   = String(content.kicker   ?? "Kavárna & Restaurace");
+  const title    = String(content.title    ?? "Cathedral Café");
+  const subtitle = String(content.subtitle ?? "Katedrální elegance v srdci Starého Města — snídaně z pekárny, obědové menu z lokálních surovin, večerní bistro s pečlivě vybranou vinnou kartou.");
+  const ctaText  = String(content.ctaText  ?? "Rezervace stolu");
   const ctaHref  = String(content.ctaHref  ?? "/kontakt");
-  const resolve  = (h: string) => resolveDemoHref(h, tenantSlug, isAdmin);
+  const ctaAltText = String(content.ctaAltText ?? "Prohlédnout menu");
+  const ctaAltHref = String(content.ctaAltHref ?? "/nase-menu");
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (h: string) => resolveNavHref(h, siteMode, tenantSlug, isAdmin);
 
   const [active, setActive] = useState(0);
 
@@ -7048,84 +7044,172 @@ function HeroCafe03({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
     return () => clearInterval(t);
   }, [slides.length]);
 
+  const total = slides.length;
+  const activePad = String(active + 1).padStart(2, "0");
+  const totalPad  = String(total).padStart(2, "0");
+  const currentCaption = slides[active]?.caption ?? "";
+
   return (
-    <section style={{ position: "relative", width: "100%", height: "100vh", minHeight: 500, overflow: "hidden", backgroundColor: "#111" }}>
-      {/* Slides */}
+    <section data-template="cafe-03" className="c3hero" aria-label="Cathedral Café úvod" style={{ position: "relative", width: "100%", height: "100vh", minHeight: 620, overflow: "hidden", backgroundColor: NOIR, color: CREAM }}>
+      {/* Slides — Ken-Burns */}
       {slides.map((slide, i) => (
         <div
           key={i}
-          style={{
-            position: "absolute", inset: 0,
-            opacity: i === active ? 1 : 0,
-            transition: "opacity 1.2s ease",
-            zIndex: i === active ? 1 : 0,
-          }}
+          className="c3hero-slide"
+          data-active={i === active ? "y" : "n"}
+          style={{ position: "absolute", inset: 0, opacity: i === active ? 1 : 0, transition: "opacity 1.4s cubic-bezier(.4,0,.2,1)", zIndex: i === active ? 1 : 0 }}
         >
           <GenericEditableImage sectionId={sectionId} field={`slides.${i}.url`} src={slide.url} alt={slide.alt ?? ""} style={{ position: "absolute", inset: 0 }}>
-            <img src={slide.url} alt={slide.alt ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} loading={i === 0 ? "eager" : "lazy"} />
+            <img src={slide.url} alt={slide.alt ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} loading={i === 0 ? "eager" : "lazy"} className="c3hero-img" />
           </GenericEditableImage>
         </div>
       ))}
 
-      {/* Overlay */}
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.30)", zIndex: 2 }} />
+      {/* Vignette veil — candle-light cathedral feel */}
+      <div aria-hidden style={{ position: "absolute", inset: 0, zIndex: 2, backgroundImage: `radial-gradient(ellipse at center, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.82) 100%), linear-gradient(180deg, rgba(13,13,13,0.55) 0%, rgba(13,13,13,0.20) 30%, rgba(13,13,13,0.75) 100%)` }} />
 
-      {/* Content */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "0 clamp(20px, 5vw, 80px)" }}>
+      {/* Gold corner brackets */}
+      <svg aria-hidden className="c3hero-bracket c3hero-bracket-tl" width="72" height="72" viewBox="0 0 72 72" fill="none"><path d="M4 30 V 4 H 30" stroke={GOLD} strokeWidth="1" /></svg>
+      <svg aria-hidden className="c3hero-bracket c3hero-bracket-tr" width="72" height="72" viewBox="0 0 72 72" fill="none"><path d="M42 4 H 68 V 30" stroke={GOLD} strokeWidth="1" /></svg>
+      <svg aria-hidden className="c3hero-bracket c3hero-bracket-bl" width="72" height="72" viewBox="0 0 72 72" fill="none"><path d="M4 42 V 68 H 30" stroke={GOLD} strokeWidth="1" /></svg>
+      <svg aria-hidden className="c3hero-bracket c3hero-bracket-br" width="72" height="72" viewBox="0 0 72 72" fill="none"><path d="M42 68 H 68 V 42" stroke={GOLD} strokeWidth="1" /></svg>
+
+      {/* Content — cinematic center */}
+      <div className="c3hero-content" style={{ position: "absolute", inset: 0, zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", padding: "120px clamp(20px, 5vw, 80px) 140px" }}>
+        {/* Eyebrow */}
+        <div className="c3hero-eyebrow" style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+          <span aria-hidden style={{ display: "inline-block", width: 32, height: 1, backgroundColor: GOLD }} />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span">
+            <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.36em", textTransform: "uppercase", color: GOLD_LT }}>{eyebrow}</span>
+          </GenericEditableText>
+          <span aria-hidden style={{ display: "inline-block", width: 32, height: 1, backgroundColor: GOLD }} />
+        </div>
+
+        {/* Kicker (Cormorant italic) */}
+        <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span">
+          <span style={{ fontFamily: ITAL, fontStyle: "italic", fontWeight: 400, fontSize: "clamp(18px, 1.8vw, 22px)", color: CREAM, opacity: 0.86, letterSpacing: "0.04em", marginBottom: 8 }}>{kicker}</span>
+        </GenericEditableText>
+
+        {/* Great Vibes display H1 */}
         <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1">
-          <h1 style={{ fontFamily: SERIF, fontSize: "clamp(48px, 7vw, 96px)", fontWeight: 400, color: "#fff", margin: 0, lineHeight: 1.15, letterSpacing: "0.01em" }}>
+          <h1 className="c3hero-title" style={{ fontFamily: SCRIPT, fontSize: "clamp(64px, 10vw, 148px)", fontWeight: 400, color: "#fff", margin: 0, lineHeight: 1.05, letterSpacing: "0.01em", textShadow: "0 4px 30px rgba(0,0,0,0.4)" }}>
             {title}
           </h1>
         </GenericEditableText>
+
+        {/* Hairline gold divider */}
+        <div aria-hidden style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, margin: "22px 0 26px" }}>
+          <span style={{ display: "inline-block", width: 60, height: 1, backgroundColor: `${GOLD}` }} />
+          <span style={{ display: "inline-block", width: 6, height: 6, transform: "rotate(45deg)", border: `1px solid ${GOLD}`, backgroundColor: "transparent" }} />
+          <span style={{ display: "inline-block", width: 60, height: 1, backgroundColor: `${GOLD}` }} />
+        </div>
+
+        {/* Subtitle Cormorant italic */}
         <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p">
-          <p style={{ fontFamily: SANS, fontSize: "clamp(14px, 2vw, 18px)", fontWeight: 300, color: "rgba(255,255,255,0.88)", margin: "20px 0 36px", maxWidth: 520, letterSpacing: "0.02em" }}>
+          <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(16px, 1.5vw, 20px)", fontWeight: 400, color: "rgba(245,239,228,0.88)", margin: "0 0 40px", maxWidth: 620, lineHeight: 1.55, letterSpacing: "0.01em" }}>
             {subtitle}
           </p>
         </GenericEditableText>
-        <a
-          href={resolve(ctaHref)}
-          data-btn="primary"
-          style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: "#fff", textDecoration: "none", padding: "14px 36px", backgroundColor: GOLD, display: "inline-block", transition: "background-color 0.2s" }}
-          onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_DK)}
-          onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
-        >
-          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-        </a>
+
+        {/* Dual CTAs */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 16, justifyContent: "center" }}>
+          <a
+            href={resolve(ctaHref)}
+            data-btn="primary"
+            className="c3hero-cta-primary"
+            style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: NOIR, textDecoration: "none", padding: "16px 34px", backgroundColor: GOLD, display: "inline-flex", alignItems: "center", gap: 10, transition: "background-color 0.28s ease, letter-spacing 0.28s ease" }}
+          >
+            <span style={{ fontFamily: ITAL, fontStyle: "italic", textTransform: "none", letterSpacing: "0.02em", fontSize: 16, fontWeight: 500 }}>~</span>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+          <a
+            href={resolve(ctaAltHref)}
+            data-btn="ghost"
+            className="c3hero-cta-ghost"
+            style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: GOLD_LT, textDecoration: "none", padding: "16px 34px", border: `1px solid ${GOLD}88`, backgroundColor: "transparent", display: "inline-flex", alignItems: "center", gap: 10, transition: "background-color 0.28s ease, color 0.28s ease, border-color 0.28s ease" }}
+          >
+            <GenericEditableText sectionId={sectionId} field="ctaAltText" value={ctaAltText} tag="span" />
+            <span aria-hidden style={{ fontFamily: ITAL, fontStyle: "italic", textTransform: "none", letterSpacing: "0.02em", fontSize: 16 }}>→</span>
+          </a>
+        </div>
       </div>
 
-      {/* Slide indicators */}
-      {slides.length > 1 && (
-        <div style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 4, display: "flex", gap: 10 }}>
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setActive(i)}
-              aria-label={`Snímek ${i + 1}`}
-              style={{ width: i === active ? 28 : 8, height: 2, border: "none", cursor: "pointer", backgroundColor: i === active ? GOLD : "rgba(255,255,255,0.5)", padding: 0, transition: "width 0.3s ease, background-color 0.3s ease" }}
-            />
-          ))}
+      {/* Bottom rail: caption + counter + progress + indicators */}
+      <div className="c3hero-rail" style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 4, padding: "0 clamp(20px, 5vw, 80px) 32px", display: "flex", flexDirection: "column", gap: 14 }}>
+        {/* Hairline */}
+        <div aria-hidden style={{ height: 1, backgroundColor: `${GOLD}55` }} />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24, flexWrap: "wrap" }}>
+          {/* Slide caption Great Vibes */}
+          <div key={active} className="c3hero-caption" style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
+            <span style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD_LT, opacity: 0.8 }}>NYNÍ</span>
+            <span style={{ fontFamily: SCRIPT, fontSize: 26, color: GOLD_LT, lineHeight: 1 }}>{currentCaption}</span>
+          </div>
+
+          {/* Indicators */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActive(i)}
+                aria-label={`Snímek ${i + 1}`}
+                style={{ width: i === active ? 32 : 10, height: 2, border: "none", cursor: "pointer", backgroundColor: i === active ? GOLD : "rgba(245,239,228,0.35)", padding: 0, transition: "width 0.35s ease, background-color 0.35s ease" }}
+              />
+            ))}
+          </div>
+
+          {/* Counter + progress */}
+          <div style={{ display: "flex", alignItems: "center", gap: 14, minWidth: 200 }}>
+            <span style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 20, color: GOLD_LT, minWidth: 22 }}>{activePad}</span>
+            <span aria-hidden style={{ position: "relative", flex: 1, height: 1, backgroundColor: "rgba(245,239,228,0.2)", overflow: "hidden" }}>
+              <span key={active} className="c3hero-progress" style={{ position: "absolute", inset: 0, backgroundColor: GOLD, transformOrigin: "left", animation: `c3heroProgress ${INTERVAL}ms linear` }} />
+            </span>
+            <span style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 14, color: GOLD_LT, opacity: 0.6, minWidth: 22 }}>{totalPad}</span>
+          </div>
         </div>
-      )}
+      </div>
 
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400;600&display=swap" />
-      <style>{`      `}</style>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,500;1,600&family=Inter:wght@400;500;600&display=swap" />
+      <style>{`
+        @keyframes c3heroKen { 0% { transform: scale(1.02); } 100% { transform: scale(1.14); } }
+        @keyframes c3heroProgress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+        @keyframes c3heroReveal { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+        [data-template="cafe-03"].c3hero .c3hero-slide[data-active="y"] .c3hero-img { animation: c3heroKen ${INTERVAL + 1200}ms cubic-bezier(.25,.1,.25,1) both; }
+        [data-template="cafe-03"].c3hero .c3hero-caption { animation: c3heroReveal 700ms cubic-bezier(.4,0,.2,1) both; }
+        [data-template="cafe-03"].c3hero .c3hero-cta-primary:hover { background-color: ${GOLD_LT} !important; letter-spacing: 0.28em !important; }
+        [data-template="cafe-03"].c3hero .c3hero-cta-ghost:hover { background-color: ${GOLD} !important; color: ${NOIR} !important; border-color: ${GOLD} !important; }
+        [data-template="cafe-03"].c3hero .c3hero-bracket { position: absolute; z-index: 3; opacity: 0.5; pointer-events: none; }
+        [data-template="cafe-03"].c3hero .c3hero-bracket-tl { top: 28px; left: 28px; }
+        [data-template="cafe-03"].c3hero .c3hero-bracket-tr { top: 28px; right: 28px; }
+        [data-template="cafe-03"].c3hero .c3hero-bracket-bl { bottom: 96px; left: 28px; }
+        [data-template="cafe-03"].c3hero .c3hero-bracket-br { bottom: 96px; right: 28px; }
+        @media (max-width: 767px) {
+          [data-template="cafe-03"].c3hero .c3hero-bracket { display: none; }
+          [data-template="cafe-03"].c3hero .c3hero-rail > div:last-child { flex-direction: column; align-items: flex-start; gap: 14px; }
+          [data-template="cafe-03"].c3hero .c3hero-rail > div:last-child > div:last-child { width: 100%; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          [data-template="cafe-03"].c3hero .c3hero-slide[data-active="y"] .c3hero-img { animation: none; }
+          [data-template="cafe-03"].c3hero .c3hero-progress { animation: none; transform: scaleX(1); }
+        }
+      `}</style>
     </section>
   );
 }
 
 // ── cafe-04-hero ──────────────────────────────────────────────────────────────
-// Ref: coffeeroom.cz — 100vh horizontal slider, šipky vlevo/vpravo, 5s auto-play
-// Žádný tagline text; slide dots + šipky; scroll-down dole
+// Specialty kavárna urban editorial hero — fullscreen Ken-Burns slider s kinetic reveal
+// Layout: eyebrow + display title + tagline vlevo dole; slide counter + progress vpravo dole
+// Coffee-gold hairline detaily, animated scroll indikátor centred, refined arrows
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroCafe04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const rawSlides = (content.slides as Array<{ imageUrl: string; alt?: string }>) ?? [];
-  const slides    = rawSlides.length ? rawSlides : [{ imageUrl: "/clones/coffeeroom/cdn/67cc82f0c6e15f8db05a46c0/67cc82f0c6e15f8db05a4779_BAB33CEE-0F29-4D78-BCED-B59C17731DB6.jpeg", alt: "Coffee Room" }];
+  const rawSlides = (content.slides as Array<{ imageUrl: string; alt?: string; caption?: string }>) ?? [];
+  const slides    = rawSlides.length ? rawSlides : [{ imageUrl: "/assets/cafe-04/hero-1.webp", alt: "Coffee Room" }];
+  const eyebrow   = String(content.eyebrow   ?? "Specialty · Praha");
+  const title     = String(content.title     ?? "Bringing you\nthe good stuff.");
+  const tagline   = String(content.tagline   ?? "Denní čerstvá pražení, cold brew, avokádové toasty a útulný kout uprostřed města.");
   const scrollLabel = String(content.scrollLabel ?? "scroll down");
-
-  const COFFEE = "#b79570";
-  const FONT   = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
 
   const [active, setActive] = useState(0);
   const [locked, setLocked] = useState(false);
@@ -7136,98 +7220,111 @@ function HeroCafe04({ content, sectionId }: { content: Record<string, unknown>; 
     if (next === active) return;
     setLocked(true);
     setActive(next);
-    setTimeout(() => setLocked(false), 850);
+    setTimeout(() => setLocked(false), 900);
   };
 
   useEffect(() => {
-    const t = setInterval(() => goTo(active + 1), 5000);
+    const t = setInterval(() => goTo(active + 1), 6500);
     return () => clearInterval(t);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active, locked, slides.length]);
 
-  const scrollDown = () =>
-    document.querySelector("section:nth-of-type(2)")?.scrollIntoView({ behavior: "smooth" });
-
-  const arrowStyle: React.CSSProperties = {
-    position: "absolute", top: "50%", transform: "translateY(-50%)",
-    zIndex: 4, background: "none", border: "none", cursor: "pointer",
-    padding: "16px 20px", color: "rgba(255,255,255,0.75)",
-    transition: "color 0.2s",
+  const scrollDown = () => {
+    const sec = document.querySelectorAll("section")[1] ?? document.querySelector("section:nth-of-type(2)");
+    (sec as HTMLElement | null)?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const total = slides.length;
+  const activePad = String(active + 1).padStart(2, "0");
+  const totalPad  = String(total).padStart(2, "0");
+
   return (
-    <section style={{ position: "relative", width: "100%", height: "100vh", overflow: "hidden", minHeight: 600 }}>
+    <section className="cr04-hero" data-template="cafe-04" aria-label="Úvodní představení">
       {/* Slider track */}
-      <div style={{
-        position: "absolute", inset: 0,
-        display: "flex",
-        width: `${slides.length * 100}%`,
-        transform: `translateX(-${active * (100 / slides.length)}%)`,
-        transition: "transform 0.85s cubic-bezier(0.77,0,0.18,1)",
-        willChange: "transform",
-      }}>
+      <div className="cr04-hero-track" aria-hidden>
         {slides.map((slide, i) => (
-          <div
-            key={i}
-            style={{
-              width: `${100 / slides.length}%`,
-              height: "100%",
-              position: "relative",
-              flexShrink: 0,
-              overflow: "hidden",
-            }}
-          >
+          <div key={i} className="cr04-hero-slide" data-active={i === active ? "y" : "n"}>
             <GenericEditableImage
               sectionId={sectionId}
               field={`slides.${i}.imageUrl`}
               src={slide.imageUrl}
               alt={slide.alt ?? `Slide ${i + 1}`}
-              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", display: "block" }}
             >
-              <img src={slide.imageUrl} alt={slide.alt ?? `Slide ${i + 1}`} loading={i === 0 ? "eager" : "lazy"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              <img
+                src={slide.imageUrl}
+                alt={slide.alt ?? `Slide ${i + 1}`}
+                loading={i === 0 ? "eager" : "lazy"}
+                className="cr04-hero-img"
+              />
             </GenericEditableImage>
           </div>
         ))}
       </div>
 
-      {/* Dark overlay */}
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.36)", zIndex: 2 }} />
+      {/* Gradient overlay — editorial vignette */}
+      <div className="cr04-hero-veil" aria-hidden />
+
+      {/* Content zone bottom-left */}
+      <div className="cr04-hero-content" key={active}>
+        <span className="cr04-hero-eyebrow">
+          <span className="cr04-hero-eyebrow-rule" aria-hidden />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </span>
+        <h1 className="cr04-hero-title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <p className="cr04-hero-tagline">
+          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+        </p>
+      </div>
+
+      {/* Slide counter + progress bottom-right */}
+      <div className="cr04-hero-counter" aria-hidden>
+        <span className="cr04-hero-num">{activePad}</span>
+        <span className="cr04-hero-bar">
+          <span
+            className="cr04-hero-bar-fill"
+            key={active}
+            style={{ animationDuration: "6.4s" }}
+          />
+        </span>
+        <span className="cr04-hero-num cr04-hero-num-muted">{totalPad}</span>
+      </div>
 
       {/* Left arrow */}
       <button
+        type="button"
         onClick={() => goTo(active - 1)}
         aria-label="Předchozí slide"
-        style={{ ...arrowStyle, left: "clamp(16px, 3vw, 40px)" }}
-        onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
-        onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.75)")}
+        className="cr04-hero-arrow cr04-hero-arrow-left"
       >
-        <svg width="14" height="26" viewBox="0 0 14 26" fill="none">
-          <path d="M12 2L2 13L12 24" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+          <path d="M13 2L3 14L13 26" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </button>
 
       {/* Right arrow */}
       <button
+        type="button"
         onClick={() => goTo(active + 1)}
         aria-label="Další slide"
-        style={{ ...arrowStyle, right: "clamp(16px, 3vw, 40px)" }}
-        onMouseEnter={e => (e.currentTarget.style.color = "#fff")}
-        onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.75)")}
+        className="cr04-hero-arrow cr04-hero-arrow-right"
       >
-        <svg width="14" height="26" viewBox="0 0 14 26" fill="none">
-          <path d="M2 2L12 13L2 24" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg width="16" height="28" viewBox="0 0 16 28" fill="none">
+          <path d="M3 2L13 14L3 26" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </button>
 
-      {/* Scroll down */}
+      {/* Scroll indicator centered bottom */}
       <button
+        type="button"
         onClick={scrollDown}
-        style={{ position: "absolute", bottom: 16, left: "50%", transform: "translateX(-50%)", zIndex: 4, background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 4, fontFamily: FONT, fontSize: 9, fontWeight: 600, letterSpacing: "0.20em", textTransform: "uppercase", color: "rgba(255,255,255,0.55)" }}
+        className="cr04-hero-scroll"
+        aria-label={scrollLabel}
       >
-        <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span" />
-        <svg width="14" height="8" viewBox="0 0 14 8" fill="none">
-          <path d="M1 1L7 7L13 1" stroke="rgba(255,255,255,0.55)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
+        <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span" className="cr04-hero-scroll-label" />
+        <span className="cr04-hero-scroll-line" aria-hidden><span /></span>
       </button>
     </section>
   );
@@ -16152,8 +16249,8 @@ function HeroHotel02({ content, sectionId, isAdmin }: { content: Record<string, 
 
         /* Slider controls — bottom-left counter + progress dashes */
         .h02hero-controls {
-          position: absolute; bottom: 232px; left: 50%; transform: translateX(-50%);
-          z-index: 6; display: inline-flex; align-items: center; gap: 24px;
+          position: absolute; bottom: 232px; left: 0; right: 0;
+          z-index: 6; display: flex; align-items: center; justify-content: center; gap: 24px;
           color: #fff;
         }
         .h02hero-count {
@@ -16190,13 +16287,17 @@ function HeroHotel02({ content, sectionId, isAdmin }: { content: Record<string, 
         .h02hero-dot:hover { background: rgba(255,255,255,0.5); }
 
         /* Booking widget — glass card with corner ticks */
+        .h02hero-booking-wrap {
+          position: absolute; bottom: 60px; left: 0; right: 0;
+          z-index: 7; display: flex; justify-content: center;
+          padding: 0 24px;
+        }
         .h02hero-booking {
-          position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%);
-          z-index: 7; display: flex; align-items: stretch;
+          display: flex; align-items: stretch;
           background: rgba(15,22,34,0.88); backdrop-filter: saturate(140%) blur(12px);
           -webkit-backdrop-filter: saturate(140%) blur(12px);
           border: 1px solid rgba(150,161,172,0.35);
-          width: min(820px, calc(100% - 48px));
+          width: 100%; max-width: 820px;
           animation: h02fade 1.8s cubic-bezier(.22,.68,0,1) 0.9s both;
         }
         .h02hero-booking::before,
@@ -16295,16 +16396,14 @@ function HeroHotel02({ content, sectionId, isAdmin }: { content: Record<string, 
           .h02hero-ornament { font-size: 44px; margin-bottom: 20px; }
           .h02hero-eyebrow::before, .h02hero-eyebrow::after { width: 22px; }
           .h02hero-eyebrow { gap: 14px; }
-          .h02hero-booking {
-            flex-direction: column; width: calc(100% - 32px);
-            bottom: 20px;
-          }
+          .h02hero-booking-wrap { bottom: 20px; padding: 0 16px; }
+          .h02hero-booking { flex-direction: column; }
           .h02hero-bfield { border-right: none; border-bottom: 1px solid rgba(150,161,172,0.2); padding: 14px 20px; }
           .h02hero-submit { padding: 20px 24px; min-width: unset; }
           .h02hero-controls { bottom: unset; top: unset; position: absolute; bottom: 300px; }
         }
         @media (max-width: 480px) {
-          .h02hero-booking { display: none; }
+          .h02hero-booking-wrap { display: none; }
           .h02hero-content { padding: 100px 20px 100px; }
           .h02hero-controls { bottom: 40px; }
         }
@@ -16365,6 +16464,7 @@ function HeroHotel02({ content, sectionId, isAdmin }: { content: Record<string, 
         <span className="h02hero-scroll" aria-hidden="true">Scroll</span>
 
         {/* Booking widget */}
+        <div className="h02hero-booking-wrap">
         <div className="h02hero-booking">
           <div className="h02hero-bfield">
             <span className="h02hero-blabel">
@@ -16414,6 +16514,7 @@ function HeroHotel02({ content, sectionId, isAdmin }: { content: Record<string, 
               <path d="M1 5h14M10 1l5 4-5 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
+        </div>
         </div>
       </section>
     </>

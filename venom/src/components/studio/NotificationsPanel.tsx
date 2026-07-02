@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { X, Monitor } from "lucide-react";
+import { X, Monitor } from "@/components/studio/icons";
 import { useStudio } from "./StudioContext";
 
 export function NotificationsPanel() {

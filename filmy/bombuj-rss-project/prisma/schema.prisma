@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Movie {
+  id             String           @id @default(cuid())
+  slug           String           @unique
+  title          String
+  pageUrl        String           @unique
+  imdbId         String?
+  tmdbId         String?
+  languageRaw    String?
+  lastScrapedAt  DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  serverLinks    MovieServerLink[]
+}
+
+model MovieServerLink {
+  id             String   @id @default(cuid())
+  movieId        String
+  languageLabel  String?
+  serverName     String
+  playerUrl      String
+  playerPath     String?
+  position       Int      @default(0)
+  isVip          Boolean  @default(false)
+  isNew          Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+
+  @@index([movieId])
+  @@index([serverName])
+  @@unique([movieId, playerUrl])
+}

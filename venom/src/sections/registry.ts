@@ -29,7 +29,7 @@ export const SECTION_RENDERERS: Record<string, AnyComp> = {
   products: dynamic(() => import("@/components/sections/PromoSection").then((m) => m.PromoSection), { ssr: true }) as AnyComp,
   stats: dynamic(() => import("@/components/sections/StatsSection").then((m) => m.StatsSection), { ssr: true }) as AnyComp,
   embed: dynamic(() => import("@/components/sections/EmbedSection").then((m) => m.EmbedSection), { ssr: true }) as AnyComp,
-  freeform: dynamic(() => import("@/components/sections/FreeformSection").then((m) => m.FreeformSection), { ssr: false }) as AnyComp,
+  freeform: dynamic(() => import("@/components/sections/FreeformSection").then((m) => m.FreeformSection), { ssr: true }) as AnyComp,
 };
 /* eslint-enable @typescript-eslint/no-explicit-any */
 

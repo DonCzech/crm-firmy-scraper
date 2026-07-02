@@ -1,13 +1,13 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "peak-cut",
-  "name": "Peak Cut — Minimal White",
+  "name": "Peak Cut — Brutalist Atelier White (barber-05)",
   "industry": "barber",
   "skeleton": "service-personal",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "baseTemplate": null,
-  "description": "Minimalistický bílý barbershop — světlé pozadí, čistá typografie, jednoduchý hero, pricing-rows ceník, light footer.",
-  "sectionOrderNote": "Originál barbershop-buddy.cz: hero → about → pricing (ceník v rows) → gallery → testimonials → contact → footer. Pricing je sloučen do services sekce (variant pricing-rows), proto skip skeleton pozice #5. Standard 2026-05-27 vyžadoval skip metadata — doplněno retroaktivně 2026-05-29.",
+  "description": "Brutalist Atelier White barbershop — ONE-PAGE: pure white, ink black, surgical red accent. Oswald display + Overpass body + Overpass Mono labels. Anchor scroll navigation. Aka barber-05 v interní řadě (sdílí key 'peak-cut' kvůli onboarding compat).",
+  "sectionOrderNote": "navbar → hero → services → gallery → about → testimonials → contact → footer. Supports both one-page (anchor scroll) and multi-page (subpages) via DB site_mode toggle.",
   "extraSections": [],
   "skippedSections": [
     { "pos": 5,  "name": "Pricing",       "reason": "ceny jsou sloučené přímo do services sekce (variant pricing-rows) — žádná samostatná pricing sekce" },
@@ -25,14 +25,14 @@
       "isHomepage": true,
       "title": "Domů",
       "sections": [
-        { "type": "navbar",       "variant": "peak-cut-minimal","contentRef": "navbar" },
-        { "type": "hero",         "variant": "hero-full-bleed", "contentRef": "hero" },
-        { "type": "services",     "variant": "peak-cut-pricing","contentRef": "services",     "anchorId": "services" },
-        { "type": "gallery",      "variant": "peak-cut-mosaic", "contentRef": "gallery",      "anchorId": "gallery"  },
-        { "type": "about",        "variant": "two-col",         "contentRef": "about",        "anchorId": "about"    },
-        { "type": "testimonials", "variant": "default",         "contentRef": "testimonials"                          },
-        { "type": "contact",      "variant": "default",         "contentRef": "contact",      "anchorId": "contacts" },
-        { "type": "footer",       "variant": "light",           "contentRef": "footer" }
+        { "type": "navbar",       "variant": "peak-cut-minimal",            "contentRef": "navbar" },
+        { "type": "hero",         "variant": "hero-peak-cut-fullbleed",     "contentRef": "hero",         "anchorId": "hero"      },
+        { "type": "services",     "variant": "peak-cut-pricing",            "contentRef": "services",     "anchorId": "services"  },
+        { "type": "gallery",      "variant": "gallery-universal",           "contentRef": "gallery",      "anchorId": "gallery"   },
+        { "type": "about",        "variant": "about-peak-cut-split",        "contentRef": "about",        "anchorId": "about"     },
+        { "type": "testimonials", "variant": "testimonials-peak-cut-grid",  "contentRef": "testimonials", "anchorId": "reference" },
+        { "type": "contact",      "variant": "contact-peak-cut",            "contentRef": "contact",      "anchorId": "kontakt"   },
+        { "type": "footer",       "variant": "footer-peak-cut",             "contentRef": "footer" }
       ]
     }
   ],

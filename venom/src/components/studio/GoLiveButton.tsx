@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Rocket, Check, AlertCircle, Loader2 } from "lucide-react";
+import { Rocket, Check, AlertCircle, Loader2 } from "@/components/studio/icons";
 import type { StudioState } from "./TenantStudioView";
 
 /**

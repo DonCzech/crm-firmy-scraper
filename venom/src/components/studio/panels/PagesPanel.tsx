@@ -5,9 +5,11 @@ import {
   Plus, Home, ChevronUp, Loader2, Search, GripVertical,
   Settings2, Trash2, FileText, Link, Anchor, BookOpen,
   Calendar, Library, X,
-} from "lucide-react";
+} from "@/components/studio/icons";
 import { useStudio } from "../StudioContext";
 import type { StudioState } from "../TenantStudioView";
+
+const PANEL_STATE_KEY = "venom-studio.panel-state.v1";
 
 interface PageRow {
   id: number;
@@ -153,12 +155,12 @@ function PageSettingsEditor({
     <div className="fixed inset-0 z-[200] flex bg-[var(--vs-surface)]">
       {/* Dark sidebar spacer keeps the Studio rail+panel visible (matches PDF
           layout where the left chrome stays put). */}
-      <div className="w-[295px] shrink-0 bg-[var(--vs-bg-soft)] border-r border-[var(--vs-border)]" />
+      <div className="hidden w-[295px] shrink-0 border-r border-[var(--vs-border)] bg-[var(--vs-bg-soft)] md:block" />
 
       {/* Right column — the actual editor surface */}
       <div className="flex flex-1 flex-col bg-[var(--vs-surface)]">
         {/* Top action bar */}
-        <div className="flex h-[52px] shrink-0 items-center justify-between px-5 border-b border-[var(--vs-border)] bg-[var(--vs-surface)]">
+        <div className="flex h-auto shrink-0 flex-wrap items-center justify-between gap-2 border-b border-[var(--vs-border)] bg-[var(--vs-surface)] px-3 py-2 sm:h-[52px] sm:px-5 sm:py-0">
           <button
             type="button"
             className="inline-flex items-center gap-2 rounded-md bg-[var(--vs-accent)] px-3 py-1.5 text-[12.5px] font-medium text-white hover:bg-[var(--vs-accent-solid)]"
@@ -178,10 +180,10 @@ function PageSettingsEditor({
 
         {/* Page body */}
         <div className="flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-[1180px] px-10 py-10">
+          <div className="mx-auto max-w-[1180px] px-4 py-5 sm:px-10 sm:py-10">
             {/* Title row */}
-            <div className="mb-10 flex items-start justify-between gap-6">
-              <h1 className="text-[40px] font-semibold leading-tight text-[#0a0a0a] tracking-tight">
+            <div className="mb-6 flex flex-col items-start justify-between gap-4 sm:mb-10 sm:flex-row sm:gap-6">
+              <h1 className="text-[28px] font-semibold leading-tight text-[#0a0a0a] tracking-tight sm:text-[40px]">
                 {title || "Untitled"}
               </h1>
               <div className="flex items-center gap-3">
@@ -217,7 +219,7 @@ function PageSettingsEditor({
             </div>
 
             {/* Sibling navigation arrows — right-aligned */}
-            <div className="-mt-8 mb-8 flex items-center justify-end gap-1 text-[var(--vs-text-disabled)]">
+            <div className="mb-6 flex items-center justify-end gap-1 text-[var(--vs-text-disabled)] sm:-mt-8 sm:mb-8">
               <button
                 type="button"
                 onClick={() => prevPage && onNavigate(prevPage)}
@@ -389,9 +391,11 @@ export function PagesPanel({ state }: { state: StudioState }) {
   const studio = useStudio();
   const [pages, setPages] = useState<PageRow[]>([]);
   const [loading, setLoading] = useState(true);
+  const [slowLoading, setSlowLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [search, setSearch] = useState("");
+  const [navigatingPageId, setNavigatingPageId] = useState<number | null>(null);
   const [creating, setCreating] = useState(false);
   const [newSlug, setNewSlug] = useState("");
   const [newTitle, setNewTitle] = useState("");
@@ -419,6 +423,15 @@ export function PagesPanel({ state }: { state: StudioState }) {
   }, [state.tenant.slug]);
 
   useEffect(() => { void reload(); }, [reload]);
+
+  useEffect(() => {
+    if (!loading) {
+      setSlowLoading(false);
+      return;
+    }
+    const timer = window.setTimeout(() => setSlowLoading(true), 900);
+    return () => window.clearTimeout(timer);
+  }, [loading]);
 
   async function createPage(e: React.FormEvent) {
     e.preventDefault();
@@ -466,11 +479,22 @@ export function PagesPanel({ state }: { state: StudioState }) {
 
   function navigateTo(p: PageRow) {
     if (p.id === state.page.id) return;
-    // Push "pages" onto history BEFORE the reload so the back button returns here.
-    studio.pushPanel("layers");
+    setNavigatingPageId(p.id);
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
     const url = p.is_homepage
       ? `/demo/${state.tenant.slug}/admin`
       : `/demo/${state.tenant.slug}/admin/${encodeURIComponent(p.slug)}`;
+
+    if (isMobile) {
+      try {
+        window.sessionStorage.setItem(PANEL_STATE_KEY, JSON.stringify({ leftPanel: null, panelHistory: [] }));
+      } catch { /* ignore */ }
+      window.setTimeout(() => { window.location.href = url; }, 80);
+      return;
+    }
+
+    // Push "pages" onto history BEFORE the reload so the back button returns here.
+    studio.pushPanel("layers");
     window.location.href = url;
   }
 
@@ -485,8 +509,16 @@ export function PagesPanel({ state }: { state: StudioState }) {
     return (
       <div className="flex flex-col h-full">
         <SearchHeader search={search} onSearch={setSearch} />
-        <div className="flex items-center justify-center py-10 text-[var(--vs-text-muted)]">
-          <Loader2 className="h-4 w-4 animate-spin" />
+        <div className="flex flex-col items-center justify-center gap-3 px-6 py-12 text-center text-[var(--vs-text-muted)]">
+          <Loader2 className="h-5 w-5 animate-spin text-[var(--vs-accent-hi)]" />
+          <div>
+            <p className="text-[13px] font-medium text-[var(--vs-text-soft)]">Načítám navigaci...</p>
+            {slowLoading && (
+              <p className="mt-1 text-[11px] leading-relaxed text-[var(--vs-text-dim)]">
+                Chvilku strpení, stahuji seznam stránek.
+              </p>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -496,6 +528,15 @@ export function PagesPanel({ state }: { state: StudioState }) {
     <div className="flex h-full flex-col">
       {/* Search header — replaces the shared StudioLeftPanel title bar */}
       <SearchHeader search={search} onSearch={setSearch} />
+
+      {navigatingPageId !== null && (
+        <div className="shrink-0 border-b border-[var(--vs-border)] bg-[rgba(139,92,246,0.08)] px-4 py-2 text-[12px] text-[var(--vs-accent-hi)]">
+          <span className="inline-flex items-center gap-2">
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            Načítám stránku...
+          </span>
+        </div>
+      )}
 
       {error && (
         <div className="shrink-0 border-b border-[rgba(248,113,113,0.30)] bg-red-500/5 px-4 py-1.5 text-[11px] text-[var(--vs-danger)]">
@@ -519,6 +560,7 @@ export function PagesPanel({ state }: { state: StudioState }) {
                   onDelete={() => deletePage(p)}
                   onSettings={() => setSettingsPage(p)}
                   busy={busy}
+                  navigating={navigatingPageId === p.id}
                 />
               ))
             )}
@@ -546,6 +588,7 @@ export function PagesPanel({ state }: { state: StudioState }) {
                     onDelete={() => deletePage(p)}
                     onSettings={() => setSettingsPage(p)}
                     busy={busy}
+                    navigating={navigatingPageId === p.id}
                   />
                 ))
               )}
@@ -592,7 +635,7 @@ export function PagesPanel({ state }: { state: StudioState }) {
             {/* MIMO STRUKTURU */}
             <NavSection title="MIMO STRUKTURU" onAdd={() => {}}>
               {pages.filter(p => p.is_homepage && !mainPages.find(m => m.id === p.id)).map(p => (
-                <PageItem key={p.id} page={p} active={p.id === state.page.id} onNavigate={() => navigateTo(p)} onDelete={() => deletePage(p)} onSettings={() => setSettingsPage(p)} busy={busy} />
+                <PageItem key={p.id} page={p} active={p.id === state.page.id} onNavigate={() => navigateTo(p)} onDelete={() => deletePage(p)} onSettings={() => setSettingsPage(p)} busy={busy} navigating={navigatingPageId === p.id} />
               ))}
             </NavSection>
 
@@ -602,7 +645,7 @@ export function PagesPanel({ state }: { state: StudioState }) {
                 <p className="px-4 py-2 text-[13px] text-[#6b7280]">404</p>
               ) : (
                 systemPages.map((p) => (
-                  <PageItem key={p.id} page={p} active={p.id === state.page.id} onNavigate={() => navigateTo(p)} onDelete={() => deletePage(p)} onSettings={() => setSettingsPage(p)} busy={busy} />
+                  <PageItem key={p.id} page={p} active={p.id === state.page.id} onNavigate={() => navigateTo(p)} onDelete={() => deletePage(p)} onSettings={() => setSettingsPage(p)} busy={busy} navigating={navigatingPageId === p.id} />
                 ))
               )}
             </NavSection>
@@ -708,7 +751,7 @@ function EmptyPlaceholder() {
 
 /* ── PageItem ────────────────────────────────────────────────────────────── */
 function PageItem({
-  page: p, active, onNavigate, onDelete, onSettings, busy,
+  page: p, active, onNavigate, onDelete, onSettings, busy, navigating = false,
 }: {
   page: PageRow;
   active: boolean;
@@ -716,6 +759,7 @@ function PageItem({
   onDelete: () => void;
   onSettings: () => void;
   busy: boolean;
+  navigating?: boolean;
 }) {
   const [hover, setHover] = useState(false);
 
@@ -747,10 +791,13 @@ function PageItem({
       </span>
 
       {/* Right-side indicators */}
-      {p.is_homepage && !hover && (
+      {navigating && (
+        <Loader2 className="ml-1.5 h-3.5 w-3.5 shrink-0 animate-spin text-[var(--vs-accent-hi)]" strokeWidth={2} />
+      )}
+      {p.is_homepage && !hover && !navigating && (
         <Home className="h-3.5 w-3.5 shrink-0 text-[#6b7280] ml-1.5" strokeWidth={1.5} />
       )}
-      {!p.is_homepage && p.status === "draft" && !hover && (
+      {!p.is_homepage && p.status === "draft" && !hover && !navigating && (
         <span className="ml-1.5 shrink-0 text-[10px] font-medium uppercase tracking-wide text-[#f59e0b] opacity-70">
           koncept
         </span>

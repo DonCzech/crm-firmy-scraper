@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#ffffff">
+  <title>Tinder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+
+/* ═══════════════════════════════════════════════════════
+   RESET + BASE
+══════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{height:100%;font-size:10px;-webkit-tap-highlight-color:transparent;}
+body{
+  font-family:'Montserrat','Helvetica Neue',Arial,sans-serif;
+  height:100%; background:#f5f5f5;
+  overflow:hidden; user-select:none;
+  -webkit-user-select:none;
+}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:inherit;border:none;background:none;
+  -webkit-appearance:none;}
+img{display:block;max-width:100%;}
+
+/* ═══════════════════════════════════════════════════════
+   APP SHELL — centered on desktop, full on mobile
+══════════════════════════════════════════════════════════ */
+.app{
+  position:relative;
+  width:100%; max-width:430px;
+  height:100vh; height:100dvh;
+  margin:0 auto;
+  background:#fff;
+  display:flex; flex-direction:column;
+  overflow:hidden;
+  box-shadow:0 0 40px rgba(0,0,0,.18);
+}
+
+/* ═══════════════════════════════════════════════════════
+   SCREENS
+══════════════════════════════════════════════════════════ */
+.screen{
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  background:#fff;
+  opacity:0; pointer-events:none;
+  transition:opacity .2s ease;
+}
+.screen.active{opacity:1; pointer-events:all;}
+
+/* ═══════════════════════════════════════════════════════
+   TOP BAR (generic)
+══════════════════════════════════════════════════════════ */
+.topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  height:52px; padding:0 16px;
+  background:#fff; flex-shrink:0;
+  z-index:10;
+}
+.topbar-title{
+  font-size:2rem; font-weight:800; color:#24262a;
+}
+.topbar-logo{
+  display:flex; align-items:center; gap:8px;
+}
+.topbar-logo-text{
+  font-size:2.2rem; font-weight:800; letter-spacing:-.02em;
+  background:linear-gradient(to right,#fd267a,#ff6036);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.topbar-icon-btn{
+  width:40px; height:40px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:none; border:none; cursor:pointer;
+  transition:background .15s;
+}
+.topbar-icon-btn:hover{background:#f0f0f0;}
+.topbar-icon-btn svg{width:22px;height:22px;}
+
+/* Profile avatar in topbar */
+.topbar-avatar{
+  width:34px; height:34px; border-radius:50%;
+  object-fit:cover; cursor:pointer;
+  border:2px solid #e7e9ee;
+}
+
+/* Gradient flame icon */
+.flame-grad{fill:url(#topFlameGrad);}
+
+/* ═══════════════════════════════════════════════════════
+   DISCOVER SCREEN
+══════════════════════════════════════════════════════════ */
+#screen-discover{background:#f5f5f5;}
+#screen-discover .topbar{background:#fff; border-bottom:1px solid #f0f0f0;}
+
+/* Card Stack */
+.card-stack{
+  flex:1; position:relative;
+  padding:8px 10px 6px;
+  overflow:hidden;
+}
+
+/* Individual card */
+.card{
+  position:absolute; inset:0;
+  border-radius:16px; overflow:hidden;
+  cursor:grab;
+  box-shadow:0 4px 20px rgba(0,0,0,.20);
+  transition:transform .08s ease;
+  touch-action:none;
+  will-change:transform;
+  background:#222;
+}
+.card:active{cursor:grabbing;}
+
+/* Cards behind are slightly scaled down and pushed down */
+.card:nth-child(2){transform:scale(.96) translateY(6px); z-index:1;}
+.card:nth-child(3){transform:scale(.92) translateY(12px); z-index:0;}
+.card:nth-child(n+4){transform:scale(.88) translateY(18px); z-index:-1; opacity:0;}
+.card:first-child{z-index:10; transform:none;}
+
+/* Card photo */
+.card-photo{
+  position:absolute; inset:0;
+  background-size:cover; background-position:center top;
+  transition:background-image .25s;
+}
+
+/* Photo nav tap zones */
+.card-photo-prev,
+.card-photo-next{
+  position:absolute; top:0; bottom:35%; width:50%; z-index:3;
+  cursor:pointer;
+}
+.card-photo-prev{left:0;}
+.card-photo-next{right:0;}
+
+/* Photo dots */
+.card-dots{
+  position:absolute; top:8px; left:8px; right:8px;
+  display:flex; gap:4px; z-index:4;
+}
+.card-dot{
+  height:3px; border-radius:2px; flex:1;
+  background:rgba(255,255,255,.45);
+  transition:background .2s;
+}
+.card-dot.active{background:#fff;}
+
+/* Card gradient overlay */
+.card-overlay{
+  position:absolute; bottom:0; left:0; right:0;
+  height:65%;
+  background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.45) 40%,transparent 100%);
+  z-index:2;
+}
+
+/* Card info */
+.card-info{
+  position:absolute; bottom:0; left:0; right:0;
+  z-index:5; padding:0 20px 20px;
+  color:#fff;
+}
+.card-name-row{
+  display:flex; align-items:center; gap:10px;
+  margin-bottom:4px;
+}
+.card-name{
+  font-size:2.8rem; font-weight:700; line-height:1.1;
+}
+.card-age{
+  font-size:2.6rem; font-weight:400; line-height:1.1;
+}
+.card-verified{
+  width:24px; height:24px; flex-shrink:0;
+}
+.card-distance{
+  display:flex; align-items:center; gap:5px;
+  font-size:1.35rem; font-weight:500;
+  color:rgba(255,255,255,.85);
+  margin-bottom:8px;
+}
+.card-distance svg{width:14px;height:14px;fill:rgba(255,255,255,.85);}
+.card-job{
+  display:flex; align-items:center; gap:6px;
+  font-size:1.4rem; font-weight:500;
+  color:rgba(255,255,255,.85);
+  margin-bottom:4px;
+}
+.card-job svg{width:14px;height:14px;fill:rgba(255,255,255,.85);}
+.card-bio{
+  font-size:1.35rem; font-weight:500;
+  color:rgba(255,255,255,.80);
+  line-height:1.45;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.card-info-btn{
+  position:absolute; bottom:20px; right:18px;
+  width:36px; height:36px; border-radius:50%;
+  background:rgba(255,255,255,.2);
+  display:flex; align-items:center; justify-content:center;
+  z-index:6; cursor:pointer;
+  backdrop-filter:blur(4px);
+}
+.card-info-btn svg{width:18px;height:18px;fill:#fff;}
+
+/* STAMPS */
+.stamp{
+  position:absolute; z-index:20;
+  padding:10px 16px;
+  border-radius:6px; border:4px solid;
+  font-size:3.6rem; font-weight:800;
+  letter-spacing:3px; text-transform:uppercase;
+  opacity:0; transition:opacity .05s;
+  pointer-events:none;
+}
+.stamp-like{
+  top:60px; left:20px;
+  color:#21d07a; border-color:#21d07a;
+  transform:rotate(-20deg);
+}
+.stamp-nope{
+  top:60px; right:20px;
+  color:#ff4458; border-color:#ff4458;
+  transform:rotate(20deg);
+}
+.stamp-super{
+  bottom:120px; left:50%;
+  transform:translateX(-50%);
+  color:#07a6f5; border-color:#07a6f5;
+  font-size:3rem;
+}
+
+/* Empty deck */
+.deck-empty{
+  display:none;
+  flex-direction:column; align-items:center; justify-content:center;
+  height:100%; text-align:center; gap:16px;
+}
+.deck-empty.visible{display:flex;}
+.deck-empty svg{width:80px;height:80px;fill:#e7e9ee;}
+.deck-empty p{font-size:1.6rem;font-weight:600;color:#b4b9c6;}
+.deck-empty small{font-size:1.35rem;color:#c8cdd6;}
+
+/* Action buttons row */
+.actions{
+  display:flex; align-items:center; justify-content:center;
+  gap:16px;
+  height:88px; padding:8px 16px 12px;
+  background:#fff; flex-shrink:0;
+}
+.action-btn{
+  border-radius:50%; background:#fff;
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.15);
+  border:none; cursor:pointer; flex-shrink:0;
+  transition:transform .12s ease, box-shadow .12s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.action-btn:active{transform:scale(.9); box-shadow:0 1px 4px rgba(0,0,0,.15);}
+.action-btn:hover{transform:scale(1.06);}
+.btn-undo { width:38px; height:38px; }
+.btn-undo svg   { width:18px; height:18px; fill:#f5c518; }
+.btn-nope { width:58px; height:58px; }
+.btn-nope svg   { width:26px; height:26px; fill:#ff4458; }
+.btn-super{ width:46px; height:46px; }
+.btn-super svg  { width:22px; height:22px; fill:#07a6f5; }
+.btn-like { width:58px; height:58px; }
+.btn-like svg   { width:26px; height:26px; fill:#21d07a; }
+.btn-boost{ width:38px; height:38px; }
+.btn-boost svg  { width:18px; height:18px; fill:#a459ef; }
+
+/* ═══════════════════════════════════════════════════════
+   IT'S A MATCH  OVERLAY
+══════════════════════════════════════════════════════════ */
+.match-overlay{
+  position:absolute; inset:0; z-index:200;
+  background:linear-gradient(to bottom right,#fd267a,#ff6036);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:32px 24px;
+  opacity:0; pointer-events:none;
+  transition:opacity .3s ease;
+}
+.match-overlay.visible{opacity:1; pointer-events:all;}
+
+.match-flame{width:56px;height:80px;margin-bottom:12px;}
+.match-title{
+  font-size:4rem; font-weight:800; color:#fff;
+  letter-spacing:.02em; margin-bottom:8px;
+  text-shadow:0 2px 12px rgba(0,0,0,.2);
+}
+.match-sub{
+  font-size:1.5rem; font-weight:500; color:rgba(255,255,255,.88);
+  text-align:center; margin-bottom:36px; line-height:1.5;
+}
+.match-photos{
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:40px;
+  position:relative;
+}
+.match-photo{
+  width:110px; height:110px; border-radius:50%;
+  object-fit:cover;
+  border:4px solid #fff;
+  box-shadow:0 4px 20px rgba(0,0,0,.25);
+}
+.match-photo:first-child{transform:translateX(24px); z-index:2;}
+.match-photo:last-child{transform:translateX(-24px); z-index:1;}
+.match-heart{
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  z-index:3; width:36px; height:36px;
+  background:#fff; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+.match-heart svg{width:18px;height:18px;fill:#ff4458;}
+
+.match-btn-send{
+  width:100%; padding:17px;
+  border-radius:52px; border:none;
+  background:#fff; color:#fd267a;
+  font-size:1.7rem; font-weight:700;
+  cursor:pointer; margin-bottom:16px;
+  box-shadow:0 4px 16px rgba(0,0,0,.15);
+  transition:transform .1s;
+}
+.match-btn-send:active{transform:scale(.97);}
+.match-btn-keep{
+  font-size:1.5rem; font-weight:600;
+  color:rgba(255,255,255,.8);
+  background:none; border:none; cursor:pointer;
+  text-decoration:underline;
+}
+
+/* ═══════════════════════════════════════════════════════
+   BOTTOM NAVIGATION
+══════════════════════════════════════════════════════════ */
+.bottom-nav{
+  display:flex; height:60px;
+  background:#fff;
+  border-top:1px solid #f0f0f0;
+  flex-shrink:0; z-index:100;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.nav-tab{
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:3px; cursor:pointer; padding:6px 0;
+  border:none; background:none;
+  transition:opacity .15s;
+  min-height:44px;
+  -webkit-tap-highlight-color:transparent;
+}
+.nav-tab svg{width:24px; height:24px; fill:#b4b9c6; transition:fill .15s;}
+.nav-tab.active svg{fill:#fd267a;}
+.nav-tab-label{font-size:1rem; font-weight:600; color:#b4b9c6; transition:color .15s;}
+.nav-tab.active .nav-tab-label{color:#fd267a;}
+
+/* Center logo tab */
+.nav-tab-center svg{width:28px;height:28px;}
+.nav-tab-center.active svg{fill:url(#navFlameGrad);}
+
+/* Badge */
+.nav-badge{
+  position:relative;
+}
+.nav-badge::after{
+  content:attr(data-badge);
+  position:absolute; top:-4px; right:-8px;
+  background:#fd267a; color:#fff;
+  font-size:.9rem; font-weight:700;
+  min-width:16px; height:16px;
+  border-radius:8px; padding:0 4px;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* ═══════════════════════════════════════════════════════
+   LIKES SCREEN (Gold)
+══════════════════════════════════════════════════════════ */
+#screen-likes{background:#fff;}
+#screen-likes .topbar{border-bottom:1px solid #f0f0f0;}
+.likes-content{
+  flex:1; overflow-y:auto; overscroll-behavior:contain;
+  padding:0 0 16px;
+}
+.likes-gold-banner{
+  margin:16px;
+  background:linear-gradient(135deg,#c1920f,#e6af16 42%,#fad122);
+  border-radius:16px; padding:20px;
+  display:flex; align-items:center; gap:14px;
+}
+.likes-gold-icon{width:40px;height:40px;flex-shrink:0;}
+.likes-gold-text h3{
+  font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:4px;
+}
+.likes-gold-text p{font-size:1.35rem;font-weight:500;color:rgba(255,255,255,.85);}
+
+.likes-count{
+  display:flex;align-items:center;gap:8px;
+  padding:16px 20px 8px;
+  font-size:1.9rem;font-weight:800;color:#24262a;
+}
+.likes-count span{
+  font-size:2.2rem;font-weight:800;
+  background:linear-gradient(to right,#fd267a,#ff6036);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+
+.likes-grid{
+  display:grid; grid-template-columns:repeat(2,1fr);
+  gap:4px; padding:0 4px;
+}
+.likes-grid-item{
+  position:relative; aspect-ratio:.75;
+  overflow:hidden; border-radius:8px;
+  cursor:pointer;
+}
+.likes-grid-item img{
+  width:100%;height:100%;object-fit:cover;
+  filter:blur(16px) brightness(.85) saturate(.5);
+  transform:scale(1.1);
+  transition:filter .3s;
+}
+.likes-grid-item .lock-icon{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column; gap:6px;
+}
+.likes-grid-item .lock-icon svg{width:32px;height:32px;fill:#fff;}
+.likes-grid-item .lock-name{
+  font-size:1.4rem;font-weight:700;color:#fff;
+  text-shadow:0 1px 4px rgba(0,0,0,.4);
+}
+.likes-upgrade-btn{
+  margin:20px 16px 0;
+  width:calc(100% - 32px);
+  padding:17px; border-radius:52px; border:none;
+  background:linear-gradient(to right,#fd267a,#ff6036);
+  color:#fff; font-size:1.7rem; font-weight:700;
+  cursor:pointer;
+  box-shadow:0 4px 16px rgba(253,38,122,.4);
+  transition:transform .1s;
+}
+.likes-upgrade-btn:active{transform:scale(.97);}
+
+/* ═══════════════════════════════════════════════════════
+   MESSAGES SCREEN
+══════════════════════════════════════════════════════════ */
+#screen-messages{background:#fff;}
+#screen-messages .topbar{border-bottom:1px solid #f0f0f0;}
+.messages-content{flex:1;overflow-y:auto;overscroll-behavior:contain;}
+
+/* New Matches row */
+.new-matches-section{
+  padding:16px 0 12px;
+  border-bottom:1px solid #f0f0f0;
+}
+.new-matches-label{
+  font-size:1.4rem;font-weight:700;color:#b4b9c6;
+  padding:0 16px 10px;text-transform:uppercase;letter-spacing:.05em;
+}
+.new-matches-scroll{
+  display:flex; gap:12px;
+  overflow-x:auto; padding:0 16px;
+  scrollbar-width:none;
+}
+.new-matches-scroll::-webkit-scrollbar{display:none;}
+.match-avatar-item{
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  flex-shrink:0; cursor:pointer;
+}
+.match-avatar-ring{
+  width:62px;height:62px;border-radius:50%;
+  position:relative; flex-shrink:0;
+}
+.match-avatar-ring::before{
+  content:'';position:absolute;inset:-2px;
+  border-radius:50%;
+  background:linear-gradient(to bottom right,#fd267a,#ff6036);
+  z-index:0;
+}
+.match-avatar-ring img{
+  width:100%;height:100%;border-radius:50%;
+  object-fit:cover;
+  position:relative;z-index:1;
+  border:2px solid #fff;
+}
+.match-avatar-name{
+  font-size:1.2rem;font-weight:600;color:#24262a;
+  max-width:68px;text-align:center;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+/* Special "New Likes" avatar */
+.match-avatar-likes{
+  width:62px;height:62px;border-radius:50%;
+  background:linear-gradient(135deg,#c1920f,#fad122);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.2rem; cursor:pointer;
+}
+
+/* Messages list */
+.messages-label{
+  font-size:1.4rem;font-weight:700;color:#b4b9c6;
+  padding:16px 16px 6px;text-transform:uppercase;letter-spacing:.05em;
+}
+.message-thread{
+  display:flex;align-items:center;gap:12px;
+  padding:14px 16px;
+  cursor:pointer;transition:background .1s;
+  border-bottom:1px solid #f9f9f9;
+}
+.message-thread:hover{background:#fafafa;}
+.thread-avatar{
+  width:58px;height:58px;border-radius:50%;
+  object-fit:cover;flex-shrink:0;
+}
+.thread-body{flex:1;min-width:0;}
+.thread-name{
+  font-size:1.6rem;font-weight:700;color:#24262a;
+  margin-bottom:3px;
+}
+.thread-preview{
+  font-size:1.4rem;font-weight:500;color:#b4b9c6;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.thread-preview.unread{color:#24262a;font-weight:600;}
+.thread-time{
+  font-size:1.2rem;font-weight:500;color:#b4b9c6;
+  flex-shrink:0; align-self:flex-start; padding-top:2px;
+}
+.thread-unread-dot{
+  width:10px;height:10px;border-radius:50%;
+  background:#fd267a; flex-shrink:0;align-self:center;
+}
+
+/* ═══════════════════════════════════════════════════════
+   PROFILE SCREEN
+══════════════════════════════════════════════════════════ */
+#screen-profile{background:#f5f5f5;}
+#screen-profile .topbar{
+  background:transparent;
+  position:relative;z-index:10;
+}
+.profile-content{flex:1;overflow-y:auto;overscroll-behavior:contain;}
+
+.profile-header{
+  position:relative; height:340px;
+  background:#222;
+}
+.profile-hero-photo{
+  width:100%;height:100%;object-fit:cover;object-position:top center;
+}
+.profile-gradient-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 50%);
+}
+.profile-topbar{
+  position:absolute;top:0;left:0;right:0;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px; height:52px;
+}
+.profile-name-row{
+  position:absolute;bottom:16px;left:20px;right:20px;
+  display:flex;align-items:flex-end;justify-content:space-between;
+}
+.profile-name{
+  font-size:2.6rem;font-weight:800;color:#fff;
+  text-shadow:0 1px 4px rgba(0,0,0,.3);
+}
+.profile-age{
+  font-size:2.4rem;font-weight:400;color:rgba(255,255,255,.9);
+  margin-left:8px;
+}
+.profile-edit-photo{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,.9);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+.profile-edit-photo svg{width:20px;height:20px;fill:#24262a;}
+
+.profile-card{
+  background:#fff;border-radius:16px;
+  margin:12px;padding:0;
+  box-shadow:0 1px 6px rgba(0,0,0,.06);
+  overflow:hidden;
+}
+.profile-card-section{
+  padding:16px 18px;
+  border-bottom:1px solid #f0f0f0;
+}
+.profile-card-section:last-child{border-bottom:none;}
+.profile-section-title{
+  font-size:1.25rem;font-weight:700;color:#b4b9c6;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;
+}
+.profile-edit-btn{
+  display:flex;align-items:center;justify-content:space-between;
+  width:100%; padding:15px 18px;
+  background:#fff; border:none;cursor:pointer;
+  border-bottom:1px solid #f0f0f0;
+  font-size:1.6rem;font-weight:600;color:#24262a;
+  transition:background .1s;
+}
+.profile-edit-btn:hover{background:#fafafa;}
+.profile-edit-btn svg{width:18px;height:18px;fill:#b4b9c6;}
+
+.profile-bio{
+  font-size:1.6rem;font-weight:500;color:#24262a;
+  line-height:1.6;
+}
+.profile-info-item{
+  display:flex;align-items:center;gap:10px;
+  font-size:1.5rem;font-weight:500;color:#4f525c;
+  padding:6px 0;
+}
+.profile-info-item svg{width:18px;height:18px;fill:#b4b9c6;flex-shrink:0;}
+
+.profile-setting{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 18px;
+  border-bottom:1px solid #f0f0f0;cursor:pointer;
+  transition:background .1s;
+}
+.profile-setting:hover{background:#fafafa;}
+.profile-setting:last-child{border-bottom:none;}
+.profile-setting-left{display:flex;align-items:center;gap:14px;}
+.profile-setting-icon{
+  width:36px;height:36px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.profile-setting-icon svg{width:18px;height:18px;fill:#fff;}
+.profile-setting-label{font-size:1.5rem;font-weight:600;color:#24262a;}
+.profile-setting-value{font-size:1.35rem;font-weight:500;color:#b4b9c6;}
+.profile-setting-arrow svg{width:16px;height:16px;fill:#d1d4dd;}
+
+.profile-signout{
+  margin:12px; padding:16px;
+  border-radius:16px; border:none;
+  background:#fff;
+  font-size:1.6rem;font-weight:700;color:#fd267a;
+  cursor:pointer;text-align:center;width:calc(100% - 24px);
+  box-shadow:0 1px 6px rgba(0,0,0,.06);
+  transition:background .1s;
+}
+.profile-signout:hover{background:#fff7f9;}
+
+/* Gold banner */
+.gold-banner{
+  margin:12px; border-radius:16px;
+  background:linear-gradient(135deg,#c1920f,#e6af16 42%,#fad122);
+  padding:20px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.gold-banner-text h3{font-size:1.7rem;font-weight:800;color:#fff;margin-bottom:4px;}
+.gold-banner-text p{font-size:1.3rem;font-weight:500;color:rgba(255,255,255,.85);}
+.gold-banner-btn{
+  background:#fff;color:#c1920f;
+  padding:10px 18px;border-radius:52px;
+  font-size:1.4rem;font-weight:800;
+  border:none;cursor:pointer;flex-shrink:0;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+
+/* ═══════════════════════════════════════════════════════
+   CARD DETAIL SHEET (slide up)
+══════════════════════════════════════════════════════════ */
+.card-sheet{
+  position:absolute; bottom:0; left:0; right:0;
+  background:#fff; border-radius:20px 20px 0 0;
+  z-index:50;
+  max-height:90%;
+  overflow-y:auto; overscroll-behavior:contain;
+  transform:translateY(100%);
+  transition:transform .35s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 -4px 24px rgba(0,0,0,.15);
+}
+.card-sheet.open{transform:translateY(0);}
+.sheet-handle{
+  width:36px;height:4px;border-radius:2px;
+  background:#d1d4dd; margin:12px auto 4px;
+}
+.sheet-photo{
+  width:100%;height:280px;object-fit:cover;object-position:top;
+}
+.sheet-body{padding:20px;}
+.sheet-name-row{
+  display:flex;align-items:center;gap:10px;margin-bottom:6px;
+}
+.sheet-name{font-size:2.8rem;font-weight:700;color:#24262a;}
+.sheet-age{font-size:2.6rem;font-weight:400;color:#4f525c;}
+.sheet-distance{
+  display:flex;align-items:center;gap:5px;
+  font-size:1.4rem;font-weight:500;color:#b4b9c6;
+  margin-bottom:14px;
+}
+.sheet-bio{
+  font-size:1.6rem;font-weight:500;color:#24262a;
+  line-height:1.65;margin-bottom:20px;
+}
+.sheet-section-title{
+  font-size:1.3rem;font-weight:700;color:#b4b9c6;
+  text-transform:uppercase;letter-spacing:.06em;
+  margin-bottom:10px;margin-top:20px;
+}
+.sheet-tags{display:flex;flex-wrap:wrap;gap:8px;}
+.sheet-tag{
+  padding:8px 14px;border-radius:52px;
+  border:1.5px solid #e7e9ee;
+  font-size:1.35rem;font-weight:600;color:#4f525c;
+  display:flex;align-items:center;gap:6px;
+}
+.sheet-tag span{font-size:1.5rem;}
+.sheet-basics-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 0;border-bottom:1px solid #f0f0f0;
+  font-size:1.5rem;font-weight:500;color:#24262a;
+}
+.sheet-basics-item svg{width:18px;height:18px;fill:#b4b9c6;}
+.sheet-close{
+  position:absolute;top:16px;right:16px;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.9);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15);
+  border:none;z-index:10;
+}
+.sheet-close svg{width:16px;height:16px;fill:#24262a;}
+
+/* ═══════════════════════════════════════════════════════
+   TOAST NOTIFICATIONS
+══════════════════════════════════════════════════════════ */
+.toast{
+  position:absolute;top:72px;left:50%;
+  transform:translateX(-50%) translateY(-12px);
+  background:#24262a;color:#fff;
+  padding:10px 20px;border-radius:52px;
+  font-size:1.4rem;font-weight:600;
+  white-space:nowrap;pointer-events:none;
+  opacity:0;transition:opacity .2s,transform .2s;
+  z-index:300;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ═══════════════════════════════════════════════════════
+   SCROLLBAR HIDE
+══════════════════════════════════════════════════════════ */
+.messages-content::-webkit-scrollbar,
+.profile-content::-webkit-scrollbar,
+.likes-content::-webkit-scrollbar{display:none;}
+.messages-content,.profile-content,.likes-content{scrollbar-width:none;}
+
+/* ═══════════════════════════════════════════════════════
+   DESKTOP HINT
+══════════════════════════════════════════════════════════ */
+@media(min-width:431px){
+  body{background:linear-gradient(135deg,#fd267a22,#ff603622);
+    display:flex;align-items:center;justify-content:center;min-height:100vh;}
+}
+
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- SVG defs (hidden) -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <linearGradient id="topFlameGrad" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0%" stop-color="#fd267a"/>
+        <stop offset="100%" stop-color="#ff6036"/>
+      </linearGradient>
+      <linearGradient id="navFlameGrad" x1="0" y1="1" x2="1" y2="0">
+        <stop offset="0%" stop-color="#fd267a"/>
+        <stop offset="100%" stop-color="#ff6036"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- ══════════════════════════════════════════════════
+    DISCOVER SCREEN
+  ═══════════════════════════════════════════════════════ -->
+  <section class="screen active" id="screen-discover">
+    <div class="topbar">
+      <button class="topbar-icon-btn" onclick="switchTab('profile')" aria-label="Profile">
+        <img class="topbar-avatar" id="myAvatar"
+          src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&q=80"
+          alt="My profile">
+      </button>
+      <div class="topbar-logo">
+        <svg width="30" height="44" viewBox="0 0 30 44" fill="none">
+          <path d="M15 0C15 0 3.5 9.2 3 20.5C2.4 32 7 39 12 41.5C10.5 37 12 31 15 27.5C18 31 19.5 37 18 41.5C23 39 27.6 32 27 20.5C26.5 9.2 15 0 15 0Z" fill="url(#topFlameGrad)"/>
+          <ellipse cx="15" cy="36.5" rx="5.2" ry="6.5" fill="#18006a"/>
+        </svg>
+        <span class="topbar-logo-text">tinder</span>
+      </div>
+      <button class="topbar-icon-btn" onclick="showToast('Filters coming soon')" aria-label="Filters">
+        <svg viewBox="0 0 24 24" fill="none" stroke="url(#topFlameGrad)" stroke-width="2" stroke-linecap="round">
+          <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+          <circle cx="8"  cy="6"  r="2" fill="url(#topFlameGrad)" stroke="none"/>
+          <circle cx="16" cy="12" r="2" fill="url(#topFlameGrad)" stroke="none"/>
+          <circle cx="10" cy="18" r="2" fill="url(#topFlameGrad)" stroke="none"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="card-stack" id="cardStack">
+      <!-- Cards rendered by JS -->
+      <div class="deck-empty" id="deckEmpty">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        <p>You've seen everyone!</p>
+        <small>Check back later for more profiles</small>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="action-btn btn-undo"  onclick="doUndo()"      title="Undo">
+        <svg viewBox="0 0 24 24"><path d="M3 10h11a4 4 0 0 1 0 8H9" stroke="#f5c518" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/><polyline points="3 10 7 6 3 2" stroke="#f5c518" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="action-btn btn-nope"  onclick="triggerSwipe('left')"  title="Nope">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18" stroke="#ff4458" stroke-width="2.5" stroke-linecap="round"/><line x1="6" y1="6" x2="18" y2="18" stroke="#ff4458" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </button>
+      <button class="action-btn btn-super" onclick="triggerSwipe('up')"    title="Super Like">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#07a6f5"/></svg>
+      </button>
+      <button class="action-btn btn-like"  onclick="triggerSwipe('right')" title="Like">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="#21d07a"/></svg>
+      </button>
+      <button class="action-btn btn-boost" onclick="showToast('🚀 Boost activated!')" title="Boost">
+        <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="#a459ef"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+    LIKES SCREEN
+  ═══════════════════════════════════════════════════════ -->
+  <section class="screen" id="screen-likes">
+    <div class="topbar">
+      <span style="width:40px"></span>
+      <span class="topbar-title">Likes You</span>
+      <button class="topbar-icon-btn" onclick="showToast('⭐ Upgrade to Gold')">
+        <svg viewBox="0 0 24 24" width="22" height="22">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#e6af16"/>
+        </svg>
+      </button>
+    </div>
+    <div class="likes-content">
+      <div class="likes-gold-banner">
+        <svg class="likes-gold-icon" viewBox="0 0 24 24">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#fff"/>
+        </svg>
+        <div class="likes-gold-text">
+          <h3>Upgrade to Gold™</h3>
+          <p>See who likes you and match instantly</p>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;padding:16px 20px 8px;">
+        <span style="font-size:2.2rem;font-weight:800;background:linear-gradient(to right,#fd267a,#ff6036);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">12</span>
+        <span style="font-size:1.9rem;font-weight:800;color:#24262a;">people liked you</span>
+      </div>
+      <div class="likes-grid" id="likesGrid">
+        <!-- Rendered by JS -->
+      </div>
+      <button class="likes-upgrade-btn" onclick="showToast('⭐ Tinder Gold coming soon!')">
+        See who likes you →
+      </button>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+    MESSAGES SCREEN
+  ═══════════════════════════════════════════════════════ -->
+  <section class="screen" id="screen-messages">
+    <div class="topbar">
+      <span style="width:40px"></span>
+      <div class="topbar-logo">
+        <svg width="22" height="32" viewBox="0 0 30 44" fill="none">
+          <path d="M15 0C15 0 3.5 9.2 3 20.5C2.4 32 7 39 12 41.5C10.5 37 12 31 15 27.5C18 31 19.5 37 18 41.5C23 39 27.6 32 27 20.5C26.5 9.2 15 0 15 0Z" fill="url(#topFlameGrad)"/>
+          <ellipse cx="15" cy="36.5" rx="5.2" ry="6.5" fill="#18006a"/>
+        </svg>
+        <span class="topbar-logo-text">tinder</span>
+      </div>
+      <button class="topbar-icon-btn" aria-label="Search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#24262a" stroke-width="2" stroke-linecap="round">
+          <circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/>
+        </svg>
+      </button>
+    </div>
+    <div class="messages-content">
+      <div class="new-matches-section">
+        <p class="new-matches-label">New Matches</p>
+        <div class="new-matches-scroll" id="newMatchesScroll">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+      <p class="messages-label">Messages</p>
+      <div id="messageThreads">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+    PROFILE SCREEN
+  ═══════════════════════════════════════════════════════ -->
+  <section class="screen" id="screen-profile">
+    <div class="profile-content">
+      <div class="profile-header">
+        <img class="profile-hero-photo"
+          src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=430&h=340&fit=crop&q=80"
+          alt="My profile">
+        <div class="profile-gradient-overlay"></div>
+        <div class="profile-topbar">
+          <div style="width:40px"></div>
+          <span style="font-size:1.6rem;font-weight:800;color:#fff;letter-spacing:.02em;">MY PROFILE</span>
+          <button class="topbar-icon-btn" style="background:rgba(255,255,255,.2);" onclick="showToast('Settings coming soon')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="profile-name-row">
+          <div style="display:flex;align-items:baseline;gap:8px;">
+            <span class="profile-name">Martin</span>
+            <span class="profile-age">28</span>
+          </div>
+          <button class="profile-edit-photo" onclick="showToast('Edit photos coming soon')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#24262a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Completeness bar -->
+      <div class="profile-card">
+        <div class="profile-card-section">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <p style="font-size:1.5rem;font-weight:700;color:#24262a;">Complete your profile</p>
+            <p style="font-size:1.35rem;font-weight:700;color:#fd267a;">72%</p>
+          </div>
+          <div style="height:6px;background:#f0f0f0;border-radius:3px;overflow:hidden;">
+            <div style="height:100%;width:72%;background:linear-gradient(to right,#fd267a,#ff6036);border-radius:3px;"></div>
+          </div>
+          <p style="font-size:1.3rem;font-weight:500;color:#b4b9c6;margin-top:8px;">Add a bio to get 3× more matches</p>
+        </div>
+        <button class="profile-edit-btn" onclick="showToast('Edit profile coming soon')">
+          <span>Edit Profile</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+
+      <!-- Gold upsell -->
+      <div class="gold-banner">
+        <div class="gold-banner-text">
+          <h3>Tinder Gold™</h3>
+          <p>See who likes you instantly</p>
+        </div>
+        <button class="gold-banner-btn" onclick="showToast('⭐ Gold coming soon!')">Get Gold</button>
+      </div>
+
+      <!-- Profile info -->
+      <div class="profile-card">
+        <div class="profile-card-section">
+          <p class="profile-section-title">About me</p>
+          <p class="profile-bio">Software engineer by day, amateur chef by night. I enjoy hiking, good coffee, and terrible puns. Looking for someone to explore the city with ☕🏔️</p>
+        </div>
+        <div class="profile-card-section">
+          <p class="profile-section-title">Basics</p>
+          <div class="profile-info-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3" fill="#b4b9c6"/></svg>Prague, Czech Republic</div>
+          <div class="profile-info-item"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>Software Engineer</div>
+          <div class="profile-info-item"><svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>Czech Technical University</div>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="profile-card" style="margin-bottom:4px;">
+        <div class="profile-setting" onclick="showToast('Notifications coming soon')">
+          <div class="profile-setting-left">
+            <div class="profile-setting-icon" style="background:linear-gradient(135deg,#fd267a,#ff6036);">
+              <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            </div>
+            <span class="profile-setting-label">Notifications</span>
+          </div>
+          <div class="profile-setting-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </div>
+        <div class="profile-setting" onclick="showToast('Discovery settings coming soon')">
+          <div class="profile-setting-left">
+            <div class="profile-setting-icon" style="background:linear-gradient(135deg,#07a6f5,#0046c7);">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35" stroke="white" fill="none" stroke-width="1.5"/></svg>
+            </div>
+            <span class="profile-setting-label">Discovery Settings</span>
+          </div>
+          <div class="profile-setting-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </div>
+        <div class="profile-setting" onclick="showToast('App settings coming soon')">
+          <div class="profile-setting-left">
+            <div class="profile-setting-icon" style="background:#8e8e93;">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </div>
+            <span class="profile-setting-label">App Settings</span>
+          </div>
+          <div class="profile-setting-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </div>
+        <div class="profile-setting" onclick="showToast('Community Guidelines')">
+          <div class="profile-setting-left">
+            <div class="profile-setting-icon" style="background:linear-gradient(135deg,#34c759,#007aff);">
+              <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <span class="profile-setting-label">Safety Centre</span>
+          </div>
+          <div class="profile-setting-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg></div>
+        </div>
+      </div>
+
+      <button class="profile-signout" onclick="showToast('Signed out')">Log out</button>
+
+      <div style="height:20px;"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════
+    MATCH OVERLAY
+  ═══════════════════════════════════════════════════════ -->
+  <div class="match-overlay" id="matchOverlay">
+    <svg class="match-flame" viewBox="0 0 30 44" fill="none">
+      <path d="M15 0C15 0 3.5 9.2 3 20.5C2.4 32 7 39 12 41.5C10.5 37 12 31 15 27.5C18 31 19.5 37 18 41.5C23 39 27.6 32 27 20.5C26.5 9.2 15 0 15 0Z" fill="rgba(255,255,255,0.9)"/>
+      <ellipse cx="15" cy="36.5" rx="5.2" ry="6.5" fill="rgba(255,100,50,0.5)"/>
+    </svg>
+    <p style="font-size:1.4rem;font-weight:700;color:rgba(255,255,255,.85);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px;">It's a</p>
+    <h2 class="match-title">MATCH!</h2>
+    <p class="match-sub" id="matchSub">You and Sophie liked each other</p>
+    <div class="match-photos">
+      <img class="match-photo" id="matchMyPhoto"
+        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&q=80"
+        alt="Me">
+      <div class="match-heart">
+        <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <img class="match-photo" id="matchTheirPhoto"
+        src="" alt="Match">
+    </div>
+    <button class="match-btn-send" onclick="closeMatch();switchTab('messages')">
+      Send a Message
+    </button>
+    <button class="match-btn-keep" onclick="closeMatch()">
+      Keep Swiping
+    </button>
+  </div>
+
+  <!-- Card detail sheet -->
+  <div class="card-sheet" id="cardSheet">
+    <div style="position:relative;">
+      <div class="sheet-handle"></div>
+      <button class="sheet-close" onclick="closeSheet()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <img class="sheet-photo" id="sheetPhoto" src="" alt="">
+    <div class="sheet-body" id="sheetBody"></div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- ══════════════════════════════════════════════════
+    BOTTOM NAVIGATION
+  ═══════════════════════════════════════════════════════ -->
+  <nav class="bottom-nav">
+    <button class="nav-tab active" id="tab-discover" onclick="switchTab('discover')" aria-label="Discover">
+      <svg viewBox="0 0 24 24"><path d="M15 0C15 0 3.5 9.2 3 20.5C2.4 32 7 39 12 41.5C10.5 37 12 31 15 27.5C18 31 19.5 37 18 41.5C23 39 27.6 32 27 20.5C26.5 9.2 15 0 15 0Z" style="transform:scale(0.6) translate(4px,0)"/></svg>
+    </button>
+    <button class="nav-tab" id="tab-likes" onclick="switchTab('likes')" aria-label="Likes">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </button>
+    <button class="nav-tab nav-tab-center" id="tab-center" onclick="switchTab('discover')" aria-label="Swipe">
+      <svg viewBox="0 0 30 44"><path d="M15 0C15 0 3.5 9.2 3 20.5C2.4 32 7 39 12 41.5C10.5 37 12 31 15 27.5C18 31 19.5 37 18 41.5C23 39 27.6 32 27 20.5C26.5 9.2 15 0 15 0Z" fill="url(#navFlameGrad)"/><ellipse cx="15" cy="36.5" rx="5.2" ry="6.5" fill="#18006a"/></svg>
+    </button>
+    <button class="nav-tab" id="tab-messages" onclick="switchTab('messages')" aria-label="Messages">
+      <div class="nav-badge" data-badge="3">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+    </button>
+    <button class="nav-tab" id="tab-profile" onclick="switchTab('profile')" aria-label="Profile">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
+  </nav>
+</div>
+
+<script>
+'use strict';
+/* ═══════════════════════════════════════════════════════
+   PROFILE DATA
+══════════════════════════════════════════════════════════ */
+const PROFILES = [
+  {
+    id:1, name:'Sophie', age:24, distance:'3 km away',
+    verified:true,
+    job:'Marketing Manager', company:'Spotify',
+    education:'Charles University',
+    bio:'Coffee enthusiast ☕ | Dog mom 🐕 | Looking for someone to binge Netflix with and explore hidden gems in the city 🌆',
+    passions:['Coffee','Dogs','Netflix','Travel','Yoga'],
+    photos:[
+      'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=500&h=750&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=500&h=750&fit=crop&q=80',
+    ]
+  },
+  {
+    id:2, name:'Emma', age:26, distance:'7 km away',
+    verified:true,
+    job:'Photographer', company:'Freelance',
+    education:'Academy of Arts',
+    bio:'Traveler ✈️ | Foodie 🍕 | Yoga lover 🧘 | Ask me about my last trip',
+    passions:['Photography','Travel','Food','Yoga','Art'],
+    photos:[
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&h=750&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&h=750&fit=crop&q=80',
+    ]
+  },
+  {
+    id:3, name:'Zoe', age:23, distance:'12 km away',
+    verified:false,
+    job:'Teacher', company:'Elementary School',
+    education:'Pedagogical Faculty',
+    bio:'Into hiking and late night talks 🌙 | Plant mom 🌿 | Looking for real connections',
+    passions:['Hiking','Books','Plants','Music','Cooking'],
+    photos:[
+      'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=500&h=750&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=500&h=750&fit=crop&q=80',
+    ]
+  },
+  {
+    id:4, name:'Maya', age:28, distance:'5 km away',
+    verified:true,
+    job:'UX Designer', company:'Google',
+    education:'ČVUT Prague',
+    bio:'Dog person. Cat tolerator 😂 | Design nerd by day | Amateur cook by night | Let\'s grab coffee!',
+    passions:['Design','Dogs','Coffee','Cooking','Concerts'],
+    photos:[
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&h=750&fit=crop&q=80',
+    ]
+  },
+  {
+    id:5, name:'Lena', age:25, distance:'9 km away',
+    verified:false,
+    job:'Lawyer', company:'Law Firm Praha',
+    education:'Law Faculty UK',
+    bio:'Wine > Coffee | 📚 Ask me about my book collection | Weekend hiker | Fluent in sarcasm',
+    passions:['Reading','Wine','Hiking','Law','Cinema'],
+    photos:[
+      'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=500&h=750&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=500&h=750&fit=crop&q=80',
+    ]
+  },
+  {
+    id:6, name:'Anna', age:27, distance:'2 km away',
+    verified:true,
+    job:'Software Engineer', company:'Kiwi.com',
+    education:'FIT ČVUT',
+    bio:'Just moved to Prague — show me the best spots! 🗺️ | Tech geek | Coffee shops collector ☕',
+    passions:['Tech','Travel','Coffee','Running','Jazz'],
+    photos:[
+      'https://images.unsplash.com/photo-1502164980785-f8aa41d53a3f?w=500&h=750&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500&h=750&fit=crop&q=80',
+    ]
+  },
+];
+
+const MESSAGES_DATA = [
+  { name:'Sophie', photo: PROFILES[0].photos[0], preview:'You matched with Sophie', time:'now',    unread:true  },
+  { name:'Emma',   photo: PROFILES[1].photos[0], preview:'Hey! How are you? 😊',      time:'2m',    unread:true  },
+  { name:'Anna',   photo: PROFILES[5].photos[0], preview:'I love that coffee place!',  time:'1h',    unread:false },
+  { name:'Maya',   photo: PROFILES[3].photos[0], preview:'Haha yes exactly 😂',        time:'3h',    unread:false },
+  { name:'Lena',   photo: PROFILES[4].photos[0], preview:'Would love that ❤️',         time:'1d',    unread:false },
+];
+
+/* ═══════════════════════════════════════════════════════
+   CARD STACK ENGINE
+══════════════════════════════════════════════════════════ */
+let profileQueue  = [...PROFILES];
+let currentCard   = null;
+let cardPhotoIdx  = {};
+
+function buildCard(profile) {
+  const el = document.createElement('div');
+  el.className = 'card';
+  el.dataset.id = profile.id;
+
+  const photoIdx = cardPhotoIdx[profile.id] = 0;
+  const photoBg  = profile.photos[0];
+
+  el.innerHTML = `
+    <div class="card-photo" id="cardPhoto-${profile.id}" style="background-image:url('${photoBg}')"></div>
+    <div class="card-dots">${profile.photos.map((_, i) =>
+      `<div class="card-dot ${i===0?'active':''}"></div>`).join('')}
+    </div>
+    <div class="card-photo-prev" data-dir="prev" data-id="${profile.id}"></div>
+    <div class="card-photo-next" data-dir="next" data-id="${profile.id}"></div>
+    <div class="card-overlay"></div>
+    <div class="card-info">
+      <div class="card-name-row">
+        <span class="card-name">${profile.name}</span>
+        <span class="card-age">${profile.age}</span>
+        ${profile.verified ? `<svg class="card-verified" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="12" fill="#0098ff"/>
+          <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>` : ''}
+      </div>
+      <div class="card-distance">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3" fill="rgba(255,255,255,0.85)"/></svg>
+        ${profile.distance}
+      </div>
+      ${profile.job ? `<div class="card-job"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>${profile.job}${profile.company?' at '+profile.company:''}</div>` : ''}
+      <p class="card-bio">${profile.bio}</p>
+    </div>
+    <button class="card-info-btn" data-sheet="${profile.id}" aria-label="More info">
+      <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="stamp stamp-like">LIKE</div>
+    <div class="stamp stamp-nope">NOPE</div>
+    <div class="stamp stamp-super">SUPER<br>LIKE</div>
+  `;
+
+  // Photo tap zones
+  el.querySelectorAll('.card-photo-prev, .card-photo-next').forEach(zone => {
+    zone.addEventListener('click', (e) => {
+      e.stopPropagation();
+      changeCardPhoto(profile, zone.dataset.dir, el);
+    });
+  });
+
+  // Sheet button
+  el.querySelector('.card-info-btn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    openSheet(profile);
+  });
+
+  // Swipe gesture
+  attachSwipe(el, profile);
+  return el;
+}
+
+function changeCardPhoto(profile, dir, el) {
+  const idx    = cardPhotoIdx[profile.id];
+  const total  = profile.photos.length;
+  const newIdx = dir === 'next'
+    ? Math.min(idx + 1, total - 1)
+    : Math.max(idx - 1, 0);
+  if (newIdx === idx) return;
+  cardPhotoIdx[profile.id] = newIdx;
+  el.querySelector('.card-photo').style.backgroundImage = `url('${profile.photos[newIdx]}')`;
+  el.querySelectorAll('.card-dot').forEach((d, i) => d.classList.toggle('active', i === newIdx));
+}
+
+function renderStack() {
+  const stack = document.getElementById('cardStack');
+  // keep up to 3 cards in DOM (for depth effect)
+  const toRender = profileQueue.slice(0, 3);
+  const existing = stack.querySelectorAll('.card');
+  existing.forEach(c => c.remove());
+
+  if (toRender.length === 0) {
+    document.getElementById('deckEmpty').classList.add('visible');
+    return;
+  }
+  document.getElementById('deckEmpty').classList.remove('visible');
+
+  // Render in reverse so first profile is on top
+  [...toRender].reverse().forEach(p => {
+    const card = buildCard(p);
+    stack.prepend(card);
+  });
+  currentCard = stack.querySelector('.card');
+}
+
+/* ═══════════════════════════════════════════════════════
+   SWIPE GESTURE
+══════════════════════════════════════════════════════════ */
+function attachSwipe(card, profile) {
+  let startX = 0, startY = 0;
+  let isDragging = false;
+  let stampLike, stampNope, stampSuper;
+
+  const getStamps = () => {
+    stampLike  = card.querySelector('.stamp-like');
+    stampNope  = card.querySelector('.stamp-nope');
+    stampSuper = card.querySelector('.stamp-super');
+  };
+
+  card.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('.card-info-btn,.card-photo-prev,.card-photo-next')) return;
+    startX = e.clientX; startY = e.clientY;
+    isDragging = true;
+    card.setPointerCapture(e.pointerId);
+    card.style.transition = 'none';
+    getStamps();
+  });
+
+  card.addEventListener('pointermove', (e) => {
+    if (!isDragging) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    const rot = dx * 0.07;
+    card.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg)`;
+
+    // Stamps opacity
+    if (dx > 20) {
+      stampLike.style.opacity = Math.min(1, (dx - 20) / 80);
+      stampNope.style.opacity = 0;
+    } else if (dx < -20) {
+      stampNope.style.opacity = Math.min(1, (-dx - 20) / 80);
+      stampLike.style.opacity = 0;
+    } else {
+      stampLike.style.opacity = 0;
+      stampNope.style.opacity = 0;
+    }
+    if (dy < -40) {
+      stampSuper.style.opacity = Math.min(1, (-dy - 40) / 60);
+    } else {
+      stampSuper.style.opacity = 0;
+    }
+  });
+
+  card.addEventListener('pointerup', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+
+    if (dx > 100)       flyOut(card, profile, 'right');
+    else if (dx < -100) flyOut(card, profile, 'left');
+    else if (dy < -80)  flyOut(card, profile, 'up');
+    else snapBack(card);
+  });
+
+  card.addEventListener('pointercancel', () => {
+    if (!isDragging) return;
+    isDragging = false;
+    snapBack(card);
+  });
+}
+
+function snapBack(card) {
+  card.style.transition = 'transform .35s cubic-bezier(.4,0,.2,1)';
+  card.style.transform = '';
+  card.querySelectorAll('.stamp').forEach(s => s.style.opacity = 0);
+}
+
+let lastSwiped = null;
+function flyOut(card, profile, dir) {
+  lastSwiped = { card, profile };
+  let tx, ty, rot;
+  if (dir === 'right')      { tx = 160; ty = -10; rot = 25; }
+  else if (dir === 'left')  { tx = -160; ty = -10; rot = -25; }
+  else                       { tx = 0; ty = -150; rot = 0; }
+
+  card.style.transition = 'transform .45s ease, opacity .45s ease';
+  card.style.transform  = `translate(${tx}%, ${ty}%) rotate(${rot}deg)`;
+  card.style.opacity    = '0';
+
+  // Remove from queue
+  profileQueue = profileQueue.filter(p => p.id !== profile.id);
+
+  setTimeout(() => {
+    card.remove();
+    renderStack();
+    if (dir === 'right' && Math.random() < 0.40) showMatch(profile);
+  }, 440);
+}
+
+function triggerSwipe(dir) {
+  const card = document.querySelector('.card:first-child');
+  if (!card) return;
+  const profile = PROFILES.find(p => p.id == card.dataset.id);
+  if (!profile) return;
+
+  let tx, ty, rot;
+  if (dir === 'right')     { tx = 160; ty = 0; rot = 25; }
+  else if (dir === 'left') { tx = -160; ty = 0; rot = -25; }
+  else                      { tx = 0; ty = -150; rot = 0; }
+
+  // flash stamp
+  const stamp = dir === 'right' ? card.querySelector('.stamp-like')
+    : dir === 'left' ? card.querySelector('.stamp-nope')
+    : card.querySelector('.stamp-super');
+  stamp.style.opacity = '1';
+
+  setTimeout(() => flyOut(card, profile, dir), 80);
+}
+
+function doUndo() {
+  if (!lastSwiped) { showToast('Nothing to undo'); return; }
+  profileQueue.unshift(lastSwiped.profile);
+  lastSwiped = null;
+  renderStack();
+  showToast('Rewound!');
+}
+
+/* ═══════════════════════════════════════════════════════
+   MATCH OVERLAY
+══════════════════════════════════════════════════════════ */
+function showMatch(profile) {
+  document.getElementById('matchSub').textContent =
+    `You and ${profile.name} liked each other`;
+  document.getElementById('matchTheirPhoto').src = profile.photos[0];
+  document.getElementById('matchOverlay').classList.add('visible');
+}
+function closeMatch() {
+  document.getElementById('matchOverlay').classList.remove('visible');
+}
+
+/* ═══════════════════════════════════════════════════════
+   CARD DETAIL SHEET
+══════════════════════════════════════════════════════════ */
+function openSheet(profile) {
+  const sheet  = document.getElementById('cardSheet');
+  const photo  = document.getElementById('sheetPhoto');
+  const body   = document.getElementById('sheetBody');
+  photo.src    = profile.photos[0];
+  photo.alt    = profile.name;
+  body.innerHTML = `
+    <div class="sheet-name-row">
+      <span class="sheet-name">${profile.name}</span>
+      <span class="sheet-age">${profile.age}</span>
+      ${profile.verified?`<svg width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="#0098ff"/><path d="M9 12l2 2 4-4" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`:''}
+    </div>
+    <div class="sheet-distance">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="#b4b9c6"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/></svg>
+      ${profile.distance}
+    </div>
+    <p class="sheet-bio">${profile.bio}</p>
+
+    <div class="sheet-section-title">Basics</div>
+    <div class="sheet-basics-item">
+      <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" stroke="#b4b9c6" fill="none" stroke-width="1.5"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+      ${profile.job} ${profile.company ? 'at ' + profile.company : ''}
+    </div>
+    <div class="sheet-basics-item">
+      <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z" stroke="#b4b9c6" fill="none" stroke-width="1.5"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      ${profile.education}
+    </div>
+
+    <div class="sheet-section-title">Passions</div>
+    <div class="sheet-tags">
+      ${profile.passions.map(p=>`<div class="sheet-tag">${p}</div>`).join('')}
+    </div>
+    <div style="height:24px;"></div>
+  `;
+  sheet.classList.add('open');
+}
+function closeSheet() {
+  document.getElementById('cardSheet').classList.remove('open');
+}
+
+/* ═══════════════════════════════════════════════════════
+   LIKES SCREEN
+══════════════════════════════════════════════════════════ */
+function renderLikes() {
+  const grid = document.getElementById('likesGrid');
+  PROFILES.forEach((p, i) => {
+    if (i >= 12) return;
+    const item = document.createElement('div');
+    item.className = 'likes-grid-item';
+    item.innerHTML = `
+      <img src="${p.photos[0]}" alt="${p.name}" loading="lazy">
+      <div class="lock-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" fill="white"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="white" fill="none" stroke-width="2" stroke-linecap="round"/></svg>
+        <span class="lock-name">${p.name}</span>
+      </div>
+    `;
+    item.onclick = () => showToast('⭐ Upgrade to Gold to see likes');
+    grid.appendChild(item);
+  });
+  // Duplicate to fill grid
+  PROFILES.slice(0,6).forEach(p => {
+    const item = document.createElement('div');
+    item.className = 'likes-grid-item';
+    item.innerHTML = `
+      <img src="${p.photos[0]}" alt="" loading="lazy">
+      <div class="lock-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" fill="white"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="white" fill="none" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+    `;
+    item.onclick = () => showToast('⭐ Upgrade to Gold to see likes');
+    grid.appendChild(item);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
+   MESSAGES SCREEN
+══════════════════════════════════════════════════════════ */
+function renderMessages() {
+  // New matches row
+  const scroll = document.getElementById('newMatchesScroll');
+  // Gold likes CTA
+  const goldItem = document.createElement('div');
+  goldItem.className = 'match-avatar-item';
+  goldItem.innerHTML = `<div class="match-avatar-likes">⭐</div><span class="match-avatar-name" style="color:#e6af16;font-weight:700;">Likes</span>`;
+  goldItem.onclick = () => switchTab('likes');
+  scroll.appendChild(goldItem);
+
+  // Matched profiles
+  MESSAGES_DATA.slice(0,3).forEach(m => {
+    const item = document.createElement('div');
+    item.className = 'match-avatar-item';
+    item.innerHTML = `
+      <div class="match-avatar-ring"><img src="${m.photo}" alt="${m.name}" loading="lazy"></div>
+      <span class="match-avatar-name">${m.name}</span>
+    `;
+    item.onclick = () => showToast(`Chat with ${m.name} coming soon`);
+    scroll.appendChild(item);
+  });
+
+  // Message threads
+  const threads = document.getElementById('messageThreads');
+  MESSAGES_DATA.forEach(m => {
+    const el = document.createElement('div');
+    el.className = 'message-thread';
+    el.onclick = () => showToast(`Chat with ${m.name} coming soon`);
+    el.innerHTML = `
+      <img class="thread-avatar" src="${m.photo}" alt="${m.name}" loading="lazy">
+      <div class="thread-body">
+        <p class="thread-name">${m.name}</p>
+        <p class="thread-preview ${m.unread?'unread':''}">${m.preview}</p>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+        <span class="thread-time">${m.time}</span>
+        ${m.unread ? '<div class="thread-unread-dot"></div>' : ''}
+      </div>
+    `;
+    threads.appendChild(el);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════
+   TAB SWITCHING
+══════════════════════════════════════════════════════════ */
+const TABS = ['discover','likes','messages','profile'];
+function switchTab(name) {
+  TABS.forEach(t => {
+    document.getElementById('screen-' + t)?.classList.toggle('active', t === name);
+    document.getElementById('tab-' + t)?.classList.toggle('active', t === name);
+  });
+  // Center flame tab active = discover
+  document.getElementById('tab-center')?.classList.toggle('active', name === 'discover');
+}
+
+/* ═══════════════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════════════════ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ═══════════════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════════════════ */
+renderStack();
+renderLikes();
+renderMessages();
+
+</script>
+</body>
+</html>

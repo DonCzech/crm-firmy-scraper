@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronRight } from "@/components/studio/icons";
 import { useStudio } from "../StudioContext";
 import type { StudioState } from "../TenantStudioView";
 import clsx from "clsx";

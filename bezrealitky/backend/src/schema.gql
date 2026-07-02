@@ -1,0 +1,373 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AdminStats {
+  activeListings: Int!
+  listings: Int!
+  paidSubscriptions: Int!
+  users: Int!
+}
+
+type AuthPayload {
+  accessToken: String!
+  refreshToken: String!
+}
+
+type BoostCheckoutResult {
+  checkoutUrl: String!
+}
+
+enum BoostType {
+  EXTEND
+  HIGHLIGHT
+  TOP
+}
+
+type CheckoutResult {
+  checkoutUrl: String!
+}
+
+type ConversationType {
+  id: ID!
+  listingId: String
+  messages: [MessageType!]!
+  participantAEmail: String
+  participantAId: String!
+  participantAName: String
+  participantAPhone: String
+  participantBEmail: String
+  participantBId: String!
+  participantBName: String
+  participantBPhone: String
+  updatedAt: DateTime!
+}
+
+input CreateInquiryInput {
+  listingId: String!
+  message: String!
+  senderEmail: String!
+  senderName: String!
+  senderPhone: String
+}
+
+input CreateListingGqlInput {
+  area: Float
+  balcony: Boolean
+  cellar: Boolean
+  city: String!
+  description: String!
+  district: String
+  elevator: Boolean
+  estateType: EstateType!
+  floor: Int
+  furnished: Boolean
+  lat: Float
+  lon: Float
+  offerType: OfferType!
+  parking: Boolean
+  petFriendly: Boolean
+  price: Int!
+  region: String
+  rooms: String
+  street: String
+  title: String!
+  totalFloors: Int
+  zip: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum EstateType {
+  APARTMENT
+  COMMERCIAL
+  GARAGE
+  HOUSE
+  LAND
+  OTHER
+}
+
+type FavoriteType {
+  createdAt: DateTime!
+  id: ID!
+  listing: ListingType!
+}
+
+type InquiryListingRef {
+  id: ID!
+  slug: String!
+  title: String!
+}
+
+type InquiryType {
+  createdAt: DateTime!
+  id: ID!
+  listing: InquiryListingRef
+  listingId: String!
+  message: String!
+  ownerId: String!
+  read: Boolean!
+  senderEmail: String!
+  senderName: String!
+  senderPhone: String
+}
+
+type ListingMediaType {
+  id: ID!
+  isCover: Boolean!
+  order: Int!
+  url: String!
+}
+
+type ListingStatsType {
+  contacts: Int!
+  views: Int!
+}
+
+enum ListingStatus {
+  ACTIVE
+  ARCHIVED
+  DRAFT
+  EXPIRED
+  PENDING_REVIEW
+  REJECTED
+}
+
+type ListingType {
+  area: Float
+  balcony: Boolean
+  cellar: Boolean
+  city: String
+  contactCount: Int!
+  createdAt: DateTime!
+  description: String!
+  district: String
+  elevator: Boolean
+  estateType: EstateType!
+  floor: Int
+  furnished: Boolean
+  id: ID!
+  lat: Float
+  lon: Float
+  media: [ListingMediaType!]!
+  offerType: OfferType!
+  ownerId: String!
+  ownerPhone: String
+  parking: Boolean
+  petFriendly: Boolean
+  price: Int!
+  publishedAt: DateTime
+  region: String
+  rooms: String
+  slug: String!
+  status: ListingStatus!
+  street: String
+  title: String!
+  totalFloors: Int
+  viewCount: Int!
+  zip: String
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type MessageType {
+  content: String!
+  createdAt: DateTime!
+  id: ID!
+  senderId: String!
+  status: String!
+}
+
+type Mutation {
+  adminApproveListing(id: String!): Boolean!
+  adminBanUser(userId: String!): Boolean!
+  adminRejectListing(id: String!, reason: String!): Boolean!
+  archiveListing(id: String!): ListingType!
+  cancelSubscription: Boolean!
+  confirmListingMedia(key: String!, listingId: String!, mimeType: String!, size: Int!): Boolean!
+  createConversation(listingId: String!, message: String!, recipientId: String!): ConversationType!
+  createInquiry(input: CreateInquiryInput!): InquiryType!
+  createListing(input: CreateListingGqlInput!): ListingType!
+  createWatchdog(input: WatchdogInput!): WatchdogType!
+  deleteAccount: Boolean!
+  deleteListingMedia(mediaId: String!): Boolean!
+  deleteWatchdog(id: String!): Boolean!
+  forgotPassword(email: String!): Boolean!
+  login(input: LoginInput!): AuthPayload!
+  logout(token: String!): Boolean!
+  markAllNotificationsRead: Boolean!
+  markInquiryRead(id: String!): Boolean!
+  markNotificationsRead(ids: [String!]!): Boolean!
+  publishListing(id: String!): ListingType!
+  purchaseBoost(listingId: String!, type: BoostType!): BoostCheckoutResult!
+  refresh(token: String!): AuthPayload!
+  register(input: RegisterInput!): AuthPayload!
+  reorderListingMedia(listingId: String!, orderedIds: [String!]!): Boolean!
+  resetPassword(password: String!, token: String!): Boolean!
+  sendMessage(content: String!, conversationId: String!): MessageType!
+  startSubscription(tier: SubscriptionTier!): CheckoutResult!
+  toggleFavorite(listingId: String!): Boolean!
+  updateListing(id: String!, input: CreateListingGqlInput!): ListingType!
+  updatePassword(newPassword: String!, oldPassword: String!): Boolean!
+  updateProfile(input: UpdateProfileInput!): ProfileType!
+  updateWatchdog(id: String!, input: WatchdogInput!): WatchdogType!
+  uploadListingMedia(listingId: String!, mimeType: String!): PresignedUploadUrl!
+  verifyEmail(token: String!): Boolean!
+}
+
+type NotificationType {
+  body: String!
+  createdAt: DateTime!
+  id: ID!
+  read: Boolean!
+  title: String!
+  type: String!
+}
+
+enum OfferType {
+  RENT
+  SALE
+}
+
+input PaginationInput {
+  limit: Int
+  page: Int
+}
+
+type PresignedUploadUrl {
+  key: String!
+  url: String!
+}
+
+type ProfileType {
+  avatarUrl: String
+  bio: String
+  firstName: String
+  id: ID!
+  isPremium: Boolean!
+  lastName: String
+  phone: String
+}
+
+type Query {
+  adminStats: AdminStats!
+  conversationMessages(conversationId: String!): [MessageType!]!
+  listing(id: String, slug: String): ListingType
+  listingStats(listingId: String!): ListingStatsType!
+  me: UserType!
+  myConversations: [ConversationType!]!
+  myFavorites: [FavoriteType!]!
+  myInquiries: [InquiryType!]!
+  myListings: [ListingType!]!
+  myNotifications(unreadOnly: Boolean): [NotificationType!]!
+  myProfile: ProfileType
+  mySubscription: SubscriptionType
+  myWatchdogs: [WatchdogType!]!
+  pendingListings: [ListingType!]!
+  searchListings(filters: SearchFiltersInput, pagination: PaginationInput, sort: SortInput): SearchResult!
+  unreadNotificationsCount: Int!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+}
+
+input SearchFiltersInput {
+  areaMax: Float
+  areaMin: Float
+  balcony: Boolean
+  city: String
+  estateType: EstateType
+  furnished: Boolean
+  offerType: OfferType
+  parking: Boolean
+  petFriendly: Boolean
+  priceMax: Int
+  priceMin: Int
+  region: String
+  rooms: [String!]
+}
+
+type SearchResult {
+  items: [ListingType!]!
+  limit: Int!
+  page: Int!
+  pages: Int!
+  total: Int!
+}
+
+input SortInput {
+  direction: String
+  field: String
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  PAST_DUE
+  TRIALING
+}
+
+enum SubscriptionTier {
+  FREE
+  PREMIUM
+  STANDARD
+}
+
+type SubscriptionType {
+  cancelAtPeriodEnd: Boolean!
+  currentPeriodEnd: DateTime
+  id: ID!
+  status: SubscriptionStatus!
+  tier: SubscriptionTier!
+}
+
+input UpdateProfileInput {
+  avatarUrl: String
+  bio: String
+  firstName: String
+  lastName: String
+  phone: String
+}
+
+type UserType {
+  createdAt: DateTime!
+  email: String!
+  emailVerified: Boolean!
+  id: ID!
+  role: String!
+}
+
+input WatchdogInput {
+  areaMax: Float
+  areaMin: Float
+  city: String
+  estateType: EstateType
+  name: String
+  offerType: OfferType
+  priceMax: Int
+  priceMin: Int
+  region: String
+  rooms: [String!]
+}
+
+type WatchdogType {
+  active: Boolean!
+  city: String
+  createdAt: DateTime!
+  estateType: EstateType
+  id: ID!
+  name: String
+  offerType: OfferType
+  priceMax: Int
+  priceMin: Int
+  region: String
+  rooms: [String!]!
+}

@@ -1,0 +1,44 @@
+{
+  "name": "fakturina",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3020",
+    "build": "next build",
+    "start": "next start -p 3020",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test:e2e-flow": "node scripts/e2e-flow.mjs"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
+    "@stripe/stripe-js": "^8.9.0",
+    "bcryptjs": "^3.0.3",
+    "lucide-react": "^0.477.0",
+    "next": "^14.2.29",
+    "pg": "^8.20.0",
+    "puppeteer-core": "^24.39.0",
+    "qrcode": "^1.5.4",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "resend": "^6.12.4",
+    "stripe": "^17.7.0",
+    "uuid": "^11.1.0",
+    "zod": "^3.25.47"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^20",
+    "@types/pg": "^8.18.0",
+    "@types/qrcode": "^1.5.5",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "@types/uuid": "^10.0.0",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.29",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5"
+  }
+}

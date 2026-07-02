@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { X } from "lucide-react";
+import { X } from "@/components/studio/icons";
 import { Kbd } from "./ui";
 
 interface Group {

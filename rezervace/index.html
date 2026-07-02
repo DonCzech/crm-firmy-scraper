@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Eva | 45 Minute Meeting - Calendly</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #006bff;
+      --blue-dark: #0051c3;
+      --blue-light: #ebf3ff;
+      --text: #1e1f26;
+      --text-muted: #6b7280;
+      --text-light: #a0a2b1;
+      --border: #dce1e9;
+      --bg: #ffffff;
+      --bg-page: #f1f3f9;
+      --bg-panel: #f8f9fa;
+      --success: #0e9f6e;
+      --radius: 8px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg-page);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 100px;
+    }
+
+    /* === TOP BAR === */
+    .topbar {
+      width: 100%;
+      max-width: 940px;
+      padding: 0 0 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+    }
+    .topbar-logo-icon {
+      width: 30px;
+      height: 30px;
+    }
+    .topbar-logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      color: #006bff;
+      letter-spacing: -0.4px;
+    }
+    .topbar-sign-up {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+    .topbar-sign-up:hover { color: var(--blue); }
+
+    /* === MAIN CARD === */
+    .booking-card {
+      width: 100%;
+      max-width: 940px;
+      background: var(--bg);
+      border-radius: 16px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.09), 0 1px 4px rgba(0,0,0,0.05);
+      display: flex;
+      overflow: hidden;
+      min-height: 600px;
+    }
+
+    /* === LEFT PANEL === */
+    .left-panel {
+      width: 288px;
+      min-width: 288px;
+      border-right: 1px solid var(--border);
+      padding: 32px 24px;
+      display: flex;
+      flex-direction: column;
+    }
+    .lp-avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 14px;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #c084fc 0%, #818cf8 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lp-avatar-letter {
+      font-size: 26px;
+      font-weight: 700;
+      color: white;
+      line-height: 1;
+    }
+    .lp-host {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 400;
+      margin-bottom: 4px;
+    }
+    .lp-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+      margin-bottom: 20px;
+    }
+    .lp-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 0 0 20px;
+    }
+    .lp-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .lp-meta-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+    .lp-meta-item svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+      margin-top: 1px;
+      color: var(--text-muted);
+    }
+    .lp-desc {
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    /* Selected date/time info shown in left panel from step 3 */
+    .lp-selected-time {
+      display: none;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      flex-direction: column;
+      gap: 10px;
+    }
+    .lp-selected-time.visible { display: flex; }
+
+    /* === RIGHT PANEL === */
+    .right-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    /* === STEPS === */
+    .step { display: none; flex-direction: column; flex: 1; padding: 32px 36px; }
+    .step.active { display: flex; animation: stepIn 0.22s ease; }
+
+    @keyframes stepIn {
+      from { opacity: 0; transform: translateX(10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes stepBack {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .step.back { animation: stepBack 0.22s ease; }
+
+    /* === STEP 1+1.5: CALENDAR === */
+    .cal-step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+
+    /* Desktop two-col layout: calendar | timeslots */
+    .cal-inner {
+      display: flex;
+      gap: 0;
+      flex: 1;
+    }
+    .cal-col {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .ts-col {
+      width: 0;
+      overflow: hidden;
+      transition: width 0.28s ease, opacity 0.28s ease;
+      opacity: 0;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid transparent;
+    }
+    .ts-col.open {
+      width: 196px;
+      min-width: 196px;
+      opacity: 1;
+      border-left-color: var(--border);
+      padding-left: 24px;
+    }
+
+    /* Month navigation */
+    .month-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .nav-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      transition: background 0.15s;
+    }
+    .nav-btn:hover:not(:disabled) { background: var(--bg-panel); }
+    .nav-btn:disabled { opacity: 0.2; cursor: default; }
+    .month-label {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* Calendar grid */
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0;
+    }
+    .cal-wd {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-light);
+      padding: 5px 0 10px;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+    }
+    .cal-day { display: flex; align-items: center; justify-content: center; height: 44px; }
+    .day-btn {
+      width: 38px;
+      height: 38px;
+      border: none;
+      background: none;
+      border-radius: 50%;
+      font-size: 14px;
+      font-family: inherit;
+      cursor: default;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.12s, color 0.12s;
+      font-weight: 400;
+      outline: none;
+    }
+    .day-btn.available {
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .day-btn.available:hover { background: var(--blue-light); color: var(--blue); }
+    .day-btn.today:not(.selected) { color: var(--blue); }
+    .day-btn.selected { background: var(--blue) !important; color: white !important; }
+
+    /* Timezone row */
+    .tz-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+      width: fit-content;
+    }
+    .tz-row:hover { color: var(--blue); }
+    .tz-row svg { width: 15px; height: 15px; flex-shrink: 0; }
+
+    /* Time slots column */
+    .ts-col-date {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+    .ts-scroll {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-right: 4px;
+      max-height: 380px;
+    }
+    .ts-scroll::-webkit-scrollbar { width: 4px; }
+    .ts-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .ts-row { display: flex; gap: 8px; align-items: stretch; }
+    .ts-time-btn {
+      flex: 1;
+      padding: 11px 10px;
+      border: 2px solid var(--blue);
+      background: white;
+      color: var(--blue);
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      font-family: inherit;
+      transition: background 0.12s, color 0.12s;
+      white-space: nowrap;
+    }
+    .ts-time-btn:hover { background: var(--blue-light); }
+    .ts-time-btn.selected { background: var(--blue-light); }
+    .ts-next-btn {
+      background: var(--blue);
+      color: white;
+      border: 2px solid var(--blue);
+      padding: 11px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.12s;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+    .ts-next-btn:hover { background: var(--blue-dark); border-color: var(--blue-dark); }
+    .ts-next-btn.show { display: flex; }
+
+    /* Mobile step 2: full-screen time slots */
+    #step-times { display: none; }
+    #step-times.active { display: flex; }
+    .ts-mobile-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .ts-mobile-date {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .ts-mobile-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .ts-mobile-row { display: flex; gap: 10px; }
+    .ts-mobile-btn {
+      flex: 1;
+      padding: 13px 10px;
+      border: 2px solid var(--blue);
+      background: white;
+      color: var(--blue);
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      font-family: inherit;
+      transition: background 0.12s;
+    }
+    .ts-mobile-btn:hover, .ts-mobile-btn.selected { background: var(--blue-light); }
+    .ts-mobile-next {
+      background: var(--blue);
+      color: white;
+      border: 2px solid var(--blue);
+      padding: 13px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .ts-mobile-next.show { display: flex; }
+
+    /* Back button shared */
+    .back-btn {
+      width: 34px;
+      height: 34px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+    .back-btn:hover { background: var(--bg-panel); }
+
+    /* === STEP 3: FORM === */
+    .form-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+    .form-step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .form-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      padding-left: 48px;
+    }
+
+    .form-group { margin-bottom: 20px; }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .form-label .req { color: #e53e3e; margin-left: 2px; }
+    .form-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      background: white;
+      -webkit-appearance: none;
+    }
+    .form-input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0,107,255,0.13);
+    }
+    .form-input::placeholder { color: var(--text-light); }
+    textarea.form-input { resize: vertical; min-height: 88px; }
+    .form-hint { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+
+    .form-gdpr {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 22px;
+    }
+    .form-gdpr a { color: var(--blue); text-decoration: none; }
+    .form-gdpr a:hover { text-decoration: underline; }
+
+    .btn-primary {
+      background: var(--blue);
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      font-size: 15px;
+      font-weight: 700;
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: inherit;
+      width: 100%;
+      transition: background 0.15s;
+      letter-spacing: 0.01em;
+    }
+    .btn-primary:hover { background: var(--blue-dark); }
+
+    /* === STEP 4: CONFIRMATION === */
+    .confirm-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 20px;
+      padding: 20px 0 32px;
+      flex: 1;
+    }
+    .confirm-check {
+      width: 72px;
+      height: 72px;
+      background: var(--success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes popIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .confirm-check svg { width: 36px; height: 36px; color: white; }
+    .confirm-title { font-size: 22px; font-weight: 700; color: var(--text); }
+    .confirm-subtitle { font-size: 14px; color: var(--text-muted); max-width: 380px; line-height: 1.55; }
+
+    .confirm-details {
+      background: var(--bg-panel);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      width: 100%;
+      max-width: 420px;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+    .confirm-detail {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .confirm-detail svg { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; opacity: 0.6; }
+    .confirm-detail strong { font-weight: 600; color: var(--text); }
+
+    .add-to-cal-section {
+      width: 100%;
+      max-width: 420px;
+      text-align: left;
+    }
+    .add-to-cal-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .cal-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+    .cal-btn {
+      padding: 9px 16px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: white;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.12s;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      text-decoration: none;
+    }
+    .cal-btn:hover { border-color: var(--blue); color: var(--blue); }
+    .cal-btn svg { width: 16px; height: 16px; }
+
+    /* Powered by Calendly */
+    .powered-by {
+      margin-top: auto;
+      padding-top: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 12px;
+      color: var(--text-light);
+    }
+    .powered-by a { color: var(--blue); text-decoration: none; font-weight: 600; }
+    .powered-by a:hover { text-decoration: underline; }
+    .powered-by-logo {
+      width: 16px;
+      height: 16px;
+      border-radius: 3px;
+      background: var(--blue);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .powered-by-logo svg { width: 10px; height: 10px; color: white; }
+
+    /* === COOKIE BAR === */
+    .cookie-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      z-index: 999;
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .cookie-bar a { color: var(--blue); text-decoration: none; }
+    .cookie-bar a:hover { text-decoration: underline; }
+    .cookie-btns { display: flex; gap: 8px; flex-shrink: 0; }
+    .cookie-accept {
+      background: var(--blue);
+      color: white;
+      border: none;
+      padding: 7px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .cookie-accept:hover { background: var(--blue-dark); }
+    .cookie-decline {
+      background: none;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 7px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: border-color 0.15s;
+    }
+    .cookie-decline:hover { border-color: var(--text-muted); }
+
+    /* === MOBILE RESPONSIVE === */
+    @media (max-width: 700px) {
+      body { padding: 0 0 80px; background: white; }
+      .topbar { display: none; }
+      .booking-card {
+        flex-direction: column;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 100vh;
+        max-width: 100%;
+      }
+      .left-panel {
+        width: 100%;
+        min-width: unset;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 16px;
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .lp-avatar { width: 48px; height: 48px; margin-bottom: 0; flex-shrink: 0; }
+      .lp-avatar-letter { font-size: 20px; }
+      .lp-text-block { flex: 1; min-width: 0; }
+      .lp-host { font-size: 12px; }
+      .lp-title { font-size: 16px; margin-bottom: 8px; }
+      .lp-divider { display: none; }
+      .lp-meta { gap: 7px; }
+      .lp-meta-item { font-size: 12px; }
+      .lp-desc { display: none; }
+      .lp-selected-time { margin-top: 10px; padding-top: 10px; }
+
+      .step { padding: 20px 16px; }
+      .ts-col { display: none !important; }
+      .cal-step-title { font-size: 15px; margin-bottom: 20px; }
+      .day-btn { width: 34px; height: 34px; font-size: 13px; }
+      .cal-day { height: 38px; }
+
+      .cookie-bar { padding: 10px 16px; flex-direction: column; align-items: flex-start; gap: 10px; }
+      .cookie-btns { align-self: stretch; }
+      .cookie-accept, .cookie-decline { flex: 1; text-align: center; padding: 9px; }
+    }
+
+    @media (max-width: 860px) and (min-width: 701px) {
+      .booking-card { max-width: 780px; }
+      .left-panel { width: 250px; min-width: 250px; }
+      .step { padding: 28px 24px; }
+      .ts-col.open { width: 168px; min-width: 168px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <a class="topbar-logo" href="#">
+    <svg class="topbar-logo-icon" viewBox="0 0 36 36" fill="none">
+      <circle cx="18" cy="18" r="18" fill="#006bff"/>
+      <path d="M24 13H12C11.4 13 11 13.4 11 14v8c0 .6.4 1 1 1h12c.6 0 1-.4 1-1v-8c0-.6-.4-1-1-1z" fill="white"/>
+      <circle cx="18" cy="18" r="3" fill="#006bff"/>
+    </svg>
+    <span class="topbar-logo-text">calendly</span>
+  </a>
+  <a class="topbar-sign-up" href="#">Sign up for free</a>
+</div>
+
+<!-- BOOKING CARD -->
+<div class="booking-card">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="lp-avatar"><span class="lp-avatar-letter">E</span></div>
+    <div class="lp-text-block">
+      <div class="lp-host">Afterlife with Arthur</div>
+      <div class="lp-title">45 Minute Meeting</div>
+      <div class="lp-divider"></div>
+      <div class="lp-meta">
+        <div class="lp-meta-item">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="10" cy="10" r="8.5"/>
+            <path d="M10 5.5v4.5l3 2" stroke-linecap="round"/>
+          </svg>
+          <span>45 min</span>
+        </div>
+        <div class="lp-meta-item" id="lp-location">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M17 10a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            <path d="M10 6v4l2.5 2.5" stroke-linecap="round"/>
+          </svg>
+          <span>Web conferencing details provided upon confirmation</span>
+        </div>
+        <div class="lp-meta-item" id="lp-tz-display">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="10" cy="10" r="8.5"/>
+            <path d="M10 2c0 0-3 3.5-3 8s3 8 3 8M10 2c0 0 3 3.5 3 8s-3 8-3 8M2 10h16"/>
+          </svg>
+          <span id="lp-tz-text">Central European Summer Time</span>
+        </div>
+      </div>
+      <div class="lp-desc">
+        Book a private session with Eva to explore messages, signs, and guidance from loved ones who have passed. Each session is personal and conducted via video call.
+      </div>
+
+      <!-- Selected time shown from step 3 -->
+      <div class="lp-selected-time" id="lp-selected-time">
+        <div class="lp-meta-item">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="10" cy="10" r="8.5"/>
+            <path d="M10 5.5v4.5l3 2" stroke-linecap="round"/>
+          </svg>
+          <span id="lp-selected-time-text"></span>
+        </div>
+        <div class="lp-meta-item">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="4" width="14" height="14" rx="2"/>
+            <path d="M3 9h14M7 2v4M13 2v4" stroke-linecap="round"/>
+          </svg>
+          <span id="lp-selected-date-text"></span>
+        </div>
+      </div>
+    </div>
+  </div><!-- /left-panel -->
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+
+    <!-- STEP 1: CALENDAR + DESKTOP TIMESLOTS -->
+    <div id="step-calendar" class="step active">
+      <div class="cal-step-title">Select a Date &amp; Time</div>
+      <div class="cal-inner">
+        <!-- Calendar column -->
+        <div class="cal-col">
+          <div class="month-nav">
+            <button class="nav-btn" id="prev-month" aria-label="Previous month">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                <path d="M13 4l-6 6 6 6"/>
+              </svg>
+            </button>
+            <span class="month-label" id="month-label"></span>
+            <button class="nav-btn" id="next-month" aria-label="Next month">
+              <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                <path d="M7 4l6 6-6 6"/>
+              </svg>
+            </button>
+          </div>
+          <div class="cal-grid" id="cal-grid">
+            <!-- Day names -->
+            <div class="cal-wd">SUN</div>
+            <div class="cal-wd">MON</div>
+            <div class="cal-wd">TUE</div>
+            <div class="cal-wd">WED</div>
+            <div class="cal-wd">THU</div>
+            <div class="cal-wd">FRI</div>
+            <div class="cal-wd">SAT</div>
+            <!-- Days injected by JS -->
+          </div>
+          <div class="tz-row" id="tz-btn" title="Change timezone">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8">
+              <circle cx="10" cy="10" r="8.5"/>
+              <path d="M10 2c0 0-3 3.5-3 8s3 8 3 8M10 2c0 0 3 3.5 3 8s-3 8-3 8M2 10h16"/>
+            </svg>
+            <span id="tz-label">Central European Summer Time</span>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+              <path d="M5 8l5 5 5-5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div><!-- /cal-col -->
+
+        <!-- Desktop time slots (slides in when date selected) -->
+        <div class="ts-col" id="ts-col">
+          <div class="ts-col-date" id="ts-col-date"></div>
+          <div class="ts-scroll" id="ts-scroll">
+            <!-- Slots injected by JS -->
+          </div>
+        </div>
+      </div><!-- /cal-inner -->
+    </div><!-- /step-calendar -->
+
+    <!-- STEP 2: MOBILE TIME SLOTS (full screen) -->
+    <div id="step-times" class="step">
+      <div class="ts-mobile-header">
+        <button class="back-btn" id="times-back" aria-label="Back">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <path d="M13 4l-6 6 6 6"/>
+          </svg>
+        </button>
+        <div class="ts-mobile-date" id="ts-mobile-date"></div>
+      </div>
+      <div class="ts-mobile-list" id="ts-mobile-list">
+        <!-- Slots injected by JS -->
+      </div>
+    </div><!-- /step-times -->
+
+    <!-- STEP 3: FORM -->
+    <div id="step-form" class="step">
+      <div class="form-header">
+        <button class="back-btn" id="form-back" aria-label="Back">
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <path d="M13 4l-6 6 6 6"/>
+          </svg>
+        </button>
+        <span class="form-step-title">Enter Details</span>
+      </div>
+      <p class="form-subtitle" id="form-subtitle"></p>
+
+      <div class="form-group">
+        <label class="form-label" for="inp-name">Name <span class="req">*</span></label>
+        <input class="form-input" type="text" id="inp-name" name="name" placeholder="Enter your name" autocomplete="name" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inp-email">Email <span class="req">*</span></label>
+        <input class="form-input" type="email" id="inp-email" name="email" placeholder="Enter your email" autocomplete="email" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="inp-notes">
+          Please share anything that will help prepare for our meeting
+        </label>
+        <textarea class="form-input" id="inp-notes" name="notes" rows="3" placeholder=""></textarea>
+        <div class="form-hint">Optional</div>
+      </div>
+      <p class="form-gdpr">
+        By proceeding, you confirm that you have read and agree to
+        <a href="#">Calendly's Terms of Use</a> and
+        <a href="#">Privacy Notice</a>.
+      </p>
+      <button class="btn-primary" id="schedule-btn">Schedule Event</button>
+    </div><!-- /step-form -->
+
+    <!-- STEP 4: CONFIRMATION -->
+    <div id="step-confirm" class="step">
+      <div class="confirm-wrap">
+        <div class="confirm-check">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 6L9 17l-5-5"/>
+          </svg>
+        </div>
+        <div class="confirm-title">You are scheduled!</div>
+        <p class="confirm-subtitle" id="confirm-subtitle">
+          A calendar invitation has been sent to your email address.
+        </p>
+        <div class="confirm-details" id="confirm-details">
+          <!-- Injected by JS -->
+        </div>
+        <div class="add-to-cal-section">
+          <div class="add-to-cal-label">Add to calendar</div>
+          <div class="cal-btns">
+            <a class="cal-btn" href="#" id="cal-google">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.34 5 12c0-4.19 3.47-7.27 7.19-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81z"/></svg>
+              Google Calendar
+            </a>
+            <a class="cal-btn" href="#" id="cal-ical">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 9h18M8 2v4M16 2v4" stroke-linecap="round"/></svg>
+              iCal / Outlook
+            </a>
+            <a class="cal-btn" href="#" id="cal-office365">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 3H3a2 2 0 00-2 2v14a2 2 0 002 2h18a2 2 0 002-2V5a2 2 0 00-2-2zm0 16H3V8h18v11z"/></svg>
+              Office 365
+            </a>
+          </div>
+        </div>
+        <div class="powered-by">
+          <span class="powered-by-logo">
+            <svg viewBox="0 0 10 10" fill="white"><circle cx="5" cy="5" r="4"/></svg>
+          </span>
+          <span>Powered by <a href="#">Calendly</a></span>
+        </div>
+      </div>
+    </div><!-- /step-confirm -->
+
+  </div><!-- /right-panel -->
+</div><!-- /booking-card -->
+
+<!-- COOKIE BAR -->
+<div class="cookie-bar" id="cookie-bar">
+  <span>
+    We use cookies to personalize content, to provide social media features and to analyse our traffic.
+    We also share information about your use of our site. <a href="#">See details</a>
+  </span>
+  <div class="cookie-btns">
+    <button class="cookie-decline" onclick="closeCookieBar()">Decline</button>
+    <button class="cookie-accept" onclick="closeCookieBar()">Accept</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ===================== STATE ===================== */
+  var S = {
+    year: 2026,
+    month: 3,           // 0-indexed; 3 = April
+    selectedDate: null, // { year, month, day }
+    selectedTime: null,
+    name: '', email: '', notes: '',
+    isMobile: false
+  };
+
+  var TODAY = new Date();
+  TODAY.setHours(0, 0, 0, 0);
+
+  var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var DAYS_SHORT = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var DAYS_LONG = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+  /* ===================== UTILS ===================== */
+  function isMobileNow() { return window.innerWidth <= 700; }
+
+  function isAvailable(year, month, day) {
+    var d = new Date(year, month, day);
+    d.setHours(0, 0, 0, 0);
+    if (d < TODAY) return false;
+    var dow = d.getDay();
+    if (dow === 0 || dow === 6) return false; // no weekends
+    return true;
+  }
+
+  function isToday(year, month, day) {
+    return year === TODAY.getFullYear() && month === TODAY.getMonth() && day === TODAY.getDate();
+  }
+
+  function formatDate(date) {
+    return DAYS_LONG[new Date(date.year, date.month, date.day).getDay()] +
+      ', ' + MONTHS[date.month] + ' ' + date.day + ', ' + date.year;
+  }
+
+  function formatDateShort(date) {
+    return MONTHS[date.month].slice(0, 3) + ' ' + date.day;
+  }
+
+  function getSlots() {
+    var slots = [];
+    for (var h = 9; h <= 17; h++) {
+      for (var m = 0; m < 60; m += 30) {
+        if (h === 17 && m > 0) break;
+        var period = h < 12 ? 'am' : 'pm';
+        var h12 = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+        slots.push(h12 + ':' + (m === 0 ? '00' : m) + period);
+      }
+    }
+    return slots;
+  }
+
+  function el(id) { return document.getElementById(id); }
+
+  /* ===================== CALENDAR RENDER ===================== */
+  function renderCalendar() {
+    var year = S.year, month = S.month;
+    el('month-label').textContent = MONTHS[month] + ' ' + year;
+
+    // Prev button: disable if current month <= today's month
+    var prevBtn = el('prev-month');
+    var isThisMonthOrBefore = (year < TODAY.getFullYear()) ||
+      (year === TODAY.getFullYear() && month <= TODAY.getMonth());
+    prevBtn.disabled = isThisMonthOrBefore;
+
+    // Build grid (remove existing day cells, keep wd headers)
+    var grid = el('cal-grid');
+    var cells = grid.querySelectorAll('.cal-day');
+    cells.forEach(function(c){ grid.removeChild(c); });
+
+    var firstDow = new Date(year, month, 1).getDay();
+    var daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    // Empty cells before first day
+    for (var i = 0; i < firstDow; i++) {
+      var empty = document.createElement('div');
+      empty.className = 'cal-day';
+      grid.appendChild(empty);
+    }
+
+    // Day cells
+    for (var d = 1; d <= daysInMonth; d++) {
+      (function(day) {
+        var cell = document.createElement('div');
+        cell.className = 'cal-day';
+        var btn = document.createElement('button');
+        btn.className = 'day-btn';
+        btn.textContent = day;
+        btn.setAttribute('aria-label', MONTHS[month] + ' ' + day);
+        btn.type = 'button';
+
+        var avail = isAvailable(year, month, day);
+        if (avail) btn.classList.add('available');
+        if (isToday(year, month, day)) btn.classList.add('today');
+
+        if (S.selectedDate &&
+            S.selectedDate.year === year &&
+            S.selectedDate.month === month &&
+            S.selectedDate.day === day) {
+          btn.classList.add('selected');
+        }
+
+        if (avail) {
+          btn.addEventListener('click', function() { onDateSelect(year, month, day); });
+        }
+
+        cell.appendChild(btn);
+        grid.appendChild(cell);
+      })(d);
+    }
+  }
+
+  /* ===================== DATE SELECT ===================== */
+  function onDateSelect(year, month, day) {
+    S.selectedDate = { year: year, month: month, day: day };
+    S.selectedTime = null;
+    renderCalendar(); // re-render to show selection
+
+    if (isMobileNow()) {
+      showMobileTimeslots();
+    } else {
+      showDesktopTimeslots();
+    }
+  }
+
+  /* Desktop: show time slots column */
+  function showDesktopTimeslots() {
+    var col = el('ts-col');
+    var d = S.selectedDate;
+    el('ts-col-date').innerHTML = DAYS_LONG[new Date(d.year, d.month, d.day).getDay()] + '<br><span style="font-weight:400;color:var(--text-muted)">' + MONTHS[d.month] + ' ' + d.day + '</span>';
+    col.classList.add('open');
+    renderDesktopSlots();
+  }
+
+  function renderDesktopSlots() {
+    var container = el('ts-scroll');
+    container.innerHTML = '';
+    var slots = getSlots();
+    slots.forEach(function(slot) {
+      var row = document.createElement('div');
+      row.className = 'ts-row';
+
+      var timeBtn = document.createElement('button');
+      timeBtn.type = 'button';
+      timeBtn.className = 'ts-time-btn';
+      timeBtn.textContent = slot;
+      if (S.selectedTime === slot) timeBtn.classList.add('selected');
+
+      var nextBtn = document.createElement('button');
+      nextBtn.type = 'button';
+      nextBtn.className = 'ts-next-btn';
+      nextBtn.textContent = 'Next';
+      if (S.selectedTime === slot) nextBtn.classList.add('show');
+
+      timeBtn.addEventListener('click', function() {
+        S.selectedTime = slot;
+        renderDesktopSlots();
+      });
+      nextBtn.addEventListener('click', function() {
+        goToForm();
+      });
+
+      row.appendChild(timeBtn);
+      row.appendChild(nextBtn);
+      container.appendChild(row);
+    });
+
+    // Scroll to top
+    container.scrollTop = 0;
+  }
+
+  /* Mobile: navigate to step-times */
+  function showMobileTimeslots() {
+    var d = S.selectedDate;
+    el('ts-mobile-date').textContent = DAYS_LONG[new Date(d.year, d.month, d.day).getDay()] + ', ' + MONTHS[d.month] + ' ' + d.day;
+    renderMobileSlots();
+    showStep('step-times');
+  }
+
+  function renderMobileSlots() {
+    var container = el('ts-mobile-list');
+    container.innerHTML = '';
+    var slots = getSlots();
+    slots.forEach(function(slot) {
+      var row = document.createElement('div');
+      row.className = 'ts-mobile-row';
+
+      var timeBtn = document.createElement('button');
+      timeBtn.type = 'button';
+      timeBtn.className = 'ts-mobile-btn';
+      timeBtn.textContent = slot;
+      if (S.selectedTime === slot) timeBtn.classList.add('selected');
+
+      var nextBtn = document.createElement('button');
+      nextBtn.type = 'button';
+      nextBtn.className = 'ts-mobile-next';
+      nextBtn.textContent = 'Next →';
+      if (S.selectedTime === slot) nextBtn.classList.add('show');
+
+      timeBtn.addEventListener('click', function() {
+        S.selectedTime = slot;
+        renderMobileSlots();
+      });
+      nextBtn.addEventListener('click', function() {
+        goToForm();
+      });
+
+      row.appendChild(timeBtn);
+      row.appendChild(nextBtn);
+      container.appendChild(row);
+    });
+  }
+
+  /* ===================== STEP NAVIGATION ===================== */
+  function showStep(stepId, isBack) {
+    document.querySelectorAll('.step').forEach(function(s) { s.classList.remove('active', 'back'); });
+    var s = el(stepId);
+    s.classList.add('active');
+    if (isBack) s.classList.add('back');
+    window.scrollTo(0, 0);
+  }
+
+  function goToForm() {
+    if (!S.selectedTime) return;
+    var d = S.selectedDate;
+    var dateStr = formatDate(d);
+    var timeStr = S.selectedTime;
+    el('form-subtitle').textContent = dateStr + ' · ' + timeStr + ' - ' + addMinutes(timeStr, 45);
+    el('lp-selected-time-text').textContent = timeStr + ' - ' + addMinutes(timeStr, 45);
+    el('lp-selected-date-text').textContent = dateStr;
+    el('lp-selected-time').classList.add('visible');
+    showStep('step-form');
+  }
+
+  function addMinutes(timeStr, mins) {
+    var match = timeStr.match(/^(\d+):(\d{2})(am|pm)$/);
+    if (!match) return timeStr;
+    var h = parseInt(match[1]);
+    var m = parseInt(match[2]);
+    var period = match[3];
+    if (period === 'pm' && h !== 12) h += 12;
+    if (period === 'am' && h === 12) h = 0;
+    var totalMins = h * 60 + m + mins;
+    var nh = Math.floor(totalMins / 60) % 24;
+    var nm = totalMins % 60;
+    var np = nh < 12 ? 'am' : 'pm';
+    var nh12 = nh > 12 ? nh - 12 : (nh === 0 ? 12 : nh);
+    return nh12 + ':' + (nm === 0 ? '00' : nm) + np;
+  }
+
+  /* ===================== FORM BACK ===================== */
+  el('form-back').addEventListener('click', function() {
+    el('lp-selected-time').classList.remove('visible');
+    if (isMobileNow()) {
+      showStep('step-times', true);
+    } else {
+      showStep('step-calendar', true);
+    }
+  });
+
+  el('times-back').addEventListener('click', function() {
+    S.selectedTime = null;
+    showStep('step-calendar', true);
+  });
+
+  /* ===================== MONTH NAV ===================== */
+  el('prev-month').addEventListener('click', function() {
+    if (S.month === 0) { S.month = 11; S.year--; }
+    else { S.month--; }
+    // Close time slots if open
+    el('ts-col').classList.remove('open');
+    if (S.selectedDate &&
+        !(S.selectedDate.year === S.year && S.selectedDate.month === S.month)) {
+      // keep selection but it'll be invisible in another month
+    }
+    renderCalendar();
+  });
+
+  el('next-month').addEventListener('click', function() {
+    if (S.month === 11) { S.month = 0; S.year++; }
+    else { S.month++; }
+    el('ts-col').classList.remove('open');
+    renderCalendar();
+  });
+
+  /* ===================== FORM SUBMIT ===================== */
+  el('schedule-btn').addEventListener('click', function(e) {
+    e.preventDefault();
+    var name = el('inp-name').value.trim();
+    var email = el('inp-email').value.trim();
+    if (!name) { el('inp-name').focus(); shake(el('inp-name')); return; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { el('inp-email').focus(); shake(el('inp-email')); return; }
+    S.name = name;
+    S.email = email;
+    S.notes = el('inp-notes').value.trim();
+    renderConfirmation();
+    showStep('step-confirm');
+  });
+
+  function shake(inputEl) {
+    inputEl.style.borderColor = '#e53e3e';
+    inputEl.style.animation = 'none';
+    setTimeout(function() {
+      inputEl.style.animation = '';
+      inputEl.style.animation = 'shake 0.35s ease';
+    }, 10);
+    setTimeout(function() { inputEl.style.borderColor = ''; }, 2000);
+  }
+
+  /* ===================== CONFIRMATION ===================== */
+  function renderConfirmation() {
+    var d = S.selectedDate;
+    var dateStr = formatDate(d);
+    var timeStr = S.selectedTime + ' - ' + addMinutes(S.selectedTime, 45);
+
+    el('confirm-subtitle').textContent =
+      'A calendar invitation has been sent to ' + S.email + '.';
+
+    var details = el('confirm-details');
+    details.innerHTML = [
+      detailItem(iconClock(), '45 Minute Meeting'),
+      detailItem(iconCal(), '<strong>' + dateStr + '</strong><br>' + timeStr + ' (Central European Summer Time)'),
+      detailItem(iconVideo(), 'Web conferencing details to follow'),
+      detailItem(iconPerson(), S.name)
+    ].join('');
+  }
+
+  function detailItem(icon, text) {
+    return '<div class="confirm-detail">' + icon + '<span>' + text + '</span></div>';
+  }
+  function iconClock() {
+    return '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10" cy="10" r="8.5"/><path d="M10 5.5v4.5l3 2" stroke-linecap="round"/></svg>';
+  }
+  function iconCal() {
+    return '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="14" height="14" rx="2"/><path d="M3 9h14M7 2v4M13 2v4" stroke-linecap="round"/></svg>';
+  }
+  function iconVideo() {
+    return '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="6" width="11" height="9" rx="2"/><path d="M13 9l5-3v9l-5-3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+  function iconPerson() {
+    return '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="10" cy="7" r="3.5"/><path d="M3 18c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke-linecap="round"/></svg>';
+  }
+
+  /* ===================== TIMEZONE MODAL (simple) ===================== */
+  var TZ_OPTIONS = [
+    'Central European Summer Time (UTC+2)',
+    'Central European Time (UTC+1)',
+    'Greenwich Mean Time (UTC+0)',
+    'Eastern Time (UTC-5)',
+    'Pacific Time (UTC-8)'
+  ];
+
+  el('tz-btn').addEventListener('click', function() {
+    var idx = 0;
+    var current = el('tz-label').textContent;
+    for (var i = 0; i < TZ_OPTIONS.length; i++) {
+      if (TZ_OPTIONS[i].indexOf(current.split(' ')[0]) >= 0) { idx = i; break; }
+    }
+    var next = TZ_OPTIONS[(idx + 1) % TZ_OPTIONS.length];
+    var shortName = next.split(' (')[0];
+    el('tz-label').textContent = shortName;
+    el('lp-tz-text').textContent = shortName;
+  });
+
+  /* ===================== COOKIE BAR ===================== */
+  window.closeCookieBar = function() {
+    el('cookie-bar').style.display = 'none';
+    try { localStorage.setItem('cal_cookie', '1'); } catch(e) {}
+  };
+  try {
+    if (localStorage.getItem('cal_cookie')) el('cookie-bar').style.display = 'none';
+  } catch(e) {}
+
+  /* ===================== SHAKE ANIMATION ===================== */
+  var style = document.createElement('style');
+  style.textContent = '@keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-5px)} 40%,80%{transform:translateX(5px)} }';
+  document.head.appendChild(style);
+
+  /* ===================== RESIZE HANDLER ===================== */
+  window.addEventListener('resize', function() {
+    S.isMobile = isMobileNow();
+  });
+
+  /* ===================== INIT ===================== */
+  renderCalendar();
+
+})();
+</script>
+</body>
+</html>

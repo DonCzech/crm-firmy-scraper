@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { X, Check, ChevronRight } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { X, Check, ChevronRight } from "@/components/studio/icons";
 import clsx from "clsx";
 import { useStudio } from "./StudioContext";
 import type { StudioState } from "./TenantStudioView";
@@ -73,8 +73,24 @@ export function SetupChecklist({ state }: { state: StudioState }) {
   const studio = useStudio();
   const slug = state.tenant.slug;
   const [done, setDone] = useState<Set<string>>(() => loadDone(slug));
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => { saveDone(slug, done); }, [slug, done]);
+
+  useEffect(() => {
+    function onDown(e: MouseEvent) {
+      if (!panelRef.current?.contains(e.target as Node)) studio.setChecklistOpen(false);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") studio.setChecklistOpen(false);
+    }
+    document.addEventListener("mousedown", onDown);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [studio]);
 
   function toggle(id: string) {
     setDone(prev => {
@@ -104,7 +120,10 @@ export function SetupChecklist({ state }: { state: StudioState }) {
   const pct = Math.round((completedCount / STEPS.length) * 100);
 
   return (
-    <div className="fixed bottom-[52px] left-[55px] z-[200] w-[320px] rounded-2xl border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] shadow-[0_8px_40px_rgba(0,0,0,.55)] overflow-hidden vs-enter">
+    <div
+      ref={panelRef}
+      className="fixed bottom-3 left-3 right-3 z-[200] max-h-[calc(100vh-24px)] overflow-hidden rounded-2xl border border-[rgba(255,255,255,0.10)] bg-[rgba(18,18,20,0.76)] shadow-[0_18px_58px_rgba(0,0,0,0.42),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl vs-enter sm:bottom-[52px] sm:left-[55px] sm:right-auto sm:w-[320px]"
+    >
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[var(--vs-border)] px-4 py-3">
         <div>
@@ -115,6 +134,7 @@ export function SetupChecklist({ state }: { state: StudioState }) {
         </div>
         <button
           type="button"
+          aria-label="Zavřít"
           onClick={() => studio.setChecklistOpen(false)}
           className="flex h-7 w-7 items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
         >
@@ -133,7 +153,7 @@ export function SetupChecklist({ state }: { state: StudioState }) {
       </div>
 
       {/* Steps */}
-      <div className="flex flex-col gap-0.5 px-2 pb-3 pt-2">
+      <div className="flex max-h-[calc(100vh-128px)] flex-col gap-0.5 overflow-y-auto px-2 pb-3 pt-2 vs-scroll sm:max-h-none">
         {STEPS.map((step, i) => {
           const isDone = done.has(step.id);
           return (
@@ -182,7 +202,7 @@ export function SetupChecklist({ state }: { state: StudioState }) {
                 <button
                   type="button"
                   onClick={() => handleAction(step)}
-                  className="shrink-0 flex items-center gap-0.5 rounded-lg px-2 py-1 text-[11px] font-medium text-[var(--vs-accent-hi)] hover:bg-[rgba(212,212,216,0.12)] transition-colors opacity-0 group-hover:opacity-100 whitespace-nowrap"
+                  className="flex shrink-0 items-center gap-0.5 whitespace-nowrap rounded-lg px-2 py-1 text-[11px] font-medium text-[var(--vs-accent-hi)] opacity-100 transition-colors hover:bg-[rgba(212,212,216,0.12)] sm:opacity-0 sm:group-hover:opacity-100"
                 >
                   {step.action}
                   <ChevronRight className="h-3 w-3" />

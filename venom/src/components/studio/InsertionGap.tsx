@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Plus, X } from "lucide-react";
+import { Plus, X } from "@/components/studio/icons";
 import clsx from "clsx";
 import { buildSectionLibrary } from "@/sections/variants";
 import { getSectionIcon, getSectionLabel } from "./studio-icons";

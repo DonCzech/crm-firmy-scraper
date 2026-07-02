@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<title>Internetové projekty — Český Partner</title>
+<meta name="viewport" content="width=1280">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+/* ---- Internetové projekty page ---- */
+.port-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.port{border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:all .2s ease}
+.port:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px);border-color:transparent}
+.port-img{height:170px;position:relative}
+.port-img .badges{position:absolute;top:12px;left:12px;display:flex;gap:6px}
+.port-body{padding:18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.port-body h3{margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.port-body p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.55}
+.port-foot{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line-2);padding-top:12px;margin-top:auto}
+.port-foot .meta{font-size:12px;color:var(--muted-2)}
+.port-foot a{color:var(--red);font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:4px}
+
+.tech-row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.chip{border:1px solid var(--line);background:#fff;border-radius:99px;padding:9px 18px;font-size:13.5px;font-weight:500;color:var(--ink-2)}
+
+/* CRM highlight (dark) */
+.crm{background:var(--dark);border-radius:var(--r-xl);color:#fff;padding:40px;display:grid;grid-template-columns:1fr 360px;gap:40px;align-items:center}
+.crm h2{margin:0 0 12px;font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.crm > div > p{margin:0 0 22px;color:var(--on-dark-muted);font-size:15px;line-height:1.65;max-width:520px}
+.crm-stats{display:flex;gap:36px;flex-wrap:wrap}
+.crm-stats .v{font-size:28px;font-weight:800;letter-spacing:-.02em}
+.crm-stats .l{font-size:12.5px;color:var(--on-dark-muted)}
+.crm-vis{background:var(--dark-2);border:1px solid var(--dark-line);border-radius:var(--r-lg);padding:18px}
+.crm-vis .row{display:flex;align-items:center;gap:10px;padding:10px 0}
+.crm-vis .row + .row{border-top:1px solid var(--dark-line)}
+.crm-vis .av{width:34px;height:34px;border-radius:8px;background:var(--dark-3);flex:0 0 34px}
+.crm-vis .row b{display:block;font-size:13px;color:#fff;font-weight:600}
+.crm-vis .row span{font-size:11px;color:var(--on-dark-muted)}
+.crm-vis .row .st{margin-left:auto;font-size:10px;font-weight:700;padding:3px 8px;border-radius:5px}
+.st.win{background:rgba(34,197,94,.15);color:#22C55E}
+.st.new{background:rgba(225,29,42,.15);color:#FF6470}
+.st.work{background:rgba(245,158,11,.15);color:#F59E0B}
+
+.process{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.pstep .n{width:40px;height:40px;border-radius:12px;background:var(--red-50);color:var(--red);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;margin-bottom:14px}
+.pstep h4{margin:0 0 6px;font-size:16px;font-weight:700}
+.pstep p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.55}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="wrap header-inner">
+    <a href="Homepage.html" class="brand"><span class="brand-mark"><span>ČP</span></span><span class="brand-name">Český Partner</span></a>
+    <nav class="nav">
+      <a href="reality.html">Reality</a>
+      <a href="investice.html">Investice</a>
+      <a href="pojisteni.html">Pojištění</a>
+      <a href="internetove-projekty.html" class="active">Internetové projekty</a>
+      <a href="o-nas.html">O nás</a>
+      <a href="kontakt.html">Kontakt</a>
+    </nav>
+    <a href="kontakt.html" class="btn btn-primary">Nezávazná konzultace</a>
+  </div>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="wrap">
+    <div class="breadcrumb"><a href="Homepage.html">Domů</a><span class="sep">/</span><span class="cur">Internetové projekty</span></div>
+    <span class="ph-eyebrow">Internetové projekty</span>
+    <h1>Vlastní digitální projekty a řešení na míru</h1>
+    <p>Vytváříme moderní weby, aplikace, e‑shopy i interní systémy. Stojí za námi vlastní CRM s více než milionem kontaktů a tým, který rozumí byznysu i technologiím.</p>
+    <div class="ph-cta">
+      <a href="#sluzby" class="btn btn-primary btn-lg">Naše služby</a>
+      <a href="#projekty" class="btn btn-light btn-lg">Portfolio projektů</a>
+    </div>
+    <div class="ph-stats">
+      <div><div class="v">18+</div><div class="l">vlastních projektů</div></div>
+      <div><div class="v">100+</div><div class="l">webů a aplikací</div></div>
+      <div><div class="v">1 000 000+</div><div class="l">kontaktů v CRM</div></div>
+      <div><div class="v">vlastní</div><div class="l">e‑shop platforma</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="sluzby">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="eyebrow">Co děláme</div>
+      <h2>Digitální služby od návrhu po provoz</h2>
+      <p>Postaráme se o celý životní cyklus produktu — od strategie přes design a vývoj až po údržbu.</p>
+    </div>
+    <div class="feature-grid cols-3">
+      <div class="fcard">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3>Webové stránky</h3>
+        <p>Rychlé a moderní weby, které prodávají. Optimalizované pro výkon i SEO.</p>
+        <ul><li>Firemní prezentace</li><li>Landing pages</li><li>Redakční systémy</li></ul>
+      </div>
+      <div class="fcard">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg></div>
+        <h3>Mobilní aplikace</h3>
+        <p>Nativní i multiplatformní aplikace pro iOS a Android s důrazem na UX.</p>
+        <ul><li>iOS &amp; Android</li><li>Investiční aplikace</li><li>Klientské portály</li></ul>
+      </div>
+      <div class="fcard">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/><path d="M3 4h2l2 12h11l2-8H6"/></svg></div>
+        <h3>E‑shop řešení</h3>
+        <p>Vlastní e‑shop platforma s napojením na sklad, platby a dopravu.</p>
+        <ul><li>Vlastní platforma</li><li>Platební brány</li><li>Integrace skladů</li></ul>
+      </div>
+      <div class="fcard">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18"/></svg></div>
+        <h3>CRM &amp; interní systémy</h3>
+        <p>Systémy na míru pro správu kontaktů, prodeje a interních procesů.</p>
+        <ul><li>Správa kontaktů</li><li>Automatizace</li><li>Reporting</li></ul>
+      </div>
+      <div class="fcard">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.4.9a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2L5.1 6 3.1 9.4l2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.4-.9a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4.9 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z"/></svg></div>
+        <h3>Vývoj na míru</h3>
+        <p>Komplexní softwarová řešení přesně podle vašich firemních potřeb.</p>
+        <ul><li>Webové aplikace</li><li>API &amp; integrace</li><li>Automatizace procesů</li></ul>
+      </div>
+      <div class="fcard">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16M6 16l4-5 3 3 5-7M14 7h4v4"/></svg></div>
+        <h3>Online marketing</h3>
+        <p>Výkonnostní kampaně, SEO a obsah, který přivádí skutečné zákazníky.</p>
+        <ul><li>SEO &amp; PPC</li><li>Obsahová strategie</li><li>Analytika</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="bg-soft" id="projekty">
+  <div class="wrap">
+    <div class="section-head center">
+      <div class="eyebrow">Naše projekty</div>
+      <h2>Vybrané realizace</h2>
+      <p>Ukázka vlastních platforem a projektů, které jsme navrhli a vyvinuli.</p>
+    </div>
+    <div class="port-grid">
+      <article class="port">
+        <div class="port-img ph tech"><div class="badges"><span class="badge badge-blue">Web</span></div></div>
+        <div class="port-body"><h3>Realitní portál</h3><p>Vyhledávání a prezentace nemovitostí s pokročilými filtry a mapou.</p>
+          <div class="port-foot"><span class="meta">Web · 2025</span><a href="#">Detail <span>→</span></a></div></div>
+      </article>
+      <article class="port">
+        <div class="port-img ph tech"><div class="badges"><span class="badge badge-red">Web &amp; App</span></div></div>
+        <div class="port-body"><h3>Investiční platforma</h3><p>Online investování od 500 Kč s přehledem portfolia a výnosů.</p>
+          <div class="port-foot"><span class="meta">Web &amp; aplikace · 2025</span><a href="#">Detail <span>→</span></a></div></div>
+      </article>
+      <article class="port">
+        <div class="port-img ph dark"><div class="badges"><span class="badge badge-gray">CRM</span></div></div>
+        <div class="port-body"><h3>Český Partner CRM</h3><p>Interní systém pro správu více než milionu kontaktů a obchodních procesů.</p>
+          <div class="port-foot"><span class="meta">CRM systém · 2024</span><a href="#">Detail <span>→</span></a></div></div>
+      </article>
+      <article class="port">
+        <div class="port-img ph warm"><div class="badges"><span class="badge badge-amber">E‑shop</span></div></div>
+        <div class="port-body"><h3>E‑shop platforma</h3><p>Vlastní e‑commerce řešení s napojením na platby, sklad a dopravu.</p>
+          <div class="port-foot"><span class="meta">E‑commerce · 2024</span><a href="#">Detail <span>→</span></a></div></div>
+      </article>
+      <article class="port">
+        <div class="port-img ph tech"><div class="badges"><span class="badge badge-blue">App</span></div></div>
+        <div class="port-body"><h3>Klientský portál</h3><p>Mobilní aplikace pro správu smluv, pojištění a investic na jednom místě.</p>
+          <div class="port-foot"><span class="meta">Mobilní aplikace · 2025</span><a href="#">Detail <span>→</span></a></div></div>
+      </article>
+      <article class="port">
+        <div class="port-img ph green"><div class="badges"><span class="badge badge-green">Web</span></div></div>
+        <div class="port-body"><h3>Pojišťovací srovnávač</h3><p>Online nástroj pro porovnání nabídek pojišťoven a okamžité sjednání.</p>
+          <div class="port-foot"><span class="meta">Web · 2025</span><a href="#">Detail <span>→</span></a></div></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CRM HIGHLIGHT -->
+<section>
+  <div class="wrap">
+    <div class="crm">
+      <div>
+        <h2>Silné zázemí. Skutečný dosah.</h2>
+        <p>Náš vlastní CRM systém spravuje více než 1 000 000 kontaktů a umožňuje nám oslovit správné lidi ve správný čas. Stejnou technologii stavíme i pro naše klienty.</p>
+        <div class="crm-stats">
+          <div><div class="v">1 000 000+</div><div class="l">kontaktů v CRM</div></div>
+          <div><div class="v">99,9 %</div><div class="l">dostupnost systémů</div></div>
+          <div><div class="v">vlastní</div><div class="l">vývoj a bezpečnost</div></div>
+        </div>
+        <div style="margin-top:24px"><a href="kontakt.html" class="btn btn-primary btn-lg">Chci řešení na míru</a></div>
+      </div>
+      <div class="crm-vis">
+        <div class="row"><div class="av"></div><div><b>Jana Nováková</b><span>Investiční dotaz</span></div><span class="st win">Uzavřeno</span></div>
+        <div class="row"><div class="av"></div><div><b>Petr Dvořák</b><span>Pojištění rodiny</span></div><span class="st work">V řešení</span></div>
+        <div class="row"><div class="av"></div><div><b>Marie Svobodová</b><span>Prodej bytu</span></div><span class="st new">Nový</span></div>
+        <div class="row"><div class="av"></div><div><b>Tomáš Kučera</b><span>Developerský projekt</span></div><span class="st win">Uzavřeno</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH -->
+<section class="bg-soft">
+  <div class="wrap">
+    <div class="section-head center"><div class="eyebrow">Technologie</div><h2>Stavíme na moderních technologiích</h2></div>
+    <div class="tech-row">
+      <span class="chip">React</span><span class="chip">Next.js</span><span class="chip">Node.js</span><span class="chip">TypeScript</span>
+      <span class="chip">PHP / Laravel</span><span class="chip">PostgreSQL</span><span class="chip">REST &amp; GraphQL API</span>
+      <span class="chip">React Native</span><span class="chip">Docker</span><span class="chip">AWS</span><span class="chip">Figma</span>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section>
+  <div class="wrap">
+    <div class="section-head center"><div class="eyebrow">Jak pracujeme</div><h2>Od nápadu k hotovému produktu</h2></div>
+    <div class="process">
+      <div class="pstep"><div class="n">1</div><h4>Analýza &amp; strategie</h4><p>Pochopíme cíle, uživatele a definujeme zadání.</p></div>
+      <div class="pstep"><div class="n">2</div><h4>Design &amp; prototyp</h4><p>Navrhneme UX/UI a otestujeme prototyp.</p></div>
+      <div class="pstep"><div class="n">3</div><h4>Vývoj</h4><p>Naprogramujeme řešení v krátkých iteracích.</p></div>
+      <div class="pstep"><div class="n">4</div><h4>Provoz &amp; rozvoj</h4><p>Spustíme, měříme a produkt dále rozvíjíme.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="cta">
+      <div><h3>Máte nápad na digitální projekt?</h3><p>Pojďme ho zrealizovat. Nezávazně probereme zadání i možnosti.</p></div>
+      <div class="cta-buttons"><a href="kontakt.html" class="btn btn-primary btn-lg">Poptat projekt</a><a href="o-nas.html" class="btn btn-light btn-lg">O nás</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a href="Homepage.html" class="brand"><span class="brand-mark"><span>ČP</span></span><span class="brand-name">Český Partner</span></a>
+        <p>Reality, investice a pojištění pod jednou střechou. Moderní řešení pro váš život i vaše podnikání.</p>
+        <div class="social">
+          <a href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M13 22v-8h3l.5-4H13V7.5c0-1.1.3-1.9 1.9-1.9H17V2.1C16.7 2.1 15.5 2 14.1 2 11.2 2 9.3 3.7 9.3 7v3H6v4h3.3v8H13z"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM0 8h5v16H0V8zm7.5 0h4.8v2.2h.1c.7-1.3 2.3-2.6 4.7-2.6 5 0 5.9 3.3 5.9 7.6V24h-5v-7.2c0-1.7 0-3.9-2.4-3.9s-2.8 1.9-2.8 3.8V24h-5V8z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+        </div>
+      </div>
+      <div><h5>Služby</h5><ul><li><a href="reality.html">Reality</a></li><li><a href="investice.html">Investice</a></li><li><a href="pojisteni.html">Pojištění</a></li><li><a href="internetove-projekty.html">Internetové projekty</a></li></ul></div>
+      <div><h5>Projekty</h5><ul><li><a href="internetove-projekty.html">Weby</a></li><li><a href="internetove-projekty.html">Aplikace</a></li><li><a href="internetove-projekty.html">CRM</a></li></ul></div>
+      <div><h5>O nás</h5><ul><li><a href="o-nas.html">Kdo jsme</a></li><li><a href="o-nas.html">Tým</a></li><li><a href="kontakt.html">Kariéra</a></li></ul></div>
+      <div><h5>Kontakt</h5><div class="contact"><b>+420 736 456 789</b><b>info@ceskypartner.cz</b><span>Václavské nám. 10<br>110 00 Praha 1</span></div></div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Český Partner. Všechna práva vyhrazena.</div>
+      <div class="links"><a href="#">Ochrana osobních údajů</a><a href="#">Obchodní podmínky</a><a href="#">Cookies</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

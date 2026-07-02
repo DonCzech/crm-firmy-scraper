@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, ChevronDown, ChevronRight, Trash2, ArrowUp, ArrowDown, RotateCcw } from "lucide-react";
+import { Plus, ChevronDown, ChevronRight, Trash2, ArrowUp, ArrowDown, RotateCcw } from "@/components/studio/icons";
 import type { Section } from "@/lib/db";
 import type { StudioState } from "../TenantStudioView";
 

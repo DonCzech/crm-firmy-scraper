@@ -16,13 +16,18 @@
     "test:studio": "node scripts/test-studio-section.mjs",
     "sync:showcase": "node scripts/sync-showcase.mjs",
     "seed:showcase": "node scripts/seed-showcase.mjs",
-    "seed:showcase:barber-03": "node scripts/seed-barber-03-showcase.mjs"
+    "seed:showcase:barber-03": "node scripts/seed-barber-03-showcase.mjs",
+    "thumbs": "node scripts/generate-section-thumbnails.mjs",
+    "pages:catalog": "node scripts/build-pages-catalog.mjs",
+    "webp": "node scripts/convert-images-to-webp.mjs",
+    "webp:replace": "node scripts/convert-images-to-webp.mjs --replace"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@next/bundle-analyzer": "^16.2.6",
+    "@phosphor-icons/react": "^2.1.10",
     "@vercel/blob": "^2.3.3",
     "bcryptjs": "^3.0.3",
     "better-sqlite3": "^12.8.0",

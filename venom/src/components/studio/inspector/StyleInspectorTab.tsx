@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Type, Image as ImageIcon, Droplet } from "lucide-react";
+import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Type, Image as ImageIcon, Droplet } from "@/components/studio/icons";
 import clsx from "clsx";
 import { useGenericInlineEditor, type GenericTextStyle } from "@/components/tenant/GenericInlineEditorContext";
 import { useStudio } from "../StudioContext";

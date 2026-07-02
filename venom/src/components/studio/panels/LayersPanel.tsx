@@ -21,7 +21,7 @@ import {
   Copy, Trash2, Layout, Layers as LayersIcon, X,
   ChevronRight, Type, AlignLeft, MousePointer, ImageIcon, Minus, Square,
   Smartphone,
-} from "lucide-react";
+} from "@/components/studio/icons";
 import clsx from "clsx";
 import { useStudio } from "../StudioContext";
 import { getSectionIcon, getSectionLabel } from "../studio-icons";

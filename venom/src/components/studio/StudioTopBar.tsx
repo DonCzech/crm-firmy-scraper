@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Monitor, Tablet, Smartphone, Undo2, Redo2, ExternalLink, ChevronLeft, Folder, PanelLeft,
-  ZoomIn, ZoomOut, ChevronDown, Check, Loader2, LogOut, LayoutDashboard, User,
-} from "lucide-react";
+  ZoomIn, ZoomOut, ChevronDown, Check, Loader2,
+} from "@/components/studio/icons";
 import clsx from "clsx";
 import { useStudio, type StudioBreakpoint } from "./StudioContext";
 import type { StudioState } from "./TenantStudioView";
@@ -43,15 +43,19 @@ export function StudioTopBar({
         className="shrink-0 flex h-full border-r border-[var(--vs-border)] overflow-hidden"
       >
         {/* Rail strip — Webero brand logo (inline SVG for gradient colors). */}
-        <div
+        <button
+          type="button"
+          onClick={() => {
+            if (isMobile) studio.closeAllPanels({ collapseMobileRail: true });
+          }}
+          aria-label="Webero"
+          title={isMobile ? "Zavřít panely" : "Webero"}
           className="w-[55px] shrink-0 h-full flex items-center justify-center"
           style={{ boxShadow: "inset -1px 0 0 rgba(255,255,255,0.055)" }}
-          aria-label="Webero"
-          title="Webero"
         >
-          <div
-            className="flex h-9 w-9 items-center justify-center rounded-[10px] select-none shadow-[0_1px_0_rgba(255,255,255,0.2)_inset,0_2px_10px_rgba(20,184,166,0.4)]"
-            style={{ background: "var(--vs-grad-brand)" }}
+          <span
+            className="flex h-9 w-9 items-center justify-center rounded-[10px] select-none shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_8px_22px_rgba(139,92,246,0.38)] ring-1 ring-white/10"
+            style={{ background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 56%, #a855f7 100%)" }}
           >
             <svg width="22" height="22" viewBox="0 0 30 30" fill="none" aria-hidden>
               <path
@@ -63,8 +67,8 @@ export function StudioTopBar({
                 fill="none"
               />
             </svg>
-          </div>
-        </div>
+          </span>
+        </button>
         {/* Panel strip — desktop only */}
         <div className="flex w-[220px] shrink-0 items-center px-3">
           {!isMobile && (studio.leftPanel || studio.settingsView) && (
@@ -90,8 +94,14 @@ export function StudioTopBar({
         {isMobile && (
           <button
             type="button"
-            aria-label={sidebarOpen ? "Skrýt panel" : "Zobrazit panel"}
-            onClick={toggleSidebar}
+            aria-label={studio.mobileRailCollapsed ? "Zobrazit nástroje" : sidebarOpen ? "Skrýt panel" : "Zobrazit panel"}
+            onClick={() => {
+              if (studio.mobileRailCollapsed) {
+                studio.setMobileRailCollapsed(false);
+                return;
+              }
+              toggleSidebar();
+            }}
             className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
           >
             <PanelLeft size={17} strokeWidth={1.6} />
@@ -129,38 +139,44 @@ export function StudioTopBar({
         <div className="flex items-center gap-0.5 shrink-0">
 
           {/* Breakpoint switcher */}
-          <div className="flex items-center gap-0.5 rounded-lg bg-[var(--vs-bg)] p-[3px] ring-1 ring-inset ring-[var(--vs-border)] shadow-[0_1px_2px_rgba(0,0,0,0.35)_inset] mr-1">
-            <BPButton bp="desktop" active={studio.breakpoint === "desktop"} onClick={studio.setBreakpoint} label={isMobile ? "Desktop" : "Desktop (1)"}>
-              <Monitor className={isMobile ? "h-3.5 w-3.5" : "h-4 w-4"} strokeWidth={1.75} />
-            </BPButton>
-            <BPButton bp="tablet" active={studio.breakpoint === "tablet"} onClick={studio.setBreakpoint} label={isMobile ? "Tablet" : "Tablet (2)"}>
-              <Tablet className={isMobile ? "h-3.5 w-3.5" : "h-4 w-4"} strokeWidth={1.75} />
-            </BPButton>
-            <BPButton bp="mobile" active={studio.breakpoint === "mobile"} onClick={studio.setBreakpoint} label={isMobile ? "Mobil" : "Mobil (3)"} compact={isMobile}>
-              <Smartphone className={isMobile ? "h-3.5 w-3.5" : "h-4 w-4"} strokeWidth={1.75} />
-            </BPButton>
-          </div>
+          {!isMobile && (
+            <div className="flex items-center gap-0.5 rounded-lg bg-[var(--vs-bg)] p-[3px] ring-1 ring-inset ring-[var(--vs-border)] shadow-[0_1px_2px_rgba(0,0,0,0.35)_inset] mr-1">
+              <BPButton bp="desktop" active={studio.breakpoint === "desktop"} onClick={studio.setBreakpoint} label="Desktop (1)">
+                <Monitor className="h-4 w-4" weight={studio.breakpoint === "desktop" ? "duotone" : "regular"} />
+              </BPButton>
+              <BPButton bp="tablet" active={studio.breakpoint === "tablet"} onClick={studio.setBreakpoint} label="Tablet (2)">
+                <Tablet className="h-4 w-4" weight={studio.breakpoint === "tablet" ? "duotone" : "regular"} />
+              </BPButton>
+              <BPButton bp="mobile" active={studio.breakpoint === "mobile"} onClick={studio.setBreakpoint} label="Mobil (3)">
+                <Smartphone className="h-4 w-4" weight={studio.breakpoint === "mobile" ? "duotone" : "regular"} />
+              </BPButton>
+            </div>
+          )}
 
-          <button
-            type="button"
-            aria-label="Zpět (⌘Z)"
-            title="Zpět (⌘Z)"
-            disabled={!state.canUndo}
-            onClick={state.undo}
-            className="flex h-[31px] w-[31px] items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] disabled:opacity-30 transition-colors duration-100"
-          >
-            <Undo2 className="h-4 w-4" strokeWidth={1.75} />
-          </button>
-          <button
-            type="button"
-            aria-label="Vpřed (⌘⇧Z)"
-            title="Vpřed (⌘⇧Z)"
-            disabled={!state.canRedo}
-            onClick={state.redo}
-            className="flex h-[31px] w-[31px] items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] disabled:opacity-30 transition-colors duration-100"
-          >
-            <Redo2 className="h-4 w-4" strokeWidth={1.75} />
-          </button>
+          {!isMobile && (
+            <>
+              <button
+                type="button"
+                aria-label="Zpět (⌘Z)"
+                title="Zpět (⌘Z)"
+                disabled={!state.canUndo}
+                onClick={state.undo}
+                className="flex h-[31px] w-[31px] items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] disabled:opacity-30 transition-colors duration-100"
+              >
+                <Undo2 className="h-4 w-4" strokeWidth={1.75} />
+              </button>
+              <button
+                type="button"
+                aria-label="Vpřed (⌘⇧Z)"
+                title="Vpřed (⌘⇧Z)"
+                disabled={!state.canRedo}
+                onClick={state.redo}
+                className="flex h-[31px] w-[31px] items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] disabled:opacity-30 transition-colors duration-100"
+              >
+                <Redo2 className="h-4 w-4" strokeWidth={1.75} />
+              </button>
+            </>
+          )}
 
           {/* External preview link — desktop only */}
           {!isMobile && (
@@ -193,10 +209,6 @@ export function StudioTopBar({
             {!isMobile && <GoLiveButton state={state} />}
             <PublishButton state={state} />
           </div>
-
-          <div className="h-[22px] w-px bg-[var(--vs-border)] mx-1" />
-
-          <UserMenu />
         </div>
       </div>
     </header>
@@ -366,89 +378,5 @@ function BPButton({
     >
       {children}
     </button>
-  );
-}
-
-function UserMenu() {
-  const [open, setOpen] = useState(false);
-  const [email, setEmail] = useState<string | null>(null);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    fetch("/api/account/me")
-      .then((r) => r.ok ? r.json() : null)
-      .then((d) => { if (d?.email) setEmail(d.email); })
-      .catch(() => {});
-  }, []);
-
-  useEffect(() => {
-    if (!open) return;
-    function handler(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    }
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [open]);
-
-  async function handleLogout() {
-    await fetch("/api/account/logout", { method: "POST" });
-    window.location.href = "/account/login";
-  }
-
-  const initial = email ? email[0].toUpperCase() : null;
-
-  return (
-    <div ref={ref} className="relative ml-1">
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
-        title={email ?? "Účet"}
-        className="flex h-[31px] w-[31px] items-center justify-center rounded-full text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors duration-100"
-      >
-        {initial ? (
-          <span
-            className="flex h-[26px] w-[26px] items-center justify-center rounded-full text-[11px] font-bold text-white shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_2px_6px_rgba(20,184,166,0.4)]"
-            style={{ background: "var(--vs-grad-brand)" }}
-          >
-            {initial}
-          </span>
-        ) : (
-          <User className="h-4 w-4" strokeWidth={1.75} />
-        )}
-      </button>
-
-      {open && (
-        <div
-          className="vs-glass vs-pop absolute right-0 top-[calc(100%+6px)] z-[200] w-52 rounded-xl border border-[var(--vs-border-strong)] py-1.5"
-          style={{ boxShadow: "var(--vs-shadow-lg)" }}
-        >
-          {email && (
-            <>
-              <div className="px-3.5 py-2.5">
-                <p className="text-[11px] text-[var(--vs-text-dim)] truncate">{email}</p>
-              </div>
-              <div className="my-1 border-t border-[var(--vs-border)]" />
-            </>
-          )}
-          <a
-            href="/account/dashboard"
-            className="flex items-center gap-2.5 px-3.5 py-2 text-[13px] text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
-            onClick={() => setOpen(false)}
-          >
-            <LayoutDashboard className="h-3.5 w-3.5 shrink-0 opacity-70" strokeWidth={1.75} />
-            Moje projekty
-          </a>
-          <div className="my-1 border-t border-[var(--vs-border)]" />
-          <button
-            type="button"
-            onClick={handleLogout}
-            className="flex w-full items-center gap-2.5 px-3.5 py-2 text-[13px] text-[var(--vs-text-soft)] hover:bg-[var(--vs-surface-2)] hover:text-red-400 transition-colors"
-          >
-            <LogOut className="h-3.5 w-3.5 shrink-0 opacity-70" strokeWidth={1.75} />
-            Odhlásit se
-          </button>
-        </div>
-      )}
-    </div>
   );
 }

@@ -5,7 +5,7 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { createPortal } from "react-dom";
-import { Info, Pencil, Trash2, Link2, Link2Off, Settings2, ChevronRight } from "lucide-react";
+import { Info, Pencil, Trash2, Link2, Link2Off, Settings2, ChevronRight } from "@/components/studio/icons";
 import clsx from "clsx";
 import { useStudio } from "./StudioContext";
 import { MediaPickerModal } from "./MediaPickerModal";

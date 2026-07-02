@@ -4177,27 +4177,21 @@ function ServicesFyzio02({ content, sectionId }: { content: Record<string, unkno
 // 3-col karty: foto (16:9) + gold top border + kategorie + popis + card link
 // ─────────────────────────────────────────────────────────────────────────────
 function ServicesCafe02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const id      = String(content.id      ?? "menu");
-  const tagline = String(content.tagline ?? "Naše nabídka");
-  const title   = String(content.title   ?? "Menu pro každou\ndenní dobu.");
-  const body    = String(content.body    ?? "");
-  const ctaText = String(content.ctaText ?? "Zobrazit celé menu");
-  const ctaHref = String(content.ctaHref ?? "/menu");
-  const items   = (content.items as Array<Record<string, unknown>>) ?? [];
+  const id           = String(content.id           ?? "menu");
+  const eyebrow      = String(content.eyebrow      ?? content.tagline ?? "Naše nabídka");
+  const title        = String(content.title        ?? "Menu pro každou\ndenní dobu.");
+  const body         = String(content.body         ?? "Snídaně, obědy i večeře v elegantním vídeňském prostředí. Každý chod z čerstvých surovin a poctivých receptur — od klasického vídeňského řízku po výběrovou kávu z tichých roasterů.");
+  const ctaText      = String(content.ctaText      ?? "Zobrazit celé menu");
+  const ctaHref      = String(content.ctaHref      ?? "/menu");
+  const showHeader   = content.showHeader !== false && (eyebrow || title || body);
+  const items = (content.items as Array<Record<string, unknown>>) ?? [];
 
-  const BG    = "#F7F4EF";
-  const GOLD  = "#A89B67";
-  const BURG  = "#6C1D45";
-  const TEXT  = "#1A0E0A";
-  const MUTED = "#8C7B6A";
-  const CARD  = "#FFFFFF";
-  const FONT  = "Georgia, 'Times New Roman', serif";
-  const SANS  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
   const PLACEHOLDERS = [
-    "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&h=400&fit=crop&fm=webp&q=85",
-    "https://images.unsplash.com/photo-1547592180-85f173990554?w=600&h=400&fit=crop&fm=webp&q=85",
-    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=400&fit=crop&fm=webp&q=85",
+    "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=800&h=1000&fit=crop&fm=webp&q=88",
+    "https://images.unsplash.com/photo-1547592180-85f173990554?w=800&h=1000&fit=crop&fm=webp&q=88",
+    "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=1000&fit=crop&fm=webp&q=88",
   ];
+  const ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
 
   const secRef = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -4211,26 +4205,42 @@ function ServicesCafe02({ content, sectionId }: { content: Record<string, unknow
   }, []);
 
   return (
-    <section ref={secRef} id={id} data-variant="cafe-02-menu" style={{ backgroundColor: BG, padding: "96px 0", fontFamily: SANS }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(24px, 5vw, 64px)" }}>
-        {/* Header */}
-        <div data-c02m="0" style={{ textAlign: "center", marginBottom: 56 }}>
-          <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD, margin: "0 0 14px" }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          <div style={{ width: 40, height: 1.5, backgroundColor: GOLD, margin: "0 auto 20px" }} />
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 46px)", fontWeight: 400, color: BURG, margin: "0 0 20px", lineHeight: 1.2, whiteSpace: "pre-line" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          {body && (
-            <p style={{ fontSize: 15, fontWeight: 400, lineHeight: 1.75, color: MUTED, maxWidth: 560, margin: "0 auto" }}>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-            </p>
-          )}
-        </div>
+    <section
+      ref={secRef}
+      id={id}
+      data-template="cafe-02"
+      data-variant="cafe-02-menu"
+      className="cafe02-menu"
+      aria-label="Menu"
+    >
+      <span className="cafe02-menu__ornament" aria-hidden>
+        <svg viewBox="0 0 80 80" fill="none">
+          <circle cx="40" cy="40" r="30" stroke="currentColor" strokeWidth="0.6" opacity="0.5"/>
+          <circle cx="40" cy="40" r="20" stroke="currentColor" strokeWidth="0.6" opacity="0.4"/>
+          <circle cx="40" cy="40" r="4" fill="currentColor"/>
+        </svg>
+      </span>
 
-        {/* Karty */}
-        <div className="c02m-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, marginBottom: 48 }}>
+      <div className="cafe02-menu__inner">
+        {showHeader && (
+          <div className="cafe02-menu__head" data-c02m="0">
+            <div className="cafe02-menu__eyebrow">
+              <span className="cafe02-menu__eyebrow-rule" />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              <span className="cafe02-menu__eyebrow-rule" />
+            </div>
+            <h2 className="cafe02-menu__title">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            {body && (
+              <p className="cafe02-menu__body">
+                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
+
+        <div className="cafe02-menu__grid">
           {items.map((item, i) => {
             const name     = String(item.name        ?? "");
             const category = String(item.category    ?? "");
@@ -4238,63 +4248,67 @@ function ServicesCafe02({ content, sectionId }: { content: Record<string, unknow
             const img      = String(item.image       ?? PLACEHOLDERS[i % 3]);
             const cardCta  = String(item.ctaText     ?? "Jídelní lístek");
             const cardHref = String(item.ctaHref     ?? ctaHref);
+            const price    = String(item.priceHint   ?? "");
+
             return (
-              <div key={i} data-c02m={i + 1} style={{ transitionDelay: `${i * 0.12}s` }}>
-                <div className="c02m-card" style={{ backgroundColor: CARD, overflow: "hidden", borderRadius: 2, boxShadow: "0 2px 16px rgba(26,14,10,0.07)", height: "100%" }}>
-                  <div style={{ height: 2, backgroundColor: GOLD }} />
-                  <div style={{ aspectRatio: "16/9", overflow: "hidden" }}>
-                    <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={img} alt={name} style={{ width: "100%", height: "100%", display: "block" }}>
-                      <img loading="lazy" src={img} alt={name} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                    </GenericEditableImage>
-                  </div>
-                  <div style={{ padding: "24px 24px 28px" }}>
-                    <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: GOLD, margin: "0 0 8px" }}>
-                      <GenericEditableText sectionId={sectionId} field={`items.${i}.category`} value={category} tag="span" />
-                    </p>
-                    <h3 style={{ fontFamily: FONT, fontSize: 22, fontWeight: 400, color: BURG, margin: "0 0 12px" }}>
-                      <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={name} tag="span" />
-                    </h3>
-                    <p style={{ fontSize: 13, fontWeight: 400, lineHeight: 1.75, color: TEXT, margin: "0 0 20px" }}>
-                      <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={desc} tag="span" />
-                    </p>
-                    <a href={cardHref}
-                      style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: BURG, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 6, transition: "opacity 0.2s" }}
-                      onMouseEnter={e => (e.currentTarget.style.opacity = "0.7")}
-                      onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-                    >
-                      <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={cardCta} tag="span" /> <span style={{ fontSize: 14 }}>→</span>
-                    </a>
-                  </div>
+              <article
+                key={i}
+                data-c02m={i + 1}
+                style={{ transitionDelay: `${i * 0.12}s` }}
+                className="cafe02-menu__card"
+              >
+                <span className="cafe02-menu__roman" aria-hidden>{ROMAN[i] || String(i + 1)}</span>
+
+                <div className="cafe02-menu__photo">
+                  <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={img} alt={name} style={{ width: "100%", height: "100%", display: "block" }}>
+                    <img loading="lazy" src={img} alt={name} className="cafe02-menu__photo-img" />
+                  </GenericEditableImage>
+                  <span className="cafe02-menu__photo-veil" aria-hidden />
                 </div>
-              </div>
+
+                <div className="cafe02-menu__body-wrap">
+                  <div className="cafe02-menu__cat">
+                    <span className="cafe02-menu__cat-dot" aria-hidden />
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.category`} value={category} tag="span" />
+                  </div>
+
+                  <h3 className="cafe02-menu__name">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={name} tag="span" />
+                  </h3>
+
+                  {price && (
+                    <div className="cafe02-menu__price">
+                      <span className="cafe02-menu__price-rail" />
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.priceHint`} value={price} tag="span" />
+                    </div>
+                  )}
+
+                  <p className="cafe02-menu__desc">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={desc} tag="span" />
+                  </p>
+
+                  <a href={cardHref} className="cafe02-menu__card-link">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.ctaText`} value={cardCta} tag="span" />
+                    <svg width="14" height="10" viewBox="0 0 16 10" fill="none" aria-hidden>
+                      <path d="M1 5H15M10 1L15 5L10 9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </a>
+                </div>
+              </article>
             );
           })}
         </div>
 
-        {/* Hlavní CTA */}
-        <div style={{ textAlign: "center" }}>
-          <a href={ctaHref} data-btn="primary" style={{
-            fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.1em",
-            textTransform: "uppercase", color: BURG, textDecoration: "none",
-            padding: "14px 36px", border: `1.5px solid ${BURG}`, borderRadius: 2,
-            display: "inline-block", transition: "background-color 0.2s, color 0.2s",
-          }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = BURG; e.currentTarget.style.color = "#fff"; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = BURG; }}
-          >
+        <div className="cafe02-menu__cta-wrap" data-c02m={items.length + 1}>
+          <a href={ctaHref} data-btn="primary" className="cafe02-menu__cta">
+            <span className="cafe02-nav__cta-shine" aria-hidden />
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden className="cafe02-menu__cta-arrow">
+              <path d="M1 5H15M10 1L15 5L10 9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </a>
         </div>
       </div>
-
-      <style>{`
-        @media(max-width:900px){.c02m-grid{grid-template-columns:1fr 1fr!important}}
-        @media(max-width:600px){.c02m-grid{grid-template-columns:1fr!important}}
-        .c02m-card{transition:transform 0.22s ease,box-shadow 0.22s ease}
-        .c02m-card:hover{transform:translateY(-5px);box-shadow:0 8px 28px rgba(26,14,10,0.12)!important}
-        [data-c02m]{opacity:0;transform:translateY(36px);transition:opacity .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1)}
-        [data-c02m].c02m-vis{opacity:1;transform:translateY(0)}
-      `}</style>
     </section>
   );
 }

@@ -7,10 +7,10 @@
     "siteName": "Demo Beauty Studio",
     "links": [
       { "label": "Domů",     "href": "/" },
-      { "label": "Ceník",    "href": "#cenik" },
-      { "label": "Rezervace","href": "#rezervace" },
-      { "label": "Galerie",  "href": "#galerie" },
-      { "label": "Kontakt",  "href": "#kontakt" }
+      { "label": "Ceník",    "href": "/cenik" },
+      { "label": "Rezervace","href": "/rezervace" },
+      { "label": "Galerie",  "href": "/galerie" },
+      { "label": "Kontakt",  "href": "/kontakt" }
     ],
     "phone": "704 123 456",
     "ctaText": "REZERVACE",

@@ -32,7 +32,7 @@
         { "type": "hero",   "variant": "hero-barber-titleonly",  "contentRef": "hero" },
         { "type": "promo",         "variant": "promo-2cards",        "contentRef": "promo" },
         { "type": "testimonials",  "variant": "barber-dark-3col",    "contentRef": "testimonials" },
-        { "type": "about",         "variant": "about-barber-luxury", "contentRef": "about" },
+        { "type": "about",         "variant": "about-barber-03-luxury", "contentRef": "about" },
         { "type": "pricing",       "variant": "pricing-table-video", "contentRef": "pricing" },
         { "type": "gallery",       "variant": "four-col-contained",  "contentRef": "gallery" },
         { "type": "footer",        "variant": "footer-map-contact",  "contentRef": "footer" }

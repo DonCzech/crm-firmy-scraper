@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Loader2, X } from "lucide-react";
+import { Check, Loader2, X } from "@/components/studio/icons";
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { findById } from "./registry";
@@ -67,7 +67,7 @@ export function DesignPopup({ openId, onClose }: Props) {
       <div
         role="dialog"
         aria-label={found.label}
-        className="fixed left-[calc(var(--vs-rail-w)+var(--vs-panel-w)+8px)] top-[calc(var(--vs-topbar-h)+8px)] z-[60] flex w-[300px] max-h-[calc(100vh-var(--vs-topbar-h)-24px)] flex-col rounded-xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] shadow-[var(--vs-shadow-xl)]"
+        className="fixed inset-x-3 bottom-3 top-[calc(var(--vs-topbar-h)+8px)] z-[60] flex flex-col rounded-xl border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] shadow-[var(--vs-shadow-xl)] sm:inset-x-auto sm:bottom-auto sm:left-[calc(var(--vs-rail-w)+var(--vs-panel-w)+8px)] sm:w-[300px] sm:max-h-[calc(100vh-var(--vs-topbar-h)-24px)]"
         style={{ animation: "vs-fade-in var(--vs-dur-3) var(--vs-ease-out)" }}
       >
         <Header label={found.label} onClose={handleRevertClose} />

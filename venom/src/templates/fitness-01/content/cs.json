@@ -1,253 +1,311 @@
 {
   "navbar": {
-    "siteName": "Pavel Marak",
-    "siteTagline": "Váš osobní trenér",
+    "siteName": "Adam Vítek",
+    "siteTagline": "Fyzio · Osobní trénink",
     "logoUrl": "",
-    "phone": "704 123 456",
-    "ctaText": "1. konzultace ZDARMA",
-    "ctaHref": "#kontakt",
-    "facebookUrl": "https://facebook.com/demo",
-    "instagramUrl": "https://instagram.com/demo",
+    "phone": "728 402 165",
+    "ctaText": "První konzultace zdarma",
+    "ctaHref": "/kontakt",
+    "facebookUrl": "https://facebook.com/adamvitek.studio",
+    "instagramUrl": "https://instagram.com/adamvitek.studio",
     "links": [
-      { "label": "Ceník",    "href": "#cenik" },
-      { "label": "Recenze",  "href": "#recenze" },
-      { "label": "FAQ",      "href": "#faq" },
-      { "label": "Kontakt",  "href": "#kontakt" }
+      { "label": "Ceník",    "href": "/cenik" },
+      { "label": "Recenze",  "href": "/recenze" },
+      { "label": "FAQ",      "href": "/faq" },
+      { "label": "Kontakt",  "href": "/kontakt" }
     ]
   },
   "hero": {
     "title": "Zpět do kondice s respektem k tělu",
-    "tagline": "Fyzioterapeut & Osobní trenér",
-    "headline": "Zpět do kondice\ns respektem k tělu",
-    "quote": "Máte bolesti nebo jste po operaci? Společně sestavíme plán a obnovíme Vaši kondici.",
-    "ctaText": "1. konzultace ZDARMA",
-    "ctaHref": "#kontakt",
-    "ctaNote": "(nutná registrace)",
-    "image": "/assets/fitness-01/bb6263038c-pavel-marak-hero.webp",
-    "badgeText": "Fyzio & Fitness",
-    "badgeHref": "#sluzby",
+    "tagline": "Fyzioterapie · Osobní trénink · Regenerace",
+    "headlinePre": "Zpět do kondice",
+    "headlineAccent": "s respektem",
+    "headlinePost": "k tělu",
+    "quote": "Trápí vás bolest zad, jste po operaci nebo se chcete vrátit k pohybu bez limitů? Sestavíme plán, který vaše tělo zvládne — a pak ho společně přerosteme.",
+    "ctaText": "První konzultace zdarma",
+    "ctaHref": "/kontakt",
+    "ctaNote": "Nezávazně · 30 minut · online i osobně",
+    "secondaryText": "Prohlédnout ceník",
+    "secondaryHref": "/cenik",
+    "image": "/assets/fitness-01/hero-adam-vitek.webp",
+    "imageAlt": "Adam Vítek — fyzioterapeut a osobní trenér ve studiu",
+    "badgeText": "Fyzio & Trénink v Brně",
+    "badgeHref": "/onas",
     "rating": "5.0",
-    "ratingCount": "60+ recenzí",
-    "ratingImage": "/assets/fitness-01/8c2712b2e3-headerreviewsgroup.png",
-    "benefitsHeading": "Přidejte se k těm, kteří dělají pokroky",
+    "ratingCount": "84 recenzí",
+    "benefitsHeading": "Připojte se ke klientům, kteří se vrátili k pohybu",
     "benefitsRating": "5.0",
-    "benefitsRatingCount": "60+ spokojených klientů",
+    "benefitsRatingCount": "84 spokojených klientů",
     "benefitsAvatars": [
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80",
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80",
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=100&q=80"
+      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80",
+      "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=120&q=80",
+      "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=120&q=80"
     ],
     "benefitsItems": [
-      { "icon": "dumbbell", "title": "Tréninky", "description": "Fitness Centrum / Online" },
-      { "icon": "calendar", "title": "Rezervační systém", "description": "pro fitness tréninky i vstupní konzultace" },
-      { "icon": "chat", "title": "Máte dotaz?", "description": "Napište nám e-mail nebo zavolejte" }
+      { "icon": "dumbbell", "title": "Silový trénink",     "description": "Osobní i online plány přizpůsobené vašemu tempu" },
+      { "icon": "calendar", "title": "Rezervace 24/7",      "description": "Termíny konzultace i tréninků jedním klikem" },
+      { "icon": "chat",     "title": "Vždy na příjmu",      "description": "Otázky mezi tréninky? Napište a odpovím do 24 h" }
     ]
   },
   "about": {
-    "title": "Zkoušíte všechno, ale nic nepomáhá?",
-    "body": "Jsem fyzioterapeut a osobní trenér. Díky propojení informací z obou oborů na vaše tělo nahlížím komplexně.",
     "tagline": "O mně",
-    "heading": "Zkoušíte všechno, ale nic nepomáhá?",
-    "subheading": "Svěřte se trenérovi, který vaše problémy uvidí komplexně",
-    "bio": "Jsem fyzioterapeut a osobní trenér. Díky propojení informací z obou oborů na vaše tělo nahlížím komplexně. Ukážu vám, že silový trénink nemusí být jen o budování velkých svalů, ale také o lepším držení těla, zmírnění bolestí kloubů a zad, větší odolnosti vůči každodennímu stresu a zatížení.",
-    "bio2": "Kromě potíží s pohybovým aparátem se na mě můžete obrátit s cílem redukce váhy či formování postavy.",
-    "name": "Pavel Marak",
-    "role": "Fyzioterapeut & Osobní trenér",
-    "image": "https://images.unsplash.com/photo-1567013127542-490d757e51fc?auto=format&fit=crop&w=800&q=80",
+    "eyebrowMark": "02",
+    "headingPre": "Zkoušíte všechno,",
+    "headingAccent": "ale bolest",
+    "headingPost": "se pořád vrací?",
+    "subheading": "Přestaňte hasit příznaky. Podíváme se na příčinu — a tělo znovu naučíme fungovat.",
+    "bio": "Jsem fyzioterapeut a osobní trenér. Propojuji obě profese, protože vaše tělo se nedělí na „fyzio problém\" a „fitness cíl\" — je to jeden systém. Ukážu vám, že silový trénink nemusí být jen o svalech, ale i o rovnováze, mobilitě, dechu a klidnějším nervovém systému.",
+    "bio2": "Pracuji stejně dobře s klienty po operaci kolene i s lidmi, kteří chtějí formovat postavu a zvednout kondici. Každý plán je individuální — žádné šablony, žádné čekárny.",
+    "name": "Adam Vítek",
+    "role": "Fyzioterapeut · Osobní trenér",
+    "credential": "Mgr. · FTVS UK Praha · 8 let praxe",
+    "signature": "\"Silné tělo začíná u toho, jak dýcháš.\"",
+    "image": "/assets/fitness-01/about-adam.webp",
+    "imageAlt": "Adam Vítek — fyzioterapeut a osobní trenér",
+    "ctaText": "Rezervovat konzultaci",
+    "ctaHref": "/kontakt",
     "stats": [
-      { "number": "8+",  "label": "let praxe" },
-      { "number": "200+", "label": "spokojených klientů" },
-      { "number": "100%", "label": "individuální přístup" }
+      { "number": "8",   "suffix": "+",    "label": "let praxe ve fyzioterapii" },
+      { "number": "230", "suffix": "+",    "label": "klientů zpět k pohybu" },
+      { "number": "1",   "suffix": " na 1", "label": "individuální přístup, žádné šablony" }
     ]
   },
   "services": {
-    "title": "KOMPLEXNÍ tréninky na míru",
     "sectionTag": "Specializace",
-    "heading": "KOMPLEXNÍ tréninky na míru",
-    "subheading": "Nejčastěji vám pomáhám vyřešit",
-    "ctaText": "Rezervovat trénink",
-    "ctaHref": "#kontakt",
-    "services": [],
+    "eyebrowMark": "03",
+    "headingPre": "Komplexní tréninky",
+    "headingAccent": "na míru",
+    "headingPost": "vašemu tělu",
+    "subheading": "Fyzioterapie a osobní trénink v jednom. Vyberte oblast, se kterou vás nejčastěji trápí bolest nebo cíl — a společně sestavíme plán.",
+    "ctaText": "Rezervovat úvodní konzultaci",
+    "ctaHref": "/kontakt",
     "items": [
       {
-        "name": "Bolesti a problémy zad",
-        "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=400&h=533&q=80",
-        "title": "Bolesti a problémy zad",
-        "location": "Fitness Centrum"
+        "title": "Bolesti zad a krční páteře",
+        "description": "Ischias, blokády, chronické napětí — najdeme příčinu v pohybu, nejen v uvolnění.",
+        "image": "/assets/fitness-01/service-1.webp",
+        "location": "Studio v Brně / Online"
       },
       {
-        "name": "Rekondice",
-        "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=400&h=533&q=80",
-        "title": "Rekondice",
-        "location": "Fitness Centrum"
+        "title": "Rekondice po operaci",
+        "description": "Kolena, ramena, kyčle — návrat k pohybu podle EBM postupů, krok za krokem.",
+        "image": "/assets/fitness-01/service-2.webp",
+        "location": "Studio v Brně / Online"
       },
       {
-        "name": "Ženské zdraví",
-        "image": "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=400&h=533&q=80",
-        "title": "Ženské zdraví",
-        "location": "Fitness Centrum"
+        "title": "Ženské zdraví & pánevní dno",
+        "description": "Poporodní návrat, diastáza, pánevní dno — respektující přístup a jasný plán.",
+        "image": "/assets/fitness-01/service-3.webp",
+        "location": "Studio v Brně"
       },
       {
-        "name": "Redukce váhy",
-        "image": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=400&h=533&q=80",
-        "title": "Redukce váhy",
-        "location": "Fitness Centrum"
+        "title": "Redukce váhy & metabolika",
+        "description": "Individuální plán — kombinace síly, kondice a výživového průvodce.",
+        "image": "/assets/fitness-01/service-4.webp",
+        "location": "Studio v Brně / Online"
       },
       {
-        "name": "Tvarování postavy a svalstva",
-        "image": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=400&h=533&q=80",
-        "title": "Tvarování postavy a svalstva",
-        "location": "Fitness Centrum"
+        "title": "Silový trénink & formování",
+        "description": "Kompozice těla, hypertrofie, funkční síla — trénink podle Vašich cílů.",
+        "image": "/assets/fitness-01/service-5.webp",
+        "location": "Studio v Brně / Online"
       },
       {
-        "name": "Bolest kloubů, Artróza",
-        "image": "https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=400&h=533&q=80",
-        "title": "Bolest kloubů, Artróza",
-        "location": "Fitness Centrum"
-      },
-      {
-        "name": "Pánevní dno",
-        "image": "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=400&h=533&q=80",
-        "title": "Pánevní dno",
-        "location": "Fitness Centrum"
-      },
-      {
-        "name": "Rehabilitace po zranění",
-        "image": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=400&h=533&q=80",
-        "title": "Rehabilitace po zranění",
-        "location": "Fitness Centrum"
+        "title": "Mobilita, klouby & regenerace",
+        "description": "Artróza, ztuhlost, prevence — mobilizační protokoly + dechová práce.",
+        "image": "/assets/fitness-01/service-6.webp",
+        "location": "Studio v Brně / Online"
       }
     ]
   },
   "pricing": {
-    "services": [],
     "sectionTag": "Ceník",
-    "heading": "KOMPLEXNÍ FYZIO programy, které dávají smysl",
-    "subheading": "Kdy jindy začít, když ne teď?",
-    "note": "Všechny lekce jsou komplexní a na míru Vám. Pokud si nevyberete z nabízených programů, napište si o individuální plán.",
-    "ctaHref": "#kontakt",
+    "eyebrowMark": "04",
+    "headingPre": "Programy,",
+    "headingAccent": "které dávají",
+    "headingPost": "výsledek",
+    "subheading": "Zvolte tempo, které odpovídá vašemu tělu i rozvrhu. Každý plán zahrnuje individuální strategii — žádné šablony ani skryté položky.",
+    "note": "Nevyhovuje vám žádná varianta? Sestavíme individuální plán na míru — napište mi e-mail nebo si rezervujte první konzultaci zdarma.",
+    "ctaHref": "/kontakt",
     "plans": [
       {
-        "name": "1 TRÉNINK / KONZULTACE",
-        "period": "jednorázově",
+        "name": "Jednorázově",
+        "period": "1 lekce · 60 min",
         "price": "1 400",
         "unit": "Kč",
-        "perPeriod": "/hod",
-        "featured": true,
+        "perPeriod": "/lekce",
+        "featured": false,
+        "highlight": "Ideální pro první seznámení",
         "features": [
-          "1 trénink",
-          "jednorázově"
+          "Individuální trénink nebo konzultace",
+          "Vstupní pohybová analýza",
+          "Doporučení dalších kroků"
         ],
-        "ctaText": "Rezervovat trénink",
-        "ctaHref": "#kontakt"
+        "ctaText": "Rezervovat lekci",
+        "ctaHref": "/kontakt"
       },
       {
-        "name": "BASIC",
-        "period": "3 měsíce · 12 tréninků",
+        "name": "Kondiční plán",
+        "period": "3 měsíce · 12 lekcí",
         "price": "4 750",
         "unit": "Kč",
         "perPeriod": "/měsíc",
-        "featured": false,
+        "featured": true,
+        "highlight": "Nejoblíbenější volba",
         "features": [
           "Osobní trénink 1× týdně",
-          "Konzultace stravovacích či pohybových návyků 1× 30 min",
-          "Tréninkový plán"
+          "Vstupní pohybová analýza + cíle",
+          "Konzultace stravy a spánku (30 min)",
+          "Individuální tréninkový plán",
+          "Podpora e-mailem mezi tréninky"
         ],
         "ctaText": "Začít program",
-        "ctaHref": "#kontakt"
+        "ctaHref": "/kontakt"
       },
       {
-        "name": "STANDARD",
-        "period": "6 měsíců · 25 tréninků",
+        "name": "Rekondiční program",
+        "period": "6 měsíců · 25 lekcí",
         "price": "4 550",
         "unit": "Kč",
         "perPeriod": "/měsíc",
         "featured": false,
+        "highlight": "Nejlepší cena za lekci",
         "features": [
           "Osobní trénink 1× týdně",
-          "Konzultace stravovacích či pohybových návyků 2× 30 min",
-          "Tréninkový plán",
-          "Pravidelné vyhodnocení pokroků"
+          "Rozšířené konzultace stravy (2× 30 min)",
+          "Individuální tréninkový plán",
+          "Měsíční vyhodnocení pokroků",
+          "Podpora e-mailem + WhatsApp",
+          "Bonus: workout plán na dovolenou"
         ],
         "ctaText": "Začít program",
-        "ctaHref": "#kontakt"
+        "ctaHref": "/kontakt"
       }
     ]
   },
   "testimonials": {
-    "testimonials": [],
     "sectionTag": "Reference",
-    "heading": "Co říkají klienti",
+    "eyebrowMark": "05",
+    "headingPre": "Klienti,",
+    "headingAccent": "kteří se vrátili",
+    "headingPost": "k pohybu",
+    "subheading": "Vybrané reference z 84 hodnocení — od lidí po operaci i těch, kteří chtěli konečně přestat bolet.",
     "googleRating": "5.0",
-    "googleCount": "60+ recenzí",
+    "googleCount": "84 recenzí",
+    "googleLabel": "Průměr na Google",
     "items": [
       {
-        "text": "Po včerejší návštěvě se cítím fantasticky. Oproti včerejšku se cítím minimálně o 70 % lépe. Hlava mě zatím vůbec nebolela. Velmi cením návaznosti na rehabilitaci ve smyslu tréninků, které mě po proležených měsících dostaly zpět do formy!",
-        "author": "Jitka",
-        "role": "Rehabilitace a tréninky",
+        "text": "Po první konzultaci jsem odcházela s pocitem, že mě konečně někdo skutečně poslouchá. Adam mi neřekl „musíte cvičit\", ale ukázal PROČ. Po třech měsících jsem bez bolesti zad poprvé za pět let.",
+        "author": "Jitka H.",
+        "role": "Bolesti zad · 3 měsíce",
         "stars": 5
       },
       {
-        "text": "Dnes cítím ohromnou úlevu, při pohledu vlevo ještě cítím tah, ale ramenem můžu skoro po roce vesele mávat! Ve cvičení pokračuji a snad se ho nevzdám!",
-        "author": "Roman",
-        "role": "Úvodní konzultace fyzioterapie",
+        "text": "Rok po operaci ramene jsem měla pocit, že se ke sportu už nikdy nevrátím. Adam sestavil plán krok za krokem — dnes cvičím činky a plavu. Skvělá kombinace fyzia a tréninku.",
+        "author": "Roman T.",
+        "role": "Rekondice po operaci",
         "stars": 5
       },
       {
-        "text": "Pavel je skvělý trenér — má obrovský přehled, trénink vždy přizpůsobí mým potřebám a výsledky jsou znát. Díky němu jsem se zbavila chronických bolestí zad.",
+        "text": "Zkoušela jsem půl roku různé trenéry. Až u Adama jsem pochopila, že silový trénink nemusí bolet klouby. Bonusem je, že mi konečně srozumitelně vysvětlil, proč dietám nevěří.",
         "author": "Tereza K.",
-        "role": "Osobní tréninky",
+        "role": "Silový trénink · 6 měsíců",
+        "stars": 5
+      },
+      {
+        "text": "Poporodní návrat k pohybu jsem odkládala 2 roky. Individuální přístup, respekt k tělu, žádný tlak — přesně tohle jsem potřebovala. Diastáza se srovnala, mám zpět energii.",
+        "author": "Markéta L.",
+        "role": "Ženské zdraví",
         "stars": 5
       }
     ]
   },
   "faq": {
-    "heading": "Máte dotaz?",
+    "sectionTag": "FAQ",
+    "eyebrowMark": "06",
+    "headingPre": "Máte dotaz",
+    "headingAccent": "před tím,",
+    "headingPost": "než se objednáte?",
+    "subheading": "Nejčastější otázky, které dostávám od klientů. Nenašli jste odpověď? Napište mi e-mail — obvykle odpovím do 24 hodin.",
+    "ctaText": "Zeptat se přímo",
+    "ctaHref": "/kontakt",
     "items": [
       {
-        "question": "Jak se mohu objednat na trénink?",
-        "answer": "Trénink si můžete rezervovat prostřednictvím online rezervačního systému. Pro rezervaci je nutná registrace. Po registraci vám systém umožní rezervovat si pouze vstupní konzultaci. Po absolvování vstupní konzultace získáte plný přístup k rezervačnímu systému."
+        "question": "Jak se objednat na první konzultaci?",
+        "answer": "Napište mi e-mail nebo vyplňte kontaktní formulář na této stránce. Ozvu se do 24 hodin a společně najdeme termín. První konzultace (30 minut, online nebo osobně) je zdarma a nezávazná — projdeme vaše cíle i zdravotní historii."
       },
       {
-        "question": "K čemu slouží vstupní konzultace?",
-        "answer": "Vstupní konzultace slouží k upřesnění vašich cílů a nastavení vhodného způsobu spolupráce. Probíhá standardně telefonicky. Vstupní konzultace je zdarma."
+        "question": "K čemu slouží úvodní konzultace zdarma?",
+        "answer": "Zjišťujeme, s čím vám mohu pomoci nejlépe — a hlavně jestli si sedneme. Probereme vaše bolesti, dosavadní zkušenosti s pohybem, cíle a zdravotní stav. Na konci máte jasný návrh dalších kroků a ceny, bez závazku pokračovat."
       },
       {
-        "question": "Mohu trénovat, pokud mám chronické bolesti zad, jsem po operaci nebo úrazu?",
-        "answer": "Ano, je možné se objednat i s pohybovými obtížemi. Jsem fyzioterapeut, a proto přizpůsobím trénink vašim možnostem a zdravotnímu stavu. Většina mých klientů začínala trénovat právě s pohybovými obtížemi."
+        "question": "Mohu trénovat, když mám chronické bolesti zad nebo jsem po operaci?",
+        "answer": "Ano — a upřímně, s takovými klienty pracuji nejčastěji. Jsem fyzioterapeut, takže začínáme opatrně a přizpůsobíme intenzitu vašemu stavu. Pokud je potřeba, spolupracujeme s vaším lékařem nebo si vyžádám lékařskou zprávu."
       },
       {
-        "question": "Nevyberu si z nabízených balíčků, je možnost individuálního plánu?",
-        "answer": "Ano, pokud si nevyberete z nabízených programů, napište mi přes e-mail a domluvíme se individuálně na programu a ceníku přesně pro vás."
+        "question": "Trénujete i online?",
+        "answer": "Ano, přes Zoom nebo Meet. Online tréninky fungují skvěle pro silový trénink, mobilitu, pohybovou analýzu a konzultace. Pro některé fyzio zákroky (manuální techniky) je potřeba osobní setkání ve studiu v Brně."
+      },
+      {
+        "question": "Nevyberu si z balíčků — nabízíte individuální plán?",
+        "answer": "Ano. Pokud vám žádný z programů nesedne (jiná frekvence, kratší intervaly, kombinace fyzio + trénink), sestavíme individuální variantu. Napište mi e-mailem a domluvíme se na férové ceně na míru."
+      },
+      {
+        "question": "Jak dlouho trvá, než uvidím výsledky?",
+        "answer": "První úleva od bolesti se obvykle dostavuje během 2–4 týdnů. Trvalé změny v držení těla, síle a kondici vyžadují 3–6 měsíců pravidelné práce. Realistická očekávání a měřitelné milníky jsou součást každého plánu."
       }
     ]
   },
   "contact": {
-    "heading": "Kontakt",
-    "email": "info@pavelmarak.cz",
-    "phone": "704 123 456",
-    "address": "Ukázková 123, 110 00 Praha 1",
-    "facebookUrl": "https://facebook.com/demo",
-    "instagramUrl": "https://instagram.com/demo",
-    "name": "Pavel Marak",
-    "role": "Fyzioterapeut & Osobní trenér",
-    "image": "/assets/fitness-01/bb6263038c-pavel-marak-hero.webp"
+    "sectionTag": "Kontakt",
+    "eyebrowMark": "07",
+    "headingPre": "Domluvme si",
+    "headingAccent": "první",
+    "headingPost": "setkání",
+    "subheading": "Napište pár řádek o tom, s čím vám mohu pomoci. Ozvu se do 24 hodin — obvykle rychleji.",
+    "email": "adam@studiovitek.cz",
+    "phone": "728 402 165",
+    "phoneNote": "Po–Pá · 8:00–19:00",
+    "address": "Studio Vítek · Kounicova 42",
+    "city": "602 00 Brno-střed",
+    "hours": "Po–Pá 8:00–19:00 · So dle domluvy",
+    "mapHint": "Vchod z dvora, druhý zvonek",
+    "facebookUrl": "https://facebook.com/adamvitek.studio",
+    "instagramUrl": "https://instagram.com/adamvitek.studio",
+    "name": "Adam Vítek",
+    "role": "Fyzioterapeut · Osobní trenér",
+    "image": "/assets/fitness-01/about-adam.webp",
+    "imageAlt": "Adam Vítek — fyzioterapeut a osobní trenér",
+    "formTitle": "Napište mi",
+    "formNote": "Odpovídám do 24 hodin. Vaše údaje nikam nepředávám.",
+    "ctaText": "Odeslat zprávu"
   },
   "footer": {
-    "siteName": "Pavel Marak",
-    "siteTagline": "Fyzioterapeut & Osobní trenér",
+    "siteName": "Adam Vítek",
+    "tagline": "Fyzio · Osobní trénink",
+    "quote": "Silné tělo začíná u toho, jak dýcháš.",
     "logoUrl": "",
-    "email": "info@pavelmarak.cz",
-    "phone": "704 123 456",
-    "address": "Ukázková 123, 110 00 Praha 1",
-    "facebookUrl": "https://facebook.com/demo",
-    "instagramUrl": "https://instagram.com/demo",
-    "copyright": "© 2025 Pavel Marak. Všechna práva vyhrazena.",
+    "email": "adam@studiovitek.cz",
+    "phone": "728 402 165",
+    "address": "Studio Vítek · Kounicova 42",
+    "city": "602 00 Brno-střed",
+    "hours": "Po–Pá 8:00–19:00 · So dle domluvy",
+    "facebookUrl": "https://facebook.com/adamvitek.studio",
+    "instagramUrl": "https://instagram.com/adamvitek.studio",
+    "menuHeading": "Menu",
+    "contactHeading": "Kontakt & studio",
+    "socialHeading": "Sledujte mě",
+    "copyright": "© 2026 Studio Vítek. Všechna práva vyhrazena.",
+    "legalLinks": [
+      { "label": "Ochrana osobních údajů", "href": "/gdpr" },
+      { "label": "Obchodní podmínky",      "href": "/obchodni-podminky" }
+    ],
     "links": [
-      { "label": "Ceník",   "href": "#cenik" },
-      { "label": "Recenze", "href": "#recenze" },
-      { "label": "FAQ",     "href": "#faq" },
-      { "label": "Kontakt", "href": "#kontakt" }
+      { "label": "Domů",    "href": "/" },
+      { "label": "Ceník",   "href": "/cenik" },
+      { "label": "Recenze", "href": "/recenze" },
+      { "label": "FAQ",     "href": "/faq" },
+      { "label": "Kontakt", "href": "/kontakt" }
     ]
   }
 }

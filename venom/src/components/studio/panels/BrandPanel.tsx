@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { Check, Loader2, Building2, Phone, Clock, Share2, Receipt, Search } from "lucide-react";
+import { Check, Loader2, Building2, Phone, Clock, Share2, Receipt, Search } from "@/components/studio/icons";
 import { Input, EmptyState } from "../ui";
 import type { StudioState } from "../TenantStudioView";
 

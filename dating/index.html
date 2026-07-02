@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fd267a">
+  <title>Tinder - Dating App. Make Every Second Count</title>
+  <meta name="description" content="With over 55 billion matches made, Tinder® is the world's most popular dating app, making it the place to meet new people.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+
+/* ═══════════════════════════════════════════════════════════
+   RESET
+══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 62.5%; scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
+body {
+  font-family: 'Montserrat', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-size: 1.7rem; color: #24262a; background: #fff;
+  line-height: 1.5; overflow-x: hidden;
+}
+a  { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+img { display: block; max-width: 100%; }
+button { cursor: pointer; font-family: inherit; border: none; background: none; -webkit-appearance: none; }
+
+/* ═══════════════════════════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════════════════════════════ */
+:root {
+  --brand:          #ff2358;
+  --brand-hover:    #eb0052;
+  --grad:           linear-gradient(to top right, #fd267a, #ff6036);
+  --grad-btn:       linear-gradient(to right top, #fd267a, #ff6036);
+  --text-primary:   #24262a;
+  --text-secondary: #4f525c;
+  --bg:             #ffffff;
+  --bg-gray:        #f0f1f4;
+  --border:         #e7e9ee;
+  --shadow-card:    0 2px 16px rgba(0,0,0,.12);
+  --shadow-drop:    0 8px 24px rgba(0,0,0,.15);
+  --radius-btn:     52px;
+  --radius-card:    16px;
+  --header-h:       80px;
+  --t-fast:         0.2s ease;
+  --t-norm:         0.25s ease;
+  --t-slide:        0.38s cubic-bezier(.4,0,.2,1);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SKIP LINK
+══════════════════════════════════════════════════════════════ */
+.skip-link {
+  position: absolute; top: -50px; left: 16px; z-index: 9999;
+  background: #000; color: #fff; padding: 8px 16px;
+  border-radius: 4px; font-size: 1.4rem; transition: top var(--t-fast);
+}
+.skip-link:focus { top: 16px; }
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════════════════════ */
+.header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  height: var(--header-h);
+  display: flex; align-items: center;
+  padding: 0 20px;
+  background: transparent;
+  transition: background var(--t-norm), box-shadow var(--t-norm);
+}
+.header.scrolled {
+  background: #fff;
+  box-shadow: 0 1px 0 var(--border);
+}
+
+/* Logo */
+.header-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0; z-index: 2;
+}
+.header-logo-flame { width: 26px; height: 38px; flex-shrink: 0; }
+.header-logo-text {
+  font-size: 2.4rem; font-weight: 800; letter-spacing: -0.02em;
+  color: #fff; transition: color var(--t-norm);
+}
+.header.scrolled .header-logo-text { color: #24262a; }
+
+/* Desktop nav */
+.header-nav {
+  display: flex; align-items: center; gap: 4px;
+  margin-left: 28px;
+}
+.nav-item { position: relative; }
+.nav-link {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 14px;
+  font-size: 1.5rem; font-weight: 700; color: #fff;
+  border-radius: 24px; white-space: nowrap; cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.nav-link:hover { background: rgba(255,255,255,.15); }
+.header.scrolled .nav-link { color: #24262a; }
+.header.scrolled .nav-link:hover { background: #f0f1f4; }
+.nav-link .chevron { width: 12px; height: 12px; transition: transform var(--t-fast); flex-shrink: 0; }
+.nav-item:hover .chevron { transform: rotate(180deg); }
+
+/* Dropdown */
+.nav-dropdown {
+  position: absolute; top: calc(100% + 6px); left: 0;
+  background: #fff; border-radius: 12px; box-shadow: var(--shadow-drop);
+  min-width: 230px; padding: 8px 0;
+  opacity: 0; pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity var(--t-fast), transform var(--t-fast);
+  z-index: 100;
+}
+.nav-item:hover .nav-dropdown { opacity: 1; pointer-events: all; transform: translateY(0); }
+.nav-dropdown a {
+  display: block; padding: 11px 20px;
+  font-size: 1.5rem; font-weight: 600; color: #24262a;
+  transition: color var(--t-fast), background var(--t-fast);
+}
+.nav-dropdown a:hover { color: var(--brand); background: #fff7f9; }
+
+/* Header right (desktop) */
+.header-right {
+  display: flex; align-items: center; gap: 8px;
+  margin-left: auto;
+}
+.header-lang {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 14px;
+  font-size: 1.4rem; font-weight: 600; color: #fff;
+  border-radius: var(--radius-btn); cursor: pointer;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.header-lang:hover { background: rgba(255,255,255,.15); }
+.header-lang svg { width: 17px; height: 17px; flex-shrink: 0; }
+.header.scrolled .header-lang { color: #24262a; }
+.header.scrolled .header-lang:hover { background: #f0f1f4; }
+
+.header-login-btn {
+  display: flex; align-items: center;
+  padding: 10px 22px;
+  font-size: 1.5rem; font-weight: 700; color: #fff;
+  border-radius: var(--radius-btn);
+  background: rgba(255,255,255,.1);
+  border: 1.5px solid rgba(255,255,255,.45);
+  transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+  white-space: nowrap;
+}
+.header-login-btn:hover { background: rgba(255,255,255,.2); }
+.header.scrolled .header-login-btn {
+  color: #24262a; background: transparent; border-color: #d1d4dd;
+}
+.header.scrolled .header-login-btn:hover { background: #f0f1f4; }
+
+/* Hamburger (mobile only) */
+.hamburger {
+  display: none; flex-direction: column; justify-content: center;
+  gap: 5px; padding: 10px; margin-left: auto; z-index: 1001;
+  background: none; border: none; cursor: pointer;
+  min-width: 44px; min-height: 44px; align-items: center;
+}
+.hamburger span {
+  display: block; width: 22px; height: 2.5px; background: #fff;
+  border-radius: 2px;
+  transition: transform var(--t-fast), opacity var(--t-fast), background var(--t-norm);
+  transform-origin: center;
+}
+.header.scrolled .hamburger span { background: #24262a; }
+.hamburger.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.hamburger.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE SLIDE PANEL (from right)
+══════════════════════════════════════════════════════════════ */
+.mobile-overlay {
+  display: none; position: fixed; inset: 0; z-index: 998;
+  background: rgba(0,0,0,.4);
+  opacity: 0; transition: opacity var(--t-slide);
+}
+.mobile-overlay.open { display: block; opacity: 1; }
+
+.mobile-panel {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 999;
+  width: min(320px, 85vw);
+  background: #fff;
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform var(--t-slide);
+  overflow-y: auto; overscroll-behavior: contain;
+}
+.mobile-panel.open { transform: translateX(0); }
+
+.mobile-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 20px 12px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.mobile-panel-logo {
+  display: flex; align-items: center; gap: 8px;
+}
+.mobile-panel-logo-text {
+  font-size: 2.2rem; font-weight: 800; color: #24262a; letter-spacing: -0.02em;
+}
+.mobile-close {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #f0f1f4; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; border: none; flex-shrink: 0;
+  transition: background var(--t-fast);
+}
+.mobile-close:hover { background: #e7e9ee; }
+.mobile-close svg { width: 16px; height: 16px; }
+
+.mobile-nav-list { flex: 1; padding: 8px 0; }
+.mobile-nav-item { border-bottom: 1px solid var(--border); }
+.mobile-nav-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+  font-size: 1.8rem; font-weight: 700; color: #24262a;
+  cursor: pointer; min-height: 56px;
+  transition: background var(--t-fast);
+}
+.mobile-nav-link:hover { background: #fff7f9; color: var(--brand); }
+.mobile-nav-link .chevron { width: 14px; height: 14px; transition: transform var(--t-fast); flex-shrink: 0; }
+.mobile-nav-link.expanded .chevron { transform: rotate(180deg); }
+.mobile-subnav {
+  display: none; background: #f9f9fb;
+  border-top: 1px solid var(--border);
+}
+.mobile-subnav.open { display: block; }
+.mobile-subnav a {
+  display: block; padding: 13px 32px;
+  font-size: 1.6rem; font-weight: 600; color: var(--text-secondary);
+  border-bottom: 1px solid var(--border); min-height: 44px;
+  transition: color var(--t-fast);
+}
+.mobile-subnav a:last-child { border-bottom: none; }
+.mobile-subnav a:hover { color: var(--brand); }
+
+.mobile-panel-footer {
+  padding: 20px; flex-shrink: 0;
+  border-top: 1px solid var(--border);
+  display: flex; flex-direction: column; gap: 12px;
+}
+.mobile-panel-footer .btn-full {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; padding: 16px;
+  font-size: 1.7rem; font-weight: 700; color: #fff;
+  border-radius: var(--radius-btn);
+  background: var(--grad-btn);
+  border: none; cursor: pointer; min-height: 52px;
+  position: relative; overflow: hidden;
+  transition: opacity var(--t-fast);
+}
+.mobile-panel-footer .btn-full::after {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(255,255,255,0); transition: background var(--t-fast);
+}
+.mobile-panel-footer .btn-full:hover::after { background: rgba(255,255,255,.12); }
+.mobile-lang-btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 12px;
+  font-size: 1.5rem; font-weight: 600; color: var(--text-secondary);
+  border: 1.5px solid var(--border); border-radius: var(--radius-btn);
+  background: transparent; cursor: pointer; min-height: 44px;
+  transition: color var(--t-fast), border-color var(--t-fast);
+}
+.mobile-lang-btn:hover { color: var(--brand); border-color: var(--brand); }
+.mobile-lang-btn svg { width: 17px; height: 17px; flex-shrink: 0; }
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: inherit; font-weight: 700; border: none;
+  cursor: pointer; position: relative; overflow: hidden;
+  text-decoration: none; -webkit-appearance: none;
+  transition: opacity var(--t-fast);
+}
+.btn::after {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(255,255,255,0); transition: background var(--t-fast);
+}
+.btn:hover::after  { background: rgba(255,255,255,.12); }
+.btn:active::after { background: rgba(0,0,0,.08); }
+
+.btn-gradient {
+  background: var(--grad-btn); color: #fff;
+  border-radius: var(--radius-btn);
+  padding: 15px 40px;
+  font-size: 1.9rem; letter-spacing: 0.01em;
+}
+.btn-gradient-sm {
+  font-size: 1.5rem; padding: 11px 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HERO  (desktop: bg-attachment fixed | mobile: scroll)
+══════════════════════════════════════════════════════════════ */
+.hero {
+  position: relative;
+  width: 100%; height: 100svh; min-height: 580px;
+  display: flex; align-items: flex-end; justify-content: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background-image: url('https://tinder.com/static/build/07eef8b101ca939c978a599f508aa955.webp');
+  background-size: cover;
+  background-position: center 25%;
+  background-attachment: fixed; /* parallax on desktop */
+}
+/* dark vignette */
+.hero-bg::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,.72) 0%,
+    rgba(0,0,0,.18) 45%,
+    rgba(0,0,0,.22) 100%
+  );
+}
+.hero-content {
+  position: relative; z-index: 1;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center;
+  padding: 0 20px 56px;
+  width: 100%;
+  gap: 20px;
+}
+.hero-title {
+  font-size: clamp(56px, 9.5vw, 130px);
+  font-weight: 800; color: #fff;
+  letter-spacing: -0.03em; line-height: 1.05;
+  text-shadow: 0 2px 24px rgba(0,0,0,.28);
+  max-width: 100%;
+}
+.hero-title sup {
+  font-size: .42em; vertical-align: .4em;
+  font-weight: 800;
+}
+.hero-disclaimer {
+  position: absolute; bottom: 20px; right: 20px;
+  font-size: 1.05rem; color: rgba(255,255,255,.5); font-weight: 500;
+  max-width: 240px; text-align: right; line-height: 1.4;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SECTION BASICS
+══════════════════════════════════════════════════════════════ */
+.container { max-width: 1200px; margin: 0 auto; }
+.section-title {
+  font-size: clamp(2.6rem, 3vw, 3.4rem);
+  font-weight: 700; color: var(--text-primary);
+  text-align: center; margin-bottom: 10px;
+}
+.section-subtitle {
+  font-size: 1.7rem; color: var(--text-secondary);
+  text-align: center; max-width: 540px; margin: 0 auto 44px;
+  line-height: 1.65;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SWIPE STORIES  ─  Desktop grid
+══════════════════════════════════════════════════════════════ */
+.stories-section { padding: 72px 32px; background: #fff; }
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1180px; margin: 0 auto;
+}
+.story-card {
+  background: #fff; border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card); overflow: hidden;
+  cursor: pointer;
+  transition: transform var(--t-norm), box-shadow var(--t-norm);
+}
+.story-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,.16);
+}
+.story-card-inner { display: flex; height: 100%; }
+.story-img {
+  width: 44%; min-height: 240px;
+  object-fit: cover; flex-shrink: 0;
+}
+.story-body {
+  padding: 20px 16px 20px 18px;
+  display: flex; flex-direction: column; gap: 10px; flex: 1;
+}
+.story-names {
+  font-size: 1.5rem; font-weight: 700; color: var(--text-secondary);
+}
+.story-text {
+  font-size: 1.3rem; font-weight: 500; color: var(--text-primary);
+  line-height: 1.65; flex: 1;
+  display: -webkit-box; -webkit-line-clamp: 7; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.story-link {
+  display: inline-flex; align-items: center; gap: 4px; margin-top: auto;
+  font-size: 1.3rem; font-weight: 700; color: var(--brand);
+  transition: color var(--t-fast);
+}
+.story-link:hover { color: var(--brand-hover); }
+.story-link svg { width: 13px; height: 13px; flex-shrink: 0; }
+.story-card-share .story-body {
+  background: var(--bg-gray);
+  justify-content: center;
+}
+.story-share-tag {
+  font-size: 1.15rem; font-weight: 700; color: var(--brand);
+  text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px;
+}
+.story-share-title {
+  font-size: 1.7rem; font-weight: 700; color: var(--text-primary);
+  line-height: 1.4; margin-bottom: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STORIES  ─  Mobile horizontal carousel
+══════════════════════════════════════════════════════════════ */
+.stories-scroll-wrap { display: none; }
+.stories-scroll {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  gap: 14px;
+  padding: 4px 20px 16px;
+  scrollbar-width: none;
+}
+.stories-scroll::-webkit-scrollbar { display: none; }
+.stories-scroll .story-card {
+  flex-shrink: 0;
+  width: 78vw; max-width: 300px;
+  scroll-snap-align: start;
+}
+.stories-scroll .story-card-inner {
+  flex-direction: column; height: auto;
+}
+.stories-scroll .story-img {
+  width: 100%; min-height: 180px; height: 180px;
+}
+.stories-scroll .story-body {
+  padding: 16px;
+}
+.stories-scroll .story-text { -webkit-line-clamp: 4; }
+
+/* Pagination dots for carousel */
+.stories-dots {
+  display: flex; justify-content: center; gap: 7px;
+  margin-top: 16px;
+}
+.stories-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #d1d4dd; border: none; cursor: pointer; padding: 0;
+  transition: background var(--t-fast), transform var(--t-fast);
+}
+.stories-dot.active {
+  background: var(--brand); transform: scale(1.3);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STATS
+══════════════════════════════════════════════════════════════ */
+.stats-section {
+  padding: 80px 32px;
+  background: var(--grad-btn);
+}
+.stats-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 40px; max-width: 860px; margin: 0 auto; text-align: center;
+}
+.stat-number {
+  font-size: clamp(4rem, 5.5vw, 6rem);
+  font-weight: 800; color: #fff; line-height: 1; margin-bottom: 10px;
+}
+.stat-label {
+  font-size: 1.6rem; font-weight: 600; color: rgba(255,255,255,.82);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FEATURES
+══════════════════════════════════════════════════════════════ */
+.features-section { padding: 80px 32px; background: var(--bg-gray); }
+.features-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 28px; max-width: 1080px; margin: 0 auto;
+}
+.feature-card {
+  background: #fff; border-radius: var(--radius-card);
+  padding: 32px 26px;
+  box-shadow: 0 1px 8px rgba(0,0,0,.07);
+  transition: transform var(--t-norm), box-shadow var(--t-norm);
+}
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 24px rgba(0,0,0,.12);
+}
+.feature-icon {
+  width: 54px; height: 54px; border-radius: 15px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--grad-btn); margin-bottom: 18px; flex-shrink: 0;
+}
+.feature-icon svg { width: 26px; height: 26px; fill: #fff; }
+.feature-title {
+  font-size: 1.9rem; font-weight: 700; color: var(--text-primary);
+  margin-bottom: 10px;
+}
+.feature-desc {
+  font-size: 1.45rem; font-weight: 500; color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DOWNLOAD CTA
+══════════════════════════════════════════════════════════════ */
+.download-section {
+  padding: 64px 32px; background: #fff; text-align: center;
+}
+.download-section h3 {
+  font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 24px;
+}
+.app-badges {
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px; flex-wrap: wrap;
+}
+.app-badge img {
+  height: 48px; width: auto; border-radius: 8px;
+  transition: opacity var(--t-fast), transform var(--t-fast);
+}
+.app-badge:hover img { opacity: .85; transform: scale(1.03); }
+
+/* ═══════════════════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════════════════════ */
+.footer {
+  background: #fff; border-top: 1px solid var(--border);
+  padding: 48px 32px 32px;
+}
+.footer-columns {
+  display: grid;
+  grid-template-columns: 2fr 1.2fr 1fr 1.4fr 1.4fr;
+  gap: 32px; max-width: 1100px; margin: 0 auto 40px;
+}
+.footer-col h3 {
+  font-size: 1.5rem; font-weight: 700; color: var(--text-primary);
+  margin-bottom: 16px;
+}
+.footer-col ul { display: flex; flex-direction: column; gap: 11px; }
+.footer-col ul li a {
+  font-size: 1.45rem; font-weight: 500; color: var(--text-secondary);
+  transition: color var(--t-fast); display: block;
+}
+.footer-col ul li a:hover { color: var(--brand); }
+
+/* Social */
+.social-icons { display: flex; gap: 10px; flex-wrap: wrap; }
+.social-icon {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--bg-gray);
+  display: flex; align-items: center; justify-content: center;
+  transition: background var(--t-fast), transform var(--t-fast);
+}
+.social-icon:hover { background: #ffd9e1; transform: scale(1.1); }
+.social-icon svg { width: 18px; height: 18px; fill: var(--text-primary); }
+.social-icon:hover svg { fill: var(--brand); }
+
+/* Footer bottom */
+.footer-bottom {
+  max-width: 1100px; margin: 0 auto;
+  padding-top: 28px; border-top: 1px solid var(--border);
+}
+.footer-seo {
+  font-size: 1.3rem; font-weight: 500; color: var(--text-secondary);
+  line-height: 1.75; margin-bottom: 20px;
+}
+.footer-links {
+  display: flex; flex-wrap: wrap; gap: 6px 0;
+  align-items: center; margin-bottom: 18px;
+}
+.footer-links a {
+  font-size: 1.3rem; font-weight: 600; color: var(--text-secondary);
+  padding: 4px 10px;
+  border-right: 1px solid var(--border);
+  transition: color var(--t-fast);
+}
+.footer-links a:last-child { border-right: none; }
+.footer-links a:hover { color: var(--brand); }
+.footer-copyright {
+  font-size: 1.3rem; font-weight: 500; color: var(--text-secondary);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COOKIE BANNER
+══════════════════════════════════════════════════════════════ */
+.cookie-banner {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 9990;
+  background: #24262a; color: #fff;
+  padding: 18px 24px;
+  display: flex; align-items: center; flex-wrap: wrap; gap: 14px;
+  font-size: 1.4rem; line-height: 1.5;
+  transform: translateY(100%); transition: transform 0.38s ease;
+}
+.cookie-banner.visible { transform: translateY(0); }
+.cookie-text { flex: 1; min-width: 240px; }
+.cookie-text a { color: #fd267a; text-decoration: underline; }
+.cookie-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.c-btn {
+  padding: 10px 20px; border-radius: var(--radius-btn);
+  font-size: 1.35rem; font-weight: 700; cursor: pointer;
+  font-family: inherit; transition: opacity var(--t-fast); border: none;
+}
+.c-btn:hover { opacity: .85; }
+.c-btn-accept { background: var(--grad-btn); color: #fff; }
+.c-btn-decline { background: transparent; color: #fff; border: 2px solid rgba(255,255,255,.4) !important; }
+.c-btn-personal {
+  background: transparent; color: rgba(255,255,255,.65);
+  font-size: 1.3rem; text-decoration: underline; padding: 10px 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE  ─  Tablet 1100px
+══════════════════════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .stories-grid    { grid-template-columns: repeat(2, 1fr); }
+  .features-grid   { grid-template-columns: repeat(2, 1fr); }
+  .footer-columns  { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE  ─  Mobile breakpoint 895px  (Tinder --s)
+══════════════════════════════════════════════════════════════ */
+@media (max-width: 895px) {
+  :root { --header-h: 72px; }
+
+  /* Header: hide desktop nav + right controls, show hamburger */
+  .header { padding: 0 16px; }
+  .header-nav  { display: none; }
+  .header-right { display: none; }
+  .hamburger   { display: flex; }
+
+  /* Hero: iOS-safe, no fixed attachment */
+  .hero-bg { background-attachment: scroll; }
+  .hero-content { padding-bottom: 48px; }
+
+  /* Stories: hide grid, show carousel */
+  .stories-section { padding: 48px 0 40px; }
+  .stories-section .container > .section-title  { padding: 0 20px; }
+  .stories-section .container > .section-subtitle { padding: 0 20px; }
+  .stories-grid       { display: none; }
+  .stories-scroll-wrap { display: block; }
+
+  /* Stats: 3-col stays but smaller */
+  .stats-section { padding: 56px 20px; }
+
+  /* Features: 2-col */
+  .features-section { padding: 56px 20px; }
+  .features-grid    { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+  /* Footer */
+  .footer { padding: 40px 20px 28px; }
+  .footer-columns { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+
+  /* Cookie banner */
+  .cookie-banner { flex-direction: column; align-items: flex-start; padding: 16px 18px; }
+  .cookie-actions { width: 100%; justify-content: flex-end; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE  ─  Small mobile 480px
+══════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  /* Hero */
+  .hero-title { font-size: clamp(52px, 14vw, 80px); letter-spacing: -0.025em; }
+  .hero-content { padding-bottom: 44px; gap: 18px; }
+  .hero-disclaimer { display: none; }
+  .btn-gradient { padding: 15px 32px; font-size: 1.8rem; }
+
+  /* Stats: single column */
+  .stats-grid { grid-template-columns: 1fr; gap: 28px; }
+  .stat-number { font-size: 5.6rem; }
+
+  /* Features: single column */
+  .features-grid { grid-template-columns: 1fr; }
+  .feature-card  { padding: 24px 20px; }
+
+  /* Footer: single column */
+  .footer-columns { grid-template-columns: 1fr; }
+  .footer-col { padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .footer-col:last-child { border-bottom: none; }
+
+  /* Cookie */
+  .cookie-actions { flex-direction: column-reverse; width: 100%; }
+  .c-btn-accept, .c-btn-decline { width: 100%; text-align: center; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════════════════════════════ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes flamePulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.18); }
+}
+.hero-content > * { animation: fadeInUp .6s ease both; }
+.hero-content > *:nth-child(1) { animation-delay: .12s; }
+.hero-content > *:nth-child(2) { animation-delay: .28s; }
+.hero-content > *:nth-child(3) { animation-delay: .44s; }
+.flame-anim {
+  animation: flamePulse 1.8s cubic-bezier(.5,0,.5,1) infinite;
+  transform-origin: 50% 80%;
+}
+/* Scroll-reveal base state */
+.reveal {
+  opacity: 0; transform: translateY(18px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+<!-- Skip link -->
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<!-- ════════════════════════════════════════════════════════
+  COOKIE BANNER
+═════════════════════════════════════════════════════════════ -->
+<div class="cookie-banner" id="cookieBanner" role="region" aria-label="Cookie consent">
+  <p class="cookie-text">
+    We use cookies to improve your experience. By continuing, you agree to our
+    <a href="/privacy">Privacy Policy</a> and <a href="/cookie-policy">Cookie Policy</a>.
+  </p>
+  <div class="cookie-actions">
+    <button class="c-btn c-btn-personal" onclick="closeCookie()">Personalize my choices</button>
+    <button class="c-btn c-btn-decline"  onclick="closeCookie()">I decline</button>
+    <button class="c-btn c-btn-accept"   onclick="closeCookie()">I accept</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+  HEADER
+═════════════════════════════════════════════════════════════ -->
+<header class="header" id="header" role="banner">
+
+  <!-- Logo -->
+  <a href="/" class="header-logo" aria-label="Tinder home">
+    <svg class="header-logo-flame" viewBox="0 0 30 44" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="fg1" x1="0" y1="44" x2="30" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stop-color="#ff6036"/>
+          <stop offset="55%"  stop-color="#fd267a"/>
+          <stop offset="100%" stop-color="#ff005c"/>
+        </linearGradient>
+        <linearGradient id="fg2" x1="15" y1="44" x2="15" y2="24" gradientUnits="userSpaceOnUse">
+          <stop offset="0%"   stop-color="#18006a"/>
+          <stop offset="100%" stop-color="#5b28e0"/>
+        </linearGradient>
+      </defs>
+      <path class="flame-anim"
+        d="M15 0C15 0 3.5 9.2 3 20.5C2.4 32 7 39 12 41.5C10.5 37 12 31 15 27.5C18 31 19.5 37 18 41.5C23 39 27.6 32 27 20.5C26.5 9.2 15 0 15 0Z"
+        fill="url(#fg1)"/>
+      <ellipse cx="15" cy="36.5" rx="5.2" ry="6.5" fill="url(#fg2)"/>
+    </svg>
+    <span class="header-logo-text">tinder</span>
+  </a>
+
+  <!-- Desktop navigation -->
+  <nav class="header-nav" role="menubar" aria-label="Main navigation">
+    <div class="nav-item">
+      <a class="nav-link" href="/feature/swipe" role="menuitem" aria-haspopup="true">
+        Products
+        <svg class="chevron" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+          <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <div class="nav-dropdown" role="menu">
+        <a href="/feature/stand-out"         role="menuitem">Premium Features</a>
+        <a href="/feature/subscription-tiers" role="menuitem">Subscription Tiers</a>
+        <a href="/feature/plus"              role="menuitem">Tinder Plus®</a>
+        <a href="/feature/gold"              role="menuitem">Tinder Gold™</a>
+        <a href="/feature/platinum"          role="menuitem">Tinder Platinum™</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link" href="/about" role="menuitem">Learn</a>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link" href="https://policies.tinder.com/safety" role="menuitem" aria-haspopup="true">
+        Safety
+        <svg class="chevron" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+          <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </a>
+      <div class="nav-dropdown" role="menu">
+        <a href="https://policies.tinder.com/community-guidelines" role="menuitem">Community Guidelines</a>
+        <a href="https://policies.tinder.com/safety-tips"          role="menuitem">Safety Tips</a>
+        <a href="https://policies.tinder.com/safety-policy"        role="menuitem">Safety & Policy</a>
+        <a href="https://policies.tinder.com/safety-reporting"     role="menuitem">Safety & Reporting</a>
+        <a href="https://policies.tinder.com/security"             role="menuitem">Security</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link" href="https://www.help.tinder.com/" role="menuitem">Support</a>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link" href="/download" role="menuitem">Download</a>
+    </div>
+  </nav>
+
+  <!-- Desktop right -->
+  <div class="header-right">
+    <button class="header-lang" aria-label="Change language">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      <span>Language</span>
+    </button>
+    <a href="https://tinder.com/app/recs" class="header-login-btn">Log in</a>
+  </div>
+
+  <!-- Mobile hamburger -->
+  <button class="hamburger" id="hamburger"
+    aria-label="Open menu" aria-expanded="false" aria-controls="mobilePanel">
+    <span></span><span></span><span></span>
+  </button>
+
+</header>
+
+<!-- ════════════════════════════════════════════════════════
+  MOBILE PANEL OVERLAY
+═════════════════════════════════════════════════════════════ -->
+<div class="mobile-overlay" id="mobileOverlay" aria-hidden="true" onclick="closeMenu()"></div>
+
+<!-- ════════════════════════════════════════════════════════
+  MOBILE SLIDE PANEL
+═════════════════════════════════════════════════════════════ -->
+<nav class="mobile-panel" id="mobilePanel" aria-label="Mobile navigation" aria-hidden="true">
+  <div class="mobile-panel-header">
+    <div class="mobile-panel-logo">
+      <svg width="22" height="32" viewBox="0 0 30 44" fill="none" aria-hidden="true">
+        <path d="M15 0C15 0 3.5 9.2 3 20.5C2.4 32 7 39 12 41.5C10.5 37 12 31 15 27.5C18 31 19.5 37 18 41.5C23 39 27.6 32 27 20.5C26.5 9.2 15 0 15 0Z" fill="url(#fg1)"/>
+        <ellipse cx="15" cy="36.5" rx="5.2" ry="6.5" fill="url(#fg2)"/>
+      </svg>
+      <span class="mobile-panel-logo-text">tinder</span>
+    </div>
+    <button class="mobile-close" onclick="closeMenu()" aria-label="Close menu">
+      <svg viewBox="0 0 20 20" fill="none" stroke="#24262a" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <path d="M4 4l12 12M16 4L4 16"/>
+      </svg>
+    </button>
+  </div>
+
+  <ul class="mobile-nav-list">
+    <li class="mobile-nav-item">
+      <button class="mobile-nav-link" onclick="toggleSub(this)" aria-expanded="false">
+        Products
+        <svg class="chevron" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+          <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="mobile-subnav">
+        <a href="/feature/stand-out">Premium Features</a>
+        <a href="/feature/subscription-tiers">Subscription Tiers</a>
+        <a href="/feature/plus">Tinder Plus®</a>
+        <a href="/feature/gold">Tinder Gold™</a>
+        <a href="/feature/platinum">Tinder Platinum™</a>
+      </div>
+    </li>
+    <li class="mobile-nav-item">
+      <a href="/about" class="mobile-nav-link" style="display:flex;align-items:center;justify-content:space-between;">Learn</a>
+    </li>
+    <li class="mobile-nav-item">
+      <button class="mobile-nav-link" onclick="toggleSub(this)" aria-expanded="false">
+        Safety
+        <svg class="chevron" viewBox="0 0 12 8" fill="none" aria-hidden="true">
+          <path d="M1 1l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <div class="mobile-subnav">
+        <a href="https://policies.tinder.com/community-guidelines">Community Guidelines</a>
+        <a href="https://policies.tinder.com/safety-tips">Safety Tips</a>
+        <a href="https://policies.tinder.com/safety-policy">Safety & Policy</a>
+        <a href="https://policies.tinder.com/safety-reporting">Safety & Reporting</a>
+        <a href="https://policies.tinder.com/security">Security</a>
+      </div>
+    </li>
+    <li class="mobile-nav-item">
+      <a href="https://www.help.tinder.com/" class="mobile-nav-link">Support</a>
+    </li>
+    <li class="mobile-nav-item">
+      <a href="/download" class="mobile-nav-link">Download</a>
+    </li>
+  </ul>
+
+  <div class="mobile-panel-footer">
+    <a href="https://tinder.com/app/recs" class="btn-full">Log in</a>
+    <button class="mobile-lang-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      Language (English)
+    </button>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════════════════
+  MAIN
+═════════════════════════════════════════════════════════════ -->
+<main id="main">
+
+  <!-- HERO -->
+  <section class="hero" aria-label="Hero — Swipe Right">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Swipe Right<sup>™</sup></h1>
+      <div class="hero-actions">
+        <a href="/register" class="btn btn-gradient">Create account</a>
+      </div>
+    </div>
+    <p class="hero-disclaimer">All photos are of models and used for illustrative purposes only</p>
+  </section>
+
+  <!-- SWIPE STORIES -->
+  <section class="stories-section" aria-labelledby="stories-title">
+    <div class="container">
+      <h2 class="section-title reveal" id="stories-title">
+        <a href="/swipe-stories" style="color:inherit;">Tinder Swipe Stories</a>
+      </h2>
+      <p class="section-subtitle reveal">Real couples who found love on Tinder.</p>
+
+      <!-- Desktop 4-col grid -->
+      <div class="stories-grid">
+
+        <article class="story-card reveal">
+          <div class="story-card-inner">
+            <img class="story-img"
+              src="https://tinder.com/static/build/a189cea6de5bea78ef0ecdc66fc520fe.webp"
+              alt="Elena and Giulia" loading="lazy" width="151" height="260">
+            <div class="story-body">
+              <p class="story-names">Elena &amp; Giulia</p>
+              <p class="story-text">"We matched on Tinder and I was so nervous to message first. But once we started talking, the conversation just flowed naturally. Our first date was a walk in the park that turned into dinner, then dessert, then a late‑night walk…"</p>
+              <a href="/swipe-stories" class="story-link">Continue reading <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="story-card reveal">
+          <div class="story-card-inner">
+            <img class="story-img"
+              src="https://tinder.com/static/build/79f8be21e26719ac973f5a6f6b16b95f.webp"
+              alt="Amanda and Miguel" loading="lazy" width="151" height="260">
+            <div class="story-body">
+              <p class="story-names">Amanda &amp; Miguel</p>
+              <p class="story-text">"Neither of us expected to find something serious. We swiped right at literally the same time — the notification popped up and I thought it was a sign. Three years later, we got married in the same city we first matched in."</p>
+              <a href="/swipe-stories" class="story-link">Continue reading <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="story-card reveal">
+          <div class="story-card-inner">
+            <img class="story-img"
+              src="https://tinder.com/static/build/a586968375faa95336c312e0e6bc1c3f.webp"
+              alt="Huy and An" loading="lazy" width="151" height="260">
+            <div class="story-body">
+              <p class="story-names">Huy &amp; Ân</p>
+              <p class="story-text">"I almost didn't swipe right. I was about to put my phone down when his profile came up. Something made me pause. We met for coffee and talked for six hours straight. I knew that day he was the one."</p>
+              <a href="/swipe-stories" class="story-link">Continue reading <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <article class="story-card story-card-share reveal">
+          <div class="story-card-inner">
+            <img class="story-img"
+              src="https://tinder.com/static/build/0384d00f873ea411d190c0216e798f96.webp"
+              alt="Share your story" loading="lazy" width="151" height="260">
+            <div class="story-body" style="background:#f0f1f4;">
+              <p class="story-share-tag">Share your story</p>
+              <p class="story-share-title">Found love on Tinder? We'd love to hear from you.</p>
+              <a href="/swipe-stories" class="btn btn-gradient btn-gradient-sm">Read more stories</a>
+            </div>
+          </div>
+        </article>
+
+      </div><!-- /stories-grid -->
+
+      <!-- Mobile horizontal carousel -->
+      <div class="stories-scroll-wrap">
+        <div class="stories-scroll" id="storiesScroll">
+
+          <article class="story-card">
+            <div class="story-card-inner">
+              <img class="story-img"
+                src="https://tinder.com/static/build/a189cea6de5bea78ef0ecdc66fc520fe.webp"
+                alt="Elena and Giulia" loading="lazy">
+              <div class="story-body">
+                <p class="story-names">Elena &amp; Giulia</p>
+                <p class="story-text">"We matched on Tinder and I was so nervous to message first. Once we started talking, the conversation just flowed naturally."</p>
+                <a href="/swipe-stories" class="story-link">Continue reading <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="story-card">
+            <div class="story-card-inner">
+              <img class="story-img"
+                src="https://tinder.com/static/build/79f8be21e26719ac973f5a6f6b16b95f.webp"
+                alt="Amanda and Miguel" loading="lazy">
+              <div class="story-body">
+                <p class="story-names">Amanda &amp; Miguel</p>
+                <p class="story-text">"We swiped right at literally the same time. Three years later, we got married in the same city we first matched in."</p>
+                <a href="/swipe-stories" class="story-link">Continue reading <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="story-card">
+            <div class="story-card-inner">
+              <img class="story-img"
+                src="https://tinder.com/static/build/a586968375faa95336c312e0e6bc1c3f.webp"
+                alt="Huy and An" loading="lazy">
+              <div class="story-body">
+                <p class="story-names">Huy &amp; Ân</p>
+                <p class="story-text">"I almost didn't swipe right. We met for coffee and talked for six hours straight. I knew that day he was the one."</p>
+                <a href="/swipe-stories" class="story-link">Continue reading <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="story-card story-card-share">
+            <div class="story-card-inner">
+              <img class="story-img"
+                src="https://tinder.com/static/build/0384d00f873ea411d190c0216e798f96.webp"
+                alt="Share" loading="lazy">
+              <div class="story-body" style="background:#f0f1f4;">
+                <p class="story-share-tag">Share your story</p>
+                <p class="story-share-title">Found love on Tinder? We'd love to hear from you.</p>
+                <a href="/swipe-stories" class="btn btn-gradient btn-gradient-sm">Read more</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+        <div class="stories-dots" id="storiesDots" role="tablist" aria-label="Story card navigation">
+          <button class="stories-dot active" role="tab" aria-selected="true"  aria-label="Card 1" data-idx="0"></button>
+          <button class="stories-dot"        role="tab" aria-selected="false" aria-label="Card 2" data-idx="1"></button>
+          <button class="stories-dot"        role="tab" aria-selected="false" aria-label="Card 3" data-idx="2"></button>
+          <button class="stories-dot"        role="tab" aria-selected="false" aria-label="Card 4" data-idx="3"></button>
+        </div>
+      </div><!-- /stories-scroll-wrap -->
+
+    </div><!-- /container -->
+  </section>
+
+  <!-- STATS -->
+  <section class="stats-section" aria-label="Statistics">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item reveal">
+          <p class="stat-number">55B+</p>
+          <p class="stat-label">Matches made</p>
+        </div>
+        <div class="stat-item reveal">
+          <p class="stat-number">190+</p>
+          <p class="stat-label">Countries</p>
+        </div>
+        <div class="stat-item reveal">
+          <p class="stat-number">75M+</p>
+          <p class="stat-label">Active members</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features-section" aria-labelledby="features-title">
+    <div class="container">
+      <h2 class="section-title reveal" id="features-title">Why Tinder?</h2>
+      <p class="section-subtitle reveal">More ways to connect with people who matter.</p>
+      <div class="features-grid">
+
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <h3 class="feature-title">Matchmaking</h3>
+          <p class="feature-desc">Our smart algorithm connects you with people who share your interests, values, and relationship goals.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <h3 class="feature-title">Super Like</h3>
+          <p class="feature-desc">Stand out from the crowd. Let someone know you're really interested before you even match.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+          <h3 class="feature-title">Boost</h3>
+          <p class="feature-desc">Be the top profile in your area for 30 minutes and get seen by far more people.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="#fff" fill="none" stroke-width="1.5"/></svg></div>
+          <h3 class="feature-title">Passport</h3>
+          <p class="feature-desc">Match with people in any city around the world before you even arrive.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 .49-4.14"/></svg></div>
+          <h3 class="feature-title">Rewind</h3>
+          <p class="feature-desc">Accidentally swiped left? Go back and reconsider your last swipe.</p>
+        </div>
+
+        <div class="feature-card reveal">
+          <div class="feature-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+          <h3 class="feature-title">Messaging</h3>
+          <p class="feature-desc">Message your matches, share GIFs, and let your personality shine through.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- APP DOWNLOAD -->
+  <section class="download-section" aria-labelledby="dl-title">
+    <div class="container">
+      <h3 id="dl-title">Get the app!</h3>
+      <div class="app-badges">
+        <a href="https://go.tinder.com/web-ios-download" class="app-badge" aria-label="Download on the App Store">
+          <img src="https://tinder.com/static/build/d256a5b510a685030be375c63a9010e9.webp"
+            alt="Download on the App Store" width="144" height="48" loading="lazy">
+        </a>
+        <a href="https://go.tinder.com/web-android-download" class="app-badge" aria-label="Get it on Google Play">
+          <img src="https://tinder.com/static/build/03aed264f8539c570e9bc80ba6b60d92.webp"
+            alt="Get it on Google Play" width="162" height="48" loading="lazy">
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ════════════════════════════════════════════════════════
+  FOOTER
+═════════════════════════════════════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="footer-columns">
+    <div class="footer-col">
+      <h3>Legal</h3>
+      <ul>
+        <li><a href="/privacy">Privacy</a></li>
+        <li><a href="/consumer-health-privacy">Consumer Health Data Privacy Policy</a></li>
+        <li><a href="/terms">Terms</a></li>
+        <li><a href="/cookie-policy">Cookie Policy</a></li>
+        <li><a href="/intellectual-property">Intellectual Property</a></li>
+        <li><a href="/accessibility">Accessibility Statement</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Careers</h3>
+      <ul>
+        <li><a href="https://www.lifeattinder.com/" target="_blank" rel="noopener">Careers Portal</a></li>
+        <li><a href="https://www.lifeattinder.com/blog" target="_blank" rel="noopener">Tech Blog</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Social</h3>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/tinder" class="social-icon" aria-label="Instagram" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@tinder" class="social-icon" aria-label="TikTok" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.34 6.34 0 0 0-6.28 6.29 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.78 1.52V6.76a4.85 4.85 0 0 1-1.86-.07z"/></svg>
+        </a>
+        <a href="https://www.youtube.com/Tinder" class="social-icon" aria-label="YouTube" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+        </a>
+        <a href="https://twitter.com/Tinder" class="social-icon" aria-label="X (Twitter)" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/tinder" class="social-icon" aria-label="Facebook" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>FAQ &amp; More</h3>
+      <ul>
+        <li><a href="/faq">FAQ</a></li>
+        <li><a href="/places">Destinations</a></li>
+        <li><a href="https://www.tinderpressroom.com/" target="_blank" rel="noopener">Press Room</a></li>
+        <li><a href="https://policies.tinder.com/contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h3>Get the app!</h3>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:4px;">
+        <a href="https://go.tinder.com/web-ios-download">
+          <img src="https://tinder.com/static/build/d256a5b510a685030be375c63a9010e9.webp"
+            alt="App Store" width="140" height="46" loading="lazy" style="border-radius:8px;">
+        </a>
+        <a href="https://go.tinder.com/web-android-download">
+          <img src="https://tinder.com/static/build/03aed264f8539c570e9bc80ba6b60d92.webp"
+            alt="Google Play" width="157" height="46" loading="lazy" style="border-radius:8px;">
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-seo">Single people, listen up: If you're looking for love, want to start dating, or just keep it casual, you need to be on Tinder. With over 55 billion matches made, Tinder® is the world's most popular free dating app, making it the place to meet new people. Whether you're straight, gay, bisexual, or anything in between, Tinder's here for all of you.</p>
+    <div class="footer-links">
+      <a href="/faq">FAQ</a>
+      <a href="https://policies.tinder.com/safety-tips">Safety Tips</a>
+      <a href="/terms">Terms</a>
+      <a href="/cookie-policy">Cookie Policy</a>
+      <a href="#">Privacy Settings</a>
+    </div>
+    <p class="footer-copyright">© 2026 Tinder LLC, All Rights Reserved.</p>
+  </div>
+</footer>
+
+<!-- ════════════════════════════════════════════════════════
+  SCRIPTS
+═════════════════════════════════════════════════════════════ -->
+<script>
+// ── Header scroll
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+header.classList.toggle('scrolled', window.scrollY > 50);
+
+// ── Mobile menu
+const hamburger     = document.getElementById('hamburger');
+const mobilePanel   = document.getElementById('mobilePanel');
+const mobileOverlay = document.getElementById('mobileOverlay');
+
+function openMenu() {
+  hamburger.classList.add('open');
+  mobilePanel.classList.add('open');
+  mobileOverlay.classList.add('open');
+  hamburger.setAttribute('aria-expanded', 'true');
+  mobilePanel.setAttribute('aria-hidden', 'false');
+  mobileOverlay.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+function closeMenu() {
+  hamburger.classList.remove('open');
+  mobilePanel.classList.remove('open');
+  mobileOverlay.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', 'false');
+  mobilePanel.setAttribute('aria-hidden', 'true');
+  mobileOverlay.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+hamburger.addEventListener('click', () => {
+  mobilePanel.classList.contains('open') ? closeMenu() : openMenu();
+});
+
+// ── Mobile sub-nav accordion
+function toggleSub(btn) {
+  const subnav   = btn.nextElementSibling;
+  const expanded = btn.classList.toggle('expanded');
+  subnav.classList.toggle('open', expanded);
+  btn.setAttribute('aria-expanded', expanded);
+}
+
+// ── Cookie banner
+const cookieBanner = document.getElementById('cookieBanner');
+if (!localStorage.getItem('tinder_cookie')) {
+  setTimeout(() => cookieBanner.classList.add('visible'), 900);
+}
+function closeCookie() {
+  cookieBanner.classList.remove('visible');
+  localStorage.setItem('tinder_cookie', '1');
+}
+
+// ── Stories carousel dots
+(function () {
+  const scroll = document.getElementById('storiesScroll');
+  const dots   = document.querySelectorAll('.stories-dot');
+  if (!scroll) return;
+
+  // Dot click → scroll to card
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const idx   = +dot.dataset.idx;
+      const card  = scroll.children[idx];
+      if (card) scroll.scrollTo({ left: card.offsetLeft - 20, behavior: 'smooth' });
+    });
+  });
+
+  // Scroll → update dots
+  let scrollTimer;
+  scroll.addEventListener('scroll', () => {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const cardW = scroll.children[0]?.offsetWidth + 14 || 1;
+      const idx   = Math.round((scroll.scrollLeft) / cardW);
+      dots.forEach((d, i) => {
+        d.classList.toggle('active', i === idx);
+        d.setAttribute('aria-selected', i === idx);
+      });
+    }, 50);
+  }, { passive: true });
+})();
+
+// ── Scroll reveal (IntersectionObserver)
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+}
+</script>
+</body>
+</html>

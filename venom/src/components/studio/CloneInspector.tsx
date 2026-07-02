@@ -1,6 +1,6 @@
 "use client";
 
-import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Type } from "lucide-react";
+import { Bold, Italic, Underline, AlignLeft, AlignCenter, AlignRight, Type } from "@/components/studio/icons";
 import clsx from "clsx";
 import { useStudio, type CloneSelection } from "./StudioContext";
 

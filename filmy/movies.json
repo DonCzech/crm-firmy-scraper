@@ -1,0 +1,5 @@
+[
+  { "title": "Příklad Film 1", "url": "https://example.com/film1.m3u8", "year": 2022, "genre": "Akce" },
+  { "title": "Příklad Film 2", "url": "https://example.com/film2.mp4", "year": 2021, "genre": "Drama" },
+  { "title": "Příklad Seriál S01E01", "url": "https://example.com/serial1.m3u8", "year": 2023, "genre": "Thriller" }
+]

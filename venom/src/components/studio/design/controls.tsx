@@ -1,6 +1,6 @@
 "use client";
 
-import { Monitor, Tablet, Smartphone, Link as LinkIcon, Unlink } from "lucide-react";
+import { Monitor, Tablet, Smartphone, Link as LinkIcon, Unlink } from "@/components/studio/icons";
 import { useState, type ReactNode } from "react";
 import { useDesignTokens } from "./DesignTokensContext";
 

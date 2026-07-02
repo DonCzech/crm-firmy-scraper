@@ -6,9 +6,9 @@
     "logoUrl": "/templates/barber-02/logo.svg",
     "siteName": "Holičství Atelier",
     "links": [
-      { "label": "O nás",   "href": "#onas" },
-      { "label": "Galerie", "href": "#galerie" },
-      { "label": "Ceník",   "href": "#cenik" }
+      { "label": "O nás",   "href": "/onas" },
+      { "label": "Galerie", "href": "/galerie" },
+      { "label": "Ceník",   "href": "/cenik" }
     ],
     "ctaText": "Rezervovat",
     "ctaHref": "#rezervace",

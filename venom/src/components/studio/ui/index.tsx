@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { forwardRef, useEffect, useRef, useState, type ButtonHTMLAttributes, type InputHTMLAttributes, type ReactNode, type TextareaHTMLAttributes } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from "@/components/studio/icons";
 
 /* ============================================================================
    Webero Studio UI primitives. All consume design tokens from design-tokens.css.

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2e5e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1d64;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00c49a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1ecad3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Pozadí -->
+  <rect width="1200" height="630" fill="url(#bg)" />
+
+  <!-- Dekorativní kruhy -->
+  <circle cx="1100" cy="80" r="200" fill="#00c49a" opacity="0.06" />
+  <circle cx="100" cy="550" r="180" fill="#1ecad3" opacity="0.05" />
+  <circle cx="900" cy="500" r="120" fill="#00c49a" opacity="0.04" />
+
+  <!-- Zelená linka nahoře -->
+  <rect x="80" y="80" width="120" height="6" rx="3" fill="url(#accent)" />
+
+  <!-- Logo text -->
+  <text x="80" y="155" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="700" fill="#ffffff" letter-spacing="0">Online-Odhad.cz</text>
+
+  <!-- Hlavní nadpis -->
+  <text x="80" y="260" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="800" fill="#ffffff">Bezplatný odhad</text>
+  <text x="80" y="345" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="800" fill="#ffffff">nemovitosti online</text>
+
+  <!-- Podnadpis -->
+  <text x="80" y="415" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="400" fill="#94a3b8">Certifikovaní odhadci • Celá ČR • Zcela zdarma</text>
+
+  <!-- Zelená linka oddělující -->
+  <rect x="80" y="455" width="1040" height="1" fill="#ffffff" opacity="0.1" />
+
+  <!-- Statistiky -->
+  <text x="80" y="510" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#00c49a">12 400+</text>
+  <text x="80" y="540" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#94a3b8">dokončených odhadů</text>
+
+  <text x="380" y="510" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#00c49a">85+</text>
+  <text x="380" y="540" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#94a3b8">certifikovaných odhadců</text>
+
+  <text x="680" y="510" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#00c49a">14 krajů</text>
+  <text x="680" y="540" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#94a3b8">celé České republiky</text>
+
+  <text x="980" y="510" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700" fill="#00c49a">od 2014</text>
+  <text x="980" y="540" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#94a3b8">na trhu</text>
+
+  <!-- Zelená linka dole -->
+  <rect x="80" y="580" width="120" height="6" rx="3" fill="url(#accent)" />
+</svg>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import { X, ArrowRight, Loader2, AlertCircle, Check } from "lucide-react";
+import { X, ArrowRight, Loader2, AlertCircle, Check } from "@/components/studio/icons";
 import type { StudioState } from "./TenantStudioView";
 
 /**

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import type React from "react";
-import { X } from "lucide-react";
+import { X } from "@/components/studio/icons";
 import clsx from "clsx";
 import { useStudio } from "./StudioContext";
 import { getSectionLabel } from "./studio-icons";
@@ -36,7 +36,7 @@ export function StudioRightPanel({
   return (
     <div className="flex h-full flex-col vs-enter">
       <header
-        className={`flex h-11 shrink-0 items-center gap-2 border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-3 select-none ${onStartDrag ? "cursor-grab active:cursor-grabbing" : ""}`}
+        className={`flex h-11 shrink-0 items-center gap-2 border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.62)] px-3 backdrop-blur-xl select-none ${onStartDrag ? "cursor-grab active:cursor-grabbing" : ""}`}
         onPointerDown={onStartDrag}
       >
         {isClonePanel && cloneSelected ? (
@@ -83,7 +83,7 @@ export function StudioRightPanel({
           </div>
         ) : (
         <>
-          <div className="flex shrink-0 border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-1">
+          <div className="flex shrink-0 border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.48)] px-1 backdrop-blur-xl">
             {(["content", "style", "layout"] as Tab[]).map((t) => (
               <button
                 key={t}

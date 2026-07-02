@@ -1,0 +1,61 @@
+name: Bombuj RSS Sync
+
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      full_sync:
+        description: 'Run full sync for all movies'
+        required: false
+        default: 'false'
+      scrape_limit:
+        description: 'How many newest movies to process (0 = all)'
+        required: false
+        default: '300'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: filmy/bombuj-rss-project
+    env:
+      DATABASE_URL: ${{ secrets.BOMBUJ_DATABASE_URL }}
+      SCRAPE_CONCURRENCY: '6'
+      MIN_RESCRAPE_HOURS: '72'
+      UVOD_PRIORITY: 'true'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: filmy/bombuj-rss-project/package-lock.json
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Prisma generate
+        run: npx prisma generate
+
+      - name: Prisma db push
+        run: npx prisma db push
+
+      - name: Run incremental sync (schedule)
+        if: github.event_name == 'schedule'
+        env:
+          SCRAPE_LIMIT: '300'
+          FULL_SYNC: 'false'
+        run: npm run sync
+
+      - name: Run manual sync (workflow_dispatch)
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          SCRAPE_LIMIT: ${{ github.event.inputs.scrape_limit || '300' }}
+          FULL_SYNC: ${{ github.event.inputs.full_sync || 'false' }}
+        run: npm run sync

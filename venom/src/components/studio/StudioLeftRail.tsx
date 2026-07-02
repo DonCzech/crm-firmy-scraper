@@ -3,25 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Feather, Settings2, AlignJustify, LayoutGrid, Search, Bell, Images, Briefcase, PanelLeft,
-  CreditCard, Users, HelpCircle, Keyboard, LogOut, CheckSquare,
-} from "lucide-react";
+  CreditCard, Users, HelpCircle, Keyboard, LogOut, CheckSquare, Files,
+} from "@/components/studio/icons";
+import type { IconWeight } from "@phosphor-icons/react";
 import { useStudio, type StudioLeftPanel } from "./StudioContext";
 import { Tooltip } from "./ui";
 import clsx from "clsx";
 
-function PagesIcon({ size = 20 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M8 4H6a2 2 0 00-2 2v13a2 2 0 002 2h12a2 2 0 002-2v-2" />
-      <rect x="8" y="2" width="12" height="16" rx="2" />
-      <line x1="11" y1="7" x2="17" y2="7" />
-      <line x1="11" y1="11" x2="17" y2="11" />
-      <line x1="11" y1="15" x2="15" y2="15" />
-    </svg>
-  );
-}
-
-type IconProps = { size: number; strokeWidth: number };
+type IconProps = { size: number; strokeWidth: number; weight?: IconWeight };
 
 // Moduly (CRM) jsou zatím jen UI skořápka bez CRUD — skryto z railu, dokud nebude reálná implementace
 export const MODULES_ENABLED = false;
@@ -32,13 +21,13 @@ const ALL_RAIL_ITEMS: Array<{
   tourId: string;
   Icon: (p: IconProps) => React.ReactElement;
 }> = [
-  { id: "pages",    label: "Stránky",      tourId: "rail-pages",    Icon: ({ size }) => <PagesIcon size={size} /> },
-  { id: "design",   label: "Design",       tourId: "rail-design",   Icon: ({ size, strokeWidth }) => <Feather size={size} strokeWidth={strokeWidth} /> },
-  { id: "brand",    label: "Identita",     tourId: "rail-brand",    Icon: ({ size, strokeWidth }) => <Briefcase size={size} strokeWidth={strokeWidth} /> },
-  { id: "assets",   label: "Soubory",      tourId: "rail-assets",   Icon: ({ size, strokeWidth }) => <Images size={size} strokeWidth={strokeWidth} /> },
-  { id: "settings", label: "Nastavení",    tourId: "rail-settings", Icon: ({ size, strokeWidth }) => <Settings2 size={size} strokeWidth={strokeWidth} /> },
-  { id: "modules",  label: "Moduly",       tourId: "rail-modules",  Icon: ({ size, strokeWidth }) => <AlignJustify size={size} strokeWidth={strokeWidth} /> },
-  { id: "articles", label: "Články",       tourId: "rail-articles", Icon: ({ size, strokeWidth }) => <LayoutGrid size={size} strokeWidth={strokeWidth} /> },
+  { id: "pages",    label: "Stránky",      tourId: "rail-pages",    Icon: ({ size, weight }) => <Files size={size} weight={weight} /> },
+  { id: "design",   label: "Design",       tourId: "rail-design",   Icon: ({ size, weight }) => <Feather size={size} weight={weight} /> },
+  { id: "brand",    label: "Identita",     tourId: "rail-brand",    Icon: ({ size, weight }) => <Briefcase size={size} weight={weight} /> },
+  { id: "assets",   label: "Soubory",      tourId: "rail-assets",   Icon: ({ size, weight }) => <Images size={size} weight={weight} /> },
+  { id: "settings", label: "Nastavení",    tourId: "rail-settings", Icon: ({ size, weight }) => <Settings2 size={size} weight={weight} /> },
+  { id: "modules",  label: "Moduly",       tourId: "rail-modules",  Icon: ({ size, weight }) => <AlignJustify size={size} weight={weight} /> },
+  { id: "articles", label: "Články",       tourId: "rail-articles", Icon: ({ size, weight }) => <LayoutGrid size={size} weight={weight} /> },
 ];
 
 export const RAIL_ITEMS = ALL_RAIL_ITEMS.filter((item) => MODULES_ENABLED || item.id !== "modules");
@@ -103,11 +92,14 @@ function AccountDropdown({ onClose }: { onClose: () => void }) {
   return (
     <div
       ref={ref}
-      className="vs-glass vs-pop absolute left-[59px] bottom-0 z-[200] w-[220px] rounded-xl shadow-[var(--vs-shadow-xl)] ring-1 ring-[var(--vs-border-strong)] overflow-hidden"
+      className="vs-glass vs-pop fixed bottom-3 left-[68px] right-3 z-[240] max-h-[calc(100vh-24px)] w-auto overflow-hidden rounded-xl shadow-[var(--vs-shadow-xl)] ring-1 ring-[var(--vs-border-strong)] sm:absolute sm:bottom-0 sm:left-[59px] sm:right-auto sm:w-[220px]"
     >
       {/* User header */}
       <div className="flex items-center gap-2.5 px-3 py-3 border-b border-[var(--vs-border)]">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white text-[11px] font-bold shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_2px_8px_rgba(20,184,166,0.4)]" style={{ background: "var(--vs-grad-brand)" }}>
+        <div
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white text-[11px] font-bold shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_8px_22px_rgba(139,92,246,0.34)]"
+          style={{ background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 56%, #a855f7 100%)" }}
+        >
           TB
         </div>
         <div className="min-w-0">
@@ -182,6 +174,8 @@ export function StudioLeftRail() {
           const isAssets = item.id === "assets";
           const active = isAssets ? studio.assetsOpen : studio.leftPanel === item.id;
           const sw = active ? 1.8 : 1.5;
+          // Aktivní ikona = duotone (dvoutónový prémiový look), neaktivní regular
+          const weight: IconWeight = active ? "duotone" : "regular";
 
           return (
             <div
@@ -210,7 +204,7 @@ export function StudioLeftRail() {
                       : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text-soft)]"
                   )}
                 >
-                  <item.Icon size={20} strokeWidth={sw} />
+                  <item.Icon size={20} strokeWidth={sw} weight={weight} />
                 </button>
               </Tooltip>
             </div>
@@ -221,7 +215,7 @@ export function StudioLeftRail() {
       <div className="flex-1" />
 
       {/* Bottom utilities */}
-      <div className="flex flex-col items-center gap-2 pb-4 relative">
+      <div className="relative flex flex-col items-center gap-2 pb-14 sm:pb-4">
         <Tooltip side="right" label="Hledat (⌘K)">
           <button
             type="button"
@@ -270,8 +264,8 @@ export function StudioLeftRail() {
               type="button"
               aria-label="Profil"
               onClick={() => setAccountOpen((v) => !v)}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-white text-[12px] font-bold shrink-0 hover:opacity-85 transition-opacity shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_2px_8px_rgba(20,184,166,0.35)]"
-              style={{ background: "var(--vs-grad-brand)" }}
+              className="flex h-9 w-9 items-center justify-center rounded-full text-white text-[12px] font-bold shrink-0 hover:brightness-110 transition-[filter] shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_8px_22px_rgba(139,92,246,0.36)] ring-1 ring-white/10"
+              style={{ background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 56%, #a855f7 100%)" }}
             >
               TB
             </button>

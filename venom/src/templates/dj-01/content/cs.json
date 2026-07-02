@@ -1,63 +1,67 @@
 {
   "navbar": {
-    "siteName": "DJ NOVA",
-    "logoUrl": "/templates/dj-01/logo.svg",
+    "siteName": "NOKTURN",
+    "logoUrl": "",
     "phone": "731 456 789",
     "ctaText": "",
     "ctaHref": "#kontakt",
     "links": [
-      { "label": "Služby",      "href": "#sluzby"   },
-      { "label": "Reference",   "href": "#reference" },
-      { "label": "Tipy a rady", "href": "#tipy"      },
-      { "label": "Náš tým",     "href": "#tym"       },
-      { "label": "Kontakt",     "href": "#kontakt"   }
+      { "label": "Sety",       "href": "/sluzby"   },
+      { "label": "Klienti",    "href": "/reference" },
+      { "label": "Deník",      "href": "/tipy"      },
+      { "label": "Rezidenti",  "href": "/tym"       },
+      { "label": "Booking",    "href": "/kontakt"   }
     ]
   },
   "hero": {
-    "title": "Hudba, světlo a energie — váš zážitek na prvním místě",
-    "subtitle": "Profesionální DJ pro každou příležitost",
-    "ctaText": "Zjistit více",
+    "eyebrow": "01 / LIVE SET",
+    "title": "Půlnoc patří\nzvuku, který si pamatuješ.",
+    "subtitle": "Rezidentní DJ tým pro svatby, corporate večery a klubové noci — od prvního beatu do posledního tónu.",
+    "ctaText": "Prozkoumat sety",
     "ctaHref": "#sluzby",
-    "bgImage": "/assets/dj-01/0af7b9d80e-category-18.jpg"
+    "bgImage": "/templates/dj-01/hero-nocturne.webp"
   },
   "services": {
-    "heading": "Co pro vás zajistíme",
+    "heading": "Sety",
     "services": [
-      { "name": "DJ na svatbu",              "subtitle": "nezapomenutelný večer pro vás i hosty",      "href": "#sluzby", "imageUrl": "/assets/dj-01/0af7b9d80e-category-18.jpg" },
-      { "name": "Firemní večírek",           "subtitle": "reprezentativní atmosféra na míru",          "href": "#sluzby", "imageUrl": "/assets/dj-01/f67bca9c37-category-19.jpg" },
-      { "name": "Narozeninová oslava",       "subtitle": "párty, na kterou se nezapomíná",             "href": "#sluzby", "imageUrl": "/assets/dj-01/ec8efbaf13-category-20.jpg" },
-      { "name": "Plesy a galavečery",        "subtitle": "elegance a styl od první do poslední noty",  "href": "#sluzby", "imageUrl": "/assets/dj-01/3b977fffae-category-21.jpg" },
-      { "name": "Karaoke show",              "subtitle": "zábava pro celý sál",                         "href": "#sluzby", "imageUrl": "/assets/dj-01/293ee3bdcf-category-13.jpg" },
-      { "name": "Videodiskotéka",            "subtitle": "zvuk i obraz v dokonalé symbióze",           "href": "#sluzby", "imageUrl": "/assets/dj-01/0900239e2f-category-344.jpg" },
-      { "name": "Ozvučení akcí",             "subtitle": "profesionální technika pro každý prostor",   "href": "#sluzby", "imageUrl": "/assets/dj-01/c871ef90f9-category-11.jpg" },
-      { "name": "Pronájem aparatury",        "subtitle": "špičkové vybavení bez starostí",             "href": "#sluzby", "imageUrl": "/assets/dj-01/1e99411bad-category-12.jpg" }
+      { "name": "Svatby",     "subtitle": "první tanec, po kterém přijde všechno ostatní",    "href": "#sluzby", "imageUrl": "/templates/dj-01/svc-svatby.webp" },
+      { "name": "Corporate",  "subtitle": "elegantní kadence pro firemní večery a galavečeře","href": "#sluzby", "imageUrl": "/templates/dj-01/svc-corporate.webp" },
+      { "name": "Oslavy",     "subtitle": "narozeniny, výročí, návraty domů — párty na míru", "href": "#sluzby", "imageUrl": "/templates/dj-01/svc-oslavy.webp" },
+      { "name": "Plesy",      "subtitle": "orchestrální živý sál od otevírací fanfáry po půlnoc","href": "#sluzby", "imageUrl": "/templates/dj-01/svc-plesy.webp" },
+      { "name": "Karaoke",    "subtitle": "otevřený mikrofon a rozšiřovaný katalog 4 000+ písní","href": "#sluzby", "imageUrl": "/templates/dj-01/svc-karaoke.webp" },
+      { "name": "Videodisco", "subtitle": "synchronizovaný zvuk a klipy na LED stěně",         "href": "#sluzby", "imageUrl": "/templates/dj-01/svc-videodisco.webp" },
+      { "name": "Ozvučení",   "subtitle": "line-array systémy, monitory a mixáž na profi úrovni","href": "#sluzby", "imageUrl": "/templates/dj-01/svc-ozvuceni.webp" },
+      { "name": "Pronájem",   "subtitle": "aparatura, světla a truss bez čekání a s obsluhou", "href": "#sluzby", "imageUrl": "/templates/dj-01/svc-pronajem.webp" }
     ],
-    "ctaText": "Všechny služby",
+    "ctaText": "Prohlédnout všechny sety",
     "ctaHref": "#sluzby"
   },
   "about": {
-    "title": "DJ Nova — váš partner pro dokonalé akce",
-    "heading": "DJ Nova — váš partner pro dokonalé akce",
-    "subheading": "Kdo jsme",
-    "body": "Zvuk, světlo, atmosféra — tři věci, které rozhodují o tom, zda bude vaše akce průměrná nebo výjimečná.\n\nDJ Nova se specializuje na kompletní hudební a technické zajištění akcí všech velikostí. Od intimních rodinných oslav přes firemní konference až po velkolepé svatební večírky — ke každé zakázce přistupujeme s plným nasazením a smyslem pro detail.\n\nNáš tým tvoří zkušení DJové, zvukaři a světelní technici s více než patnáctiletou praxí. Spolupracujeme s nejlepšími dodavateli techniky a neustále sledujeme nejnovější trendy v oblasti eventové produkce.",
-    "closing": "Svěřte hudbu do správných rukou. Kontaktujte nás a společně vytvoříme něco výjimečného.",
-    "teamImageUrl": "/assets/dj-01/4aa06846af-team.png",
-    "teamImageAlt": "Tým DJ Nova"
+    "eyebrow": "02 / STUDIO",
+    "title": "Rezidenti půlnočního zvuku",
+    "heading": "Rezidenti půlnočního zvuku",
+    "subheading": "Nokturn Sound Collective",
+    "body": "Zvuk, který si pamatujete, nevzniká náhodou. Vzniká z hodin promyšleného výběru, cvičených přechodů a citu pro sál, který se dýchá — ne přehrává.\n\nNokturn je rezidentní DJ kolektiv postavený na dvou pilířích: hluboká hudební knihovna napříč žánry a technická preciznost, která tichne do pozadí, aby zůstal jen večer sám. Hrajeme svatby, corporate galavečery, klubové noci i intimní privátní posezení.\n\nZa mixem stojí čtyři rezidenti, každý se svým specifickým rukopisem — jeden na první tanec, druhý pro peak-time, třetí pro after-hours, čtvrtý pro vinyl selection. Střídáme se podle toho, co váš večer skutečně potřebuje.",
+    "closing": "Nesnažíme se všechny bavit stejně. Snažíme se, aby si na váš večer pamatovali tak, jak si ho pamatujete vy.",
+    "teamImageUrl": "/templates/dj-01/about-studio.webp",
+    "teamImageAlt": "Nokturn studio v akci"
   },
   "whyus": {
-    "heading": "Proč si vybrat DJ Nova?",
+    "eyebrow": "03 / MANIFEST",
+    "heading": "Proč Nokturn",
     "items": [
-      "Přes patnáct let zkušeností v oboru — každou zakázku zvládáme s jistotou a přehledem zkušeného profesionála.",
-      "Pokrýváme celou Českou republiku i vybrané zahraniční destinace, takže si nás můžete vzít kamkoli.",
-      "Kompletní tým pod jednou střechou: DJ, zvukař, osvětlovač i technik — nemusíte nic řešit s dalšími dodavateli.",
-      "Vlastní špičková aparatura nejnovější generace — spolehlivý zvuk a efektní světla bez jakéhokoli kompromisu.",
-      "Každou akci připravujeme individuálně na základě vašich přání, stylu a charakteru události.",
-      "Reagujeme rychle, komunikujeme transparentně a vždy dodržujeme domluvené termíny i podmínky.",
-      "Stovky spokojených klientů a stovky úspěšných akcí jsou důkazem, že naší práci bereme vážně."
+      "Čtyři rezidenti se čtyřmi rukopisy — první tanec, peak-time, after-hours a vinyl selection řeší vždy specialista, ne univerzál.",
+      "Play-listy stavíme z detailního brief callu, ne z drop-down formuláře. Ke každému večeru přistupujeme jako k jednorázové kompozici.",
+      "Vlastní line-array PA, funktion-one monitory a osvětlovací truss — bez subdodavatelů, bez slov 'to nezvládneme'.",
+      "Diskrétní přítomnost: black-tie dress code, tichý micro-headset workflow, hlavní příchody bez potlesku od DJe.",
+      "Dostupní od Prahy po Rovinj — logistiku, transport i on-site sound-check převezmeme za vás.",
+      "Signed NDA při korporátních eventech je automat — repertoár, atmosféra i hosté zůstávají mezi vámi a námi.",
+      "Backup plán pro každé kritické zařízení + dvě záložní hodiny v rezidenčním rozpočtu, kdyby večer chtěl pokračovat."
     ]
   },
   "references": {
-    "heading": "Klienti, kteří nám důvěřují",
+    "eyebrow": "04 / KLIENTI",
+    "heading": "Klienti",
     "items": [
       { "name": "ČSOB",                 "logoUrl": "/assets/dj-01/1d1db4ec78-csob.svg"       },
       { "name": "O2",                   "logoUrl": "/assets/dj-01/38a2a38210-o2.svg"         },
@@ -72,15 +76,18 @@
     ]
   },
   "contact": {
+    "eyebrow": "05 / BOOKING",
     "phone": "+420 731 456 789",
-    "email": "info@djnova.cz"
+    "email": "booking@nokturn.cz"
   },
   "footer": {
-    "siteName": "DJ Nova",
-    "copyright": "© 2026 DJ Nova. Všechna práva vyhrazena.",
-    "facebook": "https://facebook.com/djnova",
-    "youtube": "https://youtube.com/djnova",
-    "email": "info@djnova.cz",
+    "siteName": "NOKTURN",
+    "tagline": "Půlnoční rezidenti pro váš zvuk.",
+    "copyright": "© 2026 Nokturn Sound Collective · Praha",
+    "facebook": "https://facebook.com/nokturn",
+    "youtube": "https://youtube.com/nokturn",
+    "instagram": "https://instagram.com/nokturn",
+    "email": "booking@nokturn.cz",
     "phone": "+420 731 456 789"
   }
 }

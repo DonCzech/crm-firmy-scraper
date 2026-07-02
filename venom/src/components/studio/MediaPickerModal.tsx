@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { Upload, Trash2, FolderOpen } from "lucide-react";
+import { Upload, Trash2, FolderOpen } from "@/components/studio/icons";
 
 interface MediaItem {
   id: number;

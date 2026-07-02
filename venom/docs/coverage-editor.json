@@ -1,0 +1,713 @@
+{
+  "generated": "2026-06-29T18:48:04.419Z",
+  "registeredTypes": [
+    "about",
+    "blog-preview",
+    "contact",
+    "cta",
+    "embed",
+    "faq",
+    "footer",
+    "freeform",
+    "gallery",
+    "hero",
+    "map",
+    "navbar",
+    "opening-hours",
+    "pricing",
+    "products",
+    "promo",
+    "rezora-cta",
+    "rezora-widget",
+    "services",
+    "stats",
+    "team",
+    "testimonials"
+  ],
+  "missingTypes": [],
+  "totals": {
+    "templates": 92,
+    "perfect": 91,
+    "partial": 1,
+    "zero": 0
+  },
+  "templates": [
+    {
+      "template": "barber-01",
+      "sections": 13,
+      "covered": 10,
+      "pct": 77,
+      "gaps": [
+        {
+          "template": "barber-01",
+          "type": "team",
+          "variant": "cards-grid"
+        },
+        {
+          "template": "barber-01",
+          "type": "opening-hours",
+          "variant": "default"
+        },
+        {
+          "template": "barber-01",
+          "type": "faq",
+          "variant": "default"
+        }
+      ]
+    },
+    {
+      "template": "ananda-01",
+      "sections": 11,
+      "covered": 11,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "arbo-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "arch-01",
+      "sections": 12,
+      "covered": 12,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "autoservis-01",
+      "sections": 7,
+      "covered": 7,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "autoservis-02",
+      "sections": 7,
+      "covered": 7,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "autoservis-03",
+      "sections": 11,
+      "covered": 11,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "autoskola-01",
+      "sections": 11,
+      "covered": 11,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "bakery-01",
+      "sections": 6,
+      "covered": 6,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "bakery-02",
+      "sections": 7,
+      "covered": 7,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "barber-02",
+      "sections": 6,
+      "covered": 6,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "barber-03",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "barber-04",
+      "sections": 11,
+      "covered": 11,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "beauty-01",
+      "sections": 11,
+      "covered": 11,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "cafe-01",
+      "sections": 10,
+      "covered": 10,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "cafe-02",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "cafe-03",
+      "sections": 10,
+      "covered": 10,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "cafe-04",
+      "sections": 10,
+      "covered": 10,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "catering-01",
+      "sections": 11,
+      "covered": 11,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "chalet-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "clean-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "clean-02",
+      "sections": 11,
+      "covered": 11,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "clinic-02",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "clinic-03",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "ddd-01",
+      "sections": 7,
+      "covered": 7,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "dental-01",
+      "sections": 7,
+      "covered": 7,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "dj-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "edu-01",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "elektro-01",
+      "sections": 10,
+      "covered": 10,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "events-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "fitness-01",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "fitness-02",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "floors-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "florist-01",
+      "sections": 10,
+      "covered": 10,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "fyzio-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "fyzio-02",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "garden-01",
+      "sections": 6,
+      "covered": 6,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "garden-02",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "grooming-01",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "hair-01",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "hair-02",
+      "sections": 10,
+      "covered": 10,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "hair-03",
+      "sections": 10,
+      "covered": 10,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "hair-04",
+      "sections": 7,
+      "covered": 7,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "hotel-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "hotel-02",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "instala-01",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "instala-02",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "kids-01",
+      "sections": 13,
+      "covered": 13,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "klempir-01",
+      "sections": 10,
+      "covered": 10,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "klima-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "lang-01",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "lawyer-01",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "legal-02",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "malir-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "malir-02",
+      "sections": 10,
+      "covered": 10,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "massage-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "nails-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "nails-02",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "nails-03",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "ortho-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "ortho-02",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "peak-cut",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "pethotel-01",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "photo-01",
+      "sections": 6,
+      "covered": 6,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "reality-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "reality-02",
+      "sections": 10,
+      "covered": 10,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "reality-03",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "reality-04",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "reality-05",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "reality-06",
+      "sections": 11,
+      "covered": 11,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "restaurant-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "restaurant-02",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "restaurant-03",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "restaurant-04",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "solar-01",
+      "sections": 7,
+      "covered": 7,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "solar-02",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "solar-03",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "stavba-01",
+      "sections": 11,
+      "covered": 11,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "stavba-02",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "stavba-03",
+      "sections": 11,
+      "covered": 11,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "sweet-01",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "tattoo-01",
+      "sections": 10,
+      "covered": 10,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "tattoo-02",
+      "sections": 7,
+      "covered": 7,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "tattoo-03",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "tawan-01",
+      "sections": 10,
+      "covered": 10,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "tawan-02",
+      "sections": 8,
+      "covered": 8,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "ucetni-01",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "ucetni-02",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "ucetni-03",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "ucetni-04",
+      "sections": 10,
+      "covered": 10,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "vet-01",
+      "sections": 9,
+      "covered": 9,
+      "pct": 100,
+      "gaps": []
+    },
+    {
+      "template": "video-01",
+      "sections": 7,
+      "covered": 7,
+      "pct": 100,
+      "gaps": []
+    }
+  ],
+  "gaps": [
+    {
+      "template": "barber-01",
+      "type": "team",
+      "variant": "cards-grid"
+    },
+    {
+      "template": "barber-01",
+      "type": "opening-hours",
+      "variant": "default"
+    },
+    {
+      "template": "barber-01",
+      "type": "faq",
+      "variant": "default"
+    }
+  ]
+}

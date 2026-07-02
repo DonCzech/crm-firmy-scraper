@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow,noarchive" />
+    <title>Internal Movie Catalog</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">Internal Movie Catalog</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button id="toggle-player-interaction" class="ghost-btn">Interakce v playeru: OFF</button>
+          <button id="toggle-popup-shield" class="ghost-btn">Anti-popup: ON</button>
+          <button id="change-key" class="ghost-btn">Změnit přístupový klíč</button>
+        </div>
+      </header>
+
+      <section class="search-panel">
+        <input id="search" type="text" placeholder="Hledej film..." autocomplete="off" />
+        <div id="status" class="status">Napiš název filmu</div>
+      </section>
+
+      <main class="layout">
+        <section class="results-wrap">
+          <ul id="results" class="results"></ul>
+          <button id="load-more" class="load-more" type="button">Načíst další</button>
+        </section>
+
+        <section class="player-wrap">
+          <div id="movie-title" class="movie-title">Vyber film vlevo</div>
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+            <button id="play-direct" class="ghost-btn" type="button">Pustit přímo</button>
+            <span id="play-direct-status" class="result-meta"></span>
+          </div>
+          <div class="player-box">
+            <iframe id="player" title="Movie player" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"></iframe>
+            <div id="player-click-shield" class="player-click-shield">Klikání v playeru je blokované proti reklamním přesměrováním. Použij tlačítko „Pustit přímo“.</div>
+          </div>
+          <div id="server-groups" class="server-groups"></div>
+          <a id="open-external" class="open-external" href="#" target="_blank" rel="noopener noreferrer">Otevřít aktuální server v nové záložce</a>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

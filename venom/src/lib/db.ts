@@ -89,13 +89,73 @@ export async function initDb(): Promise<void> {
       trial_ends_at TIMESTAMPTZ NOT NULL DEFAULT now() + INTERVAL '30 days',
       paid_at TIMESTAMPTZ,
       next_billing_at TIMESTAMPTZ,
-      price_czk INTEGER NOT NULL DEFAULT 500,
+      price_czk INTEGER NOT NULL DEFAULT 499,
       billing_cycle TEXT NOT NULL DEFAULT 'monthly',
       cancelled_at TIMESTAMPTZ,
+      -- GoPay recurring fields (Sprint 8) ------------------------------------
+      payment_provider TEXT,                  -- 'gopay' (room for 'stripe' later)
+      provider_order_id TEXT,                 -- our order number we sent to GoPay
+      provider_transaction_id TEXT,           -- parent GoPay payment id (used for ON_DEMAND recurrences)
+      next_charge_at TIMESTAMPTZ,             -- when the cron should run the next recurring charge
+      last_charge_attempt_at TIMESTAMPTZ,     -- last cron tick that tried to charge (for retry back-off)
+      charge_attempt_count INTEGER NOT NULL DEFAULT 0,
       created_at TIMESTAMPTZ DEFAULT now(),
       updated_at TIMESTAMPTZ DEFAULT now(),
       UNIQUE(tenant_id)
     );
+
+    -- Idempotent backfills for tenants whose subscriptions row predates the
+    -- GoPay columns. NO-OP after the first run.
+    ALTER TABLE subscriptions ADD COLUMN IF NOT EXISTS payment_provider        TEXT;
+    ALTER TABLE subscriptions ADD COLUMN IF NOT EXISTS provider_order_id       TEXT;
+    ALTER TABLE subscriptions ADD COLUMN IF NOT EXISTS provider_transaction_id TEXT;
+    ALTER TABLE subscriptions ADD COLUMN IF NOT EXISTS next_charge_at          TIMESTAMPTZ;
+    ALTER TABLE subscriptions ADD COLUMN IF NOT EXISTS last_charge_attempt_at  TIMESTAMPTZ;
+    ALTER TABLE subscriptions ADD COLUMN IF NOT EXISTS charge_attempt_count    INTEGER NOT NULL DEFAULT 0;
+
+    -- ── GoPay payments (Sprint 8) ────────────────────────────────────────────
+    -- One row per payment intent we initiate against GoPay. Includes both the
+    -- initial subscription activation payment and every subsequent recurring
+    -- charge (linked via parent_gopay_id).
+    CREATE TABLE IF NOT EXISTS gopay_payments (
+      id SERIAL PRIMARY KEY,
+      tenant_id INTEGER NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+      user_account_id INTEGER REFERENCES user_accounts(id),
+      gopay_id TEXT UNIQUE,                  -- GoPay's payment id (null until create returns)
+      order_number TEXT NOT NULL UNIQUE,     -- our generated order id (WBO{ts}{rand})
+      type TEXT NOT NULL DEFAULT 'initial',  -- 'initial' | 'recurring'
+      parent_gopay_id TEXT,                  -- recurring → links back to the initial payment
+      amount_cents INTEGER NOT NULL,         -- 49900 for 499 CZK
+      currency TEXT NOT NULL DEFAULT 'CZK',
+      status TEXT NOT NULL DEFAULT 'pending',-- pending|created|paid|cancelled|timeouted|failed
+      gw_url TEXT,                            -- GoPay gateway URL the user was redirected to
+      raw_response JSONB,                    -- full last response (debug + reconciliation)
+      created_at TIMESTAMPTZ DEFAULT now(),
+      updated_at TIMESTAMPTZ DEFAULT now()
+    );
+    CREATE INDEX IF NOT EXISTS idx_gopay_payments_tenant ON gopay_payments(tenant_id);
+    CREATE INDEX IF NOT EXISTS idx_gopay_payments_gopay_id ON gopay_payments(gopay_id);
+    CREATE INDEX IF NOT EXISTS idx_gopay_payments_parent  ON gopay_payments(parent_gopay_id);
+
+    -- ── Payment attempt audit log ────────────────────────────────────────────
+    CREATE TABLE IF NOT EXISTS payment_attempts (
+      id SERIAL PRIMARY KEY,
+      tenant_id INTEGER REFERENCES tenants(id) ON DELETE SET NULL,
+      user_account_id INTEGER REFERENCES user_accounts(id) ON DELETE SET NULL,
+      email TEXT,
+      provider TEXT NOT NULL,                -- 'gopay'
+      action TEXT NOT NULL,                  -- 'create' | 'return' | 'webhook' | 'recurring' | 'void'
+      amount_cents INTEGER,
+      currency TEXT,
+      gopay_id TEXT,
+      order_number TEXT,
+      status TEXT NOT NULL,                  -- 'ok' | 'failed' | 'skipped'
+      message TEXT,
+      raw_response JSONB,
+      created_at TIMESTAMPTZ DEFAULT now()
+    );
+    CREATE INDEX IF NOT EXISTS idx_payment_attempts_tenant ON payment_attempts(tenant_id);
+    CREATE INDEX IF NOT EXISTS idx_payment_attempts_created ON payment_attempts(created_at DESC);
 
     -- ── Tenant pages ──────────────────────────────────────────────────────────
     CREATE TABLE IF NOT EXISTS pages (
@@ -746,6 +806,67 @@ export async function cancelSubscription(tenantId: number): Promise<void> {
   );
 }
 
+import type { GoPayPayment } from "@/lib/gopay";
+
+/**
+ * Called from /api/billing/gopay/return and /api/billing/gopay/webhook after
+ * verifying that GoPay returned PAID. Updates gopay_payments, subscriptions,
+ * and tenants in a single transaction.
+ */
+export async function activateGoPaySubscription(params: {
+  tenantId: number;
+  orderId: string;
+  gopayId: string;
+  payment: GoPayPayment;
+}): Promise<{ activated: boolean }> {
+  const { tenantId, orderId, gopayId, payment } = params;
+  const paid = payment.state === "PAID";
+
+  return withTransaction(async (client) => {
+    await client.query(
+      `UPDATE gopay_payments
+       SET gopay_id = COALESCE(gopay_id, $1),
+           status   = $2,
+           raw_response = $3,
+           updated_at   = now()
+       WHERE order_number = $4`,
+      [gopayId, paid ? "paid" : payment.state.toLowerCase(), JSON.stringify(payment), orderId]
+    );
+
+    await client.query(
+      `INSERT INTO payment_attempts
+         (tenant_id, provider, action, amount_cents, currency, gopay_id, order_number, status, raw_response)
+       VALUES ($1, 'gopay', 'return', $2, 'CZK', $3, $4, $5, $6)`,
+      [tenantId, 49900, gopayId, orderId, paid ? "ok" : "failed", JSON.stringify(payment)]
+    );
+
+    if (paid) {
+      const nextCharge = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+      await client.query(
+        `UPDATE subscriptions
+         SET status                   = 'active',
+             plan                     = 'paid',
+             payment_provider         = 'gopay',
+             provider_order_id        = $1,
+             provider_transaction_id  = $2,
+             next_charge_at           = $3,
+             paid_at                  = now(),
+             next_billing_at          = $3,
+             charge_attempt_count     = 0,
+             updated_at               = now()
+         WHERE tenant_id = $4`,
+        [orderId, gopayId, nextCharge, tenantId]
+      );
+      await client.query(
+        "UPDATE tenants SET plan = 'paid', updated_at = now() WHERE id = $1",
+        [tenantId]
+      );
+    }
+
+    return { activated: paid };
+  });
+}
+
 // ── Tenant helpers ────────────────────────────────────────────────────────────
 
 export interface Tenant {
@@ -778,6 +899,7 @@ export interface Tenant {
   billing_data: Record<string, unknown> | null;
   email_settings: Record<string, unknown> | null;
   brand_data: Record<string, unknown> | null;
+  site_mode: "onepage" | "multipage";
   created_at: string;
   updated_at: string;
 }

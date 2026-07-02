@@ -1,0 +1,436 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────────────────────
+
+enum Role {
+  USER
+  ADMIN
+  MODERATOR
+}
+
+enum SubscriptionTier {
+  FREE
+  STANDARD
+  PREMIUM
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  TRIALING
+}
+
+enum ListingStatus {
+  DRAFT
+  PENDING_REVIEW
+  ACTIVE
+  REJECTED
+  ARCHIVED
+  EXPIRED
+}
+
+enum OfferType {
+  SALE
+  RENT
+}
+
+enum EstateType {
+  APARTMENT
+  HOUSE
+  LAND
+  COMMERCIAL
+  GARAGE
+  OTHER
+}
+
+enum MessageStatus {
+  SENT
+  READ
+}
+
+enum NotificationType {
+  WATCHDOG_MATCH
+  NEW_MESSAGE
+  LISTING_APPROVED
+  LISTING_REJECTED
+  SUBSCRIPTION_RENEWED
+  SUBSCRIPTION_EXPIRING
+  BOOST_EXPIRING
+}
+
+enum BoostType {
+  TOP
+  EXTEND
+  HIGHLIGHT
+}
+
+enum BoostStatus {
+  ACTIVE
+  EXPIRED
+}
+
+enum ModerationAction {
+  APPROVED
+  REJECTED
+}
+
+// ─────────────────────────────────────────────────────────────
+// USER + AUTH
+// ─────────────────────────────────────────────────────────────
+
+model User {
+  id                String    @id @default(cuid())
+  email             String    @unique
+  passwordHash      String
+  emailVerified     Boolean   @default(false)
+  emailVerifyToken  String?
+  resetPasswordToken String?
+  resetPasswordExpiry DateTime?
+  role              Role      @default(USER)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  profile           Profile?
+  listings          Listing[]
+  favorites         Favorite[]
+  conversationsAsA  Conversation[] @relation("ParticipantA")
+  conversationsAsB  Conversation[] @relation("ParticipantB")
+  messagesSent      Message[]
+  watchdogs         Watchdog[]
+  notifications     Notification[]
+  subscription      Subscription?
+  invoices          Invoice[]
+  boosts            Boost[]
+  refreshTokens     RefreshToken[]
+
+  @@map("users")
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@map("refresh_tokens")
+}
+
+// ─────────────────────────────────────────────────────────────
+// PROFILE
+// ─────────────────────────────────────────────────────────────
+
+model Profile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName   String?
+  lastName    String?
+  phone       String?
+  avatarUrl   String?
+  bio         String?
+  isPremium   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("profiles")
+}
+
+// ─────────────────────────────────────────────────────────────
+// LISTINGS
+// ─────────────────────────────────────────────────────────────
+
+model Listing {
+  id            String        @id @default(cuid())
+  slug          String        @unique
+  ownerId       String
+  owner         User          @relation(fields: [ownerId], references: [id])
+  status        ListingStatus @default(DRAFT)
+  offerType     OfferType
+  estateType    EstateType
+  title         String
+  description   String        @db.Text
+  price         Int
+  priceUnit     String        @default("CZK")
+  area          Float?
+  floor         Int?
+  totalFloors   Int?
+  rooms         String?
+  furnished     Boolean?
+  parking       Boolean?
+  balcony       Boolean?
+  cellar        Boolean?
+  elevator      Boolean?
+  petFriendly   Boolean?
+  street        String?
+  city          String
+  district      String?
+  region        String?
+  zip           String?
+  lat           Float?
+  lon           Float?
+  expiresAt     DateTime?
+  publishedAt   DateTime?
+  viewCount     Int           @default(0)
+  contactCount  Int           @default(0)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  media         ListingMedia[]
+  favorites     Favorite[]
+  conversations Conversation[]
+  watchdogMatches WatchdogMatch[]
+  moderationLog ModerationLog[]
+  boosts        Boost[]
+  analyticsEvents AnalyticsEvent[]
+  inquiries     Inquiry[]
+
+  @@index([status, offerType, estateType, city])
+  @@index([lat, lon])
+  @@map("listings")
+}
+
+model ListingMedia {
+  id          String   @id @default(cuid())
+  listingId   String
+  listing     Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  url         String
+  key         String
+  mimeType    String
+  size        Int
+  order       Int      @default(0)
+  isCover     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@map("listing_media")
+}
+
+// ─────────────────────────────────────────────────────────────
+// FAVORITES
+// ─────────────────────────────────────────────────────────────
+
+model Favorite {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  listingId String
+  listing   Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, listingId])
+  @@map("favorites")
+}
+
+// ─────────────────────────────────────────────────────────────
+// MESSAGES
+// ─────────────────────────────────────────────────────────────
+
+model Conversation {
+  id            String    @id @default(cuid())
+  listingId     String?
+  listing       Listing?  @relation(fields: [listingId], references: [id])
+  participantAId String
+  participantA  User      @relation("ParticipantA", fields: [participantAId], references: [id])
+  participantBId String
+  participantB  User      @relation("ParticipantB", fields: [participantBId], references: [id])
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  messages      Message[]
+
+  @@unique([participantAId, participantBId, listingId])
+  @@map("conversations")
+}
+
+model Message {
+  id             String        @id @default(cuid())
+  conversationId String
+  conversation   Conversation  @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String
+  sender         User          @relation(fields: [senderId], references: [id])
+  content        String        @db.Text
+  status         MessageStatus @default(SENT)
+  createdAt      DateTime      @default(now())
+
+  @@map("messages")
+}
+
+// ─────────────────────────────────────────────────────────────
+// WATCHDOGS
+// ─────────────────────────────────────────────────────────────
+
+model Watchdog {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String?
+  offerType   OfferType?
+  estateType  EstateType?
+  city        String?
+  region      String?
+  priceMin    Int?
+  priceMax    Int?
+  areaMin     Float?
+  areaMax     Float?
+  rooms       String[]
+  active      Boolean   @default(true)
+  lastTriggeredAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  matches     WatchdogMatch[]
+
+  @@map("watchdogs")
+}
+
+model WatchdogMatch {
+  id          String   @id @default(cuid())
+  watchdogId  String
+  watchdog    Watchdog @relation(fields: [watchdogId], references: [id], onDelete: Cascade)
+  listingId   String
+  listing     Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  notified    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@unique([watchdogId, listingId])
+  @@map("watchdog_matches")
+}
+
+// ─────────────────────────────────────────────────────────────
+// NOTIFICATIONS
+// ─────────────────────────────────────────────────────────────
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  body      String
+  read      Boolean          @default(false)
+  data      Json?
+  createdAt DateTime         @default(now())
+
+  @@index([userId, read])
+  @@map("notifications")
+}
+
+// ─────────────────────────────────────────────────────────────
+// SUBSCRIPTIONS + BILLING
+// ─────────────────────────────────────────────────────────────
+
+model Subscription {
+  id                  String             @id @default(cuid())
+  userId              String             @unique
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tier                SubscriptionTier   @default(FREE)
+  status              SubscriptionStatus @default(ACTIVE)
+  stripeCustomerId    String?
+  stripeSubscriptionId String?
+  currentPeriodStart  DateTime?
+  currentPeriodEnd    DateTime?
+  cancelAtPeriodEnd   Boolean            @default(false)
+  gracePeriodEnd      DateTime?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+
+  @@map("subscriptions")
+}
+
+model Invoice {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id])
+  stripeInvoiceId  String?  @unique
+  amount           Int
+  currency         String   @default("CZK")
+  status           String
+  pdfUrl           String?
+  createdAt        DateTime @default(now())
+
+  @@map("invoices")
+}
+
+// ─────────────────────────────────────────────────────────────
+// BOOSTING
+// ─────────────────────────────────────────────────────────────
+
+model Boost {
+  id           String      @id @default(cuid())
+  listingId    String
+  listing      Listing     @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  userId       String
+  user         User        @relation(fields: [userId], references: [id])
+  type         BoostType
+  status       BoostStatus @default(ACTIVE)
+  stripePaymentId String?
+  expiresAt    DateTime
+  createdAt    DateTime    @default(now())
+
+  @@map("boosts")
+}
+
+// ─────────────────────────────────────────────────────────────
+// MODERATION
+// ─────────────────────────────────────────────────────────────
+
+model ModerationLog {
+  id          String           @id @default(cuid())
+  listingId   String
+  listing     Listing          @relation(fields: [listingId], references: [id])
+  moderatorId String?
+  action      ModerationAction
+  reason      String?
+  createdAt   DateTime         @default(now())
+
+  @@map("moderation_logs")
+}
+
+// ─────────────────────────────────────────────────────────────
+// INQUIRIES (anonymous contact from potential buyers)
+// ─────────────────────────────────────────────────────────────
+
+model Inquiry {
+  id          String   @id @default(cuid())
+  listingId   String
+  listing     Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  ownerId     String
+  senderName  String
+  senderEmail String
+  senderPhone String?
+  message     String   @db.Text
+  read        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+
+  @@index([ownerId, read])
+  @@index([listingId])
+  @@map("inquiries")
+}
+
+// ─────────────────────────────────────────────────────────────
+// ANALYTICS
+// ─────────────────────────────────────────────────────────────
+
+model AnalyticsEvent {
+  id         String   @id @default(cuid())
+  listingId  String?
+  listing    Listing? @relation(fields: [listingId], references: [id])
+  event      String
+  userId     String?
+  sessionId  String?
+  data       Json?
+  createdAt  DateTime @default(now())
+
+  @@index([listingId, event])
+  @@index([createdAt])
+  @@map("analytics_events")
+}

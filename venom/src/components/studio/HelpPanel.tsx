@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { X, Pencil, Plus, Palette, Rocket, Sparkles, Images, Keyboard, RefreshCw } from "lucide-react";
+import { X, Pencil, Plus, Palette, Rocket, Sparkles, Images, Keyboard, RefreshCw } from "@/components/studio/icons";
 import { useStudio } from "./StudioContext";
 
 const FEATURES = [

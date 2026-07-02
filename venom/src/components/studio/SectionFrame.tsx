@@ -1,7 +1,7 @@
 "use client";
 
 import { useStudio } from "./StudioContext";
-import { ArrowUp, ArrowDown, Copy, Trash2, Eye, EyeOff, GripVertical, Plus, Type, AlignLeft, MousePointer, Image as ImageIcon, Minus, Square } from "lucide-react";
+import { ArrowUp, ArrowDown, Copy, Trash2, Eye, EyeOff, GripVertical, Plus, Type, AlignLeft, MousePointer, Image as ImageIcon, Minus, Square } from "@/components/studio/icons";
 import clsx from "clsx";
 import { getSectionLabel } from "./studio-icons";
 import { SectionResizeHandle } from "./SectionResizeHandle";

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown, ChevronRight, RotateCcw } from "lucide-react";
+import { ChevronDown, ChevronRight, RotateCcw } from "@/components/studio/icons";
 import { useState } from "react";
 import { DESIGN_TREE } from "../design/registry";
 import { DesignPopup } from "../design/DesignPopup";

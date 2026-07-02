@@ -1,0 +1,230 @@
+Máme projekt Webero.co – studio editor pro úpravu webových šablon. Aktuálně máme hotových cca 90 šablon. Všechny šablony jsou napojené na náš Studio Editor.
+
+Aktuální stav:
+
+* Všechny prvky v šablonách jsou klikatelné a editovatelné.
+* Každá šablona má vlastní sekce: header, footer, ceník, galerie, služby, kontakt atd.
+* Sekce lze vypínat, zapínat, přehazovat a upravovat.
+* Tento základ už funguje.
+* Barber šablony 01, 02, 03 a 04 už byly následně designově vylepšeny Opusem a jsou dostupné zde:
+  https://www.webero.co/vybrat-design
+* Starší / pracovní šablony od Sonnetu jsou ve složce `/preview-2`.
+
+Problém:
+Editor zatím nemá dostatečně pokročilé vizuální funkce typu Wix.com. Potřebujeme editor posunout na profesionální úroveň.
+
+Cíl:
+Nechceme kopírovat Wix jako produkt ani design. Chceme ale do našeho Studio Editoru dostat podobnou úroveň funkcí pro úpravu webu:
+
+* změna barvy pozadí,
+* změna velikosti fontů,
+* změna odsazení,
+* změna velikostí bloků a prvků,
+* ovládání přes slidery,
+* přesouvání vložených prvků po celé šabloně,
+* drag & drop,
+* změna velikosti prvku tažením za rohy / hrany,
+* možnost vložit nový nadpis, text, obrázek nebo jiný prvek a volně ho umístit,
+* možnost měnit rozměry, pozici, zarovnání, vrstvy, spacing, padding, margin,
+* celkově přiblížit UX editoru tomu, co uživatel zná z Wix / Webflow / Framer.
+
+První úkol:
+Nejdříve proveď důkladnou technickou a produktovou analýzu:
+
+1. Projdi šablony ve složce `/preview-2`, kde jsou šablony vytvořené Sonnetem.
+2. Projdi hotové Barber šablony 01, 02, 03 a 04 na:
+   https://www.webero.co/vybrat-design
+3. Porovnej jejich strukturu, komponenty, sekce, editable prvky a napojení na Studio Editor.
+4. Zjisti, jak je aktuálně řešený editor, editovatelnost prvků, sekce, přepínání sekcí, ukládání změn a konfigurace šablon.
+5. Navrhni, co přesně musíme upravit, aby editor podporoval Wix-style funkce.
+6. Pokud je nutné zásadně přepsat Studio Editor, navrhni nejlepší architekturu a postup migrace.
+
+Důležité:
+Pojedeme šablonu po šabloně. Klidně každou šablonu kompletně předěláme, pokud to bude nutné. Musí ale zůstat zachovaný současný hlavní design dané šablony. Design budeme následně ladit sekci po sekci do dokonalosti.
+
+Při úpravách šablon můžeš rovnou připravovat i nové Wix-style funkce editoru. Není potřeba jen opravovat kosmetiku. Chceme dlouhodobě kvalitní systém.
+
+Výsledný cíl:
+Uživatel musí mít v našem Studio Editoru co nejvíce funkcí podobných Wixu, ale zároveň bude mít k dispozici našich 90 unikátních šablon. Tím se Webero odliší: nebudeme kopie Wixu, ale jednoduchý český webový editor s profesionálními šablonami a pokročilou možností úprav.
+
+Výstup, který od tebe chci nejdříve:
+
+* technická analýza současného stavu,
+* seznam problémů,
+* návrh architektury nového editoru,
+* návrh funkcí podle priority,
+* doporučený postup implementace,
+* jak upravit šablony, aby podporovaly nové funkce,
+* rizika a doporučení,
+* první konkrétní kroky pro Barber 01 jako pilotní šablonu.
+
+
+
+zde je promt který zadávám Opusu a se kterým ji upravil šablony barber-01, barber-02, barber-03 a barber-04
+
+Pokračujeme ve Venom projektu (/Users/apple/DEV/CRM/venom) — redesign 90 šablon
+na luxe/Wix-level kvalitu. Hotové a ZAMČENÉ šablony najdeš v MEMORY.md sekci
+"Venom šablony" (k 2026-06-29: barber-01, barber-02, barber-03). Plus máme
+už sdílenou komponentu `gallery-universal` k re-use.
+
+POVINNĚ PŘED ZAČÁTKEM přečti v tomto pořadí:
+
+1. Hlavní playbook (process + technické patterns + checklist + §10 Unified
+   Gallery + Krok 9 PODSTRÁNKY):
+   /Users/apple/DEV/CRM/venom/docs/BARBER01_REDESIGN_PLAYBOOK.md
+
+2. Memory pointer (10 klíčových patterns):
+   /Users/apple/.claude/projects/-Users-apple-DEV/memory/project_venom_barber01_playbook.md
+
+3. Unified Gallery memory (sdílená komponenta — POUŽIJ místo psaní vlastní
+   gallery pokud fit):
+   /Users/apple/.claude/projects/-Users-apple-DEV/memory/project_venom_unified_gallery.md
+
+4. Memory ze VŠECH dokončených šablon (najdi je v MEMORY.md sekci "Venom
+   šablony" — soubory `project_venom_{key}.md`). Přečti všechny ať vidíš
+   JAK jsou maximálně odlišné a NEDUPLIKUJ vizuální charakter.
+   MEMORY.md: /Users/apple/.claude/projects/-Users-apple-DEV/memory/MEMORY.md
+
+5. Workflow pravidlo (sekce po sekci, čekat na OK):
+   /Users/apple/.claude/projects/-Users-apple-DEV/memory/feedback_section_by_section.md
+
+KLÍČOVÉ DIREKTIVY (platí pro KAŽDOU šablonu):
+
+🔒 Hotové šablony jsou ZAMČENÉ — nesahej do nich.
+
+🎨 Každá šablona MUSÍ mít UNIKÁTNÍ vizuální charakter — maximálně odlišný
+   od všech předchozích. NEDĚLEJ klon.
+
+⚙️ Process je UNIVERZÁLNÍ:
+   - sekci po sekci, ZASTAV po každé, počkej na OK uživatele
+   - hover animace v každé sekci (kromě statických textů)
+   - mobile responsive vždy
+   - editor compat (GenericEditableText / GenericEditableImage)
+   - data-template="{key}" wrapper na top section
+   - WeberoCredit ve footeru (per playbook — SEO link-juice)
+   - Hover CSS v globals.css (NE v orphan template skin.css!)
+   - Custom luxe SVG cursor v gallery cells (NE systémový zoom-in)
+
+🔗 Sdílené variants (pokud nová šablona sdílí variant s hotovou) → VYTVOŘ
+   separátní variant `{section}-{key}-luxury` (jak je `about-barber-03-luxury`
+   separátní od `about-barber-luxury`). Update template.json + DB migrace.
+
+🖼️ Gallery — POUŽIJ SDÍLENOU `gallery-universal` (viz memory unified_gallery),
+   nepiš vlastní pokud charakter šablony nepotřebuje něco fundamentálně
+   jiného. 6 skinů (tiles/wall/bento/mosaic/editorial/slider) × 5 palette
+   modes (auto/cream-light/warm-dark/mono-light/mono-dark) — pokryje 90% case.
+
+⚠️ ANTI-FLASH (kritická lekce z b03):
+   NIKDY nedávej `*-reveal` class s `opacity:0` přímo na `<section>` wrapper.
+   SSR vyrendruje neviditelnou sekci → body bg (white) prosvítá → bílý flash
+   na refresh. Reveal POUZE na inner elementech (header div, grid, karty).
+   Section musí být vždy `opacity:1` immediately viditelná.
+
+🛠️ Architektonické gotchas (zkontroluj že drží):
+   - skin.css orphan → CSS do globals.css
+   - subpage routy MUSÍ volat resolveAllSections (fix z 2026-06-28)
+   - Editor čte resolved settings.content z SectionRenderer
+
+📂 DB pattern pro tenant overrides:
+   ```js
+   import pg from "pg";
+   import { readFileSync } from "fs";
+   const url = readFileSync(".env.local","utf-8").match(/DATABASE_URL=(.+)/)[1].trim();
+   const c = new pg.Client({ connectionString: url }); await c.connect();
+   // UPDATE sections SET content_overrides=$1::jsonb WHERE id=$2
+⚠ Unique constraint sections_page_id_order_index_key → při insertu
+nové sekce nejdřív bump order_index +100, vlož, pak renumber 0..N.
+
+🖼️ Image strategie: cwebp -q 88 -m 6 (fotky), cwebp -lossless (hero),
+avifenc parallel, curl images.unsplash.com pro stock.
+
+⚠️ PODSTRÁNKY (NEZAPOMÍNEJ — častá chyba!):
+Šablona má obvykle 5-8 podstránek v DB (i když template.json definuje
+jen home). VŽDY zkontroluj:
+
+
+SELECT id, slug, title FROM pages WHERE tenant_id = ... ORDER BY id;
+Pro každou podstránku:
+A) Vytvoř slim banner hero variant hero-{key}-page (~320-400px,
+breadcrumb + H1 + decorative rule, NE fullscreen jako homepage hero)
+B) DB switch všech subpage hero sections → nový slim variant + nastav
+page-specific title + breadcrumb "Domů" + breadcrumbHref "/"
+C) Empty duplicate content section headers (eyebrow="", title="",
+subtitle="") — conditional showHeader pattern je skryje, žádné
+duplicitní H1/H2 vs banner
+D) Naplň obsah na typed pages: /onas → about content, /faq → FAQ Q&A
+(možná change section_type z testimonials → faq), /kontakt → contact
+form + opening hours, /galerie → gallery (use gallery-universal),
+atd. Bez obsahu zůstane jen banner = nesmysl.
+
+JAK ZAČÍT NOVOU ŠABLONU:
+
+Uživatel ti řekne klíč (např. "jdeme na barber-04").
+
+Hned udělej:
+a) Zjisti charakter — cat src/templates/{key}/template.json +
+cat src/templates/{key}/theme.json
+b) Najdi demo URL — grep "FROM tenants WHERE slug LIKE '{key}%'" v DB
+c) Identifikuj sekce v template.json + zkontroluj které variants sdílí
+s hotovými šablonami (potenciální leakage)
+d) Najdi VŠECHNY pages tenantu v DB (NEZAPOMEŇ na podstránky!)
+e) curl aktuální stránku → najdi data-template atributy, leakage,
+existing classes
+
+Navrhni 2-3 věty vizuální direkce (musí být DIFFERENT od všech hotových).
+Zmiň: paleta, typo, vibe, industry-specific motivy.
+
+Čekej na user OK na vizuální direkci.
+
+Začni první sekcí (obvykle navbar). ZASTAV po ní, počkej na OK.
+Pak hero. Zastav. Atd.
+
+NEZAPOMEŇ NA PODSTRÁNKY — po dokončení home pages jdi na subpages
+(slim banner + empty duplicate headers + filled content per page type).
+
+AŽ dokončíš (home + subpages):
+a) Zapiš project_venom_{key}.md do memory s plnou unikátní
+charakteristikou + checklist (8/8 sekcí + N/N podstránek)
+b) Aktualizuj MEMORY.md index entry
+c) Pokud najdeš další sdílenou komponentu refactorovatelnou na unified
+approach (např. testimonials, FAQ, pricing), zapiš návrh do memory
+
+PRE-CLOSE CHECKLIST (před prohlášením šablony za DONE):
+□ Vlastní vizuální charakter (NE klon)
+□ Všechny sekce mají data-template="{key}"
+□ Hover animace na všech interactive prvcích
+□ Mobile responsive 320-767px
+□ Editor compat (GenericEditableText/Image)
+□ Sdílené variants → separátní _{key}_ varianty
+□ Conditional header pattern na sekcích na podstránkách
+□ Custom luxe SVG cursor v gallery cells (nebo gallery-universal)
+□ <WeberoCredit /> v patičce
+□ Hero/galerie fotky → WebP
+□ Hover CSS v globals.css NE skin.css
+□ Memory zápis s ✅ checklist + charakter
+□ ⚠️ PODSTRÁNKY — všechny v DB s slim banner + filled content
+□ ⚠️ ANTI-FLASH — žádné *-reveal opacity:0 na section wrapperech
+□ ⚠️ UNIFIED GALLERY — zvážil/a jsem použití gallery-universal
+
+POKUD UŽIVATEL ŘEKNE "souhlasím" / "ok" / "jdi" / "pokračuj" → implementuj
+další sekci. POKUD NEŘÍKÁ → ZASTAV a počkej.
+
+Demo server obvykle běží na localhost:3002.
+
+Hodně štěstí! 🎯
+
+
+
+---
+
+**Rychlé shrnutí dnešní práce:**
+
+✅ **/akce flash bug fixnutý** — promo-2cards section neměl `b03p-reveal` opacity:0 na wrapperu
+✅ **/onas naplněn** — about section: Studio Břitva story + "Otevřeno od 2017" badge + 3 values (Přesnost/Tradice/Atmosféra)
+✅ **/faq přebudován** — testimonials section převeden na proper `faq` section_type (barber-dark variant) s 6 Q&A items (rezervace, novosti, doba zákroku, platby, lokace)
+✅ **Playbook rozšířen** — Krok 9 PODSTRÁNKY (najdi v DB, slim banner, empty duplicates, filled content), §10 Unified Gallery, anti-flash pattern, updated pre-close checklist
+✅ **Memory updates** — barber-03 s subpages + anti-flash + unified_gallery memory file vytvořeno
+✅ **MEMORY.md** — updated index + nová sekce "Sdílené komponenty"
+✅ **Univerzální handoff prompt** ↑ — připraven pro libovolnou další šablonu
+
+Hodně štěstí s b04! Pamatuj — podstránky NEZAPOMEŇ a `gallery-universal` use! 🎯

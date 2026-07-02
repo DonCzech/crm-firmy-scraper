@@ -1,0 +1,21 @@
+'use client';
+
+import { cn } from "@/lib/utils";
+import { useLayout } from "./context";
+
+export function MailListWrapper({children, className}: {children: React.ReactNode, className?: string}) {
+  const { isMailViewExpanded, isMobile } = useLayout();
+
+  return (
+    <div className={cn(
+      'bg-background border border-input rounded-xl shadow-xs', 
+      'w-full lg:w-[300px] xl:w-(--mail-list-width) shrink-0',
+      !isMobile && isMailViewExpanded && 'lg:w-[56px] xl:w-[56px]',
+      // Mobile: hide list when mail view is expanded
+      isMobile && isMailViewExpanded && 'hidden',
+      className
+    )}>
+			{children}
+    </div>
+  );
+}

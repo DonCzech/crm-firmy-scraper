@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import { Image as ImageIcon, Upload, Loader2, Search, Copy, Check } from "lucide-react";
+import { Image as ImageIcon, Upload, Loader2, Search, Copy, Check } from "@/components/studio/icons";
 import type { StudioState } from "../TenantStudioView";
 
 /**

@@ -1,0 +1,127 @@
+Zadání pro Sonnet (kopíruj přesně)
+Postav produkční MVP „Bezrealitky-like“ platformy s odlišným brandem, ale funkčně ekvivalentní.
+UI architektura a flow mají odpovídat vzorovému realitnímu marketplace (search/listing/detail/messaging/watchdog/premium/listing-insert/pricing/admin).
+
+1) Architektura
+Frontend: Next.js 14 + TypeScript.
+Backend: NestJS + GraphQL.
+DB: PostgreSQL + Prisma.
+Queue: BullMQ + Redis.
+Storage: S3 compatible.
+Payments: Stripe subscriptions + webhooks.
+Email: Resend/Postmark.
+Auth: JWT + refresh + email verification.
+Monitoring: Sentry.
+2) Přesné moduly k instalaci
+Frontend
+
+npm i next react react-dom typescript @types/node @types/react @types/react-dom
+npm i @tanstack/react-query graphql graphql-request zustand zod react-hook-form @hookform/resolvers
+npm i date-fns clsx tailwind-merge
+npm i maplibre-gl react-map-gl
+npm i embla-carousel-react
+npm i next-seo
+npm i @sentry/nextjs
+npm i stripe
+npm i react-hot-toast
+Backend
+
+npm i @nestjs/common @nestjs/core @nestjs/platform-express @nestjs/config
+npm i @nestjs/graphql @nestjs/apollo graphql apollo-server-express
+npm i @prisma/client prisma
+npm i class-validator class-transformer zod
+npm i @nestjs/jwt passport passport-jwt bcrypt
+npm i @nestjs/throttler
+npm i ioredis bullmq
+npm i stripe
+npm i @aws-sdk/client-s3 @aws-sdk/s3-request-presigner
+npm i nodemailer
+npm i @sentry/node
+npm i helmet compression
+3) Povinné doménové moduly (backend)
+auth
+users
+profiles
+listings
+listing-media
+search
+favorites
+messages
+watchdogs (hlídací pes)
+notifications
+subscriptions
+billing
+boosting (topování/prodloužení)
+moderation
+admin
+analytics
+seo
+4) Povinné stránky a komponenty (frontend)
+Pages:
+Home
+Search results (list + map)
+Listing detail
+Create/Edit listing wizard
+Pricing
+Premium membership
+Watchdog setup/list
+Messages inbox/thread
+Notifications center
+Favorites
+User account/billing
+Admin dashboard
+Core components:
+SearchBar, FilterDrawer, SortBar, MapPanel, ListingCard, ListingGallery
+ListingParamsTable, ContactOwnerCTA, PaywallModal
+MessageThread, ConversationList
+WatchdogForm, WatchdogList
+SubscriptionPlans, CheckoutButton, InvoiceTable
+ListingWizardStep*
+AdminListingQueue, AdminUserTable, AdminBillingTable
+5) API kontrakt (GraphQL)
+Queries:
+searchListings(filters, pagination, sort)
+listing(id|slug)
+myFavorites()
+myConversations()
+myWatchdogs()
+mySubscription()
+myInvoices()
+Mutations:
+register/login/refresh/logout
+createListing/updateListing/publishListing/archiveListing
+uploadListingMedia/reorderListingMedia
+toggleFavorite
+createConversation/sendMessage
+createWatchdog/updateWatchdog/deleteWatchdog
+startSubscription/cancelSubscription
+purchaseBoost
+adminApproveListing/adminRejectListing
+6) Monetizace
+Měsíční členství:
+Free (omezené reakce/feature gates)
+Standard (neomezené reakce + alerty)
+Premium (priorita + rychlejší notifikace + pokročilé filtry)
+Listing add-ons:
+Topování
+Prodloužení
+Zvýraznění
+Billing:
+webhook retry, dunning, grace period, invoice export.
+7) Akceptační kritéria
+Uživatel bez členství narazí na paywall při kontaktu.
+Po úspěšné platbě lze poslat zprávu majiteli.
+Majitel vloží a publikuje inzerát přes wizard.
+Hlídací pes pošle notifikaci na matching listing.
+Admin schválí/rejectne inzerát.
+E2E testy kritických flow zelené.
+Zdroje (ověřené)
+
+Homepage: https://www.bezrealitky.cz/
+Premium profil: https://www.bezrealitky.cz/centrum-sluzeb/premium-profil
+Ceník inzerce (pronájem): https://www.bezrealitky.cz/cenik-inzerce/pronajem
+Hlídací pes: https://www.bezrealitky.cz/hlidaci-pes
+Vyhledávání (URL parametry): https://www.bezrealitky.cz/vyhledat?currency=CZK&estateType=BYT&offerType=PRONAJEM
+Tech stack (historické veřejné info):
+https://www.id-sign.com/novinka/pojdte-nam-pomoci-s-bezrealitkama
+https://www.id-sign.com/novinka/pripravili-jsme-pro-vas-nove-bezrealitky

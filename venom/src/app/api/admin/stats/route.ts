@@ -12,15 +12,19 @@ function getAdmin(req: NextRequest) {
 export async function GET(request: NextRequest) {
   if (!getAdmin(request)) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
-  const [users, tenants, subs, recentTenants, lifecycle, lastCleanupAt, lastCleanupSummary] = await Promise.all([
-    query<{ total: string }>("SELECT COUNT(*)::int AS total FROM user_accounts"),
-    query<{ total: string; demo: string; active: string }>(
+  const [
+    users, tenants, subs, recentTenants, lifecycle,
+    lastCleanupAt, lastCleanupSummary,
+    signups7d, signups30d, dailySignups, churnData,
+  ] = await Promise.all([
+    query<{ total: number }>("SELECT COUNT(*)::int AS total FROM user_accounts"),
+    query<{ total: number; demo: number; active: number }>(
       `SELECT COUNT(*)::int AS total,
               COUNT(CASE WHEN status = 'demo' THEN 1 END)::int AS demo,
               COUNT(CASE WHEN status = 'active' THEN 1 END)::int AS active
        FROM tenants`
     ),
-    query<{ trial: string; paid: string; expired: string; cancelled: string }>(
+    query<{ trial: number; paid: number; expired: number; cancelled: number }>(
       `SELECT COUNT(CASE WHEN status = 'trial' THEN 1 END)::int AS trial,
               COUNT(CASE WHEN status = 'active' THEN 1 END)::int AS paid,
               COUNT(CASE WHEN status = 'expired' THEN 1 END)::int AS expired,
@@ -33,7 +37,7 @@ export async function GET(request: NextRequest) {
        LEFT JOIN subscriptions s ON s.tenant_id = t.id
        ORDER BY t.created_at DESC LIMIT 10`
     ),
-    query<{ active: string; inactive_warning: string; archived: string; at_risk: string }>(
+    query<{ active: number; inactive_warning: number; archived: number; at_risk: number }>(
       `SELECT
          COUNT(CASE WHEN lifecycle_status = 'active' THEN 1 END)::int AS active,
          COUNT(CASE WHEN lifecycle_status = 'inactive_warning' THEN 1 END)::int AS inactive_warning,
@@ -51,7 +55,36 @@ export async function GET(request: NextRequest) {
     ),
     getSetting("last_cleanup_at"),
     getSetting("last_cleanup_summary"),
+    // Signups last 7 days
+    query<{ count: number }>(
+      "SELECT COUNT(*)::int AS count FROM tenants WHERE created_at >= now() - INTERVAL '7 days'"
+    ),
+    // Signups last 30 days
+    query<{ count: number }>(
+      "SELECT COUNT(*)::int AS count FROM tenants WHERE created_at >= now() - INTERVAL '30 days'"
+    ),
+    // Daily signups — last 14 days
+    query<{ day: string; count: number }>(
+      `SELECT date_trunc('day', created_at)::date::text AS day, COUNT(*)::int AS count
+       FROM tenants
+       WHERE created_at >= now() - INTERVAL '14 days'
+       GROUP BY 1 ORDER BY 1`
+    ),
+    // Churn: cancelled last 30d vs (paid + cancelled last 30d)
+    query<{ cancelled_30d: number; activated_30d: number }>(
+      `SELECT
+         COUNT(CASE WHEN status = 'cancelled' AND updated_at >= now() - INTERVAL '30 days' THEN 1 END)::int AS cancelled_30d,
+         COUNT(CASE WHEN status IN ('active','cancelled') AND updated_at >= now() - INTERVAL '30 days' THEN 1 END)::int AS activated_30d
+       FROM subscriptions`
+    ),
   ]);
+
+  const paid = Number(subs[0]?.paid ?? 0);
+  const mrr = paid * 49900; // 499 Kč in hellers → display as Kč
+
+  const c30d = Number(churnData[0]?.cancelled_30d ?? 0);
+  const a30d = Number(churnData[0]?.activated_30d ?? 0);
+  const churnRate = a30d > 0 ? Math.round((c30d / a30d) * 100) : 0;
 
   return Response.json({
     users: users[0]?.total ?? 0,
@@ -61,6 +94,10 @@ export async function GET(request: NextRequest) {
     lifecycle: lifecycle[0],
     lastCleanupAt,
     lastCleanupSummary: lastCleanupSummary ? JSON.parse(lastCleanupSummary) : null,
-    mrr: (Number(subs[0]?.paid ?? 0)) * 500,
+    mrr,
+    signups7d: signups7d[0]?.count ?? 0,
+    signups30d: signups30d[0]?.count ?? 0,
+    dailySignups,
+    churnRate,
   });
 }

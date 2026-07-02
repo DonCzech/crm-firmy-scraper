@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+interface DailySignup { day: string; count: number; }
+
 interface Stats {
   users: number;
   tenants: { total: number; demo: number; active: number };
@@ -11,13 +13,50 @@ interface Stats {
   lastCleanupAt: string | null;
   lastCleanupSummary: { warned: number; archived: number; purged: number } | null;
   mrr: number;
+  signups7d: number;
+  signups30d: number;
+  dailySignups: DailySignup[];
+  churnRate: number;
 }
 
-function StatCard({ label, value, sub }: { label: string; value: string | number; sub?: string }) {
+const ACCENT_COLORS: Record<string, string> = {
+  blue: "text-blue-300",
+  emerald: "text-emerald-300",
+  red: "text-red-400",
+  gray: "text-white",
+};
+
+function MiniSparkline({ data }: { data: DailySignup[] }) {
+  if (!data.length) return <p className="text-sm text-gray-500">Žádná data</p>;
+  const max = Math.max(...data.map((d) => d.count), 1);
+  return (
+    <div className="flex items-end gap-1 h-12">
+      {data.map((d) => {
+        const h = Math.max(4, Math.round((d.count / max) * 48));
+        const date = new Date(d.day);
+        const label = `${date.getDate()}.${date.getMonth() + 1}`;
+        return (
+          <div key={d.day} className="flex flex-col items-center gap-1 flex-1 min-w-0" title={`${label}: ${d.count}`}>
+            <div
+              className="w-full rounded-sm bg-indigo-500 hover:bg-indigo-400 transition-colors cursor-default"
+              style={{ height: h }}
+            />
+            {data.length <= 10 && (
+              <span className="text-[9px] text-gray-600 leading-none">{label}</span>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function StatCard({ label, value, sub, accent = "gray" }: { label: string; value: string | number; sub?: string; accent?: string }) {
+  const valueColor = ACCENT_COLORS[accent] ?? "text-white";
   return (
     <div className="bg-gray-900 rounded-2xl p-5 border border-gray-800">
       <p className="text-sm text-gray-400 mb-1">{label}</p>
-      <p className="text-2xl font-bold text-white">{value}</p>
+      <p className={`text-2xl font-bold ${valueColor}`}>{value}</p>
       {sub && <p className="text-xs text-gray-500 mt-1">{sub}</p>}
     </div>
   );
@@ -77,11 +116,28 @@ export default function AdminDashboard() {
     <div className="p-8">
       <h1 className="text-2xl font-bold text-white mb-8">Přehled platformy</h1>
 
+      {/* Growth analytics */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <StatCard label="Registrace (7 dní)" value={stats.signups7d} sub="nových webů" accent="blue" />
+        <StatCard label="Registrace (30 dní)" value={stats.signups30d} sub="nových webů" accent="blue" />
+        <StatCard label="MRR" value={`${(stats.mrr / 100).toLocaleString("cs-CZ")} Kč`} sub={`${stats.subscriptions.paid} platících × 499 Kč`} accent="emerald" />
+        <StatCard label="Churn (30 dní)" value={`${stats.churnRate} %`} sub="zrušených z aktivních" accent={stats.churnRate > 10 ? "red" : "gray"} />
+      </div>
+
+      {/* Mini sparkline — last 14 days */}
+      <div className="bg-gray-900 rounded-2xl border border-gray-800 p-5 mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-sm font-semibold text-white">Registrace — posledních 14 dní</h2>
+          <span className="text-xs text-gray-500">{stats.signups30d} celkem za 30 dní</span>
+        </div>
+        <MiniSparkline data={stats.dailySignups} />
+      </div>
+
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatCard label="Registrovaní uživatelé" value={stats.users} />
         <StatCard label="Celkem webů" value={stats.tenants.total} sub={`${stats.tenants.active} aktivních`} />
         <StatCard label="Platící zákazníci" value={stats.subscriptions.paid} sub="aktivní předplatné" />
-        <StatCard label="MRR" value={`${stats.mrr.toLocaleString()} Kč`} sub="měsíční příjem" />
+        <StatCard label="Trial zákazníci" value={stats.subscriptions.trial} sub="probíhající trial" />
       </div>
 
       <div className="grid grid-cols-4 gap-4 mb-8">

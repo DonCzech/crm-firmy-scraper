@@ -6,13 +6,13 @@
     "logoUrl": "/templates/barber-03/logo.svg",
     "siteName": "Barbery",
     "links": [
-      { "label": "Služby",   "href": "#sluzby" },
-      { "label": "O nás",    "href": "#onas" },
-      { "label": "Akce",     "href": "#akce" },
-      { "label": "Ceník",    "href": "#cenik" },
-      { "label": "FAQ",      "href": "#faq" },
-      { "label": "Galerie",  "href": "#galerie" },
-      { "label": "Kontakty", "href": "#kontakt" }
+      { "label": "Služby",   "href": "/sluzby" },
+      { "label": "O nás",    "href": "/onas" },
+      { "label": "Akce",     "href": "/akce" },
+      { "label": "Ceník",    "href": "/cenik" },
+      { "label": "FAQ",      "href": "/faq" },
+      { "label": "Galerie",  "href": "/galerie" },
+      { "label": "Kontakty", "href": "/kontakt" }
     ],
     "ctaText": "",
     "ctaHref": "",

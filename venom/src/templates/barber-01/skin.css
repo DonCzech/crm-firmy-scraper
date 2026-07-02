@@ -33,6 +33,212 @@
   transform: scaleX(1) !important;
 }
 
+/* Premium CTA shimmer sweep */
+[data-template="barber-01"] .barber-cta-premium:hover .barber-cta-shimmer {
+  animation: barber-shimmer 0.85s ease forwards;
+}
+@keyframes barber-shimmer {
+  0%   { left: -60%; }
+  100% { left: 120%; }
+}
+
+/* Services eyebrow */
+[data-template="barber-01"] .services-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-accent, #C9A84C);
+}
+
+/* Suppress global h2::after on barber-01 services + hero — we use custom eyebrow */
+[data-template="barber-01"] .services-title::after,
+[data-template="barber-01"] h1::after {
+  display: none !important;
+}
+
+/* Pricing row hover */
+[data-template="barber-01"] .pricing-row:hover {
+  background-color: rgba(201,168,76,0.04);
+  padding-left: 22px;
+}
+[data-template="barber-01"] .pricing-row:hover .pricing-row-bar {
+  transform: scaleY(1);
+}
+
+/* Hero eyebrow text */
+[data-template="barber-01"] .hero-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--color-accent, #C9A84C);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HOVER ANIMACE — všechny sekce barber-01
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Section-level: fade-up on scroll into view (manual: add .bc-reveal class)
+   Použito přes IntersectionObserver v komponentách. */
+@keyframes bcFadeUp { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bcGoldPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); } 50% { box-shadow: 0 0 0 6px rgba(201,168,76,0.15); } }
+
+/* ── Team cards ───────────────────────────────────────────────────────── */
+[data-template="barber-01"] .bc-team-card {
+  transition: transform 0.4s cubic-bezier(.2,.6,.15,1),
+              box-shadow 0.4s ease,
+              border-color 0.4s ease,
+              background-color 0.4s ease;
+}
+[data-template="barber-01"] .bc-team-card::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px; background: var(--color-accent, #C9A84C);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.5s cubic-bezier(.22,.68,0,1.1);
+  z-index: 2;
+}
+[data-template="barber-01"] .bc-team-card:hover {
+  transform: translateY(-8px);
+  background-color: rgba(201,168,76,0.06) !important;
+  border-color: rgba(201,168,76,0.4) !important;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.15);
+}
+[data-template="barber-01"] .bc-team-card:hover::before { transform: scaleX(1); }
+[data-template="barber-01"] .bc-team-avatar > * {
+  transition: transform 0.5s cubic-bezier(.2,.6,.15,1), box-shadow 0.5s ease !important;
+}
+[data-template="barber-01"] .bc-team-card:hover .bc-team-avatar > * {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 4px rgba(201,168,76,0.25);
+}
+
+/* ── Opening hours rows ───────────────────────────────────────────────── */
+[data-template="barber-01"] .bc-hours-row {
+  transition: background-color 0.3s ease, padding-left 0.3s ease;
+}
+[data-template="barber-01"] .bc-hours-row::before {
+  content: "";
+  position: absolute; left: 0; top: 8px; bottom: 8px;
+  width: 2px; background: var(--color-accent, #C9A84C);
+  transform: scaleY(0); transform-origin: center;
+  transition: transform 0.3s ease;
+}
+[data-template="barber-01"] .bc-hours-row:hover {
+  background-color: rgba(201,168,76,0.05);
+  padding-left: 24px !important;
+}
+[data-template="barber-01"] .bc-hours-row:hover::before { transform: scaleY(1); }
+
+/* ── FAQ items ────────────────────────────────────────────────────────── */
+[data-template="barber-01"] .bc-faq-item {
+  transition: padding-left 0.3s ease, background-color 0.3s ease;
+}
+[data-template="barber-01"] .bc-faq-item::before {
+  content: "";
+  position: absolute; left: 0; top: 18px; bottom: 18px;
+  width: 2px; background: var(--color-accent, #C9A84C);
+  transform: scaleY(0); transform-origin: center;
+  transition: transform 0.35s ease;
+}
+[data-template="barber-01"] .bc-faq-item:hover { padding-left: 18px; }
+[data-template="barber-01"] .bc-faq-item:hover::before,
+[data-template="barber-01"] .bc-faq-item[data-open="true"]::before { transform: scaleY(1); }
+[data-template="barber-01"] .bc-faq-btn { transition: color 0.25s ease; }
+[data-template="barber-01"] .bc-faq-btn:hover span:first-child { color: var(--color-accent, #C9A84C) !important; }
+
+/* ── Contact info items ───────────────────────────────────────────────── */
+[data-template="barber-01"] .bc-contact-item {
+  transition: transform 0.3s ease;
+}
+[data-template="barber-01"] .bc-contact-item:hover { transform: translateX(6px); }
+[data-template="barber-01"] .bc-contact-icon {
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.4s cubic-bezier(.22,.68,0,1.2);
+}
+[data-template="barber-01"] .bc-contact-item:hover .bc-contact-icon {
+  background-color: rgba(201,168,76,0.15);
+  border-color: var(--color-accent, #C9A84C) !important;
+  transform: rotate(-8deg) scale(1.08);
+}
+[data-template="barber-01"] .bc-contact-item a {
+  transition: color 0.25s ease;
+}
+[data-template="barber-01"] .bc-contact-item:hover a {
+  color: var(--color-accent, #C9A84C) !important;
+}
+
+/* Contact form inputs */
+[data-template="barber-01"] .bc-input,
+[data-template="barber-01"] input,
+[data-template="barber-01"] textarea {
+  transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+[data-template="barber-01"] .bc-input:focus,
+[data-template="barber-01"] input:focus,
+[data-template="barber-01"] textarea:focus {
+  border-color: var(--color-accent, #C9A84C) !important;
+  background-color: rgba(201,168,76,0.06) !important;
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+}
+
+/* ── Footer links ─────────────────────────────────────────────────────── */
+[data-template="barber-01"] .bc-footer-link {
+  transition: color 0.25s ease;
+}
+[data-template="barber-01"] .bc-footer-link::after {
+  content: "";
+  position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 1px;
+  background: var(--color-accent, #C9A84C);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s cubic-bezier(.22,.68,0,1.1);
+}
+[data-template="barber-01"] .bc-footer-link:hover {
+  color: var(--color-accent, #C9A84C) !important;
+}
+[data-template="barber-01"] .bc-footer-link:hover::after { transform: scaleX(1); }
+
+/* ── Testimonials cards (existing .b03t-card structure) ──────────────── */
+[data-template="barber-01"] .b03t-card {
+  transition: transform 0.4s cubic-bezier(.2,.6,.15,1), border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease !important;
+  position: relative;
+  overflow: hidden;
+}
+[data-template="barber-01"] .b03t-card::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 2px; background: var(--color-accent, #C9A84C);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.5s cubic-bezier(.22,.68,0,1.1);
+}
+[data-template="barber-01"] .b03t-card:hover::before { transform: scaleX(1); }
+[data-template="barber-01"] .b03t-card:hover {
+  background-color: rgba(201,168,76,0.05) !important;
+}
+
+/* ── Pricing card subtle scissor reveal already done above ───────────── */
+
+/* Hero scroll indicator — animovaná tečka padá dolů */
+[data-template="barber-01"] .hero-scroll-btn:hover {
+  color: var(--color-accent, #C9A84C) !important;
+}
+[data-template="barber-01"] .hero-scroll-dot {
+  animation: hero-scroll-fall 2.2s cubic-bezier(.66,.08,.36,.95) infinite;
+}
+@keyframes hero-scroll-fall {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(56px); opacity: 0; }
+}
+
+/* Logo gold brackets — expand slightly on hover */
+[data-template="barber-01"] a:hover .bracket-tl { top: -2px; left: -2px; }
+[data-template="barber-01"] a:hover .bracket-tr { top: -2px; right: -2px; }
+[data-template="barber-01"] a:hover .bracket-bl { bottom: -2px; left: -2px; }
+[data-template="barber-01"] a:hover .bracket-br { bottom: -2px; right: -2px; }
+
 [data-template="barber-01"] a:hover {
   color: var(--color-text, #F5F5F5) !important;
   transition: color 0.2s ease;

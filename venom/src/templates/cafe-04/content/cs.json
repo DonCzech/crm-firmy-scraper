@@ -1,11 +1,11 @@
 {
   "navbar": {
-    "siteName": "Demo Fresh Coffee",
+    "siteName": "Demo Coffee Room",
     "logoUrl": "/templates/cafe-04/logo.svg",
+    "tagline": "specialty · praha",
     "links": [
-      { "label": "Menu",    "href": "/coffeebar" },
-      { "label": "Kavárna", "href": "/coffeebar" },
-      { "label": "Kontakt", "href": "/kontakt" }
+      { "label": "Coffee Bar", "href": "/coffeebar" },
+      { "label": "Kontakt",    "href": "/kontakt" }
     ]
   },
 

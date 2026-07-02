@@ -38,7 +38,7 @@
         { "type": "services","variant": "catering-01-services",  "contentRef": "services" },
         { "type": "team",    "variant": "catering-01-team",      "contentRef": "team"     },
         { "type": "stats",   "variant": "catering-01-timeline",  "contentRef": "timeline" },
-        { "type": "gallery", "variant": "catering-01-gallery",   "contentRef": "gallery"  },
+        { "type": "gallery", "variant": "gallery-universal",   "contentRef": "gallery"  },
         { "type": "about",   "variant": "catering-01-about",     "contentRef": "about"    },
         { "type": "contact", "variant": "catering-01-contact",   "contentRef": "contact"  },
         { "type": "footer",  "variant": "catering-01-footer",    "contentRef": "footer"   }
@@ -77,7 +77,7 @@
       "sections": [
         { "type": "navbar",  "variant": "catering-01-navbar",  "contentRef": "navbar"              },
         { "type": "hero",    "variant": "hero-centered",       "contentRef": "pages.galerie.hero"  },
-        { "type": "gallery", "variant": "catering-01-gallery", "contentRef": "pages.galerie.gallery" },
+        { "type": "gallery", "variant": "gallery-universal", "contentRef": "pages.galerie.gallery" },
         { "type": "footer",  "variant": "catering-01-footer",  "contentRef": "footer"              }
       ]
     },

@@ -3269,105 +3269,176 @@ function ContactCafe02({ content, sectionId }: { content: Record<string, unknown
     return () => obs.disconnect();
   }, []);
 
-  const id      = String(content.id      ?? "kontakt");
-  const tagline = String(content.tagline ?? "Kde nás najdete");
-  const title   = String(content.title   ?? "Kontakt\na rezervace");
-  const address = String(content.address ?? "Ukázková 123, 110 00 Praha 1");
-  const phone   = String(content.phone   ?? "704 123 456");
-  const email   = String(content.email   ?? "rezervace@demo.cz");
-  const hours   = String(content.hours   ?? "Po–Pá 8:00–22:00, So–Ne 9:00–22:00");
-  const ctaText = String(content.ctaText ?? "Zarezervovat stůl");
-  const ctaHref = String(content.ctaHref ?? "mailto:rezervace@demo.cz");
-  const mapLat  = String(content.mapLat  ?? "50.0875");
-  const mapLng  = String(content.mapLng  ?? "14.4213");
-
-  const BG   = "#F7F4EF";
-  const GOLD = "#A89B67";
-  const BURG = "#6C1D45";
-  const TEXT = "#1A0E0A";
-  const MUTED = "#8C7B6A";
-  const FONT = "Georgia, 'Times New Roman', serif";
-  const SANS = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+  const id            = String(content.id       ?? "kontakt");
+  const eyebrow       = String(content.eyebrow  ?? content.tagline ?? "Kde nás najdete");
+  const title         = String(content.title    ?? "Kontakt\na rezervace");
+  const intro         = String(content.intro    ?? "Rádi vás uvítáme v salonu Belvedere. Napište nám, zavolejte nebo se prostě zastavte — dveře jsou otevřené od časných snídaní do noci.");
+  const address       = String(content.address  ?? "Národní 12, 110 00 Praha 1");
+  const addressExtra  = String(content.addressExtra ?? "Vchod z pasáže naproti Národnímu divadlu");
+  const phone         = String(content.phone    ?? "+420 700 111 222");
+  const email         = String(content.email    ?? "rezervace@belvedere-demo.cz");
+  const hours         = String(content.hours    ?? "Po–Ne · 8:00 – 23:00");
+  const ctaText       = String(content.ctaText  ?? "Rezervovat stůl online");
+  const ctaHref       = String(content.ctaHref  ?? "/rezervace");
+  const directionsLabel = String(content.directionsLabel ?? "Získat trasu");
+  const directionsHref  = String(content.directionsHref ?? "https://maps.google.com/?q=Národní+12,+Praha");
+  const showHeader = content.showHeader !== false && (eyebrow || title);
+  const mapLat  = String(content.mapLat  ?? "50.0810");
+  const mapLng  = String(content.mapLng  ?? "14.4137");
 
   const latN = parseFloat(mapLat);
   const lngN = parseFloat(mapLng);
-  const delta = 0.015;
+  const delta = 0.006;
   const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${lngN - delta}%2C${latN - delta}%2C${lngN + delta}%2C${latN + delta}&layer=mapnik&marker=${latN}%2C${lngN}`;
 
-  const svgPin   = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>;
-  const svgPhone = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>;
-  const svgMail  = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>;
-  const svgClock = <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>;
-
-  const infos = [
-    { icon: svgPin,   label: "Adresa",        value: address, field: "address" },
-    { icon: svgPhone, label: "Telefon",        value: phone,   field: "phone" },
-    { icon: svgMail,  label: "E-mail",         value: email,   field: "email" },
-    { icon: svgClock, label: "Otevírací doba", value: hours,   field: "hours" },
+  const socials = (content.socials as Array<{ label?: string; href?: string; icon?: string }>) ?? [
+    { icon: "instagram", label: "Instagram", href: "https://instagram.com/" },
+    { icon: "facebook",  label: "Facebook",  href: "https://facebook.com/" },
+    { icon: "google",    label: "Google",    href: "https://google.com/" },
   ];
 
-  return (
-    <section ref={secRef} id={id} data-variant="cafe-02-contact" style={{ backgroundColor: BG, padding: "96px 0", fontFamily: SANS }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(24px, 5vw, 64px)" }}>
-        <div data-c02con="0" style={{ textAlign: "center", marginBottom: 56 }}>
-          <p style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD, margin: "0 0 14px" }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          <div style={{ width: 40, height: 1.5, backgroundColor: GOLD, margin: "0 auto" }} />
-        </div>
+  const SocialIcon = ({ name }: { name?: string }) => {
+    const p = { width: 15, height: 15, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true as const };
+    switch ((name || "").toLowerCase()) {
+      case "instagram": return (<svg {...p}><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>);
+      case "facebook":  return (<svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>);
+      case "tripadvisor":
+      case "google":    return (<svg {...p}><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>);
+      default:          return (<svg {...p}><circle cx="12" cy="12" r="9"/></svg>);
+    }
+  };
 
-        <div className="c02con-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 80px)", alignItems: "start" }}>
-          {/* Levá strana — info */}
-          <div data-c02con="1" style={{ transitionDelay: "0.1s" }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 400, color: BURG, margin: "0 0 40px", lineHeight: 1.25, whiteSpace: "pre-line" }}>
+  const iconPin   = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>;
+  const iconPhone = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.06 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>;
+  const iconMail  = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>;
+  const iconClock = <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>;
+
+  return (
+    <section
+      ref={secRef}
+      id={id}
+      data-template="cafe-02"
+      data-variant="cafe-02-contact"
+      className="cafe02-contact"
+      aria-label="Kontakt"
+    >
+      <div className="cafe02-contact__inner">
+        {showHeader && (
+          <div className="cafe02-contact__head" data-c02con="0">
+            <div className="cafe02-contact__eyebrow">
+              <span className="cafe02-contact__eyebrow-rule" />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              <span className="cafe02-contact__eyebrow-rule" />
+            </div>
+            <h2 className="cafe02-contact__title">
               <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
             </h2>
+            {intro && (
+              <p className="cafe02-contact__intro">
+                <GenericEditableText sectionId={sectionId} field="intro" value={intro} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
 
-            {infos.map((inf, i) => (
-              <div key={i} style={{ display: "flex", gap: 16, marginBottom: 28, alignItems: "flex-start" }}>
-                <span style={{ marginTop: 1, flexShrink: 0 }}>{inf.icon}</span>
+        <div className="cafe02-contact__grid">
+          <div className="cafe02-contact__info" data-c02con="1" style={{ transitionDelay: "0.12s" }}>
+            <ul className="cafe02-contact__list">
+              <li className="cafe02-contact__row">
+                <span className="cafe02-contact__badge">{iconPin}</span>
                 <div>
-                  <p style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: GOLD, margin: "0 0 4px" }}>{inf.label}</p>
-                  <p style={{ fontSize: 14, fontWeight: 400, color: TEXT, margin: 0, lineHeight: 1.65 }}>
-                    <GenericEditableText sectionId={sectionId} field={inf.field} value={inf.value} tag="span" />
-                  </p>
+                  <span className="cafe02-contact__label">
+                    <GenericEditableText sectionId={sectionId} field="labelAddress" value={String(content.labelAddress ?? "Adresa")} tag="span" />
+                  </span>
+                  <div className="cafe02-contact__value">
+                    <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                  </div>
+                  <div className="cafe02-contact__value-sub">
+                    <GenericEditableText sectionId={sectionId} field="addressExtra" value={addressExtra} tag="span" />
+                  </div>
+                  <a href={directionsHref} target="_blank" rel="noopener noreferrer" className="cafe02-contact__directions">
+                    <GenericEditableText sectionId={sectionId} field="directionsLabel" value={directionsLabel} tag="span" />
+                    <svg width="14" height="10" viewBox="0 0 16 10" fill="none" aria-hidden>
+                      <path d="M1 5H15M10 1L15 5L10 9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </a>
                 </div>
-              </div>
-            ))}
+              </li>
+              <li className="cafe02-contact__row">
+                <span className="cafe02-contact__badge">{iconPhone}</span>
+                <div>
+                  <span className="cafe02-contact__label">
+                    <GenericEditableText sectionId={sectionId} field="labelPhone" value={String(content.labelPhone ?? "Telefon")} tag="span" />
+                  </span>
+                  <div className="cafe02-contact__value">
+                    <a href={"tel:" + phone.replace(/\s+/g, "")}>
+                      <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li className="cafe02-contact__row">
+                <span className="cafe02-contact__badge">{iconMail}</span>
+                <div>
+                  <span className="cafe02-contact__label">
+                    <GenericEditableText sectionId={sectionId} field="labelEmail" value={String(content.labelEmail ?? "E-mail")} tag="span" />
+                  </span>
+                  <div className="cafe02-contact__value">
+                    <a href={"mailto:" + email}>
+                      <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                    </a>
+                  </div>
+                </div>
+              </li>
+              <li className="cafe02-contact__row">
+                <span className="cafe02-contact__badge">{iconClock}</span>
+                <div>
+                  <span className="cafe02-contact__label">
+                    <GenericEditableText sectionId={sectionId} field="labelHours" value={String(content.labelHours ?? "Otevírací doba")} tag="span" />
+                  </span>
+                  <div className="cafe02-contact__value">
+                    <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+                  </div>
+                </div>
+              </li>
+            </ul>
 
-            <div style={{ marginTop: 40 }}>
-              <a href={ctaHref} data-btn="primary" style={{
-                fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.1em",
-                textTransform: "uppercase", color: "#fff", textDecoration: "none",
-                padding: "14px 36px", backgroundColor: BURG, borderRadius: 2,
-                display: "inline-block", transition: "background-color 0.2s",
-              }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#541636")}
-                onMouseLeave={e => (e.currentTarget.style.backgroundColor = BURG)}
-              >
+            <div className="cafe02-contact__actions">
+              <a href={ctaHref} data-btn="primary" className="cafe02-contact__cta">
+                <span className="cafe02-nav__cta-shine" aria-hidden />
                 <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
               </a>
+              {socials.length > 0 && (
+                <ul className="cafe02-contact__socials">
+                  {socials.map((s, i) => (
+                    <li key={i}>
+                      <a href={s.href || "#"} aria-label={s.label || s.icon} target="_blank" rel="noopener noreferrer">
+                        <SocialIcon name={s.icon} />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
 
-          {/* Pravá strana — mapa */}
-          <div data-c02con="2" className="c02con-map" style={{ aspectRatio: "4/3", borderRadius: 2, overflow: "hidden", border: `1px solid ${GOLD}40`, transitionDelay: "0.22s", boxShadow: "0 4px 20px rgba(26,14,10,0.08)" }}>
-            <iframe
-              src={mapSrc}
-              style={{ width: "100%", height: "100%", border: 0, display: "block" }}
-              title="Mapa"
-              loading="lazy"
-            />
+          <div className="cafe02-contact__map" data-c02con="2" style={{ transitionDelay: "0.24s" }}>
+            <span className="cafe02-contact__map-corner cafe02-contact__map-corner--tl" aria-hidden />
+            <span className="cafe02-contact__map-corner cafe02-contact__map-corner--br" aria-hidden />
+            <div className="cafe02-contact__map-inner">
+              <iframe
+                src={mapSrc}
+                title="Mapa"
+                loading="lazy"
+              />
+              <div className="cafe02-contact__map-pin" aria-hidden>
+                <span />
+                <i />
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media(max-width:768px){.c02con-grid{grid-template-columns:1fr!important}}
-        @media(max-width:768px){.c02con-map{aspect-ratio:16/9!important}}
-        [data-c02con]{opacity:0;transform:translateY(36px);transition:opacity .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1)}
-        [data-c02con].c02con-vis{opacity:1;transform:translateY(0)}
-      `}</style>
     </section>
   );
 }
@@ -3768,143 +3839,211 @@ function ContactRestaurant03({ content, sectionId }: { content: Record<string, u
 }
 
 // ── cafe-03-contact ────────────────────────────────────────────────────────────
-// Ref: cathedral.cz — kontakt stránka
-// Bílé bg, 2-col: vlevo kontaktní info (skupiny Rezervace/Manažer) + hodiny + social
-//               ; vpravo formulář (Jméno/Telefon/Email/Zpráva) + zlaté CTA
+// Cathedral Contact & Reservation — luxe redesign (2026-07-02)
+// Parchment bg s decorative gothic arch watermark; editorial header centered
+// (eyebrow + Great Vibes H2 + Cormorant kicker); 5fr/7fr grid: LEFT info card
+// (big Cormorant italic phone + opening hours grid + address + gold social);
+// RIGHT noir form card s gold offset frame — underline-only inputs, gold focus
+// slide-in underline, big gold submit "Rezervuji stůl".
 // ─────────────────────────────────────────────────────────────────────────────
 function ContactCafe03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const GOLD    = "#C69C60";
-  const GOLD_DK = "#A07840";
-  const DARK    = "#1a1a1a";
-  const MUTED   = "#6b6b6b";
-  const BORDER  = "#E8E2D8";
-  const SERIF   = "'Great Vibes', cursive";
-  const SANS    = "'Open Sans', sans-serif";
+  const GOLD_LT = "#D8B57A";
+  const GOLD_DK = "#8F6A38";
+  const NOIR    = "#0d0d0d";
+  const NOIR_D  = "#050505";
+  const INK     = "#1a1a1a";
+  const MUTED   = "#5a544a";
+  const PARCH   = "#F5EFE4";
+  const CREAM   = "#FBF7EF";
+  const SCRIPT  = "'Great Vibes', cursive";
+  const ITAL    = "'Cormorant Garamond', 'Playfair Display', Georgia, serif";
+  const SANS    = "'Inter', 'Open Sans', system-ui, sans-serif";
 
-  const title      = String(content.title      ?? "Kontaktujte nás");
-  const subtitle   = String(content.subtitle   ?? "Máte na nás otázku? Neváhejte nás kontaktovat.");
-  const hoursText  = String(content.hoursText  ?? "Otevřeno každý den od 09:00 do 21:00 hod.");
-  const socialFB   = String(content.socialFacebook  ?? "https://facebook.com/demo");
-  const socialIG   = String(content.socialInstagram ?? "https://instagram.com/demo");
-  const groups     = (content.groups as Array<{ heading: string; phone?: string; email?: string; address?: string }>) ?? [];
-
-  const defaultGroups = [
-    { heading: "Rezervace",  phone: "704 123 456", address: "Ukázková 123, 110 00 Praha 1" },
-    { heading: "Manažer",    phone: "704 654 321", email: "email@demo.cz" },
+  const id       = String(content.id       ?? "kontakt");
+  const eyebrow  = String(content.eyebrow  ?? "SPOJTE SE S NÁMI");
+  const title    = String(content.title    ?? "Rezervace & kontakt");
+  const kicker   = String(content.kicker   ?? "prosíme rezervovat s předstihem — víkendy vyprodáno");
+  const phoneBig  = String(content.phoneBig ?? "+420 704 218 640");
+  const phoneHref = String(content.phoneHref ?? "tel:+420704218640");
+  const emailBig  = String(content.emailBig  ?? "hello@cathedral-cafe.cz");
+  const address   = String(content.address   ?? "Melantrichova 15, 110 00 Praha 1");
+  const mapsHref  = String(content.mapsHref  ?? "https://maps.google.com/?q=Melantrichova+15+Praha");
+  const socialFB  = String(content.socialFacebook  ?? "https://facebook.com/cathedralcafe");
+  const socialIG  = String(content.socialInstagram ?? "https://instagram.com/cathedralcafe");
+  const hoursGrid = (content.hoursGrid as Array<{ day: string; time: string }>) ?? [
+    { day: "Pondělí — Čtvrtek",  time: "9:00 — 22:00" },
+    { day: "Pátek — Sobota",     time: "9:00 — 24:00" },
+    { day: "Neděle",             time: "9:00 — 21:00" },
   ];
-  const contactGroups = groups.length > 0 ? groups : defaultGroups;
-
-  const PhoneIcon = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-  );
-  const MailIcon = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-  );
-  const PinIcon = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-  );
-  const FBIcon = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-  );
-  const IGIcon = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
-  );
+  const formTitle    = String(content.formTitle    ?? "Rezervujte stůl");
+  const formSubtitle = String(content.formSubtitle ?? "napište nám vaše preference — odpovíme do hodiny");
+  const submitLabel  = String(content.submitLabel  ?? "Rezervuji stůl");
 
   return (
-    <section style={{ backgroundColor: "#fff", padding: "clamp(48px, 8vw, 96px) 0", fontFamily: SANS }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
-        <div className="c3-contact-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(32px, 6vw, 80px)" }}>
-          {/* Info col */}
-          <div>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2">
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 400, color: DARK, margin: "0 0 16px" }}>{title}</h2>
-            </GenericEditableText>
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p">
-              <p style={{ fontFamily: SANS, fontSize: 15, fontWeight: 300, color: MUTED, margin: "0 0 8px", lineHeight: 1.7 }}>{subtitle}</p>
-            </GenericEditableText>
-            <GenericEditableText sectionId={sectionId} field="hoursText" value={hoursText} tag="p">
-              <p style={{ fontFamily: SANS, fontSize: 14, fontWeight: 400, color: MUTED, margin: "0 0 36px", lineHeight: 1.7 }}>{hoursText}</p>
-            </GenericEditableText>
+    <section id={id} data-template="cafe-03" className="c3ct" style={{ backgroundColor: PARCH, padding: "clamp(72px, 10vw, 130px) 0", fontFamily: SANS, position: "relative", overflow: "hidden" }}>
+      {/* Watermark */}
+      <svg aria-hidden width="340" height="500" viewBox="0 0 340 500" style={{ position: "absolute", left: -80, top: 60, opacity: 0.05, pointerEvents: "none" }}>
+        <path d="M40 480 V 180 A 130 130 0 0 1 300 180 V 480" stroke={INK} strokeWidth="1" fill="none" />
+      </svg>
 
-            {contactGroups.map((g, i) => (
-              <div key={i} style={{ marginBottom: 28 }}>
-                <GenericEditableText sectionId={sectionId} field={`groups.${i}.heading`} value={g.heading} tag="h3">
-                  <h3 style={{ fontFamily: SANS, fontSize: 16, fontWeight: 600, color: DARK, margin: "0 0 12px" }}>{g.heading}</h3>
-                </GenericEditableText>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  {g.phone && (
-                    <div style={{ display: "flex", alignItems: "center", gap: 10, color: MUTED, fontSize: 14 }}>
-                      <span style={{ color: GOLD }}><PhoneIcon /></span>
-                      <GenericEditableText sectionId={sectionId} field={`groups.${i}.phone`} value={g.phone} tag="span">
-                        <a href={`tel:+420${g.phone.replace(/\s/g,"")}`} style={{ color: MUTED, textDecoration: "none" }}>{g.phone}</a>
-                      </GenericEditableText>
-                    </div>
-                  )}
-                  {g.email && (
-                    <div style={{ display: "flex", alignItems: "center", gap: 10, color: MUTED, fontSize: 14 }}>
-                      <span style={{ color: GOLD }}><MailIcon /></span>
-                      <GenericEditableText sectionId={sectionId} field={`groups.${i}.email`} value={g.email} tag="span">
-                        <a href={`mailto:${g.email}`} style={{ color: MUTED, textDecoration: "none" }}>{g.email}</a>
-                      </GenericEditableText>
-                    </div>
-                  )}
-                  {g.address && (
-                    <div style={{ display: "flex", alignItems: "center", gap: 10, color: MUTED, fontSize: 14 }}>
-                      <span style={{ color: GOLD }}><PinIcon /></span>
-                      <GenericEditableText sectionId={sectionId} field={`groups.${i}.address`} value={g.address} tag="span">
-                        <span>{g.address}</span>
-                      </GenericEditableText>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-
-            {/* Social icons */}
-            <div style={{ display: "flex", gap: 16, paddingTop: 12, borderTop: `1px solid ${BORDER}` }}>
-              <a href={socialFB} target="_blank" rel="nofollow noreferrer" aria-label="Facebook" style={{ color: DARK, transition: "color 0.2s" }} onMouseEnter={e => (e.currentTarget.style.color = GOLD)} onMouseLeave={e => (e.currentTarget.style.color = DARK)}><FBIcon /></a>
-              <a href={socialIG} target="_blank" rel="nofollow noreferrer" aria-label="Instagram" style={{ color: DARK, transition: "color 0.2s" }} onMouseEnter={e => (e.currentTarget.style.color = GOLD)} onMouseLeave={e => (e.currentTarget.style.color = DARK)}><IGIcon /></a>
-            </div>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", position: "relative", zIndex: 1 }}>
+        {/* Header */}
+        <header style={{ textAlign: "center", marginBottom: "clamp(48px, 6vw, 72px)" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+            <span aria-hidden style={{ display: "inline-block", width: 32, height: 1, backgroundColor: GOLD }} />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span">
+              <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.36em", textTransform: "uppercase", color: GOLD_DK }}>{eyebrow}</span>
+            </GenericEditableText>
+            <span aria-hidden style={{ display: "inline-block", width: 32, height: 1, backgroundColor: GOLD }} />
           </div>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2">
+            <h2 style={{ fontFamily: SCRIPT, fontSize: "clamp(48px, 6vw, 82px)", fontWeight: 400, color: INK, margin: 0, lineHeight: 1.05 }}>{title}</h2>
+          </GenericEditableText>
+          <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="p">
+            <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(15px, 1.4vw, 18px)", color: GOLD_DK, margin: "10px auto 0", maxWidth: 560, letterSpacing: "0.02em" }}>— {kicker}</p>
+          </GenericEditableText>
+        </header>
 
-          {/* Form col */}
-          <div style={{ backgroundColor: "#F8F5F0", padding: "clamp(24px, 4vw, 48px)" }}>
-            <form onSubmit={e => e.preventDefault()} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              <div className="c3-form-name-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                {(["Jméno", "Telefon"] as const).map((label, i) => (
-                  <div key={i}>
-                    <label style={{ display: "block", fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: MUTED, marginBottom: 6 }}>{label}</label>
-                    <input type={i === 1 ? "tel" : "text"} style={{ width: "100%", padding: "12px 14px", border: `1px solid ${BORDER}`, backgroundColor: "#fff", fontFamily: SANS, fontSize: 14, color: DARK, outline: "none" }} />
+        <div className="c3ct-grid" style={{ display: "grid", gridTemplateColumns: "5fr 7fr", gap: "clamp(32px, 5vw, 64px)", alignItems: "start" }}>
+          {/* LEFT — info */}
+          <div>
+            {/* Phone big */}
+            <div style={{ marginBottom: 32 }}>
+              <div style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD_DK, marginBottom: 10 }}>REZERVACE · TELEFON</div>
+              <a href={phoneHref} className="c3ct-big" style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(28px, 3vw, 38px)", fontWeight: 500, color: INK, textDecoration: "none", letterSpacing: "0.01em", display: "inline-block", position: "relative", paddingBottom: 4 }}>
+                <GenericEditableText sectionId={sectionId} field="phoneBig" value={phoneBig} tag="span" />
+                <span aria-hidden className="c3ct-big-line" style={{ position: "absolute", left: 0, right: "80%", bottom: 0, height: 1, backgroundColor: GOLD, transition: "right 0.35s cubic-bezier(.4,0,.2,1)" }} />
+              </a>
+            </div>
+
+            {/* Email */}
+            <div style={{ marginBottom: 32 }}>
+              <div style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD_DK, marginBottom: 10 }}>E-MAIL</div>
+              <a href={`mailto:${emailBig}`} className="c3ct-big" style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(20px, 1.8vw, 24px)", color: INK, textDecoration: "none", display: "inline-block", position: "relative", paddingBottom: 4 }}>
+                <GenericEditableText sectionId={sectionId} field="emailBig" value={emailBig} tag="span" />
+                <span aria-hidden className="c3ct-big-line" style={{ position: "absolute", left: 0, right: "80%", bottom: 0, height: 1, backgroundColor: GOLD, transition: "right 0.35s cubic-bezier(.4,0,.2,1)" }} />
+              </a>
+            </div>
+
+            {/* Address */}
+            <div style={{ marginBottom: 32 }}>
+              <div style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD_DK, marginBottom: 10 }}>ADRESA</div>
+              <a href={mapsHref} target="_blank" rel="noreferrer" className="c3ct-big" style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(18px, 1.6vw, 22px)", color: INK, textDecoration: "none", display: "inline-flex", alignItems: "flex-start", gap: 8, position: "relative", paddingBottom: 4 }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GOLD_DK} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" style={{ marginTop: 6, flexShrink: 0 }} aria-hidden><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+                <span>
+                  <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                </span>
+                <span aria-hidden className="c3ct-big-line" style={{ position: "absolute", left: 0, right: "80%", bottom: 0, height: 1, backgroundColor: GOLD, transition: "right 0.35s cubic-bezier(.4,0,.2,1)" }} />
+              </a>
+            </div>
+
+            {/* Opening hours grid */}
+            <div style={{ marginBottom: 32, paddingTop: 24, borderTop: `1px solid ${GOLD}55` }}>
+              <div style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD_DK, marginBottom: 16 }}>OTEVÍRACÍ DOBA</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {hoursGrid.map((row, i) => (
+                  <div key={i} style={{ display: "flex", alignItems: "baseline", gap: 12, fontFamily: ITAL, fontStyle: "italic", fontSize: 16 }}>
+                    <GenericEditableText sectionId={sectionId} field={`hoursGrid.${i}.day`} value={row.day} tag="span">
+                      <span style={{ color: INK, minWidth: 168 }}>{row.day}</span>
+                    </GenericEditableText>
+                    <span aria-hidden style={{ flex: 1, borderBottom: `1px dashed ${GOLD}66`, marginBottom: 4 }} />
+                    <GenericEditableText sectionId={sectionId} field={`hoursGrid.${i}.time`} value={row.time} tag="span">
+                      <span style={{ color: GOLD_DK, fontWeight: 500 }}>{row.time}</span>
+                    </GenericEditableText>
                   </div>
                 ))}
               </div>
-              <div>
-                <label style={{ display: "block", fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: MUTED, marginBottom: 6 }}>E-mail</label>
-                <input type="email" style={{ width: "100%", padding: "12px 14px", border: `1px solid ${BORDER}`, backgroundColor: "#fff", fontFamily: SANS, fontSize: 14, color: DARK, outline: "none" }} />
-              </div>
-              <div>
-                <label style={{ display: "block", fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: MUTED, marginBottom: 6 }}>Zpráva</label>
-                <textarea rows={5} style={{ width: "100%", padding: "12px 14px", border: `1px solid ${BORDER}`, backgroundColor: "#fff", fontFamily: SANS, fontSize: 14, color: DARK, outline: "none", resize: "vertical" }} />
-              </div>
-              <button
-                type="submit"
-                style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "#fff", padding: "14px 32px", backgroundColor: GOLD, border: "none", cursor: "pointer", alignSelf: "flex-start", transition: "background-color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_DK)}
-                onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
-              >
-                <GenericEditableText sectionId={sectionId} field="submitLabel" value={String(content.submitLabel ?? "Odeslat zprávu")} tag="span" />
-              </button>
-            </form>
+            </div>
+
+            {/* Social */}
+            <div style={{ paddingTop: 24, borderTop: `1px solid ${GOLD}55`, display: "flex", alignItems: "center", gap: 14 }}>
+              <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD_DK }}>SLEDUJTE</span>
+              <a href={socialFB} target="_blank" rel="nofollow noreferrer" aria-label="Facebook" className="c3ct-soc" style={{ width: 40, height: 40, borderRadius: "50%", border: `1px solid ${GOLD}66`, display: "flex", alignItems: "center", justifyContent: "center", color: GOLD_DK, transition: "background-color 0.2s, color 0.2s, border-color 0.2s" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+              </a>
+              <a href={socialIG} target="_blank" rel="nofollow noreferrer" aria-label="Instagram" className="c3ct-soc" style={{ width: 40, height: 40, borderRadius: "50%", border: `1px solid ${GOLD}66`, display: "flex", alignItems: "center", justifyContent: "center", color: GOLD_DK, transition: "background-color 0.2s, color 0.2s, border-color 0.2s" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+              </a>
+            </div>
+          </div>
+
+          {/* RIGHT — noir form card */}
+          <div style={{ position: "relative" }}>
+            {/* Gold offset frame */}
+            <span aria-hidden style={{ position: "absolute", inset: "-14px -14px -14px -14px", border: `1px solid ${GOLD}66`, pointerEvents: "none" }} />
+            <span aria-hidden style={{ position: "absolute", top: -14, left: -14, width: 22, height: 22, borderTop: `2px solid ${GOLD}`, borderLeft: `2px solid ${GOLD}` }} />
+            <span aria-hidden style={{ position: "absolute", bottom: -14, right: -14, width: 22, height: 22, borderBottom: `2px solid ${GOLD}`, borderRight: `2px solid ${GOLD}` }} />
+
+            <div style={{ backgroundColor: NOIR, backgroundImage: `linear-gradient(180deg, ${NOIR} 0%, ${NOIR_D} 100%)`, padding: "clamp(28px, 4vw, 48px)", color: CREAM }}>
+              <GenericEditableText sectionId={sectionId} field="formTitle" value={formTitle} tag="h3">
+                <h3 style={{ fontFamily: SCRIPT, fontSize: "clamp(36px, 4vw, 52px)", fontWeight: 400, color: "#fff", margin: 0, lineHeight: 1 }}>{formTitle}</h3>
+              </GenericEditableText>
+              <GenericEditableText sectionId={sectionId} field="formSubtitle" value={formSubtitle} tag="p">
+                <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 16, color: GOLD_LT, margin: "8px 0 32px" }}>— {formSubtitle}</p>
+              </GenericEditableText>
+
+              <form onSubmit={e => e.preventDefault()} style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+                <div className="c3ct-form-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+                  <FieldC3 label="Jméno" type="text" />
+                  <FieldC3 label="Telefon" type="tel" />
+                </div>
+                <div className="c3ct-form-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+                  <FieldC3 label="Datum" type="date" />
+                  <FieldC3 label="Počet osob" type="number" defaultValue="2" />
+                </div>
+                <FieldC3 label="E-mail" type="email" />
+                <FieldC3 label="Zpráva & preference" type="textarea" />
+
+                <button
+                  type="submit"
+                  className="c3ct-submit"
+                  style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: NOIR, padding: "18px 32px", backgroundColor: GOLD, border: "none", cursor: "pointer", alignSelf: "flex-start", marginTop: 8, display: "inline-flex", alignItems: "center", gap: 10, transition: "background-color 0.28s ease, letter-spacing 0.28s ease" }}
+                >
+                  <span style={{ fontFamily: ITAL, fontStyle: "italic", textTransform: "none", letterSpacing: "0.02em", fontSize: 16, fontWeight: 500 }}>~</span>
+                  <GenericEditableText sectionId={sectionId} field="submitLabel" value={submitLabel} tag="span" />
+                </button>
+                <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 13, color: GOLD_LT, opacity: 0.7, margin: 0 }}>Odesláním souhlasíte se zpracováním osobních údajů pro účel rezervace.</p>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400;600&display=swap" />
-      <style>{`        @media(max-width:768px){.c3-contact-grid{grid-template-columns:1fr!important}}
-        @media(max-width:480px){.c3-form-name-row{grid-template-columns:1fr!important}}
+
+      <style>{`
+        [data-template="cafe-03"].c3ct .c3ct-big:hover .c3ct-big-line { right: 0 !important; }
+        [data-template="cafe-03"].c3ct .c3ct-big:hover { color: ${GOLD_DK} !important; }
+        [data-template="cafe-03"].c3ct .c3ct-soc:hover { background-color: ${GOLD} !important; color: ${NOIR} !important; border-color: ${GOLD} !important; }
+        [data-template="cafe-03"].c3ct .c3ct-submit:hover { background-color: ${GOLD_LT} !important; letter-spacing: 0.28em !important; }
+        [data-template="cafe-03"].c3ct .c3ct-field { position: relative; }
+        [data-template="cafe-03"].c3ct .c3ct-field label { display: block; font-family: ${SANS}; font-size: 10px; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase; color: ${GOLD_LT}; margin-bottom: 10px; }
+        [data-template="cafe-03"].c3ct .c3ct-field input, [data-template="cafe-03"].c3ct .c3ct-field textarea {
+          width: 100%; box-sizing: border-box; background: transparent; border: none;
+          border-bottom: 1px solid ${GOLD}55; padding: 8px 0 10px; color: ${CREAM};
+          font-family: ${ITAL}; font-style: italic; font-size: 18px; letter-spacing: 0.01em; outline: none;
+          transition: border-color 0.3s ease;
+        }
+        [data-template="cafe-03"].c3ct .c3ct-field textarea { resize: vertical; min-height: 84px; }
+        [data-template="cafe-03"].c3ct .c3ct-field input:focus, [data-template="cafe-03"].c3ct .c3ct-field textarea:focus { border-bottom-color: ${GOLD} !important; }
+        @media (max-width: 900px) {
+          [data-template="cafe-03"].c3ct .c3ct-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 480px) {
+          [data-template="cafe-03"].c3ct .c3ct-form-row { grid-template-columns: 1fr !important; }
+        }
       `}</style>
     </section>
+  );
+}
+
+function FieldC3({ label, type, defaultValue }: { label: string; type: string; defaultValue?: string }) {
+  return (
+    <div className="c3ct-field">
+      <label>{label}</label>
+      {type === "textarea"
+        ? <textarea rows={3} />
+        : <input type={type} defaultValue={defaultValue} />}
+    </div>
   );
 }
 

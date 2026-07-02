@@ -32,7 +32,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const items: MetadataRoute.Sitemap = [
     { url: BASE,             lastModified: now, changeFrequency: "weekly",  priority: 1.0 },
+    { url: `${BASE}/cs`,     lastModified: now, changeFrequency: "weekly",  priority: 1.0 },
+    { url: `${BASE}/en`,     lastModified: now, changeFrequency: "weekly",  priority: 1.0 },
     { url: `${BASE}/cenik`,  lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/produkty-a-reseni`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/prehled-funkci`,    lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/vybrat-design`,     lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/en/pricing`,       lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/en/products-and-solutions`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/en/features`,      lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE}/en/choose-design`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE}/o-nas`,  lastModified: now, changeFrequency: "monthly", priority: 0.5 },
   ];
 

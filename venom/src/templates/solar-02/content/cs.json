@@ -6,86 +6,92 @@
     "phone": "777 234 890",
     "email": "info@solark.cz",
     "ctaText": "Bezplatná konzultace",
-    "ctaHref": "#kontakt",
+    "ctaHref": "/kontakt",
     "links": [
-      { "label": "Fotovoltaika",       "href": "#sluzby"    },
-      { "label": "PPA – bez investice","href": "#moznosti"  },
-      { "label": "Baterie BESS",       "href": "#bess"      },
-      { "label": "Služby",             "href": "#sluzby"    },
-      { "label": "Reference",          "href": "#reference" },
-      { "label": "Kontakt",            "href": "#kontakt"   }
+      { "label": "Fotovoltaika",        "href": "/sluzby"    },
+      { "label": "PPA — bez investice", "href": "/moznosti"  },
+      { "label": "Baterie BESS",        "href": "/bess"      },
+      { "label": "Reference",           "href": "/reference" },
+      { "label": "Kontakt",             "href": "/kontakt"   }
     ]
   },
   "hero": {
-    "title": "Zelená energie, která se skutečně vyplatí",
+    "eyebrow": "Fotovoltaika · Baterie BESS · Energetický management",
+    "title": "Zelená energie, která se skutečně vyplatí.",
     "subtitle": "Projektujeme, stavíme a provozujeme fotovoltaické systémy pro firmy, průmyslové areály i celé obce po celé ČR.",
-    "ctaText": "Spočítat úspory zdarma →",
-    "ctaHref": "#kontakt",
+    "ctaText": "Spočítat úspory zdarma",
+    "ctaHref": "/kontakt",
     "cta2Text": "Prohlédnout reference",
-    "cta2Href": "#reference",
-    "videoUrl": "/assets/solar-02/8affff5218-web-heroshot-2.webm"
+    "cta2Href": "/reference",
+    "image": "/assets/solar-02/hero.webp",
+    "trustText": "Dotace Modernizační fond · NRB · Nová zelená úsporám",
+    "stat1Value": "420+", "stat1Label": "realizací v ČR i SK",
+    "stat2Value": "14 MWp", "stat2Label": "instalovaný výkon",
+    "stat3Value": "6 let", "stat3Label": "průměrná návratnost"
   },
   "about": {
+    "eyebrow": "Váš energetický partner",
     "title": "Váš partner od projektu až po servis",
     "subtitle": "Neprodáváme panely. Budujeme funkční energetické systémy a přebíráme za ně plnou odpovědnost — technickou, dotační i provozní. U každého projektu jsme od prvního hovoru až po konec záruky.",
     "cards": [
-      {
-        "icon": "1",
-        "title": "Zanalyzujeme",
-        "description": "Provedeme podrobnou analýzu spotřeby, střechy i sítě. Na základě dat navrhneme systém s nejkratší dobou návratnosti a maximálním výnosem."
-      },
-      {
-        "icon": "2",
-        "title": "Postavíme",
-        "description": "Kompletní realizace na klíč — projekt, stavební povolení, připojení k síti, vyřízení dotací a montáž vlastní certifikovanou partou."
-      },
-      {
-        "icon": "3",
-        "title": "Staráme se",
-        "description": "Online monitoring výkonu, pravidelná údržba a 24/7 podpora po celou dobu životnosti systému. Servisní zásah do 48 hodin."
-      }
+      { "icon": "analyze", "title": "Zanalyzujeme", "description": "Provedeme podrobnou analýzu spotřeby, střechy i sítě. Na základě dat navrhneme systém s nejkratší dobou návratnosti a maximálním výnosem." },
+      { "icon": "build",   "title": "Postavíme",   "description": "Kompletní realizace na klíč — projekt, stavební povolení, připojení k síti, vyřízení dotací a montáž vlastní certifikovanou partou." },
+      { "icon": "service", "title": "Staráme se",  "description": "Online monitoring výkonu, pravidelná údržba a 24/7 podpora po celou dobu životnosti systému. Servisní zásah do 48 hodin." }
     ]
   },
   "footer": {
     "siteName": "SOLARK",
-    "tagline": "Fotovoltaická řešení pro průmysl, obce i bytové komplexy.",
+    "tagline": "Fotovoltaická řešení pro firmy, obce, SVJ i zemědělské areály. Od návrhu po dlouhodobý servis — pod jednou střechou.",
+    "ctaText": "Bezplatná konzultace",
+    "ctaHref": "/kontakt",
     "phone": "777 234 890",
-    "email": "info@solark.cz",
-    "copyright": "© 2025 SOLARK s.r.o. Všechna práva vyhrazena.",
+    "email": "info@demo.cz",
+    "address": "Brno · Praha · Ostrava",
+    "navTitle": "Řešení",
+    "supTitle": "Společnost",
+    "contactTitle": "Kontakt",
+    "copyright": "© 2026 SOLARK s.r.o. Všechna práva vyhrazena.",
     "links": [
-      { "label": "Fotovoltaika",        "href": "#sluzby"    },
-      { "label": "PPA – bez investice", "href": "#moznosti"  },
-      { "label": "Baterie BESS",        "href": "#bess"      },
-      { "label": "Správa a monitoring", "href": "#sluzby"    },
-      { "label": "Reference",           "href": "#reference" },
-      { "label": "Kontakt",             "href": "#kontakt"   }
+      { "label": "Fotovoltaika",        "href": "/sluzby"    },
+      { "label": "PPA — bez investice", "href": "/moznosti"  },
+      { "label": "Baterie BESS",        "href": "/bess"      },
+      { "label": "Reference",           "href": "/reference" },
+      { "label": "O nás",               "href": "/onas"      },
+      { "label": "Kontakt",             "href": "/kontakt"   }
     ]
   },
   "contact": {
-    "title": "Bezplatná konzultace",
-    "subtitle": "Zanechte kontakt a do 24 hodin vám zavoláme. Rádi spočítáme úspory přímo pro váš objekt.",
+    "eyebrow": "Nezávazná poptávka",
+    "title": "Spočítáme úspory přímo pro váš objekt",
+    "subtitle": "Vyplňte formulář a do 24 hodin vám zavoláme s nezávaznou kalkulací a odhadem návratnosti. Konzultace je vždy zdarma.",
+    "badgeText": "Odpovíme do 24 hodin",
+    "usp1": "Nezávazná kalkulace zdarma",
+    "usp2": "Vyřízení dotací zajistíme za vás",
+    "usp3": "Bezplatná návštěva objektu",
     "phone": "777 234 890",
-    "email": "info@solark.cz",
+    "email": "info@demo.cz",
+    "address": "Brno · Praha · Ostrava",
     "submitText": "Odeslat poptávku"
   },
   "testimonials": {
-    "title": "Proč si nás klienti volí znovu",
-    "subtitle": "Přes 400 dokončených projektů v České republice a na Slovensku.",
+    "eyebrow": "Reference",
+    "title": "Přes 420 projektů, které vyrábějí každý den",
+    "subtitle": "Firmy, obce i SVJ v celé ČR i SK — a všichni by nás doporučili dál.",
     "stats": [
-      { "value": "420+",   "label": "dokončených projektů" },
-      { "value": "14 MWp", "label": "celkový instalovaný výkon" },
-      { "value": "96%",    "label": "klientů doporučuje dál" },
+      { "value": "4,9 ★",  "label": "Google recenze (240+)" },
+      { "value": "96 %",   "label": "klientů doporučuje dál" },
       { "value": "12 let", "label": "na trhu s fotovoltaikou" }
     ],
     "reviews": [
-      { "name": "Tomáš Blaha, technický ředitel", "company": "Plastika Group a.s., Kroměříž", "text": "SOLARK nám navrhl systém 480 kWp, který pokrývá 62 % roční spotřeby závodu. Návratnost investice pod 6 lety. Doporučujeme bez výhrad." },
+      { "name": "Tomáš Blaha, technický ředitel", "company": "Plastika Group a.s., Kroměříž", "text": "Navrhli nám systém 480 kWp, který pokrývá 62 % roční spotřeby závodu. Návratnost pod 6 lety. Doporučujeme bez výhrad." },
       { "name": "Ing. Radka Součková, starostka",  "company": "Obec Březová nad Svitavou",    "text": "Díky PPA modelu jsme získali solární energii bez jakékoli počáteční investice. Ušetřili jsme 280 000 Kč ročně na provoz obecních budov." },
-      { "name": "MVDr. Lukáš Pospíšil",            "company": "Zemědělský podnik Pospíšil",  "text": "Instalace proběhla v říjnu, do jara jsme měli vše v provozu. Monitoring funguje perfektně, vidím výrobu v reálném čase přes mobil." }
+      { "name": "MVDr. Lukáš Pospíšil",            "company": "Zemědělský podnik Pospíšil",   "text": "Instalace proběhla v říjnu, do jara jsme měli vše v provozu. Monitoring funguje perfektně, vidím výrobu v reálném čase přes mobil." }
     ]
   },
   "process": {
-    "title": "Jak projekt probíhá?",
-    "subtitle": "Transparentní postup bez překvapení — od prvního kontaktu po předání hotového systému.",
+    "eyebrow": "Jak projekt probíhá",
+    "title": "Transparentní postup bez překvapení",
+    "subtitle": "Od prvního kontaktu po předání hotového systému — pět jasně definovaných kroků s garantovanými termíny.",
     "steps": [
       { "title": "Úvodní hovor",        "description": "Zavoláme vám do 24 hodin. Zjistíme základní parametry objektu a spotřeby, abychom mohli připravit předběžnou kalkulaci." },
       { "title": "Energetický audit",   "description": "Navštívíme váš objekt, změříme spotřebu a provedeme technický průzkum střechy i rozvodů." },
@@ -95,8 +101,9 @@
     ]
   },
   "services": {
-    "title": "Naše služby",
-    "subtitle": "Vše pod jednou střechou — od studie proveditelnosti přes montáž až po celoživotní správu systému.",
+    "eyebrow": "Co nabízíme",
+    "title": "Komplexní energetická řešení pod jednou střechou",
+    "subtitle": "Od studie proveditelnosti přes návrh a montáž až po celoživotní správu systému — vše pod jednou střechou.",
     "services": [
       { "icon": "solar",   "title": "Fotovoltaické elektrárny na klíč", "description": "Kompletní realizace FVE od 30 kWp do několika MWp. Střešní i pozemní systémy, průmyslové i komerční budovy." },
       { "icon": "ppa",     "title": "PPA — energie bez investice",       "description": "Postavíme FVE na vaší střeše a elektřinu vám prodáme za garantovanou cenu nižší, než je tržní. Nulové riziko, okamžitá úspora." },
@@ -107,37 +114,14 @@
     ]
   },
   "segments": {
-    "title": "Komu pomáháme šetřit?",
-    "subtitle": "Řešení navrhujeme na míru — podle velikosti objektu, způsobu využití a finančních možností klienta.",
+    "eyebrow": "Pro koho stavíme",
+    "title": "Řešení přesně pro váš typ objektu",
+    "subtitle": "Pracujeme s firmami, obcemi, SVJ i zemědělskými areály — vždy s řešením přesně na míru.",
     "segments": [
-      {
-        "icon": "factory",
-        "title": "Průmysl a výroba",
-        "description": "Výrobní haly, sklady a logistické areály s vysokou spotřebou elektřiny jsou ideální kandidáti na velkokapacitní FVE. Návratnost typicky 4–7 let.",
-        "ctaText": "Zjistit více →",
-        "ctaHref": "#kontakt"
-      },
-      {
-        "icon": "city",
-        "title": "Samosprávy a školy",
-        "description": "Obecní úřady, školy, sportovní haly a veřejné osvětlení. Pomáháme samosprávám snižovat výdaje a plnit klimatické závazky.",
-        "ctaText": "Zjistit více →",
-        "ctaHref": "#kontakt"
-      },
-      {
-        "icon": "building",
-        "title": "Bytové domy a SVJ",
-        "description": "Komunitní sdílení energie umožní každému nájemníkovi profitovat z fotovoltaiky na střeše. Instalace bez omezení provozu domu.",
-        "ctaText": "Zjistit více →",
-        "ctaHref": "#kontakt"
-      },
-      {
-        "icon": "farm",
-        "title": "Zemědělství a agro",
-        "description": "Stodoly, stáje a sušárny se skvěle hodí pro instalaci FVE. Kombinujeme solární výrobu s agrivoltaikou pro maximální využití pozemku.",
-        "ctaText": "Zjistit více →",
-        "ctaHref": "#kontakt"
-      }
+      { "icon": "factory",  "image": "/assets/solar-02/seg-firmy.webp", "title": "Firmy a průmysl",   "description": "Výrobní haly, sklady a logistické areály. FVE i BESS pro maximální energetickou nezávislost. Návratnost typicky 4–7 let.", "ctaText": "Zjistit více", "ctaHref": "/sluzby" },
+      { "icon": "city",     "image": "/assets/solar-02/seg-obce.webp",  "title": "Obce a města",      "description": "Obecní úřady, školy, sportovní haly. Snížení výdajů za energie veřejných budov a plnění klimatických závazků.",           "ctaText": "Zjistit více", "ctaHref": "/sluzby" },
+      { "icon": "building", "image": "/assets/solar-02/seg-svj.webp",   "title": "Bytové domy a SVJ", "description": "Komunitní sdílení energie umožní každému nájemníkovi profitovat z fotovoltaiky na střeše. Instalace bez omezení provozu.", "ctaText": "Zjistit více", "ctaHref": "/sluzby" },
+      { "icon": "farm",     "image": "/assets/solar-02/seg-farm.webp",  "title": "Zemědělské areály", "description": "Stodoly, stáje a sušárny — ideální plocha pro FVE. Kombinujeme solární výrobu s agrivoltaikou pro maximální využití.",     "ctaText": "Zjistit více", "ctaHref": "/sluzby" }
     ]
   },
   "pages": {

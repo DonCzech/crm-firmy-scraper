@@ -878,67 +878,127 @@ function PromoClinic03({ content, sectionId }: { content: Record<string,unknown>
 }
 
 // ── cafe-03-promo ─────────────────────────────────────────────────────────────
-// Ref: cathedral.cz — s-directory-images-slider
-// Bílé bg, zlatý kicker + Great Vibes H2 + 3 čtvercové karty s tmavým overlay + bílý nadpis
-// Každá karta je odkaz na Akce / Menu / Rezervace
+// Cathedral Directory Promo — luxe redesign (2026-07-02)
+// Noir bg (#0d0d0d), gold-hairline eyebrow + Great Vibes H2, 3 karty s gotickým
+// pointed-arch tvarem (SVG clip-path), Cormorant italic číslice 01/02/03,
+// hover reveal subtitle + gold border animace, "→ Otevřít" microlink.
 // ─────────────────────────────────────────────────────────────────────────────
 function PromoCafe03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const GOLD  = "#C69C60";
-  const SERIF = "'Great Vibes', cursive";
-  const SANS  = "'Open Sans', sans-serif";
+  const GOLD    = "#C69C60";
+  const GOLD_LT = "#D8B57A";
+  const GOLD_DK = "#8F6A38";
+  const NOIR    = "#0d0d0d";
+  const NOIR_D  = "#050505";
+  const CREAM   = "#F5EFE4";
+  const SCRIPT  = "'Great Vibes', cursive";
+  const ITAL    = "'Cormorant Garamond', 'Playfair Display', Georgia, serif";
+  const SANS    = "'Inter', 'Open Sans', system-ui, sans-serif";
 
-  const tagline = String(content.tagline ?? "Co o nás musíte vědět");
-  const title   = String(content.title   ?? "Nepřehlédněte");
-  const items   = (content.items as Array<{ label: string; href: string; image: string }>) ?? [];
+  const eyebrow = String(content.eyebrow ?? "OBJEVTE");
+  const title   = String(content.title   ?? "Tři cesty do Cathedral");
+  const kicker  = String(content.kicker  ?? "menu · události · rezervace");
+  const items   = (content.items as Array<{ label: string; subtitle?: string; href: string; image: string }>) ?? [];
 
   const defaultItems = [
-    { label: "Akce",      href: "/",          image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=600&fit=crop&fm=webp&q=85" },
-    { label: "Menu",      href: "/nase-menu", image: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=600&h=600&fit=crop&fm=webp&q=85" },
-    { label: "Rezervace", href: "/kontakt",   image: "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=600&h=600&fit=crop&fm=webp&q=85" },
+    { label: "Akce & večery",     subtitle: "Živá hudba, degustace, klavírní soirée", href: "/",           image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=900&h=1200&fit=crop&fm=webp&q=88" },
+    { label: "Naše menu",         subtitle: "Snídaně, obědové menu, večerní bistro",   href: "/nase-menu",  image: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=900&h=1200&fit=crop&fm=webp&q=88" },
+    { label: "Rezervace stolu",   subtitle: "Zaručený stůl kdykoli mezi 9:00 — 22:00", href: "/kontakt",    image: "https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?w=900&h=1200&fit=crop&fm=webp&q=88" },
   ];
   const cards = items.length > 0 ? items : defaultItems;
 
   return (
-    <section style={{ backgroundColor: "#fff", padding: "clamp(48px, 8vw, 96px) 0", fontFamily: SANS }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
-        <header style={{ textAlign: "center", marginBottom: "clamp(32px, 5vw, 64px)" }}>
-          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p">
-            <p style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: GOLD, margin: "0 0 12px" }}>{tagline}</p>
-          </GenericEditableText>
+    <section data-template="cafe-03" className="c3promo" style={{ backgroundColor: NOIR, backgroundImage: `linear-gradient(180deg, ${NOIR} 0%, ${NOIR_D} 100%)`, padding: "clamp(80px, 10vw, 140px) 0", fontFamily: SANS, position: "relative", overflow: "hidden" }}>
+      {/* Gothic arch watermark corners */}
+      <svg aria-hidden width="240" height="360" viewBox="0 0 240 360" style={{ position: "absolute", left: -60, top: 40, opacity: 0.05, pointerEvents: "none" }}>
+        <path d="M20 340 V 140 A 100 100 0 0 1 220 140 V 340" stroke={GOLD} strokeWidth="1" fill="none" />
+      </svg>
+
+      {/* SVG defs for arch clip */}
+      <svg aria-hidden width="0" height="0" style={{ position: "absolute" }}>
+        <defs>
+          <clipPath id="c3promoArch" clipPathUnits="objectBoundingBox">
+            <path d="M0,1 L0,0.28 C0,0.12 0.22,0 0.5,0 C0.78,0 1,0.12 1,0.28 L1,1 Z" />
+          </clipPath>
+        </defs>
+      </svg>
+
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", position: "relative", zIndex: 1 }}>
+        {/* Header */}
+        <header style={{ textAlign: "center", marginBottom: "clamp(48px, 6vw, 80px)" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+            <span aria-hidden style={{ display: "inline-block", width: 32, height: 1, backgroundColor: GOLD }} />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span">
+              <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.36em", textTransform: "uppercase", color: GOLD_LT }}>{eyebrow}</span>
+            </GenericEditableText>
+            <span aria-hidden style={{ display: "inline-block", width: 32, height: 1, backgroundColor: GOLD }} />
+          </div>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2">
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 400, color: "#1a1a1a", margin: 0, letterSpacing: "0.01em" }}>{title}</h2>
+            <h2 style={{ fontFamily: SCRIPT, fontSize: "clamp(44px, 6vw, 76px)", fontWeight: 400, color: CREAM, margin: 0, lineHeight: 1.05, letterSpacing: "0.005em" }}>{title}</h2>
+          </GenericEditableText>
+          <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="p">
+            <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(15px, 1.4vw, 18px)", color: GOLD_DK, margin: "10px 0 0", letterSpacing: "0.04em" }}>— {kicker}</p>
           </GenericEditableText>
         </header>
-        <div className="c3-promo-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "clamp(12px, 2vw, 24px)" }}>
+
+        {/* Cards grid */}
+        <div className="c3promo-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "clamp(20px, 3vw, 36px)" }}>
           {cards.map((card, i) => (
             <a
               key={i}
               href={card.href}
               aria-label={card.label}
-              style={{ display: "block", position: "relative", overflow: "hidden", aspectRatio: "1/1", textDecoration: "none" }}
+              className="c3promo-card"
+              style={{ display: "block", position: "relative", textDecoration: "none", color: CREAM, transition: "transform 0.4s ease" }}
             >
-              <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={card.image} alt={card.label} style={{ position: "absolute", inset: 0 }}>
-                <img src={card.image} alt={card.label} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.5s ease" }} loading="lazy"
-                  onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.06)")}
-                  onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
-                />
-              </GenericEditableImage>
-              {/* Overlay */}
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 50%, transparent 100%)" }} />
-              {/* Label */}
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "clamp(16px, 4%, 32px)", display: "flex", alignItems: "flex-end" }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={card.label} tag="span">
-                  <strong style={{ fontFamily: SERIF, fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 400, color: "#fff", lineHeight: 1.1 }}>{card.label}</strong>
-                </GenericEditableText>
+              {/* Number Cormorant italic */}
+              <div className="c3promo-num" style={{ position: "absolute", top: -8, left: 0, zIndex: 3, fontFamily: ITAL, fontStyle: "italic", fontSize: 22, color: GOLD_LT, letterSpacing: "0.05em" }}>
+                <span style={{ display: "inline-block", width: 18, height: 1, backgroundColor: GOLD, verticalAlign: "middle", marginRight: 8 }} />
+                {String(i + 1).padStart(2, "0")}
+              </div>
+
+              {/* Image with gothic arch clip */}
+              <div className="c3promo-imgwrap" style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden", clipPath: "url(#c3promoArch)", backgroundColor: NOIR_D }}>
+                <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={card.image} alt={card.label} style={{ position: "absolute", inset: 0 }}>
+                  <img src={card.image} alt={card.label} className="c3promo-img" style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.9s cubic-bezier(.25,.1,.25,1), filter 0.5s ease" }} loading="lazy" />
+                </GenericEditableImage>
+                {/* Overlay veil */}
+                <div className="c3promo-veil" aria-hidden style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, rgba(13,13,13,0.85) 0%, rgba(13,13,13,0.35) 45%, rgba(13,13,13,0.1) 100%)`, transition: "opacity 0.4s ease" }} />
+                {/* Gold arch stroke overlay */}
+                <svg aria-hidden viewBox="0 0 100 133.33" preserveAspectRatio="none" className="c3promo-arch-stroke" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none", opacity: 0.35, transition: "opacity 0.35s ease" }}>
+                  <path d="M0,133.33 L0,37.33 C0,16 29.33,0 50,0 C70.67,0 100,16 100,37.33 L100,133.33" fill="none" stroke={GOLD} strokeWidth="0.6" vectorEffect="non-scaling-stroke" />
+                </svg>
+
+                {/* Card content overlay bottom */}
+                <div className="c3promo-content" style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "clamp(18px, 3%, 32px)", zIndex: 2 }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={card.label} tag="div">
+                    <div style={{ fontFamily: SCRIPT, fontSize: "clamp(28px, 3.4vw, 44px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, letterSpacing: "0.005em" }}>{card.label}</div>
+                  </GenericEditableText>
+                  {card.subtitle && (
+                    <div className="c3promo-subtitle" style={{ maxHeight: 0, overflow: "hidden", transition: "max-height 0.5s cubic-bezier(.4,0,.2,1), margin-top 0.4s ease" }}>
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.subtitle`} value={card.subtitle} tag="p">
+                        <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(14px, 1.2vw, 16px)", color: "rgba(245,239,228,0.9)", margin: "10px 0 0", lineHeight: 1.5, letterSpacing: "0.02em" }}>{card.subtitle}</p>
+                      </GenericEditableText>
+                    </div>
+                  )}
+                  <div className="c3promo-more" style={{ marginTop: 14, display: "inline-flex", alignItems: "center", gap: 8, fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.28em", textTransform: "uppercase", color: GOLD_LT, opacity: 0, transform: "translateY(6px)", transition: "opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s" }}>
+                    Otevřít
+                    <span aria-hidden style={{ display: "inline-block", width: 22, height: 1, backgroundColor: GOLD_LT }} />
+                  </div>
+                </div>
               </div>
             </a>
           ))}
         </div>
       </div>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400;600&display=swap" />
-      <style>{`        @media(max-width:640px){.c3-promo-grid{grid-template-columns:1fr!important}}
+
+      <style>{`
+        [data-template="cafe-03"].c3promo .c3promo-card:hover .c3promo-img { transform: scale(1.08); }
+        [data-template="cafe-03"].c3promo .c3promo-card:hover .c3promo-veil { opacity: 0.85; }
+        [data-template="cafe-03"].c3promo .c3promo-card:hover .c3promo-arch-stroke { opacity: 0.85; }
+        [data-template="cafe-03"].c3promo .c3promo-card:hover .c3promo-subtitle { max-height: 120px; }
+        [data-template="cafe-03"].c3promo .c3promo-card:hover .c3promo-more { opacity: 1 !important; transform: none !important; }
+        [data-template="cafe-03"].c3promo .c3promo-card:hover .c3promo-num { color: ${GOLD} !important; }
+        @media (max-width: 900px) { [data-template="cafe-03"].c3promo .c3promo-grid { grid-template-columns: 1fr !important; max-width: 480px; margin-left: auto; margin-right: auto; } }
       `}</style>
     </section>
   );

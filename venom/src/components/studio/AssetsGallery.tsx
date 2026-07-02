@@ -7,7 +7,7 @@ import {
 import {
   FolderPlus, ChevronDown, Search, Upload, X, Check, Info,
   Loader2, Folder, Trash2, ArrowRight, LayoutGrid, List, AlertCircle,
-} from "lucide-react";
+} from "@/components/studio/icons";
 import clsx from "clsx";
 import type { StudioState } from "./TenantStudioView";
 
@@ -96,7 +96,7 @@ function MoznostiDropdown({
   }, [onClose]);
 
   return (
-    <div ref={ref} className="absolute top-full left-0 mt-2 w-[360px] rounded-2xl border border-[#2a2a2e] bg-[var(--vs-surface)] shadow-2xl p-6 z-50">
+    <div ref={ref} className="absolute top-full left-0 mt-2 w-[min(360px,calc(100vw-24px))] rounded-2xl border border-[#2a2a2e] bg-[var(--vs-surface)] shadow-2xl p-6 z-50">
       <h3 className="text-[15px] font-semibold text-white mb-5">Možnosti</h3>
 
       <div className="flex items-center justify-between mb-4">
@@ -430,7 +430,7 @@ function SelectionBar({
   const [movePanelOpen, setMovePanelOpen] = useState(false);
 
   return (
-    <div className="flex items-center gap-3 px-4 py-2.5 bg-[var(--vs-accent-bg)] border-b border-[var(--vs-accent-ring)]">
+    <div className="flex flex-wrap items-center gap-3 px-4 py-2.5 bg-[var(--vs-accent-bg)] border-b border-[var(--vs-accent-ring)]">
       <span className="text-[13px] font-medium text-[var(--vs-accent-hi)]">{count} vybraných</span>
       <div className="flex-1" />
 
@@ -679,10 +679,10 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
   // ─── Render ───────────────────────────────────────────────────────────────
 
   return (
-    <div className="fixed inset-0 z-50 flex bg-[#0c0c0e] text-white" style={{ fontFamily: "var(--font-sans, system-ui, sans-serif)" }}>
+    <div className="fixed inset-0 z-50 flex max-[760px]:flex-col bg-[#0c0c0e] text-white" style={{ fontFamily: "var(--font-sans, system-ui, sans-serif)" }}>
 
       {/* ── Left: Folders ── */}
-      <div className="w-[220px] shrink-0 border-r border-white/[0.07] flex flex-col bg-[#0f0f11]">
+      <div className="w-[220px] shrink-0 border-r border-white/[0.07] flex flex-col bg-[#0f0f11] max-[760px]:w-full max-[760px]:max-h-[150px] max-[760px]:border-r-0 max-[760px]:border-b max-[760px]:border-white/[0.07]">
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-4 border-b border-white/[0.05]">
           <span className="text-[14px] font-semibold text-white">Složky</span>
@@ -697,13 +697,13 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
         </div>
 
         {/* Nav */}
-        <nav className="flex-1 overflow-y-auto py-2">
+        <nav className="flex-1 overflow-y-auto py-2 max-[760px]:flex max-[760px]:overflow-x-auto max-[760px]:overflow-y-hidden max-[760px]:px-2">
           {/* Vše */}
           <button
             type="button"
             onClick={() => setActiveFolder(null)}
             className={clsx(
-              "w-full text-left flex items-center gap-2.5 px-4 py-2 text-[13px] transition-colors rounded-none",
+              "w-full text-left flex items-center gap-2.5 px-4 py-2 text-[13px] transition-colors rounded-none max-[760px]:w-auto max-[760px]:shrink-0 max-[760px]:rounded-xl",
               activeFolder === null
                 ? "text-white font-medium bg-white/[0.06]"
                 : "text-[var(--vs-text-muted)] hover:text-white hover:bg-white/[0.03]"
@@ -720,7 +720,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
             type="button"
             onClick={() => setActiveFolder("uncategorized")}
             className={clsx(
-              "w-full text-left flex items-center gap-2.5 px-4 py-2 text-[13px] transition-colors",
+              "w-full text-left flex items-center gap-2.5 px-4 py-2 text-[13px] transition-colors max-[760px]:w-auto max-[760px]:shrink-0 max-[760px]:rounded-xl",
               activeFolder === "uncategorized"
                 ? "text-white font-medium bg-white/[0.06]"
                 : "text-[var(--vs-text-muted)] hover:text-white hover:bg-white/[0.03]"
@@ -740,7 +740,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
               onDrop={(e) => handleFolderDrop(e, f.id)}
               onClick={() => setActiveFolder(f.id)}
               className={clsx(
-                "w-full text-left flex items-center gap-2.5 px-4 py-2 text-[13px] transition-colors",
+                "w-full text-left flex items-center gap-2.5 px-4 py-2 text-[13px] transition-colors max-[760px]:w-auto max-[760px]:shrink-0 max-[760px]:rounded-xl",
                 activeFolder === f.id
                   ? "text-white font-medium bg-white/[0.06]"
                   : "text-[var(--vs-text-muted)] hover:text-white hover:bg-white/[0.03]",
@@ -784,10 +784,10 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
       </div>
 
       {/* ── Right: Main content ── */}
-      <div className="flex-1 min-w-0 flex flex-col">
+      <div className="flex min-h-0 flex-1 min-w-0 flex-col">
 
         {/* Top bar */}
-        <div className="flex items-center gap-3 px-5 py-3.5 border-b border-white/[0.07] bg-[#0f0f11] shrink-0">
+        <div className="flex items-center gap-3 px-5 py-3.5 border-b border-white/[0.07] bg-[#0f0f11] shrink-0 max-[760px]:flex-wrap max-[760px]:gap-2 max-[760px]:px-3">
           {/* Možnosti */}
           <div className="relative">
             <button
@@ -808,7 +808,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
           </div>
 
           {/* Search */}
-          <div className="relative w-[340px]">
+          <div className="relative w-[340px] max-[760px]:order-3 max-[760px]:w-full">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-[var(--vs-text-dim)] pointer-events-none" strokeWidth={1.75} />
             <input
               type="text"
@@ -888,7 +888,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
         )}
 
         {/* Grid / List content */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
           {items === null ? (
             <div className="flex flex-col items-center justify-center h-full gap-3 text-[var(--vs-text-dim)]">
               <Loader2 className="h-8 w-8 animate-spin" />
@@ -896,7 +896,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
             </div>
           ) : layout === "grid" ? (
             <div className="p-5">
-              <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(5, minmax(0, 1fr))" }}>
+              <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(118px, 1fr))" }}>
                 {/* Upload tile - always first */}
                 <UploadTile
                   uploading={uploading}
@@ -934,7 +934,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
               )}
             </div>
           ) : (
-            <div className="p-5">
+            <div className="overflow-x-auto p-5 max-[760px]:p-3">
               {/* List header */}
               <div className="flex items-center gap-4 px-4 py-2 text-[11px] font-semibold uppercase tracking-widest text-[var(--vs-text-dim)] border-b border-white/[0.05] mb-1">
                 <div className="w-5 shrink-0" />
@@ -978,7 +978,7 @@ export function AssetsGallery({ state, onClose }: { state: StudioState; onClose:
         </div>
 
         {/* Status bar */}
-        <div className="shrink-0 flex items-center gap-3 border-t border-white/[0.07] px-5 py-2 bg-[#0f0f11]">
+        <div className="shrink-0 flex items-center gap-3 border-t border-white/[0.07] px-5 py-2 bg-[#0f0f11] max-[760px]:px-3">
           <p className="text-[11.5px] text-[var(--vs-text-dim)]">
             {items === null ? "…" : `${shownCount} ${shownCount === 1 ? "soubor" : shownCount < 5 ? "soubory" : "souborů"}`}
             {shownCount !== totalCount && ` z ${totalCount}`}

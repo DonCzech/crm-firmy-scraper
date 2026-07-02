@@ -6,10 +6,10 @@
     "logoUrl": "/templates/peak-cut/logo.svg",
     "siteName": "Peak Cut",
     "links": [
-      { "label": "Služby",   "href": "#services" },
-      { "label": "Kontakty", "href": "#contacts" },
-      { "label": "Galerie",  "href": "#gallery"  },
-      { "label": "O nás",    "href": "#about"    }
+      { "label": "Služby",   "href": "/sluzby"  },
+      { "label": "O nás",    "href": "/o-nas"   },
+      { "label": "Galerie",  "href": "/galerie" },
+      { "label": "Kontakt",  "href": "/kontakt" }
     ],
     "ctaText": "",
     "ctaHref": "",
@@ -110,10 +110,10 @@
     "email": "info@demo.cz",
     "address": "Ukázková 123, 110 00 Praha 1",
     "links": [
-      { "label": "Služby",   "href": "#services" },
-      { "label": "Kontakty", "href": "#contacts" },
-      { "label": "Galerie",  "href": "#gallery"  },
-      { "label": "O nás",    "href": "#about"    }
+      { "label": "Služby",   "href": "/sluzby"  },
+      { "label": "O nás",    "href": "/o-nas"   },
+      { "label": "Galerie",  "href": "/galerie" },
+      { "label": "Kontakt",  "href": "/kontakt" }
     ],
     "socials": [
       { "label": "Instagram", "href": "https://instagram.com/demo" },

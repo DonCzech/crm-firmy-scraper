@@ -2541,80 +2541,159 @@ function GalleryRestaurant03({ content, sectionId, images }: { content: Record<s
 }
 
 // ── cafe-03-gallery ────────────────────────────────────────────────────────────
-// Ref: cathedral.cz — s-gallery-slider
-// Bílé bg, Great Vibes H2 centrovaně, horizontální slider se šipkami
-// Fotky aspect 8:5, prev/next navigace zlatá
+// Cathedral Editorial Slider — luxe redesign (2026-07-02)
+// Parchment bg, 2-col header (Great Vibes H2 + Cormorant kicker | Cormorant italic
+// counter + gold ghost arrows), horizontální snap slider s alternujícími portrait
+// (3:4) / landscape (4:3) formáty, Cormorant číslicemi, Great Vibes captiony,
+// custom luxe gold magnifier cursor, lightbox s prev/next/counter, progress bar.
 // ─────────────────────────────────────────────────────────────────────────────
-function GalleryCafe03({ content, sectionId, images }: { content: Record<string, unknown>; sectionId: number; images: Array<{ url?: string; fullUrl?: string; alt?: string }> }) {
+function GalleryCafe03({ content, sectionId, images }: { content: Record<string, unknown>; sectionId: number; images: Array<{ url?: string; fullUrl?: string; alt?: string; caption?: string }> }) {
   const GOLD    = "#C69C60";
-  const GOLD_DK = "#A07840";
-  const SERIF   = "'Great Vibes', cursive";
-  const SANS    = "'Open Sans', sans-serif";
+  const GOLD_LT = "#D8B57A";
+  const GOLD_DK = "#8F6A38";
+  const NOIR    = "#0d0d0d";
+  const INK     = "#1a1a1a";
+  const MUTED   = "#5a544a";
+  const PARCH   = "#F5EFE4";
+  const CREAM   = "#FBF7EF";
+  const SCRIPT  = "'Great Vibes', cursive";
+  const ITAL    = "'Cormorant Garamond', 'Playfair Display', Georgia, serif";
+  const SANS    = "'Inter', 'Open Sans', system-ui, sans-serif";
 
-  const title = String(content.title ?? "Jak to u nás vypadá");
-  const id    = String(content.id    ?? "galerie");
+  const id       = String(content.id       ?? "galerie");
+  const eyebrow  = String(content.eyebrow  ?? "OKAMŽIKY U NÁS");
+  const title    = String(content.title    ?? "Katedrální galerie");
+  const kicker   = String(content.kicker   ?? "interiér · terasa · jídlo · noc");
 
-  const defaultImages = [
-    { url: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=960&h=600&fit=crop&fm=webp&q=85", alt: "Kavárna" },
-    { url: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=960&h=600&fit=crop&fm=webp&q=85", alt: "Interiér" },
-    { url: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=960&h=600&fit=crop&fm=webp&q=85", alt: "Kavárna detail" },
-    { url: "https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=960&h=600&fit=crop&fm=webp&q=85", alt: "Káva" },
-    { url: "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=960&h=600&fit=crop&fm=webp&q=85", alt: "Terasa" },
+  const defaultImages: Array<{ url: string; alt: string; caption: string; fullUrl?: string }> = [
+    { url: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1200&h=1600&fit=crop&fm=webp&q=88", alt: "Klenutý sál",           caption: "Klenutý sál" },
+    { url: "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1200&h=900&fit=crop&fm=webp&q=88",   alt: "Zimní zahrada",         caption: "Zimní zahrada" },
+    { url: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=1200&h=1600&fit=crop&fm=webp&q=88", alt: "Ranní latte art",      caption: "Ranní latte" },
+    { url: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&h=900&fit=crop&fm=webp&q=88",  alt: "Vinný sklep při svíčkách", caption: "Vinný sklep" },
+    { url: "https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=1200&h=1600&fit=crop&fm=webp&q=88",   alt: "Cappuccino",           caption: "Cappuccino" },
+    { url: "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=1200&h=900&fit=crop&fm=webp&q=88",  alt: "Sezónní talíř",         caption: "Sezónní talíř" },
+    { url: "https://images.unsplash.com/photo-1533089860892-a7c6f0a88666?w=1200&h=1600&fit=crop&fm=webp&q=88", alt: "Snídaňový set",        caption: "Snídaňový set" },
+    { url: "https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=1200&h=900&fit=crop&fm=webp&q=88",  alt: "Letní terasa",          caption: "Letní terasa" },
   ];
   const imgs = images.length > 0 ? images : defaultImages;
 
   const trackRef = useRef<HTMLDivElement>(null);
   const [canPrev, setCanPrev] = useState(false);
   const [canNext, setCanNext] = useState(true);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
 
-  const ITEM_WIDTH = 520;
-  const GAP = 20;
-  const STEP = ITEM_WIDTH + GAP;
-
-  const updateArrows = useCallback(() => {
+  const updateState = useCallback(() => {
     const t = trackRef.current;
     if (!t) return;
     setCanPrev(t.scrollLeft > 8);
     setCanNext(t.scrollLeft < t.scrollWidth - t.clientWidth - 8);
+    const maxScroll = Math.max(1, t.scrollWidth - t.clientWidth);
+    setProgress(Math.min(1, t.scrollLeft / maxScroll));
+    // Find nearest snap item
+    const children = Array.from(t.children) as HTMLElement[];
+    let nearest = 0, nearestDelta = Infinity;
+    children.forEach((child, i) => {
+      const delta = Math.abs(child.offsetLeft - t.scrollLeft);
+      if (delta < nearestDelta) { nearestDelta = delta; nearest = i; }
+    });
+    setActiveIdx(nearest);
   }, []);
 
   useEffect(() => {
     const t = trackRef.current;
     if (!t) return;
-    t.addEventListener("scroll", updateArrows, { passive: true });
-    updateArrows();
-    return () => t.removeEventListener("scroll", updateArrows);
-  }, [updateArrows]);
+    t.addEventListener("scroll", updateState, { passive: true });
+    updateState();
+    const ro = new ResizeObserver(updateState);
+    ro.observe(t);
+    return () => { t.removeEventListener("scroll", updateState); ro.disconnect(); };
+  }, [updateState]);
 
   const scroll = (dir: -1 | 1) => {
-    trackRef.current?.scrollBy({ left: dir * STEP * 2, behavior: "smooth" });
+    const t = trackRef.current;
+    if (!t) return;
+    const children = Array.from(t.children) as HTMLElement[];
+    if (!children.length) return;
+    const targetIdx = Math.max(0, Math.min(children.length - 1, activeIdx + dir));
+    const target = children[targetIdx];
+    if (target) t.scrollTo({ left: target.offsetLeft, behavior: "smooth" });
   };
+
+  // Lightbox keyboard nav
+  useEffect(() => {
+    if (lightboxIdx === null) return;
+    const h = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightboxIdx(null);
+      else if (e.key === "ArrowLeft") setLightboxIdx(i => (i !== null && i > 0 ? i - 1 : i));
+      else if (e.key === "ArrowRight") setLightboxIdx(i => (i !== null && i < imgs.length - 1 ? i + 1 : i));
+    };
+    document.addEventListener("keydown", h);
+    return () => document.removeEventListener("keydown", h);
+  }, [lightboxIdx, imgs.length]);
+
+  useEffect(() => {
+    document.body.style.overflow = lightboxIdx !== null ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [lightboxIdx]);
+
+  const totalPad = String(imgs.length).padStart(2, "0");
+  const activePad = String(activeIdx + 1).padStart(2, "0");
+
+  // Luxe gold magnifier cursor (SVG data URL)
+  const luxCursor = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='42' height='42' viewBox='0 0 42 42'><circle cx='18' cy='18' r='11' fill='none' stroke='%23C69C60' stroke-width='1.4'/><line x1='26' y1='26' x2='36' y2='36' stroke='%23C69C60' stroke-width='1.4' stroke-linecap='round'/><line x1='13' y1='18' x2='23' y2='18' stroke='%23C69C60' stroke-width='1.2'/><line x1='18' y1='13' x2='18' y2='23' stroke='%23C69C60' stroke-width='1.2'/></svg>") 21 21, zoom-in`;
 
   const ArrowBtn = ({ dir }: { dir: -1 | 1 }) => {
     const active = dir === -1 ? canPrev : canNext;
     return (
       <button
         onClick={() => scroll(dir)}
+        disabled={!active}
         aria-label={dir === -1 ? "Předchozí" : "Další"}
-        style={{ width: 44, height: 44, borderRadius: "50%", border: `1.5px solid ${active ? GOLD : "#ccc"}`, background: "none", cursor: active ? "pointer" : "default", color: active ? GOLD : "#ccc", display: "flex", alignItems: "center", justifyContent: "center", transition: "border-color 0.2s, color 0.2s", flexShrink: 0 }}
-        onMouseEnter={e => { if (active) { e.currentTarget.style.backgroundColor = GOLD; e.currentTarget.style.color = "#fff"; } }}
-        onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = active ? GOLD : "#ccc"; }}
+        className="c3gal-arr"
+        style={{ width: 52, height: 52, borderRadius: "50%", border: `1px solid ${active ? GOLD : `${GOLD}33`}`, background: "transparent", cursor: active ? "pointer" : "default", color: active ? GOLD_DK : `${GOLD}55`, display: "flex", alignItems: "center", justifyContent: "center", transition: "background-color 0.28s ease, color 0.28s ease, border-color 0.28s ease", flexShrink: 0 }}
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points={dir === -1 ? "15 18 9 12 15 6" : "9 18 15 12 9 6"}/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><polyline points={dir === -1 ? "15 18 9 12 15 6" : "9 18 15 12 9 6"}/></svg>
       </button>
     );
   };
 
   return (
-    <section id={id} style={{ backgroundColor: "#fff", padding: "clamp(48px, 8vw, 96px) 0", fontFamily: SANS }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
-        <header style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "clamp(24px, 4vw, 48px)", flexWrap: "wrap", gap: 16 }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2">
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 48px)", fontWeight: 400, color: "#1a1a1a", margin: 0 }}>{title}</h2>
-          </GenericEditableText>
-          <div style={{ display: "flex", gap: 12 }}>
-            <ArrowBtn dir={-1} />
-            <ArrowBtn dir={1} />
+    <section id={id} data-template="cafe-03" className="c3gal" style={{ backgroundColor: PARCH, padding: "clamp(72px, 10vw, 130px) 0", fontFamily: SANS, position: "relative", overflow: "hidden" }}>
+      {/* Watermark gothic arch right */}
+      <svg aria-hidden width="320" height="480" viewBox="0 0 320 480" style={{ position: "absolute", right: -80, bottom: 40, opacity: 0.05, pointerEvents: "none" }}>
+        <path d="M20 460 V 200 A 140 140 0 0 1 300 200 V 460" stroke={INK} strokeWidth="1" fill="none" />
+      </svg>
+
+      <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", position: "relative", zIndex: 1 }}>
+        {/* Header 2-col */}
+        <header className="c3gal-header" style={{ display: "grid", gridTemplateColumns: "1fr auto", alignItems: "end", gap: 24, marginBottom: "clamp(32px, 5vw, 56px)" }}>
+          <div>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 14 }}>
+              <span aria-hidden style={{ display: "inline-block", width: 32, height: 1, backgroundColor: GOLD }} />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span">
+                <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD_DK }}>{eyebrow}</span>
+              </GenericEditableText>
+            </div>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2">
+              <h2 style={{ fontFamily: SCRIPT, fontSize: "clamp(44px, 6vw, 78px)", fontWeight: 400, color: INK, margin: 0, lineHeight: 1.05, letterSpacing: "0.005em" }}>{title}</h2>
+            </GenericEditableText>
+            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="p">
+              <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(15px, 1.4vw, 18px)", color: GOLD_DK, margin: "8px 0 0", letterSpacing: "0.04em" }}>— {kicker}</p>
+            </GenericEditableText>
+          </div>
+
+          {/* Counter + arrows */}
+          <div className="c3gal-controls" style={{ display: "flex", alignItems: "center", gap: 20, flexShrink: 0 }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
+              <span style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 40, color: GOLD_DK, lineHeight: 1, minWidth: 40, textAlign: "right" }}>{activePad}</span>
+              <span style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 22, color: MUTED, opacity: 0.6 }}>/{totalPad}</span>
+            </div>
+            <div style={{ display: "flex", gap: 10 }}>
+              <ArrowBtn dir={-1} />
+              <ArrowBtn dir={1} />
+            </div>
           </div>
         </header>
       </div>
@@ -2622,23 +2701,121 @@ function GalleryCafe03({ content, sectionId, images }: { content: Record<string,
       {/* Full-width scroll track */}
       <div
         ref={trackRef}
-        style={{ display: "flex", gap: GAP, overflowX: "auto", scrollSnapType: "x mandatory", paddingInline: "clamp(20px, 5vw, 60px)", paddingBottom: 8 }}
-        className="c3-gallery-track"
+        className="c3gal-track"
+        style={{ display: "flex", gap: 24, overflowX: "auto", scrollSnapType: "x mandatory", paddingInline: "clamp(20px, 5vw, 60px)", paddingBottom: 12 }}
       >
-        {imgs.map((img, i) => (
-          <div key={i} style={{ flexShrink: 0, width: ITEM_WIDTH, scrollSnapAlign: "start" }}>
-            <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={img.url ?? ""} alt={img.alt ?? ""} style={{ display: "block" }}>
-              <img src={img.url} alt={img.alt ?? ""} style={{ width: "100%", aspectRatio: "8/5", objectFit: "cover", display: "block" }} loading="lazy" />
-            </GenericEditableImage>
-          </div>
-        ))}
+        {imgs.map((img, i) => {
+          const isPortrait = i % 2 === 0;
+          const width = isPortrait ? 380 : 560;
+          const aspect = isPortrait ? "3/4" : "4/3";
+          const caption = img.caption ?? img.alt ?? "";
+          return (
+            <div
+              key={i}
+              className="c3gal-slide"
+              onClick={() => setLightboxIdx(i)}
+              style={{ flexShrink: 0, width, scrollSnapAlign: "start", position: "relative", cursor: "pointer" }}
+            >
+              {/* Number */}
+              <div style={{ position: "absolute", top: -8, left: 0, zIndex: 3, display: "flex", alignItems: "center", gap: 8 }}>
+                <span aria-hidden style={{ display: "inline-block", width: 18, height: 1, backgroundColor: GOLD }} />
+                <span style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 20, color: GOLD_DK, letterSpacing: "0.05em" }}>{String(i + 1).padStart(2, "0")}</span>
+              </div>
+
+              <div className="c3gal-imgwrap" style={{ position: "relative", aspectRatio: aspect, overflow: "hidden", backgroundColor: NOIR, cursor: luxCursor as unknown as string }}>
+                <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={img.url ?? ""} alt={img.alt ?? ""} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
+                  <img src={img.url} alt={img.alt ?? ""} className="c3gal-img" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.9s cubic-bezier(.25,.1,.25,1), filter 0.5s ease" }} loading="lazy" />
+                </GenericEditableImage>
+                {/* Bottom veil for caption */}
+                <div aria-hidden className="c3gal-veil" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "40%", background: `linear-gradient(to top, rgba(13,13,13,0.7) 0%, transparent 100%)`, opacity: 0, transition: "opacity 0.4s ease" }} />
+                {/* Caption */}
+                <div className="c3gal-cap" style={{ position: "absolute", left: 20, bottom: 20, right: 20, opacity: 0, transform: "translateY(6px)", transition: "opacity 0.4s ease 0.05s, transform 0.4s ease 0.05s", zIndex: 2 }}>
+                  <GenericEditableText sectionId={sectionId} field={`images.${i}.caption`} value={caption} tag="div">
+                    <div style={{ fontFamily: SCRIPT, fontSize: 28, color: "#fff", lineHeight: 1.1, letterSpacing: "0.005em" }}>{caption}</div>
+                  </GenericEditableText>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
 
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400&display=swap" />
-      <style>{`        .c3-gallery-track { -ms-overflow-style: none; scrollbar-width: none; }
-        .c3-gallery-track::-webkit-scrollbar { display: none; }
+      {/* Progress bar */}
+      <div style={{ maxWidth: 1400, margin: "18px auto 0", padding: "0 clamp(20px, 5vw, 60px)" }}>
+        <div aria-hidden style={{ position: "relative", height: 1, backgroundColor: `${GOLD}33`, overflow: "hidden" }}>
+          <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${Math.max(4, progress * 100)}%`, backgroundColor: GOLD, transition: "width 0.4s cubic-bezier(.4,0,.2,1)" }} />
+        </div>
+      </div>
+
+      {/* Lightbox */}
+      {lightboxIdx !== null && (
+        <div
+          onClick={() => setLightboxIdx(null)}
+          style={{ position: "fixed", inset: 0, zIndex: 9999, backgroundColor: "rgba(5,5,5,0.94)", display: "flex", alignItems: "center", justifyContent: "center", padding: "80px 20px 100px", cursor: "pointer" }}
+        >
+          {/* Close */}
+          <button
+            onClick={e => { e.stopPropagation(); setLightboxIdx(null); }}
+            aria-label="Zavřít"
+            style={{ position: "absolute", top: 24, right: 24, width: 48, height: 48, borderRadius: "50%", border: `1px solid ${GOLD}66`, background: "transparent", color: GOLD_LT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "background-color 0.2s, color 0.2s" }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = GOLD; e.currentTarget.style.color = NOIR; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = GOLD_LT; }}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+
+          {/* Prev */}
+          {lightboxIdx > 0 && (
+            <button
+              onClick={e => { e.stopPropagation(); setLightboxIdx(lightboxIdx - 1); }}
+              aria-label="Předchozí"
+              style={{ position: "absolute", left: 24, top: "50%", transform: "translateY(-50%)", width: 52, height: 52, borderRadius: "50%", border: `1px solid ${GOLD}66`, background: "transparent", color: GOLD_LT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+          )}
+
+          {/* Next */}
+          {lightboxIdx < imgs.length - 1 && (
+            <button
+              onClick={e => { e.stopPropagation(); setLightboxIdx(lightboxIdx + 1); }}
+              aria-label="Další"
+              style={{ position: "absolute", right: 24, top: "50%", transform: "translateY(-50%)", width: 52, height: 52, borderRadius: "50%", border: `1px solid ${GOLD}66`, background: "transparent", color: GOLD_LT, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          )}
+
+          {/* Image */}
+          <div onClick={e => e.stopPropagation()} style={{ position: "relative", maxWidth: "90vw", maxHeight: "82vh", cursor: "default" }}>
+            <img src={imgs[lightboxIdx].fullUrl ?? imgs[lightboxIdx].url ?? ""} alt={imgs[lightboxIdx].alt ?? ""} style={{ maxWidth: "90vw", maxHeight: "82vh", objectFit: "contain", display: "block", boxShadow: `0 40px 80px rgba(0,0,0,0.6)`, border: `1px solid ${GOLD}33` }} loading="eager" />
+            {imgs[lightboxIdx].caption && (
+              <div style={{ position: "absolute", left: 0, right: 0, bottom: -50, textAlign: "center" }}>
+                <span style={{ fontFamily: SCRIPT, fontSize: 30, color: GOLD_LT }}>{imgs[lightboxIdx].caption}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Counter */}
+          <div style={{ position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)", fontFamily: ITAL, fontStyle: "italic", fontSize: 18, color: GOLD_LT, letterSpacing: "0.06em" }}>
+            {String(lightboxIdx + 1).padStart(2, "0")}
+            <span style={{ opacity: 0.5, marginInline: 8 }}>/</span>
+            {totalPad}
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        [data-template="cafe-03"].c3gal .c3gal-track { -ms-overflow-style: none; scrollbar-width: none; }
+        [data-template="cafe-03"].c3gal .c3gal-track::-webkit-scrollbar { display: none; }
+        [data-template="cafe-03"].c3gal .c3gal-slide:hover .c3gal-img { transform: scale(1.05); }
+        [data-template="cafe-03"].c3gal .c3gal-slide:hover .c3gal-veil { opacity: 1; }
+        [data-template="cafe-03"].c3gal .c3gal-slide:hover .c3gal-cap { opacity: 1 !important; transform: none !important; }
+        [data-template="cafe-03"].c3gal .c3gal-arr:not(:disabled):hover { background-color: ${GOLD} !important; color: ${NOIR} !important; }
+        @media (max-width: 767px) {
+          [data-template="cafe-03"].c3gal .c3gal-header { grid-template-columns: 1fr !important; align-items: flex-start !important; }
+          [data-template="cafe-03"].c3gal .c3gal-controls { align-self: flex-start; }
+        }
       `}</style>
     </section>
   );

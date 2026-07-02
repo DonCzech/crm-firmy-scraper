@@ -5596,23 +5596,26 @@ function AboutFyzio02Features({ content, sectionId }: { content: Record<string, 
 // burgundy Georgia H2 + 2 body odstavce + gold outline CTA
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutCafe02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const id      = String(content.id      ?? "o-nas");
-  const tagline = String(content.tagline ?? "Náš příběh");
-  const title   = String(content.title   ?? "Místo, kde se čas\nzastaví nad šálkem kávy.");
-  const body    = String(content.body    ?? "");
-  const body2   = String(content.body2   ?? "");
-  const ctaText = String(content.ctaText ?? "Více o nás");
-  const ctaHref = String(content.ctaHref ?? "/o-nas");
-  const image   = String(content.image   ?? "");
+  const id           = String(content.id           ?? "o-nas");
+  const eyebrow      = String(content.eyebrow      ?? content.tagline ?? "Náš příběh");
+  const title        = String(content.title        ?? "Místo, kde se čas\nzastaví nad šálkem kávy.");
+  const body         = String(content.body         ?? "Belvedere je vídeňská kavárna v duchu belle époque — vysoké štukované stropy, mramorové stolky a kožené lavice, kde ranní espresso přechází v pomalý brunch a odpolední káva ve večerní víno.");
+  const quote        = String(content.quote        ?? "„Krása je v drobnostech: v pěně espressa, v chrupavém závinu, v okamžiku, kdy se čas zastaví.“");
+  const quoteAuthor  = String(content.quoteAuthor  ?? "— Anna Hoffmann, hlavní baristka");
+  const body2        = String(content.body2        ?? "Pečivo pečeme každé ráno v našem sklepním pekařství, kávu roastujeme z prvoligových pražíren z Vídně, Berlína a Osla. Vína vybíráme přímo od vinařů z Moravy a Rakouska.");
+  const ctaText      = String(content.ctaText      ?? "Poznat celý příběh");
+  const ctaHref      = String(content.ctaHref      ?? "/o-nas");
+  const image        = String(content.image        ?? "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=1100&h=1400&fit=crop&fm=webp&q=88");
+  const imageAccent  = String(content.imageAccent  ?? "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=700&h=520&fit=crop&fm=webp&q=88");
 
-  const BG      = "#F7F4EF";
-  const GOLD    = "#A89B67";
-  const BURG    = "#6C1D45";
-  const TEXT    = "#1A0E0A";
-  const MUTED   = "#8C7B6A";
-  const FONT    = "Georgia, 'Times New Roman', serif";
-  const SANS    = "'Helvetica Neue', Helvetica, Arial, sans-serif";
-  const PLACEHOLDER = "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=900&h=675&fit=crop&fm=webp&q=85";
+  type Stat = { value: string; label: string };
+  const stats: Stat[] = Array.isArray(content.stats) && (content.stats as Stat[]).length > 0
+    ? (content.stats as Stat[])
+    : [
+        { value: "1898", label: "Rok založení" },
+        { value: "42", label: "Odrůd kávy" },
+        { value: "280", label: "Šálků denně" },
+      ];
 
   const secRef = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -5621,64 +5624,102 @@ function AboutCafe02({ content, sectionId }: { content: Record<string, unknown>;
     const items = el.querySelectorAll<HTMLElement>("[data-c02a]");
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { (e.target as HTMLElement).classList.add("c02a-vis"); obs.unobserve(e.target); } });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.14 });
     items.forEach(item => obs.observe(item));
     return () => obs.disconnect();
   }, []);
 
   return (
-    <section ref={secRef} id={id} data-variant="cafe-02-about" style={{ backgroundColor: BG, padding: "96px 0", fontFamily: SANS }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(24px, 5vw, 64px)" }}>
-        <div className="c02a-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 80px)", alignItems: "center" }}>
-          <div data-c02a="0" style={{ aspectRatio: "4/3", overflow: "hidden", borderRadius: 2, boxShadow: "0 8px 32px rgba(26,14,10,0.10)" }}>
-            <GenericEditableImage sectionId={sectionId} field="image" src={image || PLACEHOLDER} alt={title} style={{ width: "100%", height: "100%", display: "block" }}>
-              <img
-                src={image || PLACEHOLDER}
-                alt={title}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.6s ease" }}
-                onMouseEnter={e => ((e.currentTarget as HTMLImageElement).style.transform = "scale(1.03)")}
-                onMouseLeave={e => ((e.currentTarget as HTMLImageElement).style.transform = "scale(1)")}
-              />
-            </GenericEditableImage>
+    <section
+      ref={secRef}
+      id={id}
+      data-template="cafe-02"
+      data-variant="cafe-02-about"
+      className="cafe02-about"
+      aria-label="O nás"
+    >
+      {/* Decorative background monogram */}
+      <span className="cafe02-about__mono" aria-hidden>B</span>
+
+      <div className="cafe02-about__inner">
+        <div className="cafe02-about__grid">
+          {/* Image column */}
+          <div className="cafe02-about__media" data-c02a="0">
+            <div className="cafe02-about__frame">
+              <span className="cafe02-about__frame-corner cafe02-about__frame-corner--tl" aria-hidden />
+              <span className="cafe02-about__frame-corner cafe02-about__frame-corner--br" aria-hidden />
+              <div className="cafe02-about__photo">
+                <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} style={{ width: "100%", height: "100%", display: "block" }}>
+                  <img src={image} alt={title} className="cafe02-about__photo-img" />
+                </GenericEditableImage>
+              </div>
+            </div>
+            {/* Small floating accent image */}
+            <div className="cafe02-about__accent" data-c02a="0b">
+              <GenericEditableImage sectionId={sectionId} field="imageAccent" src={imageAccent} alt="" style={{ width: "100%", height: "100%", display: "block" }}>
+                <img src={imageAccent} alt="" aria-hidden className="cafe02-about__accent-img" />
+              </GenericEditableImage>
+              <span className="cafe02-about__accent-label">
+                <GenericEditableText sectionId={sectionId} field="accentLabel" value={String(content.accentLabel ?? "Est. 1898")} tag="span" />
+              </span>
+            </div>
           </div>
-          <div data-c02a="1" style={{ transitionDelay: "0.14s" }}>
-            <p style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: GOLD, margin: "0 0 14px" }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
-            <div style={{ width: 40, height: 1.5, backgroundColor: GOLD, marginBottom: 24 }} />
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 400, lineHeight: 1.25, color: BURG, margin: "0 0 28px", whiteSpace: "pre-line" }}>
+
+          {/* Text column */}
+          <div className="cafe02-about__text" data-c02a="1">
+            <div className="cafe02-about__eyebrow">
+              <span className="cafe02-about__eyebrow-rule" />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </div>
+
+            <h2 className="cafe02-about__title">
               <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
             </h2>
-            <p style={{ fontFamily: SANS, fontSize: 15, fontWeight: 400, lineHeight: 1.85, color: TEXT, margin: "0 0 16px" }}>
+
+            <div className="cafe02-about__title-rule" aria-hidden><span /></div>
+
+            <p className="cafe02-about__body">
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
-            {body2 && (
-              <p style={{ fontFamily: SANS, fontSize: 15, fontWeight: 400, lineHeight: 1.85, color: MUTED, margin: "0 0 36px" }}>
-                <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
+
+            <blockquote className="cafe02-about__quote">
+              <span className="cafe02-about__quote-mark" aria-hidden>&ldquo;</span>
+              <p className="cafe02-about__quote-text">
+                <GenericEditableText sectionId={sectionId} field="quote" value={quote} tag="span" />
               </p>
-            )}
-            <a
-              href={ctaHref}
-              data-btn="primary"
-              style={{
-                fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.12em",
-                textTransform: "uppercase", color: BURG, textDecoration: "none",
-                padding: "12px 28px", border: `1.5px solid ${BURG}`, borderRadius: 2,
-                display: "inline-block", transition: "background-color 0.2s, color 0.2s",
-              }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = BURG; e.currentTarget.style.color = "#fff"; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = BURG; }}
-            >
+              <footer className="cafe02-about__quote-author">
+                <GenericEditableText sectionId={sectionId} field="quoteAuthor" value={quoteAuthor} tag="span" />
+              </footer>
+            </blockquote>
+
+            <p className="cafe02-about__body cafe02-about__body--muted">
+              <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
+            </p>
+
+            <a href={ctaHref} data-btn="primary" className="cafe02-about__cta">
+              <span className="cafe02-nav__cta-shine" aria-hidden />
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden className="cafe02-about__cta-arrow">
+                <path d="M1 5H15M10 1L15 5L10 9" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </a>
           </div>
         </div>
+
+        {/* Stats mini-bar */}
+        <div className="cafe02-about__stats" data-c02a="2">
+          {stats.map((s, i) => (
+            <div key={i} className="cafe02-about__stat">
+              <span className="cafe02-about__stat-value">
+                <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value} tag="span" />
+              </span>
+              <span className="cafe02-about__stat-label">
+                <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
-      <style>{`
-        @media(max-width:768px){.c02a-grid{grid-template-columns:1fr!important}}
-        [data-c02a]{opacity:0;transform:translateY(36px);transition:opacity .72s cubic-bezier(.22,1,.36,1),transform .72s cubic-bezier(.22,1,.36,1)}
-        [data-c02a].c02a-vis{opacity:1;transform:translateY(0)}
-      `}</style>
     </section>
   );
 }
@@ -5977,137 +6018,230 @@ function AboutRestaurant03({ content, sectionId }: { content: Record<string, unk
 }
 
 // ── cafe-03-about ─────────────────────────────────────────────────────────────
-// Ref: cathedral.cz — s-text-intro-side
-// Bílé bg, 2-col: portrait foto vlevo (aspect 4/5) | zlatý kicker + Great Vibes H2 + text vpravo
+// Cathedral Gilded About — luxe editorial (2026-07-02)
+// Parchment bg (#F5EFE4), 5fr/7fr grid s image left (gold hairline offset frame +
+// caption card overlap) a rich text right: eyebrow s hairline + Cormorant kicker +
+// Great Vibes H2 vrstvený s Cormorant italic subtitle + diamond divider + body s
+// drop-cap + 3 mini-stats (est. / guests / hodnocení) + Great Vibes signature.
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutCafe03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const GOLD  = "#C69C60";
-  const DARK  = "#1a1a1a";
-  const MUTED = "#6b6b6b";
-  const SERIF = "'Great Vibes', cursive";
-  const SANS  = "'Open Sans', sans-serif";
+  const GOLD    = "#C69C60";
+  const GOLD_LT = "#D8B57A";
+  const GOLD_DK = "#8F6A38";
+  const NOIR    = "#0d0d0d";
+  const INK     = "#1a1a1a";
+  const MUTED   = "#5a544a";
+  const PARCH   = "#F5EFE4";
+  const CREAM   = "#FBF7EF";
+  const SCRIPT  = "'Great Vibes', cursive";
+  const ITAL    = "'Cormorant Garamond', 'Playfair Display', Georgia, serif";
+  const SANS    = "'Inter', 'Open Sans', system-ui, sans-serif";
 
-  const id      = String(content.id      ?? "o-nas");
-  const tagline = String(content.tagline ?? "O NÁS");
-  const title   = String(content.title   ?? "Cathedral Café Lounge & Restaurant");
-  const body    = String(content.body    ?? "");
-  const body2   = String(content.body2   ?? "");
-  const image   = String(content.image   ?? "https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=900&h=1125&fit=crop&fm=webp&q=85");
+  const id       = String(content.id       ?? "o-nas");
+  const eyebrow  = String(content.eyebrow  ?? "NAŠE HISTORIE");
+  const kicker   = String(content.kicker   ?? "Založeno MMXVI · Melantrichova 15");
+  const title    = String(content.title    ?? "Katedrální elegance");
+  const subtitle = String(content.subtitle ?? "kavárna & restaurace ve Starém Městě");
+  const body     = String(content.body     ?? "Cathedral Café je místem, kde se snoubí atmosféra staré Prahy s poctivou gastronomií. Ranní čerstvá káva ze specialty pražírny Doubleshot, obědy z lokálních surovin a večerní bistro s pečlivě vybranou vinnou kartou z moravských sklepů — vše pod klenutými stropy památkově chráněného domu.");
+  const body2    = String(content.body2    ?? "Náš tým vedený šéfkuchařem Adamem Hálou dbá na sezónnost, řemeslo a detaily, které dělají návštěvu nezapomenutelnou.");
+  const image    = String(content.image    ?? "https://images.unsplash.com/photo-1517705008128-361805f42e86?w=1000&h=1250&fit=crop&fm=webp&q=88");
+  const captionSm = String(content.imageCaption ?? "Klenutý sál Cathedral");
+  const stats = (content.stats as Array<{ value: string; label: string }>) ?? [
+    { value: "MMXVI", label: "Rok založení" },
+    { value: "180", label: "Míst k sezení" },
+    { value: "4.8", label: "Google hodnocení" },
+  ];
+  const signature = String(content.signature ?? "Adam Hála");
+  const signRole  = String(content.signRole  ?? "Šéfkuchař & spolumajitel");
 
   return (
-    <section id={id} style={{ backgroundColor: "#fff", padding: "clamp(48px, 8vw, 96px) 0", fontFamily: SANS }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)" }}>
-        <div className="c3-about-grid" style={{ display: "grid", gridTemplateColumns: "5fr 7fr", gap: "clamp(32px, 6vw, 80px)", alignItems: "center" }}>
-          {/* Portrait image */}
-          <div style={{ overflow: "hidden" }}>
-            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} style={{ display: "block" }}>
-              <img src={image} alt={title} style={{ width: "100%", aspectRatio: "4/5", objectFit: "cover", display: "block" }} loading="lazy" />
-            </GenericEditableImage>
+    <section id={id} data-template="cafe-03" className="c3about" style={{ backgroundColor: PARCH, padding: "clamp(72px, 10vw, 140px) 0", fontFamily: SANS, position: "relative", overflow: "hidden" }}>
+      {/* Decorative gothic arch watermark */}
+      <svg aria-hidden width="360" height="520" viewBox="0 0 360 520" style={{ position: "absolute", right: -80, top: 40, opacity: 0.06, pointerEvents: "none" }}>
+        <path d="M40 500 V 200 A 140 140 0 0 1 320 200 V 500" stroke={NOIR} strokeWidth="1" fill="none" />
+        <path d="M80 500 V 220 A 100 100 0 0 1 280 220 V 500" stroke={NOIR} strokeWidth="1" fill="none" />
+        <path d="M120 500 V 240 A 60 60 0 0 1 240 240 V 500" stroke={NOIR} strokeWidth="1" fill="none" />
+      </svg>
+
+      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 clamp(20px, 5vw, 60px)", position: "relative", zIndex: 1 }}>
+        <div className="c3about-grid" style={{ display: "grid", gridTemplateColumns: "5fr 7fr", gap: "clamp(40px, 7vw, 96px)", alignItems: "center" }}>
+          {/* LEFT — image with gold hairline frame + caption card */}
+          <div className="c3about-media" style={{ position: "relative" }}>
+            {/* Gold hairline offset frame */}
+            <span aria-hidden style={{ position: "absolute", inset: "-14px -14px -14px -14px", border: `1px solid ${GOLD}`, pointerEvents: "none" }} />
+            <span aria-hidden style={{ position: "absolute", top: -14, left: -14, width: 22, height: 22, borderTop: `2px solid ${GOLD}`, borderLeft: `2px solid ${GOLD}` }} />
+            <span aria-hidden style={{ position: "absolute", bottom: -14, right: -14, width: 22, height: 22, borderBottom: `2px solid ${GOLD}`, borderRight: `2px solid ${GOLD}` }} />
+
+            <div className="c3about-imgwrap" style={{ overflow: "hidden", position: "relative" }}>
+              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} style={{ display: "block" }}>
+                <img src={image} alt={title} className="c3about-img" style={{ width: "100%", aspectRatio: "4/5", objectFit: "cover", display: "block", transition: "transform 1.2s cubic-bezier(.25,.1,.25,1)" }} loading="lazy" />
+              </GenericEditableImage>
+            </div>
+
+            {/* Overlapping caption card */}
+            <div className="c3about-cap" style={{ position: "absolute", bottom: -26, left: 20, backgroundColor: NOIR, color: PARCH, padding: "18px 24px", display: "flex", alignItems: "center", gap: 14, boxShadow: "0 20px 50px rgba(0,0,0,0.25)", borderLeft: `2px solid ${GOLD}` }}>
+              <span style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: 30, color: GOLD_LT, lineHeight: 1 }}>{"❦"}</span>
+              <div>
+                <div style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.28em", textTransform: "uppercase", color: GOLD_LT, opacity: 0.85 }}>Interiér</div>
+                <div style={{ fontFamily: SCRIPT, fontSize: 22, color: PARCH, lineHeight: 1.1, marginTop: 2 }}>
+                  <GenericEditableText sectionId={sectionId} field="imageCaption" value={captionSm} tag="span" />
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Text */}
-          <div>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p">
-              <p style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: GOLD, margin: "0 0 16px" }}>
-                {tagline}
-              </p>
+          {/* RIGHT — editorial text */}
+          <div className="c3about-text">
+            {/* Eyebrow */}
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 14 }}>
+              <span aria-hidden style={{ display: "inline-block", width: 32, height: 1, backgroundColor: GOLD }} />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span">
+                <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 500, letterSpacing: "0.32em", textTransform: "uppercase", color: GOLD_DK }}>{eyebrow}</span>
+              </GenericEditableText>
+            </div>
+
+            {/* Kicker italic */}
+            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="p">
+              <p style={{ fontFamily: ITAL, fontStyle: "italic", fontSize: "clamp(15px, 1.4vw, 18px)", color: MUTED, margin: "0 0 6px", letterSpacing: "0.02em" }}>{kicker}</p>
             </GenericEditableText>
+
+            {/* H2 layered: Great Vibes big + Cormorant italic subtitle */}
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2">
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 400, color: DARK, margin: "0 0 24px", lineHeight: 1.2, letterSpacing: "0.01em" }}>
+              <h2 style={{ fontFamily: SCRIPT, fontSize: "clamp(48px, 6vw, 82px)", fontWeight: 400, color: INK, margin: "0 0 0", lineHeight: 1.05, letterSpacing: "0.005em" }}>
                 {title}
               </h2>
             </GenericEditableText>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p">
+              <p style={{ fontFamily: ITAL, fontStyle: "italic", fontWeight: 500, fontSize: "clamp(18px, 1.8vw, 24px)", color: GOLD_DK, margin: "6px 0 24px", letterSpacing: "0.02em" }}>— {subtitle}</p>
+            </GenericEditableText>
+
+            {/* Diamond divider */}
+            <div aria-hidden style={{ display: "flex", alignItems: "center", gap: 10, margin: "0 0 28px" }}>
+              <span style={{ display: "inline-block", width: 40, height: 1, backgroundColor: GOLD }} />
+              <span style={{ display: "inline-block", width: 5, height: 5, transform: "rotate(45deg)", border: `1px solid ${GOLD}` }} />
+              <span style={{ display: "inline-block", width: 40, height: 1, backgroundColor: GOLD }} />
+            </div>
+
+            {/* Body with drop-cap */}
             {body && (
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="p">
-                <p style={{ fontFamily: SANS, fontSize: "clamp(14px, 1.6vw, 16px)", fontWeight: 300, color: MUTED, lineHeight: 1.75, margin: "0 0 16px" }}>
+                <p className="c3about-body c3about-body-first" style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.15vw, 17px)", fontWeight: 400, color: INK, opacity: 0.85, lineHeight: 1.75, margin: "0 0 18px" }}>
                   {body}
                 </p>
               </GenericEditableText>
             )}
             {body2 && (
               <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="p">
-                <p style={{ fontFamily: SANS, fontSize: "clamp(14px, 1.6vw, 16px)", fontWeight: 300, color: MUTED, lineHeight: 1.75, margin: 0 }}>
+                <p style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.15vw, 17px)", fontWeight: 400, color: INK, opacity: 0.72, lineHeight: 1.75, margin: 0 }}>
                   {body2}
                 </p>
               </GenericEditableText>
             )}
+
+            {/* Mini-stats row */}
+            <div className="c3about-stats" style={{ display: "grid", gridTemplateColumns: `repeat(${stats.length}, 1fr)`, gap: "clamp(16px, 3vw, 32px)", marginTop: 40, paddingTop: 28, borderTop: `1px solid ${GOLD}55` }}>
+              {stats.map((st, i) => (
+                <div key={i} className="c3about-stat" style={{ position: "relative", paddingLeft: i > 0 ? 20 : 0, borderLeft: i > 0 ? `1px solid ${GOLD}33` : "none" }}>
+                  <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={st.value} tag="div">
+                    <div style={{ fontFamily: ITAL, fontStyle: "italic", fontWeight: 500, fontSize: "clamp(32px, 3vw, 44px)", color: GOLD_DK, lineHeight: 1, letterSpacing: "0.02em" }}>{st.value}</div>
+                  </GenericEditableText>
+                  <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={st.label} tag="div">
+                    <div style={{ fontFamily: SANS, fontSize: 10, fontWeight: 500, letterSpacing: "0.24em", textTransform: "uppercase", color: MUTED, marginTop: 8 }}>{st.label}</div>
+                  </GenericEditableText>
+                </div>
+              ))}
+            </div>
+
+            {/* Signature */}
+            <div style={{ marginTop: 32, display: "flex", alignItems: "center", gap: 14 }}>
+              <GenericEditableText sectionId={sectionId} field="signature" value={signature} tag="span">
+                <span style={{ fontFamily: SCRIPT, fontSize: 34, color: INK, lineHeight: 1 }}>{signature}</span>
+              </GenericEditableText>
+              <span aria-hidden style={{ display: "inline-block", width: 40, height: 1, backgroundColor: GOLD }} />
+              <GenericEditableText sectionId={sectionId} field="signRole" value={signRole} tag="span">
+                <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.24em", textTransform: "uppercase", color: MUTED }}>{signRole}</span>
+              </GenericEditableText>
+            </div>
           </div>
         </div>
       </div>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Open+Sans:wght@300;400;600&display=swap" />
-      <style>{`        @media(max-width:768px){.c3-about-grid{grid-template-columns:1fr!important}}
+
+      <style>{`
+        [data-template="cafe-03"].c3about .c3about-imgwrap:hover .c3about-img { transform: scale(1.06); }
+        [data-template="cafe-03"].c3about .c3about-body-first::first-letter { font-family: ${SCRIPT}; font-size: 5.4em; float: left; line-height: 0.9; padding: 4px 12px 0 0; color: ${GOLD_DK}; }
+        @media (max-width: 900px) {
+          [data-template="cafe-03"].c3about .c3about-grid { grid-template-columns: 1fr !important; }
+          [data-template="cafe-03"].c3about .c3about-cap { left: 12px; bottom: -20px; padding: 14px 18px; }
+        }
       `}</style>
     </section>
   );
 }
 
 // ── cafe-04-about ─────────────────────────────────────────────────────────────
-// Ref: coffeeroom.cz — 4 alternating blocks 1:1
-// CSS extracted from Webflow CSS: .container, .div-img, .div-text, .div-text-left, .para-prod, .img-prod
+// Editorial alternating text/image blocks — coffee-gold indexy, sharp 2px rohy,
+// eyebrow header s hairline, hover image zoom, luxusní typografie
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutCafe04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  type Block = { imageUrl: string; imageAlt: string; text: string; imageLeft: boolean };
-  const blocks = (content.blocks as Block[] | undefined) ?? [];
+  type Block = { imageUrl: string; imageAlt: string; title?: string; text: string; imageLeft: boolean };
+  const blocks  = (content.blocks as Block[] | undefined) ?? [];
+  const eyebrow = String(content.eyebrow  ?? "Naše káva");
+  const title   = String(content.title    ?? "Řemeslo v každém šálku.");
+  const tagline = String(content.tagline  ?? "Vybíráme zrna od lokálních pražíren a věnujeme jim tolik pozornosti, kolik si zaslouží.");
 
   return (
-    <section style={{ textAlign: "left", marginTop: 0, paddingTop: 100, fontFamily: "Montserrat, sans-serif", display: "block", position: "relative", overflow: "hidden", backgroundColor: "#fff" }}>
-      <style>{`
-        .cr04-wrap { width: 70%; margin-left: auto; margin-right: auto; display: block; position: relative; }
-        .cr04-content-wrap { text-align: center; flex-direction: column; align-items: stretch; width: 100%; margin-bottom: 40px; margin-left: auto; margin-right: auto; display: flex; }
-        .cr04-container { flex-direction: row; justify-content: space-between; margin-bottom: 140px; display: flex; }
-        .cr04-div-img { width: 50%; padding-left: 10px; padding-right: 10px; }
-        .cr04-div-img img { border-radius: 10px; margin-top: 0; margin-bottom: 0; display: block; width: 100%; }
-        .cr04-div-text { justify-content: center; align-items: center; width: 50%; margin-left: 20px; margin-right: 20px; padding-left: 5%; padding-right: 0%; display: flex; }
-        .cr04-div-text-left { justify-content: center; align-items: center; width: 50%; padding-left: 0%; padding-right: 5%; display: flex; }
-        .cr04-para-prod { color: #1d1f2e; text-align: left; letter-spacing: 1px; font-family: 'Karla', 'Helvetica Neue', Arial, sans-serif; font-size: 19px; font-weight: 500; line-height: 30px; position: static; margin: 0; }
-        @media (max-width: 828px) {
-          .cr04-wrap { width: 90%; }
-          .cr04-container { flex-direction: column; margin-bottom: 100px; }
-          .cr04-container.cr04-_2 { flex-direction: column-reverse; }
-          .cr04-div-img { width: 100%; margin-bottom: 42px; padding-left: 0; padding-right: 0; }
-          .cr04-div-text { width: 100%; margin-left: 0; margin-right: 0; padding-left: 0%; padding-right: 0%; }
-          .cr04-div-text-left { width: 100%; padding-right: 0%; }
-          .cr04-para-prod { font-size: 17px; line-height: 28px; }
-        }
-      `}</style>
-      <div className="cr04-wrap">
-        <div className="cr04-content-wrap">
-          {blocks.map((block, i) => {
-            if (block.imageLeft) {
-              return (
-                <div key={i} className="cr04-container">
-                  <div className="cr04-div-img">
-                    <GenericEditableImage sectionId={sectionId} field={`blocks.${i}.imageUrl`} src={block.imageUrl} alt={block.imageAlt} style={{ display: "block", width: "100%" }}>
-                      <img loading="lazy" src={block.imageUrl} alt={block.imageAlt} style={{ display: "block", width: "100%", borderRadius: 10 }} />
-                    </GenericEditableImage>
-                  </div>
-                  <div className="cr04-div-text">
-                    <p className="cr04-para-prod">
-                      <GenericEditableText sectionId={sectionId} field={`blocks.${i}.text`} value={block.text} tag="span" />
-                    </p>
-                  </div>
-                </div>
-              );
-            } else {
-              return (
-                <div key={i} className="cr04-container cr04-_2">
-                  <div className="cr04-div-text-left">
-                    <p className="cr04-para-prod">
-                      <GenericEditableText sectionId={sectionId} field={`blocks.${i}.text`} value={block.text} tag="span" />
-                    </p>
-                  </div>
-                  <div className="cr04-div-img">
-                    <GenericEditableImage sectionId={sectionId} field={`blocks.${i}.imageUrl`} src={block.imageUrl} alt={block.imageAlt} style={{ display: "block", width: "100%" }}>
-                      <img loading="lazy" src={block.imageUrl} alt={block.imageAlt} style={{ display: "block", width: "100%", borderRadius: 10 }} />
-                    </GenericEditableImage>
-                  </div>
-                </div>
-              );
-            }
-          })}
-        </div>
+    <section className="cr04-about" data-template="cafe-04">
+      <div className="cr04-about-header">
+        <span className="cr04-about-eyebrow">
+          <span className="cr04-about-eyebrow-rule" aria-hidden />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </span>
+        <h2 className="cr04-about-title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h2>
+        <p className="cr04-about-tagline">
+          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+        </p>
+      </div>
+
+      <div className="cr04-about-list">
+        {blocks.map((block, i) => (
+          <article
+            key={i}
+            className="cr04-about-row"
+            data-flip={block.imageLeft ? "n" : "y"}
+          >
+            <div className="cr04-about-media">
+              <GenericEditableImage
+                sectionId={sectionId}
+                field={`blocks.${i}.imageUrl`}
+                src={block.imageUrl}
+                alt={block.imageAlt}
+                style={{ display: "block", width: "100%", height: "100%" }}
+              >
+                <img
+                  loading="lazy"
+                  src={block.imageUrl}
+                  alt={block.imageAlt}
+                  className="cr04-about-img"
+                />
+              </GenericEditableImage>
+              <span className="cr04-about-index" aria-hidden>{String(i + 1).padStart(2, "0")}</span>
+            </div>
+
+            <div className="cr04-about-body">
+              <span className="cr04-about-body-num" aria-hidden>— {String(i + 1).padStart(2, "0")} / {String(blocks.length).padStart(2, "0")}</span>
+              {block.title && (
+                <h3 className="cr04-about-body-title">
+                  <GenericEditableText sectionId={sectionId} field={`blocks.${i}.title`} value={block.title} tag="span" />
+                </h3>
+              )}
+              <p className="cr04-about-body-text">
+                <GenericEditableText sectionId={sectionId} field={`blocks.${i}.text`} value={block.text} tag="span" />
+              </p>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );

@@ -3,7 +3,7 @@
 import {
   useState, useRef, useCallback, useEffect, type PointerEvent as ReactPointerEvent,
 } from "react";
-import { Monitor, Smartphone, Info, Pencil, Trash2, AlignStartVertical, AlignCenterVertical, AlignEndVertical } from "lucide-react";
+import { Monitor, Smartphone, Info, Pencil, Trash2, AlignStartVertical, AlignCenterVertical, AlignEndVertical } from "@/components/studio/icons";
 import { useStudio } from "../StudioContext";
 import { MediaPickerModal } from "../MediaPickerModal";
 import clsx from "clsx";

@@ -1,22 +1,22 @@
 {
   "$schema": "../../schemas/template.schema.json",
   "key": "clinic-02",
-  "name": "Demo Bomton Clinic",
+  "name": "Aurélie Clinic",
   "industry": "clinic",
   "skeleton": "service-personal",
   "version": "0.1.0",
   "baseTemplate": null,
-  "description": "Kosmetická klinika estetické dermatologie — bílý navbar s navy #0F203E logem a amber #ffa60b CTA, fullbleed hero s dark overlay a tagline, Google reviews sekce, oblíbená ošetření cards, konzultace zdarma promo, about s feature checklist, newsletter CTA, footer. Inspirováno bomtonclinic.cz.",
-  "sectionOrderNote": "Navbar → Hero → About → Services → Promo [extra] → Testimonials → CTA → Contact → Footer (dle bomtonclinic.cz)",
+  "description": "Klinika estetické dermatologie — bílý 2-řádkový navbar s centrovaným wordmark logem, fullbleed hero s white-fade overlay a taglinem, Google reviews sekce, oblíbená ošetření cards, konzultace zdarma promo, about s feature checklist, newsletter CTA, kontakt + footer.",
+  "sectionOrderNote": "Navbar → Hero → About → Services → Promo [extra] → Testimonials → CTA → Contact → Footer",
   "skippedSections": [
-    { "pos": 5,  "name": "Pricing",   "reason": "Bomton ceník je na samostatné stránce; homepage jen odkazuje na kontakt/rezervace" },
-    { "pos": 6,  "name": "Gallery",   "reason": "Bomton nemá dedikovanou galerii na homepage — fotky jsou integrované v sekcích" },
-    { "pos": 7,  "name": "Team",      "reason": "Tým prezentován na podstránce, homepage ho neobsahuje" },
-    { "pos": 11, "name": "FAQ",       "reason": "Originál nemá FAQ sekci na homepage" }
+    { "pos": 5,  "name": "Pricing",   "reason": "ceník je na samostatné stránce; homepage jen odkazuje na kontakt/rezervace" },
+    { "pos": 6,  "name": "Gallery",   "reason": "homepage nemá dedikovanou galerii — fotky jsou integrované v sekcích" },
+    { "pos": 7,  "name": "Team",      "reason": "tým prezentován na podstránce, homepage ho neobsahuje" },
+    { "pos": 11, "name": "FAQ",       "reason": "homepage neobsahuje FAQ sekci" }
   ],
   "extraSections": [
-    { "type": "promo", "name": "Konzultace ZDARMA promo", "reason": "Bomton má výraznou promo sekci nabízející bezplatnou konzultaci" },
-    { "type": "cta",   "name": "Newsletter CTA",          "reason": "Bomton má newsletter sekci se slevou 10 % na první návštěvu" }
+    { "type": "promo", "name": "Konzultace ZDARMA promo", "reason": "výrazná promo sekce nabízející bezplatnou vstupní konzultaci" },
+    { "type": "cta",   "name": "Newsletter CTA",          "reason": "newsletter sekce se slevou 10 % na první návštěvu" }
   ],
   "i18n": {
     "default": "cs",

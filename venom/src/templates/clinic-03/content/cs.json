@@ -1,17 +1,42 @@
 {
   "navbar": {
     "siteName": "DIAMOND LOOK",
+    "tagline": "KLINIKA",
     "logoUrl": "/templates/clinic-03/logo.svg",
     "ctaText": "Kontaktujte nás",
-    "ctaHref": "#kontakt",
+    "ctaHref": "/kontakt",
+    "language": "CZ",
+    "topLinks": [
+      { "label": "O nás", "href": "/o-nas" },
+      { "label": "Novinky",   "href": "/novinky" },
+      { "label": "Kariéra",   "href": "/kariera" },
+      { "label": "Kontakty",  "href": "/kontakt" }
+    ],
     "links": [
-      { "label": "Akce",      "href": "#sluzby",  "badge": "sale" },
-      { "label": "Zákroky",   "href": "#sluzby",  "dropdown": true },
-      { "label": "Ceník",     "href": "#kontakt" },
-      { "label": "Lékaři",    "href": "#o-nas" },
-      { "label": "Celebrity", "href": "#o-nas" },
-      { "label": "Proměny",   "href": "#galerie" }
-    ]
+      { "label": "Akce",      "href": "/akce",       "badge": "sale" },
+      { "label": "Zákroky",   "href": "/zakroky",    "megaMenu": true },
+      { "label": "Ceník",     "href": "/cenik" },
+      { "label": "Lékaři",    "href": "/lekari" },
+      { "label": "Celebrity", "href": "/celebrity" },
+      { "label": "Proměny",   "href": "/promeny" }
+    ],
+    "megaMenu": {
+      "categories": [
+        { "num": "01", "label": "Hlava a obličej",   "image": "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=200&h=200&q=80" },
+        { "num": "02", "label": "Tělo a hubnutí",    "image": "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=200&h=200&q=80" },
+        { "num": "03", "label": "Prsa & dekolt",     "image": "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=200&h=200&q=80" },
+        { "num": "04", "label": "Žíly a cévy",       "image": "https://images.unsplash.com/photo-1519699047748-de8e457a634e?auto=format&fit=crop&w=200&h=200&q=80" },
+        { "num": "05", "label": "Laserová ošetření", "image": "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=200&h=200&q=80" },
+        { "num": "06", "label": "Zdraví a prevence", "image": "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=200&h=200&q=80" },
+        { "num": "07", "label": "Intimní oblast",    "image": "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=200&h=200&q=80" },
+        { "num": "08", "label": "Pro muže",          "image": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&h=200&q=80" },
+        { "num": "09", "label": "Beauty zone",       "image": "https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=200&h=200&q=80" }
+      ],
+      "footer": [
+        { "label": "Všechny zákroky", "href": "/zakroky" },
+        { "label": "Časté otázky",    "href": "/kontakt" }
+      ]
+    }
   },
   "hero": {
     "ctaHref": "#sluzby",
@@ -191,11 +216,11 @@
     "facebook": "https://facebook.com/demo",
     "instagram": "https://instagram.com/demo",
     "links": [
-      { "label": "Akce",    "href": "#sluzby" },
-      { "label": "Zákroky", "href": "#sluzby" },
-      { "label": "Ceník",   "href": "#kontakt" },
-      { "label": "Lékaři",  "href": "#o-nas" },
-      { "label": "Kontakt", "href": "#kontakt" }
+      { "label": "Akce",    "href": "/sluzby" },
+      { "label": "Zákroky", "href": "/sluzby" },
+      { "label": "Ceník",   "href": "/kontakt" },
+      { "label": "Lékaři",  "href": "/o-nas" },
+      { "label": "Kontakt", "href": "/kontakt" }
     ],
     "copyright": "© 2026 Diamond Look. Všechna práva vyhrazena."
   }

@@ -335,17 +335,18 @@ export function BlogPreviewSection({ content, variant, isAdmin, tenantSlug, sect
 }
 
 // ── cafe-04-blog ───────────────────────────────────────────────────────────────
-// Ref: coffeeroom.cz — "Behind the mugs, lifestyle stories"
-// Header: subheadline-wrap deco lines (cc-separate-subheadline, mb 100px)
-// Posts: .home-blog-item — border-left 2px #a25f4b33, flex row, date + title
-// CTA: .view-all-articles-wrap centered underlined-link
+// Editorial magazine grid — 3 sloupce s image + date + title + excerpt + arrow,
+// hover image zoom + card lift, coffee-gold accent, refined "Behind the mugs" split
 // ─────────────────────────────────────────────────────────────────────────────
 function BlogCafe04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   type Post = { title: string; excerpt?: string; imageUrl?: string; date?: string; href?: string };
+  const eyebrow    = String(content.eyebrow    ?? "Journal");
   const heading    = String(content.heading    ?? "Behind the mugs");
   const subheading = String(content.subheading ?? "lifestyle stories");
+  const tagline    = String(content.tagline    ?? "Zápisky z pražírny, cestování za dobrou kávou a snídaňové rituály z ranních směn.");
   const ctaText    = String(content.ctaText    ?? "Všechny příspěvky");
   const ctaHref    = String(content.ctaHref    ?? "#");
+  const readLabel  = String(content.readLabel  ?? "Číst dál");
   const posts      = (content.posts as Post[] | undefined) ?? [];
 
   function formatDate(dateStr?: string) {
@@ -355,64 +356,83 @@ function BlogCafe04({ content, sectionId }: { content: Record<string, unknown>; 
   }
 
   return (
-    <section style={{ backgroundColor: "#fff", fontFamily: "Montserrat, sans-serif" }}>
-      <style>{`
-        .cr04-blog-wrap { width: 70%; margin-left: auto; margin-right: auto; }
-        .cr04-blog-header { text-align: center; justify-content: center; align-items: center; margin-bottom: 100px; display: flex; }
-        .cr04-blog-deco { background-color: #ececed; width: 30px; height: 1px; display: inline-block; }
-        .cr04-blog-label { opacity: 0.9; color: #b79570; letter-spacing: 2px; text-transform: uppercase; font-size: 12px; font-weight: 700; line-height: 18px; font-family: Montserrat, sans-serif; margin-left: 15px; margin-right: 15px; }
-        .cr04-blog-list { margin-bottom: 100px; }
-        .cr04-blog-item { color: #1d1f2eb3; border-left: 2px solid #a25f4b33; align-items: center; margin-bottom: 10px; padding-top: 8px; padding-bottom: 8px; padding-left: 20px; transition: color .4s, border .4s, background-color .4s; display: flex; gap: 24px; text-decoration: none; }
-        .cr04-blog-item:hover { border-left-color: #a25f4b; color: #1d1f2e; background-color: #a25f4b0a; }
-        .cr04-blog-date { font-family: Karla, sans-serif; font-size: 13px; font-weight: 400; color: #b79570; white-space: nowrap; flex-shrink: 0; }
-        .cr04-blog-title { font-family: Montserrat, sans-serif; font-size: 16px; font-weight: 600; color: inherit; }
-        .cr04-blog-excerpt { font-family: Karla, sans-serif; font-size: 14px; font-weight: 400; color: #6b6b6b; margin-top: 2px; }
-        .cr04-view-all { justify-content: center; margin-bottom: 100px; display: flex; }
-        .cr04-view-all a { border-bottom: 2px solid #a25f4b33; transition: color .4s, border-color .4s; display: inline-block; font-family: Montserrat, sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 0.1em; color: #1d1f2e; text-decoration: none; text-transform: uppercase; padding-bottom: 4px; }
-        .cr04-view-all a:hover { color: #743f2f; border-bottom-color: #a25f4bb3; }
-        @media (max-width: 828px) {
-          .cr04-blog-wrap { width: 90%; }
-          .cr04-blog-item { flex-direction: column; gap: 4px; align-items: flex-start; }
-        }
-      `}</style>
-      <div className="cr04-blog-wrap">
-        {/* Header */}
-        <div className="cr04-blog-header">
-          <div className="cr04-blog-deco" />
-          <span className="cr04-blog-label">
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-            {subheading && (
-              <>, <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" /></>
-            )}
-          </span>
-          <div className="cr04-blog-deco" />
-        </div>
+    <section className="cr04-blog" data-template="cafe-04">
+      <div className="cr04-blog-header">
+        <span className="cr04-blog-eyebrow">
+          <span className="cr04-blog-eyebrow-rule" aria-hidden />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </span>
+        <h2 className="cr04-blog-title-main">
+          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+          {subheading && (
+            <>
+              {" "}
+              <em className="cr04-blog-italic">
+                <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
+              </em>
+            </>
+          )}
+        </h2>
+        <p className="cr04-blog-tagline">
+          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+        </p>
+      </div>
 
-        {/* Posts */}
-        <div className="cr04-blog-list">
-          {posts.map((post, i) => (
-            <a key={i} href={post.href ?? "#"} className="cr04-blog-item">
-              {post.date && <span className="cr04-blog-date">{formatDate(post.date)}</span>}
-              <div>
-                <div className="cr04-blog-title">
-                  <GenericEditableText sectionId={sectionId} field={`posts.${i}.title`} value={post.title} tag="span" />
-                </div>
-                {post.excerpt && (
-                  <div className="cr04-blog-excerpt">
-                    <GenericEditableText sectionId={sectionId} field={`posts.${i}.excerpt`} value={post.excerpt} tag="span" />
-                  </div>
-                )}
-              </div>
-            </a>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <div className="cr04-view-all">
-          <a href={ctaHref} data-btn="primary">
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+      <div className="cr04-blog-grid">
+        {posts.map((post, i) => (
+          <a key={i} href={post.href ?? "#"} className="cr04-blog-card">
+            <div className="cr04-blog-media">
+              {post.imageUrl && (
+                <GenericEditableImage
+                  sectionId={sectionId}
+                  field={`posts.${i}.imageUrl`}
+                  src={post.imageUrl}
+                  alt={post.title}
+                  style={{ display: "block", width: "100%", height: "100%" }}
+                >
+                  <img
+                    loading="lazy"
+                    src={post.imageUrl}
+                    alt={post.title}
+                    className="cr04-blog-img"
+                  />
+                </GenericEditableImage>
+              )}
+              <span className="cr04-blog-num" aria-hidden>{String(i + 1).padStart(2, "0")}</span>
+            </div>
+            <div className="cr04-blog-body">
+              {post.date && (
+                <span className="cr04-blog-date">
+                  <span className="cr04-blog-date-dot" aria-hidden />
+                  {formatDate(post.date)}
+                </span>
+              )}
+              <h3 className="cr04-blog-post-title">
+                <GenericEditableText sectionId={sectionId} field={`posts.${i}.title`} value={post.title} tag="span" />
+              </h3>
+              {post.excerpt && (
+                <p className="cr04-blog-excerpt">
+                  <GenericEditableText sectionId={sectionId} field={`posts.${i}.excerpt`} value={post.excerpt} tag="span" />
+                </p>
+              )}
+              <span className="cr04-blog-read">
+                <GenericEditableText sectionId={sectionId} field="readLabel" value={readLabel} tag="span" />
+                <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden>
+                  <path d="M1 5H15M10 1L15 5L10 9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </span>
+            </div>
           </a>
-        </div>
+        ))}
+      </div>
+
+      <div className="cr04-blog-cta">
+        <a href={ctaHref} className="cr04-blog-cta-link">
+          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden>
+            <path d="M1 5H13M9 1L13 5L9 9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </a>
       </div>
     </section>
   );

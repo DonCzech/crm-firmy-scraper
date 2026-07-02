@@ -7714,25 +7714,25 @@ function NavbarRestaurant03(props: Props) {
 // ────────────────────────────────────────────────────────────────────────────
 function NavbarCafe02(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
-  const siteName = String(content.siteName ?? "Kavárna Republica");
+  const siteName = String(content.siteName ?? "Demo Café Belvedere");
   const logoUrl  = String(content.logoUrl  ?? "/templates/cafe-02/logo.svg");
   const ctaText  = String(content.ctaText  ?? "Rezervace");
   const ctaHref  = String(content.ctaHref  ?? "/rezervace");
+  const phone    = String(content.phone    ?? "+420 700 000 111");
+  const phoneHref = "tel:" + phone.replace(/\s+/g, "");
+  const address  = String(content.address  ?? "Národní 12, 110 00 Praha 1");
+  const email    = String(content.email    ?? "rezervace@belvedere-demo.cz");
+  const hours    = String(content.hours    ?? "Po–Ne · 8:00 – 23:00");
   const links = (content.links as Array<{ label: string; href: string }>) ?? [];
-
-  const GOLD   = "#A89B67";
-  const GOLD_DK = "#8A7E52";
-  const DARK   = "#1A0E0A";
-  const WHITE  = "#ffffff";
-  const BORDER = "#E8E0D5";
-  const SERIF  = "Georgia, 'Times New Roman', serif";
-  const SANS   = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+  const socials = (content.socials as Array<{ label?: string; href?: string; icon?: string }>) ?? [];
+  const siteMode = String(content.siteMode ?? "multipage");
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -7749,112 +7749,144 @@ function NavbarCafe02(props: Props) {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const navBg     = scrolled ? WHITE : "transparent";
-  const navShadow = scrolled ? "0 1px 16px rgba(0,0,0,0.10)" : "none";
-  const navBorder = scrolled ? `1px solid ${BORDER}` : "none";
-  const fgColor   = scrolled ? DARK : WHITE;
-  const logoFilter = scrolled ? "brightness(0)" : "brightness(0) invert(1)";
+  const SocialIcon = ({ name }: { name?: string }) => {
+    const p = { width: 15, height: 15, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true as const };
+    switch ((name || "").toLowerCase()) {
+      case "instagram": return (<svg {...p}><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>);
+      case "facebook":  return (<svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>);
+      case "tripadvisor":
+      case "google":    return (<svg {...p}><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg>);
+      default:          return (<svg {...p}><circle cx="12" cy="12" r="9"/></svg>);
+    }
+  };
 
   return (
     <>
-      <nav style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-        backgroundColor: navBg, borderBottom: navBorder, boxShadow: navShadow,
-        fontFamily: SANS,
-        transition: "background-color 0.35s ease, box-shadow 0.35s ease",
-      }}>
-        <div style={{
-          maxWidth: 1400, margin: "0 auto",
-          padding: "0 clamp(20px, 4vw, 60px)",
-          height: 88, display: "flex", alignItems: "center",
-          justifyContent: "space-between", position: "relative",
-        }}>
-          {/* Hamburger */}
+      <nav
+        data-template="cafe-02"
+        data-scrolled={scrolled ? "y" : "n"}
+        data-menu={menuOpen ? "open" : "closed"}
+        className="cafe02-nav"
+        aria-label="Hlavní navigace"
+      >
+        <div className="cafe02-nav__row">
           <button
-            onClick={() => setMenuOpen(true)}
-            aria-label="Otevřít menu"
-            style={{ background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", gap: 5, padding: "8px 0", zIndex: 1 }}
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label={menuOpen ? "Zavřít menu" : "Otevřít menu"}
+            aria-expanded={menuOpen}
+            className="cafe02-nav__burger"
           >
-            {[0, 1, 2].map(i => (
-              <span key={i} style={{ display: "block", width: 26, height: 1.5, backgroundColor: fgColor, transition: "background-color 0.3s" }} />
-            ))}
+            <span /><span /><span />
           </button>
 
-          {/* Logo — absolutně centrovaný, 73px výška */}
-          <a href={resolve("/")} aria-label={siteName} style={{ position: "absolute", left: "50%", transform: "translateX(-50%)", textDecoration: "none", display: "flex", alignItems: "center" }}>
+          <a href={resolve("/")} aria-label={siteName} className="cafe02-nav__logo">
             <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "flex", alignItems: "center" }}>
-              <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 73, display: "block", filter: logoFilter, transition: "filter 0.35s ease" }} />
+              <img loading="eager" src={logoUrl} alt={siteName} className="cafe02-nav__logo-img" />
             </GenericEditableImage>
           </a>
 
-          {/* Zlaté CTA */}
-          <a
-            href={resolve(ctaHref)}
-            data-btn="primary"
-            style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: WHITE, textDecoration: "none", padding: "10px 22px", backgroundColor: GOLD, transition: "background-color 0.2s", whiteSpace: "nowrap" }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_DK)}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
-          >
+          <a href={resolve(ctaHref)} data-btn="primary" className="cafe02-nav__cta">
+            <span className="cafe02-nav__cta-shine" aria-hidden />
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           </a>
         </div>
+        <div className="cafe02-nav__hair" aria-hidden>
+          <span className="cafe02-nav__hair-dot" />
+        </div>
       </nav>
 
-      {/* Backdrop */}
-      <div onClick={() => setMenuOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 200, backgroundColor: "rgba(0,0,0,0.5)", opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? "auto" : "none", transition: "opacity 0.3s ease" }} aria-hidden />
+      <div onClick={() => setMenuOpen(false)} className="cafe02-nav__backdrop" data-open={menuOpen ? "y" : "n"} aria-hidden />
 
-      {/* Sidebar */}
-      <div style={{ position: "fixed", top: 0, left: 0, bottom: 0, zIndex: 201, width: "clamp(280px, 45vw, 380px)", backgroundColor: WHITE, transform: menuOpen ? "translateX(0)" : "translateX(-100%)", transition: "transform 0.36s cubic-bezier(0.4,0,0.2,1)", display: "flex", flexDirection: "column", overflowY: "auto", boxShadow: menuOpen ? "4px 0 32px rgba(0,0,0,0.18)" : "none" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "22px 24px", borderBottom: `1px solid ${BORDER}` }}>
+      <aside className="cafe02-side" data-template="cafe-02" data-open={menuOpen ? "y" : "n"} aria-hidden={!menuOpen}>
+        <div className="cafe02-side__head">
           <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "flex", alignItems: "center" }}>
-            <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 48, display: "block", filter: "brightness(0)" }} />
+            <img loading="eager" src={logoUrl} alt={siteName} className="cafe02-side__logo" />
           </GenericEditableImage>
-          <button onClick={() => setMenuOpen(false)} aria-label="Zavřít menu" style={{ background: "none", border: "none", cursor: "pointer", color: DARK, padding: 4, lineHeight: 1 }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <button onClick={() => setMenuOpen(false)} aria-label="Zavřít menu" className="cafe02-side__close">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
-        <nav style={{ flex: 1, padding: "8px 0" }}>
-          <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+
+        <div className="cafe02-side__eyebrow">
+          <span className="cafe02-side__eyebrow-rule" />
+          <GenericEditableText sectionId={sectionId} field="menuLabel" value={String(content.menuLabel ?? "Navigace")} tag="span" />
+        </div>
+
+        <nav className="cafe02-side__nav" aria-label="Menu">
+          <ul>
             {links.map((link, i) => (
-              <li key={i}>
+              <li key={i} style={{ ["--i" as string]: i } as React.CSSProperties}>
                 <a
                   href={resolve(link.href)}
                   onClick={() => setMenuOpen(false)}
-                  style={{ fontFamily: SERIF, fontSize: 18, fontWeight: 400, letterSpacing: "0.04em", color: DARK, textDecoration: "none", display: "block", padding: "14px 24px", borderBottom: `1px solid ${BORDER}`, transition: "color 0.18s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                  onMouseLeave={e => (e.currentTarget.style.color = DARK)}
+                  className="cafe02-side__link"
                 >
-                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
+                  <span className="cafe02-side__num">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="cafe02-side__label">
+                    <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
+                  </span>
+                  <span className="cafe02-side__arrow" aria-hidden>→</span>
                 </a>
               </li>
             ))}
           </ul>
         </nav>
-        <div style={{ padding: "20px 24px 36px" }}>
-          <a
-            href={resolve(ctaHref)}
-            data-btn="primary"
-            onClick={() => setMenuOpen(false)}
-            style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: WHITE, textDecoration: "none", padding: "13px 28px", backgroundColor: GOLD, display: "inline-block", transition: "background-color 0.2s" }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_DK)}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
-          >
+
+        <div className="cafe02-side__foot">
+          <a href={resolve(ctaHref)} onClick={() => setMenuOpen(false)} data-btn="primary" className="cafe02-side__cta">
+            <span className="cafe02-nav__cta-shine" aria-hidden />
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           </a>
-          <div style={{ marginTop: 24, width: 48, height: 1, backgroundColor: GOLD }} />
+
+          <div className="cafe02-side__ornament" aria-hidden>
+            <span /><i /><span />
+          </div>
+
+          <dl className="cafe02-side__contact">
+            <div>
+              <dt><GenericEditableText sectionId={sectionId} field="labelPhone" value={String(content.labelPhone ?? "Telefon")} tag="span" /></dt>
+              <dd><a href={phoneHref}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a></dd>
+            </div>
+            <div>
+              <dt><GenericEditableText sectionId={sectionId} field="labelAddress" value={String(content.labelAddress ?? "Adresa")} tag="span" /></dt>
+              <dd><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></dd>
+            </div>
+            <div>
+              <dt><GenericEditableText sectionId={sectionId} field="labelHours" value={String(content.labelHours ?? "Otevřeno")} tag="span" /></dt>
+              <dd><GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" /></dd>
+            </div>
+            <div>
+              <dt><GenericEditableText sectionId={sectionId} field="labelEmail" value={String(content.labelEmail ?? "E-mail")} tag="span" /></dt>
+              <dd><a href={"mailto:" + email}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a></dd>
+            </div>
+          </dl>
+
+          {socials.length > 0 && (
+            <ul className="cafe02-side__socials">
+              {socials.map((s, i) => (
+                <li key={i}>
+                  <a href={s.href || "#"} aria-label={s.label || s.icon} target="_blank" rel="noopener noreferrer">
+                    <SocialIcon name={s.icon} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-      </div>
+      </aside>
     </>
   );
 }
 
 // ── cafe-03-navbar ────────────────────────────────────────────────────────────
-// Ref: cathedral.cz (Kavárna & Restaurace, Praha)
-// Fixed transparent→bílý navbar na scroll
-// [Logo vlevo] | [nav linky center, desktop only] | [Rezervace CTA zlaté vpravo]
-// Mobile: hamburger vpravo → fullscreen bílý overlay s nav linky
+// Cathedral Gilded Noir — luxe redesign (2026-07-02)
+// Two-tier: gold-hairline utility strip (phone + opening hours + address) skryje
+// se na scroll; main navbar transparent → deep-noir (never white). Inter uppercase
+// linky s center-out gold underline slide-in, Cormorant italic accent na CTA
+// (ghost-gold outline → gold fill), Great Vibes "et" ampersand vedle loga.
+// Mobile: noir overlay + Cormorant italic H1 + gold linky se šipkou.
 // ─────────────────────────────────────────────────────────────────────────────
 function NavbarCafe03(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
@@ -7862,20 +7894,27 @@ function NavbarCafe03(props: Props) {
   const logoUrl  = String(content.logoUrl  ?? "/templates/cafe-03/logo.svg");
   const ctaText  = String(content.ctaText  ?? "Rezervace");
   const ctaHref  = String(content.ctaHref  ?? "/kontakt");
+  const phone    = String(content.phone    ?? "704 123 456");
+  const hours    = String(content.hours    ?? "OTEVŘENO DENNĚ · 9:00 — 22:00");
+  const address  = String(content.address  ?? "Melantrichova 15 · Praha 1");
   const links = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  const GOLD   = "#C69C60";
-  const GOLD_DK = "#A07840";
-  const DARK   = "#1a1a1a";
-  const WHITE  = "#ffffff";
-  const BORDER = "#E8E2D8";
-  const SANS   = "'Open Sans', sans-serif";
+  const GOLD    = "#C69C60";
+  const GOLD_LT = "#D8B57A";
+  const NOIR    = "#0d0d0d";
+  const NOIR_D  = "#050505";
+  const CREAM   = "#F5EFE4";
+  const SANS    = "'Inter', 'Open Sans', system-ui, sans-serif";
+  const ITAL    = "'Cormorant Garamond', 'Playfair Display', Georgia, serif";
+  const SCRIPT  = "'Great Vibes', cursive";
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -7892,124 +7931,168 @@ function NavbarCafe03(props: Props) {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
-
-  const navBg     = scrolled ? WHITE : "transparent";
-  const navShadow = scrolled ? "0 1px 16px rgba(0,0,0,0.10)" : "none";
-  const navBorder = scrolled ? `1px solid ${BORDER}` : "none";
-  const fgColor   = scrolled ? DARK : WHITE;
-  const logoFilter = scrolled ? "none" : "brightness(0) invert(1)";
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const utilOpen = !scrolled;
 
   return (
     <>
-      <nav style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-        backgroundColor: navBg, borderBottom: navBorder, boxShadow: navShadow,
-        fontFamily: SANS,
-        transition: "background-color 0.35s ease, box-shadow 0.35s ease",
-      }}>
-        <div style={{
-          maxWidth: 1400, margin: "0 auto",
-          padding: "0 clamp(20px, 4vw, 60px)",
-          height: 96, display: "flex", alignItems: "center",
-          justifyContent: "space-between", gap: 20,
+      <div data-template="cafe-03" style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, fontFamily: SANS }}>
+        {/* Utility strip — thin gold-hairline bar */}
+        <div className="c3nav-util" style={{
+          height: utilOpen ? 36 : 0,
+          overflow: "hidden",
+          backgroundColor: NOIR_D,
+          borderBottom: utilOpen ? `1px solid ${GOLD}55` : "1px solid transparent",
+          transition: "height 0.4s cubic-bezier(.4,0,.2,1), border-color 0.3s",
         }}>
-          {/* Logo */}
-          <a href={resolve("/")} aria-label={siteName} style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0 }}>
-            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "flex", alignItems: "center" }}>
-              <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 57, display: "block", filter: logoFilter, transition: "filter 0.35s ease" }} />
-            </GenericEditableImage>
-          </a>
-
-          {/* Desktop nav links */}
-          <nav style={{ display: "flex", alignItems: "center", gap: "clamp(16px, 3vw, 36px)", flex: 1, justifyContent: "center" }} aria-label="Hlavní navigace">
-            {links.map((link, i) => (
-              <a
-                key={i}
-                href={resolve(link.href)}
-                style={{ fontFamily: SANS, fontSize: 15, fontWeight: 400, letterSpacing: "0.04em", color: fgColor, textDecoration: "none", transition: "color 0.2s, opacity 0.2s", whiteSpace: "nowrap" }}
-                onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
-                onMouseLeave={e => { e.currentTarget.style.color = fgColor; }}
-                className="c3-nav-link"
-              >
-                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
-              </a>
-            ))}
-          </nav>
-
-          {/* CTA + hamburger */}
-          <div style={{ display: "flex", alignItems: "center", gap: 16, flexShrink: 0 }}>
-            {/* Desktop CTA */}
-            <a
-              href={resolve(ctaHref)}
-              data-btn="primary"
-              style={{ fontFamily: SANS, fontSize: 13, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: WHITE, textDecoration: "none", padding: "10px 22px", backgroundColor: GOLD, transition: "background-color 0.2s", whiteSpace: "nowrap", display: "block" }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_DK)}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
-
-            {/* Hamburger (mobile only — hidden on desktop via media query via inline style trick) */}
-            <button
-              onClick={() => setMenuOpen(true)}
-              aria-label="Otevřít menu"
-              style={{ background: "none", border: "none", cursor: "pointer", display: "flex", flexDirection: "column", gap: 5, padding: "8px 0", marginLeft: 4 }}
-              className="c3-hamburger"
-            >
-              {[0, 1, 2].map(i => (
-                <span key={i} style={{ display: "block", width: 24, height: 1.5, backgroundColor: fgColor, transition: "background-color 0.3s" }} />
-              ))}
-            </button>
+          <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 clamp(20px, 4vw, 60px)", height: 36, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
+            <div className="c3nav-util-side" style={{ display: "flex", alignItems: "center", gap: 8, color: GOLD_LT, fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 500 }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </div>
+            <div className="c3nav-util-hours" style={{ color: GOLD, fontFamily: ITAL, fontStyle: "italic", fontSize: 15, letterSpacing: "0.06em" }}>
+              <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+            </div>
+            <div className="c3nav-util-side" style={{ display: "flex", alignItems: "center", gap: 8, color: GOLD_LT, fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 500 }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+            </div>
           </div>
         </div>
-      </nav>
 
-      {/* Mobile overlay backdrop */}
-      <div onClick={() => setMenuOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 200, backgroundColor: "rgba(0,0,0,0.5)", opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? "auto" : "none", transition: "opacity 0.3s ease" }} aria-hidden />
+        {/* Main navbar */}
+        <nav style={{
+          backgroundColor: scrolled ? NOIR : "transparent",
+          borderBottom: scrolled ? `1px solid ${GOLD}44` : "1px solid transparent",
+          boxShadow: scrolled ? "0 12px 40px rgba(0,0,0,0.35)" : "none",
+          backdropFilter: scrolled ? "blur(8px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(8px)" : "none",
+          transition: "background-color 0.4s ease, border-color 0.3s, box-shadow 0.35s ease",
+        }}>
+          <div style={{
+            maxWidth: 1400, margin: "0 auto",
+            padding: "0 clamp(20px, 4vw, 60px)",
+            height: 88, display: "flex", alignItems: "center",
+            justifyContent: "space-between", gap: 24,
+          }}>
+            {/* Logo + Great Vibes ampersand accent */}
+            <a href={resolve("/")} aria-label={siteName} style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0, position: "relative" }}>
+              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "flex", alignItems: "center" }}>
+                <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 54, display: "block", filter: "brightness(0) invert(1)", transition: "filter 0.35s ease" }} />
+              </GenericEditableImage>
+              <span aria-hidden style={{ position: "absolute", right: -16, top: -6, fontFamily: SCRIPT, fontSize: 24, color: GOLD, opacity: 0.6, lineHeight: 1, transform: "rotate(-8deg)", pointerEvents: "none" }}>et</span>
+            </a>
 
-      {/* Mobile fullscreen overlay */}
-      <div style={{ position: "fixed", top: 0, right: 0, bottom: 0, zIndex: 201, width: "clamp(280px, 80vw, 420px)", backgroundColor: WHITE, transform: menuOpen ? "translateX(0)" : "translateX(100%)", transition: "transform 0.36s cubic-bezier(0.4,0,0.2,1)", display: "flex", flexDirection: "column", overflowY: "auto", boxShadow: menuOpen ? "-4px 0 32px rgba(0,0,0,0.18)" : "none" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 24px", borderBottom: `1px solid ${BORDER}` }}>
-          <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 44, display: "block", filter: "none" }} />
-          <button onClick={() => setMenuOpen(false)} aria-label="Zavřít menu" style={{ background: "none", border: "none", cursor: "pointer", color: DARK, padding: 4 }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            {/* Desktop nav links */}
+            <nav className="c3nav-links" style={{ display: "flex", alignItems: "center", gap: "clamp(18px, 2.6vw, 38px)", flex: 1, justifyContent: "center" }} aria-label="Hlavní navigace">
+              {links.map((link, i) => (
+                <a
+                  key={i}
+                  href={resolve(link.href)}
+                  className="c3nav-link"
+                  style={{ fontFamily: SANS, fontSize: 12, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: CREAM, textDecoration: "none", position: "relative", padding: "8px 2px", whiteSpace: "nowrap", display: "inline-block", transition: "color 0.25s ease" }}
+                >
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
+                  <span className="c3nav-link-underline" style={{ position: "absolute", left: "50%", right: "50%", bottom: 2, height: 1, backgroundColor: GOLD, transition: "left 0.35s cubic-bezier(.4,0,.2,1), right 0.35s cubic-bezier(.4,0,.2,1)" }} />
+                </a>
+              ))}
+            </nav>
+
+            {/* CTA + hamburger */}
+            <div style={{ display: "flex", alignItems: "center", gap: 20, flexShrink: 0 }}>
+              <span aria-hidden className="c3nav-sep" style={{ display: "inline-block", width: 1, height: 32, backgroundColor: `${GOLD}66` }} />
+              <a
+                href={resolve(ctaHref)}
+                data-btn="primary"
+                className="c3nav-cta"
+                style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: GOLD_LT, textDecoration: "none", padding: "13px 26px", border: `1px solid ${GOLD}`, backgroundColor: "transparent", transition: "background-color 0.32s ease, color 0.32s ease, letter-spacing 0.32s ease", whiteSpace: "nowrap", display: "inline-flex", alignItems: "center", gap: 10 }}
+              >
+                <span style={{ fontFamily: ITAL, fontStyle: "italic", textTransform: "none", letterSpacing: "0.02em", fontSize: 15, fontWeight: 500 }}>~</span>
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              </a>
+
+              <button
+                onClick={() => setMenuOpen(true)}
+                aria-label="Otevřít menu"
+                style={{ background: "none", border: `1px solid ${GOLD}66`, cursor: "pointer", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: 5, width: 44, height: 44, padding: 0, transition: "background-color 0.2s" }}
+                className="c3nav-burger"
+              >
+                {[0, 1, 2].map(i => (
+                  <span key={i} style={{ display: "block", width: 20, height: 1, backgroundColor: GOLD }} />
+                ))}
+              </button>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      {/* Mobile backdrop */}
+      <div onClick={() => setMenuOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 200, backgroundColor: "rgba(0,0,0,0.7)", opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? "auto" : "none", transition: "opacity 0.35s ease" }} aria-hidden />
+
+      {/* Mobile fullscreen overlay — noir + gold cathedral */}
+      <div data-template="cafe-03" style={{ position: "fixed", top: 0, right: 0, bottom: 0, zIndex: 201, width: "clamp(300px, 88vw, 460px)", backgroundColor: NOIR, backgroundImage: `linear-gradient(180deg, ${NOIR} 0%, ${NOIR_D} 100%)`, transform: menuOpen ? "translateX(0)" : "translateX(100%)", transition: "transform 0.42s cubic-bezier(.4,0,.2,1)", display: "flex", flexDirection: "column", overflowY: "auto", boxShadow: menuOpen ? `-8px 0 40px rgba(0,0,0,0.55), inset 1px 0 0 ${GOLD}33` : "none", fontFamily: SANS }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "22px 26px", borderBottom: `1px solid ${GOLD}33` }}>
+          <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 44, display: "block", filter: "brightness(0) invert(1)" }} />
+          <button onClick={() => setMenuOpen(false)} aria-label="Zavřít menu" style={{ background: "none", border: `1px solid ${GOLD}55`, cursor: "pointer", color: GOLD, padding: 8, width: 40, height: 40, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
-        <nav style={{ flex: 1, padding: "8px 0" }}>
+        <div style={{ padding: "36px 26px 12px" }}>
+          <div style={{ fontFamily: ITAL, fontStyle: "italic", color: GOLD, fontSize: 26, letterSpacing: "0.02em" }}>Menu</div>
+          <div style={{ marginTop: 8, width: 44, height: 1, backgroundColor: GOLD }} />
+        </div>
+        <nav style={{ flex: 1, padding: "20px 0 8px" }}>
           <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
             {links.map((link, i) => (
               <li key={i}>
                 <a
                   href={resolve(link.href)}
                   onClick={() => setMenuOpen(false)}
-                  style={{ fontFamily: SANS, fontSize: 17, fontWeight: 400, letterSpacing: "0.04em", color: DARK, textDecoration: "none", display: "block", padding: "14px 24px", borderBottom: `1px solid ${BORDER}`, transition: "color 0.18s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = GOLD)}
-                  onMouseLeave={e => (e.currentTarget.style.color = DARK)}
+                  style={{ fontFamily: SANS, fontSize: 13, fontWeight: 500, letterSpacing: "0.24em", textTransform: "uppercase", color: CREAM, textDecoration: "none", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 26px", borderBottom: `1px solid ${GOLD}22`, transition: "color 0.22s, background-color 0.22s" }}
+                  onMouseEnter={e => { e.currentTarget.style.color = GOLD; e.currentTarget.style.backgroundColor = "#ffffff08"; }}
+                  onMouseLeave={e => { e.currentTarget.style.color = CREAM; e.currentTarget.style.backgroundColor = "transparent"; }}
                 >
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
+                  <span aria-hidden style={{ color: GOLD, fontFamily: ITAL, fontStyle: "italic", fontSize: 18 }}>→</span>
                 </a>
               </li>
             ))}
           </ul>
         </nav>
-        <div style={{ padding: "20px 24px 40px" }}>
+        <div style={{ padding: "24px 26px 40px", borderTop: `1px solid ${GOLD}33` }}>
           <a
             href={resolve(ctaHref)}
             data-btn="primary"
             onClick={() => setMenuOpen(false)}
-            style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: WHITE, textDecoration: "none", padding: "13px 28px", backgroundColor: GOLD, display: "inline-block", transition: "background-color 0.2s" }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_DK)}
+            style={{ fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: NOIR, textDecoration: "none", padding: "16px 28px", backgroundColor: GOLD, display: "inline-flex", alignItems: "center", gap: 10, transition: "background-color 0.2s" }}
+            onMouseEnter={e => (e.currentTarget.style.backgroundColor = GOLD_LT)}
             onMouseLeave={e => (e.currentTarget.style.backgroundColor = GOLD)}
           >
+            <span style={{ fontFamily: ITAL, fontStyle: "italic", textTransform: "none", letterSpacing: "0.02em", fontSize: 15, fontWeight: 500 }}>~</span>
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
           </a>
+          <div style={{ marginTop: 20, fontFamily: ITAL, fontStyle: "italic", color: GOLD_LT, fontSize: 15, lineHeight: 1.6 }}>
+            <div>{phone}</div>
+            <div style={{ opacity: 0.8 }}>{address}</div>
+          </div>
         </div>
       </div>
 
       <style>{`
-        @media (min-width: 768px) { .c3-hamburger { display: none !important; } }
-        @media (max-width: 767px) { .c3-nav-link { display: none !important; } }
+        [data-template="cafe-03"] .c3nav-link:hover .c3nav-link-underline { left: 0 !important; right: 0 !important; }
+        [data-template="cafe-03"] .c3nav-link:hover { color: ${GOLD_LT} !important; }
+        [data-template="cafe-03"] .c3nav-cta:hover { background-color: ${GOLD} !important; color: ${NOIR} !important; letter-spacing: 0.28em !important; }
+        [data-template="cafe-03"] .c3nav-burger:hover { background-color: ${GOLD}18 !important; }
+        @media (min-width: 900px) { [data-template="cafe-03"] .c3nav-burger { display: none !important; } }
+        @media (max-width: 899px) {
+          [data-template="cafe-03"] .c3nav-links { display: none !important; }
+          [data-template="cafe-03"] .c3nav-cta { display: none !important; }
+          [data-template="cafe-03"] .c3nav-sep { display: none !important; }
+        }
+        @media (max-width: 767px) {
+          [data-template="cafe-03"] .c3nav-util-side { display: none !important; }
+          [data-template="cafe-03"] .c3nav-util-hours { font-size: 11px !important; letter-spacing: 0.04em !important; margin: 0 auto !important; }
+        }
       `}</style>
     </>
   );
@@ -8349,27 +8432,30 @@ function NavbarBakery02({ content, isAdmin, tenantSlug, sectionId }: Props) {
 }
 
 // ── cafe-04-navbar ────────────────────────────────────────────────────────────
-// Ref: coffeeroom.cz (Specialty kavárna, Praha)
-// Fixed transparent→tmavý #1d1f2e navbar po scrollu
-// Layout: [logo vlevo] | [text linky vpravo] — žádné CTA tlačítko
-// Mobile: hamburger → fullscreen tmavý overlay, bílé serif linky
+// Specialty kavárna urban editorial navbar — transparentní → tmavý #1d1f2e po scrollu
+// Layout: [wordmark + tagline] | [uppercase linky + coffee-gold underline] | [hamburger mobile]
+// Kinetic scroll progress bar coffee-gold pod barem
 // ─────────────────────────────────────────────────────────────────────────────
 function NavbarCafe04(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
   const siteName = String(content.siteName ?? "Demo Coffee Room");
   const logoUrl  = String(content.logoUrl  ?? "/templates/cafe-04/logo.svg");
+  const tagline  = String(content.tagline  ?? "specialty · praha");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
-
-  const DARK    = "#1d1f2e";
-  const COFFEE  = "#b79570";
-  const WHITE   = "#ffffff";
-  const FONT    = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const siteMode = String(content.siteMode ?? "multipage");
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 40);
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(h > 0 ? Math.min(1, y / h) : 0);
+    };
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -8386,117 +8472,101 @@ function NavbarCafe04(props: Props) {
     return () => { document.body.style.overflow = ""; };
   }, [menuOpen]);
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
-
-  const navBg     = scrolled ? DARK : "transparent";
-  const navShadow = scrolled ? "0 1px 20px rgba(0,0,0,0.25)" : "none";
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
     <>
-      <nav style={{
-        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
-        backgroundColor: navBg,
-        boxShadow: navShadow,
-        fontFamily: FONT,
-        transition: "background-color 0.4s ease, box-shadow 0.4s ease",
-      }}>
-        <div style={{
-          maxWidth: 1440, margin: "0 auto",
-          padding: "0 clamp(40px, 6vw, 96px)",
-          height: 80, display: "flex", alignItems: "center",
-          justifyContent: "space-between",
-        }}>
-          {/* Logo */}
-          <a href={resolve("/")} aria-label={siteName} style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0 }}>
-            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "flex" }}>
-              <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 48, display: "block" }} />
+      <header
+        className="cr04-nav"
+        data-template="cafe-04"
+        data-scrolled={scrolled ? "y" : "n"}
+      >
+        <div className="cr04-nav-row">
+          {/* Wordmark: logo + siteName + tagline */}
+          <a href={resolve("/")} className="cr04-wordmark" aria-label={siteName}>
+            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "flex", alignItems: "center" }}>
+              <img loading="eager" src={logoUrl} alt={siteName} className="cr04-logo" />
             </GenericEditableImage>
+            <span className="cr04-wm-text">
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" className="cr04-wm-name" />
+              <span className="cr04-wm-tag">
+                <span className="cr04-wm-dot" aria-hidden="true" />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+              </span>
+            </span>
           </a>
 
           {/* Desktop nav links */}
-          <ul className="cr04-nav-links" style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", gap: "clamp(28px, 3.5vw, 52px)", alignItems: "center" }}>
-            {links.map((link, i) => (
-              <li key={i}>
-                <a
-                  href={resolve(link.href)}
-                  style={{ fontFamily: FONT, fontSize: 12, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: WHITE, textDecoration: "none", transition: "color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = COFFEE)}
-                  onMouseLeave={e => (e.currentTarget.style.color = WHITE)}
-                >
-                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
-                </a>
-              </li>
-            ))}
-          </ul>
+          <nav className="cr04-nav-links" aria-label="Hlavní menu">
+            <ul>
+              {links.map((link, i) => (
+                <li key={i}>
+                  <a href={resolve(link.href)} className="cr04-navlink">
+                    <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
           {/* Hamburger — mobile only */}
           <button
             className="cr04-hamburger"
             onClick={() => setMenuOpen(true)}
             aria-label="Otevřít menu"
-            style={{ background: "none", border: "none", cursor: "pointer", padding: "8px 4px", display: "flex", flexDirection: "column", gap: 5 }}
           >
-            {[0, 1, 2].map(i => (
-              <span key={i} style={{ display: "block", width: 24, height: 1.5, backgroundColor: WHITE }} />
-            ))}
+            <span /><span /><span />
           </button>
         </div>
-      </nav>
+
+        {/* Kinetic scroll progress bar */}
+        <div className="cr04-progress" aria-hidden>
+          <span style={{ transform: `scaleX(${progress})` }} />
+        </div>
+      </header>
 
       {/* Mobile overlay backdrop */}
       <div
+        className="cr04-mobile-backdrop"
+        data-open={menuOpen ? "y" : "n"}
         onClick={() => setMenuOpen(false)}
-        style={{ position: "fixed", inset: 0, zIndex: 200, backgroundColor: "rgba(0,0,0,0.6)", opacity: menuOpen ? 1 : 0, pointerEvents: menuOpen ? "auto" : "none", transition: "opacity 0.3s ease" }}
         aria-hidden
       />
 
       {/* Mobile fullscreen menu */}
-      <div style={{
-        position: "fixed", top: 0, left: 0, right: 0, bottom: 0, zIndex: 201,
-        backgroundColor: DARK,
-        transform: menuOpen ? "translateX(0)" : "translateX(100%)",
-        transition: "transform 0.36s cubic-bezier(0.4,0,0.2,1)",
-        display: "flex", flexDirection: "column",
-        overflowY: "auto",
-      }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 28px", borderBottom: "1px solid rgba(183,149,112,0.25)" }}>
-          <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 40, filter: "brightness(0) invert(1)" }} />
+      <div className="cr04-mobile-menu" data-open={menuOpen ? "y" : "n"} data-template="cafe-04">
+        <div className="cr04-mobile-head">
+          <img loading="eager" src={logoUrl} alt={siteName} className="cr04-logo" style={{ filter: "brightness(0) invert(1)" }} />
           <button
             onClick={() => setMenuOpen(false)}
             aria-label="Zavřít menu"
-            style={{ background: "none", border: "none", cursor: "pointer", color: WHITE, padding: 4 }}
+            className="cr04-mobile-close"
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
           </button>
         </div>
-        <nav style={{ flex: 1, padding: "16px 0" }}>
-          <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+        <nav className="cr04-mobile-nav" aria-label="Mobilní menu">
+          <ul>
             {links.map((link, i) => (
-              <li key={i}>
+              <li key={i} style={{ transitionDelay: menuOpen ? `${80 + i * 60}ms` : "0ms" }}>
                 <a
                   href={resolve(link.href)}
                   onClick={() => setMenuOpen(false)}
-                  style={{ fontFamily: FONT, fontSize: 22, fontWeight: 300, letterSpacing: "0.06em", color: WHITE, textDecoration: "none", display: "block", padding: "18px 28px", borderBottom: "1px solid rgba(183,149,112,0.15)", transition: "color 0.2s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = COFFEE)}
-                  onMouseLeave={e => (e.currentTarget.style.color = WHITE)}
                 >
+                  <span className="cr04-mob-num">{String(i + 1).padStart(2, "0")}</span>
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
                 </a>
               </li>
             ))}
           </ul>
         </nav>
-        <div style={{ padding: "24px 28px 40px" }}>
-          <div style={{ width: 32, height: 2, backgroundColor: COFFEE }} />
+        <div className="cr04-mobile-foot">
+          <span className="cr04-mob-rule" />
+          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" className="cr04-mob-tag" />
         </div>
       </div>
-
-      <style>{`
-        @media (min-width: 768px) { .cr04-hamburger { display: none !important; } }
-        @media (max-width: 767px) { .cr04-nav-links { display: none !important; } }
-      `}</style>
     </>
   );
 }
@@ -18647,12 +18717,11 @@ function NavbarHotel02(props: Props) {
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" />
       <style>{`        .h02nav {
-          position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+          position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
           transition: background 0.5s cubic-bezier(.22,.68,0,1), box-shadow 0.5s ease, backdrop-filter 0.5s, border-color 0.5s;
           background: linear-gradient(to bottom, rgba(10,14,22,0.55) 0%, rgba(10,14,22,0.10) 65%, transparent 100%);
           border-bottom: 1px solid rgba(255,255,255,0.14);
           font-family: 'Montserrat', sans-serif;
-          box-sizing: border-box;
         }
         .h02nav.scrolled {
           background: rgba(255,255,255,0.97);
@@ -18669,8 +18738,8 @@ function NavbarHotel02(props: Props) {
         }
         .h02nav.scrolled .h02nav-inner { height: 78px; }
         .h02nav-logo {
-          display: inline-flex; align-items: baseline; gap: 12px;
-          text-decoration: none; flex-shrink: 0; margin-right: 44px;
+          display: inline-flex; align-items: baseline; gap: 10px;
+          text-decoration: none; flex-shrink: 0; margin-right: 28px;
         }
         .h02nav-logo img {
           height: 46px; width: auto;
@@ -18703,10 +18772,10 @@ function NavbarHotel02(props: Props) {
         .h02nav-links li a {
           position: relative;
           font-family: 'Montserrat', sans-serif;
-          font-size: 12px; font-weight: 500; letter-spacing: 0.16em;
+          font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
           text-transform: uppercase;
           color: rgba(255,255,255,0.92); text-decoration: none;
-          padding: 10px 16px; transition: color 0.3s; white-space: nowrap;
+          padding: 10px 12px; transition: color 0.3s; white-space: nowrap;
           display: inline-block;
         }
         .h02nav-links li a::after {
@@ -18718,7 +18787,7 @@ function NavbarHotel02(props: Props) {
         .h02nav.scrolled .h02nav-links li a { color: #1a2332; }
         .h02nav-links li a:hover { color: #5B7A8E !important; }
 
-        .h02nav-right { display: flex; align-items: center; gap: 22px; flex-shrink: 0; }
+        .h02nav-right { display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
         .h02nav-phone {
           display: inline-flex; align-items: center; gap: 12px;
           color: rgba(255,255,255,0.92); text-decoration: none;
@@ -18733,7 +18802,7 @@ function NavbarHotel02(props: Props) {
         }
         .h02nav-phone-num {
           font-family: 'Cormorant Garamond', 'Georgia', serif;
-          font-size: 18px; font-weight: 500; letter-spacing: 0.02em;
+          font-size: 16px; font-weight: 500; letter-spacing: 0.02em;
           display: block; line-height: 1;
         }
         .h02nav-phone-icon {
@@ -18757,8 +18826,8 @@ function NavbarHotel02(props: Props) {
           border: 1px solid rgba(255,255,255,0.85);
           color: #fff;
           font-family: 'Montserrat', sans-serif;
-          font-size: 11px; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
-          padding: 14px 30px; text-decoration: none;
+          font-size: 10px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+          padding: 13px 24px; text-decoration: none;
           transition: color 0.35s, border-color 0.35s; white-space: nowrap;
         }
         .h02nav-cta::before {
@@ -18862,7 +18931,7 @@ function NavbarHotel02(props: Props) {
         .h02nav-mobile-bar .h02-book { width: 60%; background: #5B7A8E; }
         .h02nav-mobile-bar .h02-book:hover { background: #96A1AC; }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
           .h02nav-phone, .h02nav-divider { display: none; }
         }
         @media (max-width: 960px) {

@@ -16,7 +16,7 @@ import {
   Tag,
   Square,
   type LucideIcon,
-} from "lucide-react";
+} from "@/components/studio/icons";
 import { SECTION_VARIANTS } from "@/sections/variants";
 
 export const SECTION_ICON: Record<string, LucideIcon> = {

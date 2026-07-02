@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect, useRef, type ReactNode } from "react";
-import { ArrowLeft, Check, Loader2, Plus, Trash2, AlertCircle, Upload, X } from "lucide-react";
+import { ArrowLeft, Check, Loader2, Plus, Trash2, AlertCircle, Upload, X } from "@/components/studio/icons";
 import { useStudio } from "./StudioContext";
 import type { StudioState } from "./TenantStudioView";
 import type { Tenant } from "@/lib/db";
 
-// ─── Light-theme UI primitives ────────────────────────────────────────────────
+// ─── Studio settings UI primitives ────────────────────────────────────────────
 
 function LInput({
   value, onChange, placeholder, disabled, type = "text",
@@ -21,7 +21,7 @@ function LInput({
       placeholder={placeholder}
       disabled={disabled}
       readOnly={!onChange}
-      className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(212,212,216,0.25)] disabled:bg-[var(--vs-surface-2)] disabled:opacity-60 transition-colors"
+      className="w-full rounded-lg border border-[rgba(255,255,255,0.10)] bg-[rgba(12,12,14,0.48)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(212,212,216,0.20)] disabled:bg-[rgba(255,255,255,0.04)] disabled:opacity-60 transition-colors"
     />
   );
 }
@@ -37,7 +37,7 @@ function LTextarea({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       rows={rows}
-      className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(212,212,216,0.25)] transition-colors resize-none"
+      className="w-full rounded-lg border border-[rgba(255,255,255,0.10)] bg-[rgba(12,12,14,0.48)] px-3 py-2 text-[13px] text-[var(--vs-text)] placeholder-[var(--vs-text-dim)] shadow-[inset_0_1px_0_rgba(255,255,255,0.035)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-2 focus:ring-[rgba(212,212,216,0.20)] transition-colors resize-none"
     />
   );
 }
@@ -58,8 +58,8 @@ function LToggle({ checked, onChange }: { checked: boolean; onChange: (v: boolea
 
 function LFormRow({ label, help, children }: { label: string; help?: string; children: ReactNode }) {
   return (
-    <div className="flex gap-6 py-5 border-b border-[var(--vs-border)] last:border-0">
-      <div className="w-44 shrink-0">
+    <div className="flex flex-col gap-2 border-b border-[var(--vs-border)] py-4 last:border-0 sm:flex-row sm:gap-6 sm:py-5">
+      <div className="shrink-0 sm:w-44">
         <p className="text-[13px] font-medium text-[var(--vs-text-soft)]">{label}</p>
         {help && <p className="mt-0.5 text-[11.5px] text-[var(--vs-text-dim)] leading-snug">{help}</p>}
       </div>
@@ -78,8 +78,8 @@ function LSectionTitle({ children }: { children: string }) {
 
 function LCard({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm overflow-hidden mb-4">
-      <div className="px-6">{children}</div>
+    <div className="mb-4 overflow-x-auto rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl">
+      <div className="px-4 sm:px-6">{children}</div>
     </div>
   );
 }
@@ -90,7 +90,7 @@ function LSaveBar({
   status: "idle" | "saving" | "saved" | "error"; onSave: () => void;
 }) {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex flex-wrap items-center gap-3">
       {status === "saved" && (
         <span className="flex items-center gap-1.5 text-[13px] text-[var(--vs-success)] font-medium">
           <Check className="h-4 w-4" /> Uloženo
@@ -122,8 +122,8 @@ function PageHeader({
   title: string; onBack: () => void; status: "idle" | "saving" | "saved" | "error"; onSave: () => void;
 }) {
   return (
-    <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[var(--vs-border)] bg-white/95 backdrop-blur-sm px-8 py-4">
-      <div className="flex items-center gap-3">
+    <div className="sticky top-0 z-10 flex flex-col items-stretch justify-between gap-3 border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.78)] px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.16)] backdrop-blur-xl sm:flex-row sm:items-center sm:px-8 sm:py-4">
+      <div className="flex min-w-0 items-center gap-2 sm:gap-3">
         <button
           type="button"
           onClick={onBack}
@@ -133,7 +133,7 @@ function PageHeader({
           Nastavení
         </button>
         <span className="text-[var(--vs-text-disabled)]">/</span>
-        <h1 className="text-[15px] font-semibold text-[var(--vs-text)]">{title}</h1>
+        <h1 className="truncate text-[15px] font-semibold text-[var(--vs-text)]">{title}</h1>
       </div>
       <LSaveBar status={status} onSave={onSave} />
     </div>
@@ -169,6 +169,7 @@ function useSettingsSave(slug: string, getBody: () => Record<string, unknown>) {
 interface DomainRow { id: number; domain: string; verified: boolean; created_at: string }
 
 function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
+  const domainsEndpoint = `/api/demo/${encodeURIComponent(tenant.slug)}/domains`;
   const [domains, setDomains] = useState<DomainRow[]>([]);
   const [newDomain, setNewDomain] = useState("");
   const [adding, setAdding] = useState(false);
@@ -178,7 +179,7 @@ function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
   const [dnsInfo, setDnsInfo] = useState<{ ip: string; cname: string } | null>(null);
 
   useEffect(() => {
-    fetch(`/api/studio/domains?tenantSlug=${encodeURIComponent(tenant.slug)}`)
+    fetch(domainsEndpoint)
       .then((r) => r.ok ? r.json() : null)
       .then((d) => {
         if (d) {
@@ -187,22 +188,22 @@ function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
         }
       })
       .catch(() => {});
-  }, [tenant.slug]);
+  }, [domainsEndpoint]);
 
   async function addDomain(e: React.FormEvent) {
     e.preventDefault();
     setAdding(true);
     setAddError(null);
     try {
-      const res = await fetch("/api/studio/domains", {
+      const res = await fetch(domainsEndpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tenantSlug: tenant.slug, domain: newDomain }),
+        body: JSON.stringify({ domain: newDomain }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Chyba");
       setNewDomain("");
-      setDomains((prev) => [...prev, { id: Date.now(), domain: data.domain, verified: false, created_at: new Date().toISOString() }]);
+      setDomains((prev) => [...prev, { id: data.id ?? Date.now(), domain: data.domain, verified: false, created_at: new Date().toISOString() }]);
     } catch (err) {
       setAddError(String(err).replace("Error: ", ""));
     } finally {
@@ -211,17 +212,17 @@ function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
   }
 
   async function removeDomain(id: number) {
-    await fetch(`/api/studio/domains?id=${id}&tenantSlug=${encodeURIComponent(tenant.slug)}`, { method: "DELETE" });
+    await fetch(`${domainsEndpoint}?id=${id}`, { method: "DELETE" });
     setDomains((prev) => prev.filter((d) => d.id !== id));
   }
 
   async function verifyDomain(d: DomainRow) {
     setVerifying(d.id);
     try {
-      const res = await fetch("/api/studio/domains", {
+      const res = await fetch(domainsEndpoint, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tenantSlug: tenant.slug, domainId: d.id }),
+        body: JSON.stringify({ id: d.id }),
       });
       const data = await res.json() as { verified: boolean };
       setVerifyResult((prev) => ({
@@ -241,7 +242,7 @@ function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
   return (
     <>
       <PageHeader title="Vlastní doména" onBack={onBack} status="idle" onSave={async () => {}} />
-      <div className="max-w-2xl mx-auto px-8 py-6">
+      <div className="max-w-2xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
 
         {/* Webero URL */}
         <LCard>
@@ -315,7 +316,7 @@ function DomainView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
           )}
 
           {/* Add domain form */}
-          <form onSubmit={addDomain} className="flex gap-2">
+          <form onSubmit={addDomain} className="flex flex-col gap-2 sm:flex-row">
             <input
               type="text"
               value={newDomain}
@@ -356,7 +357,7 @@ function WebView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
   return (
     <>
       <PageHeader title="Nastavení webu" onBack={onBack} status={status} onSave={save} />
-      <div className="max-w-2xl mx-auto px-8 py-6">
+      <div className="max-w-2xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
         <LCard>
           <LSectionTitle>Doména</LSectionTitle>
           <LFormRow label="URL webu" help="Výchozí adresa vašeho webu na platformě.">
@@ -450,7 +451,7 @@ function SeoView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
   return (
     <>
       <PageHeader title="SEO — Výchozí nastavení" onBack={onBack} status={status} onSave={save} />
-      <div className="max-w-2xl mx-auto px-8 py-6">
+      <div className="max-w-2xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
         <LCard>
           <LSectionTitle>Titulky stránek</LSectionTitle>
           <LFormRow label="Výchozí titulek" help="Použije se, pokud stránka nemá vlastní titulek.">
@@ -501,7 +502,7 @@ function CookiesView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
   return (
     <>
       <PageHeader title="Cookie lišta" onBack={onBack} status={status} onSave={save} />
-      <div className="max-w-2xl mx-auto px-8 py-6">
+      <div className="max-w-2xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
         <LCard>
           <LSectionTitle>Zobrazení</LSectionTitle>
           <LFormRow label="Cookie lišta" help="Zobrazí lištu se souhlasem s cookies návštěvníkům webu.">
@@ -537,16 +538,16 @@ function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
 
   return (
     <>
-      <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[var(--vs-border)] bg-white/95 backdrop-blur-sm px-8 py-4">
-        <div className="flex items-center gap-3">
+      <div className="sticky top-0 z-10 flex flex-col items-stretch justify-between gap-3 border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.78)] px-4 py-3 shadow-[0_12px_32px_rgba(0,0,0,0.16)] backdrop-blur-xl sm:flex-row sm:items-center sm:px-8 sm:py-4">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
           <button type="button" onClick={onBack} className="flex items-center gap-1.5 text-[13px] text-[var(--vs-text-muted)] hover:text-[var(--vs-text)] transition-colors">
             <ArrowLeft className="h-4 w-4" strokeWidth={2} />
             Nastavení
           </button>
           <span className="text-[var(--vs-text-disabled)]">/</span>
-          <h1 className="text-[15px] font-semibold text-[var(--vs-text)]">Uživatelské přístupy</h1>
+          <h1 className="truncate text-[15px] font-semibold text-[var(--vs-text)]">Uživatelské přístupy</h1>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button type="button" className="flex items-center gap-1.5 rounded-lg bg-[var(--vs-accent)] px-3.5 py-2 text-[13px] font-semibold text-white hover:bg-[var(--vs-accent-solid)] transition-colors">
             <Plus className="h-3.5 w-3.5" /> Nový záznam
           </button>
@@ -555,9 +556,9 @@ function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
           </button>
         </div>
       </div>
-      <div className="max-w-5xl mx-auto px-8 py-6">
+      <div className="max-w-5xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
         {/* Tabs */}
-        <div className="flex gap-4 border-b border-[var(--vs-border)] mb-5">
+        <div className="flex flex-wrap gap-4 border-b border-[var(--vs-border)] mb-5">
           {(["all", "pending"] as const).map((t) => (
             <button
               key={t}
@@ -573,12 +574,12 @@ function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
         </div>
 
         {/* Filter bar */}
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex flex-wrap items-center gap-2 mb-4">
           <div className="relative">
             <input
               type="text"
               placeholder="Vyhledávat ve všech sloupcích"
-              className="rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] pl-3 pr-3 py-1.5 text-[13px] text-[var(--vs-text-soft)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none w-56"
+              className="w-full rounded-lg border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] py-1.5 pl-3 pr-3 text-[13px] text-[var(--vs-text-soft)] placeholder-[var(--vs-text-dim)] focus:border-[var(--vs-accent)] focus:outline-none sm:w-56"
             />
           </div>
           {["Název", "Přihlašovací jméno", "E-mail"].map((f) => (
@@ -590,8 +591,39 @@ function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
         </div>
 
         {/* Table */}
-        <div className="rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm overflow-hidden">
-          <table className="w-full text-[12.5px]">
+        <div className="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl">
+          <div className="space-y-3 p-3 sm:hidden">
+            {users.map((u) => (
+              <div key={u.email} className="rounded-lg border border-[var(--vs-border)] bg-[rgba(255,255,255,0.035)] p-3">
+                <div className="flex items-start gap-2.5">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white" style={{ background: "var(--vs-grad-brand)" }}>
+                    {u.initials}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-[13px] font-semibold text-[var(--vs-text)]">{u.name}</p>
+                    <p className="truncate text-[11.5px] text-[var(--vs-accent)]">{u.email}</p>
+                  </div>
+                  <button type="button" className="px-1 text-[var(--vs-text-disabled)] hover:text-[var(--vs-text-muted)]">···</button>
+                </div>
+                <div className="mt-3 grid grid-cols-2 gap-2 text-[11.5px]">
+                  <div>
+                    <p className="text-[var(--vs-text-dim)]">Role</p>
+                    <p className="mt-0.5 text-[var(--vs-text-soft)]">{u.roles}</p>
+                  </div>
+                  <div>
+                    <p className="text-[var(--vs-text-dim)]">2FA</p>
+                    <p className="mt-0.5 text-[var(--vs-text-soft)]">{u.twofa ? "Zapnuto" : "Vypnuto"}</p>
+                  </div>
+                  <div className="col-span-2">
+                    <p className="text-[var(--vs-text-dim)]">Přihlašovací jméno</p>
+                    <p className="mt-0.5 truncate text-[var(--vs-text-soft)]">{u.login}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="hidden overflow-x-auto sm:block">
+          <table className="min-w-[640px] w-full text-[12.5px]">
             <thead>
               <tr className="border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
                 <th className="w-8 px-3 py-3"><input type="checkbox" className="rounded" /></th>
@@ -629,6 +661,7 @@ function AccessView({ onBack }: { tenant: Tenant; onBack: () => void }) {
               ))}
             </tbody>
           </table>
+          </div>
           <div className="flex items-center justify-between px-4 py-3 border-t border-[var(--vs-border)] bg-[var(--vs-bg-soft)]/50">
             <p className="text-[12px] text-[var(--vs-text-dim)]">Zobrazuji 1–1 z 1 záznamů</p>
             <select className="rounded border border-[var(--vs-border)] bg-[var(--vs-surface)] px-2 py-1 text-[12px] text-[var(--vs-text-muted)]">
@@ -661,7 +694,7 @@ function LanguagesView({ tenant, onBack }: { tenant: Tenant; onBack: () => void 
   return (
     <>
       <PageHeader title="Jazyky" onBack={onBack} status={status} onSave={save} />
-      <div className="max-w-2xl mx-auto px-8 py-6">
+      <div className="max-w-2xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
         <LCard>
           <LSectionTitle>Primární jazyk</LSectionTitle>
           <LFormRow label="Jazyk webu" help="Primární jazyk obsahu webu.">
@@ -696,7 +729,7 @@ function EmailsView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) 
   return (
     <>
       <PageHeader title="E-maily" onBack={onBack} status={status} onSave={save} />
-      <div className="max-w-2xl mx-auto px-8 py-6">
+      <div className="max-w-2xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
         <LCard>
           <LSectionTitle>Odesílatel</LSectionTitle>
           <LFormRow label="Jméno odesílatele" help="Zobrazené jméno odesílatele e-mailů.">
@@ -807,7 +840,7 @@ function BillingView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
   return (
     <>
       <PageHeader title="Fakturace a platby" onBack={onBack} status={status} onSave={save} />
-      <div className="max-w-2xl mx-auto px-8 py-6">
+      <div className="max-w-2xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
 
         {/* Payment result banner */}
         {payResult === "success" && (
@@ -826,7 +859,7 @@ function BillingView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
         {/* Current plan */}
         <LCard>
           <LSectionTitle>Aktuální plán</LSectionTitle>
-          <div className="py-5 flex items-start justify-between gap-6">
+          <div className="flex flex-col items-start justify-between gap-4 py-5 sm:flex-row sm:gap-6">
             <div>
               {isActive ? (
                 <>
@@ -861,7 +894,7 @@ function BillingView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
               )}
             </div>
             {!isActive && (
-              <div className="shrink-0 flex flex-col items-end gap-1">
+              <div className="flex w-full shrink-0 flex-col items-stretch gap-1 sm:w-auto sm:items-end">
                 <button
                   type="button"
                   onClick={handleSubscribe}
@@ -952,7 +985,7 @@ function ApiView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
   return (
     <>
       <PageHeader title="Integrace a API" onBack={onBack} status={status} onSave={save} />
-      <div className="max-w-2xl mx-auto px-8 py-6">
+      <div className="max-w-2xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
         <LCard>
           <LSectionTitle>Google Analytics</LSectionTitle>
           <LFormRow label="Google Tag Manager" help="GTM Container ID (např. GTM-XXXXXXX).">
@@ -993,8 +1026,8 @@ function ActivityView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }
   return (
     <>
       <PageHeader title="Záznam aktivity" onBack={onBack} status="idle" onSave={() => void 0} />
-      <div className="max-w-3xl mx-auto px-8 py-6">
-        <div className="rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm overflow-hidden">
+      <div className="max-w-3xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
+        <div className="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl">
           {loading ? (
             <div className="flex items-center justify-center py-16 text-[var(--vs-text-dim)]">
               <Loader2 className="h-5 w-5 animate-spin mr-2" /> Načítám...
@@ -1002,7 +1035,29 @@ function ActivityView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }
           ) : entries.length === 0 ? (
             <div className="py-16 text-center text-[var(--vs-text-dim)] text-[13px]">Žádná aktivita nebyla zaznamenána.</div>
           ) : (
-            <table className="w-full text-[12.5px]">
+            <>
+            <div className="space-y-3 p-3 sm:hidden">
+              {entries.map((e) => (
+                <div key={e.id} className="rounded-lg border border-[var(--vs-border)] bg-[rgba(255,255,255,0.035)] p-3">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="truncate text-[13px] font-semibold text-[var(--vs-text-soft)]">{e.action}</p>
+                      <p className="mt-0.5 text-[11.5px] text-[var(--vs-text-dim)]">
+                        {new Date(e.created_at).toLocaleString("cs-CZ", { dateStyle: "short", timeStyle: "short" })}
+                      </p>
+                    </div>
+                    <span className="shrink-0 rounded-full border border-[var(--vs-border)] px-2 py-0.5 text-[10.5px] text-[var(--vs-text-muted)]">
+                      {e.user_label ?? "Systém"}
+                    </span>
+                  </div>
+                  <p className="mt-2 truncate text-[11.5px] text-[var(--vs-text-muted)]">
+                    {e.entity_type ? `${e.entity_type} #${e.entity_id}` : "Bez entity"}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="hidden overflow-x-auto sm:block">
+            <table className="min-w-[640px] w-full text-[12.5px]">
               <thead>
                 <tr className="border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
                   <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Čas</th>
@@ -1024,6 +1079,8 @@ function ActivityView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }
                 ))}
               </tbody>
             </table>
+            </div>
+            </>
           )}
         </div>
       </div>
@@ -1075,10 +1132,10 @@ function CssView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
   return (
     <>
       <PageHeader title="CSS třídy" onBack={onBack} status="idle" onSave={() => void 0} />
-      <div className="max-w-3xl mx-auto px-8 py-6">
+      <div className="max-w-3xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
         <LCard>
           <LSectionTitle>Přidat CSS třídu</LSectionTitle>
-          <div className="flex gap-3 pb-5">
+          <div className="flex flex-col gap-3 pb-5 sm:flex-row">
             <LInput value={newName} onChange={setNewName} placeholder=".nazev-tridy" />
             <LInput value={newCss} onChange={setNewCss} placeholder="color: red; font-weight: bold;" />
             <button
@@ -1092,13 +1149,13 @@ function CssView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }) {
           </div>
         </LCard>
 
-        <div className="rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm overflow-hidden">
+        <div className="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl overflow-x-auto">
           {loading ? (
             <div className="flex items-center justify-center py-10 text-[var(--vs-text-dim)]"><Loader2 className="h-4 w-4 animate-spin mr-2" /> Načítám...</div>
           ) : rows.length === 0 ? (
             <div className="py-10 text-center text-[var(--vs-text-dim)] text-[13px]">Žádné CSS třídy.</div>
           ) : (
-            <table className="w-full text-[12.5px]">
+            <table className="min-w-[640px] w-full text-[12.5px]">
               <thead><tr className="border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
                 <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Název</th>
                 <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">CSS</th>
@@ -1169,10 +1226,10 @@ function HeadersView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
   return (
     <>
       <PageHeader title="HTTP Hlavičky" onBack={onBack} status="idle" onSave={() => void 0} />
-      <div className="max-w-3xl mx-auto px-8 py-6">
+      <div className="max-w-3xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
         <LCard>
           <LSectionTitle>Přidat HTTP hlavičku</LSectionTitle>
-          <div className="flex gap-3 pb-5">
+          <div className="flex flex-col gap-3 pb-5 sm:flex-row">
             <LInput value={newName} onChange={setNewName} placeholder="X-Custom-Header" />
             <LInput value={newValue} onChange={setNewValue} placeholder="hodnota" />
             <button
@@ -1186,13 +1243,13 @@ function HeadersView({ tenant, onBack }: { tenant: Tenant; onBack: () => void })
           </div>
         </LCard>
 
-        <div className="rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm overflow-hidden">
+        <div className="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl overflow-x-auto">
           {loading ? (
             <div className="flex items-center justify-center py-10 text-[var(--vs-text-dim)]"><Loader2 className="h-4 w-4 animate-spin mr-2" /> Načítám...</div>
           ) : rows.length === 0 ? (
             <div className="py-10 text-center text-[var(--vs-text-dim)] text-[13px]">Žádné HTTP hlavičky.</div>
           ) : (
-            <table className="w-full text-[12.5px]">
+            <table className="min-w-[640px] w-full text-[12.5px]">
               <thead><tr className="border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
                 <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Název</th>
                 <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Hodnota</th>
@@ -1264,13 +1321,13 @@ function RedirectsView({ tenant, onBack }: { tenant: Tenant; onBack: () => void 
   return (
     <>
       <PageHeader title="Přesměrování" onBack={onBack} status="idle" onSave={() => void 0} />
-      <div className="max-w-3xl mx-auto px-8 py-6">
+      <div className="max-w-3xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
         <LCard>
           <LSectionTitle>Přidat přesměrování</LSectionTitle>
-          <div className="flex gap-3 pb-5 items-end">
+          <div className="flex flex-col gap-3 pb-5 sm:flex-row items-end">
             <div className="flex-1"><p className="text-[11.5px] text-[var(--vs-text-dim)] mb-1">Z</p><LInput value={newFrom} onChange={setNewFrom} placeholder="/stara-stranka" /></div>
             <div className="flex-1"><p className="text-[11.5px] text-[var(--vs-text-dim)] mb-1">Na</p><LInput value={newTo} onChange={setNewTo} placeholder="/nova-stranka" /></div>
-            <div className="w-24">
+            <div className="w-full sm:w-24">
               <p className="text-[11.5px] text-[var(--vs-text-dim)] mb-1">Kód</p>
               <select
                 value={newCode}
@@ -1294,13 +1351,13 @@ function RedirectsView({ tenant, onBack }: { tenant: Tenant; onBack: () => void 
           </div>
         </LCard>
 
-        <div className="rounded-xl border border-[var(--vs-border)] bg-[var(--vs-surface)] shadow-sm overflow-hidden">
+        <div className="rounded-xl border border-[rgba(255,255,255,0.10)] bg-[rgba(24,24,27,0.68)] shadow-[0_18px_48px_rgba(0,0,0,0.20),inset_0_1px_0_rgba(255,255,255,0.035)] backdrop-blur-xl overflow-x-auto">
           {loading ? (
             <div className="flex items-center justify-center py-10 text-[var(--vs-text-dim)]"><Loader2 className="h-4 w-4 animate-spin mr-2" /> Načítám...</div>
           ) : rows.length === 0 ? (
             <div className="py-10 text-center text-[var(--vs-text-dim)] text-[13px]">Žádná přesměrování.</div>
           ) : (
-            <table className="w-full text-[12.5px]">
+            <table className="min-w-[640px] w-full text-[12.5px]">
               <thead><tr className="border-b border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
                 <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Z</th>
                 <th className="px-4 py-3 text-left font-semibold text-[var(--vs-text-muted)]">Na</th>
@@ -1357,7 +1414,7 @@ function LColorPicker({ value, onChange, label }: { value: string; onChange: (v:
           type="text"
           value={value.toUpperCase()}
           onChange={(e) => { const v = e.target.value; if (/^#[0-9A-Fa-f]{0,6}$/.test(v)) onChange(v); }}
-          className="w-24 rounded border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2 py-1 text-[12px] font-mono text-[var(--vs-text-soft)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-1 focus:ring-[var(--vs-accent)]/20"
+          className="w-24 max-w-full rounded border border-[var(--vs-border)] bg-[var(--vs-bg-soft)] px-2 py-1 text-[12px] font-mono text-[var(--vs-text-soft)] focus:border-[var(--vs-accent)] focus:outline-none focus:ring-1 focus:ring-[var(--vs-accent)]/20"
           placeholder="#000000"
         />
       </div>
@@ -1477,7 +1534,7 @@ function IdentitaView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }
   return (
     <>
       <PageHeader title="Identita značky" onBack={onBack} status={status} onSave={save} />
-      <div className="max-w-2xl mx-auto px-8 py-6">
+      <div className="max-w-2xl mx-auto px-4 py-4 sm:px-8 sm:py-6">
 
         {/* Branding */}
         <LCard>
@@ -1511,7 +1568,7 @@ function IdentitaView({ tenant, onBack }: { tenant: Tenant; onBack: () => void }
           <LFormRow label="Adresa">
             <LInput value={v["contact.address"] ?? ""} onChange={(x) => setSlot("contact.address", x)} placeholder="Ulice 123" />
           </LFormRow>
-          <div className="grid grid-cols-2 gap-4 py-5 border-b border-[var(--vs-border)]">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-5 border-b border-[var(--vs-border)]">
             <div>
               <p className="text-[13px] font-medium text-[var(--vs-text-soft)] mb-1.5">Město</p>
               <LInput value={v["contact.city"] ?? ""} onChange={(x) => setSlot("contact.city", x)} placeholder="Praha" />
@@ -1611,7 +1668,7 @@ export function StudioSettingsCanvas({ state }: { state: StudioState }) {
   const props = { tenant, onBack };
 
   return (
-    <div className="h-full overflow-x-hidden overflow-y-auto bg-[#f5f5f7]">
+    <div className="h-full overflow-x-hidden overflow-y-auto bg-[radial-gradient(900px_420px_at_50%_-80px,rgba(139,92,246,0.10),transparent_65%),linear-gradient(180deg,rgba(12,12,14,0.92)_0%,rgba(18,18,20,0.86)_100%)]">
       {view === "identita"  && <IdentitaView  {...props} />}
       {view === "web"       && <WebView       {...props} />}
       {view === "domain"    && <DomainView    {...props} />}

@@ -6,7 +6,7 @@ import {
   Bold, Italic, Underline, Strikethrough, CaseUpper,
   AlignLeft, AlignCenter, AlignRight,
   Copy, ClipboardPaste, RotateCcw, Check, X,
-} from "lucide-react";
+} from "@/components/studio/icons";
 import { useGenericInlineEditor } from "./GenericInlineEditorContext";
 import { useStudioOptional } from "@/components/studio/StudioContext";
 

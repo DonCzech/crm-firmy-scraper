@@ -164,7 +164,25 @@ POST /api/demo/:slug/upload-image
 | `⌘S` | force save |
 | `⌘Z` / `⌘⇧Z` | undo/redo |
 | `?` | shortcut help overlay |
-| `Esc` | exit current field |
+| `Esc` | exit current field / revert style draft |
+| `⌘Enter` | commit style draft (v GenericEditableText toolbaru) |
+| `⌘⇧C` | kopírovat styl aktivního textu do clipboard |
+| `⌘⇧V` | vložit styl z clipboardu |
+| `↑↓←→` | nudge selected overlay element (1px; Shift = 10px) |
+
+---
+
+## 8a. GenericEditableText toolbar — konvence (Sprint 3, 2026-06-29)
+
+- **Toolbar se otvírá fokusem** na contentEditable; zůstává otevřený pokud focus přejde na toolbar (relatedTarget check).
+- **Draft state:** snapshot při fokusu → `applyDraft()` pro live preview → `commitStyle()` (Uložit / ⌘Enter) nebo `revertStyle()` (Zrušit / Esc).
+- **Computed style cache:** `window.getComputedStyle()` se přečte na `onFocus` a uloží do `computedRef`. Toolbar zobrazuje skutečnou vykreslenou hodnotu (velikost z CSS třídy), i když DB style je `{}`.
+- **Font weight:** nikdy `undefined` na Bold toggle. Toggle = `"400"` ↔ `"700"` (přepíše CSS třídu).
+- **Font size:** `<input type="number">` (6–320 px). Žádný dropdown presetů.
+- **Kopír./Vložit:** module-level clipboard `_styleClipboard` sdílený přes všechny instance.
+- **updateStyleLocal:** živý preview na canvasu bez server save. Commit → `updateStyle()` → server.
+
+---
 
 ---
 

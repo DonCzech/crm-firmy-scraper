@@ -20,6 +20,12 @@ const navbarContent = {
   ctaText: "Rezervovat",
   ctaHref: "#rezervace",
   phone: PHONE,
+  address: ADDRESS,
+  hoursLabel: "Po–Pá 9:00–20:00 · So 9:00–14:00",
+  socials: [
+    { icon: "instagram", href: "https://instagram.com/" },
+    { icon: "facebook",  href: "https://facebook.com/" },
+  ],
   announcementText: "Nová místa k dispozici — rezervujte online ihned",
 };
 
@@ -196,15 +202,21 @@ export const barberTemplate: TemplateDefinition = {
     navbar: navbarContent,
 
     hero: {
+      eyebrow: "Brno · Od roku 2014",
       title: "Autentický\nbarbershop.",
       subtitle: "Přijďte zažít řemeslo, které vytváří sebedůvěru. Blade & Co. v srdci Brna.",
-      ctaText: "Domluvit termín",
+      ctaText: "Rezervovat termín",
       ctaHref: "#rezervace",
-      backgroundImage: "/images/template-previews/barber-hero-1440x900.webp",
+      ctaSecondaryText: "Prohlédnout ceník",
+      ctaSecondaryHref: "#sluzby",
+      backgroundImage: "/images/barber-01/hero.webp",
     },
 
     services: {
+      eyebrow: "Klasika & precizní řemeslo",
       title: "Ceník služeb",
+      subtitle: "Každý zákrok provádíme s důrazem na detail, čisté linie a péči o váš osobní styl. Ceny jsou konečné, bez skrytých poplatků.",
+      footnote: "Ceny jsou orientační — finální cena závisí na délce vlasů a vousů. Rezervace minimálně 24h předem.",
       services: [
         { name: "Klasický střih",    description: "Konzultace, střih, mytí a finální styling.",             price: "420 Kč",   duration: "40 min" },
         { name: "Holení britvou",    description: "Příprava kůže, holení britva + zklidňující balzám.",     price: "380 Kč",   duration: "35 min" },

@@ -90,71 +90,83 @@ export function OpeningHoursSection({ content, variant, sectionId }: Props) {
 }
 
 // ── cafe-04-locations ─────────────────────────────────────────────────────────
-// Ref: coffeeroom.cz 1:1 — centered, subheadline-wrap deco lines + pobočky pod sebou
-// CSS: .subheadline-wrap, .subheadline-deco-line, .label.cc-subheadline, .time_wrap, .days_wrap, .days, .time
+// Editorial multi-location card grid — coffee-gold hairline detaily, hover lift,
+// day/hours rows s dotted leader, Google Maps directions link, 4 pobočky 2×2
 // ─────────────────────────────────────────────────────────────────────────────
 function LocationsCafe04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title    = String(content.title ?? "opening hours");
-  const branches = (content.branches as Array<{
+  type Branch = {
     name: string;
+    address?: string;
+    mapHref?: string;
+    directionsLabel?: string;
     hours: Array<{ day: string; hours: string }>;
-  }>) ?? [];
+  };
+  const eyebrow  = String(content.eyebrow ?? "Otevírací doba");
+  const title    = String(content.title    ?? "Najdete nás na čtyřech místech.");
+  const tagline  = String(content.tagline  ?? "Každá pobočka má vlastní charakter — od klidných Vinohrad po rušný Karlín.");
+  const branches = (content.branches as Branch[]) ?? [];
 
   return (
-    <section style={{ backgroundColor: "#fff", fontFamily: "Montserrat, sans-serif", paddingBottom: 80 }}>
-      <style>{`
-        .cr04-locs-wrap { width: 70%; margin-left: auto; margin-right: auto; }
-        .cr04-subheadline-wrap { text-align: center; justify-content: center; align-items: center; margin-bottom: 20px; display: flex; }
-        .cr04-deco-line { background-color: #ececed; width: 30px; height: 1px; display: inline-block; }
-        .cr04-label-sub { opacity: 0.9; color: #b79570; letter-spacing: 2px; text-transform: uppercase; font-size: 12px; font-weight: 700; line-height: 18px; font-family: Montserrat, sans-serif; margin-left: 15px; margin-right: 15px; }
-        .cr04-time-wrap { flex-direction: row; justify-content: center; align-items: flex-start; margin-bottom: 40px; display: flex; }
-        .cr04-days-wrap { flex-direction: column; display: flex; }
-        .cr04-days { text-align: left; margin-top: 0; margin-bottom: 0; margin-right: 20px; font-family: Montserrat, sans-serif; font-size: 23px; font-weight: 600; color: #1d1f2e; }
-        .cr04-time { text-align: left; margin-top: 0; margin-bottom: 0; margin-left: 20px; font-size: 23px; font-weight: 400; font-family: Montserrat, sans-serif; color: #1d1f2e; }
-        @media (max-width: 828px) {
-          .cr04-locs-wrap { width: 90%; }
-          .cr04-days { margin-right: 10px; font-size: 16px; }
-          .cr04-time { margin-left: 0; font-size: 16px; }
-        }
-      `}</style>
-      <div className="cr04-locs-wrap">
-        {/* "opening hours" nadpis */}
-        <div className="cr04-subheadline-wrap">
-          <div className="cr04-deco-line" />
-          <span className="cr04-label-sub">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </span>
-          <div className="cr04-deco-line" />
-        </div>
+    <section className="cr04-locs" data-template="cafe-04">
+      <div className="cr04-locs-header">
+        <span className="cr04-locs-eyebrow">
+          <span className="cr04-locs-eyebrow-rule" aria-hidden />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </span>
+        <h2 className="cr04-locs-title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h2>
+        <p className="cr04-locs-tagline">
+          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+        </p>
+      </div>
 
-        {/* Pobočky */}
-        {branches.map((branch, bi) => (
-          <div key={bi}>
-            <div className="cr04-subheadline-wrap">
-              <div className="cr04-deco-line" />
-              <span className="cr04-label-sub">
-                <GenericEditableText sectionId={sectionId} field={`branches.${bi}.name`} value={branch.name} tag="span" />
-              </span>
-              <div className="cr04-deco-line" />
-            </div>
-            <div className="cr04-time-wrap">
-              <div className="cr04-days-wrap">
+      <div className="cr04-locs-grid">
+        {branches.map((branch, bi) => {
+          const mapHref = branch.mapHref || `https://maps.google.com/?q=${encodeURIComponent(branch.address || branch.name)}`;
+          const dirLabel = branch.directionsLabel || "Zobrazit trasu";
+          return (
+            <article key={bi} className="cr04-locs-card">
+              <span className="cr04-locs-index" aria-hidden>{String(bi + 1).padStart(2, "0")}</span>
+              <div className="cr04-locs-card-head">
+                <h3 className="cr04-locs-name">
+                  <GenericEditableText sectionId={sectionId} field={`branches.${bi}.name`} value={branch.name} tag="span" />
+                </h3>
+                {branch.address && (
+                  <p className="cr04-locs-addr">
+                    <GenericEditableText sectionId={sectionId} field={`branches.${bi}.address`} value={branch.address} tag="span" />
+                  </p>
+                )}
+              </div>
+
+              <div className="cr04-locs-hours">
                 {(branch.hours ?? []).map((h, hi) => (
-                  <h2 key={hi} className="cr04-days">
-                    <GenericEditableText sectionId={sectionId} field={`branches.${bi}.hours.${hi}.day`} value={h.day} tag="span" />
-                  </h2>
+                  <div key={hi} className="cr04-locs-hours-row">
+                    <span className="cr04-locs-hours-day">
+                      <GenericEditableText sectionId={sectionId} field={`branches.${bi}.hours.${hi}.day`} value={h.day} tag="span" />
+                    </span>
+                    <span className="cr04-locs-hours-dots" aria-hidden />
+                    <span className="cr04-locs-hours-time">
+                      <GenericEditableText sectionId={sectionId} field={`branches.${bi}.hours.${hi}.hours`} value={h.hours} tag="span" />
+                    </span>
+                  </div>
                 ))}
               </div>
-              <div className="cr04-days-wrap">
-                {(branch.hours ?? []).map((h, hi) => (
-                  <h2 key={hi} className="cr04-time">
-                    <GenericEditableText sectionId={sectionId} field={`branches.${bi}.hours.${hi}.hours`} value={h.hours} tag="span" />
-                  </h2>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))}
+
+              <a
+                href={mapHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cr04-locs-dir"
+              >
+                <GenericEditableText sectionId={sectionId} field={`branches.${bi}.directionsLabel`} value={dirLabel} tag="span" />
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden>
+                  <path d="M1 5H13M9 1L13 5L9 9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </a>
+            </article>
+          );
+        })}
       </div>
     </section>
   );

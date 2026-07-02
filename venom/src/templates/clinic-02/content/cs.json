@@ -1,16 +1,18 @@
 {
   "navbar": {
-    "siteName": "Demo Bomton Clinic",
+    "siteName": "Aurélie Clinic",
     "logoUrl": "/templates/clinic-02/logo.svg",
     "ctaText": "Rezervace",
-    "ctaHref": "#kontakt",
+    "ctaHref": "/kontakt",
     "phone": "+420 704 123 456",
     "links": [
-      { "label": "Zákroky",  "href": "#sluzby" },
-      { "label": "Služby",   "href": "#sluzby" },
-      { "label": "O nás",    "href": "#o-nas" },
-      { "label": "Ceník",    "href": "#kontakt" },
-      { "label": "Kontakt",  "href": "#kontakt" }
+      { "label": "Zákroky",   "href": "/zakroky" },
+      { "label": "Služby",    "href": "/sluzby" },
+      { "label": "O nás",     "href": "/o-nas" },
+      { "label": "Ceník",     "href": "/cenik" },
+      { "label": "Kontakt",   "href": "/kontakt" },
+      { "label": "VOUCHER",   "href": "/voucher" },
+      { "label": "REZERVACE", "href": "/rezervace" }
     ]
   },
   "hero": {
@@ -51,7 +53,7 @@
       {
         "name":        "Remodelace Profhilem",
         "description": "Biorevitalizace pleti pomocí Profhilu — inovativní přípravek s kyselinou hyaluronovou pro omlazení a hydrataci pleti.",
-        "imageUrl":    "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?auto=format&fit=crop&w=600&q=80",
+        "imageUrl":    "/templates/clinic-02/service-remodelace.webp",
         "price":       "od 4 500 Kč",
         "ctaText":     "Zjistit více",
         "ctaHref":     "#kontakt"
@@ -59,7 +61,7 @@
       {
         "name":        "Výplň rtů",
         "description": "Přirozené zvětšení a tvarování rtů pomocí kyseliny hyaluronové. Výsledek je okamžitý, přirozený a trvá 6–12 měsíců.",
-        "imageUrl":    "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=600&q=80",
+        "imageUrl":    "/templates/clinic-02/service-vypln-rtu.webp",
         "price":       "od 3 800 Kč",
         "ctaText":     "Zjistit více",
         "ctaHref":     "#kontakt"
@@ -67,7 +69,7 @@
       {
         "name":        "Aplikace botulotoxinu",
         "description": "Efektivní řešení vrásků a mimických linek. Výsledky jsou viditelné do 2 týdnů a trvají 4–6 měsíců.",
-        "imageUrl":    "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80",
+        "imageUrl":    "/templates/clinic-02/service-botulotoxin.webp",
         "price":       "od 4 200 Kč",
         "ctaText":     "Zjistit více",
         "ctaHref":     "#kontakt"
@@ -84,7 +86,7 @@
   "about": {
     "title":    "O klinice",
     "kicker":   "Na trhu od roku 1995",
-    "body":     "Demo Bomton Clinic je přední klinika estetické dermatologie v centru Prahy. Naši zkušení lékaři kombinují nejmodernější technologie s individuálním přístupem ke každému klientovi. Věříme, že krása by měla být přirozená a každé ošetření by mělo podpořit vaši sebedůvěru.",
+    "body":     "Aurélie Clinic je přední klinika estetické dermatologie v centru Prahy. Naši zkušení lékaři kombinují nejmodernější technologie s individuálním přístupem ke každému klientovi. Věříme, že krása by měla být přirozená a každé ošetření by mělo podpořit vaši sebedůvěru.",
     "imageUrl": "/templates/clinic-02/about-clinic.webp",
     "features": [
       "Inovativní a efektivní přístroje",
@@ -121,7 +123,7 @@
     "mapEmbedUrl": ""
   },
   "footer": {
-    "siteName":    "Demo Bomton Clinic",
+    "siteName":    "Aurélie Clinic",
     "logoUrl":     "/templates/clinic-02/logo.svg",
     "tagline":     "Klinika estetické dermatologie",
     "address":     "Ukázková 123, 110 00 Praha 1",
@@ -135,9 +137,13 @@
       { "days": "Ne",    "time": "Zavřeno" }
     ],
     "links": [
-      { "label": "GDPR",    "href": "#" },
-      { "label": "Ceník",   "href": "#" },
-      { "label": "Kontakt", "href": "#kontakt" }
+      { "label": "Zákroky",   "href": "/zakroky" },
+      { "label": "Služby",    "href": "/sluzby" },
+      { "label": "O nás",     "href": "/o-nas" },
+      { "label": "Ceník",     "href": "/cenik" },
+      { "label": "Kontakt",   "href": "/kontakt" },
+      { "label": "VOUCHER",   "href": "/voucher" },
+      { "label": "REZERVACE", "href": "/rezervace" }
     ],
     "copyright": "© 2025 Premium Clinic. Všechna práva vyhrazena."
   }

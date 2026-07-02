@@ -1,6 +1,6 @@
 "use client";
 
-import { MousePointerClick, Type, SlidersHorizontal, Sparkles } from "lucide-react";
+import { MousePointerClick, Type, SlidersHorizontal, Sparkles } from "@/components/studio/icons";
 
 export function EmptySelectionState() {
   const cards = [

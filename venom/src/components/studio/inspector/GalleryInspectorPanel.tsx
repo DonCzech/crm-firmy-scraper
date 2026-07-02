@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Pencil, Trash2, GripVertical } from "lucide-react";
+import { Plus, Pencil, Trash2, GripVertical } from "@/components/studio/icons";
 import { useStudio } from "../StudioContext";
 import { MediaPickerModal } from "../MediaPickerModal";
 import { readFocus } from "@/lib/studio-focus";

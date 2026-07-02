@@ -1,0 +1,688 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A001 /* RixoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F001 /* RixoApp.swift */; };
+		A002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F002 /* ContentView.swift */; };
+		A003 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F003 /* User.swift */; };
+		A004 /* Contract.swift in Sources */ = {isa = PBXBuildFile; fileRef = F004 /* Contract.swift */; };
+		A005 /* Quote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F005 /* Quote.swift */; };
+		A006 /* Reward.swift in Sources */ = {isa = PBXBuildFile; fileRef = F006 /* Reward.swift */; };
+		A007 /* Deadline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F007 /* Deadline.swift */; };
+		A008 /* InsuranceTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F008 /* InsuranceTypes.swift */; };
+		A009 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F009 /* AuthService.swift */; };
+		A010 /* ContractService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F010 /* ContractService.swift */; };
+		A011 /* ComparisonService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F011 /* ComparisonService.swift */; };
+		A012 /* RewardsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F012 /* RewardsService.swift */; };
+		A013 /* DeadlineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F013 /* DeadlineService.swift */; };
+		A014 /* Color+Rixo.swift in Sources */ = {isa = PBXBuildFile; fileRef = F014 /* Color+Rixo.swift */; };
+		A015 /* Double+Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = F015 /* Double+Currency.swift */; };
+		A016 /* Date+Czech.swift in Sources */ = {isa = PBXBuildFile; fileRef = F016 /* Date+Czech.swift */; };
+		A017 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F017 /* View+Extensions.swift */; };
+		A018 /* RixoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F018 /* RixoButton.swift */; };
+		A019 /* RixoTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F019 /* RixoTextField.swift */; };
+		A020 /* StepProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F020 /* StepProgressView.swift */; };
+		A021 /* ContractCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F021 /* ContractCardView.swift */; };
+		A022 /* QuoteCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F022 /* QuoteCardView.swift */; };
+		A023 /* RixoIndexGauge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F023 /* RixoIndexGauge.swift */; };
+		A024 /* DeadlineBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = F024 /* DeadlineBadge.swift */; };
+		A025 /* InsuranceCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F025 /* InsuranceCategoryButton.swift */; };
+		A026 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F026 /* LoadingView.swift */; };
+		A027 /* SignaturePadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F027 /* SignaturePadView.swift */; };
+		A028 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F028 /* OnboardingView.swift */; };
+		A029 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F029 /* LoginView.swift */; };
+		A030 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F030 /* RegisterView.swift */; };
+		A031 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F031 /* AuthViewModel.swift */; };
+		A032 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F032 /* DashboardView.swift */; };
+		A033 /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F033 /* DashboardViewModel.swift */; };
+		A034 /* ContractDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F034 /* ContractDetailView.swift */; };
+		A035 /* DeadlineMonitorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F035 /* DeadlineMonitorView.swift */; };
+		A036 /* CompareMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F036 /* CompareMenuView.swift */; };
+		A037 /* VehicleInsuranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F037 /* VehicleInsuranceView.swift */; };
+		A038 /* VehicleInsuranceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F038 /* VehicleInsuranceViewModel.swift */; };
+		A039 /* LifeInsuranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F039 /* LifeInsuranceView.swift */; };
+		A040 /* LifeInsuranceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F040 /* LifeInsuranceViewModel.swift */; };
+		A041 /* TravelInsuranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F041 /* TravelInsuranceView.swift */; };
+		A042 /* TravelInsuranceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F042 /* TravelInsuranceViewModel.swift */; };
+		A043 /* PropertyInsuranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F043 /* PropertyInsuranceView.swift */; };
+		A044 /* PropertyInsuranceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F044 /* PropertyInsuranceViewModel.swift */; };
+		A045 /* LiabilityInsuranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F045 /* LiabilityInsuranceView.swift */; };
+		A046 /* PetInsuranceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F046 /* PetInsuranceView.swift */; };
+		A047 /* EnergyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F047 /* EnergyView.swift */; };
+		A048 /* EnergyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F048 /* EnergyViewModel.swift */; };
+		A049 /* MortgageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F049 /* MortgageView.swift */; };
+		A050 /* QuestionnaireView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F050 /* QuestionnaireView.swift */; };
+		A051 /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F051 /* ResultsView.swift */; };
+		A052 /* ResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F052 /* ResultsViewModel.swift */; };
+		A053 /* RewardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F053 /* RewardsView.swift */; };
+		A054 /* RewardsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F054 /* RewardsViewModel.swift */; };
+		A055 /* GreenCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F055 /* GreenCardView.swift */; };
+		A056 /* TravelCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F056 /* TravelCardView.swift */; };
+		A057 /* ContractReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F057 /* ContractReviewView.swift */; };
+		A058 /* ContractReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F058 /* ContractReviewViewModel.swift */; };
+		A059 /* RixoIndexView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F059 /* RixoIndexView.swift */; };
+		A060 /* ContractCancellationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F060 /* ContractCancellationView.swift */; };
+		A061 /* ContractCancellationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F061 /* ContractCancellationViewModel.swift */; };
+		A062 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F062 /* SettingsView.swift */; };
+		A063 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F063 /* SettingsViewModel.swift */; };
+		A064 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F064 /* EditProfileView.swift */; };
+		A065 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F065 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F001 /* RixoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RixoApp.swift; sourceTree = "<group>"; };
+		F002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F003 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		F004 /* Contract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contract.swift; sourceTree = "<group>"; };
+		F005 /* Quote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
+		F006 /* Reward.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reward.swift; sourceTree = "<group>"; };
+		F007 /* Deadline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deadline.swift; sourceTree = "<group>"; };
+		F008 /* InsuranceTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsuranceTypes.swift; sourceTree = "<group>"; };
+		F009 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		F010 /* ContractService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractService.swift; sourceTree = "<group>"; };
+		F011 /* ComparisonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonService.swift; sourceTree = "<group>"; };
+		F012 /* RewardsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsService.swift; sourceTree = "<group>"; };
+		F013 /* DeadlineService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineService.swift; sourceTree = "<group>"; };
+		F014 /* Color+Rixo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Rixo.swift"; sourceTree = "<group>"; };
+		F015 /* Double+Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Currency.swift"; sourceTree = "<group>"; };
+		F016 /* Date+Czech.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Czech.swift"; sourceTree = "<group>"; };
+		F017 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		F018 /* RixoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RixoButton.swift; sourceTree = "<group>"; };
+		F019 /* RixoTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RixoTextField.swift; sourceTree = "<group>"; };
+		F020 /* StepProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepProgressView.swift; sourceTree = "<group>"; };
+		F021 /* ContractCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCardView.swift; sourceTree = "<group>"; };
+		F022 /* QuoteCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteCardView.swift; sourceTree = "<group>"; };
+		F023 /* RixoIndexGauge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RixoIndexGauge.swift; sourceTree = "<group>"; };
+		F024 /* DeadlineBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineBadge.swift; sourceTree = "<group>"; };
+		F025 /* InsuranceCategoryButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsuranceCategoryButton.swift; sourceTree = "<group>"; };
+		F026 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		F027 /* SignaturePadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignaturePadView.swift; sourceTree = "<group>"; };
+		F028 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		F029 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		F030 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		F031 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		F032 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		F033 /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		F034 /* ContractDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractDetailView.swift; sourceTree = "<group>"; };
+		F035 /* DeadlineMonitorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineMonitorView.swift; sourceTree = "<group>"; };
+		F036 /* CompareMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompareMenuView.swift; sourceTree = "<group>"; };
+		F037 /* VehicleInsuranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInsuranceView.swift; sourceTree = "<group>"; };
+		F038 /* VehicleInsuranceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInsuranceViewModel.swift; sourceTree = "<group>"; };
+		F039 /* LifeInsuranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeInsuranceView.swift; sourceTree = "<group>"; };
+		F040 /* LifeInsuranceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeInsuranceViewModel.swift; sourceTree = "<group>"; };
+		F041 /* TravelInsuranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelInsuranceView.swift; sourceTree = "<group>"; };
+		F042 /* TravelInsuranceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelInsuranceViewModel.swift; sourceTree = "<group>"; };
+		F043 /* PropertyInsuranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyInsuranceView.swift; sourceTree = "<group>"; };
+		F044 /* PropertyInsuranceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyInsuranceViewModel.swift; sourceTree = "<group>"; };
+		F045 /* LiabilityInsuranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiabilityInsuranceView.swift; sourceTree = "<group>"; };
+		F046 /* PetInsuranceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetInsuranceView.swift; sourceTree = "<group>"; };
+		F047 /* EnergyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyView.swift; sourceTree = "<group>"; };
+		F048 /* EnergyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyViewModel.swift; sourceTree = "<group>"; };
+		F049 /* MortgageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MortgageView.swift; sourceTree = "<group>"; };
+		F050 /* QuestionnaireView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionnaireView.swift; sourceTree = "<group>"; };
+		F051 /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
+		F052 /* ResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewModel.swift; sourceTree = "<group>"; };
+		F053 /* RewardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsView.swift; sourceTree = "<group>"; };
+		F054 /* RewardsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RewardsViewModel.swift; sourceTree = "<group>"; };
+		F055 /* GreenCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GreenCardView.swift; sourceTree = "<group>"; };
+		F056 /* TravelCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelCardView.swift; sourceTree = "<group>"; };
+		F057 /* ContractReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractReviewView.swift; sourceTree = "<group>"; };
+		F058 /* ContractReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractReviewViewModel.swift; sourceTree = "<group>"; };
+		F059 /* RixoIndexView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RixoIndexView.swift; sourceTree = "<group>"; };
+		F060 /* ContractCancellationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCancellationView.swift; sourceTree = "<group>"; };
+		F061 /* ContractCancellationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractCancellationViewModel.swift; sourceTree = "<group>"; };
+		F062 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		F063 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		F064 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		F065 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FAPP /* RixoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RixoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BPFR /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		GROOT /* / */ = {
+			isa = PBXGroup;
+			children = (
+				GRRIX /* RixoApp */,
+				GRPRD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		GRPRD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FAPP /* RixoApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		GRRIX /* RixoApp */ = {
+			isa = PBXGroup;
+			children = (
+				F001 /* RixoApp.swift */,
+				F002 /* ContentView.swift */,
+				GRMOD /* Core/Models */,
+				GRSVC /* Core/Services */,
+				GREXT /* Core/Extensions */,
+				GRCOMP /* Components */,
+				GRFEAT /* Features */,
+				GRRES /* Resources */,
+			);
+			path = RixoApp;
+			sourceTree = "<group>";
+		};
+		GRMOD /* Core/Models */ = {
+			isa = PBXGroup;
+			children = (
+				F003 /* User.swift */,
+				F004 /* Contract.swift */,
+				F005 /* Quote.swift */,
+				F006 /* Reward.swift */,
+				F007 /* Deadline.swift */,
+				F008 /* InsuranceTypes.swift */,
+			);
+			path = "Core/Models";
+			sourceTree = "<group>";
+		};
+		GRSVC /* Core/Services */ = {
+			isa = PBXGroup;
+			children = (
+				F009 /* AuthService.swift */,
+				F010 /* ContractService.swift */,
+				F011 /* ComparisonService.swift */,
+				F012 /* RewardsService.swift */,
+				F013 /* DeadlineService.swift */,
+			);
+			path = "Core/Services";
+			sourceTree = "<group>";
+		};
+		GREXT /* Core/Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F014 /* Color+Rixo.swift */,
+				F015 /* Double+Currency.swift */,
+				F016 /* Date+Czech.swift */,
+				F017 /* View+Extensions.swift */,
+			);
+			path = "Core/Extensions";
+			sourceTree = "<group>";
+		};
+		GRCOMP /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				F018 /* RixoButton.swift */,
+				F019 /* RixoTextField.swift */,
+				F020 /* StepProgressView.swift */,
+				F021 /* ContractCardView.swift */,
+				F022 /* QuoteCardView.swift */,
+				F023 /* RixoIndexGauge.swift */,
+				F024 /* DeadlineBadge.swift */,
+				F025 /* InsuranceCategoryButton.swift */,
+				F026 /* LoadingView.swift */,
+				F027 /* SignaturePadView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		GRFEAT /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				GRAUTH /* Auth */,
+				GRDASH /* Dashboard */,
+				GRCMP /* Compare */,
+				GRRES2 /* Results */,
+				GRREW /* Rewards */,
+				GRDOC /* Documents */,
+				GRREV /* ContractReview */,
+				GRCAN /* Cancellation */,
+				GRSET /* Settings */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		GRAUTH /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				F028 /* OnboardingView.swift */,
+				F029 /* LoginView.swift */,
+				F030 /* RegisterView.swift */,
+				F031 /* AuthViewModel.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		GRDASH /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				F032 /* DashboardView.swift */,
+				F033 /* DashboardViewModel.swift */,
+				F034 /* ContractDetailView.swift */,
+				F035 /* DeadlineMonitorView.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		GRCMP /* Compare */ = {
+			isa = PBXGroup;
+			children = (
+				F036 /* CompareMenuView.swift */,
+				F037 /* VehicleInsuranceView.swift */,
+				F038 /* VehicleInsuranceViewModel.swift */,
+				F039 /* LifeInsuranceView.swift */,
+				F040 /* LifeInsuranceViewModel.swift */,
+				F041 /* TravelInsuranceView.swift */,
+				F042 /* TravelInsuranceViewModel.swift */,
+				F043 /* PropertyInsuranceView.swift */,
+				F044 /* PropertyInsuranceViewModel.swift */,
+				F045 /* LiabilityInsuranceView.swift */,
+				F046 /* PetInsuranceView.swift */,
+				F047 /* EnergyView.swift */,
+				F048 /* EnergyViewModel.swift */,
+				F049 /* MortgageView.swift */,
+				F050 /* QuestionnaireView.swift */,
+			);
+			path = Compare;
+			sourceTree = "<group>";
+		};
+		GRRES2 /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				F051 /* ResultsView.swift */,
+				F052 /* ResultsViewModel.swift */,
+			);
+			path = Results;
+			sourceTree = "<group>";
+		};
+		GRREW /* Rewards */ = {
+			isa = PBXGroup;
+			children = (
+				F053 /* RewardsView.swift */,
+				F054 /* RewardsViewModel.swift */,
+			);
+			path = Rewards;
+			sourceTree = "<group>";
+		};
+		GRDOC /* Documents */ = {
+			isa = PBXGroup;
+			children = (
+				F055 /* GreenCardView.swift */,
+				F056 /* TravelCardView.swift */,
+			);
+			path = Documents;
+			sourceTree = "<group>";
+		};
+		GRREV /* ContractReview */ = {
+			isa = PBXGroup;
+			children = (
+				F057 /* ContractReviewView.swift */,
+				F058 /* ContractReviewViewModel.swift */,
+				F059 /* RixoIndexView.swift */,
+			);
+			path = ContractReview;
+			sourceTree = "<group>";
+		};
+		GRCAN /* Cancellation */ = {
+			isa = PBXGroup;
+			children = (
+				F060 /* ContractCancellationView.swift */,
+				F061 /* ContractCancellationViewModel.swift */,
+			);
+			path = Cancellation;
+			sourceTree = "<group>";
+		};
+		GRSET /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				F062 /* SettingsView.swift */,
+				F063 /* SettingsViewModel.swift */,
+				F064 /* EditProfileView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		GRRES /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F065 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		TRIXO /* RixoApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCLIST /* Build configuration list for PBXNativeTarget "RixoApp" */;
+			buildPhases = (
+				BPSRC /* Sources */,
+				BPFR /* Frameworks */,
+				BPRES /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RixoApp;
+			productName = RixoApp;
+			productReference = FAPP /* RixoApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		PROJROOT /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					TRIXO = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = BCPROJ /* Build configuration list for PBXProject "RixoApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = cs;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				cs,
+				en,
+				Base,
+			);
+			mainGroup = GROOT;
+			productRefGroup = GRPRD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				TRIXO /* RixoApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BPRES /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A065 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BPSRC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A001 /* RixoApp.swift in Sources */,
+				A002 /* ContentView.swift in Sources */,
+				A003 /* User.swift in Sources */,
+				A004 /* Contract.swift in Sources */,
+				A005 /* Quote.swift in Sources */,
+				A006 /* Reward.swift in Sources */,
+				A007 /* Deadline.swift in Sources */,
+				A008 /* InsuranceTypes.swift in Sources */,
+				A009 /* AuthService.swift in Sources */,
+				A010 /* ContractService.swift in Sources */,
+				A011 /* ComparisonService.swift in Sources */,
+				A012 /* RewardsService.swift in Sources */,
+				A013 /* DeadlineService.swift in Sources */,
+				A014 /* Color+Rixo.swift in Sources */,
+				A015 /* Double+Currency.swift in Sources */,
+				A016 /* Date+Czech.swift in Sources */,
+				A017 /* View+Extensions.swift in Sources */,
+				A018 /* RixoButton.swift in Sources */,
+				A019 /* RixoTextField.swift in Sources */,
+				A020 /* StepProgressView.swift in Sources */,
+				A021 /* ContractCardView.swift in Sources */,
+				A022 /* QuoteCardView.swift in Sources */,
+				A023 /* RixoIndexGauge.swift in Sources */,
+				A024 /* DeadlineBadge.swift in Sources */,
+				A025 /* InsuranceCategoryButton.swift in Sources */,
+				A026 /* LoadingView.swift in Sources */,
+				A027 /* SignaturePadView.swift in Sources */,
+				A028 /* OnboardingView.swift in Sources */,
+				A029 /* LoginView.swift in Sources */,
+				A030 /* RegisterView.swift in Sources */,
+				A031 /* AuthViewModel.swift in Sources */,
+				A032 /* DashboardView.swift in Sources */,
+				A033 /* DashboardViewModel.swift in Sources */,
+				A034 /* ContractDetailView.swift in Sources */,
+				A035 /* DeadlineMonitorView.swift in Sources */,
+				A036 /* CompareMenuView.swift in Sources */,
+				A037 /* VehicleInsuranceView.swift in Sources */,
+				A038 /* VehicleInsuranceViewModel.swift in Sources */,
+				A039 /* LifeInsuranceView.swift in Sources */,
+				A040 /* LifeInsuranceViewModel.swift in Sources */,
+				A041 /* TravelInsuranceView.swift in Sources */,
+				A042 /* TravelInsuranceViewModel.swift in Sources */,
+				A043 /* PropertyInsuranceView.swift in Sources */,
+				A044 /* PropertyInsuranceViewModel.swift in Sources */,
+				A045 /* LiabilityInsuranceView.swift in Sources */,
+				A046 /* PetInsuranceView.swift in Sources */,
+				A047 /* EnergyView.swift in Sources */,
+				A048 /* EnergyViewModel.swift in Sources */,
+				A049 /* MortgageView.swift in Sources */,
+				A050 /* QuestionnaireView.swift in Sources */,
+				A051 /* ResultsView.swift in Sources */,
+				A052 /* ResultsViewModel.swift in Sources */,
+				A053 /* RewardsView.swift in Sources */,
+				A054 /* RewardsViewModel.swift in Sources */,
+				A055 /* GreenCardView.swift in Sources */,
+				A056 /* TravelCardView.swift in Sources */,
+				A057 /* ContractReviewView.swift in Sources */,
+				A058 /* ContractReviewViewModel.swift in Sources */,
+				A059 /* RixoIndexView.swift in Sources */,
+				A060 /* ContractCancellationView.swift in Sources */,
+				A061 /* ContractCancellationViewModel.swift in Sources */,
+				A062 /* SettingsView.swift in Sources */,
+				A063 /* SettingsViewModel.swift in Sources */,
+				A064 /* EditProfileView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BCDEBUG /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_CYCLE = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		BCRELEASE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BCTDEBUG /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "RIXO potřebuje přístup k fotoaparátu pro nahrávání pojistných smluv.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "RIXO používá Face ID pro rychlé a bezpečné přihlášení.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "RIXO potřebuje přístup k fotkám pro nahrávání dokumentů.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "cz.rixo.app";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BCTRELEASE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "RIXO potřebuje přístup k fotoaparátu pro nahrávání pojistných smluv.";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "RIXO používá Face ID pro rychlé a bezpečné přihlášení.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "RIXO potřebuje přístup k fotkám pro nahrávání dokumentů.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "cz.rixo.app";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BCPROJ /* Build configuration list for PBXProject "RixoApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCDEBUG /* Debug */,
+				BCRELEASE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BCLIST /* Build configuration list for PBXNativeTarget "RixoApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCTDEBUG /* Debug */,
+				BCTRELEASE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = PROJROOT /* Project object */;
+}
