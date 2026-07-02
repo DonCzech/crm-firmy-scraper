@@ -10,7 +10,7 @@
 
 ```
 PHASE:        PRO upgrade (plán /Users/apple/.claude/plans/tranquil-booping-wolf.md) — Fáze 0 (audit fixy) DONE 2026-07-02.
-NEXT TASK:    Fáze 3a — historie verzí UI (volitelně: přepínač témat editoru silver/violet/indigo — nápad uživatele). Pak 3b responsive editace, 3c globální textové styly.
+NEXT TASK:    Fáze 3b — responsive per-breakpoint editace (settings.layout.responsive). Pak 3c globální textové styly, 3d section templating.
 LAST UPDATE:  2026-07-02 by Fable (PRO-0.1–0.10: 401 spam fix, Vrstvy→Přidat blok, MODULES_ENABLED flag, palette fixy+publish příkazy, AI 503 hlášky, newsletter persist, If-Match 412+konflikt modal, overlay undo→globální historie, HelpPanel obsah, next.config eslint)
 PILOT:        barber-01 (/demo/barber-01/admin)
 DEV SERVER:   localhost:3000 (uživatelův proces — nekillovat)
@@ -440,3 +440,4 @@ Pokud chceš ještě kratší trigger, vytvoř `.claude/commands/editor-wix-pokr
 2026-07-02 | PRO-0.8 | Overlay undo sjednocen do globální historie: OverlayLayer bez lokálních stacků (dřív ⌘Z spouštěl OBĚ historie najednou = double-undo bug), recordSectionHistory v TenantStudioView, persist dělá okamžitý updateSectionLocal sync (historie snapshotuje aktuální stav) + debounced PATCH; externí změna (undo) ruší rozjetý persist timer. Canvas toolbar undo/redo napojen na globální. | 4
 2026-07-02 | PRO-0.9-0.10 | FloatingTextToolbar už neexistoval (dead code dřív smazán). HelpPanel: 6 karet (+AI, +Soubory), brand "solidpixels."→"Nápověda", footer: Klávesové zkratky + Spustit průvodce znovu (maže onboarding localStorage klíč). | 2
 2026-07-02 | PRO-2 | Ikony sjednoceny na Phosphor: centrální registry src/components/studio/icons.tsx (110+ ikon pod lucide-kompatibilními jmény, wrap() default weight regular), 48 souborů přepnuto z lucide-react, duotone aktivní stavy (rail + breakpoint switcher), rail Stránky = Files ikona místo custom SVG. Zachován uživatelův violet design (avatar gradient, topbar redesign). Fix 2 TS chyb z paralelních úprav (CtaSection resolveNavHref local copy, GallerySection fullUrl typ). tsc 0 chyb, konzole čistá. | 51
+2026-07-02 | PRO-3a | Historie verzí: HistoryPanel.tsx (drawer, timeline, Uložit verzi, Obnovit+confirm, reload po restore), GET/POST /api/demo/[slug]/revisions (dedup identických snapshotů), auto-snapshot v TenantStudioView (10 min throttle po flushi), top bar tlačítko + ⌘K příkaz. Přepínač témat: data-vs-theme na <html>, --vs-cta-* tokeny (default violet = 1:1 původní hardcoded gradienty → design nezměněn), témata silver/indigo v design-tokens.css, swatche v AccountDropdown + palette, localStorage persist. Ověřeno: POST/GET/restore přes curl (pre-restore snapshot OK), UI přepnutí silver↔violet, konzole čistá, tsc 0. | 12
