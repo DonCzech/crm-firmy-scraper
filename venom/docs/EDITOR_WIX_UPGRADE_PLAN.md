@@ -9,13 +9,13 @@
 ## §0 STATUS — aktuální stav (vždy aktualizuj!)
 
 ```
-PHASE:        Sprint 8 DONE + UX polish pass 2026-07-02 (text toolbar redesign, editor overlay suppression, inspector autoselect).
-NEXT TASK:    Sprint 9 — produkční hardening (real GOPAY_* env keys, WEBERO_EDGE_IP/CNAME, email potvrzení registrace, logout flow, /login page).
-LAST UPDATE:  2026-07-02 by Fable (UX polish: GenericEditableText toolbar → design tokens + lucide ikony + flip pozicovani + auto-commit stylu na blur; CookieConsent potlacen na editor routach; focus textu → inspektor; Neindexovano pill CZ; ZoomControl tokens)
-PILOT:        barber-01 (demo tenant: barber-01-v2, slug viz DB)
-DEV SERVER:   localhost:3002 (next dev --webpack)
-BRANCH:       (žádný explicitní — pracuje se přímo, commits chronologicky)
-BLOCKERS:     GOPAY_CLIENT_ID / GOPAY_CLIENT_SECRET / GOPAY_GOID musí být nastaveny v .env.local pro real platby. WEBERO_EDGE_IP / WEBERO_EDGE_CNAME pro DNS verify.
+PHASE:        PRO upgrade (plán /Users/apple/.claude/plans/tranquil-booping-wolf.md) — Fáze 0 (audit fixy) DONE 2026-07-02.
+NEXT TASK:    Fáze 1 — retheme indigo → teal (design-tokens.css + ~66 hardcoded barev), pak Fáze 2 ikony → Phosphor, Fáze 3a historie verzí UI, 3b responsive editace, 3c globální textové styly.
+LAST UPDATE:  2026-07-02 by Fable (PRO-0.1–0.10: 401 spam fix, Vrstvy→Přidat blok, MODULES_ENABLED flag, palette fixy+publish příkazy, AI 503 hlášky, newsletter persist, If-Match 412+konflikt modal, overlay undo→globální historie, HelpPanel obsah, next.config eslint)
+PILOT:        barber-01 (/demo/barber-01/admin)
+DEV SERVER:   localhost:3000 (uživatelův proces — nekillovat)
+BRANCH:       main (commits editor-wix(PRO-*))
+BLOCKERS:     ANTHROPIC_API_KEY chybí v .env.local (AI funkce vrací 503). GOPAY_* env keys pro real platby. WEBERO_EDGE_IP / WEBERO_EDGE_CNAME pro DNS verify.
 ```
 
 ### Sprint 6 — Wix-style "+ Přidat" overlay (kategorizovaná knihovna)
@@ -433,3 +433,9 @@ Pokud chceš ještě kratší trigger, vytvoř `.claude/commands/editor-wix-pokr
 2026-06-29 | SPRINT4-CLOSE | 91/92 šablon 100% editor pokryto. Registry 22/22 typů. 3 chybějící varianty implementovány. QA 15 šablon PASS. Sprint 5 = GATE (produkce). | 4
 2026-06-29 | T5.1 | ZoomControl (−/+/dropdown) v StudioTopBar: 40–200% + Přizpůsobit. StudioContext.zoom state. StudioCanvas effectiveZoom. Per-element drag handle (translate) + resize handle (fontSize) na všech GenericEditableText elementech přes portály. translateX/translateY v GenericTextStyle → transform:translate při render. | 5
 2026-07-02 | POLISH-1 | UX/design polish pass: (1) inline text toolbar v GenericEditableText přepsán na studio design tokens — lucide ikony, grip sloupec, gradient Uložit, flip pozicování nad/pod prvkem (nikdy nepřekrývá text), auto-commit draft stylu při blur (dřív se rozpracovaný styl tiše ztratil z DB); (2) CookieConsent + LanguageSuggestionModal potlačeny na /admin, /studio, /demo/*/{admin,studio,edit-frame} (prosakovaly přes canvas); (3) focus textu volá studio.setSelection → pravý inspektor ukazuje panel sekce místo empty state; (4) top bar: červený EN "Not indexing" → amber CZ "Neindexováno" s tooltip; ZoomControl dropdown na tokens; (5) selection outlines + drag/resize handles sladěny na indigo akcent. Ověřeno: barber-02-v2, cafe-01-v2, ananda-01-demo + cookie banner dál funguje na public. | 1
+2026-07-02 | PRO-0.1 | 401 spam fix: gopay/status přijímá tenant-admin cookie (requireTenantAdmin fallback), account/me vrací 200+user:null, dashboard konzument upraven. Konzole na čistém loadu editoru bez chyb. | 3
+2026-07-02 | PRO-0.2-0.4 | Panel "Vrstvy"→"Přidat blok" (obsah = knihovna bloků), Moduly skryty za MODULES_ENABLED=false (rail+hotkey M+palette), CommandPalette: undo/redo wired na state, analytics→/admin/analytics, publish-page/site příkazy přes custom event venom-studio:publish. next.config.ts: odstraněn nepodporovaný eslint klíč (tsc zase 0 chyb). | 5
+2026-07-02 | PRO-0.5-0.6 | AI 503 hlášky user-friendly (4 routes, bez env jargonu, console.warn pro dev), newsletter/subscribe persistuje do nové tabulky newsletter_subscribers (ON CONFLICT DO NOTHING). Ověřeno curl+DB. | 5
+2026-07-02 | PRO-0.7 | Optimistic concurrency dle LIVE_EDITOR_STANDARD: PATCH sections přijímá If-Match (updated_at epoch ms), nesouhlas ⇒ 412+revision; response vrací novou revizi. Klient: revisionsRef mapa, patchSectionRequest helper (flushGenericSave/saveAsteraContent/patchSection), 412 ⇒ ConflictModal "Načíst znovu / Přepsat mou verzí" (force bez If-Match). Batch PUT čistí revize. Ověřeno: stale If-Match ⇒ 412. | 2
+2026-07-02 | PRO-0.8 | Overlay undo sjednocen do globální historie: OverlayLayer bez lokálních stacků (dřív ⌘Z spouštěl OBĚ historie najednou = double-undo bug), recordSectionHistory v TenantStudioView, persist dělá okamžitý updateSectionLocal sync (historie snapshotuje aktuální stav) + debounced PATCH; externí změna (undo) ruší rozjetý persist timer. Canvas toolbar undo/redo napojen na globální. | 4
+2026-07-02 | PRO-0.9-0.10 | FloatingTextToolbar už neexistoval (dead code dřív smazán). HelpPanel: 6 karet (+AI, +Soubory), brand "solidpixels."→"Nápověda", footer: Klávesové zkratky + Spustit průvodce znovu (maže onboarding localStorage klíč). | 2
