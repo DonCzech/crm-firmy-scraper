@@ -63,7 +63,7 @@ function resolveContentRef(json: Record<string, unknown>, ref: string): boolean 
   return cur !== undefined;
 }
 
-async function studioCompatibilityAudit(templateKey: string): Promise<{
+export async function studioCompatibilityAudit(templateKey: string): Promise<{
   issues: StudioIssue[];
   score: number;
   summary: Record<string, unknown>;

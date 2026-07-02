@@ -249,10 +249,10 @@ async function runAutoFixInBackground(keys: string[]) {
 
       // Studio compatibility audit (reuse scan logic)
       let studioScore: number | undefined;
-      let studioIssues: Array<{ severity: string; code: string; message: string }> = [];
+      let studioIssues: import("@/lib/audit-notes").StudioIssue[] = [];
       let studioSummary: Record<string, unknown> = {};
       try {
-        const { studioCompatibilityAudit } = await import("../[key]/scan/route");
+        const { studioCompatibilityAudit } = await import("./[key]/scan/route");
         const studioResult = await studioCompatibilityAudit(key);
         studioScore = studioResult.score;
         studioIssues = studioResult.issues;

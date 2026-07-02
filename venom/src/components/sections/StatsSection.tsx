@@ -1,4 +1,5 @@
 "use client";
+import type { JSX } from "react";
 
 import { useEffect, useRef, useState } from "react";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
@@ -13,7 +14,7 @@ interface Props {
 
 type StatItem = { value?: string | number; label?: string; icon?: string };
 
-export function StatsSection({ content, variant, sectionId }: Props) {
+export function StatsSection({ content, variant, sectionId, isAdmin }: Props) {
   const title = String(content.title ?? "");
   const lead = String(content.lead ?? "");
   const items = ((content.items as StatItem[]) ?? []).slice(0, 8);
@@ -22,18 +23,24 @@ export function StatsSection({ content, variant, sectionId }: Props) {
   if (variant === "sweet-01-usp") return <StatsSweet01 content={content} sectionId={sectionId} />;
 
   if (variant === "barber-stats-counter-4col") {
+    const showHeader = (content as Record<string, unknown>).showHeader !== false;
+    const eyebrowNum = String((content as Record<string, unknown>).eyebrowNum ?? "03");
+    const eyebrow = String((content as Record<string, unknown>).eyebrow ?? "V číslech");
     return (
       <StatsBarber04
         title={title}
         lead={lead}
         items={items}
         sectionId={sectionId}
+        showHeader={showHeader}
+        eyebrowNum={eyebrowNum}
+        eyebrow={eyebrow}
       />
     );
   }
 
   if (variant === "fitness-02-stats-bar") {
-    return <StatsFitness02 items={items} sectionId={sectionId} />;
+    return <StatsFitness02 items={items} sectionId={sectionId} isAdmin={isAdmin} />;
   }
 
   if (variant === "reality-05-stats") {
@@ -74,6 +81,7 @@ export function StatsSection({ content, variant, sectionId }: Props) {
   if (variant === "clean-02-stats")  return <StatsClean02  content={content} sectionId={sectionId} />;
   if (variant === "hotel-02-features") return <StatsHotel02Features content={content} sectionId={sectionId} />;
   if (variant === "events-01-stats")   return <StatsEvents01        content={content} sectionId={sectionId} />;
+  if (variant === "autoservis-03-stats") return <StatsAutoservis03  content={content} sectionId={sectionId} />;
 
   // default — generic centered 4-col with bold numbers
   return (
@@ -109,30 +117,57 @@ function StatsBarber04({
   lead,
   items,
   sectionId,
+  showHeader = true,
+  eyebrowNum = "03",
+  eyebrow = "V číslech",
 }: {
   title: string;
   lead: string;
   items: StatItem[];
   sectionId: number;
+  showHeader?: boolean;
+  eyebrowNum?: string;
+  eyebrow?: string;
 }) {
   return (
     <section
       className="relative"
-      style={{ padding: "80px 24px", backgroundColor: "#f4f6f7" }}
+      style={{ padding: "clamp(80px, 10vw, 120px) 24px", backgroundColor: "#0a0806" }}
       data-template="barber-04"
     >
-      <div className="max-w-[1180px] mx-auto text-center">
+      <div className="max-w-[1280px] mx-auto text-center">
+        {showHeader && (<>
+        {/* Industrial numbered eyebrow */}
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 12,
+            marginBottom: 28,
+            fontFamily: "'Lato',Helvetica,Arial,sans-serif",
+            fontSize: 11,
+            fontWeight: 700,
+            letterSpacing: "0.32em",
+            color: "#d5b981",
+            textTransform: "uppercase",
+          }}
+        >
+          <GenericEditableText sectionId={sectionId} field="eyebrowNum" value={eyebrowNum} tag="span" style={{ fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif", fontWeight: 400, letterSpacing: "0.10em", fontSize: 14 }} />
+          <span aria-hidden style={{ width: 28, height: 1, backgroundColor: "#d5b981", opacity: 0.7 }} />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </div>
+
         {title && (
           <h2
             className="uppercase"
             style={{
               fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif",
-              fontWeight: 300,
-              fontSize: "clamp(22px, 2.2vw, 34px)",
-              letterSpacing: 0,
-              color: "#d5b981",
-              margin: "0 auto 14px",
-              lineHeight: 1.2,
+              fontWeight: 400,
+              fontSize: "clamp(32px, 4vw, 52px)",
+              letterSpacing: "0.03em",
+              color: "#fff",
+              margin: "0 auto 20px",
+              lineHeight: 1.1,
             }}
           >
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
@@ -140,28 +175,42 @@ function StatsBarber04({
         )}
         <div
           aria-hidden
-          className="mx-auto"
-          style={{ width: 60, height: 2, backgroundColor: "#d5b981", opacity: 0.7, margin: "0 auto 24px" }}
+          style={{
+            width: 180,
+            height: 1,
+            margin: "0 auto 32px",
+            background: "linear-gradient(90deg, transparent 0%, rgba(213,185,129,.85) 50%, transparent 100%)",
+          }}
         />
         {lead && (
           <p
             style={{
               fontFamily: "'Lato',Helvetica,Arial,sans-serif",
               fontWeight: 400,
-              fontSize: "clamp(13px, 1vw, 15px)",
-              color: "#666",
-              maxWidth: 720,
-              margin: "0 auto 56px",
+              fontSize: "clamp(14px, 1.05vw, 16px)",
+              color: "rgba(255,255,255,0.65)",
+              maxWidth: 680,
+              margin: "0 auto 72px",
               lineHeight: 1.75,
             }}
           >
             <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
           </p>
         )}
+        </>)}
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10 mt-2">
+        <div
+          className="b04-stats-grid grid grid-cols-2 md:grid-cols-4 mt-4"
+          style={{ position: "relative" }}
+        >
           {items.map((it, i) => (
-            <StatBarber04Item key={`stat-${i}`} item={it} sectionId={sectionId} idx={i} />
+            <StatBarber04Item
+              key={`stat-${i}`}
+              item={it}
+              sectionId={sectionId}
+              idx={i}
+              total={items.length}
+            />
           ))}
         </div>
       </div>
@@ -169,7 +218,7 @@ function StatsBarber04({
   );
 }
 
-function StatBarber04Item({ item, sectionId, idx }: { item: StatItem; sectionId: number; idx: number }) {
+function StatBarber04Item({ item, sectionId, idx, total }: { item: StatItem; sectionId: number; idx: number; total: number }) {
   const target = parseNumber(String(item.value ?? "0"));
   const suffix = String(item.value ?? "").replace(/[0-9 .,\s]/g, "");
   const [count, setCount] = useState(0);
@@ -186,7 +235,7 @@ function StatBarber04Item({ item, sectionId, idx }: { item: StatItem; sectionId:
       if (started) return;
       started = true;
       const t0 = performance.now();
-      const dur = 1600;
+      const dur = 1800;
       const tick = (t: number) => {
         const k = Math.min(1, (t - t0) / dur);
         const eased = 1 - Math.pow(1 - k, 3);
@@ -206,31 +255,76 @@ function StatBarber04Item({ item, sectionId, idx }: { item: StatItem; sectionId:
   }, [target]);
 
   const formatted = target > 0 ? count.toLocaleString("cs-CZ") : String(item.value ?? "");
+  const isLast = idx === total - 1;
+  const showDividerDesktop = !isLast;
+  // On mobile (2-col): show divider on items 0 and 2 (right side), not 1 and 3
+  const showDividerMobile = idx % 2 === 0;
 
   return (
-    <div ref={ref} className="flex flex-col items-center">
-      <StatIcon name={item.icon} />
+    <div
+      ref={ref}
+      className="b04-stat-item flex flex-col items-center relative"
+      style={{ padding: "20px 24px" }}
+    >
+      {/* Vertical hairline divider (industrial) — gold fade gradient */}
+      {showDividerDesktop && (
+        <span
+          aria-hidden
+          className="hidden md:block"
+          style={{
+            position: "absolute", right: 0, top: "15%", bottom: "15%", width: 1,
+            background: "linear-gradient(180deg, transparent 0%, rgba(213,185,129,.28) 50%, transparent 100%)",
+          }}
+        />
+      )}
+      {showDividerMobile && (
+        <span
+          aria-hidden
+          className="md:hidden"
+          style={{
+            position: "absolute", right: 0, top: "15%", bottom: "15%", width: 1,
+            background: "linear-gradient(180deg, transparent 0%, rgba(213,185,129,.22) 50%, transparent 100%)",
+          }}
+        />
+      )}
+
       <div
+        className="b04-stat-number"
         style={{
           fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif",
           fontWeight: 400,
-          fontSize: "clamp(40px, 4vw, 64px)",
-          lineHeight: 1,
-          color: "#1a1a1a",
-          marginTop: 14,
+          fontSize: "clamp(64px, 7.5vw, 116px)",
+          lineHeight: 0.95,
+          color: "#fff",
+          letterSpacing: "0.02em",
+          transition: "transform .35s cubic-bezier(.4,0,.2,1), color .25s ease",
         }}
       >
         {formatted}
         {suffix && <span style={{ color: "#d5b981" }}>{suffix}</span>}
       </div>
+      {/* Gold hairline accent under number */}
+      <span
+        aria-hidden
+        style={{
+          display: "block",
+          width: 32, height: 1,
+          background: "#d5b981",
+          opacity: 0.55,
+          margin: "18px 0 14px",
+          transition: "width .35s cubic-bezier(.4,0,.2,1), opacity .25s ease",
+        }}
+        className="b04-stat-rule"
+      />
       <div
-        className="uppercase"
+        className="uppercase b04-stat-label"
         style={{
           fontFamily: "'Lato',Helvetica,Arial,sans-serif",
           fontSize: 11,
-          letterSpacing: 2,
-          color: "#999",
-          marginTop: 8,
+          fontWeight: 600,
+          letterSpacing: "0.24em",
+          color: "rgba(255,255,255,0.62)",
+          transition: "color .25s ease",
         }}
       >
         <GenericEditableText sectionId={sectionId} field={`items.${idx}.label`} value={String(item.label ?? "")} tag="span" />
@@ -303,87 +397,166 @@ function StatIcon({ name }: { name?: string }) {
 // ─────────────────────────────────────────────────────────────────────────────
 type Fitness02StatItem = { number?: string | number; suffix?: string; label?: string };
 
-function StatsFitness02({ items, sectionId }: { items: Fitness02StatItem[]; sectionId: number }) {
+function StatsFitness02({ items, sectionId, isAdmin }: { items: Fitness02StatItem[]; sectionId: number; isAdmin: boolean }) {
   const ACCENT = "#FF5500";
   const FONT_H = "'Archivo Black', sans-serif";
   const FONT_B = "'Montserrat', sans-serif";
 
   const stats = items as Fitness02StatItem[];
 
+  // Count-up animation — non-admin only, on scroll into view
+  const [counts, setCounts] = useState<number[]>(() => stats.map(s => {
+    const n = parseInt(String(s.number ?? "0").replace(/\D/g, ""), 10) || 0;
+    return isAdmin ? n : 0;
+  }));
+  const ref = useRef<HTMLElement | null>(null);
+  const triggered = useRef(false);
+
+  useEffect(() => {
+    if (isAdmin) return;
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !triggered.current) {
+          triggered.current = true;
+          stats.forEach((item, i) => {
+            const target = parseInt(String(item.number ?? "0").replace(/\D/g, ""), 10) || 0;
+            const duration = 1800;
+            const steps = 48;
+            let step = 0;
+            const iv = setInterval(() => {
+              step++;
+              const progress = step / steps;
+              const eased = 1 - Math.pow(1 - progress, 3);
+              setCounts(prev => { const next = [...prev]; next[i] = Math.round(eased * target); return next; });
+              if (step >= steps) clearInterval(iv);
+            }, duration / steps);
+          });
+        }
+      },
+      { threshold: 0.35 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [stats, isAdmin]);
+
   return (
     <section
+      ref={ref}
+      className="fitness02-stats"
       style={{
         backgroundColor: "#000000",
-        borderTop: "1px solid rgba(255,85,0,0.2)",
-        borderBottom: "1px solid rgba(255,85,0,0.2)",
-        padding: "60px 0",
+        borderTop: "1px solid rgba(255,85,0,0.25)",
+        borderBottom: "1px solid rgba(255,85,0,0.25)",
+        padding: "88px 0",
         fontFamily: FONT_B,
+        position: "relative",
+        overflow: "hidden",
       }}
       data-template="fitness-02"
+      data-section="fitness-02-stats"
     >
+      {/* Subtle grain */}
+      <div aria-hidden="true" className="fitness02-grain" style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.04, mixBlendMode: "overlay" }} />
+
       <div
-        className="f02-stats-grid"
+        className="fitness02-stats-grid"
         style={{
-          maxWidth: 1140,
+          maxWidth: 1240,
           margin: "0 auto",
-          padding: "0 24px",
+          padding: "0 40px",
           display: "grid",
           gridTemplateColumns: `repeat(${Math.min(stats.length, 4)}, 1fr)`,
           gap: 0,
+          position: "relative",
+          zIndex: 1,
         }}
       >
-        {stats.map((s, i) => (
-          <div
-            key={i}
-            style={{
-              textAlign: "center",
-              padding: "0 24px",
-              borderRight: i < stats.length - 1 ? "1px solid rgba(255,85,0,0.25)" : "none",
-            }}
-          >
+        {stats.map((s, i) => {
+          const num = String(s.number ?? "");
+          const isNumeric = /^\d/.test(num);
+          const displayed = isNumeric && !isAdmin ? String(counts[i] ?? 0) : num;
+          const indexLabel = String(i + 1).padStart(2, "0");
+          return (
             <div
+              key={i}
+              className="fitness02-stat-card"
               style={{
-                fontFamily: FONT_H,
-                fontSize: "clamp(48px, 6vw, 72px)",
-                fontWeight: 900,
-                color: "#FFFFFF",
-                lineHeight: 1,
-                marginBottom: 8,
+                textAlign: "center",
+                padding: "0 32px",
+                borderRight: i < stats.length - 1 ? "1px solid rgba(255,85,0,0.28)" : "none",
+                position: "relative",
               }}
             >
-              <GenericEditableText sectionId={sectionId} field={`items.${i}.number`} value={String(s.number ?? "")} tag="span" />
-              {s.suffix && (
-                <span style={{ color: ACCENT, fontSize: "0.75em" }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.suffix`} value={String(s.suffix)} tag="span" />
-                </span>
-              )}
+              {/* Small orange index marker */}
+              <div
+                className="fitness02-stat-index"
+                style={{
+                  fontFamily: FONT_H,
+                  fontSize: 11,
+                  letterSpacing: "0.32em",
+                  color: ACCENT,
+                  marginBottom: 20,
+                }}
+                aria-hidden="true"
+              >
+                {indexLabel}
+              </div>
+
+              <div
+                className="fitness02-stat-number"
+                style={{
+                  fontFamily: FONT_H,
+                  fontSize: "clamp(56px, 7vw, 88px)",
+                  color: "#FFFFFF",
+                  lineHeight: 1,
+                  marginBottom: 14,
+                  letterSpacing: "-0.02em",
+                  display: "inline-flex",
+                  alignItems: "baseline",
+                  gap: 2,
+                }}
+              >
+                {isAdmin ? (
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.number`} value={num} tag="span" />
+                ) : (
+                  <span aria-label={num}>{displayed}</span>
+                )}
+                {s.suffix && (
+                  <span style={{ color: ACCENT, fontSize: "0.6em" }}>
+                    {isAdmin ? (
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.suffix`} value={String(s.suffix)} tag="span" />
+                    ) : (
+                      String(s.suffix)
+                    )}
+                  </span>
+                )}
+              </div>
+
+              {/* Hairline under number */}
+              <div
+                className="fitness02-stat-rule"
+                aria-hidden="true"
+                style={{ width: 32, height: 2, background: ACCENT, margin: "0 auto 18px", transition: "width 0.45s cubic-bezier(0.22,0.61,0.36,1)" }}
+              />
+
+              <div
+                style={{
+                  fontFamily: FONT_B,
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: "#C3C3C3",
+                  letterSpacing: "0.24em",
+                  textTransform: "uppercase",
+                }}
+              >
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={String(s.label ?? "")} tag="span" />
+              </div>
             </div>
-            <div
-              style={{
-                fontFamily: FONT_B,
-                fontSize: 15,
-                fontWeight: 400,
-                color: "#C3C3C3",
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-              }}
-            >
-              <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={String(s.label ?? "")} tag="span" />
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
-      <style>{`
-        @media (max-width: 640px) {
-          .f02-stats-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 40px 0 !important;
-          }
-          .f02-stats-grid > div {
-            border-right: none !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }
@@ -493,7 +666,7 @@ function StatsReality05({ content, items: rawItems, sectionId }: { content: Reco
 // Karmínový pás (#a70336), 4 čísla vedle sebe (200+/5000+/12/110+),
 // bílé hodnoty Raleway bold, bílé popisky, svislé oddělovače rgba
 // ─────────────────────────────────────────────────────────────────────────────
-function StatsLawyer01({ items, sectionId }: { items: Array<{ value: string; label: string }>; sectionId: number }) {
+function StatsLawyer01({ items, sectionId }: { items: Array<{ value?: string | number; label?: string; icon?: string }>; sectionId: number }) {
   const CRIMSON = "#a70336";
   const WHITE   = "#ffffff";
   const FONT    = "'Source Sans 3','Source Sans Pro','Raleway','Helvetica Neue',Arial,sans-serif";
@@ -605,55 +778,57 @@ function StatsStavba03({ content, sectionId }: { content: Record<string, unknown
 }
 
 // ── catering-01-partners ──────────────────────────────────────────────────────
-// Marquee pás s klientskými jmény — nekonečný CSS scroll
+// Nordic Minimal Gastro: thin stone-border strip, marquee brand names
+// Inter uppercase, muted → hover full opacity, terracotta dot separators
 // ─────────────────────────────────────────────────────────────────────────────
 function StatsCatering01Partners({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const TEAL  = "#1c373a";
-  const CREAM = "#fefff1";
-  const GOLD  = "#baae8c";
-  const SERIF = "'Libre Baskerville', Georgia, serif";
-  const SANS  = "'Source Sans 3', 'Source Sans Pro', sans-serif";
+  const GREEN  = "#2d4a3e";
+  const TERRA  = "#c4755b";
+  const WARM   = "#f8f5f0";
+  const STONE  = "#e8e2d8";
+  const SANS   = "'Inter', system-ui, sans-serif";
 
-  const heading = String(content.heading ?? "Důvěřují nám");
+  const heading = String(content.heading ?? "Věří nám přední značky");
   const items = (content.items as Array<{ name: string }>) ?? [];
 
   return (
     <section
+      data-template="catering-01"
       data-variant="catering-01-partners"
-      style={{ background: CREAM, padding: "4rem 0 4.4rem", overflow: "hidden" }}
+      style={{ background: WARM, borderTop: `1px solid ${STONE}`, borderBottom: `1px solid ${STONE}`, padding: "2.8rem 0", overflow: "hidden" }}
     >
       <style>{`
-        @keyframes c01pmarquee { from { transform: translateX(0) } to { transform: translateX(-50%) } }
-        .c01p-track { display: flex; align-items: center; width: max-content; animation: c01pmarquee 28s linear infinite; will-change: transform; }
-        .c01p-track:hover { animation-play-state: paused; }
-        .c01p-name { font-family: ${SERIF}; font-size: 1.5rem; font-weight: 400; font-style: italic; color: ${TEAL}; letter-spacing: .04em; text-transform: uppercase; opacity: .65; padding: 0 2.8rem; white-space: nowrap; transition: opacity .2s; cursor: default; }
-        .c01p-name:hover { opacity: 1; }
-        .c01p-dot { color: ${GOLD}; font-size: .9rem; flex-shrink: 0; opacity: .8; }
+        @keyframes ct1marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+        .ct1p-head{text-align:center;margin-bottom:1.8rem}
+        .ct1p-label{font-family:${SANS};font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:${TERRA}}
+        .ct1p-track{display:flex;align-items:center;width:max-content;animation:ct1marquee 32s linear infinite;will-change:transform}
+        .ct1p-track:hover{animation-play-state:paused}
+        .ct1p-name{font-family:${SANS};font-size:.82rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:${GREEN};opacity:.4;padding:0 2rem;white-space:nowrap;transition:opacity .25s;cursor:default}
+        .ct1p-name:hover{opacity:1}
+        .ct1p-sep{width:4px;height:4px;border-radius:50%;background:${TERRA};opacity:.5;flex-shrink:0}
       `}</style>
 
-      <div style={{ textAlign: "center", marginBottom: "2.8rem" }}>
-        <span style={{ fontFamily: SANS, fontSize: "1.05rem", fontWeight: 700, letterSpacing: ".45rem", textTransform: "uppercase", color: GOLD }}>
+      <div className="ct1p-head">
+        <span className="ct1p-label">
           <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
         </span>
       </div>
 
       <div style={{ overflow: "hidden" }}>
-        <div className="c01p-track">
-          {/* first set — editable */}
+        <div className="ct1p-track">
           {items.map((item, i) => (
             <span key={`a-${i}`} style={{ display: "inline-flex", alignItems: "center" }}>
-              <span className="c01p-name">
+              <span className="ct1p-name">
                 <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
               </span>
-              <span className="c01p-dot" aria-hidden="true">◆</span>
+              <span className="ct1p-sep" aria-hidden="true" />
             </span>
           ))}
-          {/* duplicate for seamless loop — aria-hidden */}
           <span aria-hidden="true" style={{ display: "inline-flex", alignItems: "center" }}>
             {items.map((item, i) => (
               <span key={`b-${i}`} style={{ display: "inline-flex", alignItems: "center" }}>
-                <span className="c01p-name">{item.name}</span>
-                <span className="c01p-dot">◆</span>
+                <span className="ct1p-name">{item.name}</span>
+                <span className="ct1p-sep" />
               </span>
             ))}
           </span>
@@ -664,67 +839,71 @@ function StatsCatering01Partners({ content, sectionId }: { content: Record<strin
 }
 
 // ── catering-01-timeline ──────────────────────────────────────────────────────
-// Horizontální timeline milníků firmy od 2004
+// Nordic Minimal Gastro:
+// - Warm-white bg, vertical timeline on mobile, horizontal on desktop
+// - Fraunces year numbers, Inter body text
+// - Terracotta dot + connecting stone line
 // ─────────────────────────────────────────────────────────────────────────────
 function StatsCatering01Timeline({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const TEAL  = "#1c373a";
-  const CREAM = "#fefff1";
-  const GOLD  = "#baae8c";
-  const SURF  = "#eae6db";
-  const SERIF = "'Libre Baskerville', Georgia, serif";
-  const SANS  = "'Source Sans 3', 'Source Sans Pro', sans-serif";
+  const GREEN  = "#2d4a3e";
+  const TERRA  = "#c4755b";
+  const WARM   = "#f8f5f0";
+  const STONE  = "#e8e2d8";
+  const SERIF  = "'Fraunces', Georgia, serif";
+  const SANS   = "'Inter', system-ui, sans-serif";
 
   const heading = String(content.heading ?? "Náš příběh");
   const items = (content.items as Array<{ year: string; text: string }>) ?? [];
 
   return (
     <section
+      data-template="catering-01"
       data-variant="catering-01-timeline"
-      style={{ background: TEAL, padding: "7rem 0 8rem", overflow: "hidden" }}
+      style={{ background: WARM, padding: "6rem 0 7rem", overflow: "hidden" }}
     >
       <style>{`
-        .c01tl-wrap { max-width: calc(100% - 3.2rem); margin: 0 auto; }
-        .c01tl-head { text-align: center; margin-bottom: 5.6rem; }
-        .c01tl-kicker { font-family: ${SANS}; font-size: 1.05rem; font-weight: 700; letter-spacing: .45rem; text-transform: uppercase; color: ${GOLD}; display: block; margin-bottom: 1.2rem; }
-        .c01tl-title { font-family: ${SERIF}; font-size: 3.6rem; line-height: 4.4rem; font-weight: 300; font-style: italic; color: ${CREAM}; margin: 0; text-transform: uppercase; }
-        .c01tl-scroll { overflow-x: auto; padding-bottom: 2rem; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-        .c01tl-scroll::-webkit-scrollbar { display: none; }
-        .c01tl-track { display: flex; align-items: flex-start; gap: 0; min-width: max-content; position: relative; padding-top: 2rem; }
-        .c01tl-track::before { content: ""; position: absolute; top: 2.3rem; left: 0; right: 0; height: .1rem; background: rgba(186,174,140,.3); }
-        .c01tl-item { display: flex; flex-direction: column; align-items: flex-start; padding: 0 3.2rem 0 0; min-width: 26rem; max-width: 30rem; position: relative; }
-        .c01tl-dot { width: 1rem; height: 1rem; border-radius: 50%; background: ${GOLD}; border: .2rem solid ${TEAL}; outline: .1rem solid ${GOLD}; flex-shrink: 0; margin-bottom: 2rem; position: relative; z-index: 1; }
-        .c01tl-year { font-family: ${SANS}; font-size: 1.1rem; font-weight: 800; letter-spacing: .3rem; color: ${GOLD}; margin-bottom: .8rem; }
-        .c01tl-text { font-family: ${SANS}; font-size: 1.4rem; line-height: 2.1rem; color: ${SURF}; font-weight: 400; }
-        @media(min-width: 1025px) {
-          .c01tl-wrap { max-width: calc(100% - 6.4rem); }
-          .c01tl-title { font-size: 4.8rem; line-height: 5.6rem; }
-          .c01tl-scroll { overflow-x: visible; }
-          .c01tl-track { min-width: unset; }
-          .c01tl-item { min-width: 0; flex: 1; }
+        .ct1tl-wrap{max-width:1200px;margin:0 auto;padding:0 1.5rem}
+        .ct1tl-head{text-align:center;margin-bottom:4rem}
+        .ct1tl-kicker{font-family:${SANS};font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:${TERRA};margin-bottom:1rem}
+        .ct1tl-h{font-family:${SERIF};font-weight:300;font-style:italic;font-size:clamp(1.8rem,3.5vw,2.8rem);color:${GREEN};margin:0;letter-spacing:-.01em}
+        .ct1tl-list{position:relative;padding-left:2.5rem}
+        .ct1tl-list::before{content:'';position:absolute;left:.45rem;top:0;bottom:0;width:1px;background:${STONE}}
+        .ct1tl-item{position:relative;padding-bottom:2.5rem}
+        .ct1tl-item:last-child{padding-bottom:0}
+        .ct1tl-dot{position:absolute;left:-2.5rem;top:.15rem;width:12px;height:12px;border-radius:50%;background:${TERRA};border:2px solid ${WARM};outline:1px solid ${STONE};z-index:1;transition:transform .3s,background .3s}
+        .ct1tl-item:hover .ct1tl-dot{transform:scale(1.4);background:${GREEN}}
+        .ct1tl-year{font-family:${SERIF};font-size:1.6rem;font-weight:400;color:${TERRA};margin:0 0 .5rem;line-height:1}
+        .ct1tl-text{font-family:${SANS};font-size:.9rem;line-height:1.7;color:#555;margin:0;max-width:36rem}
+        @media(min-width:1024px){
+          .ct1tl-list{display:grid;grid-template-columns:repeat(${items.length},1fr);gap:2rem;padding-left:0}
+          .ct1tl-list::before{left:0;right:0;top:.35rem;bottom:auto;width:auto;height:1px}
+          .ct1tl-item{padding-bottom:0;padding-top:2rem}
+          .ct1tl-dot{left:0;top:-6px;position:absolute}
+          .ct1tl-item:hover .ct1tl-dot{transform:scale(1.4)}
+          .ct1tl-year{font-size:1.4rem}
         }
       `}</style>
 
-      <div className="c01tl-wrap">
-        <div className="c01tl-head">
-          <span className="c01tl-kicker">milníky</span>
-          <h2 className="c01tl-title">
+      <div className="ct1tl-wrap">
+        <div className="ct1tl-head">
+          <div className="ct1tl-kicker">milníky</div>
+          <h2 className="ct1tl-h">
             <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
           </h2>
         </div>
-        <div className="c01tl-scroll">
-          <div className="c01tl-track">
-            {items.map((item, i) => (
-              <div key={i} className="c01tl-item">
-                <div className="c01tl-dot" aria-hidden="true" />
-                <div className="c01tl-year">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.year`} value={item.year} tag="span" />
-                </div>
-                <div className="c01tl-text">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span" />
-                </div>
+
+        <div className="ct1tl-list">
+          {items.map((item, i) => (
+            <div key={i} className="ct1tl-item">
+              <div className="ct1tl-dot" aria-hidden="true" />
+              <div className="ct1tl-year">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.year`} value={item.year} tag="span" />
               </div>
-            ))}
-          </div>
+              <div className="ct1tl-text">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span" />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -930,7 +1109,7 @@ function StatsAutoskola01({ content, sectionId }: { content: Record<string, unkn
 // - Count-up animace čísel při vstupu do viewportu (IntersectionObserver)
 // - Fade+slide-up pro každý sloupec (stagger 100ms)
 // ─────────────────────────────────────────────────────────────────────────────
-function StatsLang01({ content, sectionId }: { content: Record<string, unknown>; sectionId: string }) {
+function StatsLang01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const items = (content.items as Array<{ value: string; label: string }>) ?? [
     { value: "35 let", label: "Na trhu" },
     { value: "9",      label: "Jazyků" },
@@ -1052,7 +1231,7 @@ function StatsLang01({ content, sectionId }: { content: Record<string, unknown>;
 // Navy gradient bg, 4 čítače ve spreadu, dekorativní kruhy.
 // Každý stat: velké bílé číslo + šedý popisek. Bez animací JS.
 // ─────────────────────────────────────────────────────────────────────────────
-function StatsEdu01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number | string }) {
+function StatsEdu01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const NAVY = "#132339";
   const BLUE = "#0059df";
   const FONT = "'Libre Franklin', Arial, sans-serif";
@@ -1644,52 +1823,190 @@ function StatsUcetni01({ content, sectionId }: { content: Record<string, unknown
 }
 
 // ── solar-01-stats ────────────────────────────────────────────────────────────
+// solar-01 — Light editorial stats grid.
+// Optional eyebrow/title/subtitle header (conditional showHeader).
+// 4 stat items in bordered card grid: icon + gradient number (count-up)
+// + label + optional description + hairline rule.
+// IntersectionObserver-driven count-up animation (1.6s easeOut, admin=static).
+// Top gradient rule appears on hover per item.
+// ─────────────────────────────────────────────────────────────────────────────
 function StatsSolar01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const items = ((content.items as Array<{ value: string; label: string }>) ?? []).slice(0, 4);
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  type Item = { value?: string; label?: string; desc?: string; icon?: string };
+  const rawItems = ((content.items as Item[]) ?? []).slice(0, 4);
+  const items: Item[] = rawItems.length > 0 ? rawItems : [
+    { value: "3 800+", label: "Instalací", desc: "Realizovaných FV systémů", icon: "panels" },
+    { value: "12 dní", label: "Doba montáže", desc: "Od podpisu po zapojení", icon: "clock" },
+    { value: "30 let", label: "Životnost", desc: "Panely s garancí výkonu", icon: "shield" },
+    { value: "4.8 ★", label: "Google hodnocení", desc: "Ze 3 800+ recenzí", icon: "star" },
+  ];
+
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const eyebrow     = eyebrowRaw  === undefined ? "Čísla za nás mluví" : String(eyebrowRaw);
+  const title       = titleRaw    === undefined ? "Zkušenosti, na které se můžete spolehnout" : String(titleRaw);
+  const subtitle    = subtitleRaw === undefined ? "Přes deset let realizujeme fotovoltaické systémy po celé České republice. Tisíce spokojených klientů, garantovaná kvalita panelů a nulové starosti s administrativou." : String(subtitleRaw);
+  const showHeader  = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const sectionRef = useRef<HTMLElement>(null);
+  // Default visible=true so SSR/first-paint shows content immediately.
+  // IntersectionObserver still triggers count-up animation on scroll into view.
+  const [visible, setVisible] = useState(true);
+  const [countStarted, setCountStarted] = useState(false);
+  const [counts, setCounts] = useState<number[]>(items.map(() => 0));
 
   useEffect(() => {
-    const el = ref.current;
+    const el = sectionRef.current;
     if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.2 });
+    const obs = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setCountStarted(true); obs.disconnect(); }
+    }, { threshold: 0.25 });
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
 
-  const CSS = `
-    .ss01{background:#071c28;padding:56px 40px;font-family:'Inter',-apple-system,sans-serif;}
-    .ss01-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,0.08);border-radius:16px;overflow:hidden;}
-    .ss01-item{background:#0d2a3a;padding:36px 28px;text-align:center;transition:background 0.2s;}
-    .ss01-item:hover{background:#112f42;}
-    .ss01-val{font-size:clamp(2rem,3.5vw,2.8rem);font-weight:800;letter-spacing:-1px;color:#ff7a00;line-height:1;margin-bottom:8px;}
-    .ss01-lbl{font-size:13px;color:rgba(255,255,255,0.6);font-weight:500;text-transform:uppercase;letter-spacing:0.5px;}
-    .ss01-line{width:28px;height:2px;background:rgba(255,122,0,0.4);margin:10px auto 0;border-radius:2px;}
-    @media(max-width:700px){
-      .ss01{padding:40px 20px;}
-      .ss01-inner{grid-template-columns:repeat(2,1fr);}
+  // Count-up animation
+  useEffect(() => {
+    if (!countStarted) return;
+    const targets = items.map(it => {
+      const val = String(it.value ?? "");
+      const m = val.replace(/\s/g, "").match(/[\d.]+/);
+      return m ? parseFloat(m[0]) : null;
+    });
+    const start = performance.now();
+    const duration = 1600;
+    let frame = 0;
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setCounts(targets.map(t => t === null ? 0 : t * eased));
+      if (p < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [countStarted]);
+
+  const formatDisplay = (raw: string, animated: number): string => {
+    const m = raw.replace(/\s/g, "").match(/([\d.]+)(.*)$/);
+    if (!m) return raw;
+    const num = parseFloat(m[0]);
+    if (isNaN(num)) return raw;
+    // Preserve decimals if original had them
+    const decimals = (m[1].split(".")[1] ?? "").length;
+    const formattedNum = animated.toLocaleString("cs-CZ", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+    // Rebuild: prefix (before number) + formatted + suffix (after number)
+    const rawTrimmed = raw.replace(/\s/g, "");
+    const numStart = rawTrimmed.search(/[\d]/);
+    const prefix = numStart > 0 ? raw.slice(0, raw.search(/[\d]/)) : "";
+    const suffix = m[2] ? (raw.includes(" " + m[2].trim()) ? " " : "") + m[2].trim() : "";
+    return `${prefix}${formattedNum}${suffix}`;
+  };
+
+  const iconFor = (key?: string) => {
+    switch (key) {
+      case "panels":
+        return (
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <rect x="3" y="6" width="18" height="12" rx="1"/>
+            <line x1="9" y1="6" x2="9" y2="18"/>
+            <line x1="15" y1="6" x2="15" y2="18"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+          </svg>
+        );
+      case "clock":
+        return (
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+        );
+      case "shield":
+        return (
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+        );
+      case "star":
+        return (
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+        );
+      default:
+        return (
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v3m0 14v3M4.22 4.22l2.12 2.12m11.32 11.32l2.12 2.12M2 12h3m14 0h3M4.22 19.78l2.12-2.12m11.32-11.32l2.12-2.12"/>
+          </svg>
+        );
     }
-  `;
+  };
 
   return (
-    <>
-      <style>{CSS}</style>
-      <div className="ss01" ref={ref} data-template="solar-01">
-        <div className="ss01-inner" style={{ opacity: visible ? 1 : 0, transition: "opacity 0.5s" }}>
-          {items.map((it, i) => (
-            <div className="ss01-item" key={i}>
-              <div className="ss01-val">
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={it.value ?? ""} tag="span" />
+    <section
+      className="s01st"
+      data-template="solar-01"
+      data-visible={visible ? "true" : "false"}
+      ref={sectionRef}
+    >
+      <div className="s01st-bg-grid" aria-hidden="true" />
+      <div className="s01st-inner">
+        {showHeader && (
+          <div className="s01st-head">
+            {eyebrow.trim() && (
+              <span className="s01st-eyebrow">
+                <span className="s01st-eyebrow-dot" />
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </span>
+            )}
+            {title.trim() && (
+              <h2 className="s01st-title">
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {subtitle.trim() && (
+              <p className="s01st-sub">
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
+
+        <div className="s01st-grid" role="group" aria-label="Klíčové statistiky společnosti">
+          {items.map((it, i) => {
+            const rawVal = String(it.value ?? "");
+            const displayed = countStarted && counts[i] > 0 ? formatDisplay(rawVal, counts[i]) : rawVal;
+            return (
+              <div className="s01st-item" key={i}>
+                <span className="s01st-icon">{iconFor(it.icon)}</span>
+                <div className="s01st-val" aria-label={rawVal}>
+                  <GenericEditableText
+                    sectionId={sectionId}
+                    field={`items.${i}.value`}
+                    value={displayed}
+                    tag="span"
+                  />
+                </div>
+                <div className="s01st-lbl">
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={it.label ?? ""} tag="span" />
+                </div>
+                {(it.desc && String(it.desc).trim()) ? (
+                  <p className="s01st-desc">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.desc`} value={it.desc} tag="span" />
+                  </p>
+                ) : null}
+                <div className="s01st-rule" aria-hidden="true" />
               </div>
-              <div className="ss01-lbl">
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={it.label ?? ""} tag="span" />
-              </div>
-              <div className="ss01-line" />
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
-    </>
+    </section>
   );
 }
 
@@ -1962,44 +2279,63 @@ function StatsKlima01({ content, sectionId }: { content: Record<string, unknown>
 
 // ── solar-03-stats ────────────────────────────────────────────────────────────
 function StatsSolar03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const FONT_M = "'Montserrat', 'Inter', sans-serif";
-  const ORANGE = "#ff8b00";
-  const DARK   = "#222222";
-  const GRAY   = "#575757";
-
-  type Stat = { value?: string; description?: string };
-  const title = String(content.title ?? "Jsme ac heating");
+  type Stat = { value?: string; label?: string; description?: string; icon?: string };
+  const eyebrow  = String(content.eyebrow  ?? "SolarPro v číslech");
+  const title    = String(content.title    ?? "Dvě dekády tichého závazku");
+  const subtitle = String(content.subtitle ?? "Nechte mluvit fakta. Naše čísla nejsou marketing — jsou to reálné projekty, spokojení majitelé a technologie vyráběná v Jihočeském kraji.");
   const stats: Stat[] = Array.isArray(content.stats) ? (content.stats as Stat[]) : [];
 
+  const iconMap: Record<string, JSX.Element> = {
+    trophy: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M6 4h12v4a6 6 0 0 1-12 0V4z"/><path d="M6 4H3v2a3 3 0 0 0 3 3M18 4h3v2a3 3 0 0 1-3 3M9 20h6M12 14v6"/></svg>,
+    house:  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M3 11l9-7 9 7v9a2 2 0 0 1-2 2h-4v-6h-6v6H5a2 2 0 0 1-2-2v-9z"/></svg>,
+    factory:<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M3 21V10l6 4V10l6 4V6l6 4v11H3z"/><path d="M7 21v-3M12 21v-3M17 21v-3"/></svg>,
+    check:  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>,
+    bolt:   <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff" stroke="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>,
+  };
+
   return (
-    <>
-      <style>{`
-        @media (max-width: 600px) {
-          .s03stats-grid { grid-template-columns: 1fr !important; }
-          .s03stats-item { border-right: none !important; border-bottom: 1px solid #d8d8d8; padding: 24px 16px !important; }
-          .s03stats-item:last-child { border-bottom: none !important; }
-        }
-      `}</style>
-      <section style={{ background: "#f3f5f6", padding: "64px 0 72px" }} data-template="solar-03">
-        <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 24px" }}>
-          <h2 style={{ fontFamily: FONT_M, fontWeight: 800, fontSize: "clamp(18px,2vw,26px)", color: DARK, textAlign: "center", textTransform: "uppercase", letterSpacing: "0.05em", margin: "0 0 48px" }}>
+    <section className="s03st-section" data-template="solar-03" id="cisla">
+      <div className="s03st-bg-grid" aria-hidden="true" />
+      <div className="s03st-inner">
+        <div className="s03st-header">
+          <div className="s03st-eyebrow">
+            <span className="s03st-eyebrow-dot" aria-hidden="true" />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </div>
+          <h2 className="s03st-h2">
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
-          <div className="s03stats-grid" style={{ display: "grid", gridTemplateColumns: `repeat(${stats.length}, 1fr)`, gap: 0 }}>
-            {stats.map((stat, i) => (
-              <div key={i} className="s03stats-item" style={{ textAlign: "center", padding: "0 32px", borderRight: i < stats.length - 1 ? "1px solid #d8d8d8" : "none" }}>
-                <div style={{ fontFamily: FONT_M, fontWeight: 800, fontSize: "clamp(22px,2.4vw,32px)", color: ORANGE, lineHeight: 1.2, marginBottom: 12 }}>
+          <p className="s03st-sub-lead">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        </div>
+
+        <div className="s03st-grid" data-count={stats.length}>
+          {stats.map((stat, i) => {
+            const iconKey = String(stat.icon ?? "");
+            const iconEl = iconMap[iconKey] ?? iconMap.bolt;
+            return (
+              <article className="s03st-card" key={i}>
+                <span className="s03st-card-topline" aria-hidden="true" />
+                <span className="s03st-icon" aria-hidden="true">{iconEl}</span>
+                <div className="s03st-value">
                   <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={String(stat.value ?? "")} tag="span" />
                 </div>
-                <p style={{ fontSize: 14, color: GRAY, margin: 0, lineHeight: 1.6 }}>
+                <div className="s03st-label">
+                  <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={String(stat.label ?? "")} tag="span" />
+                </div>
+                <p className="s03st-desc">
                   <GenericEditableText sectionId={sectionId} field={`stats.${i}.description`} value={String(stat.description ?? "")} tag="span" />
                 </p>
-              </div>
-            ))}
-          </div>
+                <svg className="s03st-corner" width="30" height="30" viewBox="0 0 30 30" fill="none" aria-hidden="true">
+                  <path d="M28 12V2H18" stroke="#ff8b00" strokeWidth="1.6" strokeLinecap="square"/>
+                </svg>
+              </article>
+            );
+          })}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
@@ -2231,43 +2567,219 @@ function Ev01StatCounter({ target, suffix }: { target: number; suffix: string })
   return <span ref={ref}>{count}{suffix}</span>;
 }
 
-function StatsEvents01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const GOLD = "#d4b896";
-  const items = (content.items as Array<{ value: string; suffix?: string; label: string }>) ?? [];
+function StatsAutoservis03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const items = (content.items as Array<{ value: string; label: string }>) ?? [];
   return (
     <>
       <style>{`
-        .ev01stat { padding: 80px 40px; background: #181818; color: #fff; text-align: center; }
-        .ev01stat-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; }
-        .ev01stat-num { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(40px, 5vw, 56px); font-weight: 300; color: ${GOLD}; line-height: 1; }
-        .ev01stat-lbl { font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #888; margin-top: 8px; }
-        @media (max-width: 768px) { .ev01stat { padding: 60px 24px; } }
-        @media (max-width: 600px) { .ev01stat-inner { grid-template-columns: repeat(2,1fr); gap: 32px; } }
-        @media (max-width: 400px) { .ev01stat-inner { grid-template-columns: 1fr; gap: 28px; } }
+        .as03stat { padding: 56px 40px; background: #111827; border-top: 1px solid rgba(249,115,22,.15); border-bottom: 1px solid rgba(249,115,22,.15); }
+        .as03stat-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+        .as03stat-item { text-align: center; padding: 0 24px; border-right: 1px solid rgba(249,115,22,.2); }
+        .as03stat-item:last-child { border-right: none; }
+        .as03stat-num { font-family: 'Inter', sans-serif; font-size: clamp(36px, 4vw, 52px); font-weight: 800; color: #f97316; line-height: 1; letter-spacing: -1px; }
+        .as03stat-lbl { font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #9ca3af; margin-top: 8px; }
+        @media (max-width: 768px) { .as03stat { padding: 40px 24px; } .as03stat-inner { grid-template-columns: repeat(2,1fr); gap: 32px; } .as03stat-item { border-right: none; padding: 0; } }
+        @media (max-width: 400px) { .as03stat-inner { grid-template-columns: 1fr; } }
+      `}</style>
+      <section className="as03stat" data-template="autoservis-03-stats">
+        <div className="as03stat-inner">
+          {items.map((item, i) => (
+            <div key={i} className="as03stat-item">
+              <div className="as03stat-num">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={item.value} tag="span" />
+              </div>
+              <div className="as03stat-lbl">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={item.label} tag="span" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
+  );
+}
+
+function StatsEvents01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const GOLD = "#d4b896";
+  const showHeader = content.showHeader !== false;
+  const eyebrow    = String(content.eyebrow  ?? "V číslech");
+  const title      = String(content.title    ?? "");
+  const items      = (content.items as Array<{ value: string; suffix?: string; label: string }>) ?? [];
+
+  return (
+    <>
+      <style>{`
+        .ev01stat {
+          position: relative;
+          padding: 110px 40px 110px;
+          background: linear-gradient(180deg, #181818 0%, #141414 100%);
+          color: #fff;
+          text-align: center;
+          overflow: hidden;
+        }
+        .ev01stat::before {
+          content: "";
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent 0%, rgba(212,184,150,0.16) 50%, transparent 100%);
+        }
+        .ev01stat::after {
+          content: "";
+          position: absolute;
+          bottom: 0; left: 0; right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent 0%, rgba(212,184,150,0.16) 50%, transparent 100%);
+        }
+        .ev01stat-inner { max-width: 1240px; margin: 0 auto; position: relative; z-index: 1; }
+        .ev01stat-head { margin-bottom: 70px; }
+        .ev01stat-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 16px;
+          color: ${GOLD};
+          font-family: 'Inter', sans-serif;
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 4px;
+          text-transform: uppercase;
+          margin-bottom: 22px;
+        }
+        .ev01stat-eyebrow::before,
+        .ev01stat-eyebrow::after {
+          content: "";
+          display: block;
+          width: 44px;
+          height: 1px;
+          background: linear-gradient(90deg, transparent 0%, ${GOLD} 100%);
+        }
+        .ev01stat-eyebrow::after {
+          background: linear-gradient(90deg, ${GOLD} 0%, transparent 100%);
+        }
+        .ev01stat-h2 {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: clamp(28px, 3vw, 40px);
+          font-weight: 400;
+          color: #fff;
+          margin: 0;
+          letter-spacing: -0.01em;
+          line-height: 1.2;
+          font-style: italic;
+        }
+        .ev01stat-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+          align-items: stretch;
+        }
+        .ev01stat-item {
+          position: relative;
+          padding: 24px 20px;
+          opacity: 0;
+          transform: translateY(16px);
+          animation: ev01statReveal 1s cubic-bezier(.32,.72,0,1) forwards;
+        }
+        .ev01stat-item:nth-child(1) { animation-delay: 0.15s; }
+        .ev01stat-item:nth-child(2) { animation-delay: 0.3s;  }
+        .ev01stat-item:nth-child(3) { animation-delay: 0.45s; }
+        .ev01stat-item:nth-child(4) { animation-delay: 0.6s;  }
+        .ev01stat-item + .ev01stat-item::before {
+          content: "";
+          position: absolute;
+          left: -10px;
+          top: 22%;
+          bottom: 22%;
+          width: 1px;
+          background: linear-gradient(180deg, transparent 0%, rgba(212,184,150,0.28) 50%, transparent 100%);
+        }
+        @keyframes ev01statReveal { to { opacity: 1; transform: translateY(0); } }
+        .ev01stat-num {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic;
+          font-size: clamp(56px, 7vw, 96px);
+          font-weight: 400;
+          color: ${GOLD};
+          line-height: 1;
+          letter-spacing: -0.02em;
+          display: inline-flex;
+          align-items: baseline;
+        }
+        .ev01stat-suffix {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic;
+          font-size: 0.55em;
+          margin-left: 2px;
+          color: ${GOLD};
+          opacity: 0.8;
+        }
+        .ev01stat-rule {
+          display: block;
+          width: 40px;
+          height: 1px;
+          background: rgba(212,184,150,0.35);
+          margin: 22px auto 20px;
+        }
+        .ev01stat-lbl {
+          font-family: 'Inter', sans-serif;
+          font-size: 12px;
+          font-weight: 500;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.68);
+        }
+        @media (max-width: 768px) {
+          .ev01stat { padding: 80px 24px 80px; }
+          .ev01stat-head { margin-bottom: 50px; }
+          .ev01stat-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+          .ev01stat-item + .ev01stat-item::before { display: none; }
+        }
+        @media (max-width: 400px) {
+          .ev01stat-grid { grid-template-columns: 1fr; gap: 28px; }
+        }
       `}</style>
       <section className="ev01stat" data-template="events-01-stats">
         <div className="ev01stat-inner">
-          {items.map((item, i) => {
-            const numericTarget = parseInt(item.value, 10);
-            const isNumeric = !isNaN(numericTarget);
-            return (
-              <div key={i}>
-                <div className="ev01stat-num">
-                  {isNumeric ? (
-                    <Ev01StatCounter target={numericTarget} suffix={item.suffix ?? ""} />
-                  ) : (
-                    <>
-                      <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={item.value} tag="span">{item.value}</GenericEditableText>
-                      {item.suffix && <span>{item.suffix}</span>}
-                    </>
-                  )}
+          {showHeader && (eyebrow || title) && (
+            <div className="ev01stat-head">
+              {eyebrow && (
+                <div className="ev01stat-eyebrow">
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span">{eyebrow}</GenericEditableText>
                 </div>
-                <div className="ev01stat-lbl">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={item.label} tag="span">{item.label}</GenericEditableText>
+              )}
+              {title && (
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2">
+                  <h2 className="ev01stat-h2">{title}</h2>
+                </GenericEditableText>
+              )}
+            </div>
+          )}
+          <div className="ev01stat-grid">
+            {items.map((item, i) => {
+              const numericTarget = parseInt(item.value, 10);
+              const isNumeric = !isNaN(numericTarget);
+              return (
+                <div key={i} className="ev01stat-item">
+                  <div className="ev01stat-num">
+                    {isNumeric ? (
+                      <>
+                        <Ev01StatCounter target={numericTarget} suffix="" />
+                        {item.suffix && <span className="ev01stat-suffix">{item.suffix}</span>}
+                      </>
+                    ) : (
+                      <>
+                        <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={item.value} tag="span">{item.value}</GenericEditableText>
+                        {item.suffix && <span className="ev01stat-suffix">{item.suffix}</span>}
+                      </>
+                    )}
+                  </div>
+                  <span className="ev01stat-rule" aria-hidden="true" />
+                  <div className="ev01stat-lbl">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={item.label} tag="span">{item.label}</GenericEditableText>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </section>
     </>

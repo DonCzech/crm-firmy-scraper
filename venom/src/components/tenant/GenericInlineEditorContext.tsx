@@ -27,7 +27,7 @@ interface GenericInlineEditorContextValue {
   isAdmin: boolean;
   isStudio?: boolean;
   highlighted: GenericHighlightChange[];
-  updateField: (sectionId: number, field: string, value: string | number | boolean, options?: { recordHistory?: boolean }) => void;
+  updateField: (sectionId: number, field: string, value: unknown, options?: { recordHistory?: boolean }) => void;
   updateStyle: (sectionId: number, field: string, style: GenericTextStyle) => void;
   /** Update style on canvas only — no server save. Used for live preview in toolbar draft mode. */
   updateStyleLocal: (sectionId: number, field: string, style: GenericTextStyle) => void;

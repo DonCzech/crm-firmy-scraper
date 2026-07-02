@@ -151,7 +151,7 @@ export async function POST(_req: NextRequest, { params }: RouteParams) {
 
   // Studio compatibility audit
   let studioScore: number | undefined;
-  let studioIssues: Array<{ severity: string; code: string; message: string }> = [];
+  let studioIssues: import("@/lib/audit-notes").StudioIssue[] = [];
   let studioSummary: Record<string, unknown> = {};
   try {
     const { studioCompatibilityAudit } = await import("../scan/route");

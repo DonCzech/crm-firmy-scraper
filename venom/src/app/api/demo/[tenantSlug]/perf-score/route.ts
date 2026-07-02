@@ -130,7 +130,7 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
   const sampleUrls = Array.from(imageUrls).slice(0, 12);
   const probed = await Promise.all(sampleUrls.map((u) => probeImageBytes(u)));
   const heavyImages = probed.filter((b) => b !== null && b! > 500_000).length;
-  const totalKnownBytes = probed.reduce((acc, b) => acc + (b ?? 0), 0);
+  const totalKnownBytes = probed.reduce<number>((acc, b) => acc + (b ?? 0), 0);
 
   // Probe external link reachability — sample 8 links to keep latency sane.
   const sampleLinks = Array.from(externalLinks).slice(0, 8);

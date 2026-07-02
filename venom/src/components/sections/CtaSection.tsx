@@ -1,7 +1,10 @@
+"use client";
+
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
+import { GenericEditableBackground } from "@/components/tenant/GenericEditableBackground";
 import { shouldSkipNextImageOptimization } from "@/lib/image-source";
 
 interface CtaContent {
@@ -138,22 +141,35 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
     );
   }
 
-  // beauty-01: full-bleed foto, tmavý overlay, centrovaný text, sand CTA
-  // Reference: selfbeautystudio.com — "Víc než střih. Zážitek."
+  // beauty-01 — Sand-Cream Editorial Wellness CTA
+  // Full-bleed photo + dark gradient overlay, eyebrow mono + Fahkwang title + italic sand accent,
+  // dual CTA (filled sand book + ghost-underline phone). 48px sand hairline divider.
   if (variant === "cta-beauty-01") {
-    const bg       = String((content as Record<string,unknown>).backgroundImage ?? "");
-    const title    = String(c.title    ?? "Víc než střih. Zážitek.");
-    const subtitle = String(c.subtitle ?? "");
-    const ctaText  = String(c.ctaText  ?? "NAVŠTIVTE NÁS");
-    const ctaHref  = String(c.ctaHref  ?? "#kontakt");
-    const FONT_H   = "'Cormorant Garamond', 'Fahkwang', Georgia, serif";
-    const FONT_B   = "'Fahkwang', sans-serif";
+    const cc = content as Record<string, unknown>;
+    const bg       = String(cc.backgroundImage ?? "");
+    const eyebrowRaw  = cc.eyebrow;
+    const eyebrow   = eyebrowRaw === undefined ? "Rezervace" : String(eyebrowRaw);
+    const title    = String(c.title    ?? "Péče, na kterou se těší.");
+    const titleIta = String(cc.titleItalic ?? "Začněte ještě dnes.");
+    const subtitle = String(c.subtitle ?? "Najděte si volný termín během chvilky. Pokud nenajdete to, co hledáte, zavolejte.");
+    const ctaText  = String(c.ctaText  ?? "Rezervovat termín");
+    const ctaHref  = String(c.ctaHref  ?? "/rezervace");
+    const secText  = String(cc.secondaryText ?? "Zavolat");
+    const secHref  = String(cc.secondaryHref ?? "tel:+420775321654");
+    const FONT     = "'Fahkwang', Georgia, serif";
+    const SANS     = "var(--font-overpass), 'Overpass', Inter, system-ui, sans-serif";
+    const MONO     = "var(--font-overpass-mono), 'Overpass Mono', Menlo, monospace";
     const SAND     = "#E0BE9A";
+    const INK      = "#1F1F1F";
+    const resolvedCta = tenantSlug && ctaHref.startsWith("/")
+      ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${ctaHref}` : ctaHref;
+    const resolvedSec = tenantSlug && secHref.startsWith("/")
+      ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${secHref}` : secHref;
     return (
       <section
         id="rezervace"
         className="relative flex items-center justify-center overflow-hidden"
-        style={{ minHeight: 480, backgroundColor: "#2a2520" }}
+        style={{ minHeight: 560, backgroundColor: "#2a2520" }}
         data-template="beauty-01"
       >
         {bg && (
@@ -167,42 +183,108 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
             unoptimized={shouldSkipNextImageOptimization(bg)}
           />
         )}
-        {/* Dark overlay */}
-        <div aria-hidden className="absolute inset-0 z-[1]" style={{ backgroundColor: "rgba(0,0,0,0.52)" }} />
+        <div aria-hidden className="absolute inset-0 z-[1]" style={{
+          background: "linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.55) 100%)",
+        }} />
 
-        {/* Content */}
-        <div className="relative z-[2] text-center px-6" style={{ maxWidth: 760 }}>
-          <h2 style={{ fontFamily: FONT_H, fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 400, color: "#ffffff", lineHeight: 1.15, marginBottom: 20, whiteSpace: "pre-line" }}>
+        <div className="relative z-[2] text-center" style={{
+          padding: "clamp(72px, 9vw, 120px) clamp(24px, 5vw, 64px)",
+          maxWidth: 880,
+        }}>
+          {eyebrow.trim() && (
+            <span style={{
+              display: "inline-block",
+              fontFamily: MONO, fontSize: 11, letterSpacing: "0.30em",
+              textTransform: "uppercase", color: "rgba(255,255,255,0.75)",
+              marginBottom: 24,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </span>
+          )}
+          <h2 style={{
+            margin: 0,
+            fontFamily: FONT, fontWeight: 500,
+            fontSize: "clamp(32px, 5.5vw, 64px)",
+            lineHeight: 1.1, letterSpacing: "0.01em",
+            color: "#ffffff",
+            whiteSpace: "pre-line",
+            textShadow: "0 2px 24px rgba(0,0,0,0.3)",
+          }}>
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
+          {titleIta.trim() && (
+            <p style={{
+              margin: "8px 0 0",
+              fontFamily: FONT, fontStyle: "italic",
+              fontSize: "clamp(28px, 5vw, 56px)",
+              fontWeight: 400,
+              color: SAND, lineHeight: 1.1,
+              letterSpacing: "0.01em",
+              textShadow: "0 2px 18px rgba(0,0,0,0.25)",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="titleItalic" value={titleIta} tag="span" />
+            </p>
+          )}
+          <span aria-hidden="true" style={{
+            display: "block", width: 48, height: 1,
+            backgroundColor: "rgba(224,190,154,0.7)",
+            margin: "32px auto 24px",
+          }} />
           {subtitle && (
-            <p style={{ fontFamily: FONT_B, fontSize: 15, fontWeight: 300, color: "rgba(255,255,255,0.82)", lineHeight: 1.75, marginBottom: 36, maxWidth: 580, margin: "0 auto 36px" }}>
+            <p style={{
+              margin: "0 auto",
+              fontFamily: SANS, fontWeight: 300,
+              fontSize: "clamp(14px, 1.3vw, 17px)",
+              color: "rgba(255,255,255,0.85)",
+              lineHeight: 1.7, maxWidth: 580,
+            }}>
               <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
             </p>
           )}
-          <a
-            href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
-            data-btn="primary"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: SAND,
-              color: "#1F1F1F",
-              fontFamily: FONT_B,
-              fontSize: 12,
-              fontWeight: 500,
-              letterSpacing: "0.18em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              padding: "14px 40px",
-              transition: "background 0.25s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#C4A07E"; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = SAND; }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
+          <div className="b01-cta-actions" style={{
+            marginTop: 36,
+            display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center",
+            gap: 24,
+          }}>
+            {ctaText && (
+              <a
+                href={resolvedCta}
+                data-btn="primary"
+                className="b01-cta-primary inline-flex items-center"
+                style={{
+                  fontFamily: FONT, fontSize: 13, fontWeight: 500,
+                  letterSpacing: "0.22em", textTransform: "uppercase",
+                  padding: "18px 36px",
+                  backgroundColor: SAND, color: INK,
+                  textDecoration: "none",
+                  border: `1px solid ${SAND}`,
+                  transition: "background-color 0.3s ease, transform 0.3s ease",
+                }}
+              >
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <span aria-hidden="true" className="b01-cta-arrow" style={{ marginLeft: 12, transition: "transform 0.3s ease" }}>→</span>
+              </a>
+            )}
+            {secText && (
+              <a
+                href={resolvedSec}
+                className="b01-cta-sec inline-flex items-center gap-2"
+                style={{
+                  fontFamily: FONT, fontSize: 12, fontWeight: 500,
+                  letterSpacing: "0.22em", textTransform: "uppercase",
+                  color: "#ffffff", textDecoration: "none",
+                  paddingBottom: 4,
+                  borderBottom: "1px solid rgba(255,255,255,0.4)",
+                  transition: "color 0.3s ease, border-color 0.3s ease",
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                <GenericEditableText sectionId={sectionId} field="secondaryText" value={secText} tag="span" />
+              </a>
+            )}
+          </div>
         </div>
       </section>
     );
@@ -262,11 +344,13 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
     const subtitle = c.subtitle ?? "";
     const ctaText = c.ctaText ?? "vytvořit rezervaci";
     const ctaHref = resolveDemoHref(c.ctaHref ?? "#rezervace", tenantSlug, isAdmin);
+    const phone = String((c as Record<string, unknown>).phone ?? "");
+    const phoneHref = phone ? `tel:${phone.replace(/\s+/g, "")}` : "";
     const bgImage = c.image ?? "";
     return (
       <section
         className="relative overflow-hidden"
-        style={{ padding: "96px 24px", backgroundColor: "#1a1a1a" }}
+        style={{ padding: "clamp(96px, 12vw, 140px) 24px", backgroundColor: "#0a0806" }}
         data-template="barber-04"
       >
         {bgImage && (
@@ -277,69 +361,249 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
               backgroundImage: `url(${bgImage})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
-              opacity: 0.35,
+              opacity: 0.28,
               zIndex: 0,
+              filter: "grayscale(.4)",
             }}
           />
         )}
         <div
           aria-hidden
           className="absolute inset-0"
-          style={{ background: "linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.75))", zIndex: 1 }}
+          style={{ background: "linear-gradient(to bottom, rgba(10,8,6,.78), rgba(10,8,6,.92))", zIndex: 1 }}
         />
-        <div className="relative max-w-[860px] mx-auto text-center" style={{ zIndex: 2 }}>
+
+        {/* Top + bottom gold fade dividers — emphasizes CTA as "kotva" sekce */}
+        <div aria-hidden style={{
+          position: "absolute", top: 0, left: "15%", right: "15%", height: 1, zIndex: 2,
+          background: "linear-gradient(90deg, transparent 0%, rgba(213,185,129,.45) 50%, transparent 100%)",
+        }} />
+        <div aria-hidden style={{
+          position: "absolute", bottom: 0, left: "15%", right: "15%", height: 1, zIndex: 2,
+          background: "linear-gradient(90deg, transparent 0%, rgba(213,185,129,.35) 50%, transparent 100%)",
+        }} />
+
+        <div className="relative max-w-[860px] mx-auto text-center" style={{ zIndex: 3 }}>
+          {/* Industrial numbered eyebrow */}
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 28,
+            fontFamily: "'Lato',Helvetica,Arial,sans-serif", fontSize: 11, fontWeight: 700,
+            letterSpacing: "0.32em", color: "#d5b981", textTransform: "uppercase",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="eyebrowNum" value={String((c as Record<string, unknown>).eyebrowNum ?? "05")} tag="span" style={{ fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif", fontWeight: 400, letterSpacing: "0.10em", fontSize: 14 }} />
+            <span aria-hidden style={{ width: 28, height: 1, backgroundColor: "#d5b981", opacity: 0.7 }} />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={String((c as Record<string, unknown>).eyebrow ?? "Rezervace")} tag="span" />
+          </div>
+
           <h2
             className="uppercase"
             style={{
               fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif",
-              fontWeight: 300,
-              fontSize: "clamp(24px, 2.6vw, 40px)",
-              letterSpacing: 0,
+              fontWeight: 400,
+              fontSize: "clamp(40px, 5vw, 72px)",
+              letterSpacing: "0.03em",
               color: "#ffffff",
-              margin: "0 auto 14px",
-              lineHeight: 1.2,
+              margin: "0 auto 24px",
+              lineHeight: 1.05,
             }}
           >
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
           <div
             aria-hidden
-            className="mx-auto"
-            style={{ width: 60, height: 2, backgroundColor: "#d5b981", opacity: 0.85, margin: "0 auto 24px" }}
+            style={{
+              width: 200, height: 1,
+              margin: "0 auto 32px",
+              background: "linear-gradient(90deg, transparent 0%, rgba(213,185,129,.85) 50%, transparent 100%)",
+            }}
           />
           {subtitle && (
             <p
               style={{
                 fontFamily: "'Lato',Helvetica,Arial,sans-serif",
                 fontWeight: 400,
-                fontSize: "clamp(13px, 1vw, 16px)",
-                color: "rgba(255,255,255,0.85)",
+                fontSize: "clamp(14px, 1.1vw, 17px)",
+                color: "rgba(255,255,255,0.78)",
                 lineHeight: 1.7,
                 maxWidth: 640,
-                margin: "0 auto 32px",
+                margin: "0 auto 44px",
               }}
             >
               <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
             </p>
           )}
+
           <a
             href={ctaHref}
             data-btn="primary"
-
-            className="inline-block uppercase no-underline transition-colors hover:opacity-90"
+            className="b04-cta-outline inline-flex items-center gap-3 uppercase no-underline"
             style={{
-              backgroundColor: "#d5b981",
-              color: "#ffffff",
+              background: "transparent",
+              color: "#d5b981",
+              border: "1px solid #d5b981",
               fontFamily: "'Lato',Helvetica,Arial,sans-serif",
-              fontSize: 14,
-              fontWeight: 700,
-              letterSpacing: "2px",
-              padding: "15px 32px",
+              fontSize: 13,
+              fontWeight: 600,
+              letterSpacing: "0.24em",
+              padding: "16px 38px",
               borderRadius: 0,
+              transition: "background .25s cubic-bezier(.4,0,.2,1), color .25s ease, transform .25s ease",
             }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <span aria-hidden className="b04-cta-arrow" style={{ display: "inline-flex", transition: "transform .3s cubic-bezier(.22,.68,0,1.1)" }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </span>
           </a>
+
+          {phone && phoneHref && (
+            <div style={{ marginTop: 28, fontFamily: "'Lato',Helvetica,Arial,sans-serif", fontSize: 12, color: "rgba(255,255,255,0.55)", letterSpacing: "0.10em" }}>
+              <GenericEditableText sectionId={sectionId} field="phoneCalloutLabel" value={String((c as Record<string, unknown>).phoneCalloutLabel ?? "nebo zavolejte")} tag="span" style={{ textTransform: "uppercase", marginRight: 10 }} />
+              <a
+                href={phoneHref}
+                className="b04-topbar-link uppercase"
+                style={{
+                  color: "#d5b981",
+                  textDecoration: "none",
+                  fontWeight: 700,
+                  letterSpacing: "0.14em",
+                }}
+              >
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+              </a>
+            </div>
+          )}
+        </div>
+      </section>
+    );
+  }
+
+  if (variant === "cta-barber-03-quote") {
+    // Barber-03 "Barbery" — warm cinematic quote-style CTA section
+    const eyebrow  = String((c as Record<string, unknown>).eyebrow  ?? "");
+    const subtitle = String((c as Record<string, unknown>).subtitle ?? "");
+    return (
+      <section
+        id="rezervace"
+        className="relative overflow-hidden"
+        style={{
+          backgroundColor: "#1c1410",
+          padding: "clamp(96px, 13vw, 150px) 24px",
+          textAlign: "center",
+        }}
+        data-template="barber-03"
+      >
+        {/* Dual gold hairlines */}
+        <div aria-hidden style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: 180, height: 1, background: "linear-gradient(90deg, transparent, #c8a96e 50%, transparent)" }} />
+        <div aria-hidden style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: 180, height: 1, background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)" }} />
+        {/* Warm radial glow */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse at 50% 50%, rgba(200,169,110,0.08) 0%, transparent 60%)" }} />
+
+        <div style={{ maxWidth: 880, margin: "0 auto", position: "relative", zIndex: 1 }}>
+          {/* Eyebrow */}
+          {eyebrow && (
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
+              <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
+              <span style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontStyle: "italic",
+                fontSize: "12px",
+                letterSpacing: "0.28em",
+                textTransform: "uppercase",
+                color: "#c8a96e",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </span>
+              <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
+            </div>
+          )}
+
+          {/* Big opening quote mark */}
+          <span aria-hidden style={{
+            display: "block",
+            fontFamily: "'Libre Baskerville', Georgia, serif",
+            fontSize: "5.5rem",
+            fontWeight: 700,
+            color: "#c8a96e",
+            lineHeight: 0.5,
+            letterSpacing: "-0.05em",
+            marginBottom: 18,
+            opacity: 0.7,
+          }}>&ldquo;</span>
+
+          {/* Quote (title) — italic serif */}
+          <h2 style={{
+            fontFamily: "'Libre Baskerville', Georgia, serif",
+            fontStyle: "italic",
+            fontSize: "clamp(1.6rem, 3.4vw, 2.4rem)",
+            fontWeight: 400,
+            lineHeight: 1.4,
+            letterSpacing: "0.01em",
+            color: "#f5efe6",
+            margin: "0 auto 24px",
+            maxWidth: 760,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? ""} tag="span" />
+          </h2>
+
+          {/* Diamond rule */}
+          <div aria-hidden style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBlock: 22 }}>
+            <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+            <span style={{ width: 6, height: 6, backgroundColor: "#c8a96e", transform: "rotate(45deg)" }} />
+            <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+          </div>
+
+          {/* Subtitle */}
+          {subtitle && (
+            <p style={{
+              fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+              fontSize: "clamp(0.95rem, 1.3vw, 1.05rem)",
+              fontWeight: 300,
+              color: "rgba(245,239,230,0.72)",
+              lineHeight: 1.7,
+              margin: "0 auto 44px",
+              maxWidth: 600,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+
+          {/* CTA — solid warm gold fill */}
+          {c.ctaHref && (
+            <a
+              href={resolveDemoHref(c.ctaHref ?? "#kontakt", tenantSlug, isAdmin)}
+              className="b03-cta inline-flex items-center justify-center uppercase no-underline"
+              style={{
+                gap: 10,
+                backgroundColor: "#c8a96e",
+                border: "1px solid #c8a96e",
+                color: "#1c1410",
+                fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                fontWeight: 700,
+                fontSize: 12,
+                letterSpacing: "0.26em",
+                paddingInline: 38,
+                paddingBlock: 17,
+                transition: "background 0.4s cubic-bezier(.4,0,.2,1), border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease",
+                boxShadow: "0 6px 24px rgba(200,169,110,0.32)",
+              }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+                <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+                <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+                <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+              </svg>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={c.ctaText ?? "Rezervovat"} tag="span" />
+              <span aria-hidden className="b03-cta-arrow" style={{ display: "inline-flex", transition: "transform 0.4s cubic-bezier(.22,.68,0,1.1)" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </span>
+            </a>
+          )}
         </div>
       </section>
     );
@@ -348,40 +612,78 @@ export function CtaSection({ content, variant, isAdmin, tenantSlug, sectionId }:
   if (variant === "barber-dark") {
     return (
       <section
-        className="px-6 text-center"
-        style={{ backgroundColor: "var(--color-surface, #1E1E1E)", padding: "clamp(56px, 9vw, 96px) 24px" }}
+        id="rezervace"
+        className="px-6 text-center relative overflow-hidden"
+        style={{ backgroundColor: "#0a0a0a", padding: "clamp(80px, 12vw, 130px) 24px" }}
+        data-template="barber-01"
       >
-        <div className="max-w-2xl mx-auto">
-          <p
-            className="text-xs font-bold uppercase tracking-widest mb-4"
-            style={{ color: "var(--color-accent, #C9A84C)", letterSpacing: "0.15em" }}
-          >
-            Online rezervace
-          </p>
+        {/* Decorative scissors watermark — large, centered behind text */}
+        <div aria-hidden style={{
+          position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%) rotate(-15deg)",
+          width: 420, height: 420, opacity: 0.03, zIndex: 0,
+          backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C9A84C' stroke-width='0.8' stroke-linecap='round' stroke-linejoin='round'><circle cx='6' cy='6' r='3'/><circle cx='6' cy='18' r='3'/><line x1='20' y1='4' x2='8.12' y2='15.88'/><line x1='14.47' y1='14.48' x2='20' y2='20'/><line x1='8.12' y1='8.12' x2='12' y2='12'/></svg>\")",
+          backgroundSize: "contain", backgroundRepeat: "no-repeat",
+        }} />
+        {/* Top + bottom gold hairlines */}
+        <div aria-hidden style={{ position: "absolute", top: 0, left: "20%", right: "20%", height: 1, background: "linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.5) 50%, transparent 100%)" }} />
+        <div aria-hidden style={{ position: "absolute", bottom: 0, left: "20%", right: "20%", height: 1, background: "linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.5) 50%, transparent 100%)" }} />
+
+        <div className="max-w-2xl mx-auto" style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+            <span aria-hidden style={{ width: 36, height: 1, background: "var(--color-accent, #C9A84C)" }} />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={String((c as Record<string, unknown>).eyebrow ?? "Online rezervace")} tag="span" className="services-eyebrow" />
+            <span aria-hidden style={{ width: 36, height: 1, background: "var(--color-accent, #C9A84C)" }} />
+          </div>
           <h2
-            className="text-4xl md:text-5xl font-bold mb-6"
-            style={{ fontFamily: "var(--font-heading)", color: "var(--color-text, #F5F5F5)", lineHeight: 1.15 }}
+            className="services-title"
+            style={{ fontFamily: "var(--font-heading)", color: "#F5F5F5", fontSize: "clamp(2.2rem, 4.5vw, 3.2rem)", fontWeight: 700, letterSpacing: "-0.01em", lineHeight: 1.05, margin: "0 0 22px" }}
           >
             <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? "Rezervujte si termín"} tag="span" />
           </h2>
           {c.subtitle && (
-            <p className="mb-10 text-base leading-relaxed" style={{ color: "var(--color-text-muted, #A0A0A0)" }}>
+            <p style={{ color: "rgba(245,245,245,0.7)", fontSize: "clamp(0.95rem, 1.1vw, 1.05rem)", lineHeight: 1.65, fontWeight: 300, marginBottom: 40 }}>
               <GenericEditableText sectionId={sectionId} field="subtitle" value={c.subtitle} tag="span" />
             </p>
           )}
           <a
             href={resolveDemoHref(c.ctaHref ?? "#kontakt", tenantSlug, isAdmin)}
             data-btn="primary"
-
-            className="block sm:inline-block w-full sm:w-auto px-10 py-4 text-sm font-bold uppercase tracking-widest transition-opacity hover:opacity-80"
+            className="barber-cta-premium"
             style={{
+              position: "relative",
+              overflow: "hidden",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              paddingInline: 36,
+              minHeight: 60,
+              fontSize: "12px",
+              fontWeight: 700,
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: "#0a0a0a",
               backgroundColor: "var(--color-accent, #C9A84C)",
-              color: "#111",
-              borderRadius: "var(--radius, 4px)",
-              letterSpacing: "0.1em",
+              border: "1px solid var(--color-accent, #C9A84C)",
+              borderRadius: 2,
+              textDecoration: "none",
+              transition: "transform 0.25s ease, box-shadow 0.25s ease",
+              boxShadow: "0 4px 0 rgba(0,0,0,0.18)",
             }}
+            onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 14px 36px rgba(201,168,76,0.45)"; }}
+            onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "0 4px 0 rgba(0,0,0,0.18)"; }}
           >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+              <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+              <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+              <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+            </svg>
             <GenericEditableText sectionId={sectionId} field="ctaText" value={c.ctaText ?? "Rezervovat online"} tag="span" />
+            <span aria-hidden className="barber-cta-shimmer" style={{
+              position: "absolute", top: 0, left: "-60%", width: "50%", height: "100%",
+              background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%)",
+              transform: "skewX(-20deg)", pointerEvents: "none",
+            }} />
           </a>
         </div>
       </section>
@@ -625,74 +927,167 @@ function CtaNails01({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
 }
 
 // ── clinic-02-cta ──────────────────────────────────────────────────────────
-// Navy bg, centered newsletter CTA with email input feel
+// Cream bg, centered newsletter CTA with hero email card on amber accent
 function CtaClinic02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const NAVY   = "#0F203E";
-  const AMBER  = "#ffa60b";
-  const FONT_H = "'Poppins', Arial, sans-serif";
-  const FONT_B = "'Open Sans', Arial, sans-serif";
+  const NAVY    = "#0F203E";
+  const NAVY_D  = "#0a172e";
+  const AMBER   = "#ffa60b";
+  const CREAM   = "#fffaf2";
+  const FONT_H  = "'Poppins', Arial, sans-serif";
+  const FONT_B  = "'Open Sans', Arial, sans-serif";
 
-  const kicker  = String(content.kicker  ?? "Newsletter");
-  const title   = String(content.title   ?? "Odebírejte newsletter a získejte slevu 10 %");
-  const message = String(content.message ?? "Speciální akce, zajímavosti, novinky ze světa kliniky a vše o kráse přímo do vašeho inboxu.");
-  const ctaText = String(content.ctaText ?? "Přihlásit se k odběru");
-  const ctaHref = String(content.ctaHref ?? "#kontakt");
+  const kicker      = String(content.kicker  ?? "Newsletter Aurélie");
+  const title       = String(content.title   ?? "Sleva 10 % na první ošetření");
+  const message     = String(content.message ?? "");
+  const ctaText     = String(content.ctaText ?? "Přihlásit k odběru");
+  const ctaHref     = String(content.ctaHref ?? "/kontakt");
+  const placeholder = String((content as Record<string,unknown>).inputPlaceholder ?? "Vaše e-mailová adresa");
+  const gdprNote    = String((content as Record<string,unknown>).gdprNote ?? "Souhlasím se zpracováním osobních údajů. Odhlášení kdykoli.");
 
   return (
-    <section style={{ backgroundColor: "#f7f6f5", padding: "clamp(64px,8vw,96px) 0" }}>
+    <section
+      id="newsletter"
+      data-template="clinic-02"
+      style={{
+        backgroundColor: NAVY,
+        padding: "clamp(72px,9vw,120px) 0",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Decorative diagonal amber band */}
+      <div aria-hidden style={{
+        position: "absolute", inset: 0,
+        background: `linear-gradient(135deg, ${NAVY_D} 0%, ${NAVY} 50%, ${NAVY_D} 100%)`,
+        pointerEvents: "none",
+      }} />
+      <div aria-hidden style={{
+        position: "absolute", top: "-120px", left: "-120px",
+        width: 380, height: 380, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(255,166,11,0.16) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+      <div aria-hidden style={{
+        position: "absolute", bottom: "-180px", right: "-160px",
+        width: 480, height: 480, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(255,166,11,0.10) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+
       <div style={{
-        maxWidth: 720,
+        position: "relative",
+        maxWidth: 760,
         margin: "0 auto",
         padding: "0 clamp(24px,5vw,60px)",
         textAlign: "center",
       }}>
-        <p style={{
-          fontFamily: FONT_B, fontSize: "0.75rem", fontWeight: 600,
-          letterSpacing: "0.2em", textTransform: "uppercase",
-          color: AMBER, margin: "0 0 16px",
+        {/* Discount badge */}
+        <div style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 10,
+          backgroundColor: "rgba(255,166,11,0.16)",
+          border: "1px solid rgba(255,166,11,0.5)",
+          color: AMBER,
+          padding: "10px 20px",
+          borderRadius: 999,
+          fontFamily: FONT_B,
+          fontSize: "0.74rem",
+          fontWeight: 700,
+          letterSpacing: "0.18em",
+          textTransform: "uppercase",
+          marginBottom: 28,
         }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
           <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-        </p>
+        </div>
+
         <h2 style={{
-          fontFamily: FONT_H, fontSize: "clamp(1.6rem,3vw,2.4rem)", fontWeight: 700,
-          color: NAVY, margin: "0 0 20px", lineHeight: 1.25,
+          fontFamily: FONT_H, fontSize: "clamp(2rem,4vw,3rem)", fontWeight: 700,
+          color: CREAM, margin: "0 0 22px", lineHeight: 1.12, letterSpacing: "-0.01em",
         }}>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h2>
         <p style={{
-          fontFamily: FONT_B, fontSize: "clamp(0.9rem,1.2vw,1rem)",
-          color: "#606266", lineHeight: 1.8, margin: "0 0 40px",
+          fontFamily: FONT_B, fontSize: "clamp(0.96rem,1.2vw,1.08rem)",
+          color: "rgba(255,250,242,0.78)", lineHeight: 1.75, margin: "0 0 44px",
+          maxWidth: 580, marginLeft: "auto", marginRight: "auto",
         }}>
           <GenericEditableText sectionId={sectionId} field="message" value={message} tag="span" />
         </p>
 
-        {/* Fake email row — links to contact */}
-        <div style={{ display: "flex", gap: 0, maxWidth: 520, margin: "0 auto", borderRadius: 2, overflow: "hidden", boxShadow: "0 4px 24px rgba(15,32,62,0.10)" }}>
-          <div style={{
-            flex: 1, backgroundColor: "#FFFFFF",
-            padding: "14px 20px",
-            fontFamily: FONT_B, fontSize: "0.9rem", color: "#aaa",
-            display: "flex", alignItems: "center",
-            border: "1px solid rgba(15,32,62,0.10)",
-            borderRight: "none",
-          }}>
-            váš@email.cz
-          </div>
-          <a href={ctaHref} data-btn="primary" style={{
-            display: "flex", alignItems: "center",
-            padding: "14px 28px",
-            backgroundColor: NAVY, color: "#FFFFFF",
-            fontFamily: FONT_H, fontSize: "0.82rem", fontWeight: 700,
-            letterSpacing: "0.06em", textDecoration: "none", whiteSpace: "nowrap",
-            flexShrink: 0,
+        {/* Email row — pill style */}
+        <form
+          onSubmit={(e) => { e.preventDefault(); window.location.href = ctaHref; }}
+          className="c02-cta-form"
+          style={{
+            display: "flex", gap: 8,
+            maxWidth: 560, margin: "0 auto",
+            backgroundColor: "rgba(255,255,255,0.08)",
+            border: "1px solid rgba(255,166,11,0.32)",
+            borderRadius: 999,
+            padding: 6,
+            boxShadow: "0 12px 40px rgba(0,0,0,0.32)",
           }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-          onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+        >
+          <input
+            type="email"
+            placeholder={placeholder}
+            style={{
+              flex: 1,
+              backgroundColor: "transparent",
+              border: "none",
+              outline: "none",
+              padding: "0 22px",
+              fontFamily: FONT_B,
+              fontSize: "0.92rem",
+              color: CREAM,
+              minWidth: 0,
+            }}
+          />
+          <button
+            type="submit"
+            className="c02-cta-btn"
+            style={{
+              flexShrink: 0,
+              display: "inline-flex", alignItems: "center", gap: 10,
+              padding: "14px 26px",
+              backgroundColor: AMBER, color: NAVY,
+              border: "none", cursor: "pointer",
+              fontFamily: FONT_B, fontSize: "0.82rem", fontWeight: 700,
+              letterSpacing: "0.12em", textTransform: "uppercase",
+              borderRadius: 999,
+              boxShadow: "0 4px 14px rgba(255,166,11,0.42)",
+              transition: "transform .22s ease, background-color .22s ease, box-shadow .22s ease",
+            }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
-        </div>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 5 20 12 13 19"/></svg>
+          </button>
+        </form>
+
+        <p style={{
+          fontFamily: FONT_B, fontSize: "0.74rem",
+          color: "rgba(255,250,242,0.5)", margin: "20px 0 0",
+          letterSpacing: "0.02em",
+        }}>
+          <GenericEditableText sectionId={sectionId} field="gdprNote" value={gdprNote} tag="span" />
+        </p>
       </div>
+
+      <style>{`
+        .c02-cta-form input::placeholder { color: rgba(255,250,242,0.5); }
+        .c02-cta-btn:hover {
+          background-color: #ffb73a !important;
+          transform: translateY(-2px);
+          box-shadow: 0 10px 22px rgba(255,166,11,0.55);
+        }
+        @media (max-width: 600px) {
+          .c02-cta-form { flex-direction: column !important; border-radius: 12px !important; padding: 12px !important; }
+          .c02-cta-form input { padding: 12px 16px !important; }
+          .c02-cta-btn { justify-content: center; }
+        }
+      `}</style>
     </section>
   );
 }
@@ -1589,7 +1984,7 @@ function CtaLawyer01({ content, sectionId }: { content: Record<string, unknown>;
 }
 
 // ─── Stavba-01 CTA ───────────────────────────────────────────────────────────
-function CtaStavba01({ content, sectionId, tenantSlug, isAdmin }: Props) {
+function CtaStavba01({ content, sectionId, tenantSlug, isAdmin }: Pick<Props, "content" | "sectionId" | "tenantSlug" | "isAdmin">) {
   const ORANGE = "#FF6F0D";
   const DARK   = "#1a1a1a";
   const WHITE  = "#ffffff";
@@ -2009,7 +2404,7 @@ function CtaInstala01({ content, sectionId }: { content: Record<string, unknown>
 // - Subtitle 18px, color #a0b0c0
 // - Červené filled CTA 16px, padding 16px 36px, border-radius 8px
 // ─────────────────────────────────────────────────────────────────────────────
-function CtaLang01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: string; tenantSlug?: string; isAdmin?: boolean }) {
+function CtaLang01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const FONT = "'Inter', -apple-system, sans-serif";
   const RED  = "#e63946";
 
@@ -2150,64 +2545,123 @@ function CtaKids01({ content, sectionId }: { content: Record<string, unknown>; s
 }
 
 // ── solar-01-cta ──────────────────────────────────────────────────────────────
+// solar-01 — Dramatic orange gradient CTA card on light section bg.
+// Rotating radial sun-ray pattern (60s), soft glow blobs.
+// Left column: eyebrow pill + H2 (italic accent) + subtitle + primary/ghost CTAs.
+// Right column: frosted glass trust panel — 3 contact items (phone / email /
+// hours) w/ icon boxes + label + value + hover slide.
+// ─────────────────────────────────────────────────────────────────────────────
 function CtaSolar01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title    = String(content.title    ?? "Začněte šetřit už dnes");
-  const subtitle = String(content.subtitle ?? "Spočítáme vám návratnost zdarma do 24 hodin. Bez závazku, bez vtíravých telefonátů.");
-  const ctaText  = String(content.ctaText  ?? "Chci nezávaznou kalkulaci");
-  const ctaHref  = String(content.ctaHref  ?? "#kontakt");
-  const phone    = String(content.phone    ?? "704 123 456");
-  const email    = String(content.email    ?? "info@demo.cz");
+  const eyebrow          = String(content.eyebrow ?? "Zdarma & bez závazku");
+  const title            = String(content.title ?? "Začněte šetřit");
+  const titleAccent      = String(content.titleAccent ?? "už dnes");
+  const subtitle         = String(content.subtitle ?? "Do 24 hodin vám zašleme přesný výpočet úspory i doby návratnosti — bez závazků, bez vtíravých telefonátů.");
+  const ctaText          = String(content.ctaText ?? "Chci bezplatnou kalkulaci");
+  const ctaHref          = String(content.ctaHref ?? "/kontakt");
+  const ctaSecondaryText = String(content.ctaSecondaryText ?? "Prohlédnout služby");
+  const ctaSecondaryHref = String(content.ctaSecondaryHref ?? "/sluzby");
+  const panelTitle       = String(content.panelTitle ?? "Nebo nám rovnou napište");
+  const phone            = String(content.phone ?? "800 123 456");
+  const phoneLabel       = String(content.phoneLabel ?? "Volejte zdarma");
+  const email            = String(content.email ?? "info@heliostech-demo.cz");
+  const emailLabel       = String(content.emailLabel ?? "Napište nám");
+  const hoursValue       = String(content.hoursValue ?? "Po–Pá 8:00–17:00");
+  const hoursLabel       = String(content.hoursLabel ?? "Otevírací doba");
 
-  const CSS = `
-    .ct01{position:relative;padding:80px 40px;background:linear-gradient(135deg,#ff7a00 0%,#e86400 100%);overflow:hidden;font-family:'Inter',-apple-system,sans-serif;}
-    .ct01::before{content:'';position:absolute;top:-120px;right:-80px;width:480px;height:480px;border-radius:50%;background:rgba(255,255,255,0.08);pointer-events:none;}
-    .ct01::after{content:'';position:absolute;bottom:-100px;left:-60px;width:320px;height:320px;border-radius:50%;background:rgba(0,0,0,0.07);pointer-events:none;}
-    .ct01-inner{max-width:900px;margin:0 auto;text-align:center;position:relative;z-index:1;}
-    .ct01-title{font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:800;color:#fff;letter-spacing:-0.5px;margin:0 0 16px;text-shadow:0 2px 12px rgba(0,0,0,0.15);}
-    .ct01-sub{font-size:17px;color:rgba(255,255,255,0.88);line-height:1.65;margin:0 0 40px;max-width:620px;margin-left:auto;margin-right:auto;}
-    .ct01-btn{display:inline-block;padding:16px 36px;border-radius:8px;background:#fff;color:#e86400;font-weight:800;font-size:16px;text-decoration:none;box-shadow:0 4px 24px rgba(0,0,0,0.18);transition:transform 0.18s,box-shadow 0.18s;margin-bottom:36px;}
-    .ct01-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.25);}
-    .ct01-contacts{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;}
-    .ct01-contact{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.92);font-size:15px;font-weight:600;text-decoration:none;}
-    .ct01-contact svg{opacity:0.8;}
-    @media(max-width:600px){
-      .ct01{padding:60px 24px;}
-      .ct01-contacts{gap:20px;flex-direction:column;align-items:center;}
-    }
-  `;
+  const phoneTel = phone.replace(/\s+/g, "");
+
+  const IconArrow = ({ size = 16 }: { size?: number }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+    </svg>
+  );
+  const IconPhone = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72a2 2 0 0 1 1.72 2z"/>
+    </svg>
+  );
+  const IconMail = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/>
+    </svg>
+  );
+  const IconClock = () => (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </svg>
+  );
 
   return (
-    <>
-      <style>{CSS}</style>
-      <section className="ct01" id="kontakt" data-template="solar-01">
-        <div className="ct01-inner">
-          <h2 className="ct01-title">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          <p className="ct01-sub">
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-          </p>
-          <a href={ctaHref} data-btn="primary" className="ct01-btn">
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
-          <div className="ct01-contacts">
-            <a href={`tel:${phone.replace(/\s/g, "")}`} className="ct01-contact">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <path d="M3.5 2h3l1.5 3.5-1.75 1.75a11 11 0 0 0 4.5 4.5L12.5 10l3.5 1.5v3A1.5 1.5 0 0 1 14.5 16C7.596 16 2 10.404 2 3.5A1.5 1.5 0 0 1 3.5 2Z" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-            </a>
-            <a href={`mailto:${email}`} className="ct01-contact">
-              <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                <rect x="2" y="4" width="14" height="10" rx="2" stroke="#fff" strokeWidth="1.5"/>
-                <path d="M2 6l7 5 7-5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
-              </svg>
-              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-            </a>
+    <section className="s01ct" id="kontakt" data-template="solar-01">
+      <div className="s01ct-card">
+        <div className="s01ct-inner">
+          <div className="s01ct-copy">
+            <span className="s01ct-eyebrow">
+              <span className="s01ct-eyebrow-dot" />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </span>
+            <h2 className="s01ct-title">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              {" "}
+              <span className="s01ct-title-em">
+                <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
+              </span>
+            </h2>
+            <p className="s01ct-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+            <div className="s01ct-btns">
+              <a href={ctaHref} data-btn="primary" className="s01ct-btn s01ct-btn-primary">
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <span className="s01ct-btn-arrow"><IconArrow /></span>
+              </a>
+              <a href={ctaSecondaryHref} className="s01ct-btn s01ct-btn-ghost">
+                <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
+              </a>
+            </div>
           </div>
+
+          <aside className="s01ct-panel" aria-label="Kontaktní informace">
+            <h3 className="s01ct-panel-title">
+              <GenericEditableText sectionId={sectionId} field="panelTitle" value={panelTitle} tag="span" />
+            </h3>
+            <a href={`tel:${phoneTel}`} className="s01ct-item">
+              <span className="s01ct-item-icon"><IconPhone /></span>
+              <span className="s01ct-item-text">
+                <span className="s01ct-item-lbl">
+                  <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" />
+                </span>
+                <span className="s01ct-item-val">
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                </span>
+              </span>
+            </a>
+            <a href={`mailto:${email}`} className="s01ct-item">
+              <span className="s01ct-item-icon"><IconMail /></span>
+              <span className="s01ct-item-text">
+                <span className="s01ct-item-lbl">
+                  <GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="span" />
+                </span>
+                <span className="s01ct-item-val">
+                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                </span>
+              </span>
+            </a>
+            <div className="s01ct-item" style={{ cursor: "default" }}>
+              <span className="s01ct-item-icon"><IconClock /></span>
+              <span className="s01ct-item-text">
+                <span className="s01ct-item-lbl">
+                  <GenericEditableText sectionId={sectionId} field="hoursLabel" value={hoursLabel} tag="span" />
+                </span>
+                <span className="s01ct-item-val">
+                  <GenericEditableText sectionId={sectionId} field="hoursValue" value={hoursValue} tag="span" />
+                </span>
+              </span>
+            </div>
+          </aside>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
@@ -2726,7 +3180,7 @@ function CtaChalet01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
 }
 
 // ─── photo-01 CTA ────────────────────────────────────────────────────────────
-function CtaPhoto01({ content, sectionId, tenantSlug, isAdmin }: SectionProps) {
+function CtaPhoto01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const c       = content as Record<string, unknown>;
   const eyebrow = (c.eyebrow  as string) ?? "";
   const title   = (c.title    as string) ?? "";
@@ -2832,6 +3286,10 @@ function CtaPhoto01({ content, sectionId, tenantSlug, isAdmin }: SectionProps) {
 }
 
 // ── events-01-cta ─────────────────────────────────────────────────────────────
+// Prémiová event-agentura: fullscreen bg + grain + vignette overlay,
+// diamond ornament, Playfair italic H2 accent, purple primary CTA s gold ring
+// hover, elegant ghost secondary, contact grid s gold ring icons. Awwwards.
+// ─────────────────────────────────────────────────────────────────────────────
 function CtaEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const GOLD   = "#d4b896";
   const PURPLE = "#931789";
@@ -2843,6 +3301,8 @@ function CtaEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
   const ctaSecondary  = String(content.ctaSecondaryText ?? "Zavolat nám");
   const phone         = String(content.phone         ?? "+420 704 123 456");
   const email         = String(content.email         ?? "email@demo.cz");
+  const phoneLabel    = String(content.phoneLabel    ?? "Telefon");
+  const emailLabel    = String(content.emailLabel    ?? "E-mail");
   const imageUrl      = String(content.imageUrl      ?? "/clones/amdenevents/wp-content/uploads/2026/04/Vanoce.jpg");
   const resolve       = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
   return (
@@ -2850,7 +3310,7 @@ function CtaEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
       <style>{`
         .ev01cta {
           position: relative;
-          padding: 160px 40px;
+          padding: 170px 40px;
           text-align: center;
           color: #fff;
           overflow: hidden;
@@ -2861,15 +3321,28 @@ function CtaEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
           background-image: url('${imageUrl}');
           background-size: cover;
           background-position: center;
-          background-attachment: fixed;
-          transform: scale(1.04);
-          transition: transform 8s ease;
+          transform: scale(1.06);
+          animation: ev01ctaPan 26s ease-in-out infinite alternate;
         }
-        .ev01cta:hover .ev01cta-bg { transform: scale(1); }
+        @keyframes ev01ctaPan {
+          from { transform: scale(1.06) translate(-10px, -6px); }
+          to   { transform: scale(1.1)  translate(10px,  6px); }
+        }
         .ev01cta-overlay {
           position: absolute;
           inset: 0;
-          background: linear-gradient(135deg, rgba(0,0,0,0.88) 0%, rgba(10,0,15,0.82) 100%);
+          background:
+            radial-gradient(circle at 50% 50%, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.85) 75%, rgba(0,0,0,0.94) 100%),
+            linear-gradient(135deg, rgba(10,0,15,0.35) 0%, rgba(0,0,0,0.35) 100%);
+        }
+        .ev01cta-grain {
+          position: absolute;
+          inset: 0;
+          z-index: 1;
+          pointer-events: none;
+          opacity: 0.12;
+          mix-blend-mode: overlay;
+          background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.55'/></svg>");
         }
         .ev01cta-inner {
           position: relative;
@@ -2881,131 +3354,191 @@ function CtaEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 16px;
-          margin-bottom: 36px;
+          gap: 18px;
+          margin-bottom: 38px;
+          opacity: 0;
+          transform: translateY(10px);
+          animation: ev01ctaRise 0.9s cubic-bezier(.32,.72,0,1) 0.15s forwards;
         }
         .ev01cta-ornament-line {
-          width: 60px;
+          width: 64px;
           height: 1px;
-          background: ${GOLD};
-          opacity: 0.6;
+          background: linear-gradient(90deg, transparent 0%, ${GOLD} 100%);
+        }
+        .ev01cta-ornament-line + .ev01cta-ornament-line,
+        .ev01cta-ornament-diamond ~ .ev01cta-ornament-line {
+          background: linear-gradient(90deg, ${GOLD} 0%, transparent 100%);
         }
         .ev01cta-ornament-diamond {
-          width: 7px;
-          height: 7px;
+          width: 8px;
+          height: 8px;
+          border: 1px solid ${GOLD};
           background: ${GOLD};
           transform: rotate(45deg);
           flex-shrink: 0;
+          box-shadow: 0 0 0 3px rgba(212,184,150,0.12);
         }
         .ev01cta-eyebrow {
           display: block;
           font-family: 'Inter', sans-serif;
           font-size: 11px;
-          letter-spacing: 5px;
+          font-weight: 500;
+          letter-spacing: 4.5px;
           text-transform: uppercase;
           color: ${GOLD};
-          margin-bottom: 20px;
-          opacity: 0.9;
+          margin-bottom: 26px;
+          opacity: 0;
+          transform: translateY(10px);
+          animation: ev01ctaRise 0.9s cubic-bezier(.32,.72,0,1) 0.3s forwards;
         }
         .ev01cta h2 {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: clamp(38px, 5vw, 68px);
-          font-weight: 300;
-          margin: 0 0 24px;
-          line-height: 1.1;
-          letter-spacing: -0.5px;
+          font-size: clamp(40px, 5.5vw, 76px);
+          font-weight: 400;
+          margin: 0 0 28px;
+          line-height: 1.08;
+          letter-spacing: -0.01em;
           color: #fff;
+          text-shadow: 0 2px 30px rgba(0,0,0,0.4);
+          opacity: 0;
+          transform: translateY(14px);
+          animation: ev01ctaRise 1s cubic-bezier(.32,.72,0,1) 0.45s forwards;
+        }
+        .ev01cta h2 em {
+          font-style: italic;
+          color: ${GOLD};
         }
         .ev01cta-sub {
           font-family: 'Inter', sans-serif;
-          font-size: 17px;
-          color: rgba(255,255,255,0.65);
-          margin: 0 0 52px;
+          font-size: 16px;
+          color: rgba(255,255,255,0.72);
+          margin: 0 auto 56px;
           line-height: 1.75;
-          max-width: 560px;
+          max-width: 580px;
           display: block;
-          margin-left: auto;
-          margin-right: auto;
+          letter-spacing: 0.2px;
+          opacity: 0;
+          transform: translateY(10px);
+          animation: ev01ctaRise 0.9s cubic-bezier(.32,.72,0,1) 0.6s forwards;
         }
         .ev01cta-actions {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 16px;
+          gap: 20px;
           flex-wrap: wrap;
-          margin-bottom: 48px;
+          margin-bottom: 60px;
+          opacity: 0;
+          transform: translateY(10px);
+          animation: ev01ctaRise 0.9s cubic-bezier(.32,.72,0,1) 0.75s forwards;
         }
         .ev01cta-btn-primary {
+          position: relative;
           display: inline-flex;
           align-items: center;
-          padding: 17px 44px;
+          gap: 12px;
+          padding: 18px 44px;
           background: ${PURPLE};
           color: #fff;
           text-decoration: none;
           font-family: 'Inter', sans-serif;
-          font-weight: 700;
-          font-size: 12px;
-          letter-spacing: 3px;
+          font-weight: 600;
+          font-size: 11.5px;
+          letter-spacing: 2.6px;
           text-transform: uppercase;
-          transition: background 0.25s, transform 0.25s;
+          transition: background 0.4s cubic-bezier(.32,.72,0,1), transform 0.4s cubic-bezier(.32,.72,0,1), box-shadow 0.4s cubic-bezier(.32,.72,0,1);
         }
-        .ev01cta-btn-primary:hover { background: #7a1272; transform: translateY(-2px); }
+        .ev01cta-btn-primary::before {
+          content: "";
+          position: absolute;
+          inset: -4px;
+          border: 1px solid rgba(212,184,150,0);
+          transition: border-color 0.5s cubic-bezier(.32,.72,0,1);
+          pointer-events: none;
+        }
+        .ev01cta-btn-primary:hover {
+          background: #a5199a;
+          transform: translateY(-2px);
+          box-shadow: 0 22px 44px -12px rgba(147,23,137,0.65);
+        }
+        .ev01cta-btn-primary:hover::before { border-color: rgba(212,184,150,0.65); }
+        .ev01cta-btn-primary svg { transition: transform 0.4s cubic-bezier(.32,.72,0,1); }
+        .ev01cta-btn-primary:hover svg { transform: translateX(3px); }
         .ev01cta-btn-secondary {
+          position: relative;
           display: inline-flex;
           align-items: center;
-          padding: 16px 36px;
+          gap: 12px;
+          padding: 17px 36px;
           background: transparent;
           color: #fff;
           text-decoration: none;
           font-family: 'Inter', sans-serif;
-          font-weight: 600;
-          font-size: 12px;
-          letter-spacing: 3px;
+          font-weight: 500;
+          font-size: 11.5px;
+          letter-spacing: 2.6px;
           text-transform: uppercase;
           border: 1px solid rgba(255,255,255,0.3);
-          transition: border-color 0.25s, color 0.25s, transform 0.25s;
+          transition: border-color 0.4s cubic-bezier(.32,.72,0,1), color 0.4s cubic-bezier(.32,.72,0,1), transform 0.4s cubic-bezier(.32,.72,0,1), background 0.4s cubic-bezier(.32,.72,0,1);
         }
-        .ev01cta-btn-secondary:hover { border-color: ${GOLD}; color: ${GOLD}; transform: translateY(-2px); }
+        .ev01cta-btn-secondary:hover {
+          border-color: ${GOLD};
+          color: ${GOLD};
+          background: rgba(212,184,150,0.06);
+          transform: translateY(-2px);
+        }
         .ev01cta-divider {
-          width: 40px;
+          width: 48px;
           height: 1px;
-          background: rgba(255,255,255,0.2);
-          margin: 0 auto 32px;
+          background: linear-gradient(90deg, transparent, rgba(212,184,150,0.55), transparent);
+          margin: 0 auto 34px;
+          opacity: 0;
+          animation: ev01ctaRise 0.9s cubic-bezier(.32,.72,0,1) 0.9s forwards;
         }
         .ev01cta-contacts {
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 48px;
+          gap: 56px;
           flex-wrap: wrap;
+          opacity: 0;
+          transform: translateY(10px);
+          animation: ev01ctaRise 0.9s cubic-bezier(.32,.72,0,1) 1.05s forwards;
         }
         .ev01cta-contact-item {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 14px;
+          transition: transform 0.4s cubic-bezier(.32,.72,0,1);
         }
+        .ev01cta-contact-item:hover { transform: translateY(-2px); }
         .ev01cta-contact-icon {
-          width: 40px;
-          height: 40px;
-          border: 1px solid rgba(212,184,150,0.3);
+          width: 44px;
+          height: 44px;
+          border: 1px solid rgba(212,184,150,0.32);
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
           color: ${GOLD};
+          transition: border-color 0.4s cubic-bezier(.32,.72,0,1), background 0.4s cubic-bezier(.32,.72,0,1), box-shadow 0.4s cubic-bezier(.32,.72,0,1);
         }
-        .ev01cta-contact-text {
-          text-align: left;
+        .ev01cta-contact-item:hover .ev01cta-contact-icon {
+          border-color: ${GOLD};
+          background: rgba(212,184,150,0.08);
+          box-shadow: 0 0 0 4px rgba(212,184,150,0.08);
         }
+        .ev01cta-contact-text { text-align: left; }
         .ev01cta-contact-label {
           display: block;
           font-family: 'Inter', sans-serif;
           font-size: 10px;
-          letter-spacing: 2px;
+          font-weight: 500;
+          letter-spacing: 2.5px;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.4);
-          margin-bottom: 2px;
+          color: rgba(255,255,255,0.45);
+          margin-bottom: 3px;
         }
         .ev01cta-contact-val {
           font-family: 'Inter', sans-serif;
@@ -3013,25 +3546,29 @@ function CtaEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
           font-weight: 500;
           color: #fff;
           text-decoration: none;
-          transition: color 0.2s;
+          transition: color 0.3s cubic-bezier(.32,.72,0,1);
         }
-        .ev01cta-contact-val:hover { color: ${GOLD}; }
+        .ev01cta-contact-item:hover .ev01cta-contact-val { color: ${GOLD}; }
+        @keyframes ev01ctaRise { to { opacity: 1; transform: translateY(0); } }
         @media (max-width: 768px) {
-          .ev01cta { padding: 80px 24px; }
-          .ev01cta-bg { background-attachment: scroll; }
+          .ev01cta { padding: 100px 24px; }
           .ev01cta-contacts { flex-direction: column; gap: 24px; }
-          .ev01cta-actions { flex-direction: column; align-items: center; }
+          .ev01cta-actions { flex-direction: column; align-items: center; gap: 14px; }
           .ev01cta-btn-primary, .ev01cta-btn-secondary { width: 100%; max-width: 280px; justify-content: center; }
+          .ev01cta-ornament-line { width: 44px; }
         }
         @media (max-width: 480px) {
-          .ev01cta { padding: 64px 20px; }
+          .ev01cta { padding: 80px 20px; }
         }
       `}</style>
       <section className="ev01cta" id="kontakt" data-template="events-01-cta">
-        <div className="ev01cta-bg" />
+        <GenericEditableBackground sectionId={sectionId} field="imageUrl" value={imageUrl}>
+          <div className="ev01cta-bg" />
+        </GenericEditableBackground>
         <div className="ev01cta-overlay" />
+        <div className="ev01cta-grain" />
         <div className="ev01cta-inner">
-          <div className="ev01cta-ornament">
+          <div className="ev01cta-ornament" aria-hidden="true">
             <div className="ev01cta-ornament-line" />
             <div className="ev01cta-ornament-diamond" />
             <div className="ev01cta-ornament-line" />
@@ -3046,20 +3583,26 @@ function CtaEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
           <div className="ev01cta-actions">
             <a href={resolve(ctaHref)} data-btn="primary" className="ev01cta-btn-primary">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span">{ctaText}</GenericEditableText>
+              <svg width="16" height="10" viewBox="0 0 16 10" fill="none" stroke="currentColor" strokeWidth="1.2"><path d="M0 5h14M11 1l4 4-4 4"/></svg>
             </a>
             <a href={`tel:${phone.replace(/\s/g, "")}`} className="ev01cta-btn-secondary">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
               <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondary} tag="span">{ctaSecondary}</GenericEditableText>
             </a>
           </div>
-          <div className="ev01cta-divider" />
+          <div className="ev01cta-divider" aria-hidden="true" />
           <div className="ev01cta-contacts">
             <div className="ev01cta-contact-item">
               <div className="ev01cta-contact-icon">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
               </div>
               <div className="ev01cta-contact-text">
-                <span className="ev01cta-contact-label">Telefon</span>
-                <a href={`tel:${phone.replace(/\s/g, "")}`} className="ev01cta-contact-val">{phone}</a>
+                <span className="ev01cta-contact-label">
+                  <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span">{phoneLabel}</GenericEditableText>
+                </span>
+                <a href={`tel:${phone.replace(/\s/g, "")}`} className="ev01cta-contact-val">
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span">{phone}</GenericEditableText>
+                </a>
               </div>
             </div>
             <div className="ev01cta-contact-item">
@@ -3067,8 +3610,12 @@ function CtaEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
               </div>
               <div className="ev01cta-contact-text">
-                <span className="ev01cta-contact-label">E-mail</span>
-                <a href={`mailto:${email}`} className="ev01cta-contact-val">{email}</a>
+                <span className="ev01cta-contact-label">
+                  <GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="span">{emailLabel}</GenericEditableText>
+                </span>
+                <a href={`mailto:${email}`} className="ev01cta-contact-val">
+                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span">{email}</GenericEditableText>
+                </a>
               </div>
             </div>
           </div>
@@ -3214,8 +3761,8 @@ function CtaRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { content:
 ───────────────────────────────────────────── */
 function CtaVideo01({ content, sectionId, isAdmin }: {
   content: Record<string, unknown>;
-  sectionId: string;
-  tenantSlug: string;
+  sectionId: number;
+  tenantSlug?: string;
   isAdmin: boolean;
 }) {
   const c = content as {
@@ -3234,7 +3781,7 @@ function CtaVideo01({ content, sectionId, isAdmin }: {
   const imageAlt = c.imageAlt ?? "";
 
   return (
-    <section id={sectionId} style={{ background: "#f9f7f5" }}>
+    <section id={String(sectionId)} style={{ background: "#f9f7f5" }}>
       <style>{`
         .vd01cta-wrap {
           max-width: 980px;

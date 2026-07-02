@@ -47,7 +47,7 @@ export function OpeningHoursSection({ content, variant, sectionId }: Props) {
             {hours.map((h, i) => {
               const isClosed = h.hours.toLowerCase().includes("zavřeno") || h.hours.toLowerCase().includes("closed");
               return (
-                <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 0", borderBottom: `1px solid ${BORDER}` }}>
+                <div key={i} className="bc-hours-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "16px 16px", borderBottom: `1px solid ${BORDER}`, position: "relative" }}>
                   <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.8rem", fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: isClosed ? "#555" : "#A0A0A0" }}>
                     <GenericEditableText sectionId={sectionId} field={`openingHours.${i}.day`} value={h.day} tag="span" />
                   </span>

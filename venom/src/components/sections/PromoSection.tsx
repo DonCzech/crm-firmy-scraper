@@ -72,42 +72,133 @@ export function PromoSection({ content, variant, sectionId, isAdmin, tenantSlug 
   const cards = ((content.cards as PromoCard[]) ?? []).slice(0, 2);
 
   if (variant === "promo-2cards") {
+    const eyebrow  = String((content as Record<string, unknown>).eyebrow  ?? "");
+    const title    = String((content as Record<string, unknown>).title    ?? "");
+    const subtitle = String((content as Record<string, unknown>).subtitle ?? "");
     const sectionRef = useRef<HTMLElement>(null);
+    const headerRef  = useRef<HTMLDivElement>(null);
     useEffect(() => {
-      const el = sectionRef.current;
-      if (!el) return;
-      const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.classList.add("b03p-vis"); obs.disconnect(); } }, { threshold: 0.1 });
-      obs.observe(el);
-      return () => obs.disconnect();
+      const els = [headerRef.current, sectionRef.current].filter(Boolean) as HTMLElement[];
+      const obs = els.map((el, i) => {
+        const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.15}s`; el.classList.add("b03p-vis"); o.disconnect(); } }, { threshold: 0.1 });
+        o.observe(el); return o;
+      });
+      return () => obs.forEach(o => o.disconnect());
     }, []);
     return (
       <section
         ref={sectionRef}
-        className="relative w-full b03p-reveal"
-        style={{ backgroundColor: "#1c1410", padding: "60px 0" }}
+        className="relative w-full b03-promo"
+        style={{
+          backgroundColor: "#1c1410",
+          padding: "clamp(80px, 12vw, 130px) 0",
+          position: "relative",
+          overflow: "hidden",
+        }}
         data-template="barber-03"
       >
         <style>{`
-          @keyframes b03FadeUp { from { opacity:0; transform:translateY(32px); } to { opacity:1; transform:translateY(0); } }
+          @keyframes b03PromoFadeUp { from { opacity:0; transform:translateY(28px); } to { opacity:1; transform:translateY(0); } }
           .b03p-reveal { opacity: 0; }
-          .b03p-reveal.b03p-vis { animation: b03FadeUp 0.72s cubic-bezier(.22,.68,0,1.2) forwards; }
-          .b03p-card { transition: transform 0.35s ease, box-shadow 0.35s ease; }
-          .b03p-card:hover { transform: translateY(-8px) !important; box-shadow: 0 24px 56px rgba(0,0,0,0.55), 0 0 0 1.5px rgba(200,169,110,0.4) !important; }
-          .b03p-card:hover .b03p-img { transform: scale(1.06) !important; }
-          .b03p-img { transition: transform 0.55s ease; }
+          .b03p-reveal.b03p-vis { animation: b03PromoFadeUp 0.85s cubic-bezier(.22,.68,0,1.1) forwards; }
         `}</style>
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-10 grid gap-6 lg:gap-8" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(340px, 100%), 1fr))" }}>
+
+        {/* Top + bottom decorative gold hairlines — clearly separate from hero */}
+        <div aria-hidden style={{
+          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+          width: 180, height: 1, zIndex: 2,
+          background: "linear-gradient(90deg, transparent, #c8a96e 50%, transparent)",
+        }} />
+        <div aria-hidden style={{
+          position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)",
+          width: 180, height: 1, zIndex: 2,
+          background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)",
+        }} />
+
+        {/* Optional header (conditional — pokud má content nějakou hodnotu) */}
+        {(eyebrow || title || subtitle) && (
+          <div
+            ref={headerRef}
+            className="b03p-reveal"
+            style={{
+              textAlign: "center",
+              maxWidth: 720,
+              margin: "0 auto",
+              padding: "0 24px",
+              marginBottom: "clamp(56px, 8vw, 80px)",
+              position: "relative",
+              zIndex: 1,
+            }}
+          >
+            {eyebrow && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+                <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
+                <span style={{
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontStyle: "italic",
+                  fontSize: "12px",
+                  letterSpacing: "0.28em",
+                  textTransform: "uppercase",
+                  color: "#c8a96e",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </span>
+                <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
+              </div>
+            )}
+            {title && (
+              <h2 style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontSize: "clamp(2rem, 4.2vw, 3rem)",
+                fontWeight: 700,
+                lineHeight: 1.12,
+                letterSpacing: "0.04em",
+                color: "#f5efe6",
+                textTransform: "uppercase",
+                margin: "0 auto 18px",
+                maxWidth: 720,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {subtitle && (
+              <p style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontStyle: "italic",
+                fontSize: "clamp(0.98rem, 1.4vw, 1.1rem)",
+                color: "rgba(245,239,230,0.75)",
+                lineHeight: 1.7,
+                margin: "0 auto",
+                maxWidth: 580,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </div>
+        )}
+
+        <div
+          className="max-w-[1280px] mx-auto px-6 lg:px-10 grid"
+          style={{
+            gap: "clamp(20px, 2.5vw, 32px)",
+            gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))",
+            position: "relative",
+            zIndex: 1,
+          }}
+        >
           {cards.map((card, i) => {
             const bgFocus = (content as Record<string, unknown>)[`cards.${i}.bgImageFocus`] as { x: number; y: number } | undefined;
             const bgObjPos = bgFocus ? `${bgFocus.x}% ${bgFocus.y}%` : undefined;
+            const num = String(i + 1).padStart(2, "0");
             return (
             <div
               key={i}
               className="b03p-card relative overflow-hidden flex flex-col justify-between"
               style={{
-                minHeight: 320,
+                minHeight: 360,
                 borderRadius: 4,
-                boxShadow: "0 8px 24px rgba(0,0,0,0.35)",
+                boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
+                animation: `b03PromoFadeUp 0.85s cubic-bezier(.22,.68,0,1.1) ${0.3 + i * 0.12}s both`,
               }}
             >
               {card.bgImage && (
@@ -124,21 +215,80 @@ export function PromoSection({ content, variant, sectionId, isAdmin, tenantSlug 
                   <div
                     aria-hidden
                     className="absolute inset-0"
-                    style={{ background: "linear-gradient(180deg, rgba(15,10,7,0.45) 0%, rgba(15,10,7,0.72) 100%)" }}
+                    style={{ background: "linear-gradient(180deg, rgba(15,10,7,0.42) 0%, rgba(15,10,7,0.55) 55%, rgba(15,10,7,0.85) 100%)" }}
                   />
                 </div>
               )}
-              <div className="relative z-10 p-8 lg:p-10 flex flex-col gap-6 justify-between" style={{ minHeight: 320 }}>
-                <ul className="flex flex-col gap-2" style={{ color: "#c8a96e", fontFamily: "var(--font-heading)", fontSize: "1.6rem", letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 700, lineHeight: 1.2 }}>
+
+              {/* Card number badge top-left — cinematic numbered series */}
+              <div aria-hidden style={{
+                position: "absolute", top: 22, left: 28, zIndex: 3,
+                display: "flex", alignItems: "center", gap: 10,
+              }}>
+                <span style={{
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontStyle: "italic",
+                  fontSize: 13,
+                  fontWeight: 400,
+                  letterSpacing: "0.2em",
+                  color: "#c8a96e",
+                }}>{num}</span>
+                <span style={{ width: 28, height: 1, backgroundColor: "#c8a96e" }} />
+              </div>
+
+              {/* Gold corner accent — top-right, expands on hover */}
+              <span aria-hidden className="b03p-corner-tr" style={{
+                position: "absolute", top: 18, right: 18, width: 24, height: 24, zIndex: 3,
+                borderTop: "1px solid #c8a96e", borderRight: "1px solid #c8a96e",
+                transition: "all 0.4s cubic-bezier(.22,.68,0,1.1)",
+              }} />
+              <span aria-hidden className="b03p-corner-bl" style={{
+                position: "absolute", bottom: 18, left: 18, width: 24, height: 24, zIndex: 3,
+                borderBottom: "1px solid #c8a96e", borderLeft: "1px solid #c8a96e",
+                transition: "all 0.4s cubic-bezier(.22,.68,0,1.1)",
+              }} />
+
+              <div className="relative z-10 flex flex-col gap-6 justify-between" style={{
+                minHeight: 360,
+                padding: "60px 36px 36px",
+              }}>
+                <ul className="flex flex-col gap-2" style={{
+                  color: "#c8a96e",
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontSize: "1.85rem",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  fontWeight: 700,
+                  lineHeight: 1.15,
+                }}>
                   {(card.bullets ?? []).map((b, bi) => (
                     <li key={bi}>
                       <GenericEditableText sectionId={sectionId} field={`cards.${i}.bullets.${bi}`} value={b} tag="span" />
                     </li>
                   ))}
                 </ul>
-                <p style={{ color: "#fff", fontFamily: "var(--font-body)", fontSize: "1.05rem", lineHeight: 1.5, letterSpacing: "0.04em", maxWidth: 320 }}>
-                  <GenericEditableText sectionId={sectionId} field={`cards.${i}.desc`} value={card.desc ?? ""} tag="span" />
-                </p>
+
+                <div>
+                  {/* Decorative rule before description */}
+                  <span aria-hidden style={{
+                    display: "block",
+                    width: 36, height: 1,
+                    backgroundColor: "rgba(200,169,110,0.55)",
+                    marginBottom: 16,
+                  }} />
+                  <p style={{
+                    color: "rgba(245,239,230,0.92)",
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    fontSize: "1rem",
+                    lineHeight: 1.6,
+                    letterSpacing: "0.02em",
+                    fontWeight: 300,
+                    maxWidth: 320,
+                    margin: 0,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field={`cards.${i}.desc`} value={card.desc ?? ""} tag="span" />
+                  </p>
+                </div>
               </div>
             </div>
             );
@@ -481,10 +631,23 @@ function PromoClinic02({ content, sectionId }: { content: Record<string, unknown
   const ctaText = String(content.ctaText ?? "Objednat konzultaci");
   const ctaHref = String(content.ctaHref ?? "#kontakt");
 
+  const detail   = String(content.detail ?? "Konzultace zahrnuje VISIA SkinAnalysis (3D analýza pleti), individuální doporučení a cenovou kalkulaci.");
+  const badgeText = String((content as Record<string,unknown>).badgeText ?? "ZDARMA");
+  const badgeSub  = String((content as Record<string,unknown>).badgeSub  ?? "45 minut s lékařem");
+
   return (
-    <section style={{ backgroundColor: "#f7f6f5", padding: "clamp(56px,7vw,88px) 0" }}>
-      <div style={{
-        maxWidth: 1140,
+    <section id="konzultace" data-template="clinic-02" style={{ backgroundColor: "#f7f6f5", padding: "clamp(72px,9vw,120px) 0", position: "relative", overflow: "hidden" }}>
+      {/* Subtle amber radial accent */}
+      <div aria-hidden style={{
+        position: "absolute", top: "-180px", right: "-160px",
+        width: 480, height: 480, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(255,166,11,0.10) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+
+      <div className="c02-promo-inner" style={{
+        position: "relative",
+        maxWidth: 1200,
         margin: "0 auto",
         padding: "0 clamp(24px,5vw,60px)",
         display: "grid",
@@ -495,66 +658,115 @@ function PromoClinic02({ content, sectionId }: { content: Record<string, unknown
         {/* Left: text */}
         <div>
           <p style={{
-            fontFamily: FONT_B, fontSize: "0.72rem", fontWeight: 600,
-            letterSpacing: "0.2em", textTransform: "uppercase",
-            color: AMBER, margin: "0 0 14px",
+            fontFamily: FONT_B, fontSize: "0.75rem", fontWeight: 700,
+            letterSpacing: "0.22em", textTransform: "uppercase",
+            color: AMBER, margin: "0 0 18px",
+            display: "inline-flex", alignItems: "center", gap: 12,
           }}>
+            <span style={{ width: 28, height: 1, backgroundColor: AMBER }} />
             <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
           </p>
           <h2 style={{
-            fontFamily: FONT_H, fontSize: "clamp(1.8rem,3.5vw,2.8rem)", fontWeight: 700,
-            color: NAVY, margin: "0 0 20px", lineHeight: 1.15,
+            fontFamily: FONT_H, fontSize: "clamp(2rem,4vw,3.1rem)", fontWeight: 700,
+            color: NAVY, margin: "0 0 24px", lineHeight: 1.08, letterSpacing: "-0.01em",
           }}>
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
           <p style={{
-            fontFamily: FONT_B, fontSize: "clamp(0.9rem,1.2vw,1rem)",
+            fontFamily: FONT_B, fontSize: "clamp(0.96rem,1.2vw,1.05rem)",
             color: "#606266", lineHeight: 1.8, margin: 0,
           }}>
             <GenericEditableText sectionId={sectionId} field="message" value={message} tag="span" />
           </p>
         </div>
 
-        {/* Right: CTA card — white with navy border accent */}
-        <div style={{
+        {/* Right: CTA card with floating badge */}
+        <div className="c02-promo-card" style={{
+          position: "relative",
           backgroundColor: "#FFFFFF",
-          borderRadius: 4,
-          borderLeft: `4px solid ${AMBER}`,
-          padding: "clamp(28px,4vw,48px)",
+          borderRadius: 6,
+          borderTop: `4px solid ${AMBER}`,
+          padding: "clamp(36px,4vw,52px)",
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
-          gap: 24,
-          boxShadow: "0 4px 24px rgba(15,32,62,0.07)",
+          gap: 26,
+          boxShadow: "0 24px 60px -20px rgba(15,32,62,0.18)",
+          transition: "transform .3s ease, box-shadow .3s ease",
         }}>
-          <p style={{
-            fontFamily: FONT_B, fontSize: "0.95rem", color: "#606266", lineHeight: 1.75, margin: 0,
+          {/* Floating "ZDARMA" badge */}
+          <div style={{
+            position: "absolute",
+            top: -22, right: 28,
+            backgroundColor: AMBER,
+            color: NAVY,
+            padding: "10px 18px",
+            borderRadius: 999,
+            fontFamily: FONT_B,
+            fontSize: "0.78rem",
+            fontWeight: 800,
+            letterSpacing: "0.16em",
+            textTransform: "uppercase",
+            boxShadow: "0 8px 20px rgba(255,166,11,0.42)",
+            display: "inline-flex", alignItems: "center", gap: 8,
           }}>
-            <GenericEditableText sectionId={sectionId} field="detail" value={String(content.detail ?? "Přijďte a zjistěte, která procedura je přímo pro vás. Naši lékaři vám vše trpělivě vysvětlí a navrhnou optimální plán ošetření.")} tag="span" />
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <GenericEditableText sectionId={sectionId} field="badgeText" value={badgeText} tag="span" />
+          </div>
+
+          {/* Sub-badge "45 min s lékařem" */}
+          <p style={{
+            fontFamily: FONT_B, fontSize: "0.74rem", fontWeight: 700,
+            letterSpacing: "0.18em", textTransform: "uppercase",
+            color: NAVY, margin: 0,
+            display: "inline-flex", alignItems: "center", gap: 8,
+          }}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <GenericEditableText sectionId={sectionId} field="badgeSub" value={badgeSub} tag="span" />
           </p>
-          <a href={ctaHref} data-btn="primary" style={{
-            display: "inline-block",
-            padding: "14px 36px",
-            backgroundColor: NAVY,
-            color: "#FFFFFF",
-            fontFamily: FONT_H,
-            fontSize: "0.85rem",
-            fontWeight: 700,
-            letterSpacing: "0.06em",
-            textDecoration: "none",
-            borderRadius: 2,
-          }}
-          onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-          onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+
+          <p style={{
+            fontFamily: FONT_B, fontSize: "0.96rem", color: "#606266", lineHeight: 1.75, margin: 0,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="detail" value={detail} tag="span" />
+          </p>
+
+          <a
+            href={ctaHref}
+            className="c02-promo-cta"
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 10,
+              padding: "16px 32px",
+              backgroundColor: NAVY,
+              color: "#FFFFFF",
+              fontFamily: FONT_B,
+              fontSize: "0.84rem",
+              fontWeight: 700,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              borderRadius: 999,
+              transition: "background-color .22s ease, transform .22s ease, box-shadow .22s ease",
+            }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 5 20 12 13 19"/></svg>
           </a>
         </div>
       </div>
 
       <style>{`
-        @media (max-width: 700px) {
-          #konzultace > div { grid-template-columns: 1fr !important; }
+        .c02-promo-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 32px 70px -18px rgba(15,32,62,0.26);
+        }
+        .c02-promo-cta:hover {
+          background-color: #1a3361 !important;
+          transform: translateY(-2px);
+          box-shadow: 0 10px 24px rgba(15,32,62,0.28);
+        }
+        @media (max-width: 768px) {
+          #konzultace .c02-promo-inner { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>
@@ -568,43 +780,73 @@ function PromoClinic02({ content, sectionId }: { content: Record<string, unknown
 // ─────────────────────────────────────────────────────────────────────────────
 function PromoClinic03({ content, sectionId }: { content: Record<string,unknown>; sectionId: number }) {
   const GOLD   = "#97855F";
-  const GOLD_H = "#716448";
+  const GOLD_H = "#82734f";
   const WHITE  = "#ffffff";
-  const BG     = "#2D2D2D";
-  const MUTED  = "rgba(255,255,255,0.65)";
-  const FONT   = "'DM Sans', Arial, sans-serif";
-  const SERIF  = "'Playfair Display', Georgia, serif";
+  const BG     = "#1A1A1A";
+  const MUTED  = "rgba(255,255,255,0.6)";
+  const SANS   = "'DM Sans', Arial, sans-serif";
+  const SERIF  = "'Cormorant Garamond', Georgia, serif";
 
-  const title       = String(content.title       ?? "Nejdůvěryhodnější značka");
-  const kicker      = String(content.kicker      ?? "Mezinárodní ocenění SUPERBRANDS");
-  const body        = String(content.body        ?? "Získejte novinky, slevy a proměny zdarma do vašeho emailu.");
-  const placeholder = String(content.inputPlaceholder ?? "Váš e-mail");
+  const title       = String(content.title       ?? "Získejte exkluzivní nabídky");
+  const kicker      = String(content.kicker      ?? "Držitel mezinárodního ocenění Superbrands");
+  const body        = String(content.body        ?? "Přihlaste se k odběru novinek a získejte přístup ke speciálním akcím.");
+  const placeholder = String(content.inputPlaceholder ?? "Zadejte váš e-mail");
   const ctaText     = String(content.ctaText     ?? "Odebírat novinky");
-  const badges      = (content.badges as string[]) ?? ["Nejdůvěryhodnější značka 2020", "Superbrand ČR & SR", "Mezinárodní pečeť kvality"];
+  const badges      = (content.badges as string[]) ?? ["Nejdůvěryhodnější klinika 2025", "Superbrand ČR & SR", "ISO 9001 certifikace"];
 
   return (
-    <section id="newsletter" data-variant="clinic-03-promo" style={{ backgroundColor: BG, padding: "80px 0", fontFamily: FONT }}>
-      <div style={{ maxWidth: 640, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)", textAlign: "center" }}>
+    <section id="newsletter" data-template="clinic-03" style={{ backgroundColor: BG, padding: "clamp(64px, 8vw, 100px) 0", fontFamily: SANS, position: "relative", overflow: "hidden" }}>
+      {/* Subtle diamond pattern bg */}
+      <div aria-hidden style={{
+        position: "absolute", inset: 0, opacity: 0.03, pointerEvents: "none",
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 2 L38 20 L20 38 L2 20 Z' fill='none' stroke='%23ffffff' stroke-width='0.5'/%3E%3C/svg%3E")`,
+        backgroundSize: "40px 40px",
+      }} />
 
-        <p style={{ fontSize: "0.72rem", fontWeight: 400, color: GOLD, letterSpacing: "0.2em", textTransform: "uppercase", margin: "0 0 14px", fontFamily: FONT }}>
-          <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-        </p>
-        <h2 style={{ fontFamily: SERIF, fontSize: "clamp(1.5rem, 2.4vw, 2rem)", fontWeight: 400, color: WHITE, margin: "0 0 18px", lineHeight: 1.25 }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
-        <p style={{ fontFamily: FONT, fontSize: "0.95rem", color: MUTED, lineHeight: 1.7, margin: "0 0 36px" }}>
-          <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-        </p>
+      <div style={{ position: "relative", maxWidth: 620, margin: "0 auto", padding: "0 clamp(20px, 4vw, 40px)", textAlign: "center" }}>
 
-        {/* Email + CTA */}
-        <div style={{ display: "flex", gap: 0, maxWidth: 480, margin: "0 auto 48px" }}>
+        {/* Diamond icon */}
+        <svg width="24" height="24" viewBox="0 0 30 30" style={{ marginBottom: 20, opacity: 0.35 }} aria-hidden>
+          <path d="M15 2 L28 15 L15 28 L2 15 Z" fill="none" stroke={GOLD} strokeWidth="1" />
+          <path d="M15 10 L20 15 L15 20 L10 15 Z" fill={GOLD} opacity="0.5" />
+        </svg>
+
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 16 }}>
+          <span aria-hidden style={{ display: "block", width: 24, height: 1, backgroundColor: `${GOLD}66` }} />
+          <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="p"
+            style={{ fontSize: "0.62rem", fontWeight: 500, color: GOLD, letterSpacing: "0.22em", textTransform: "uppercase", margin: 0 }}
+          />
+          <span aria-hidden style={{ display: "block", width: 24, height: 1, backgroundColor: `${GOLD}66` }} />
+        </div>
+
+        <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"
+          style={{ fontFamily: SERIF, fontSize: "clamp(1.6rem, 2.6vw, 2.2rem)", fontWeight: 300, fontStyle: "italic", color: WHITE, margin: "0 0 16px", lineHeight: 1.2 }}
+        />
+
+        <GenericEditableText sectionId={sectionId} field="body" value={body} tag="p"
+          style={{ fontFamily: SANS, fontSize: "0.88rem", color: MUTED, lineHeight: 1.7, margin: "0 0 36px" }}
+        />
+
+        {/* Email input + CTA */}
+        <div style={{ display: "flex", gap: 0, maxWidth: 460, margin: "0 auto 44px" }}>
           <input
             type="email"
             placeholder={placeholder}
-            style={{ flexGrow: 1, height: 50, padding: "0 18px", border: "none", fontSize: "0.9rem", fontFamily: FONT, outline: "none", backgroundColor: "rgba(255,255,255,0.1)", color: WHITE }}
+            style={{
+              flexGrow: 1, height: 48, padding: "0 18px",
+              border: `1px solid ${GOLD}33`, borderRight: "none",
+              fontSize: "0.82rem", fontFamily: SANS,
+              outline: "none", backgroundColor: "rgba(255,255,255,0.05)", color: WHITE,
+            }}
           />
           <a href="#kontakt"
-            style={{ display: "inline-flex", alignItems: "center", height: 50, padding: "0 24px", backgroundColor: GOLD, color: WHITE, fontFamily: FONT, fontSize: "0.82rem", fontWeight: 400, letterSpacing: "0.1em", textTransform: "uppercase", textDecoration: "none", whiteSpace: "nowrap", transition: "background-color 0.18s" }}
+            style={{
+              display: "inline-flex", alignItems: "center", height: 48, padding: "0 24px",
+              backgroundColor: GOLD, color: WHITE, fontFamily: SANS,
+              fontSize: "0.68rem", fontWeight: 600, letterSpacing: "0.14em",
+              textTransform: "uppercase", textDecoration: "none", whiteSpace: "nowrap",
+              transition: "background-color 0.3s ease",
+            }}
             onMouseEnter={e => { e.currentTarget.style.backgroundColor = GOLD_H; }}
             onMouseLeave={e => { e.currentTarget.style.backgroundColor = GOLD; }}
           >
@@ -613,13 +855,20 @@ function PromoClinic03({ content, sectionId }: { content: Record<string,unknown>
         </div>
 
         {/* Award badges */}
-        <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 10, flexWrap: "wrap" }}>
           {badges.map((b, i) => (
-            <span key={i} style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 18px", border: `1px solid rgba(151,133,95,0.4)`, color: MUTED, fontFamily: FONT, fontSize: "0.75rem", letterSpacing: "0.06em" }}>
-              <svg width="12" height="12" viewBox="0 0 12 12" fill={GOLD} style={{ flexShrink: 0 }}>
+            <span key={i} className="c03-badge" style={{
+              display: "inline-flex", alignItems: "center", gap: 7,
+              padding: "7px 16px",
+              border: `1px solid ${GOLD}30`,
+              color: MUTED, fontFamily: SANS, fontSize: "0.68rem",
+              letterSpacing: "0.04em",
+              transition: "border-color 0.3s ease, color 0.3s ease",
+            }}>
+              <svg width="10" height="10" viewBox="0 0 12 12" fill={GOLD} style={{ flexShrink: 0 }} aria-hidden>
                 <polygon points="6,0 7.5,4 12,4 8.5,6.5 10,11 6,8.5 2,11 3.5,6.5 0,4 4.5,4"/>
               </svg>
-              {b}
+              <GenericEditableText sectionId={sectionId} field={`badges.${i}`} value={b} tag="span" />
             </span>
           ))}
         </div>
@@ -1850,7 +2099,7 @@ function BenefitsKids01({
 // - Centrovaný eyebrow kicker + H2 44px
 // - 4-col grid kroků: červený kruh 56px s číslem + H3 18px + popis 14px
 // ─────────────────────────────────────────────────────────────────────────────
-function PromoLang01({ content, sectionId }: { content: Record<string, unknown>; sectionId: string }) {
+function PromoLang01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const FONT = "'Inter', -apple-system, sans-serif";
   const RED  = "#e63946";
   const DARK = "#1a1a2e";
@@ -2239,71 +2488,118 @@ function ClubGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content: 
 }
 
 // ── solar-01-process ──────────────────────────────────────────────────────────
+// solar-01 — 4-step process timeline on dark navy.
+// Ambient orange glows + subtle grid overlay.
+// Editorial header (conditional showHeader) w/ italic gold accent.
+// Each step: 84px gradient orange node w/ custom icon + numbered badge
+// (top-right), title + description, hover node lift+rotate.
+// Continuous orange gradient line connects nodes + shimmer flow animation.
+// Sequenced fade-up reveal (staggered 0.12 → 0.48s).
+// ─────────────────────────────────────────────────────────────────────────────
 function ProcessSolar01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  type Step = { number?: string; title?: string; description?: string };
-  const title    = String(content.title    ?? "Jak probíhá spolupráce");
-  const subtitle = String(content.subtitle ?? "Od první kalkulace po spuštění elektrárny vám pomůžeme se vším.");
-  const eyebrow  = String(content.eyebrow  ?? "Postup spolupráce");
-  const steps    = ((content.steps as Step[]) ?? []).slice(0, 4);
+  type Step = { number?: string; title?: string; description?: string; icon?: string };
+  const rawSteps = ((content.steps as Step[]) ?? []).slice(0, 4);
+  const steps: Step[] = rawSteps.length > 0 ? rawSteps : [
+    { number: "01", title: "Bezplatná konzultace",      description: "Zavolejte nebo vyplňte formulář — do 24 hodin vám pošleme předběžný návrh a odhad úspory.", icon: "phone" },
+    { number: "02", title: "Projekt na míru",           description: "Technik přijede na obhlídku, zaměří střechu a připraví kompletní projekt pro stavební povolení.",     icon: "clipboard" },
+    { number: "03", title: "Zajištění dotace NZÚ",      description: "Vyřídíme žádost o dotaci Nová zelená úsporám, smlouvy s distributorem a veškerá potřebná povolení.",    icon: "document" },
+    { number: "04", title: "Montáž a spuštění",         description: "Certifikovaný tým provede montáž za 1–3 dny, otestuje systém a předá vám přístup do mobilní aplikace.", icon: "plug" },
+  ];
 
-  const CSS = `
-    .pr01{background:#071c28;padding:80px 40px;font-family:'Inter',-apple-system,sans-serif;}
-    .pr01-head{text-align:center;max-width:600px;margin:0 auto 64px;}
-    .pr01-eyebrow{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#ff7a00;margin-bottom:12px;}
-    .pr01-title{font-size:clamp(1.8rem,3vw,2.4rem);font-weight:800;color:#fff;letter-spacing:-0.5px;margin:0 0 14px;}
-    .pr01-sub{font-size:16px;color:rgba(255,255,255,0.6);line-height:1.6;margin:0;}
-    .pr01-steps{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
-    .pr01-steps::before{content:'';position:absolute;top:36px;left:calc(12.5% + 24px);right:calc(12.5% + 24px);height:1px;background:linear-gradient(90deg,rgba(255,122,0,0.5),rgba(255,122,0,0.15));pointer-events:none;}
-    .pr01-step{text-align:center;padding:0 20px;position:relative;}
-    .pr01-num-wrap{display:flex;justify-content:center;margin-bottom:24px;}
-    .pr01-num{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#ffb347,#ff7a00);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;box-shadow:0 4px 20px rgba(255,122,0,0.4);position:relative;z-index:1;}
-    .pr01-step-title{font-size:16px;font-weight:700;color:#fff;margin:0 0 10px;}
-    .pr01-step-desc{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.65;}
-    @media(max-width:800px){
-      .pr01{padding:60px 20px;}
-      .pr01-steps{grid-template-columns:repeat(2,1fr);gap:40px 20px;}
-      .pr01-steps::before{display:none;}
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const eyebrow     = eyebrowRaw  === undefined ? "Postup spolupráce" : String(eyebrowRaw);
+  const title       = titleRaw    === undefined ? "Cesta k energetické nezávislosti" : String(titleRaw);
+  const subtitle    = subtitleRaw === undefined ? "Postaráme se o vše od prvního kontaktu až po předání funkčního systému. Vy se soustředíte na to, na čem záleží." : String(subtitleRaw);
+  const showHeader  = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const iconFor = (key?: string) => {
+    switch (key) {
+      case "phone":
+        return (
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72a2 2 0 0 1 1.72 2z"/>
+          </svg>
+        );
+      case "clipboard":
+        return (
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M9 2h6a2 2 0 0 1 2 2v2h1a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h1V4a2 2 0 0 1 2-2z"/>
+            <path d="M9 4h6v2H9z" fill="currentColor"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+            <line x1="8" y1="16" x2="13" y2="16"/>
+          </svg>
+        );
+      case "document":
+        return (
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <polyline points="9 13 11 15 15 11"/>
+          </svg>
+        );
+      case "plug":
+        return (
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="13 2 4 14 12 14 11 22 20 10 12 10 13 2"/>
+          </svg>
+        );
+      default:
+        return (
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v3m0 14v3M4.22 4.22l2.12 2.12m11.32 11.32l2.12 2.12M2 12h3m14 0h3M4.22 19.78l2.12-2.12m11.32-11.32l2.12-2.12"/>
+          </svg>
+        );
     }
-    @media(max-width:480px){
-      .pr01-steps{grid-template-columns:1fr;}
-    }
-  `;
+  };
 
   return (
-    <>
-      <style>{CSS}</style>
-      <section className="pr01" data-template="solar-01">
-        <div className="pr01-head">
-          <span className="pr01-eyebrow">
-            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
-          </span>
-          <h2 className="pr01-title">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          <p className="pr01-sub">
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-          </p>
-        </div>
-
-        <div className="pr01-steps">
-          {steps.map((step, i) => (
-            <div className="pr01-step" key={i}>
-              <div className="pr01-num-wrap">
-                <div className="pr01-num">
-                  <GenericEditableText sectionId={sectionId} field={`steps.${i}.number`} value={step.number ?? String(i + 1)} tag="span" />
-                </div>
-              </div>
-              <h3 className="pr01-step-title">
-                <GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={step.title ?? ""} tag="span" />
-              </h3>
-              <p className="pr01-step-desc">
-                <GenericEditableText sectionId={sectionId} field={`steps.${i}.description`} value={step.description ?? ""} tag="span" />
+    <section className="s01pr" data-template="solar-01">
+      <div className="s01pr-bg-grid" aria-hidden="true" />
+      <div className="s01pr-inner">
+        {showHeader && (
+          <div className="s01pr-head">
+            {eyebrow.trim() && (
+              <span className="s01pr-eyebrow">
+                <span className="s01pr-eyebrow-dot" />
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </span>
+            )}
+            {title.trim() && (
+              <h2 className="s01pr-title">
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {subtitle.trim() && (
+              <p className="s01pr-sub">
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
               </p>
-            </div>
+            )}
+          </div>
+        )}
+
+        <ol className="s01pr-timeline" aria-label="Postup spolupráce">
+          {steps.map((s, i) => (
+            <li className="s01pr-step" key={i}>
+              <div className="s01pr-node">
+                {iconFor(s.icon)}
+                <span className="s01pr-node-num">
+                  <GenericEditableText sectionId={sectionId} field={`steps.${i}.number`} value={String(s.number ?? `0${i + 1}`.slice(-2))} tag="span" />
+                </span>
+              </div>
+              <h3 className="s01pr-step-title">
+                <GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={s.title ?? ""} tag="span" />
+              </h3>
+              <p className="s01pr-step-desc">
+                <GenericEditableText sectionId={sectionId} field={`steps.${i}.description`} value={s.description ?? ""} tag="span" />
+              </p>
+            </li>
           ))}
-        </div>
-      </section>
-    </>
+        </ol>
+      </div>
+    </section>
   );
 }
 
@@ -3017,101 +3313,112 @@ function BenefitsFloors01({ content, sectionId, tenantSlug, isAdmin }: { content
 
 // ── solar-03-process ──────────────────────────────────────────────────────────
 function ProcessSolar03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const FONT_M = "'Montserrat', 'Inter', sans-serif";
-  const ORANGE = "#ff8b00";
-  const DARK   = "#222222";
-  const GRAY   = "#575757";
-
   type Step = { title?: string; description?: string };
-  const title  = String(content.title  ?? "Postaráme se o Vás");
-  const image  = String(content.image  ?? "/templates/solar-03/process.jpg");
+  const eyebrow  = String(content.eyebrow  ?? "Jak to u nás funguje");
+  const title    = String(content.title    ?? "Postaráme se o vás od konzultace až po dohled nad provozem");
+  const subtitle = String(content.subtitle ?? "Čtyři kroky, jasné termíny, jeden partner. Bez subdodavatelů, bez přehazování zodpovědnosti — dodáváme přesně to, co si odsouhlasíme na první schůzce.");
+  const image    = String(content.image    ?? "/templates/solar-03/process.webp");
+  const specValue = String(content.specValue ?? "48 h");
+  const specLabel = String(content.specLabel ?? "reakční doba na první poptávku");
   const steps: Step[] = Array.isArray(content.steps) ? (content.steps as Step[]) : [];
 
   return (
-    <>
-      <style>{`
-        @media (max-width: 768px) {
-          .s03pr-row { flex-direction: column !important; }
-          .s03pr-left { max-width: 100% !important; }
-          .s03pr-right { display: none !important; }
-        }
-      `}</style>
-      <section style={{ background: "#fff", padding: "72px 0 80px" }} data-template="solar-03">
-        <div style={{ maxWidth: 1160, margin: "0 auto", padding: "0 24px" }}>
-          <h2 style={{ fontFamily: FONT_M, fontWeight: 800, fontSize: "clamp(20px,2.2vw,30px)", color: DARK, textTransform: "uppercase", letterSpacing: "0.02em", margin: "0 0 48px" }}>
+    <section className="s03pr-section" data-template="solar-03" id="proces">
+      <div className="s03pr-bg-grid" aria-hidden="true" />
+      <div className="s03pr-inner">
+        <div className="s03pr-header">
+          <div className="s03pr-eyebrow">
+            <span className="s03pr-eyebrow-dot" aria-hidden="true" />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </div>
+          <h2 className="s03pr-h2">
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
-          <div className="s03pr-row" style={{ display: "flex", gap: 56, alignItems: "flex-start" }}>
-            {/* Left: steps */}
-            <div className="s03pr-left" style={{ flex: "0 0 55%", maxWidth: "55%" }}>
-              {steps.map((step, i) => (
-                <div key={i} style={{ display: "flex", gap: 20, paddingBottom: i < steps.length - 1 ? 28 : 0, marginBottom: i < steps.length - 1 ? 28 : 0, borderBottom: i < steps.length - 1 ? "1px solid #ebebeb" : "none" }}>
-                  <div style={{ flexShrink: 0, width: 38, height: 38, borderRadius: "50%", background: ORANGE, color: "#fff", fontFamily: FONT_M, fontWeight: 800, fontSize: 17, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    {i + 1}
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <h3 style={{ fontFamily: FONT_M, fontWeight: 700, fontSize: 17, color: DARK, margin: "0 0 8px", lineHeight: 1.3 }}>
-                      <GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={String(step.title ?? "")} tag="span" />
-                    </h3>
-                    <p style={{ fontSize: 14, color: GRAY, margin: 0, lineHeight: 1.65 }}>
-                      <GenericEditableText sectionId={sectionId} field={`steps.${i}.description`} value={String(step.description ?? "")} tag="span" />
-                    </p>
-                  </div>
+          <p className="s03pr-sub-lead">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        </div>
+
+        <div className="s03pr-row">
+          <div className="s03pr-left">
+            <div className="s03pr-rail" aria-hidden="true" />
+            {steps.map((step, i) => (
+              <div className="s03pr-step" key={i}>
+                <div className="s03pr-num">
+                  <span className="s03pr-num-label">Krok</span>
+                  <span className="s03pr-num-value">{String(i + 1).padStart(2, "0")}</span>
                 </div>
-              ))}
-            </div>
-            {/* Right: photo */}
-            <div className="s03pr-right" style={{ flex: 1, alignSelf: "stretch", minHeight: 320 }}>
-              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} style={{ width: "100%", height: "100%", borderRadius: 6 }}>
-                <img src={image} alt={title} loading="lazy" style={{ width: "100%", height: "100%", borderRadius: 6, display: "block", objectFit: "cover" }} />
+                <div className="s03pr-step-body">
+                  <h3 className="s03pr-step-h3">
+                    <GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={String(step.title ?? "")} tag="span" />
+                  </h3>
+                  <p className="s03pr-step-p">
+                    <GenericEditableText sectionId={sectionId} field={`steps.${i}.description`} value={String(step.description ?? "")} tag="span" />
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="s03pr-right">
+            <div className="s03pr-image-frame">
+              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} style={{ width: "100%", height: "100%" }}>
+                <img src={image} alt={title} loading="lazy" className="s03pr-img" />
               </GenericEditableImage>
+              <div className="s03pr-image-shade" aria-hidden="true" />
+              <svg className="s03pr-corner s03pr-corner-tl" width="46" height="46" viewBox="0 0 46 46" fill="none" aria-hidden="true">
+                <path d="M2 16V2h14" stroke="#ff8b00" strokeWidth="2" strokeLinecap="square"/>
+              </svg>
+              <svg className="s03pr-corner s03pr-corner-br" width="46" height="46" viewBox="0 0 46 46" fill="none" aria-hidden="true">
+                <path d="M44 30v14H30" stroke="#ff8b00" strokeWidth="2" strokeLinecap="square"/>
+              </svg>
+              <div className="s03pr-spec">
+                <span className="s03pr-spec-value">
+                  <GenericEditableText sectionId={sectionId} field="specValue" value={specValue} tag="span" />
+                </span>
+                <span className="s03pr-spec-label">
+                  <GenericEditableText sectionId={sectionId} field="specLabel" value={specLabel} tag="span" />
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
 /* ─── ProcessSolar02 ─── solar-02 Greenia 5-step how-it-works ───────────── */
-function ProcessSolar02({ content, sectionId }: { content: Record<string, unknown>; sectionId: string }) {
-  const title    = String(content.title    ?? "Jak to funguje?");
-  const subtitle = String(content.subtitle ?? "Od první konzultace po dlouhodobý provoz — vše zařídíme za vás.");
+function ProcessSolar02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const showHeader = content.showHeader !== false;
+  const eyebrow  = String(content.eyebrow  ?? "Jak projekt probíhá");
+  const title    = String(content.title    ?? "Transparentní postup bez překvapení");
+  const subtitle = String(content.subtitle ?? "Od prvního kontaktu po předání hotového systému — pět jasně definovaných kroků s garantovanými termíny.");
   const steps = (content.steps as Array<{ title: string; description: string }> | undefined) ?? [
-    { title: "Konzultace",      description: "Bezplatná úvodní konzultace a zhodnocení objektu. Zjistíme vaši spotřebu a potenciál úspor." },
-    { title: "Energetická analýza", description: "Detailní energetický model a výpočet návratnosti. Navrhneme optimální výkon a konfiguraci systému." },
-    { title: "Návrh a smlouva", description: "Předložíme konkrétní nabídku na míru. Po odsouhlasení podepíšeme smlouvu a zahájíme projekt." },
-    { title: "Realizace",       description: "Zajistíme projekt, povolení, dotace i samotnou montáž certifikovanými partnery. Bez starostí." },
-    { title: "Provoz a servis", description: "Monitoring 24/7, pravidelný servis a reporting. Máte přehled o výkonu a úsporách kdykoli online." },
+    { title: "Úvodní hovor",      description: "Zavoláme vám do 24 hodin. Zjistíme základní parametry objektu a spotřeby, abychom mohli připravit předběžnou kalkulaci." },
+    { title: "Energetický audit", description: "Navštívíme váš objekt, změříme spotřebu a provedeme technický průzkum střechy i rozvodů." },
+    { title: "Návrh a smlouva",   description: "Zpracujeme projektovou dokumentaci a cenovou nabídku na míru. Po podpisu smlouvy zahajujeme vyřizování povolení a dotací." },
+    { title: "Výstavba",          description: "Montáž provádí naše certifikovaná parta. Průměrná délka výstavby systému do 500 kWp je 10–14 pracovních dní." },
+    { title: "Spuštění a servis", description: "Systém uvádíme do provozu, zaškolíme obsluhu a nastavíme vzdálený monitoring. Servisní smlouva je součástí dodávky." },
   ];
 
   return (
-    <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" />
-      <style>{`        .s02proc { background: #0a2535; padding: 80px 0; }
-        .s02proc-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
-        .s02proc-head { text-align: center; margin-bottom: 60px; }
-        .s02proc-h2 { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 38px; color: #fff; margin: 0 0 14px; letter-spacing: -0.5px; line-height: 1.15; }
-        .s02proc-sub { font-family: 'DM Sans', sans-serif; font-size: 17px; color: #8fa8b8; max-width: 600px; margin: 0 auto; line-height: 1.6; }
-        .s02proc-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; position: relative; }
-        .s02proc-steps::before { content: ''; position: absolute; top: 28px; left: calc(10% + 14px); right: calc(10% + 14px); height: 2px; background: rgba(121,196,79,0.3); z-index: 0; }
-        .s02proc-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 12px; position: relative; z-index: 1; }
-        .s02proc-num { width: 56px; height: 56px; border-radius: 50%; background: #79c44f; display: flex; align-items: center; justify-content: center; font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 20px; color: #fff; margin-bottom: 20px; flex-shrink: 0; box-shadow: 0 0 0 6px rgba(121,196,79,0.15); }
-        .s02proc-h3 { font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 15px; color: #fff; margin: 0 0 8px; line-height: 1.3; }
-        .s02proc-p { font-family: 'DM Sans', sans-serif; font-size: 13px; color: #8fa8b8; margin: 0; line-height: 1.6; }
-        @media (max-width: 860px) {
-          .s02proc-steps { grid-template-columns: 1fr; gap: 32px; }
-          .s02proc-steps::before { display: none; }
-          .s02proc-step { flex-direction: row; text-align: left; gap: 20px; align-items: flex-start; }
-          .s02proc-num { flex-shrink: 0; }
-          .s02proc-h2 { font-size: 26px; }
-        }
-      `}</style>
-      <section className="s02proc" id="jak-to-funguje">
-        <div className="s02proc-inner">
+    <section className="s02proc" id="jak-to-funguje" data-template="solar-02">
+      {/* Decorative PV grid motif in corner */}
+      <svg className="s02proc-motif" viewBox="0 0 300 200" aria-hidden="true" preserveAspectRatio="none">
+        <g stroke="rgba(121,196,79,0.18)" strokeWidth="0.6" fill="none">
+          {Array.from({length: 10}).map((_, i) => <line key={`v${i}`} x1={i*30} y1="0" x2={i*30} y2="200" />)}
+          {Array.from({length: 7}).map((_, i) => <line key={`h${i}`} x1="0" y1={i*30} x2="300" y2={i*30} />)}
+        </g>
+      </svg>
+
+      <div className="s02proc-inner">
+        {showHeader && (
           <div className="s02proc-head">
+            <div className="s02proc-eyebrow">
+              <span className="s02proc-eyebrow-dot" aria-hidden="true" />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </div>
             <h2 className="s02proc-h2">
               <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
             </h2>
@@ -3119,24 +3426,27 @@ function ProcessSolar02({ content, sectionId }: { content: Record<string, unknow
               <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
             </p>
           </div>
-          <div className="s02proc-steps">
-            {steps.map((step, i) => (
-              <div className="s02proc-step" key={i}>
-                <div className="s02proc-num">{i + 1}</div>
-                <div>
-                  <h3 className="s02proc-h3">
-                    <GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={step.title} tag="span" />
-                  </h3>
-                  <p className="s02proc-p">
-                    <GenericEditableText sectionId={sectionId} field={`steps.${i}.description`} value={step.description} tag="span" />
-                  </p>
-                </div>
+        )}
+
+        <div className="s02proc-steps">
+          <div className="s02proc-rail" aria-hidden="true" />
+          {steps.map((step, i) => (
+            <div className="s02proc-step" key={i}>
+              <div className="s02proc-badge" aria-hidden="true">
+                <span className="s02proc-badge-ring" aria-hidden="true" />
+                <span className="s02proc-badge-num">{String(i + 1).padStart(2, "0")}</span>
               </div>
-            ))}
-          </div>
+              <h3 className="s02proc-h3">
+                <GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={step.title} tag="span" />
+              </h3>
+              <p className="s02proc-p">
+                <GenericEditableText sectionId={sectionId} field={`steps.${i}.description`} value={step.description} tag="span" />
+              </p>
+            </div>
+          ))}
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
@@ -4081,11 +4391,16 @@ function PromoHotel02Packages({ content, sectionId, isAdmin }: { content: Record
 
 
 // ── dj-01-whyus ──────────────────────────────────────────────────────────────
-// Elegantní číslovaný list s IntersectionObserver animacemi
-// Header fade-down, každý řádek slide-in zleva se stagger delay
-// ─────────────────────────────────────────────────────────────────────────────
+// LUXE REDESIGN (Neon Nocturne — vasdj.cz Awwwards edition):
+// - Preserved: light bg + centered header + hairline separator + 7 numbered rows structure
+// - Enhanced: warm off-white #f7f5f0 bg, JBM eyebrow '03 / MANIFEST', Space Grotesk H2 kinetic reveal
+// - Numbers: Space Grotesk 700 clamp s orange→amber gradient text fill + JBM 'STEP' micro-label above
+// - Rows: hover shift to white surface + orange gradient border-left slides in + text lifts + counter shifts left
+// - IntersectionObserver stagger preserved
+// ──────────────────────────────────────────────────────────────────────────────
 function WhyusDj01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const ORANGE = "#f15a24";
+  const AMBER  = "#ff8347";
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -4104,109 +4419,195 @@ function WhyusDj01({ content, sectionId }: { content: Record<string, unknown>; s
     return () => obs.disconnect();
   }, []);
 
-  const heading = String(content.heading ?? "Proč zvolit DJ Agosto?");
+  const eyebrow = String(content.eyebrow ?? "03 / MANIFEST");
+  const heading = String(content.heading ?? "Proč Nokturn");
   const items   = (content.items ?? []) as string[];
 
   return (
     <>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400&display=swap" />
       <style>{`
-        @keyframes dj01why-fade-down {
-          from { opacity: 0; transform: translateY(-20px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes dj01why-slide-in {
-          from { opacity: 0; transform: translateX(-40px); }
-          to   { opacity: 1; transform: translateX(0); }
-        }
+        @keyframes dj01why-fade-down { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes dj01why-slide-in  { from { opacity: 0; transform: translateX(-32px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes dj01why-num-pop {
-          0%   { transform: scale(0.6); opacity: 0; }
-          60%  { transform: scale(1.08); opacity: 1; }
+          0%   { transform: scale(0.55); opacity: 0; letter-spacing: 0.1em; }
+          60%  { transform: scale(1.06); opacity: 1; letter-spacing: 0; }
           100% { transform: scale(1); opacity: 1; }
         }
         .dj01why {
-          background: #fff;
-          padding: 5rem 1.25rem 5.5rem;
+          position: relative;
+          background: #f7f5f0;
+          padding: 6rem 1.5rem 6.5rem;
+          overflow: hidden;
         }
+        .dj01why::before, .dj01why::after {
+          content: "";
+          position: absolute;
+          left: 0; right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent 0%, rgba(10,10,12,0.14) 50%, transparent 100%);
+        }
+        .dj01why::before { top: 0; }
+        .dj01why::after  { bottom: 0; }
         .dj01why-inner {
-          max-width: 820px;
+          max-width: 900px;
           margin: 0 auto;
+          position: relative;
         }
         .dj01why-header {
           text-align: center;
-          margin-bottom: 3.5rem;
-          animation: dj01why-fade-down 0.7s ease both;
+          margin-bottom: 4rem;
+          animation: dj01why-fade-down 0.75s cubic-bezier(.2,.7,.2,1) both;
           animation-play-state: paused;
         }
+        .dj01why-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.7rem;
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-weight: 500;
+          font-size: 0.75rem;
+          letter-spacing: 0.34em;
+          text-transform: uppercase;
+          color: rgba(10,10,12,0.55);
+          margin: 0 0 1.5rem;
+        }
+        .dj01why-eyebrow::before {
+          content: "";
+          display: inline-block;
+          width: 8px; height: 8px;
+          background: ${ORANGE};
+          box-shadow: 0 0 12px rgba(241,90,36,0.5);
+        }
         .dj01why-header h2 {
-          font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+          font-family: 'Space Grotesk', -apple-system, sans-serif;
+          font-size: clamp(1.9rem, 4.2vw, 3.2rem);
           font-weight: 700;
-          color: #111;
-          margin: 0 0 0.75rem;
-          letter-spacing: -0.01em;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+          color: #0a0a0c;
+          margin: 0 0 1.25rem;
+          letter-spacing: 0.02em;
+          text-transform: uppercase;
+          line-height: 1.1;
         }
         .dj01why-header-line {
           display: inline-block;
-          width: 56px;
-          height: 3px;
-          background: ${ORANGE};
-          border-radius: 2px;
+          width: 72px;
+          height: 2px;
+          background: linear-gradient(90deg, ${ORANGE} 0%, ${AMBER} 100%);
         }
         .dj01why-list {
           list-style: none;
           margin: 0; padding: 0;
         }
         .dj01why-row {
-          display: flex;
+          position: relative;
+          display: grid;
+          grid-template-columns: minmax(5.5rem, auto) 1fr;
           align-items: flex-start;
-          gap: 1.75rem;
-          padding: 1.75rem 0;
-          border-bottom: 1px solid #f0f0f0;
-          animation: dj01why-slide-in 0.55s cubic-bezier(0.25,0.46,0.45,0.94) both;
+          gap: 2rem;
+          padding: 1.75rem 1.25rem 1.75rem 1.75rem;
+          border-bottom: 1px solid rgba(10,10,12,0.08);
+          animation: dj01why-slide-in 0.6s cubic-bezier(.2,.7,.2,1) both;
           animation-play-state: paused;
+          transition: background 320ms cubic-bezier(.2,.7,.2,1);
         }
-        .dj01why-row:first-child { border-top: 1px solid #f0f0f0; }
+        .dj01why-row:first-child { border-top: 1px solid rgba(10,10,12,0.08); }
+        .dj01why-row::before {
+          content: "";
+          position: absolute;
+          left: 0; top: 20%; bottom: 20%;
+          width: 2px;
+          background: linear-gradient(180deg, ${ORANGE} 0%, ${AMBER} 100%);
+          transform: scaleY(0);
+          transform-origin: center top;
+          transition: transform 420ms cubic-bezier(.2,.7,.2,1);
+        }
+        .dj01why-row:hover { background: rgba(255,255,255,0.65); }
+        .dj01why-row:hover::before { transform: scaleY(1); }
+        .dj01why-numcell {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.4rem;
+          min-width: 4.5rem;
+        }
+        .dj01why-step {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 0.62rem;
+          font-weight: 500;
+          letter-spacing: 0.3em;
+          color: rgba(10,10,12,0.45);
+          text-transform: uppercase;
+          transition: color 260ms cubic-bezier(.2,.7,.2,1);
+        }
         .dj01why-num {
-          flex-shrink: 0;
-          font-size: clamp(2rem, 4.5vw, 3.25rem);
-          font-weight: 800;
-          color: ${ORANGE};
-          line-height: 1;
-          min-width: 3.25rem;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-          animation: dj01why-num-pop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: clamp(2rem, 4.2vw, 3.25rem);
+          font-weight: 700;
+          line-height: 0.9;
+          background: linear-gradient(180deg, ${AMBER} 0%, ${ORANGE} 100%);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: dj01why-num-pop 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
           animation-play-state: paused;
+          transition: transform 380ms cubic-bezier(.2,.7,.2,1);
         }
+        .dj01why-row:hover .dj01why-step { color: ${ORANGE}; }
+        .dj01why-row:hover .dj01why-num  { transform: translateX(-3px); }
         .dj01why-text {
-          font-size: 1.0625rem;
-          color: #444;
+          font-family: 'Inter Tight', sans-serif;
+          font-size: clamp(0.96rem, 1.15vw, 1.08rem);
+          color: rgba(10,10,12,0.72);
           line-height: 1.7;
-          padding-top: 0.4rem;
+          padding-top: 0.35rem;
           margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+          transition: color 300ms cubic-bezier(.2,.7,.2,1), transform 380ms cubic-bezier(.2,.7,.2,1);
         }
-        @media (max-width: 540px) {
-          .dj01why-num { font-size: 1.75rem; min-width: 2.5rem; gap: 1rem; }
-          .dj01why-text { font-size: 0.9375rem; }
-          .dj01why { padding: 3.5rem 1.25rem; }
-          .dj01why-row { gap: 1rem; }
+        .dj01why-row:hover .dj01why-text {
+          color: #0a0a0c;
+          transform: translateX(4px);
+        }
+        @media (max-width: 640px) {
+          .dj01why { padding: 4rem 1.15rem 4.5rem; }
+          .dj01why-header { margin-bottom: 2.75rem; }
+          .dj01why-row {
+            grid-template-columns: minmax(3.25rem, auto) 1fr;
+            gap: 1.15rem;
+            padding: 1.4rem 0.5rem 1.4rem 1rem;
+          }
+          .dj01why-numcell { min-width: 3.25rem; }
+          .dj01why-step { font-size: 0.58rem; letter-spacing: 0.26em; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .dj01why-header, .dj01why-row, .dj01why-num { animation: none !important; opacity: 1 !important; transform: none !important; }
         }
       `}</style>
 
       <section className="dj01why" id="proc-my" data-template="dj-01-whyus" ref={ref}>
         <div className="dj01why-inner">
           <div className="dj01why-header dj01why-animate">
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2">
-              {heading}
-            </GenericEditableText>
-            <span className="dj01why-header-line" />
+            {eyebrow && (
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" className="dj01why-eyebrow">
+                {eyebrow}
+              </GenericEditableText>
+            )}
+            {heading && (
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2">
+                {heading}
+              </GenericEditableText>
+            )}
+            {(eyebrow || heading) && <div><span className="dj01why-header-line" /></div>}
           </div>
           <ol className="dj01why-list">
             {items.map((item, i) => (
               <li key={i} className="dj01why-row dj01why-animate" style={{ animationDelay: `${i * 0.08}s` }}>
-                <span className="dj01why-num dj01why-animate" style={{ animationDelay: `${i * 0.08 + 0.1}s` }}>
-                  {String(i + 1).padStart(2, "0")}
-                </span>
+                <div className="dj01why-numcell">
+                  <span className="dj01why-step">Step</span>
+                  <span className="dj01why-num dj01why-animate" style={{ animationDelay: `${i * 0.08 + 0.1}s` }}>
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
                 <GenericEditableText sectionId={sectionId} field={`items.${i}`} value={item} tag="p" className="dj01why-text">
                   {item}
                 </GenericEditableText>
@@ -4220,10 +4621,15 @@ function WhyusDj01({ content, sectionId }: { content: Record<string, unknown>; s
 }
 
 // ── dj-01-references ─────────────────────────────────────────────────────────
-// Tmavý #0f0f0f bg + mřížka log s stagger pop-in animací + hover glow efekt
-// ─────────────────────────────────────────────────────────────────────────────
+// LUXE REDESIGN (Neon Nocturne — vasdj.cz Awwwards edition):
+// - Preserved: dark bg + 5×2 logo grid + filter/opacity treatment + orange separator + hover glow
+// - Enhanced: midnight #08080b + JBM eyebrow '04 / KLIENTI' + Space Grotesk H2 + orange→amber gradient rule
+// - Grid: warm rgba borders + JBM cell counter corner + orange radial glow hover + logo tilts on hover
+// - IntersectionObserver stagger preserved
+// ──────────────────────────────────────────────────────────────────────────────
 function ReferencesDj01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const ORANGE = "#f15a24";
+  const AMBER  = "#ff8347";
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -4242,123 +4648,205 @@ function ReferencesDj01({ content, sectionId }: { content: Record<string, unknow
     return () => obs.disconnect();
   }, []);
 
-  const heading = String(content.heading ?? "Reference");
+  const eyebrow = String(content.eyebrow ?? "04 / KLIENTI");
+  const heading = String(content.heading ?? "Klienti");
   const items   = (content.items ?? []) as Array<{ name: string; logoUrl: string }>;
 
   return (
     <>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
       <style>{`
-        @keyframes dj01ref-fade-up {
-          from { opacity: 0; transform: translateY(24px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes dj01ref-fade-up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes dj01ref-pop {
-          0%   { opacity: 0; transform: scale(0.75); }
-          70%  { transform: scale(1.04); opacity: 1; }
-          100% { transform: scale(1); opacity: 1; }
+          0%   { opacity: 0; transform: scale(0.85) translateY(12px); }
+          70%  { transform: scale(1.03) translateY(0); opacity: 1; }
+          100% { transform: scale(1) translateY(0); opacity: 1; }
         }
         .dj01ref {
-          background: #0c0c0c;
-          padding: 5rem 0 4.5rem;
+          position: relative;
+          background: #08080b;
+          padding: 6rem 0 5.5rem;
           overflow: hidden;
+          isolation: isolate;
+        }
+        .dj01ref::before {
+          content: "";
+          position: absolute;
+          left: 50%; bottom: -40%;
+          width: 90vw; max-width: 1200px; height: 60vh;
+          background: radial-gradient(closest-side, rgba(241,90,36,0.2) 0%, rgba(241,90,36,0.03) 45%, rgba(241,90,36,0) 72%);
+          transform: translateX(-50%);
+          z-index: 0;
+          pointer-events: none;
         }
         .dj01ref-inner {
-          max-width: 1100px;
+          position: relative;
+          z-index: 1;
+          max-width: 1200px;
           margin: 0 auto;
           text-align: center;
-          padding: 0 1.25rem;
+          padding: 0 1.5rem;
         }
         .dj01ref-header {
-          margin-bottom: 3.5rem;
-          animation: dj01ref-fade-up 0.7s ease both;
+          margin-bottom: 3.75rem;
+          animation: dj01ref-fade-up 0.75s cubic-bezier(.2,.7,.2,1) both;
           animation-play-state: paused;
         }
+        .dj01ref-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.7rem;
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-weight: 500;
+          font-size: 0.75rem;
+          letter-spacing: 0.34em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.6);
+          margin: 0 0 1.5rem;
+        }
+        .dj01ref-eyebrow::before {
+          content: "";
+          display: inline-block;
+          width: 8px; height: 8px;
+          background: ${ORANGE};
+          box-shadow: 0 0 12px rgba(241,90,36,0.55);
+        }
         .dj01ref-header h2 {
-          font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+          font-family: 'Space Grotesk', -apple-system, sans-serif;
+          font-size: clamp(1.9rem, 4.2vw, 3.2rem);
           font-weight: 700;
           color: #fff;
-          margin: 0 0 0.75rem;
-          letter-spacing: -0.01em;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+          margin: 0 0 1.25rem;
+          letter-spacing: 0.02em;
+          line-height: 1.1;
+          text-transform: uppercase;
         }
         .dj01ref-accent {
           display: inline-block;
-          width: 56px; height: 3px;
-          background: ${ORANGE};
-          border-radius: 2px;
+          width: 72px; height: 2px;
+          background: linear-gradient(90deg, ${ORANGE} 0%, ${AMBER} 100%);
         }
         .dj01ref-grid {
+          position: relative;
+          z-index: 1;
           display: grid;
           grid-template-columns: repeat(5, 1fr);
-          list-style: none; margin: 0; padding: 0;
-          border-top: 1px solid #1e1e1e;
-          border-left: 1px solid #1e1e1e;
+          list-style: none; margin: 0 auto; padding: 0;
+          max-width: 1200px;
+          border-top: 1px solid rgba(255,255,255,0.08);
+          border-left: 1px solid rgba(255,255,255,0.08);
         }
         .dj01ref-item {
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 2.5rem 1.5rem;
-          border-right: 1px solid #1e1e1e;
-          border-bottom: 1px solid #1e1e1e;
+          padding: 3rem 1.75rem;
+          border-right: 1px solid rgba(255,255,255,0.08);
+          border-bottom: 1px solid rgba(255,255,255,0.08);
           box-sizing: border-box;
           position: relative;
           overflow: hidden;
           cursor: default;
-          animation: dj01ref-pop 0.55s cubic-bezier(0.34,1.56,0.64,1) both;
+          animation: dj01ref-pop 0.6s cubic-bezier(0.34,1.56,0.64,1) both;
           animation-play-state: paused;
-          transition: background 250ms ease;
+          transition: background 320ms cubic-bezier(.2,.7,.2,1), border-color 320ms cubic-bezier(.2,.7,.2,1);
         }
         .dj01ref-item::after {
           content: "";
           position: absolute;
           inset: 0;
-          background: radial-gradient(circle at center, rgba(241,90,36,0.07) 0%, transparent 70%);
+          background: radial-gradient(circle at center, rgba(241,90,36,0.14) 0%, transparent 68%);
           opacity: 0;
-          transition: opacity 300ms ease;
+          transition: opacity 380ms cubic-bezier(.2,.7,.2,1);
+          pointer-events: none;
         }
-        .dj01ref-item:hover { background: #161616; }
+        .dj01ref-counter {
+          position: absolute;
+          top: 0.7rem; left: 0.85rem;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 0.58rem;
+          font-weight: 500;
+          letter-spacing: 0.24em;
+          color: rgba(255,255,255,0.28);
+          text-transform: uppercase;
+          transition: color 260ms cubic-bezier(.2,.7,.2,1);
+        }
+        .dj01ref-item:hover {
+          background: rgba(255,255,255,0.03);
+          border-color: rgba(241,90,36,0.35);
+        }
         .dj01ref-item:hover::after { opacity: 1; }
-        .dj01ref-item img {
-          display: block;
-          height: 52px;
-          max-width: 120px;
-          width: auto;
-          object-fit: contain;
-          filter: brightness(0) invert(1) opacity(0.35);
-          transition: filter 300ms ease, transform 300ms ease;
+        .dj01ref-item:hover .dj01ref-counter { color: ${ORANGE}; }
+        .dj01ref-imgwrap {
           position: relative;
           z-index: 1;
+          transition: transform 380ms cubic-bezier(.2,.7,.2,1);
+        }
+        .dj01ref-item:hover .dj01ref-imgwrap { transform: translateY(-2px); }
+        .dj01ref-item img {
+          display: block;
+          height: 48px;
+          max-width: 130px;
+          width: auto;
+          object-fit: contain;
+          filter: brightness(0) invert(1) opacity(0.32);
+          transition: filter 380ms cubic-bezier(.2,.7,.2,1), transform 380ms cubic-bezier(.2,.7,.2,1);
         }
         .dj01ref-item:hover img {
           filter: brightness(0) invert(1) opacity(0.95);
-          transform: scale(1.08);
+          transform: scale(1.06);
         }
-        @media (max-width: 700px) {
+        @media (max-width: 900px) {
           .dj01ref-grid { grid-template-columns: repeat(4, 1fr); }
         }
-        @media (max-width: 480px) {
+        @media (max-width: 640px) {
+          .dj01ref { padding: 4rem 0 4rem; }
           .dj01ref-grid { grid-template-columns: repeat(3, 1fr); }
-          .dj01ref-item { padding: 1.5rem 1rem; }
-          .dj01ref-item img { height: 38px; max-width: 90px; }
+          .dj01ref-item { padding: 2rem 1rem; }
+          .dj01ref-item img { height: 38px; max-width: 100px; }
+          .dj01ref-counter { font-size: 0.54rem; }
+        }
+        @media (max-width: 380px) {
+          .dj01ref-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .dj01ref-header, .dj01ref-item { animation: none !important; opacity: 1 !important; transform: none !important; }
         }
       `}</style>
 
       <section className="dj01ref" id="reference" data-template="dj-01-references" ref={ref}>
         <div className="dj01ref-inner">
-          <div className="dj01ref-header dj01ref-animate">
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2">
-              {heading}
-            </GenericEditableText>
-            <span className="dj01ref-accent" />
-          </div>
+          {(eyebrow || heading) && (
+            <div className="dj01ref-header dj01ref-animate">
+              {eyebrow && (
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" className="dj01ref-eyebrow">
+                  {eyebrow}
+                </GenericEditableText>
+              )}
+              {heading && (
+                <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="h2">
+                  {heading}
+                </GenericEditableText>
+              )}
+              <div><span className="dj01ref-accent" /></div>
+            </div>
+          )}
         </div>
-        <ul className="dj01ref-grid" style={{ maxWidth: "1100px", margin: "0 auto" }}>
+        <ul className="dj01ref-grid">
           {items.map((item, i) => (
             <li key={i} className="dj01ref-item dj01ref-animate" style={{ animationDelay: `${i * 0.06}s` }}>
-              <GenericEditableImage sectionId={sectionId} field={`items.${i}.logoUrl`} src={item.logoUrl} alt={item.name} className="">
-                <img src={item.logoUrl} alt={item.name} loading="lazy" title={item.name} />
-              </GenericEditableImage>
+              <span className="dj01ref-counter">{String(i + 1).padStart(2, "0")}</span>
+              <div className="dj01ref-imgwrap">
+                <GenericEditableImage
+                  sectionId={sectionId}
+                  field={`items.${i}.logoUrl`}
+                  src={item.logoUrl}
+                  alt={item.name}
+                  style={{ position: "relative", display: "block" }}
+                >
+                  <img src={item.logoUrl} alt={item.name} loading="lazy" title={item.name} />
+                </GenericEditableImage>
+              </div>
             </li>
           ))}
         </ul>

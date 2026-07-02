@@ -37,6 +37,17 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
   const [activeImage, setActiveImage] = useState<GalleryImage | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
 
+  if (variant === "gallery-universal") {
+    return <GalleryUniversal
+      content={content}
+      sectionId={sectionId}
+      images={images}
+      rawArray={rawArray}
+      activeImage={activeImage}
+      setActiveImage={setActiveImage}
+    />;
+  }
+
   if (variant === "arch-01-projects")  return <GalleryArch01Projects  content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "arch-01-interiors") return <GalleryArch01Interiors content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "arch-01-awards")    return <GalleryArch01Awards    content={content} sectionId={sectionId} />;
@@ -98,7 +109,7 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
   if (variant === "video-01-gallery")      return <GalleryVideo01     content={content} sectionId={sectionId} isAdmin={isAdmin} />;
 
   if (variant === "fitness-02-gallery-grid") {
-    return <GalleryFitness02 content={content} sectionId={sectionId} images={images} />;
+    return <GalleryFitness02 content={content} sectionId={sectionId} images={images} isAdmin={isAdmin} />;
   }
 
   // hair-04: dark bg, gold nadpis, 4-up smooth CSS slider s arrow nav + lightbox
@@ -425,25 +436,111 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
   if (variant === "four-col" || variant === "four-col-contained") {
     const contained = variant === "four-col-contained";
     const tileRadius = contained ? 0 : 0;
+    const isB02 = !contained;
+    const b02Eyebrow  = String((content as Record<string, unknown>).eyebrow ?? "");
+    const b02Subtitle = String((content as Record<string, unknown>).subtitle ?? "");
     const b03gHeadRef = useRef<HTMLHeadingElement>(null);
     const b03gGridRef = useRef<HTMLDivElement>(null);
+    const b02HeaderRef = useRef<HTMLDivElement>(null);
+    const b02GridRef   = useRef<HTMLDivElement>(null);
     useEffect(() => {
-      if (!contained) return;
-      const els = [b03gHeadRef.current, b03gGridRef.current].filter(Boolean) as HTMLElement[];
-      const obs = els.map((el, i) => {
-        const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.15}s`; el.classList.add("b03g-vis"); o.disconnect(); } }, { threshold: 0.08 });
-        o.observe(el); return o;
-      });
-      return () => obs.forEach(o => o.disconnect());
+      if (contained) {
+        const els = [b03gHeadRef.current, b03gGridRef.current].filter(Boolean) as HTMLElement[];
+        const obs = els.map((el, i) => {
+          const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.15}s`; el.classList.add("b03g-vis"); o.disconnect(); } }, { threshold: 0.08 });
+          o.observe(el); return o;
+        });
+        return () => obs.forEach(o => o.disconnect());
+      } else {
+        const els = [b02HeaderRef.current, b02GridRef.current].filter(Boolean) as HTMLElement[];
+        const obs = els.map((el, i) => {
+          const o = new IntersectionObserver(([e]) => { if (e.isIntersecting) { el.style.animationDelay = `${i * 0.18}s`; el.classList.add("b02a-vis"); o.disconnect(); } }, { threshold: 0.08 });
+          o.observe(el); return o;
+        });
+        return () => obs.forEach(o => o.disconnect());
+      }
     }, [contained]);
     return (
       <section
         style={{
-          padding: contained ? "clamp(48px, 8vw, 80px) 0" : 0,
-          backgroundColor: contained ? "#1c1410" : "#1a1a1a",
+          padding: contained ? "clamp(96px, 13vw, 150px) 0" : 0,
+          backgroundColor: contained ? "#1c1410" : "#1a1410",
+          position: contained ? "relative" : undefined,
+          overflow: contained ? "hidden" : undefined,
         }}
-        data-template={contained ? "barber-03" : undefined}
+        data-template={contained ? "barber-03" : (isB02 ? "barber-02" : undefined)}
       >
+        {/* barber-02 header strip — DARK pre-section creates rhythm cream → dark → cream */}
+        {isB02 && (c.title || b02Eyebrow || b02Subtitle) && (
+          <div
+            ref={b02HeaderRef}
+            className="b02a-reveal"
+            style={{
+              backgroundColor: "#1a1410",
+              padding: "clamp(80px, 11vw, 120px) clamp(20px, 5vw, 40px) clamp(60px, 9vw, 96px)",
+              textAlign: "center",
+              position: "relative",
+              borderTop: "1px solid rgba(212,169,110,0.18)",
+            }}
+          >
+            {/* Top decorative gold hairline accent */}
+            <div aria-hidden style={{
+              position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+              width: 120, height: 1,
+              background: "linear-gradient(90deg, transparent, #d4a96e 50%, transparent)",
+            }} />
+
+            {b02Eyebrow && (
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 22 }}>
+                <span aria-hidden style={{ width: 36, height: 1, backgroundColor: "#d4a96e" }} />
+                <span style={{
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontStyle: "italic",
+                  fontSize: "12px",
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "#d4a96e",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={b02Eyebrow} tag="span" />
+                </span>
+                <span aria-hidden style={{ width: 36, height: 1, backgroundColor: "#d4a96e" }} />
+              </div>
+            )}
+            {c.title && (
+              <h2 style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontSize: "clamp(2rem, 4vw, 3rem)",
+                fontWeight: 700,
+                lineHeight: 1.15,
+                letterSpacing: "0.04em",
+                color: "#f5efe6",
+                margin: "0 auto 18px",
+                maxWidth: 720,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={c.title} tag="span" />
+              </h2>
+            )}
+            {b02Subtitle && (
+              <p style={{
+                fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                fontSize: "clamp(0.98rem, 1.4vw, 1.1rem)",
+                fontWeight: 300,
+                color: "rgba(245,239,230,0.7)",
+                lineHeight: 1.7,
+                margin: "0 auto",
+                maxWidth: 620,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={b02Subtitle} tag="span" />
+              </p>
+            )}
+            {/* Bottom decorative rule */}
+            <div aria-hidden style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 32 }}>
+              <span style={{ width: 48, height: 1, backgroundColor: "rgba(212,169,110,0.55)" }} />
+              <span style={{ width: 5, height: 5, borderRadius: "50%", backgroundColor: "#d4a96e" }} />
+              <span style={{ width: 48, height: 1, backgroundColor: "rgba(212,169,110,0.55)" }} />
+            </div>
+          </div>
+        )}
         <style>{`
           [data-four-col-gallery] { grid-template-columns: repeat(2, 1fr) !important; }
           @media (min-width: 640px) { [data-four-col-gallery] { grid-template-columns: repeat(4, 1fr) !important; } }
@@ -453,30 +550,101 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
           .b03g-reveal { opacity: 0; }
           .b03g-reveal.b03g-vis { animation: b03FadeUp 0.72s cubic-bezier(.22,.68,0,1.2) forwards; }
         `}</style>}
-        {contained && c.title && (
-          <h2
-            ref={b03gHeadRef}
-            className="b03g-reveal text-center uppercase"
-            style={{
-              fontFamily: "var(--font-heading)",
-              color: "#c8a96e",
-              fontWeight: 700,
-              fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
-              letterSpacing: "0.16em",
-              marginBottom: 48,
-            }}
-          >
-            <GenericEditableText sectionId={sectionId} field="title" value={c.title} tag="span" />
-          </h2>
-        )}
+        {contained && (() => {
+          const b03Eyebrow  = String((content as Record<string, unknown>).eyebrow  ?? "");
+          const b03Subtitle = String((content as Record<string, unknown>).subtitle ?? "");
+          if (!b03Eyebrow && !b03Subtitle && !c.title) return null;
+          return (
+            <>
+              {/* Top + bottom gold hairlines + warm radial glow — sit on the parent section */}
+              <div aria-hidden style={{
+                position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+                width: 180, height: 1,
+                background: "linear-gradient(90deg, transparent, #c8a96e 50%, transparent)",
+              }} />
+              <div aria-hidden style={{
+                position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)",
+                width: 180, height: 1,
+                background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)",
+              }} />
+              <div aria-hidden style={{
+                position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
+                background: "radial-gradient(ellipse at 50% 0%, rgba(200,169,110,0.07) 0%, transparent 55%)",
+              }} />
+              <div
+                ref={b03gHeadRef}
+                className="b03g-reveal text-center"
+                style={{
+                  maxWidth: 720,
+                  margin: "0 auto",
+                  padding: "0 24px",
+                  marginBottom: "clamp(48px, 7vw, 72px)",
+                  position: "relative",
+                  zIndex: 1,
+                }}
+              >
+                {b03Eyebrow && (
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+                    <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
+                    <span style={{
+                      fontFamily: "'Libre Baskerville', Georgia, serif",
+                      fontStyle: "italic",
+                      fontSize: "12px",
+                      letterSpacing: "0.28em",
+                      textTransform: "uppercase",
+                      color: "#c8a96e",
+                    }}>
+                      <GenericEditableText sectionId={sectionId} field="eyebrow" value={b03Eyebrow} tag="span" />
+                    </span>
+                    <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#c8a96e" }} />
+                  </div>
+                )}
+                {c.title && (
+                  <h2 style={{
+                    fontFamily: "'Libre Baskerville', Georgia, serif",
+                    fontSize: "clamp(2rem, 4.2vw, 3rem)",
+                    fontWeight: 700,
+                    lineHeight: 1.12,
+                    letterSpacing: "0.04em",
+                    color: "#f5efe6",
+                    textTransform: "uppercase",
+                    margin: "0 auto 18px",
+                    maxWidth: 720,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="title" value={c.title} tag="span" />
+                  </h2>
+                )}
+                {b03Subtitle && (
+                  <p style={{
+                    fontFamily: "'Libre Baskerville', Georgia, serif",
+                    fontStyle: "italic",
+                    fontSize: "clamp(0.98rem, 1.4vw, 1.1rem)",
+                    color: "rgba(245,239,230,0.72)",
+                    lineHeight: 1.7,
+                    margin: "0 auto",
+                    maxWidth: 580,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="subtitle" value={b03Subtitle} tag="span" />
+                  </p>
+                )}
+                {/* Diamond rule */}
+                <div aria-hidden style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 28 }}>
+                  <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+                  <span style={{ width: 6, height: 6, backgroundColor: "#c8a96e", transform: "rotate(45deg)" }} />
+                  <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+                </div>
+              </div>
+            </>
+          );
+        })()}
         <div
-          ref={b03gGridRef}
+          ref={contained ? b03gGridRef : b02GridRef}
           data-four-col-gallery
-          className={contained ? "b03g-reveal" : undefined}
+          className={contained ? "b03g-reveal" : "b02a-reveal"}
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
-            gap: contained ? "clamp(8px, 1.5vw, 16px)" : "3px",
+            gap: contained ? "clamp(8px, 1.5vw, 16px)" : "6px",
             maxWidth: contained ? 1200 : undefined,
             margin: contained ? "0 auto" : undefined,
             padding: contained ? "0 clamp(16px, 4vw, 24px)" : undefined,
@@ -526,18 +694,96 @@ export function GallerySection({ content, variant, sectionId, tenantSlug, isAdmi
             </GenericEditableImage>
           ))}
         </div>
-        {activeImage?.url && (
-          <button className="gallery-lightbox" type="button" onClick={() => setActiveImage(null)} aria-label="Zavřít náhled">
-            <span className="gallery-lightbox-frame">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img loading="lazy" src={activeImage.fullUrl || activeImage.url} alt={activeImage.alt || ""} />
-            </span>
-          </button>
-        )}
+        {activeImage?.url && (() => {
+          const activeIdx = images.findIndex(im => im.url === activeImage.url);
+          const goPrev = () => { if (activeIdx > 0) setActiveImage(images[activeIdx - 1]); };
+          const goNext = () => { if (activeIdx >= 0 && activeIdx < images.length - 1) setActiveImage(images[activeIdx + 1]); };
+          return (
+            <div
+              className="gallery-lightbox"
+              role="dialog"
+              aria-modal="true"
+              onClick={() => setActiveImage(null)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") setActiveImage(null);
+                if (e.key === "ArrowLeft") goPrev();
+                if (e.key === "ArrowRight") goNext();
+              }}
+              tabIndex={-1}
+              ref={(el) => { if (el) el.focus(); }}
+            >
+              <button
+                className="gallery-lb-close"
+                type="button"
+                onClick={(e) => { e.stopPropagation(); setActiveImage(null); }}
+                aria-label="Zavřít náhled"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+
+              {activeIdx > 0 && (
+                <button
+                  className="gallery-lb-nav gallery-lb-prev"
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); goPrev(); }}
+                  aria-label="Předchozí obrázek"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="15 18 9 12 15 6"/>
+                  </svg>
+                </button>
+              )}
+              {activeIdx >= 0 && activeIdx < images.length - 1 && (
+                <button
+                  className="gallery-lb-nav gallery-lb-next"
+                  type="button"
+                  onClick={(e) => { e.stopPropagation(); goNext(); }}
+                  aria-label="Další obrázek"
+                >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6"/>
+                  </svg>
+                </button>
+              )}
+
+              <span className="gallery-lightbox-frame" onClick={(e) => e.stopPropagation()}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img key={activeImage.url} loading="lazy" src={activeImage.fullUrl || activeImage.url} alt={activeImage.alt || ""} />
+              </span>
+
+              {activeImage.alt && (
+                <div className="gallery-lb-caption">{activeImage.alt}</div>
+              )}
+
+              {activeIdx >= 0 && (
+                <div className="gallery-lb-counter">
+                  <span>{String(activeIdx + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}</span>
+                </div>
+              )}
+            </div>
+          );
+        })()}
         <style>{`
-          .gallery-lightbox{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;border:0;background:rgba(0,0,0,0.88);cursor:pointer;}
-          .gallery-lightbox-frame{display:block;max-width:min(1100px,94vw);max-height:88vh;}
-          .gallery-lightbox-frame img{display:block;max-width:100%;max-height:88vh;width:auto;height:auto;border-radius:4px;object-fit:contain;box-shadow:0 24px 80px rgba(0,0,0,0.5);}
+          .gallery-lightbox{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:24px;background:rgba(8,8,8,0.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);cursor:pointer;animation:b02LbFade 0.25s ease;}
+          @keyframes b02LbFade{from{opacity:0;}to{opacity:1;}}
+          .gallery-lightbox-frame{display:block;max-width:min(1100px,94vw);max-height:82vh;cursor:default;animation:b02LbZoom 0.4s cubic-bezier(.22,.68,0,1.1);}
+          @keyframes b02LbZoom{from{opacity:0;transform:scale(.94);}to{opacity:1;transform:scale(1);}}
+          .gallery-lightbox-frame img{display:block;max-width:100%;max-height:82vh;width:auto;height:auto;border-radius:4px;object-fit:contain;box-shadow:0 30px 100px rgba(0,0,0,0.7);}
+          .gallery-lb-close,.gallery-lb-nav{position:absolute;background:rgba(255,255,255,0.06);border:1px solid rgba(212,169,110,0.4);color:#fff;cursor:pointer;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:background 0.25s,border-color 0.25s,color 0.25s;}
+          .gallery-lb-close{top:28px;right:28px;}
+          .gallery-lb-prev{left:28px;top:50%;transform:translateY(-50%);}
+          .gallery-lb-next{right:28px;top:50%;transform:translateY(-50%);}
+          .gallery-lb-close:hover,.gallery-lb-nav:hover{background:rgba(212,169,110,0.2);border-color:#d4a96e;color:#d4a96e;}
+          .gallery-lb-counter{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);color:rgba(245,245,245,0.85);font-family:'Source Sans Pro',system-ui,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.32em;text-transform:uppercase;display:flex;align-items:center;gap:14px;}
+          .gallery-lb-counter::before,.gallery-lb-counter::after{content:'';width:24px;height:1px;background:#d4a96e;}
+          .gallery-lb-caption{position:absolute;bottom:80px;left:50%;transform:translateX(-50%);max-width:70vw;text-align:center;color:rgba(245,245,245,0.7);font-family:'Libre Baskerville',Georgia,serif;font-size:13px;font-style:italic;}
+          @media (max-width: 600px) {
+            .gallery-lb-prev{left:12px;}
+            .gallery-lb-next{right:12px;}
+            .gallery-lb-close{top:16px;right:16px;}
+          }
           @media(max-width:900px){[data-four-col-gallery]{grid-template-columns:repeat(3,1fr) !important;}}
           @media(max-width:600px){[data-four-col-gallery]{grid-template-columns:repeat(2,1fr) !important;}}
           .b03g-cell { position: relative; }
@@ -1965,92 +2211,211 @@ function GalleryFitness02({
   content,
   sectionId,
   images: rawImages,
+  isAdmin,
 }: {
   content: Record<string, unknown>;
   sectionId: number;
   images: GalleryImage[];
+  isAdmin?: boolean;
 }) {
-  const tagline = String(content.tagline ?? "Naše centra");
+  const tagline = String(content.tagline ?? "Naše studia");
   const title   = String(content.title   ?? "Moderní vybavení, přátelská atmosféra");
   const imgs    = rawImages.slice(0, 10);
+  const showHeader = (content as { showHeader?: boolean }).showHeader !== false;
 
   const ACCENT = "#FF5500";
   const WHITE  = "#FFFFFF";
+  const MUTED  = "#C3C3C3";
   const FONT_H = "'Archivo Black', sans-serif";
   const FONT_B = "'Montserrat', sans-serif";
+
+  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
+
+  const closeLightbox = useCallback(() => setLightboxIdx(null), []);
+  const prev = useCallback(() => setLightboxIdx(i => (i === null ? null : (i - 1 + imgs.length) % imgs.length)), [imgs.length]);
+  const next = useCallback(() => setLightboxIdx(i => (i === null ? null : (i + 1) % imgs.length)), [imgs.length]);
+
+  useEffect(() => {
+    if (lightboxIdx === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+      else if (e.key === "ArrowLeft") prev();
+      else if (e.key === "ArrowRight") next();
+    };
+    document.addEventListener("keydown", onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [lightboxIdx, closeLightbox, prev, next]);
 
   return (
     <section
       id="galerie"
-      style={{ backgroundColor: "#000000", padding: "100px 0", fontFamily: FONT_B }}
+      className="fitness02-gallery"
+      style={{ backgroundColor: "#000000", padding: "120px 0", fontFamily: FONT_B, position: "relative", overflow: "hidden" }}
       data-template="fitness-02"
+      data-section="fitness-02-gallery"
     >
-      <style>{`
-        .f02-gal-item:hover img { transform: scale(1.06); }
-        .f02-gal-item:hover .f02-gal-overlay { opacity: 1 !important; }
-      `}</style>
+      <div aria-hidden="true" className="fitness02-grain" style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.04, mixBlendMode: "overlay" }} />
 
-      <div style={{ maxWidth: 1140, margin: "0 auto", padding: "0 24px", marginBottom: 48 }}>
-        <p style={{
-          fontSize: 13, fontWeight: 600, letterSpacing: "0.15em",
-          textTransform: "uppercase", color: ACCENT, marginBottom: 12, fontFamily: FONT_B,
-          textAlign: "center",
-        }}>
-          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-        </p>
-        <h2 style={{
-          fontFamily: FONT_H, fontSize: "clamp(26px, 3vw, 42px)", fontWeight: 900,
-          color: WHITE, textTransform: "uppercase", textAlign: "center", lineHeight: 1.2,
-        }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
-      </div>
+      {showHeader && (
+        <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 40px", marginBottom: 64, textAlign: "center", position: "relative", zIndex: 1 }}>
+          <div className="fitness02-gallery-kicker" style={{ display: "inline-flex", alignItems: "center", gap: 16, marginBottom: 26, justifyContent: "center" }}>
+            <span aria-hidden="true" style={{ display: "inline-block", width: 40, height: 2, background: ACCENT }} />
+            <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.28em", textTransform: "uppercase", color: ACCENT, fontFamily: FONT_B }}>
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </span>
+            <span aria-hidden="true" style={{ display: "inline-block", width: 40, height: 2, background: ACCENT }} />
+          </div>
+          <h2 className="fitness02-gallery-title" style={{
+            fontFamily: FONT_H, fontSize: "clamp(32px, 4vw, 56px)",
+            color: WHITE, textTransform: "uppercase", lineHeight: 1.1, margin: 0, letterSpacing: "-0.01em",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+        </div>
+      )}
 
       {/* 5-col grid */}
       <div style={{
         display: "grid",
         gridTemplateColumns: "repeat(5, 1fr)",
-        gap: 4,
+        gap: 6,
         maxWidth: 1600,
         margin: "0 auto",
-      }} className="f02-gallery-grid">
+        position: "relative",
+        zIndex: 1,
+      }} className="fitness02-gallery-grid">
         {imgs.map((img, i) => (
           <div
             key={i}
-            className="f02-gal-item"
-            style={{ position: "relative", overflow: "hidden", cursor: "pointer", aspectRatio: "1/1" }}
+            className="fitness02-gal-item"
+            role="button"
+            tabIndex={0}
+            aria-label={`Zvětšit ${img.alt ?? `foto ${i + 1}`}`}
+            onClick={() => { if (!isAdmin) setLightboxIdx(i); }}
+            onKeyDown={(e) => { if (!isAdmin && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); setLightboxIdx(i); } }}
+            style={{ position: "relative", overflow: "hidden", aspectRatio: "1/1" }}
           >
             <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={img.url ?? ""} alt={img.alt ?? `Foto ${i + 1}`} className="relative" style={{ width: "100%", height: "100%" }}>
               <img
                 src={img.url ?? ""}
                 alt={img.alt ?? `Foto ${i + 1}`}
+                loading="lazy"
                 style={{
                   width: "100%", height: "100%", objectFit: "cover",
-                  display: "block", transition: "transform 0.5s ease",
+                  display: "block", transition: "transform 0.8s cubic-bezier(0.22,0.61,0.36,1)",
                 }}
               />
             </GenericEditableImage>
             <div
-              className="f02-gal-overlay"
+              className="fitness02-gal-overlay"
+              aria-hidden="true"
               style={{
                 position: "absolute", inset: 0,
-                background: `rgba(255,85,0,0.2)`,
-                opacity: 0, transition: "opacity 0.3s ease",
+                background: "rgba(255,85,0,0.28)",
+                opacity: 0, transition: "opacity 0.35s ease",
                 pointerEvents: "none",
+                mixBlendMode: "multiply",
               }}
             />
+            {/* Corner bracket top-right */}
+            <span aria-hidden="true" className="fitness02-gal-bracket" style={{
+              position: "absolute", top: 10, right: 10, width: 28, height: 28,
+              borderTop: `2px solid ${ACCENT}`, borderRight: `2px solid ${ACCENT}`,
+              opacity: 0, transform: "translate(6px,-6px)",
+              transition: "opacity 0.35s ease, transform 0.45s cubic-bezier(0.22,0.61,0.36,1)",
+              pointerEvents: "none",
+            }} />
           </div>
         ))}
       </div>
 
-      <style>{`
-        @media (max-width: 900px) {
-          #galerie .f02-gallery-grid { grid-template-columns: repeat(3, 1fr) !important; }
-        }
-        @media (max-width: 600px) {
-          #galerie .f02-gallery-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-      `}</style>
+      {/* Lightbox */}
+      {lightboxIdx !== null && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Náhled fotky"
+          className="fitness02-lightbox"
+          onClick={closeLightbox}
+          style={{
+            position: "fixed", inset: 0, zIndex: 300,
+            background: "rgba(0,0,0,0.96)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            padding: "clamp(20px, 4vw, 60px)",
+            fontFamily: FONT_B,
+          }}
+        >
+          {/* Counter top-left */}
+          <div aria-live="polite" style={{
+            position: "absolute", top: 24, left: 32,
+            color: MUTED, fontFamily: FONT_H, fontSize: 12, letterSpacing: "0.32em", textTransform: "uppercase",
+          }}>
+            <span style={{ color: ACCENT }}>{String(lightboxIdx + 1).padStart(2, "0")}</span>
+            <span style={{ opacity: 0.5 }}> / {String(imgs.length).padStart(2, "0")}</span>
+          </div>
+          {/* Close */}
+          <button
+            onClick={(e) => { e.stopPropagation(); closeLightbox(); }}
+            aria-label="Zavřít"
+            style={{
+              position: "absolute", top: 20, right: 24, background: "none", border: `1px solid rgba(255,85,0,0.6)`,
+              color: WHITE, width: 44, height: 44, cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              transition: "background 0.3s ease, border-color 0.3s ease",
+            }}
+            className="fitness02-lb-close"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="2" y1="2" x2="14" y2="14" /><line x1="14" y1="2" x2="2" y2="14" />
+            </svg>
+          </button>
+          {/* Prev / Next */}
+          <button
+            onClick={(e) => { e.stopPropagation(); prev(); }}
+            aria-label="Předchozí"
+            className="fitness02-lb-nav"
+            style={{
+              position: "absolute", left: 24, top: "50%", transform: "translateY(-50%)",
+              background: "none", border: `1px solid rgba(255,255,255,0.25)`, color: WHITE,
+              width: 52, height: 52, cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              transition: "background 0.3s ease, border-color 0.3s ease",
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="11 14 5 9 11 4" /></svg>
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); next(); }}
+            aria-label="Další"
+            className="fitness02-lb-nav"
+            style={{
+              position: "absolute", right: 24, top: "50%", transform: "translateY(-50%)",
+              background: "none", border: `1px solid rgba(255,255,255,0.25)`, color: WHITE,
+              width: 52, height: 52, cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              transition: "background 0.3s ease, border-color 0.3s ease",
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="7 4 13 9 7 14" /></svg>
+          </button>
+          {/* Image */}
+          <img
+            src={imgs[lightboxIdx]?.url ?? ""}
+            alt={imgs[lightboxIdx]?.alt ?? `Foto ${lightboxIdx + 1}`}
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              maxWidth: "min(1400px, 90vw)", maxHeight: "82vh",
+              objectFit: "contain", display: "block",
+              boxShadow: "0 24px 80px -20px rgba(255,85,0,0.35)",
+            }}
+          />
+        </div>
+      )}
     </section>
   );
 }
@@ -2170,7 +2535,7 @@ function GalleryRestaurant03({ content, sectionId, images }: { content: Record<s
 // Bílé bg, Great Vibes H2 centrovaně, horizontální slider se šipkami
 // Fotky aspect 8:5, prev/next navigace zlatá
 // ─────────────────────────────────────────────────────────────────────────────
-function GalleryCafe03({ content, sectionId, images }: { content: Record<string, unknown>; sectionId: number; images: Array<{ url: string; alt?: string }> }) {
+function GalleryCafe03({ content, sectionId, images }: { content: Record<string, unknown>; sectionId: number; images: Array<{ url?: string; fullUrl?: string; alt?: string }> }) {
   const GOLD    = "#C69C60";
   const GOLD_DK = "#A07840";
   const SERIF   = "'Great Vibes', cursive";
@@ -2252,7 +2617,7 @@ function GalleryCafe03({ content, sectionId, images }: { content: Record<string,
       >
         {imgs.map((img, i) => (
           <div key={i} style={{ flexShrink: 0, width: ITEM_WIDTH, scrollSnapAlign: "start" }}>
-            <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={img.url} alt={img.alt ?? ""} style={{ display: "block" }}>
+            <GenericEditableImage sectionId={sectionId} field={`images.${i}.url`} src={img.url ?? ""} alt={img.alt ?? ""} style={{ display: "block" }}>
               <img src={img.url} alt={img.alt ?? ""} style={{ width: "100%", aspectRatio: "8/5", objectFit: "cover", display: "block" }} loading="lazy" />
             </GenericEditableImage>
           </div>
@@ -5847,49 +6212,313 @@ function GalleryPhoto01({ content, sectionId }: { content: Record<string, unknow
 }
 
 // ── events-01-gallery ─────────────────────────────────────────────────────────
+// Prémiová event-agentura: 3-col dark portfolio grid s gold hairline eyebrow,
+// Playfair H2, karty s per-tile label (rok) + Playfair italic caption overlay,
+// lightbox s prev/next/counter, luxe SVG cursor, stagger fade-in reveal.
+// Awwwards polish 2026-07-01.
+// ─────────────────────────────────────────────────────────────────────────────
 function GalleryEvents01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const GOLD = "#d4b896";
-  const eyebrow = String(content.eyebrow ?? "Vybrané projekty");
-  const title   = String(content.title   ?? "Portfolio akcí");
-  const images  = (content.images as Array<{ url: string; alt: string; caption?: string; label?: string }>) ?? [];
+  const showHeader = content.showHeader !== false;
+  const eyebrow    = String(content.eyebrow ?? "Vybrané projekty");
+  const title      = String(content.title   ?? "Portfolio akcí");
+  const subtitle   = String(content.subtitle ?? "");
+  const images     = (content.images as Array<{ url: string; alt: string; caption?: string; label?: string }>) ?? [];
+
+  const [lightbox, setLightbox] = useState<number | null>(null);
+  const close = () => setLightbox(null);
+  const prev  = () => setLightbox(i => (i === null ? null : (i - 1 + images.length) % images.length));
+  const next  = () => setLightbox(i => (i === null ? null : (i + 1) % images.length));
+
+  useEffect(() => {
+    if (lightbox === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowLeft") prev();
+      if (e.key === "ArrowRight") next();
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [lightbox]);
+
+  const luxeCursor = "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='rgba(10,10,10,0.85)' stroke='%23d4b896' stroke-width='1.2'/><path d='M11 11 L11 14 M11 11 L14 11 M21 11 L21 14 M21 11 L18 11 M11 21 L11 18 M11 21 L14 21 M21 21 L21 18 M21 21 L18 21' stroke='%23d4b896' stroke-width='1.6' stroke-linecap='round' fill='none'/></svg>\") 16 16, zoom-in";
+
   return (
     <>
       <style>{`
-        .ev01gal { padding: 120px 40px; background: #0f0f0f; }
+        .ev01gal {
+          position: relative;
+          padding: 140px 40px 130px;
+          background: #0f0f0f;
+          overflow: hidden;
+        }
+        .ev01gal::before {
+          content: "";
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent 0%, rgba(212,184,150,0.14) 50%, transparent 100%);
+        }
         .ev01gal-inner { max-width: 1280px; margin: 0 auto; }
-        .ev01gal-head { text-align: center; margin-bottom: 80px; }
-        .ev01gal-eyebrow { color: ${GOLD}; font-family: 'Inter', sans-serif; font-size: 13px; letter-spacing: 6px; text-transform: uppercase; display: block; margin-bottom: 16px; }
-        .ev01gal-h2 { font-family: 'Playfair Display', Georgia, serif; font-size: clamp(32px,3.5vw,48px); font-weight: 300; margin: 0; color: #fff; letter-spacing: -0.5px; }
-        .ev01gal-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
-        .ev01gal-card { position: relative; aspect-ratio: 4/3; overflow: hidden; cursor: pointer; background: #1a1a1a; }
-        .ev01gal-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
-        .ev01gal-card:hover img { transform: scale(1.03); }
-        .ev01gal-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%); display: flex; align-items: flex-end; padding: 24px; }
-        .ev01gal-overlay h4 { color: #fff; font-family: 'Playfair Display', Georgia, serif; font-size: 18px; font-weight: 500; margin: 0; }
-        .ev01gal-overlay span { color: ${GOLD}; font-family: 'Inter', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 4px; }
-        @media (max-width: 900px) { .ev01gal { padding: 80px 24px; } .ev01gal-grid { grid-template-columns: repeat(2,1fr); } }
+        .ev01gal-head { text-align: center; margin-bottom: 90px; }
+        .ev01gal-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 16px;
+          color: ${GOLD};
+          font-family: 'Inter', sans-serif;
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 4px;
+          text-transform: uppercase;
+          margin-bottom: 26px;
+        }
+        .ev01gal-eyebrow::before,
+        .ev01gal-eyebrow::after {
+          content: "";
+          display: block;
+          width: 44px;
+          height: 1px;
+          background: linear-gradient(90deg, transparent 0%, ${GOLD} 100%);
+        }
+        .ev01gal-eyebrow::after {
+          background: linear-gradient(90deg, ${GOLD} 0%, transparent 100%);
+        }
+        .ev01gal-h2 {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: clamp(34px, 4vw, 56px);
+          font-weight: 400;
+          margin: 0;
+          color: #fff;
+          letter-spacing: -0.01em;
+          line-height: 1.1;
+        }
+        .ev01gal-sub {
+          font-family: 'Inter', sans-serif;
+          font-size: 15px;
+          color: rgba(255,255,255,0.6);
+          line-height: 1.7;
+          margin: 22px auto 0;
+          max-width: 560px;
+        }
+        .ev01gal-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+        }
+        .ev01gal-card {
+          position: relative;
+          aspect-ratio: 4/3;
+          overflow: hidden;
+          background: #1a1a1a;
+          isolation: isolate;
+          opacity: 0;
+          transform: translateY(20px);
+          animation: ev01galReveal 1s cubic-bezier(.32,.72,0,1) forwards;
+        }
+        .ev01gal-card:nth-child(1) { animation-delay: 0.1s; }
+        .ev01gal-card:nth-child(2) { animation-delay: 0.2s; }
+        .ev01gal-card:nth-child(3) { animation-delay: 0.3s; }
+        .ev01gal-card:nth-child(4) { animation-delay: 0.4s; }
+        .ev01gal-card:nth-child(5) { animation-delay: 0.5s; }
+        .ev01gal-card:nth-child(6) { animation-delay: 0.6s; }
+        @keyframes ev01galReveal { to { opacity: 1; transform: translateY(0); } }
+        .ev01gal-card img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 1.1s cubic-bezier(.32,.72,0,1), filter 0.6s cubic-bezier(.32,.72,0,1);
+          filter: brightness(0.88) saturate(0.9);
+        }
+        .ev01gal-card:hover img {
+          transform: scale(1.06);
+          filter: brightness(1) saturate(1.05);
+        }
+        .ev01gal-card::before,
+        .ev01gal-card::after {
+          content: "";
+          position: absolute;
+          width: 24px;
+          height: 24px;
+          border: 1px solid ${GOLD};
+          opacity: 0;
+          z-index: 4;
+          transition: opacity 0.5s cubic-bezier(.32,.72,0,1), width 0.5s cubic-bezier(.32,.72,0,1), height 0.5s cubic-bezier(.32,.72,0,1);
+          pointer-events: none;
+        }
+        .ev01gal-card::before { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+        .ev01gal-card::after  { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+        .ev01gal-card:hover::before,
+        .ev01gal-card:hover::after {
+          opacity: 1;
+          width: 32px;
+          height: 32px;
+        }
+        .ev01gal-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 40%, transparent 70%);
+          display: flex;
+          align-items: flex-end;
+          padding: 26px;
+          z-index: 3;
+        }
+        .ev01gal-overlay-inner {
+          transform: translateY(6px);
+          opacity: 0.94;
+          transition: transform 0.5s cubic-bezier(.32,.72,0,1), opacity 0.5s cubic-bezier(.32,.72,0,1);
+        }
+        .ev01gal-card:hover .ev01gal-overlay-inner {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        .ev01gal-label {
+          color: ${GOLD};
+          font-family: 'Inter', sans-serif;
+          font-size: 10.5px;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 8px;
+        }
+        .ev01gal-label::before {
+          content: "";
+          display: block;
+          width: 16px;
+          height: 1px;
+          background: ${GOLD};
+        }
+        .ev01gal-caption {
+          color: #fff;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic;
+          font-size: 20px;
+          font-weight: 400;
+          margin: 0;
+          line-height: 1.3;
+        }
+        .ev01gal-cursor { cursor: ${luxeCursor}; }
+        /* lightbox */
+        .ev01gal-lb {
+          position: fixed;
+          inset: 0;
+          background: rgba(6,6,6,0.96);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          z-index: 9999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 40px;
+          animation: ev01galLbIn 0.4s cubic-bezier(.32,.72,0,1);
+        }
+        @keyframes ev01galLbIn { from { opacity: 0; } to { opacity: 1; } }
+        .ev01gal-lb-img { max-width: min(90vw, 1400px); max-height: 82vh; object-fit: contain; box-shadow: 0 60px 120px -30px rgba(0,0,0,0.8), 0 0 0 1px rgba(212,184,150,0.12); }
+        .ev01gal-lb-close {
+          position: absolute;
+          top: 24px; right: 30px;
+          background: none;
+          border: none;
+          color: rgba(255,255,255,0.7);
+          font-size: 32px;
+          line-height: 1;
+          cursor: pointer;
+          transition: color 0.3s;
+        }
+        .ev01gal-lb-close:hover { color: ${GOLD}; }
+        .ev01gal-lb-nav {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: none;
+          border: 1px solid rgba(212,184,150,0.25);
+          color: rgba(255,255,255,0.8);
+          width: 52px;
+          height: 52px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: color 0.3s, border-color 0.3s, background 0.3s;
+        }
+        .ev01gal-lb-nav:hover { color: ${GOLD}; border-color: ${GOLD}; background: rgba(212,184,150,0.08); }
+        .ev01gal-lb-prev { left: 30px; }
+        .ev01gal-lb-next { right: 30px; }
+        .ev01gal-lb-counter {
+          position: absolute;
+          bottom: 30px;
+          left: 50%;
+          transform: translateX(-50%);
+          font-family: 'Inter', sans-serif;
+          font-size: 11px;
+          letter-spacing: 4px;
+          text-transform: uppercase;
+          color: ${GOLD};
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .ev01gal-lb-counter::before,
+        .ev01gal-lb-counter::after {
+          content: "";
+          display: block;
+          width: 28px;
+          height: 1px;
+          background: rgba(212,184,150,0.35);
+        }
+        @media (max-width: 900px) {
+          .ev01gal { padding: 90px 24px 80px; }
+          .ev01gal-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+          .ev01gal-head { margin-bottom: 60px; }
+          .ev01gal-caption { font-size: 17px; }
+          .ev01gal-lb-nav { width: 44px; height: 44px; }
+          .ev01gal-lb-prev { left: 12px; }
+          .ev01gal-lb-next { right: 12px; }
+        }
         @media (max-width: 480px) { .ev01gal-grid { grid-template-columns: 1fr; } }
       `}</style>
       <section className="ev01gal" id="portfolio" data-template="events-01-gallery">
         <div className="ev01gal-inner">
-          <div className="ev01gal-head">
-            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"><span className="ev01gal-eyebrow">{eyebrow}</span></GenericEditableText>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2"><h2 className="ev01gal-h2">{title}</h2></GenericEditableText>
-          </div>
+          {showHeader && (
+            <div className="ev01gal-head">
+              {eyebrow && (
+                <div className="ev01gal-eyebrow">
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span">{eyebrow}</GenericEditableText>
+                </div>
+              )}
+              {title && (
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2">
+                  <h2 className="ev01gal-h2">{title}</h2>
+                </GenericEditableText>
+              )}
+              {subtitle && (
+                <p className="ev01gal-sub">
+                  <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span">{subtitle}</GenericEditableText>
+                </p>
+              )}
+            </div>
+          )}
           <div className="ev01gal-grid">
             {images.map((img, i) => (
-              <div className="ev01gal-card" key={i}>
+              <div className="ev01gal-card ev01gal-cursor" key={i} onClick={() => setLightbox(i)} role="button" tabIndex={0} onKeyDown={(e) => { if (e.key === "Enter") setLightbox(i); }} aria-label={img.caption ?? img.alt}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={img.url} alt={img.alt} loading="lazy" />
                 <div className="ev01gal-overlay">
-                  <div>
+                  <div className="ev01gal-overlay-inner">
                     {img.label && (
-                      <GenericEditableText sectionId={sectionId} field={`images.${i}.label`} value={img.label} tag="span">
-                        <span>{img.label}</span>
-                      </GenericEditableText>
+                      <span className="ev01gal-label">
+                        <GenericEditableText sectionId={sectionId} field={`images.${i}.label`} value={img.label} tag="span">{img.label}</GenericEditableText>
+                      </span>
                     )}
                     <GenericEditableText sectionId={sectionId} field={`images.${i}.caption`} value={img.caption ?? img.alt} tag="h4">
-                      <h4>{img.caption ?? img.alt}</h4>
+                      <h4 className="ev01gal-caption">{img.caption ?? img.alt}</h4>
                     </GenericEditableText>
                   </div>
                 </div>
@@ -5897,6 +6526,26 @@ function GalleryEvents01({ content, sectionId }: { content: Record<string, unkno
             ))}
           </div>
         </div>
+        {lightbox !== null && images[lightbox] && (
+          <div className="ev01gal-lb" onClick={close}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="ev01gal-lb-img" src={images[lightbox].url} alt={images[lightbox].alt} onClick={e => e.stopPropagation()} />
+            <button className="ev01gal-lb-close" onClick={(e) => { e.stopPropagation(); close(); }} aria-label="Zavřít">×</button>
+            {images.length > 1 && (
+              <>
+                <button className="ev01gal-lb-nav ev01gal-lb-prev" onClick={(e) => { e.stopPropagation(); prev(); }} aria-label="Předchozí">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.2"><path d="M12 3 L6 9 L12 15"/></svg>
+                </button>
+                <button className="ev01gal-lb-nav ev01gal-lb-next" onClick={(e) => { e.stopPropagation(); next(); }} aria-label="Další">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.2"><path d="M6 3 L12 9 L6 15"/></svg>
+                </button>
+                <div className="ev01gal-lb-counter">
+                  {String(lightbox + 1).padStart(2, "0")} <span style={{ opacity: 0.55 }}>/</span> {String(images.length).padStart(2, "0")}
+                </div>
+              </>
+            )}
+          </div>
+        )}
       </section>
     </>
   );
@@ -6111,7 +6760,7 @@ function GalleryRestaurant04({ content, sectionId, tenantSlug, isAdmin }: { cont
 ───────────────────────────────────────────── */
 function GalleryVideo01({ content, sectionId, isAdmin }: {
   content: Record<string, unknown>;
-  sectionId: string;
+  sectionId: number;
   isAdmin: boolean;
 }) {
   const c = content as {
@@ -6126,7 +6775,7 @@ function GalleryVideo01({ content, sectionId, isAdmin }: {
   const items    = c.items    ?? [];
 
   return (
-    <section id={sectionId} style={{ background: "#fff" }}>
+    <section id={String(sectionId)} style={{ background: "#fff" }}>
       <style>{`
         .vd01gl-section {
           max-width: 980px;
@@ -6284,6 +6933,311 @@ function GalleryVideo01({ content, sectionId, isAdmin }: {
   );
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// UNIVERSAL GALLERY — jedna komponenta, 6 skinů, 3 palette modes
+// ═══════════════════════════════════════════════════════════════════════════
+// Použití v template.json: { type: "gallery", variant: "gallery-universal" }
+// Editor fields:
+//   - skin: "wall" | "tiles" | "bento" | "mosaic" | "editorial" | "slider"
+//   - palette: "auto" | "cream-light" | "warm-dark" | "mono-light" | "mono-dark"
+//   - eyebrow, title, subtitle (optional, conditional header)
+//   - images: [{url, fullUrl, alt}, ...]
+//   - accent (optional hex override — default gold #c8a96e)
+// ═══════════════════════════════════════════════════════════════════════════
+function GalleryUniversal({
+  content, sectionId, images, rawArray, activeImage, setActiveImage,
+}: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  images: GalleryImage[];
+  rawArray: unknown[];
+  activeImage: GalleryImage | null;
+  setActiveImage: (img: GalleryImage | null) => void;
+}) {
+  const skin     = String(content.skin     ?? "tiles");
+  const palette  = String(content.palette  ?? "auto");
+  const accent   = String(content.accent   ?? "#c8a96e");
+  const eyebrow  = String(content.eyebrow  ?? "");
+  const title    = String(content.title    ?? "");
+  const subtitle = String(content.subtitle ?? "");
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  // Palette mode → CSS variables
+  const palettes: Record<string, Record<string, string>> = {
+    "auto":         { bg: "#f9f7f5", surface: "#1c1410", text: "#1a1a1a", textMuted: "#666", accent, gold: accent, cursorBg: "rgba(28,20,16,0.85)" },
+    "cream-light":  { bg: "#f9f7f5", surface: "#ffffff", text: "#1a1a1a", textMuted: "#666", accent, gold: accent, cursorBg: "rgba(249,247,245,0.92)" },
+    "warm-dark":    { bg: "#1c1410", surface: "#0f0a07", text: "#f5efe6", textMuted: "rgba(245,239,230,0.72)", accent, gold: accent, cursorBg: "rgba(28,20,16,0.85)" },
+    "mono-light":   { bg: "#ffffff", surface: "#fafafa", text: "#0a0a0a", textMuted: "#666", accent: "#0a0a0a", gold: "#0a0a0a", cursorBg: "rgba(255,255,255,0.92)" },
+    "mono-dark":    { bg: "#0a0a0a", surface: "#1a1a1a", text: "#f5f5f5", textMuted: "#999", accent: "#f5f5f5", gold: "#f5f5f5", cursorBg: "rgba(10,10,10,0.85)" },
+  };
+  const p = palettes[palette] || palettes["auto"];
+
+  // Lightbox navigation
+  const activeIdx = activeImage ? images.findIndex(im => im.url === activeImage.url) : -1;
+  const goPrev = () => { if (activeIdx > 0) setActiveImage(images[activeIdx - 1]); };
+  const goNext = () => { if (activeIdx >= 0 && activeIdx < images.length - 1) setActiveImage(images[activeIdx + 1]); };
+
+  // Custom luxe cursor — SVG data URI with accent color
+  const accentHex = (p.gold || "#c8a96e").replace("#", "%23");
+  const cursorBg = p.cursorBg;
+  const luxeCursor = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='${cursorBg}' stroke='${accentHex}' stroke-width='1.2'/><path d='M11 11 L11 14 M11 11 L14 11 M21 11 L21 14 M21 11 L18 11 M11 21 L11 18 M11 21 L14 21 M21 21 L21 18 M21 21 L18 21' stroke='${accentHex}' stroke-width='1.6' stroke-linecap='round' fill='none'/></svg>") 16 16, pointer`;
+
+  // Tile renderer — used by all skins
+  const Tile = ({ img, i, className, style }: { img: GalleryImage; i: number; className?: string; style?: React.CSSProperties }) => (
+    <div
+      className={`gu-tile ${className ?? ""}`}
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        cursor: luxeCursor as string,
+        ...style,
+      }}
+      onClick={() => setActiveImage(img)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === "Enter") setActiveImage(img); }}
+      aria-label={img.alt ?? `Foto ${i + 1}`}
+    >
+      <GenericEditableImage
+        sectionId={sectionId}
+        field={typeof rawArray[i] === "string" ? `images.${i}` : `images.${i}.url`}
+        src={img.url!}
+        alt={img.alt ?? `Foto ${i + 1}`}
+        className="absolute inset-0 w-full h-full"
+        style={{ position: "absolute" }}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={img.url!} alt={img.alt ?? `Foto ${i + 1}`} loading="lazy" className="gu-img" />
+      </GenericEditableImage>
+
+      {/* Gold corner brackets reveal on hover */}
+      <span aria-hidden className="gu-bracket gu-bracket-tl" style={{ borderColor: p.gold }} />
+      <span aria-hidden className="gu-bracket gu-bracket-br" style={{ borderColor: p.gold }} />
+
+      {/* Caption overlay */}
+      <div className="gu-overlay">
+        <span aria-hidden className="gu-cap-line" style={{ backgroundColor: p.gold }} />
+        <span className="gu-cap-text">{img.alt ?? `Foto ${i + 1}`}</span>
+      </div>
+    </div>
+  );
+
+  // ── Skin renderers ───────────────────────────────────────────────────────
+  const renderWall = () => (
+    <div className="gu-grid gu-grid-wall">
+      {images.map((img, i) => <Tile key={i} img={img} i={i} />)}
+    </div>
+  );
+
+  const renderTiles = () => (
+    <div className="gu-grid gu-grid-tiles">
+      {images.map((img, i) => <Tile key={i} img={img} i={i} style={{ aspectRatio: "1 / 1" }} />)}
+    </div>
+  );
+
+  const renderBento = () => (
+    <div className="gu-grid gu-grid-bento">
+      {images.map((img, i) => (
+        <Tile
+          key={i}
+          img={img}
+          i={i}
+          className={
+            i === 0 ? "gu-bento-hero" :
+            i === 3 ? "gu-bento-wide" :
+            i === 5 ? "gu-bento-wide" : ""
+          }
+        />
+      ))}
+    </div>
+  );
+
+  const renderMosaic = () => {
+    // Mosaic — mixed aspect ratios in rows
+    const aspects = ["1 / 1", "3 / 4", "4 / 3", "1 / 1", "3 / 4", "4 / 3", "1 / 1", "1 / 1"];
+    return (
+      <div className="gu-grid gu-grid-mosaic">
+        {images.map((img, i) => <Tile key={i} img={img} i={i} style={{ aspectRatio: aspects[i % aspects.length] }} />)}
+      </div>
+    );
+  };
+
+  const renderEditorial = () => (
+    <div className="gu-grid gu-grid-editorial">
+      {images.map((img, i) => (
+        <div key={i} className={`gu-edit-row ${i % 2 === 0 ? "gu-edit-left" : "gu-edit-right"}`}>
+          <Tile img={img} i={i} className="gu-edit-img" />
+          {img.alt && (
+            <div className="gu-edit-caption">
+              <span style={{ width: 36, height: 1, backgroundColor: p.gold, display: "inline-block", marginBottom: 14 }} />
+              <p style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic", fontSize: "1.05rem", color: p.text, margin: 0, lineHeight: 1.65 }}>
+                {img.alt}
+              </p>
+              <p style={{ fontFamily: "'Source Sans Pro', system-ui, sans-serif", fontSize: 10, fontWeight: 700, letterSpacing: "0.32em", textTransform: "uppercase", color: p.gold, margin: "12px 0 0" }}>
+                {String(i + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
+              </p>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+
+  const renderSlider = () => (
+    <div className="gu-slider-wrap">
+      <div className="gu-slider">
+        {images.map((img, i) => (
+          <div key={i} className="gu-slide">
+            <Tile img={img} i={i} style={{ aspectRatio: "3 / 4" }} />
+          </div>
+        ))}
+      </div>
+      <p className="gu-slider-hint" style={{ color: p.textMuted }}>
+        ← Posunout dlaždice →
+      </p>
+    </div>
+  );
+
+  const renderSkin = () => {
+    switch (skin) {
+      case "wall":      return renderWall();
+      case "bento":     return renderBento();
+      case "mosaic":    return renderMosaic();
+      case "editorial": return renderEditorial();
+      case "slider":    return renderSlider();
+      case "tiles":
+      default:          return renderTiles();
+    }
+  };
+
+  return (
+    <section
+      id="gallery"
+      className="gallery-universal"
+      data-skin={skin}
+      data-palette={palette}
+      style={{
+        backgroundColor: p.bg,
+        color: p.text,
+        position: "relative",
+        overflow: "hidden",
+        paddingBlock: "clamp(80px, 12vw, 130px)",
+        paddingInline: skin === "wall" ? 0 : "clamp(20px, 5vw, 40px)",
+        ["--gu-gold" as never]: p.gold,
+        ["--gu-text" as never]: p.text,
+        ["--gu-text-muted" as never]: p.textMuted,
+        ["--gu-bg" as never]: p.bg,
+        ["--gu-surface" as never]: p.surface,
+      }}
+    >
+      {/* Editorial header — conditional */}
+      {showHeader && (
+        <div className="gu-header" style={{ textAlign: "center", maxWidth: 760, margin: "0 auto", marginBottom: "clamp(48px, 7vw, 72px)", paddingInline: skin === "wall" ? "clamp(20px, 5vw, 40px)" : 0 }}>
+          {eyebrow && (
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+              <span aria-hidden style={{ width: 36, height: 1, backgroundColor: p.gold }} />
+              <span style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontStyle: "italic",
+                fontSize: "12px",
+                letterSpacing: "0.28em",
+                textTransform: "uppercase",
+                color: p.gold,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </span>
+              <span aria-hidden style={{ width: 36, height: 1, backgroundColor: p.gold }} />
+            </div>
+          )}
+          {title && (
+            <h2 style={{
+              fontFamily: "'Libre Baskerville', Georgia, serif",
+              fontSize: "clamp(2rem, 4.2vw, 3rem)",
+              fontWeight: 700,
+              lineHeight: 1.12,
+              letterSpacing: "0.02em",
+              color: p.text,
+              margin: "0 auto 18px",
+              maxWidth: 720,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+          )}
+          {subtitle && (
+            <p style={{
+              fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+              fontSize: "clamp(0.98rem, 1.4vw, 1.1rem)",
+              fontWeight: 300,
+              color: p.textMuted,
+              lineHeight: 1.7,
+              margin: "0 auto",
+              maxWidth: 600,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
+      )}
+
+      {renderSkin()}
+
+      {/* Shared lightbox — prev/next/counter/keyboard nav */}
+      {activeImage && (
+        <div
+          className="gu-lightbox"
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setActiveImage(null)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") setActiveImage(null);
+            if (e.key === "ArrowLeft") goPrev();
+            if (e.key === "ArrowRight") goNext();
+          }}
+          tabIndex={-1}
+          ref={(el) => { if (el) el.focus(); }}
+          style={{ ["--gu-gold" as never]: p.gold }}
+        >
+          <button className="gu-lb-close" onClick={(e) => { e.stopPropagation(); setActiveImage(null); }} aria-label="Zavřít">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+          {activeIdx > 0 && (
+            <button className="gu-lb-nav gu-lb-prev" onClick={(e) => { e.stopPropagation(); goPrev(); }} aria-label="Předchozí">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </button>
+          )}
+          {activeIdx >= 0 && activeIdx < images.length - 1 && (
+            <button className="gu-lb-nav gu-lb-next" onClick={(e) => { e.stopPropagation(); goNext(); }} aria-label="Další">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </button>
+          )}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            key={activeImage.url}
+            className="gu-lb-img"
+            src={activeImage.fullUrl || activeImage.url}
+            alt={activeImage.alt ?? ""}
+            onClick={(e) => e.stopPropagation()}
+          />
+          {activeImage.alt && (
+            <div className="gu-lb-caption">{activeImage.alt}</div>
+          )}
+          {activeIdx >= 0 && (
+            <div className="gu-lb-counter">
+              <span>{String(activeIdx + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}</span>
+            </div>
+          )}
+        </div>
+      )}
+    </section>
+  );
+}
+
 // ── barber-dark gallery ───────────────────────────────────────────────────────
 // Tmavé pozadí #0a0a0a, 3-col asymetrický grid s hover gold overlay + lightbox.
 // Kicker "Galerie" + velký bílý titulek centered nad gridem.
@@ -6299,108 +7253,279 @@ function GalleryBarberDark({
   activeImage: GalleryImage | null;
   setActiveImage: (img: GalleryImage | null) => void;
 }) {
-  const title = String(content.title ?? "Naše práce");
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const title    = titleRaw    === undefined ? "Naše práce"      : String(titleRaw);
+  const eyebrow  = eyebrowRaw  === undefined ? "Naše portfolio"  : String(eyebrowRaw);
+  const subtitle = subtitleRaw === undefined ? "Vyberte si z naší galerie střihů, holení a finálního stylingu — každá fotka je skutečný klient ze studia v Brně." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
 
   const GOLD   = "#C9A84C";
   const BG     = "#0a0a0a";
   const SERIF  = "var(--font-heading, Playfair Display, serif)";
   const SANS   = "var(--font-body, Inter, sans-serif)";
 
+  // Lightbox keyboard nav
+  const activeIdx = activeImage ? images.findIndex(im => im.url === activeImage.url) : -1;
+  const goPrev = () => { if (activeIdx > 0) setActiveImage(images[activeIdx - 1]); };
+  const goNext = () => { if (activeIdx >= 0 && activeIdx < images.length - 1) setActiveImage(images[activeIdx + 1]); };
+
   return (
-    <section style={{ backgroundColor: BG, padding: "clamp(56px, 10vw, 100px) 24px" }} data-template="barber-01">
+    <section style={{ backgroundColor: BG, padding: "clamp(80px, 12vh, 130px) 24px", position: "relative", overflow: "hidden" }} data-template="barber-01">
       <style>{`
+        /* Uniform grid — všechny karty stejně velké, čtvercový 1:1 aspect */
         .bc-gallery-grid {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          grid-auto-rows: 280px;
-          gap: 6px;
-          max-width: 1200px;
+          gap: 10px;
+          max-width: 1320px;
           margin: 0 auto;
         }
-        .bc-gallery-item { position: relative; overflow: hidden; cursor: zoom-in; }
-        .bc-gallery-item.tall { grid-row: span 2; }
-        .bc-gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-        .bc-gallery-item:hover img { transform: scale(1.06); }
+        .bc-gallery-item {
+          position: relative; overflow: hidden;
+          /* Custom gold "expand corners" cursor — luxe, ne lupa */
+          cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='rgba(10,10,10,0.85)' stroke='%23C9A84C' stroke-width='1.2'/><path d='M11 11 L11 14 M11 11 L14 11 M21 11 L21 14 M21 11 L18 11 M11 21 L11 18 M11 21 L14 21 M21 21 L21 18 M21 21 L18 21' stroke='%23C9A84C' stroke-width='1.6' stroke-linecap='round' fill='none'/></svg>") 16 16, pointer;
+          aspect-ratio: 1 / 1;
+          opacity: 0; transform: translateY(24px);
+          animation: bcGalFadeUp 0.65s cubic-bezier(.22,.68,0,1.1) forwards;
+        }
+        .bc-gallery-item:nth-child(1) { animation-delay: 0.05s; }
+        .bc-gallery-item:nth-child(2) { animation-delay: 0.12s; }
+        .bc-gallery-item:nth-child(3) { animation-delay: 0.19s; }
+        .bc-gallery-item:nth-child(4) { animation-delay: 0.26s; }
+        .bc-gallery-item:nth-child(5) { animation-delay: 0.33s; }
+        .bc-gallery-item:nth-child(6) { animation-delay: 0.40s; }
+        .bc-gallery-item:nth-child(n+7) { animation-delay: 0.47s; }
+        @keyframes bcGalFadeUp { to { opacity: 1; transform: translateY(0); } }
+
+        .bc-gallery-item img {
+          width: 100%; height: 100%; object-fit: cover;
+          transition: transform 0.85s cubic-bezier(.2,.6,.15,1), filter 0.5s ease;
+          filter: grayscale(0.15) brightness(0.92);
+        }
+        .bc-gallery-item:hover img {
+          transform: scale(1.08);
+          filter: grayscale(0) brightness(1);
+        }
+
+        /* Dark overlay with gold caption + zoom icon */
         .bc-gallery-overlay {
           position: absolute; inset: 0;
-          background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%);
-          opacity: 0; transition: opacity 0.3s;
-          display: flex; align-items: flex-end; padding: 20px;
+          background: linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.18) 45%, rgba(10,10,10,0.45) 100%);
+          opacity: 0; transition: opacity 0.4s ease;
+          display: flex; flex-direction: column; justify-content: space-between;
+          padding: 22px;
         }
         .bc-gallery-item:hover .bc-gallery-overlay { opacity: 1; }
-        .bc-gallery-overlay-line { width: 32px; height: 2px; background: ${GOLD}; }
+
+        /* Gold corner brackets — appear on hover */
+        .bc-gallery-bracket {
+          position: absolute; width: 18px; height: 18px;
+          opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .bc-gallery-item:hover .bc-gallery-bracket { opacity: 1; }
+        .bc-gallery-bracket.tl { top: 14px; left: 14px; border-top: 1px solid ${GOLD}; border-left: 1px solid ${GOLD}; transform: translate(6px, 6px); }
+        .bc-gallery-bracket.tr { top: 14px; right: 14px; border-top: 1px solid ${GOLD}; border-right: 1px solid ${GOLD}; transform: translate(-6px, 6px); }
+        .bc-gallery-bracket.bl { bottom: 14px; left: 14px; border-bottom: 1px solid ${GOLD}; border-left: 1px solid ${GOLD}; transform: translate(6px, -6px); }
+        .bc-gallery-bracket.br { bottom: 14px; right: 14px; border-bottom: 1px solid ${GOLD}; border-right: 1px solid ${GOLD}; transform: translate(-6px, -6px); }
+        .bc-gallery-item:hover .bc-gallery-bracket.tl,
+        .bc-gallery-item:hover .bc-gallery-bracket.tr,
+        .bc-gallery-item:hover .bc-gallery-bracket.bl,
+        .bc-gallery-item:hover .bc-gallery-bracket.br { transform: translate(0, 0); }
+
+        /* Caption */
+        .bc-gallery-caption {
+          color: #F5F5F5;
+          font-family: ${SANS};
+          font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+          transform: translateY(12px);
+          transition: transform 0.45s cubic-bezier(.22,.68,0,1.1);
+          margin-top: auto;
+        }
+        .bc-gallery-item:hover .bc-gallery-caption { transform: translateY(0); }
+        .bc-gallery-caption-line {
+          width: 24px; height: 1px; background: ${GOLD}; margin-bottom: 8px;
+          transform: scaleX(0); transform-origin: left; transition: transform 0.5s ease 0.1s;
+        }
+        .bc-gallery-item:hover .bc-gallery-caption-line { transform: scaleX(1); }
+
+        /* Lightbox */
         .bc-gallery-lightbox {
           position: fixed; inset: 0; z-index: 1000;
-          background: rgba(0,0,0,0.93);
+          background: rgba(8,8,8,0.96);
+          backdrop-filter: blur(12px);
           display: flex; align-items: center; justify-content: center;
           cursor: pointer;
+          animation: bcLbFade 0.25s ease;
         }
-        .bc-gallery-lightbox img { max-width: 90vw; max-height: 88vh; object-fit: contain; cursor: default; }
-        .bc-gallery-lb-close {
-          position: absolute; top: 20px; right: 24px;
-          color: #fff; font-size: 28px; background: none; border: none; cursor: pointer;
-          line-height: 1; opacity: 0.7; transition: opacity 0.2s;
+        @keyframes bcLbFade { from { opacity: 0; } to { opacity: 1; } }
+        .bc-gallery-lightbox img {
+          max-width: 88vw; max-height: 82vh; object-fit: contain; cursor: default;
+          box-shadow: 0 30px 100px rgba(0,0,0,0.7);
+          animation: bcLbZoom 0.4s cubic-bezier(.22,.68,0,1.1);
         }
-        .bc-gallery-lb-close:hover { opacity: 1; color: ${GOLD}; }
-        @media (max-width: 768px) {
-          .bc-gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 200px; }
-          .bc-gallery-item.tall { grid-row: span 1; }
+        @keyframes bcLbZoom { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
+        .bc-gallery-lb-close, .bc-gallery-lb-nav {
+          position: absolute; background: rgba(255,255,255,0.06); border: 1px solid rgba(201,168,76,0.4);
+          color: #fff; cursor: pointer;
+          width: 52px; height: 52px; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          transition: background 0.25s, border-color 0.25s, color 0.25s;
         }
-        @media (max-width: 480px) {
-          .bc-gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 260px; }
+        .bc-gallery-lb-close { top: 28px; right: 28px; }
+        .bc-gallery-lb-nav.prev { left: 28px; top: 50%; transform: translateY(-50%); }
+        .bc-gallery-lb-nav.next { right: 28px; top: 50%; transform: translateY(-50%); }
+        .bc-gallery-lb-close:hover, .bc-gallery-lb-nav:hover {
+          background: rgba(201,168,76,0.2); border-color: ${GOLD}; color: ${GOLD};
+        }
+        .bc-gallery-lb-counter {
+          position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+          color: rgba(245,245,245,0.85);
+          font-family: ${SANS}; font-size: 11px; font-weight: 700; letter-spacing: 0.32em; text-transform: uppercase;
+          display: flex; align-items: center; gap: 14px;
+        }
+        .bc-gallery-lb-counter::before, .bc-gallery-lb-counter::after {
+          content: ''; width: 24px; height: 1px; background: ${GOLD};
+        }
+        .bc-gallery-lb-caption {
+          position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+          max-width: 70vw; text-align: center;
+          color: rgba(245,245,245,0.7); font-family: ${SANS}; font-size: 13px;
+          font-style: italic;
+        }
+
+        /* Tablet */
+        @media (max-width: 900px) { .bc-gallery-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 520px) {
+          .bc-gallery-grid { grid-template-columns: 1fr; }
+          .bc-gallery-lb-nav.prev { left: 12px; }
+          .bc-gallery-lb-nav.next { right: 12px; }
         }
       `}</style>
 
-      {/* Header */}
-      <div style={{ textAlign: "center", marginBottom: "clamp(36px, 6vw, 56px)" }}>
-        <p style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: GOLD, margin: "0 0 16px" }}>
-          Galerie
-        </p>
-        <h2 style={{ fontFamily: SERIF, fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 700, color: "#F5F5F5", margin: 0, lineHeight: 1.1 }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
-        <div style={{ width: 48, height: 2, backgroundColor: GOLD, margin: "20px auto 0" }} />
-      </div>
+      {/* Decorative ornament */}
+      <div aria-hidden style={{
+        position: "absolute", bottom: -60, right: -60, width: 320, height: 320, opacity: 0.025, zIndex: 0,
+        backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C9A84C' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'><circle cx='6' cy='6' r='3'/><circle cx='6' cy='18' r='3'/><line x1='20' y1='4' x2='8.12' y2='15.88'/><line x1='14.47' y1='14.48' x2='20' y2='20'/><line x1='8.12' y1='8.12' x2='12' y2='12'/></svg>\")",
+        backgroundSize: "contain", backgroundRepeat: "no-repeat", transform: "rotate(20deg)",
+      }} />
 
-      {/* Grid */}
+      {/* Header — skipped on subpages where banner already shows page title */}
+      {showHeader && (
+        <div style={{ textAlign: "center", maxWidth: 760, margin: "0 auto clamp(48px, 7vw, 72px)", position: "relative", zIndex: 1 }}>
+          {eyebrow.trim() && (
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+              <span aria-hidden style={{ width: 36, height: 1, background: GOLD }} />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" className="services-eyebrow" />
+              <span aria-hidden style={{ width: 36, height: 1, background: GOLD }} />
+            </div>
+          )}
+          {title.trim() && (
+            <h2 className="services-title" style={{ fontFamily: SERIF, fontSize: "clamp(2.2rem, 4.5vw, 3.2rem)", fontWeight: 700, color: "#F5F5F5", margin: "0 0 22px", letterSpacing: "-0.01em", lineHeight: 1.05 }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+          )}
+          {subtitle.trim() && (
+            <p style={{ fontFamily: SANS, color: "rgba(245,245,245,0.7)", fontSize: "clamp(0.95rem, 1.05vw, 1.05rem)", lineHeight: 1.6, fontWeight: 300, margin: 0 }}>
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
+      )}
+
+      {/* Bento Grid */}
       <div className="bc-gallery-grid">
-        {images.map((img, i) => {
-          const isTall = i % 5 === 2;
-          return (
-            <div
-              key={i}
-              className={`bc-gallery-item${isTall ? " tall" : ""}`}
-              onClick={() => setActiveImage(img)}
+        {images.map((img, i) => (
+          <div
+            key={i}
+            className="bc-gallery-item"
+            onClick={() => setActiveImage(img)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === "Enter") setActiveImage(img); }}
+            aria-label={img.alt ?? `Foto ${i + 1}`}
+          >
+            <GenericEditableImage
+              sectionId={sectionId}
+              field={typeof rawArray[i] === "string" ? `images.${i}` : `images.${i}.url`}
+              src={img.url!}
+              alt={img.alt ?? `Foto ${i + 1}`}
+              className="absolute inset-0 w-full h-full"
+              style={{ position: "absolute" }}
             >
-              <GenericEditableImage
-                sectionId={sectionId}
-                field={typeof rawArray[i] === "string" ? `images.${i}` : `images.${i}.url`}
-                src={img.url!}
-                alt={img.alt ?? `Foto ${i + 1}`}
-                className="absolute inset-0 w-full h-full"
-                style={{ position: "absolute" }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img.url!} alt={img.alt ?? `Foto ${i + 1}`} loading="lazy" />
-              </GenericEditableImage>
-              <div className="bc-gallery-overlay">
-                <div className="bc-gallery-overlay-line" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={img.url!} alt={img.alt ?? `Foto ${i + 1}`} loading="lazy" />
+            </GenericEditableImage>
+
+            <span aria-hidden className="bc-gallery-bracket tl" />
+            <span aria-hidden className="bc-gallery-bracket tr" />
+            <span aria-hidden className="bc-gallery-bracket bl" />
+            <span aria-hidden className="bc-gallery-bracket br" />
+
+            <div className="bc-gallery-overlay">
+              <div className="bc-gallery-caption">
+                <div className="bc-gallery-caption-line" />
+                {img.alt ?? `Foto ${i + 1}`}
               </div>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
 
-      {/* Lightbox */}
+      {/* Lightbox with navigation */}
       {activeImage && (
-        <div className="bc-gallery-lightbox" onClick={() => setActiveImage(null)}>
-          <button className="bc-gallery-lb-close" onClick={() => setActiveImage(null)} aria-label="Zavřít">✕</button>
+        <div
+          className="bc-gallery-lightbox"
+          onClick={() => setActiveImage(null)}
+          role="dialog"
+          aria-modal="true"
+          onKeyDown={(e) => {
+            if (e.key === "Escape") setActiveImage(null);
+            if (e.key === "ArrowLeft") goPrev();
+            if (e.key === "ArrowRight") goNext();
+          }}
+          tabIndex={-1}
+          ref={(el) => { if (el) el.focus(); }}
+        >
+          <button className="bc-gallery-lb-close" onClick={(e) => { e.stopPropagation(); setActiveImage(null); }} aria-label="Zavřít">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+
+          {activeIdx > 0 && (
+            <button className="bc-gallery-lb-nav prev" onClick={(e) => { e.stopPropagation(); goPrev(); }} aria-label="Předchozí">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </button>
+          )}
+          {activeIdx >= 0 && activeIdx < images.length - 1 && (
+            <button className="bc-gallery-lb-nav next" onClick={(e) => { e.stopPropagation(); goNext(); }} aria-label="Další">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </button>
+          )}
+
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
+            key={activeImage.url}
             src={activeImage.fullUrl || activeImage.url}
             alt={activeImage.alt ?? ""}
             onClick={(e) => e.stopPropagation()}
           />
+
+          {activeImage.alt && (
+            <div className="bc-gallery-lb-caption">{activeImage.alt}</div>
+          )}
+
+          {activeIdx >= 0 && (
+            <div className="bc-gallery-lb-counter">
+              <span>{String(activeIdx + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}</span>
+            </div>
+          )}
         </div>
       )}
     </section>

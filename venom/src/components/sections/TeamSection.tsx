@@ -1,7 +1,10 @@
+"use client";
+
 import { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
+import { ResizableImage } from "@/components/core/editable/ResizableImage";
 import { shouldSkipNextImageOptimization } from "@/lib/image-source";
 
 interface TeamMember {
@@ -33,66 +36,161 @@ export function TeamSection({ content, variant, sectionId }: Props) {
   if (variant === "vet-01-team")     return <TeamVet01   content={content} sectionId={sectionId} />;
   if (variant === "arch-01-team")    return <TeamArch01  content={content} sectionId={sectionId} />;
 
-  // beauty-01: 6-member grid, portrait foto 380×464px, 3 per row
-  // Reference: selfbeautystudio.com — white bg, 3-col × 2-row, portrait crop
+  // beauty-01 — Sand-Cream Editorial Wellness team grid
+  // Magazine header + 3×2 portrait grid (3:4), hover = image zoom + name → sand color shift,
+  // mono role label under Fahkwang name, optional specialty hairline divider.
   if (variant === "beauty-01-team-grid") {
+    const cc = content as Record<string, unknown>;
+    const eyebrowRaw  = cc.eyebrow;
+    const titleAlt    = cc.title;
+    const subtitleRaw = cc.subtitle;
+    const eyebrow  = eyebrowRaw  === undefined ? "Náš tým" : String(eyebrowRaw);
+    const titleStr = titleAlt    === undefined ? "Šest tváří,\njedna filosofie." : String(titleAlt);
+    const subtitle = subtitleRaw === undefined ? "Specialisté, kteří vědí, že detail dělá rozdíl. Léta praxe, ale především citlivý přístup ke každému klientovi." : String(subtitleRaw);
+    const showHeader = !!(eyebrow.trim() || titleStr.trim() || subtitle.trim());
     const WHITE  = "#ffffff";
-    const CREAM  = "#FFF8F1";
     const DARK   = "#1F1F1F";
     const MUTED  = "#5B4D43";
-    const FONT_H = "'Cormorant Garamond', 'Fahkwang', Georgia, serif";
-    const FONT_B = "'Fahkwang', sans-serif";
+    const SAND   = "#E0BE9A";
+    const FONT   = "'Fahkwang', Georgia, serif";
+    const SANS   = "var(--font-overpass), 'Overpass', Inter, system-ui, sans-serif";
+    const MONO   = "var(--font-overpass-mono), 'Overpass Mono', Menlo, monospace";
     return (
-      <section id="tym" style={{ backgroundColor: WHITE, padding: "80px 24px" }} data-template="beauty-01">
-        {/* Header */}
-        <div style={{ maxWidth: 1200, margin: "0 auto", textAlign: "center", marginBottom: 52 }}>
-          <p style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 300, letterSpacing: "0.22em", color: MUTED, textTransform: "uppercase", marginBottom: 10 }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </p>
-          {subtitle && (
-            <h2 style={{ fontFamily: FONT_H, fontSize: "clamp(24px, 3vw, 38px)", fontWeight: 400, color: DARK }}>
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </h2>
+      <section
+        id="tym"
+        style={{
+          backgroundColor: WHITE,
+          padding: "clamp(72px, 9vw, 128px) clamp(24px, 5vw, 64px)",
+        }}
+        data-template="beauty-01"
+      >
+        <div style={{ maxWidth: 1320, margin: "0 auto" }}>
+          {showHeader && (
+            <div className="b01-team-head" style={{
+              display: "grid",
+              gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1fr)",
+              gap: "clamp(24px, 4vw, 64px)",
+              alignItems: "end",
+              paddingBottom: "clamp(40px, 5vw, 64px)",
+              borderBottom: `1px solid ${DARK}`,
+              marginBottom: "clamp(40px, 5vw, 64px)",
+            }}>
+              <div>
+                {eyebrow.trim() && (
+                  <span style={{
+                    display: "inline-block",
+                    fontFamily: MONO, fontSize: 11, letterSpacing: "0.28em",
+                    textTransform: "uppercase", color: MUTED,
+                    marginBottom: 18,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                  </span>
+                )}
+                {titleStr.trim() && (
+                  <h2 style={{
+                    margin: 0,
+                    fontFamily: FONT, fontWeight: 500,
+                    fontSize: "clamp(36px, 5.5vw, 72px)",
+                    lineHeight: 1.08,
+                    letterSpacing: "0.01em",
+                    color: DARK,
+                    whiteSpace: "pre-line",
+                    maxWidth: "13ch",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="title" value={titleStr} tag="span" />
+                  </h2>
+                )}
+              </div>
+              {subtitle.trim() && (
+                <p style={{
+                  margin: 0,
+                  fontFamily: SANS, fontWeight: 300,
+                  fontSize: "clamp(14px, 1.2vw, 17px)",
+                  lineHeight: 1.65,
+                  color: MUTED,
+                  maxWidth: 460,
+                  justifySelf: "end",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+                </p>
+              )}
+            </div>
           )}
-        </div>
 
-        {/* 3-col × 2-row grid — portrait 380×464 */}
-        <div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3"
-          style={{ maxWidth: 1200, margin: "0 auto", gap: "40px 24px" }}
-        >
-          {members.map((m, i) => (
-            <div key={`tm-${i}`}>
-              {/* Portrait foto — 380:464 ratio */}
-              {m.image && (
-                <div style={{ width: "100%", aspectRatio: "380/464", position: "relative", overflow: "hidden", marginBottom: 16 }}>
-                  <GenericEditableImage
-                    sectionId={sectionId}
-                    field={`members.${i}.image`}
-                    src={m.image}
-                    alt={m.name}
-                    className="absolute inset-0 w-full h-full"
-                    style={{ position: "absolute" }}
-                  >
-                    <Image
+          {/* 3-col × 2-row grid */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            gap: "clamp(28px, 3vw, 48px)",
+          }}>
+            {members.map((m, i) => (
+              <article key={`tm-${i}`} className="b01-team-card">
+                {m.image && (
+                  <div className="b01-team-img-wrap" style={{
+                    width: "100%",
+                    aspectRatio: "3 / 4",
+                    position: "relative",
+                    overflow: "hidden",
+                    marginBottom: 20,
+                    backgroundColor: "#f0e8df",
+                  }}>
+                    <GenericEditableImage
+                      sectionId={sectionId}
+                      field={`members.${i}.image`}
                       src={m.image}
                       alt={m.name}
-                      fill
-                      className="object-cover object-top"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
-                      unoptimized={shouldSkipNextImageOptimization(m.image)}
-                    />
-                  </GenericEditableImage>
-                </div>
-              )}
-              <h3 style={{ fontFamily: FONT_H, fontSize: 22, fontWeight: 400, color: DARK, marginBottom: 4, lineHeight: 1.2 }}>
-                <GenericEditableText sectionId={sectionId} field={`members.${i}.name`} value={m.name} tag="span" />
-              </h3>
-              <p style={{ fontFamily: FONT_B, fontSize: 13, fontWeight: 300, color: MUTED, letterSpacing: "0.04em" }}>
-                <GenericEditableText sectionId={sectionId} field={`members.${i}.role`} value={m.role} tag="span" />
-              </p>
-            </div>
-          ))}
+                      className="absolute inset-0 w-full h-full"
+                      style={{ position: "absolute" }}
+                    >
+                      <Image
+                        src={m.image}
+                        alt={m.name}
+                        fill
+                        className="b01-team-img object-cover object-top"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
+                        unoptimized={shouldSkipNextImageOptimization(m.image)}
+                        style={{ transition: "transform 0.7s cubic-bezier(.4,0,.2,1)" }}
+                      />
+                    </GenericEditableImage>
+                  </div>
+                )}
+                <h3 className="b01-team-name" style={{
+                  margin: "0 0 6px",
+                  fontFamily: FONT,
+                  fontSize: "clamp(20px, 1.8vw, 26px)",
+                  fontWeight: 500,
+                  color: DARK, lineHeight: 1.2,
+                  letterSpacing: "0.01em",
+                  transition: "color 0.3s ease",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`members.${i}.name`} value={m.name} tag="span" />
+                </h3>
+                <p style={{
+                  margin: 0,
+                  fontFamily: MONO, fontSize: 11,
+                  letterSpacing: "0.22em", textTransform: "uppercase",
+                  color: MUTED,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`members.${i}.role`} value={String(m.role ?? "")} tag="span" />
+                </p>
+                {(m as { specialty?: string }).specialty && (
+                  <>
+                    <span aria-hidden="true" style={{
+                      display: "block", width: 28, height: 1, backgroundColor: SAND,
+                      margin: "14px 0 12px",
+                    }} />
+                    <p style={{
+                      margin: 0,
+                      fontFamily: SANS, fontSize: 13, lineHeight: 1.55,
+                      color: MUTED,
+                    }}>
+                      <GenericEditableText sectionId={sectionId} field={`members.${i}.specialty`} value={String((m as { specialty?: string }).specialty ?? "")} tag="span" />
+                    </p>
+                  </>
+                )}
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     );
@@ -267,6 +365,135 @@ export function TeamSection({ content, variant, sectionId }: Props) {
     );
   }
 
+  if (variant === "team-barber-03-luxury") {
+    // Barber-03 "Barbery" — warm cinematic urban team grid
+    const GOLD = "#c8a96e";
+    const BG   = "#1c1410";
+    const CARD = "rgba(255,255,255,0.025)";
+    const BORDER = "rgba(200,169,110,0.22)";
+    const eyebrow = String((content as Record<string, unknown>).eyebrow ?? "");
+    return (
+      <section
+        style={{ backgroundColor: BG, padding: "clamp(96px, 13vw, 150px) 24px", position: "relative", overflow: "hidden" }}
+        data-template="barber-03"
+      >
+        {/* Dual gold hairlines */}
+        <div aria-hidden style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: 180, height: 1, background: "linear-gradient(90deg, transparent, #c8a96e 50%, transparent)" }} />
+        <div aria-hidden style={{ position: "absolute", bottom: 0, left: "50%", transform: "translateX(-50%)", width: 180, height: 1, background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)" }} />
+        {/* Warm radial glow */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(ellipse at 50% 100%, rgba(200,169,110,0.07) 0%, transparent 55%)" }} />
+
+        <div style={{ maxWidth: 1240, margin: "0 auto", position: "relative", zIndex: 1 }}>
+          {/* Editorial header */}
+          {(eyebrow || title || subtitle) && (
+            <div style={{ textAlign: "center", marginBottom: "clamp(56px, 8vw, 80px)" }}>
+              {eyebrow && (
+                <div style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+                  <span aria-hidden style={{ width: 42, height: 1, backgroundColor: GOLD }} />
+                  <span style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic", fontSize: "12px", letterSpacing: "0.28em", textTransform: "uppercase", color: GOLD }}>
+                    <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                  </span>
+                  <span aria-hidden style={{ width: 42, height: 1, backgroundColor: GOLD }} />
+                </div>
+              )}
+              {title && (
+                <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(2rem, 4.2vw, 3rem)", fontWeight: 700, lineHeight: 1.12, letterSpacing: "0.04em", color: "#f5efe6", textTransform: "uppercase", margin: "0 auto 22px", maxWidth: 760 }}>
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+              )}
+              {subtitle && (
+                <p style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic", fontSize: "clamp(0.98rem, 1.4vw, 1.1rem)", color: "rgba(245,239,230,0.72)", lineHeight: 1.7, margin: "0 auto", maxWidth: 600 }}>
+                  <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+                </p>
+              )}
+              <div aria-hidden style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 28 }}>
+                <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+                <span style={{ width: 6, height: 6, backgroundColor: GOLD, transform: "rotate(45deg)" }} />
+                <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+              </div>
+            </div>
+          )}
+
+          {/* Cards grid */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "clamp(24px, 3vw, 36px)" }}>
+            {members.map((m, i) => (
+              <div key={i} className="b03tm-card" style={{
+                position: "relative",
+                background: CARD,
+                border: `1px solid ${BORDER}`,
+                borderTop: `2px solid ${GOLD}`,
+                padding: "0 0 32px",
+                overflow: "hidden",
+                animation: `b03TFadeUp 0.85s cubic-bezier(.22,.68,0,1.1) ${0.15 + i * 0.12}s both`,
+              }}>
+                {/* Image — full width portrait */}
+                {m.image ? (
+                  <ResizableImage
+                    sectionId={sectionId}
+                    field={`members.${i}.image`}
+                    src={m.image}
+                    alt={m.name}
+                    fallbackWidth={320}
+                    fallbackHeight={400}
+                    style={{ display: "block", width: "100%", marginBottom: 28, overflow: "hidden" }}
+                    aspectLock={false}
+                    fluidDefault
+                  >
+                    <GenericEditableImage sectionId={sectionId} field={`members.${i}.image`} src={m.image} alt={m.name} style={{ width: "100%", height: "100%" }}>
+                      <Image src={m.image} alt={m.name} fill className="object-cover b03tm-img" sizes="(max-width: 768px) 100vw, 33vw" unoptimized={shouldSkipNextImageOptimization(m.image)} />
+                    </GenericEditableImage>
+                    {/* Warm overlay */}
+                    <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(28,20,16,0.12) 0%, rgba(28,20,16,0.5) 100%)", pointerEvents: "none" }} />
+                    {/* Number badge */}
+                    <span aria-hidden style={{
+                      position: "absolute", top: 18, left: 18, zIndex: 2,
+                      fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic",
+                      fontSize: 13, letterSpacing: "0.2em", color: GOLD, pointerEvents: "none",
+                    }}>0{i + 1}</span>
+                  </ResizableImage>
+                ) : (
+                  <div style={{ aspectRatio: "4 / 5", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 28, background: "rgba(0,0,0,0.25)", border: `1px solid ${BORDER}` }}>
+                    <span style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 64, fontWeight: 700, color: GOLD, letterSpacing: 0 }}>{m.name.charAt(0)}</span>
+                  </div>
+                )}
+
+                <div style={{ padding: "0 28px" }}>
+                  {/* Role */}
+                  <p style={{
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    fontSize: 10, fontWeight: 700, letterSpacing: "0.28em",
+                    textTransform: "uppercase", color: GOLD, margin: "0 0 10px",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field={`members.${i}.role`} value={m.role} tag="span" />
+                  </p>
+                  {/* Name */}
+                  <h3 style={{
+                    fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "1.4rem", fontWeight: 700,
+                    color: "#f5efe6", margin: "0 0 14px", lineHeight: 1.2, letterSpacing: "0.02em",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field={`members.${i}.name`} value={m.name} tag="span" />
+                  </h3>
+                  {/* Decorative gold rule */}
+                  <span aria-hidden style={{ display: "block", width: 32, height: 1, backgroundColor: GOLD, marginBottom: 16 }} />
+                  {/* Bio */}
+                  {m.bio && (
+                    <p style={{
+                      fontFamily: "'Libre Baskerville', Georgia, serif", fontStyle: "italic",
+                      fontSize: "0.92rem", color: "rgba(245,239,230,0.72)",
+                      lineHeight: 1.7, margin: 0,
+                    }}>
+                      <GenericEditableText sectionId={sectionId} field={`members.${i}.bio`} value={m.bio} tag="span" />
+                    </p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   if (variant === "barber-dark") {
     const GOLD = "#C9A84C";
     const BG   = "#0a0a0a";
@@ -288,13 +515,26 @@ export function TeamSection({ content, variant, sectionId }: Props) {
           {/* Cards */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 24 }}>
             {members.map((m, i) => (
-              <div key={i} style={{ background: CARD, border: `1px solid ${BORDER}`, borderTop: `2px solid ${GOLD}`, padding: "36px 32px 32px", display: "flex", flexDirection: "column", gap: 0 }}>
+              <div key={i} className="bc-team-card" style={{ background: CARD, border: `1px solid ${BORDER}`, borderTop: `2px solid ${GOLD}`, padding: "36px 32px 32px", display: "flex", flexDirection: "column", gap: 0, position: "relative", overflow: "hidden" }}>
                 {/* Avatar */}
-                <div style={{ marginBottom: 24 }}>
+                <div className="bc-team-avatar" style={{ marginBottom: 24 }}>
                   {m.image ? (
-                    <GenericEditableImage sectionId={sectionId} field={`members.${i}.image`} src={m.image} alt={m.name} className="relative overflow-hidden" style={{ width: 72, height: 72, borderRadius: "50%" }}>
-                      <Image src={m.image} alt={m.name} fill className="object-cover" sizes="72px" unoptimized={shouldSkipNextImageOptimization(m.image)} />
-                    </GenericEditableImage>
+                    <ResizableImage
+                      sectionId={sectionId}
+                      field={`members.${i}.image`}
+                      src={m.image}
+                      alt={m.name}
+                      fallbackWidth={72}
+                      fallbackHeight={72}
+                      style={{ borderRadius: "50%", overflow: "hidden" }}
+                      aspectLock
+                      min={40}
+                      max={200}
+                    >
+                      <GenericEditableImage sectionId={sectionId} field={`members.${i}.image`} src={m.image} alt={m.name} style={{ width: "100%", height: "100%" }}>
+                        <Image src={m.image} alt={m.name} fill className="object-cover" sizes="200px" unoptimized={shouldSkipNextImageOptimization(m.image)} />
+                      </GenericEditableImage>
+                    </ResizableImage>
                   ) : (
                     <div style={{ width: 72, height: 72, borderRadius: "50%", border: `1.5px solid ${GOLD}`, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "var(--font-heading)", fontSize: 28, fontWeight: 700, color: GOLD, letterSpacing: 0 }}>
                       {m.name.charAt(0)}
@@ -564,131 +804,75 @@ function TeamFyzio02({ content, sectionId }: { content: Record<string, unknown>;
 // ── catering-01-team ──────────────────────────────────────────────────────────
 // Sand bg, uniform 4-col portrait grid, text below photo, elegant & compact
 // ─────────────────────────────────────────────────────────────────────────────
+// ── catering-01-team ─────────────────────────────────────────────────────────
+// Nordic Minimal Gastro:
+// - Forest green bg, cream text, 4-col grid
+// - Circular photos with stone border ring, hover: scale + terracotta ring
+// - Fraunces heading, Inter names/roles
+// ─────────────────────────────────────────────────────────────────────────────
 function TeamCatering01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const TEAL  = "#1c373a";
-  const SURF  = "#eae6db";
-  const GOLD  = "#baae8c";
-  const CREAM = "#fefff1";
-  const SERIF = "'Libre Baskerville', Georgia, serif";
-  const SANS  = "'Source Sans 3', 'Source Sans Pro', sans-serif";
+  const GREEN  = "#2d4a3e";
+  const TERRA  = "#c4755b";
+  const WARM   = "#f8f5f0";
+  const STONE  = "#e8e2d8";
+  const SERIF  = "'Fraunces', Georgia, serif";
+  const SANS   = "'Inter', system-ui, sans-serif";
 
   interface Member { name: string; role: string; image?: string }
-  const heading = String(content.heading ?? "poznejte\nDemo Catering");
+  const headingRaw = content.heading;
+  const heading = headingRaw === undefined ? "lidé za\nSaveur & Co." : String(headingRaw);
   const members = (content.members as Member[]) ?? [];
-  const headingLines = heading.split("\n");
+  const showHeader = !!heading.trim();
 
   return (
     <section
       id="tym"
       data-template="catering-01"
       data-variant="catering-01-team"
-      style={{ background: SURF, overflow: "hidden" }}
+      style={{ background: GREEN, padding: "6rem 0 7rem", overflow: "hidden" }}
     >
       <style>{`
-        .c01tm-outer{
-          max-width:calc(100% - 3.2rem);margin:0 auto;
-          padding:4.5rem 0 5rem;
-        }
-        .c01tm-top{
-          display:flex;flex-direction:column;
-          gap:.8rem;
-          margin-bottom:3rem;
-          padding-bottom:2rem;
-          border-bottom:.06rem solid rgba(28,55,58,.15);
-        }
-        .c01tm-kicker{
-          font-family:${SANS};font-size:.68rem;font-weight:700;
-          letter-spacing:.55rem;text-transform:uppercase;
-          color:${GOLD};margin:0;
-        }
-        .c01tm-h{
-          font-family:${SERIF};font-style:italic;font-weight:300;
-          font-size:clamp(2rem,4.5vw,4.4rem);line-height:1.08;
-          text-transform:uppercase;color:${TEAL};margin:0;
-        }
-        .c01tm-h em{color:${GOLD};font-style:italic}
-
-        /* grid */
-        .c01tm-grid{
-          display:grid;
-          grid-template-columns:repeat(2,1fr);
-          gap:2rem 1.4rem;
-        }
-        .c01tm-card{}
-        .c01tm-photo{
-          aspect-ratio:3/4;
-          overflow:hidden;
-          margin-bottom:1rem;
-          background:#c8c2b8;
-        }
-        .c01tm-photo img{
-          width:100%;height:100%;object-fit:cover;
-          object-position:center top;
-          display:block;
-          transition:transform .6s ease;
-          filter:saturate(.9);
-        }
-        .c01tm-card:hover .c01tm-photo img{
-          transform:scale(1.04);
-          filter:saturate(1);
-        }
-        .c01tm-sep{
-          width:2rem;height:.08rem;
-          background:${GOLD};
-          margin-bottom:.6rem;
-          transition:width .3s ease;
-        }
-        .c01tm-card:hover .c01tm-sep{width:3.2rem}
-        .c01tm-name{
-          font-family:${SERIF};font-weight:700;font-style:normal;
-          font-size:.82rem;color:${TEAL};
-          margin:0 0 .25rem;letter-spacing:.01rem;
-        }
-        .c01tm-role{
-          font-family:${SANS};font-size:.65rem;font-weight:400;
-          letter-spacing:.12rem;text-transform:uppercase;
-          color:${GOLD};margin:0;
-        }
-
+        .ct1tm-wrap{max-width:1200px;margin:0 auto;padding:0 1.5rem}
+        .ct1tm-head{text-align:center;margin-bottom:4rem}
+        .ct1tm-kicker{font-family:${SANS};font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:${TERRA};margin-bottom:1rem}
+        .ct1tm-h{font-family:${SERIF};font-weight:300;font-style:italic;font-size:clamp(2rem,4vw,3.2rem);color:${WARM};margin:0;line-height:1.15;letter-spacing:-.01em}
+        .ct1tm-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2.5rem 1.5rem}
+        .ct1tm-card{text-align:center}
+        .ct1tm-ring{width:120px;height:120px;border-radius:50%;border:2px solid rgba(232,226,216,.25);margin:0 auto 1.2rem;overflow:hidden;transition:border-color .3s,transform .3s}
+        .ct1tm-card:hover .ct1tm-ring{border-color:${TERRA};transform:scale(1.06)}
+        .ct1tm-ring img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:saturate(.85);transition:filter .4s}
+        .ct1tm-card:hover .ct1tm-ring img{filter:saturate(1)}
+        .ct1tm-name{font-family:${SERIF};font-weight:400;font-size:.95rem;color:${WARM};margin:0 0 .3rem}
+        .ct1tm-role{font-family:${SANS};font-size:.7rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:${TERRA};margin:0;opacity:.8}
         @media(min-width:640px){
-          .c01tm-grid{grid-template-columns:repeat(3,1fr);gap:2.4rem 1.8rem}
+          .ct1tm-grid{grid-template-columns:repeat(3,1fr);gap:3rem 2rem}
+          .ct1tm-ring{width:140px;height:140px}
         }
-        @media(min-width:1025px){
-          .c01tm-outer{max-width:calc(100% - 6.4rem);padding:5.5rem 0 6rem}
-          .c01tm-top{flex-direction:row;align-items:flex-end;justify-content:space-between;margin-bottom:3.5rem}
-          .c01tm-grid{grid-template-columns:repeat(4,1fr);gap:2.8rem 2rem}
-          .c01tm-photo{margin-bottom:1.1rem}
-          .c01tm-name{font-size:.9rem}
-          .c01tm-role{font-size:.68rem}
-        }
-        @media(min-width:1400px){
-          .c01tm-outer{padding:6.5rem 0 7rem}
-          .c01tm-grid{gap:3.2rem 2.4rem}
-          .c01tm-name{font-size:1rem}
-          .c01tm-role{font-size:.72rem}
+        @media(min-width:1024px){
+          .ct1tm-grid{grid-template-columns:repeat(4,1fr);gap:3rem 2.5rem}
+          .ct1tm-ring{width:160px;height:160px}
+          .ct1tm-name{font-size:1.05rem}
         }
       `}</style>
 
-      <div className="c01tm-outer">
-        <div className="c01tm-top">
-          <div>
-            <p className="c01tm-kicker">náš tým</p>
-            <h2 className="c01tm-h">
+      <div className="ct1tm-wrap">
+        {showHeader && (
+          <div className="ct1tm-head">
+            <div className="ct1tm-kicker">náš tým</div>
+            <h2 className="ct1tm-h">
               <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span">
-                {headingLines.map((line, i) => (
-                  <span key={i} style={{ display: "block" }}>
-                    {i === headingLines.length - 1 ? <em>{line}</em> : line}
-                  </span>
+                {heading.split("\n").map((line, i) => (
+                  <span key={i} style={{ display: "block" }}>{line}</span>
                 ))}
               </GenericEditableText>
             </h2>
           </div>
-        </div>
+        )}
 
-        <div className="c01tm-grid">
+        <div className="ct1tm-grid">
           {members.map((m, i) => (
-            <div key={i} className="c01tm-card">
-              <div className="c01tm-photo">
+            <div key={i} className="ct1tm-card">
+              <div className="ct1tm-ring">
                 <GenericEditableImage sectionId={sectionId} field={`members.${i}.image`} src={(m.image ?? "").replace("w=300&h=300", "w=400&h=600")} alt={m.name}>
                   <img
                     src={(m.image ?? "").replace("w=300&h=300", "w=400&h=600")}
@@ -698,11 +882,10 @@ function TeamCatering01({ content, sectionId }: { content: Record<string, unknow
                   />
                 </GenericEditableImage>
               </div>
-              <div className="c01tm-sep" />
-              <p className="c01tm-name">
+              <p className="ct1tm-name">
                 <GenericEditableText sectionId={sectionId} field={`members.${i}.name`} value={m.name} tag="span" />
               </p>
-              <p className="c01tm-role">
+              <p className="ct1tm-role">
                 <GenericEditableText sectionId={sectionId} field={`members.${i}.role`} value={m.role} tag="span" />
               </p>
             </div>

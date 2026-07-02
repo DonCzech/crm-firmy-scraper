@@ -75,7 +75,7 @@ export function PublicTrialLock({
           Vlastník webu má pozastavené předplatné. Stránku znovu spustí, jakmile aktivuje plán.
           Pokud jsi vlastník, otevři{" "}
           <a
-            href="/account/billing"
+            href={`/demo/${tenantSlug}/admin?tab=billing`}
             style={{ color: "#4f46e5", fontWeight: 600, textDecoration: "underline", textUnderlineOffset: 2 }}
           >
             Webero účet → Fakturace
@@ -84,7 +84,7 @@ export function PublicTrialLock({
         </p>
 
         <a
-          href="/account/billing"
+          href={`/demo/${tenantSlug}/admin?tab=billing`}
           style={{
             marginTop: 28,
             display: "inline-flex",

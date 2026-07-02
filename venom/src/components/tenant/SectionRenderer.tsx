@@ -77,6 +77,9 @@ export function SectionRenderer({ section, tenantSlug, isAdmin, onSaveAsteraCont
         overrides.__heroBgFocus = heroBg.imageFocus;
         overrides.backgroundImageFocus = heroBg.imageFocus;
       }
+      if (heroBg.imageFocusMobile) {
+        overrides.__heroBgFocusMobile = heroBg.imageFocusMobile;
+      }
       effectiveContent = { ...content, ...overrides };
     } else if (heroBg?.tab === "color") {
       effectiveContent = { ...content, __heroBgTab: "color", __heroBgColor: heroBg.color ?? "#1a1a1a" };
@@ -97,40 +100,53 @@ export function SectionRenderer({ section, tenantSlug, isAdmin, onSaveAsteraCont
     </SectionContentProvider>
   );
 
-  // T1.2 — section layout settings (extra outer padding + background color).
+  // T1.2 + T1.4 — section layout settings (padding + background color).
   // Applied here as the single source of truth so both Studio canvas and
-  // public render react identically. CSS vars also published for templates
-  // that will be migrated by T1.4 codemod to read them natively.
+  // public render react identically.
+  //
+  // T1.4 behaviour: when a slider value is explicitly set (even 0), the wrapper
+  // takes over ALL padding responsibility for that axis. A scoped <style> block
+  // zeroes out the template's own section padding so slider = absolute value,
+  // not additive. When the slider hasn't been touched (value is undefined),
+  // the template keeps its own built-in padding unchanged.
   const layout = (section.settings?.layout ?? {}) as {
     paddingTop?: number; paddingBottom?: number; paddingX?: number;
     backgroundColor?: string;
   };
+
+  const hasPt = typeof layout.paddingTop === "number";
+  const hasPb = typeof layout.paddingBottom === "number";
+  const hasPx = typeof layout.paddingX === "number";
+
   const wrapStyle: CSSProperties = {};
-  const vars: Record<string, string> = {};
-  if (typeof layout.paddingTop === "number" && layout.paddingTop > 0) {
-    wrapStyle.paddingTop = layout.paddingTop;
-    vars["--section-pt"] = `${layout.paddingTop}px`;
-  }
-  if (typeof layout.paddingBottom === "number" && layout.paddingBottom > 0) {
-    wrapStyle.paddingBottom = layout.paddingBottom;
-    vars["--section-pb"] = `${layout.paddingBottom}px`;
-  }
-  if (typeof layout.paddingX === "number" && layout.paddingX > 0) {
-    wrapStyle.paddingLeft = layout.paddingX;
-    wrapStyle.paddingRight = layout.paddingX;
-    vars["--section-px"] = `${layout.paddingX}px`;
-  }
-  if (layout.backgroundColor) {
-    wrapStyle.backgroundColor = layout.backgroundColor;
-  }
+  if (hasPt) wrapStyle.paddingTop    = layout.paddingTop;
+  if (hasPb) wrapStyle.paddingBottom = layout.paddingBottom;
+  if (hasPx) { wrapStyle.paddingLeft = layout.paddingX; wrapStyle.paddingRight = layout.paddingX; }
+  if (layout.backgroundColor) wrapStyle.backgroundColor = layout.backgroundColor;
+
   const hasLayout = Object.keys(wrapStyle).length > 0;
-  const finalStyle: CSSProperties = hasLayout || anchorId
-    ? { ...wrapStyle, ...(vars as CSSProperties), ...(anchorId ? { scrollMarginTop: 90 } : {}) }
+  const hasAnchor = !!anchorId;
+
+  // Scoped CSS that zeroes the template section's own padding on overridden axes.
+  // Uses `!important` to beat both Tailwind classes and inline styles.
+  // Targets `[data-sr-id] section` — safe because section components don't nest
+  // multiple sibling <section> elements.
+  const overrideCss = (hasPt || hasPb || hasPx) ? [
+    `[data-sr-id="${section.id}"] section {`,
+    hasPt ? "  padding-top: 0 !important;" : "",
+    hasPb ? "  padding-bottom: 0 !important;" : "",
+    hasPx ? "  padding-left: 0 !important; padding-right: 0 !important;" : "",
+    "}",
+  ].filter(Boolean).join("\n") : null;
+
+  const finalStyle: CSSProperties = (hasLayout || hasAnchor)
+    ? { ...wrapStyle, ...(hasAnchor ? { scrollMarginTop: 90 } : {}) }
     : {};
 
-  if (anchorId || hasLayout) {
+  if (hasLayout || hasAnchor) {
     return (
-      <div id={anchorId} style={finalStyle}>
+      <div id={anchorId} data-sr-id={section.id} style={finalStyle}>
+        {overrideCss && <style dangerouslySetInnerHTML={{ __html: overrideCss }} />}
         {rendered}
       </div>
     );

@@ -195,7 +195,7 @@ function InnerStudio({
     highlightTimerRef.current = setTimeout(() => setHighlighted([]), HIGHLIGHT_DELAY);
   }, []);
 
-  const updateField = useCallback((sectionId: number, field: string, value: string | number | boolean, options?: { recordHistory?: boolean }) => {
+  const updateField = useCallback((sectionId: number, field: string, value: unknown, options?: { recordHistory?: boolean }) => {
     setSections(prev => {
       const before = cloneSections(prev);
       let changed: GenericHighlightChange[] = [];

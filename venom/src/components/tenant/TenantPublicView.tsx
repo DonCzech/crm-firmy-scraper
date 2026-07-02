@@ -210,7 +210,7 @@ export function TenantPublicView({ tenant, page: _page, sections: initialSection
     highlightTimerRef.current = setTimeout(() => setHighlighted([]), HIGHLIGHT_DELAY);
   }, []);
 
-  const updateGenericField = useCallback((sectionId: number, field: string, value: string | number | boolean, options?: { recordHistory?: boolean }) => {
+  const updateGenericField = useCallback((sectionId: number, field: string, value: unknown, options?: { recordHistory?: boolean }) => {
     setSections(prev => {
       const before = cloneSections(prev);
       let changed: GenericHighlightChange[] = [];
@@ -309,6 +309,7 @@ export function TenantPublicView({ tenant, page: _page, sections: initialSection
     highlighted,
     updateField: updateGenericField,
     updateStyle: updateGenericStyle,
+    updateStyleLocal: updateGenericStyle,
     reorderField: reorderArrayField,
     getStyle: (sectionId: number, field: string) => getSectionStyle(sections, sectionId, field),
   }), [genericEditorEnabled, highlighted, sections, updateGenericField, updateGenericStyle, reorderArrayField]);

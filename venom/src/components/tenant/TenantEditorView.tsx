@@ -556,7 +556,7 @@ export function TenantEditorView({ tenant, page, sections: initialSections, over
     highlightTimerRef.current = setTimeout(() => setHighlighted([]), HIGHLIGHT_DELAY);
   }, []);
 
-  const updateGenericField = useCallback((sectionId: number, field: string, value: string | number | boolean, options?: { recordHistory?: boolean }) => {
+  const updateGenericField = useCallback((sectionId: number, field: string, value: unknown, options?: { recordHistory?: boolean }) => {
     setSections(prev => {
       const before = cloneSections(prev);
       let changed: GenericHighlightChange[] = [];
@@ -655,6 +655,7 @@ export function TenantEditorView({ tenant, page, sections: initialSections, over
     highlighted,
     updateField: updateGenericField,
     updateStyle: updateGenericStyle,
+    updateStyleLocal: updateGenericStyle, // TenantEditorView has no separate local — reuse (saves immediately, same behavior)
     reorderField: reorderArrayField,
     getStyle: (sectionId: number, field: string) => getSectionStyle(sections, sectionId, field),
   }), [genericEditorEnabled, highlighted, sections, updateGenericField, updateGenericStyle, reorderArrayField]);

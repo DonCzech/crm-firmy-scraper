@@ -35,10 +35,10 @@ export function TrialBanner({ tenantSlug }: { tenantSlug: string }) {
           : `Zkušební doba: zbývá ${days} ${days === 1 ? "den" : days < 5 ? "dny" : "dní"}.`}
       </span>
       <a
-        href="/account/billing"
+        href={`/demo/${tenantSlug}/admin?tab=billing`}
         className="ml-4 px-3 py-1 bg-white/20 hover:bg-white/30 rounded-lg font-medium text-white transition-colors whitespace-nowrap"
       >
-        Aktivovat (500 Kč/měs.)
+        Aktivovat (499 Kč/měs.)
       </a>
     </div>
   );

@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getTenantBySlug, getTenantPage, getPageSections, getTenantOverrides, getSubscriptionByTenantId, queryOne } from "@/lib/db";
-import { resolveAllSections } from "@/lib/section-resolver";
+import { resolveAllSections, type TenantWithKey } from "@/lib/section-resolver";
 import { buildTenantSEO } from "@/lib/tenant-seo";
 import { TenantPublicView } from "@/components/tenant/TenantPublicView";
 import { ClonedSiteRenderer } from "@/components/tenant/ClonedSiteRenderer";
@@ -24,7 +24,7 @@ export async function generateViewport({ params }: { params: Promise<{ tenantSlu
   let themeColor = "#ffffff";
   if (tenant) {
     try {
-      const tpl = await loadTemplate(tenant.template_key);
+      const tpl = await loadTemplate((tenant as TenantWithKey).template_key ?? "");
       themeColor = tpl.designTokens?.colorBackground ?? "#ffffff";
     } catch (_) {}
   }

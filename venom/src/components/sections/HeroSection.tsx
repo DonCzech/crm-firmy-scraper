@@ -7,6 +7,7 @@ import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
 import { GenericEditableBackground } from "@/components/tenant/GenericEditableBackground";
 import { useGenericInlineEditor } from "@/components/tenant/GenericInlineEditorContext";
 import { shouldSkipNextImageOptimization } from "@/lib/image-source";
+import { useStudioOptional } from "@/components/studio/StudioContext";
 
 interface HeroContent {
   title?: string;
@@ -37,6 +38,10 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "stavba-03-hero") return <HeroStavba03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "elektro-01-hero") return <HeroElektro01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "catering-01-hero") return <HeroCatering01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-catering-01-page") return <HeroCatering01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-peak-cut-page") return <HeroPeakCutPage content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-clinic-03-page") return <HeroClinic03Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-solar-03-page")  return <HeroSolar03Page  content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "instala-01-hero") return <HeroInstala01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "grooming-01-hero") return <HeroGrooming01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "vet-01-hero") return <HeroVet01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -51,6 +56,8 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   // Applies to all inline hero variants that use BackgroundEditableImage.
   const _heroBgFocusAny = (content as Record<string, unknown>).__heroBgFocus as { x: number; y: number } | undefined;
   const bgFocusStyle = _heroBgFocusAny ? `${_heroBgFocusAny.x}% ${_heroBgFocusAny.y}%` : undefined;
+  const _heroBgFocusMobileAny = (content as Record<string, unknown>).__heroBgFocusMobile as { x: number; y: number } | undefined;
+  const bgFocusMobileStyle = _heroBgFocusMobileAny ? `${_heroBgFocusMobileAny.x}% ${_heroBgFocusMobileAny.y}%` : undefined;
 
   // hair-01: full-bleed tmavá foto, bez textu, SCROLL indikátor dole
   if (variant === "hero-hair-fullbleed") {
@@ -486,17 +493,23 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     const heroBgTab      = String((content as Record<string,unknown>).__heroBgTab ?? "image");
     const heroBgColor    = String((content as Record<string,unknown>).__heroBgColor ?? "#1a1a1a");
     const heroBgVideoUrl = String((content as Record<string,unknown>).__heroBgVideoUrl ?? "");
-    const heroBgFocus    = (content as Record<string,unknown>).__heroBgFocus as { x: number; y: number } | undefined;
-    const bgFocusStyle   = heroBgFocus ? `${heroBgFocus.x}% ${heroBgFocus.y}%` : undefined;
+    const heroBgFocus       = (content as Record<string,unknown>).__heroBgFocus as { x: number; y: number } | undefined;
+    const bgFocusStyle      = heroBgFocus ? `${heroBgFocus.x}% ${heroBgFocus.y}%` : undefined;
+    const heroBgFocusMobile = (content as Record<string,unknown>).__heroBgFocusMobile as { x: number; y: number } | undefined;
+    const bgFocusMobileStyle = heroBgFocusMobile ? `${heroBgFocusMobile.x}% ${heroBgFocusMobile.y}%` : undefined;
     const bg             = c.backgroundImage ?? "";
+    const eyebrow        = String((c as Record<string, unknown>).eyebrow ?? "");
+    const ctaSecondaryText = String((c as Record<string, unknown>).ctaSecondaryText ?? "");
+    const ctaSecondaryHref = String((c as Record<string, unknown>).ctaSecondaryHref ?? "");
 
     return (
       <section
-        className="relative flex items-center justify-center text-white overflow-hidden"
+        className="relative flex items-end md:items-center justify-start text-white overflow-hidden"
         style={{
           backgroundColor: heroBgTab === "color" ? heroBgColor : "var(--color-bg, #111)",
-          minHeight: "clamp(480px, 75vh, 100dvh)",
+          minHeight: "clamp(620px, 100dvh, 1000px)",
         }}
+        data-template="barber-01"
       >
         {heroBgTab === "color" ? (
           <div style={{ position: "absolute", inset: 0, backgroundColor: heroBgColor }} />
@@ -507,34 +520,314 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
               autoPlay muted loop playsInline
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
             />
-            <div aria-hidden style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.45)", zIndex: 1, pointerEvents: "none" }} />
+            <div aria-hidden style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.55)", zIndex: 1, pointerEvents: "none" }} />
           </>
         ) : bg ? (
-          <BackgroundEditableImage sectionId={sectionId} src={bg} overlayColor="rgba(0,0,0,0.55)" priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} />
+          <BackgroundEditableImage sectionId={sectionId} src={bg} overlayColor="transparent" priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} focusMobileStyle={bgFocusMobileStyle} />
         ) : (
           <div style={{ position: "absolute", inset: 0, backgroundImage: "linear-gradient(135deg, #1a1a1a 0%, #333 100%)" }} />
         )}
-        <div className="relative z-10 text-center px-6 max-w-3xl mx-auto w-full">
-          <h1
-            className="text-4xl md:text-7xl font-bold mb-6 whitespace-pre-line leading-tight"
-            style={{ fontFamily: "var(--font-heading)", color: "var(--color-accent, #C9A84C)" }}
-          >
-            <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? "Váš styl, náš um."} tag="span" />
-          </h1>
-          <p className="text-base md:text-xl text-gray-300 mb-10 max-w-xl mx-auto">
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={c.subtitle ?? "Profesionální barber studio."} tag="span" />
-          </p>
-          {c.ctaHref && (
-            <a
-              href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
-              data-btn="primary"
 
-              className="block sm:inline-block w-full sm:w-auto px-8 py-4 rounded font-semibold text-black text-center transition-opacity hover:opacity-90"
-              style={{ backgroundColor: "var(--color-accent, #C9A84C)" }}
+        {/* Vignette + gradient overlay — readability + drama */}
+        <div aria-hidden style={{
+          position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
+          background: "linear-gradient(180deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.28) 35%, rgba(0,0,0,0.55) 75%, rgba(0,0,0,0.85) 100%)",
+        }} />
+        <div aria-hidden style={{
+          position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
+          background: "radial-gradient(ellipse at 30% 50%, transparent 35%, rgba(0,0,0,0.55) 100%)",
+        }} />
+
+        {/* Decorative gold hairline at top */}
+        <div aria-hidden style={{
+          position: "absolute", top: 0, left: 0, right: 0, height: 1, zIndex: 2,
+          background: "linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.4) 50%, transparent 100%)",
+        }} />
+
+        {/* Side label — rotated vertical, gold, na desktopu */}
+        <div aria-hidden className="hidden lg:flex" style={{
+          position: "absolute", left: 32, top: "50%", zIndex: 3,
+          transform: "translateY(-50%) rotate(-90deg)", transformOrigin: "left center",
+          fontSize: "10px", fontWeight: 700, letterSpacing: "0.42em", textTransform: "uppercase",
+          color: "rgba(201,168,76,0.6)", whiteSpace: "nowrap",
+        }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 14 }}>
+            <span style={{ width: 36, height: 1, backgroundColor: "rgba(201,168,76,0.5)" }} />
+            Est. Brno · Barbershop
+          </span>
+        </div>
+
+        <div
+          className="relative z-10 w-full"
+          style={{
+            paddingInline: "clamp(20px, 6vw, 96px)",
+            paddingBlock: "clamp(140px, 18vh, 200px) clamp(80px, 12vh, 140px)",
+            maxWidth: 1400,
+            marginInline: "auto",
+          }}
+        >
+          <div style={{ maxWidth: 760 }}>
+            {/* Eyebrow with horizontal rule */}
+            {eyebrow && (
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
+                <span aria-hidden style={{ width: 48, height: 1, backgroundColor: "var(--color-accent, #C9A84C)" }} />
+                <GenericEditableText
+                  sectionId={sectionId}
+                  field="eyebrow"
+                  value={eyebrow}
+                  tag="span"
+                  className="hero-eyebrow"
+                />
+              </div>
+            )}
+
+            <h1
+              className="whitespace-pre-line"
+              style={{
+                fontFamily: "var(--font-heading)",
+                color: "#F5F5F5",
+                fontSize: "clamp(2.8rem, 7.5vw, 6.5rem)",
+                fontWeight: 700,
+                lineHeight: 0.98,
+                letterSpacing: "-0.015em",
+                marginBottom: 28,
+                textShadow: "0 4px 30px rgba(0,0,0,0.45)",
+              }}
             >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={c.ctaText ?? "Rezervovat termín"} tag="span" />
+              <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? "Váš styl, náš um."} tag="span" />
+            </h1>
+
+            <p
+              style={{
+                color: "rgba(245,245,245,0.82)",
+                fontSize: "clamp(1rem, 1.4vw, 1.22rem)",
+                lineHeight: 1.55,
+                maxWidth: 540,
+                marginBottom: 44,
+                fontWeight: 300,
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={c.subtitle ?? "Profesionální barber studio."} tag="span" />
+            </p>
+
+            {/* CTA group */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 14, alignItems: "center" }}>
+              {c.ctaHref && (
+                <a
+                  href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
+                  data-btn="primary"
+                  className="barber-cta-premium"
+                  style={{
+                    position: "relative",
+                    overflow: "hidden",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 10,
+                    paddingInline: 32,
+                    minHeight: 56,
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    color: "#0a0a0a",
+                    backgroundColor: "var(--color-accent, #C9A84C)",
+                    border: "1px solid var(--color-accent, #C9A84C)",
+                    borderRadius: 2,
+                    textDecoration: "none",
+                    transition: "transform 0.25s ease, box-shadow 0.25s ease",
+                    boxShadow: "0 4px 0 rgba(0,0,0,0.22)",
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow = "0 12px 32px rgba(201,168,76,0.4)";
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.transform = "none";
+                    e.currentTarget.style.boxShadow = "0 4px 0 rgba(0,0,0,0.22)";
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0a0a0a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+                    <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+                    <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+                    <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+                  </svg>
+                  <GenericEditableText sectionId={sectionId} field="ctaText" value={c.ctaText ?? "Rezervovat termín"} tag="span" />
+                  <span aria-hidden className="barber-cta-shimmer" style={{
+                    position: "absolute", top: 0, left: "-60%",
+                    width: "50%", height: "100%",
+                    background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%)",
+                    transform: "skewX(-20deg)", pointerEvents: "none",
+                  }} />
+                </a>
+              )}
+
+              {ctaSecondaryText && (
+                <a
+                  href={resolveDemoHref(ctaSecondaryHref || "#", tenantSlug, isAdmin)}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 10,
+                    paddingInline: 28,
+                    minHeight: 56,
+                    fontSize: "12px",
+                    fontWeight: 700,
+                    letterSpacing: "0.22em",
+                    textTransform: "uppercase",
+                    color: "#F5F5F5",
+                    border: "1px solid rgba(245,245,245,0.32)",
+                    borderRadius: 2,
+                    textDecoration: "none",
+                    backgroundColor: "transparent",
+                    transition: "border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease",
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.borderColor = "var(--color-accent, #C9A84C)";
+                    e.currentTarget.style.color = "var(--color-accent, #C9A84C)";
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.borderColor = "rgba(245,245,245,0.32)";
+                    e.currentTarget.style.color = "#F5F5F5";
+                  }}
+                >
+                  <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll indicator — clickable, scrolls to next section */}
+        <button
+          type="button"
+          aria-label="Posunout dolů"
+          onClick={() => {
+            const target = document.getElementById("sluzby")
+              || (document.querySelector("section[data-template='barber-01']:nth-of-type(2)") as HTMLElement | null)
+              || ((document.querySelector("section[data-template='barber-01']") as HTMLElement | null)?.nextElementSibling as HTMLElement | null);
+            if (target) {
+              const top = target.getBoundingClientRect().top + window.scrollY - 60;
+              window.scrollTo({ top, behavior: "smooth" });
+            } else {
+              window.scrollBy({ top: window.innerHeight * 0.9, behavior: "smooth" });
+            }
+          }}
+          className="hidden md:flex hero-scroll-btn"
+          style={{
+            position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)", zIndex: 4,
+            flexDirection: "column", alignItems: "center", gap: 10,
+            fontSize: "10px", fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase",
+            color: "rgba(245,245,245,0.7)",
+            background: "transparent", border: 0, padding: "8px 12px",
+            cursor: "pointer", transition: "color 0.2s ease",
+          }}
+        >
+          <GenericEditableText sectionId={sectionId} field="scrollLabel" value={String((c as Record<string, unknown>).scrollLabel ?? "Scroll")} tag="span" />
+          <span aria-hidden className="hero-scroll-line" style={{
+            position: "relative",
+            width: 1, height: 56, overflow: "hidden",
+            backgroundColor: "rgba(201,168,76,0.18)",
+          }}>
+            <span aria-hidden className="hero-scroll-dot" style={{
+              position: "absolute", top: 0, left: -2, width: 5, height: 14,
+              backgroundColor: "var(--color-accent, #C9A84C)",
+              borderRadius: 2,
+            }} />
+          </span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+      </section>
+    );
+  }
+
+  if (variant === "hero-barber-page") {
+    // Slim subpage banner — breadcrumb + page title + decorative line.
+    // ~320px height, fixed bg image, dark gradient overlay, gold hairlines.
+    const bg = c.backgroundImage ?? "/images/barber-01/hero.webp";
+    const breadcrumb = String((c as Record<string, unknown>).breadcrumb ?? "Domů");
+    const breadcrumbHref = String((c as Record<string, unknown>).breadcrumbHref ?? "/");
+    return (
+      <section
+        className="relative overflow-hidden"
+        style={{ minHeight: "clamp(280px, 42vh, 380px)", backgroundColor: "#0a0a0a" }}
+        data-template="barber-01"
+      >
+        {bg && (
+          <div
+            aria-hidden
+            style={{
+              position: "absolute", inset: 0,
+              backgroundImage: `url(${bg})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundAttachment: "fixed",
+              filter: "grayscale(0.4) brightness(0.55)",
+              zIndex: 0,
+            }}
+          />
+        )}
+        {/* Gradient overlay */}
+        <div aria-hidden style={{
+          position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
+          background: "linear-gradient(180deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.5) 50%, rgba(10,10,10,0.92) 100%)",
+        }} />
+        {/* Top + bottom gold hairlines */}
+        <div aria-hidden style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, zIndex: 2, background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.5) 50%, transparent)" }} />
+        <div aria-hidden style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 1, zIndex: 2, background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.5) 50%, transparent)" }} />
+
+        <div
+          className="relative flex flex-col items-center justify-center text-center"
+          style={{
+            zIndex: 3,
+            minHeight: "clamp(280px, 42vh, 380px)",
+            paddingBlock: "120px 48px",
+            paddingInline: "clamp(20px, 6vw, 80px)",
+          }}
+        >
+          {/* Breadcrumb */}
+          <nav aria-label="Breadcrumb" style={{
+            display: "flex", alignItems: "center", gap: 10,
+            fontSize: "10.5px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase",
+            color: "rgba(245,245,245,0.55)",
+            marginBottom: 22,
+          }}>
+            <a href={resolveDemoHref(breadcrumbHref, tenantSlug, isAdmin)} style={{ color: "rgba(245,245,245,0.7)", textDecoration: "none", transition: "color 0.2s" }} onMouseEnter={e => e.currentTarget.style.color = "#C9A84C"} onMouseLeave={e => e.currentTarget.style.color = "rgba(245,245,245,0.7)"}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
             </a>
-          )}
+            <span aria-hidden style={{ color: "var(--color-accent, #C9A84C)" }}>/</span>
+            <span style={{ color: "var(--color-accent, #C9A84C)" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? "Stránka"} tag="span" />
+            </span>
+          </nav>
+
+          {/* Page title */}
+          <h1
+            style={{
+              fontFamily: "var(--font-heading)",
+              color: "#F5F5F5",
+              fontSize: "clamp(2.4rem, 5.5vw, 4rem)",
+              fontWeight: 700,
+              lineHeight: 1.05,
+              letterSpacing: "-0.01em",
+              margin: 0,
+              textShadow: "0 2px 24px rgba(0,0,0,0.5)",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? "Stránka"} tag="span" />
+          </h1>
+
+          {/* Decorative line + small ornament */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 22 }}>
+            <span aria-hidden style={{ width: 32, height: 1, background: "var(--color-accent, #C9A84C)" }} />
+            <span aria-hidden style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--color-accent, #C9A84C)" }} />
+            <span aria-hidden style={{ width: 32, height: 1, background: "var(--color-accent, #C9A84C)" }} />
+          </div>
         </div>
       </section>
     );
@@ -658,7 +951,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
         style={{ backgroundColor: "#111" }}
       >
         {c.backgroundImage && (
-          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage} overlayColor="rgba(0,0,0,0.6)" priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} />
+          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage} overlayColor="rgba(0,0,0,0.6)" priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} focusMobileStyle={bgFocusMobileStyle} />
         )}
         <div
           className="relative z-10 w-full px-6 md:px-16 pb-16 pt-32 md:py-0 max-w-3xl"
@@ -702,46 +995,339 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     );
   }
 
-  if (variant === "hero-barber-04-page-title") {
-    // Mini-hero pro podstránky — centrovaný uppercase title + decorative separator,
-    // padding nad header (offset header transparent fixed).
+  if (variant === "hero-beauty-01-page") {
+    // beauty-01 — slim subpage banner: cream bg, breadcrumb + Fahkwang H1 + sand hairline.
+    // NE fullbleed photo (subpages should be calm + content-forward, viz user feedback 2026-06-30).
+    const cc = c as Record<string, unknown>;
+    const breadcrumb     = String(cc.breadcrumb     ?? "Domů");
+    const breadcrumbHref = String(cc.breadcrumbHref ?? "/");
+    const title    = String(cc.title    ?? "");
+    const subtitle = String(cc.subtitle ?? "");
+    const FONT     = "'Fahkwang', Georgia, serif";
+    const SANS     = "var(--font-overpass), 'Overpass', Inter, system-ui, sans-serif";
+    const MONO     = "var(--font-overpass-mono), 'Overpass Mono', Menlo, monospace";
+    const CREAM    = "#FFF8F1";
+    const SAND     = "#E0BE9A";
+    const INK      = "#1F1F1F";
+    const MUTED    = "#5B4D43";
+    const resolvedHref = tenantSlug && breadcrumbHref.startsWith("/")
+      ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${breadcrumbHref}` : breadcrumbHref;
     return (
       <section
-        className="relative"
-        style={{ padding: "180px 24px 80px", backgroundColor: "#0f0f0f" }}
+        className="relative w-full overflow-hidden"
+        style={{
+          backgroundColor: CREAM,
+          padding: "clamp(140px, 16vw, 200px) clamp(24px, 5vw, 64px) clamp(56px, 8vw, 88px)",
+          borderBottom: "1px solid rgba(224,190,154,0.35)",
+        }}
+        data-template="beauty-01"
+      >
+        <div className="mx-auto text-center" style={{ maxWidth: 960 }}>
+          <nav aria-label="Drobečková navigace" style={{
+            display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 24,
+            fontFamily: MONO, fontSize: 11, letterSpacing: "0.24em",
+            textTransform: "uppercase", color: MUTED,
+          }}>
+            <a href={resolvedHref} className="b01-page-bc-link" style={{
+              color: MUTED, textDecoration: "none", transition: "color 0.3s ease",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span aria-hidden="true" style={{ color: SAND }}>·</span>
+            <span style={{ color: INK }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </span>
+          </nav>
+
+          <h1 style={{
+            margin: 0,
+            fontFamily: FONT, fontWeight: 500,
+            fontSize: "clamp(36px, 6vw, 80px)",
+            lineHeight: 1.1, letterSpacing: "0.01em",
+            color: INK,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+
+          <span aria-hidden="true" style={{
+            display: "block", width: 48, height: 1,
+            backgroundColor: SAND,
+            margin: subtitle ? "28px auto 24px" : "28px auto 0",
+          }} />
+
+          {subtitle && (
+            <p style={{
+              margin: "0 auto",
+              fontFamily: SANS, fontWeight: 300,
+              fontSize: "clamp(14px, 1.2vw, 17px)",
+              color: MUTED, lineHeight: 1.65,
+              maxWidth: 540,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
+      </section>
+    );
+  }
+
+  if (variant === "hero-peak-cut-fullbleed") {
+    // peak-cut (aka barber-05) — Brutalist Atelier White hero
+    // Full-bleed photo + dark gradient overlay, HUGE Oswald uppercase title centered,
+    // dual CTA (filled red + ghost underline), informational ledger row at bottom.
+    // ŽÁDNÉ /01 kicker ani EST. badge — per feedback_no_numbered_decorative.
+    const OSWALD = "var(--font-oswald), 'Oswald', 'Bebas Neue', Impact, sans-serif";
+    const MONO   = "var(--font-overpass-mono), 'Overpass Mono', 'JetBrains Mono', Menlo, monospace";
+    const OVERPASS = "var(--font-overpass), 'Overpass', 'Inter', system-ui, sans-serif";
+    const RED = "#c41e3a";
+    const cc = c as Record<string, unknown>;
+    // Hero bg — accept either backgroundImage or slides[0].backgroundImage
+    type Slide = { backgroundImage?: string };
+    const slides = (cc.slides as Slide[]) ?? [];
+    const heroBg = String(cc.backgroundImage ?? slides[0]?.backgroundImage ?? "");
+    const title = String(cc.title ?? "Váš styl,\nnaše řemeslo.");
+    const subtitle = String(cc.subtitle ?? "");
+    const ctaText = String(cc.ctaText ?? "Rezervovat");
+    const ctaHref = String(cc.ctaHref ?? "#");
+    const secondaryText = String(cc.secondaryText ?? "");
+    const secondaryHref = String(cc.secondaryHref ?? "#about");
+    type Ledger = { label?: string; value?: string };
+    const ledger: Ledger[] = (cc.ledger as Ledger[]) ?? [
+      { label: "Adresa",    value: "Krymská 12, Praha 10" },
+      { label: "Otevřeno",  value: "Po–So 10—20" },
+      { label: "Kontakt",   value: "+420 775 321 654" },
+    ];
+    return (
+      <section
+        id="hero"
+        className="relative w-full overflow-hidden"
+        style={{
+          minHeight: "100svh",
+          backgroundColor: "#0a0a0a",
+        }}
+        data-template="peak-cut"
+      >
+        {heroBg && (
+          <BackgroundEditableImage
+            sectionId={sectionId}
+            src={heroBg}
+            overlayColor="rgba(0,0,0,0.45)"
+            priority={true}
+            isAdmin={isAdmin}
+            focusStyle={bgFocusStyle}
+            focusMobileStyle={bgFocusMobileStyle}
+          />
+        )}
+
+        {/* Extra bottom gradient for ledger legibility */}
+        <div aria-hidden="true" style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.78) 100%)",
+          pointerEvents: "none",
+        }} />
+
+        {/* Center content */}
+        <div className="relative z-10 mx-auto w-full flex flex-col justify-center"
+          style={{
+            maxWidth: 1320,
+            padding: "clamp(180px, 22vw, 280px) clamp(24px, 5vw, 64px) clamp(180px, 22vw, 240px)",
+            minHeight: "100svh",
+          }}
+        >
+          <h1
+            className="pc-hero-title"
+            style={{
+              fontFamily: OSWALD,
+              fontWeight: 700,
+              fontSize: "clamp(44px, 9.5vw, 120px)",
+              lineHeight: 1.22,
+              letterSpacing: "0.005em",
+              textTransform: "uppercase",
+              color: "#ffffff",
+              margin: 0,
+              maxWidth: "14ch",
+              whiteSpace: "pre-line",
+              textShadow: "0 2px 28px rgba(0,0,0,0.4)",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+
+          {subtitle && (
+            <p
+              style={{
+                marginTop: 28,
+                maxWidth: 540,
+                fontFamily: OVERPASS,
+                fontWeight: 300,
+                fontSize: "clamp(15px, 1.4vw, 19px)",
+                lineHeight: 1.6,
+                color: "rgba(255,255,255,0.82)",
+                letterSpacing: "0.01em",
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+
+          <div className="pc-hero-actions" style={{ marginTop: 44, display: "flex", flexWrap: "wrap", alignItems: "center", gap: 28 }}>
+            {ctaText && (
+              <a
+                href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+                className="pc-hero-cta inline-flex items-center justify-center"
+                style={{
+                  fontFamily: OSWALD,
+                  fontSize: 13,
+                  fontWeight: 600,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  padding: "18px 36px",
+                  backgroundColor: RED,
+                  color: "#ffffff",
+                  textDecoration: "none",
+                  border: `1px solid ${RED}`,
+                  transition: "background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease",
+                }}
+              >
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <span aria-hidden="true" className="pc-hero-cta-arrow" style={{ marginLeft: 12, display: "inline-block", transition: "transform 0.3s ease" }}>→</span>
+              </a>
+            )}
+
+            {secondaryText && (
+              <a
+                href={resolveDemoHref(secondaryHref, tenantSlug, isAdmin)}
+                className="pc-hero-secondary inline-flex items-center gap-3"
+                style={{
+                  fontFamily: OSWALD,
+                  fontSize: 12,
+                  fontWeight: 500,
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "#ffffff",
+                  textDecoration: "none",
+                  paddingBottom: 4,
+                  borderBottom: "1px solid rgba(255,255,255,0.4)",
+                  transition: "color 0.3s ease, border-color 0.3s ease",
+                }}
+              >
+                <GenericEditableText sectionId={sectionId} field="secondaryText" value={secondaryText} tag="span" />
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Bottom: informational ledger (NOT decorative — real adresa/hours/contact) */}
+        {ledger.length > 0 && (
+          <div className="absolute bottom-0 left-0 right-0 z-10"
+            style={{
+              padding: "0 clamp(24px, 5vw, 64px) clamp(28px, 4vw, 48px)",
+            }}
+          >
+            <div aria-hidden="true" style={{ height: 1, backgroundColor: "rgba(255,255,255,0.22)", marginBottom: 22 }} />
+            <div className="pc-hero-ledger" style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+              gap: 24,
+              maxWidth: 1320,
+              margin: "0 auto",
+            }}>
+              {ledger.map((item, i) => (
+                <div key={`pc-led-${i}`} className="pc-hero-ledger-item" style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  <span style={{
+                    fontFamily: MONO, fontSize: 10, letterSpacing: "0.22em",
+                    textTransform: "uppercase", color: "rgba(255,255,255,0.55)",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field={`ledger.${i}.label`} value={item.label ?? ""} tag="span" />
+                  </span>
+                  <span style={{
+                    fontFamily: OVERPASS, fontSize: 14, fontWeight: 400,
+                    color: "#ffffff", letterSpacing: "0.01em",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field={`ledger.${i}.value`} value={item.value ?? ""} tag="span" />
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </section>
+    );
+  }
+
+  if (variant === "hero-barber-04-page-title") {
+    // Slim banner pro podstránky — industrial dark s breadcrumb + Bebas Neue title.
+    const breadcrumbLabel = String((c as Record<string, unknown>).breadcrumb ?? "Domů");
+    const breadcrumbHref = String((c as Record<string, unknown>).breadcrumbHref ?? "/");
+    return (
+      <section
+        className="relative overflow-hidden"
+        style={{ padding: "clamp(108px, 11vw, 140px) 24px clamp(36px, 4vw, 52px)", backgroundColor: "#0a0806" }}
         data-template="barber-04"
       >
-        <div className="max-w-[860px] mx-auto text-center">
+        {/* Bottom gold fade divider — natural section transition */}
+        <div aria-hidden style={{
+          position: "absolute", bottom: 0, left: "15%", right: "15%", height: 1,
+          background: "linear-gradient(90deg, transparent 0%, rgba(213,185,129,.35) 50%, transparent 100%)",
+        }} />
+
+        <div className="max-w-[960px] mx-auto text-center relative z-10">
+          {/* Breadcrumb — industrial uppercase */}
+          <nav aria-label="Drobečková navigace" style={{
+            display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 28,
+            fontFamily: "'Lato',Helvetica,Arial,sans-serif",
+            fontSize: 11, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase",
+          }}>
+            <a
+              href={resolveDemoHref(breadcrumbHref, tenantSlug, isAdmin)}
+              className="b04-topbar-link"
+              style={{ color: "#d5b981", textDecoration: "none" }}
+            >
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumbLabel} tag="span" />
+            </a>
+            <span aria-hidden style={{ color: "rgba(255,255,255,.32)" }}>/</span>
+            <span style={{ color: "rgba(255,255,255,.58)" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={String(c.title ?? "")} tag="span" />
+            </span>
+          </nav>
+
           <h1
             className="uppercase"
             style={{
               fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif",
-              fontWeight: 300,
-              fontSize: "clamp(28px, 3vw, 52px)",
-              letterSpacing: 0,
+              fontWeight: 400,
+              fontSize: "clamp(40px, 5.5vw, 80px)",
+              letterSpacing: "0.03em",
               color: "#ffffff",
-              lineHeight: 1.15,
-              margin: "0 auto 16px",
+              lineHeight: 1.05,
+              margin: "0 auto 24px",
             }}
           >
             <GenericEditableText sectionId={sectionId} field="title" value={String(c.title ?? "")} tag="span" />
           </h1>
+
+          {/* Gold fade signature line */}
           <div
             aria-hidden
-            className="mx-auto"
-            style={{ width: 60, height: 2, backgroundColor: "#d5b981", opacity: 0.85, margin: "0 auto 18px" }}
+            style={{
+              width: 180, height: 1,
+              margin: "0 auto",
+              background: "linear-gradient(90deg, transparent 0%, rgba(213,185,129,.85) 50%, transparent 100%)",
+            }}
           />
+
           {c.subtitle && (
             <p
+              className="uppercase"
               style={{
                 fontFamily: "'Lato',Helvetica,Arial,sans-serif",
-                fontWeight: 400,
-                fontStyle: "italic",
-                fontSize: "clamp(13px, 1.05vw, 16px)",
-                color: "rgba(255,255,255,0.78)",
+                fontWeight: 500,
+                fontSize: "clamp(12px, 1vw, 14px)",
+                letterSpacing: "0.18em",
+                color: "rgba(255,255,255,0.66)",
                 maxWidth: 640,
-                margin: "0 auto",
-                lineHeight: 1.7,
+                margin: "28px auto 0",
+                lineHeight: 1.75,
               }}
             >
               <GenericEditableText sectionId={sectionId} field="subtitle" value={String(c.subtitle ?? "")} tag="span" />
@@ -765,6 +1351,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     const interval = Number((c as unknown as { autoPlayInterval?: number }).autoPlayInterval ?? 6000);
     const ctaText = String(c.ctaText ?? "vytvořit rezervaci");
     const ctaHref = String(c.ctaHref ?? "#rezervace");
+    const heroEyebrow = String((c as Record<string, unknown>).heroEyebrow ?? "ESTD. 2014 · BRNO");
     return (
       <HeroBarber04Slider
         slides={slides}
@@ -772,6 +1359,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
         ctaText={ctaText}
         ctaHref={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
         sectionId={sectionId}
+        heroEyebrow={heroEyebrow}
       />
     );
   }
@@ -779,18 +1367,19 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "hero-barber-luxury") {
     const hoursLines = (c.hoursLines as Array<{ label: string; value: string }>) ?? [];
     const address = String(c.address ?? "");
+    const eyebrow = String((c as Record<string, unknown>).eyebrow ?? "");
     const showScroll = c.scrollIndicator !== false;
     return (
       <section
         className="relative flex items-center justify-center overflow-hidden"
-        style={{ minHeight: "100vh", backgroundColor: "#111" }}
+        style={{ minHeight: "100vh", backgroundColor: "#0d0d0d" }}
+        data-template="barber-02"
       >
-        {/* Fallback dark backdrop — paints FIRST so it sits under the image.
-            pointer-events:none so it never blocks the clickable image above. */}
+        {/* Fallback dark backdrop */}
         <div
           aria-hidden
           className="absolute inset-0 pointer-events-none"
-          style={{ backgroundColor: "#1a1a1a", zIndex: 0 }}
+          style={{ backgroundColor: "#1a1410", zIndex: 0 }}
         />
         {c.backgroundImage && (
           <BackgroundEditableImage
@@ -800,150 +1389,613 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
             priority={true}
             isAdmin={isAdmin}
             focusStyle={bgFocusStyle}
+            focusMobileStyle={bgFocusMobileStyle}
           />
         )}
-        {/* Hero gradient overlay — over BackgroundEditableImage, under content.
-            pointer-events:none → clicks pass through to the image (background edit). */}
+        {/* Vertical gradient overlay — top dark for nav contrast + bottom dark for content */}
         <div
           aria-hidden
           className="absolute inset-0 z-[1] pointer-events-none"
           style={{
             background:
-              "linear-gradient(to bottom,rgba(0,0,0,.2) 0%,rgba(0,0,0,.55) 60%,rgba(0,0,0,.75) 100%)",
+              "linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.32) 30%, rgba(0,0,0,0.45) 65%, rgba(0,0,0,0.78) 100%)",
+          }}
+        />
+        {/* Radial vignette for centered focus */}
+        <div
+          aria-hidden
+          className="absolute inset-0 z-[1] pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.45) 100%)",
           }}
         />
 
-        <div className="relative z-10 text-center text-white px-6 max-w-[800px]">
+        {/* Top & bottom hairlines — warm gold accents */}
+        <div aria-hidden style={{
+          position: "absolute", top: 0, left: "8%", right: "8%", height: 1, zIndex: 2,
+          background: "linear-gradient(90deg, transparent, rgba(212,169,110,0.5) 50%, transparent)",
+        }} />
+        <div aria-hidden style={{
+          position: "absolute", bottom: 0, left: "8%", right: "8%", height: 1, zIndex: 2,
+          background: "linear-gradient(90deg, transparent, rgba(212,169,110,0.45) 50%, transparent)",
+        }} />
+
+        <div className="relative z-10 text-center text-white px-6" style={{ maxWidth: 880, paddingBlock: "180px 80px" }}>
+          {/* Eyebrow — italic serif kicker */}
+          {eyebrow && (
+            <div className="b02-hero-eyebrow" style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 14,
+              marginBottom: 28,
+              opacity: 0,
+              animation: "b02HeroFade 0.9s cubic-bezier(.22,.68,0,1.1) 0.1s forwards",
+            }}>
+              <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#d4a96e" }} />
+              <span style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontStyle: "italic",
+                fontSize: "13px",
+                fontWeight: 400,
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: "#d4a96e",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </span>
+              <span aria-hidden style={{ width: 42, height: 1, backgroundColor: "#d4a96e" }} />
+            </div>
+          )}
+
+          {/* H1 — large Libre Baskerville uppercase, fade-in */}
           <h1
-            className="uppercase mb-4"
+            className="b02-hero-title"
             style={{
-              fontFamily: "var(--font-heading)",
+              fontFamily: "'Libre Baskerville', Georgia, serif",
               fontWeight: 400,
-              fontSize: "clamp(3rem, 7vw, 6rem)",
-              letterSpacing: "0.18em",
+              fontSize: "clamp(2.8rem, 7.5vw, 6.2rem)",
+              lineHeight: 1.05,
+              letterSpacing: "0.16em",
               color: "#fff",
+              textTransform: "uppercase",
+              margin: "0 0 24px",
+              textShadow: "0 2px 28px rgba(0,0,0,0.5)",
+              opacity: 0,
+              animation: "b02HeroFade 1s cubic-bezier(.22,.68,0,1.1) 0.25s forwards",
             }}
           >
             <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? "ATELIER"} tag="span" />
           </h1>
-          <p
-            className="mb-10"
-            style={{
-              fontFamily: "var(--font-body)",
-              fontWeight: 300,
-              fontSize: "clamp(1rem, 2.5vw, 1.4rem)",
-              letterSpacing: "0.06em",
-              color: "rgba(255,255,255,0.9)",
-            }}
-          >
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={c.subtitle ?? ""} tag="span" />
-          </p>
+
+          {/* Decorative gold dot + lines under H1 */}
+          <div aria-hidden className="b02-hero-rule" style={{
+            display: "inline-flex", alignItems: "center", gap: 14,
+            marginBottom: 36,
+            opacity: 0,
+            animation: "b02HeroFade 0.9s cubic-bezier(.22,.68,0,1.1) 0.45s forwards",
+          }}>
+            <span style={{ width: 56, height: 1, backgroundColor: "rgba(212,169,110,0.6)" }} />
+            <span style={{ width: 5, height: 5, borderRadius: "50%", backgroundColor: "#d4a96e" }} />
+            <span style={{ width: 56, height: 1, backgroundColor: "rgba(212,169,110,0.6)" }} />
+          </div>
+
+          {/* Subtitle */}
+          {c.subtitle && (
+            <p
+              className="b02-hero-subtitle"
+              style={{
+                fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                fontWeight: 300,
+                fontSize: "clamp(1rem, 1.6vw, 1.25rem)",
+                lineHeight: 1.7,
+                letterSpacing: "0.04em",
+                color: "rgba(255,255,255,0.88)",
+                margin: "0 auto 44px",
+                maxWidth: 620,
+                opacity: 0,
+                animation: "b02HeroFade 0.9s cubic-bezier(.22,.68,0,1.1) 0.6s forwards",
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={c.subtitle} tag="span" />
+            </p>
+          )}
+
+          {/* CTA — editorial pill, fills gold on hover */}
           {c.ctaHref && (
             <a
               href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
               data-btn="primary"
-
-              className="inline-block uppercase no-underline transition-colors"
+              className="b02-hero-cta inline-flex items-center justify-center uppercase no-underline"
               style={{
-                border: "1.5px solid rgba(255,255,255,0.8)",
+                gap: 10,
+                border: "1.5px solid rgba(255,255,255,0.85)",
                 color: "#fff",
-                fontFamily: "var(--font-body)",
+                fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                fontWeight: 600,
                 fontSize: 12,
-                letterSpacing: "0.2em",
-                padding: "14px 36px",
+                letterSpacing: "0.24em",
+                paddingInline: 38,
+                paddingBlock: 16,
                 borderRadius: 50,
-                marginBottom: 48,
+                backgroundColor: "transparent",
+                transition: "background 0.45s cubic-bezier(.4,0,.2,1), border-color 0.45s cubic-bezier(.4,0,.2,1), color 0.4s ease, box-shadow 0.45s ease, transform 0.4s ease",
+                opacity: 0,
+                animation: "b02HeroFade 0.9s cubic-bezier(.22,.68,0,1.1) 0.75s forwards",
               }}
             >
               <GenericEditableText sectionId={sectionId} field="ctaText" value={c.ctaText ?? "Rezervovat"} tag="span" />
+              <span aria-hidden style={{
+                display: "inline-flex",
+                transition: "transform 0.4s cubic-bezier(.22,.68,0,1.1)",
+              }} className="b02-hero-cta-arrow">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </span>
             </a>
           )}
+
+          {/* Hours + address — refined info row */}
           {(hoursLines.length > 0 || address) && (
-            <div
-              style={{
-                fontSize: "0.95rem",
-                lineHeight: 2,
-                color: "rgba(255,255,255,0.85)",
-                marginTop: 32,
-              }}
-            >
-              {hoursLines.map((h, i) => (
-                <p key={i}>
-                  <strong style={{ color: "#fff" }}>
-                    <GenericEditableText
-                      sectionId={sectionId}
-                      field={`hoursLines.${i}.label`}
-                      value={h.label}
-                      tag="span"
-                    />
-                  </strong>{" "}
-                  <GenericEditableText
-                    sectionId={sectionId}
-                    field={`hoursLines.${i}.value`}
-                    value={h.value}
-                    tag="span"
-                  />
-                </p>
-              ))}
+            <div className="b02-hero-info" style={{
+              marginTop: 64,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 36,
+              flexWrap: "wrap",
+              opacity: 0,
+              animation: "b02HeroFade 1s cubic-bezier(.22,.68,0,1.1) 0.95s forwards",
+            }}>
+              {hoursLines.length > 0 && (
+                <div style={{ textAlign: "center" }}>
+                  <p style={{
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    fontSize: 10,
+                    fontWeight: 700,
+                    letterSpacing: "0.28em",
+                    textTransform: "uppercase",
+                    color: "#d4a96e",
+                    margin: "0 0 10px",
+                  }}><GenericEditableText sectionId={sectionId} field="hoursLabel" value={String((c as Record<string, unknown>).hoursLabel ?? "Otevírací doba")} tag="span" /></p>
+                  <div style={{
+                    fontFamily: "'Libre Baskerville', Georgia, serif",
+                    fontSize: "0.92rem",
+                    lineHeight: 1.7,
+                    color: "rgba(255,255,255,0.88)",
+                  }}>
+                    {hoursLines.map((h, i) => (
+                      <p key={i} style={{ margin: "2px 0" }}>
+                        <span style={{ fontStyle: "italic", marginRight: 10 }}>
+                          <GenericEditableText sectionId={sectionId} field={`hoursLines.${i}.label`} value={h.label} tag="span" />
+                        </span>
+                        <GenericEditableText sectionId={sectionId} field={`hoursLines.${i}.value`} value={h.value} tag="span" />
+                      </p>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {hoursLines.length > 0 && address && (
+                <span aria-hidden className="hidden md:inline-block" style={{
+                  width: 1, height: 56, backgroundColor: "rgba(212,169,110,0.45)",
+                }} />
+              )}
               {address && (
-                <p>
-                  <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
-                </p>
+                <div style={{ textAlign: "center" }}>
+                  <p style={{
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    fontSize: 10,
+                    fontWeight: 700,
+                    letterSpacing: "0.28em",
+                    textTransform: "uppercase",
+                    color: "#d4a96e",
+                    margin: "0 0 10px",
+                  }}><GenericEditableText sectionId={sectionId} field="addressLabel" value={String((c as Record<string, unknown>).addressLabel ?? "Najdete nás")} tag="span" /></p>
+                  <p style={{
+                    fontFamily: "'Libre Baskerville', Georgia, serif",
+                    fontSize: "0.92rem",
+                    lineHeight: 1.7,
+                    color: "rgba(255,255,255,0.88)",
+                    margin: 0,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                  </p>
+                </div>
               )}
             </div>
           )}
         </div>
+
+        {/* Scroll indicator — clickable, smoothly scrolls to next section */}
         {showScroll && (
-          <div
-            aria-hidden
-            className="absolute z-10"
+          <button
+            type="button"
+            aria-label="Posunout dolů"
+            className="b02-hero-scroll hidden md:flex"
+            onClick={() => {
+              const section = document.querySelectorAll("section")[0];
+              const next = section?.nextElementSibling as HTMLElement | null;
+              if (next) {
+                const top = next.getBoundingClientRect().top + window.scrollY - 60;
+                window.scrollTo({ top, behavior: "smooth" });
+              } else {
+                window.scrollBy({ top: window.innerHeight * 0.9, behavior: "smooth" });
+              }
+            }}
             style={{
-              bottom: 32,
-              left: "50%",
-              transform: "translateX(-50%)",
-              opacity: 0.7,
+              position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 4,
+              flexDirection: "column", alignItems: "center", gap: 12,
+              background: "transparent", border: 0, cursor: "pointer",
+              padding: "8px 12px",
+              fontFamily: "'Libre Baskerville', Georgia, serif",
+              fontSize: 10,
+              fontStyle: "italic",
+              letterSpacing: "0.32em",
+              textTransform: "uppercase",
+              color: "rgba(255,255,255,0.7)",
+              opacity: 0,
+              animation: "b02HeroFade 1.2s cubic-bezier(.22,.68,0,1.1) 1.1s forwards",
+              transition: "color 0.3s ease",
             }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M12 5v14M5 12l7 7 7-7" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </div>
+            <GenericEditableText sectionId={sectionId} field="scrollLabel" value={String((c as Record<string, unknown>).scrollLabel ?? "Scroll")} tag="span" />
+            <span aria-hidden style={{
+              position: "relative",
+              width: 3, height: 68, overflow: "hidden",
+              backgroundColor: "rgba(212,169,110,0.22)",
+              borderRadius: 2,
+            }}>
+              <span aria-hidden className="b02-hero-scroll-dot" style={{
+                position: "absolute", top: 0, left: 0, width: 3, height: 22,
+                backgroundColor: "#d4a96e",
+                borderRadius: 2,
+              }} />
+            </span>
+          </button>
         )}
       </section>
     );
   }
 
   if (variant === "hero-barber-titleonly") {
+    const eyebrow = String((c as Record<string, unknown>).eyebrow ?? "");
+    const ctaSecondaryText = String((c as Record<string, unknown>).ctaSecondaryText ?? "");
+    const ctaSecondaryHref = String((c as Record<string, unknown>).ctaSecondaryHref ?? "");
+    const showScroll = c.scrollIndicator !== false;
     return (
       <section
         className="relative flex items-center justify-center overflow-hidden"
-        style={{ minHeight: "80vh", backgroundColor: "#1c1410" }}
+        style={{ minHeight: "100vh", backgroundColor: "#1c1410" }}
         data-template="barber-03"
       >
+        {/* Fallback dark warm backdrop */}
         <div aria-hidden className="absolute inset-0 pointer-events-none" style={{ backgroundColor: "#1c1410", zIndex: 0 }} />
         {c.backgroundImage && (
-          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage} overlayColor="transparent" priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} />
+          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage} overlayColor="transparent" priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} focusMobileStyle={bgFocusMobileStyle} />
         )}
+        {/* Vertical gradient — cinematic depth */}
         <div
           aria-hidden
           className="absolute inset-0 z-[1] pointer-events-none"
-          style={{ background: "linear-gradient(to bottom,rgba(0,0,0,.35) 0%,rgba(0,0,0,.55) 60%,rgba(28,20,16,.82) 100%)" }}
+          style={{
+            background: "linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.28) 35%, rgba(28,20,16,0.55) 70%, rgba(28,20,16,0.92) 100%)",
+          }}
         />
-        <div className="relative z-10 text-center text-white px-6 max-w-[1100px]">
+        {/* Warm golden ambient glow — top + bottom hot spots */}
+        <div
+          aria-hidden
+          className="absolute inset-0 z-[1] pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse at 50% 30%, rgba(200,169,110,0.12) 0%, transparent 50%), radial-gradient(ellipse at 50% 90%, rgba(28,20,16,0.6) 0%, transparent 60%)",
+          }}
+        />
+        {/* Top + bottom gold hairlines for cinematic framing */}
+        <div aria-hidden style={{
+          position: "absolute", top: 0, left: "10%", right: "10%", height: 1, zIndex: 2,
+          background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.45) 50%, transparent)",
+        }} />
+        <div aria-hidden style={{
+          position: "absolute", bottom: 0, left: "10%", right: "10%", height: 1, zIndex: 2,
+          background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.4) 50%, transparent)",
+        }} />
+
+        <div className="relative z-10 text-center text-white px-6" style={{ maxWidth: 1100, paddingBlock: "180px 100px" }}>
+          {/* Eyebrow — italic serif kicker with double gold hairlines */}
+          {eyebrow && (
+            <div className="b03-hero-eyebrow" style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 14,
+              marginBottom: 32,
+              opacity: 0,
+              animation: "b03HeroFade 0.85s cubic-bezier(.22,.68,0,1.1) 0.1s forwards",
+            }}>
+              <span aria-hidden style={{ width: 48, height: 1, backgroundColor: "#c8a96e" }} />
+              <span style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontStyle: "italic",
+                fontSize: "13px",
+                fontWeight: 400,
+                letterSpacing: "0.28em",
+                textTransform: "uppercase",
+                color: "#c8a96e",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </span>
+              <span aria-hidden style={{ width: 48, height: 1, backgroundColor: "#c8a96e" }} />
+            </div>
+          )}
+
+          {/* H1 — large Libre Baskerville uppercase with deep shadow */}
           <h1
-            className="uppercase"
+            className="b03-hero-title"
             style={{
-              fontFamily: "var(--font-heading)",
-              fontWeight: 400,
-              fontSize: "clamp(1.9rem, 4.6vw, 4rem)",
-              letterSpacing: "0.12em",
-              lineHeight: 1.18,
-              color: "#fff",
-              textShadow: "0 2px 24px rgba(0,0,0,0.45)",
+              fontFamily: "'Libre Baskerville', Georgia, serif",
+              fontWeight: 700,
+              fontSize: "clamp(2.6rem, 6vw, 5.4rem)",
+              lineHeight: 1.06,
+              letterSpacing: "0.04em",
+              color: "#f5efe6",
+              textTransform: "uppercase",
+              margin: "0 0 30px",
+              textShadow: "0 4px 30px rgba(0,0,0,0.55)",
+              opacity: 0,
+              animation: "b03HeroFade 1s cubic-bezier(.22,.68,0,1.1) 0.25s forwards",
             }}
           >
             <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? ""} tag="span" />
           </h1>
+
+          {/* Decorative rule under H1 — gold trio with central dot */}
+          <div aria-hidden className="b03-hero-rule" style={{
+            display: "inline-flex", alignItems: "center", gap: 16,
+            marginBottom: c.subtitle ? 36 : 48,
+            opacity: 0,
+            animation: "b03HeroFade 0.85s cubic-bezier(.22,.68,0,1.1) 0.45s forwards",
+          }}>
+            <span style={{ width: 56, height: 1, backgroundColor: "#c8a96e" }} />
+            <span style={{ width: 6, height: 6, backgroundColor: "#c8a96e", transform: "rotate(45deg)" }} />
+            <span style={{ width: 56, height: 1, backgroundColor: "#c8a96e" }} />
+          </div>
+
+          {/* Subtitle — optional, italic serif */}
+          {c.subtitle && (
+            <p
+              className="b03-hero-subtitle"
+              style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontStyle: "italic",
+                fontWeight: 400,
+                fontSize: "clamp(1rem, 1.6vw, 1.28rem)",
+                lineHeight: 1.7,
+                letterSpacing: "0.02em",
+                color: "rgba(245,239,230,0.88)",
+                margin: "0 auto 48px",
+                maxWidth: 640,
+                opacity: 0,
+                animation: "b03HeroFade 0.9s cubic-bezier(.22,.68,0,1.1) 0.6s forwards",
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={c.subtitle} tag="span" />
+            </p>
+          )}
+
+          {/* Dual CTA — cinematic urban: primary gold-fill + secondary outline */}
+          {(c.ctaHref || ctaSecondaryHref) && (
+            <div className="b03-hero-cta-group" style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 16,
+              justifyContent: "center",
+              opacity: 0,
+              animation: "b03HeroFade 0.9s cubic-bezier(.22,.68,0,1.1) 0.78s forwards",
+            }}>
+              {c.ctaHref && (
+                <a
+                  href={resolveDemoHref(c.ctaHref, tenantSlug, isAdmin)}
+                  data-btn="primary"
+                  className="b03-hero-cta-primary inline-flex items-center justify-center uppercase no-underline"
+                  style={{
+                    gap: 10,
+                    backgroundColor: "#c8a96e",
+                    border: "1px solid #c8a96e",
+                    color: "#1c1410",
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    fontWeight: 700,
+                    fontSize: 12,
+                    letterSpacing: "0.26em",
+                    paddingInline: 38,
+                    paddingBlock: 17,
+                    transition: "background 0.4s cubic-bezier(.4,0,.2,1), border-color 0.4s ease, color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease",
+                    boxShadow: "0 6px 24px rgba(200,169,110,0.32)",
+                  }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+                    <line x1="20" y1="4" x2="8.12" y2="15.88"/>
+                    <line x1="14.47" y1="14.48" x2="20" y2="20"/>
+                    <line x1="8.12" y1="8.12" x2="12" y2="12"/>
+                  </svg>
+                  <GenericEditableText sectionId={sectionId} field="ctaText" value={c.ctaText ?? "Rezervovat"} tag="span" />
+                  <span aria-hidden className="b03-hero-cta-arrow" style={{
+                    display: "inline-flex",
+                    transition: "transform 0.4s cubic-bezier(.22,.68,0,1.1)",
+                  }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                  </span>
+                </a>
+              )}
+              {ctaSecondaryText && (
+                <a
+                  href={resolveDemoHref(ctaSecondaryHref || "#", tenantSlug, isAdmin)}
+                  className="b03-hero-cta-secondary inline-flex items-center justify-center uppercase no-underline"
+                  style={{
+                    gap: 10,
+                    border: "1px solid rgba(245,239,230,0.4)",
+                    color: "#f5efe6",
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    fontWeight: 600,
+                    fontSize: 12,
+                    letterSpacing: "0.26em",
+                    paddingInline: 34,
+                    paddingBlock: 17,
+                    backgroundColor: "transparent",
+                    transition: "background 0.4s ease, border-color 0.4s ease, color 0.4s ease, transform 0.4s ease",
+                  }}
+                >
+                  <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
+                </a>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Scroll indicator — clickable, gold dot drops cinematically */}
+        {showScroll && (
+          <button
+            type="button"
+            aria-label="Posunout dolů"
+            className="b03-hero-scroll hidden md:flex"
+            onClick={() => {
+              const section = document.querySelectorAll("section")[0];
+              const next = section?.nextElementSibling as HTMLElement | null;
+              if (next) {
+                const top = next.getBoundingClientRect().top + window.scrollY - 60;
+                window.scrollTo({ top, behavior: "smooth" });
+              } else {
+                window.scrollBy({ top: window.innerHeight * 0.9, behavior: "smooth" });
+              }
+            }}
+            style={{
+              position: "absolute", bottom: 34, left: "50%", transform: "translateX(-50%)", zIndex: 4,
+              flexDirection: "column", alignItems: "center", gap: 12,
+              background: "transparent", border: 0, cursor: "pointer",
+              padding: "8px 12px",
+              fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+              fontSize: 10,
+              fontWeight: 700,
+              letterSpacing: "0.34em",
+              textTransform: "uppercase",
+              color: "rgba(245,239,230,0.65)",
+              opacity: 0,
+              animation: "b03HeroFade 1.1s cubic-bezier(.22,.68,0,1.1) 1s forwards",
+              transition: "color 0.3s ease",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="scrollLabel" value={String((c as Record<string, unknown>).scrollLabel ?? "Scroll")} tag="span" />
+            <span aria-hidden style={{
+              position: "relative",
+              width: 3, height: 68, overflow: "hidden",
+              backgroundColor: "rgba(200,169,110,0.22)",
+              borderRadius: 2,
+            }}>
+              <span aria-hidden className="b03-hero-scroll-dot" style={{
+                position: "absolute", top: 0, left: 0, width: 3, height: 22,
+                backgroundColor: "#c8a96e",
+                borderRadius: 2,
+              }} />
+            </span>
+          </button>
+        )}
+      </section>
+    );
+  }
+
+  if (variant === "hero-barber-03-page") {
+    // Slim subpage banner pro barber-03 — breadcrumb + uppercase Libre Baskerville H1 + diamond rule
+    const bg = c.backgroundImage ?? "";
+    const breadcrumb = String((c as Record<string, unknown>).breadcrumb ?? "Domů");
+    const breadcrumbHref = String((c as Record<string, unknown>).breadcrumbHref ?? "/");
+    return (
+      <section
+        className="relative overflow-hidden"
+        style={{ minHeight: "clamp(300px, 44vh, 400px)", backgroundColor: "#1c1410" }}
+        data-template="barber-03"
+      >
+        {bg && (
+          <div
+            aria-hidden
+            style={{
+              position: "absolute", inset: 0,
+              backgroundImage: `url(${bg})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundAttachment: "fixed",
+              filter: "grayscale(0.5) brightness(0.55) sepia(0.18)",
+              zIndex: 0,
+            }}
+          />
+        )}
+        {/* Dark warm gradient overlay */}
+        <div aria-hidden style={{
+          position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
+          background: "linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.45) 50%, rgba(28,20,16,0.9) 100%)",
+        }} />
+        {/* Warm golden ambient glow */}
+        <div aria-hidden style={{
+          position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
+          background: "radial-gradient(ellipse at 50% 40%, rgba(200,169,110,0.1) 0%, transparent 55%)",
+        }} />
+        {/* Dual gold hairlines top/bottom (consistent s ostatními b03 sekcemi) */}
+        <div aria-hidden style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, zIndex: 2, background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)" }} />
+        <div aria-hidden style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 1, zIndex: 2, background: "linear-gradient(90deg, transparent, rgba(200,169,110,0.5) 50%, transparent)" }} />
+
+        <div
+          className="relative flex flex-col items-center justify-center text-center"
+          style={{
+            zIndex: 3,
+            minHeight: "clamp(300px, 44vh, 400px)",
+            paddingBlock: "130px 56px",
+            paddingInline: "clamp(20px, 6vw, 80px)",
+          }}
+        >
+          {/* Breadcrumb — Source Sans masculine uppercase */}
+          <nav aria-label="Breadcrumb" style={{
+            display: "flex", alignItems: "center", gap: 12,
+            fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+            fontSize: "10.5px", fontWeight: 700, letterSpacing: "0.32em", textTransform: "uppercase",
+            color: "rgba(245,239,230,0.55)",
+            marginBottom: 24,
+          }}>
+            <a
+              href={resolveDemoHref(breadcrumbHref, tenantSlug, isAdmin)}
+              style={{ color: "rgba(245,239,230,0.7)", textDecoration: "none", transition: "color 0.3s ease" }}
+              onMouseEnter={e => { e.currentTarget.style.color = "#c8a96e"; }}
+              onMouseLeave={e => { e.currentTarget.style.color = "rgba(245,239,230,0.7)"; }}
+            >
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span aria-hidden style={{ color: "#c8a96e" }}>/</span>
+            <span style={{ color: "#c8a96e" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? "Stránka"} tag="span" />
+            </span>
+          </nav>
+
+          {/* Page title — Libre Baskerville uppercase warm cream */}
+          <h1
+            style={{
+              fontFamily: "'Libre Baskerville', Georgia, serif",
+              color: "#f5efe6",
+              fontSize: "clamp(2.4rem, 5.5vw, 4rem)",
+              fontWeight: 700,
+              lineHeight: 1.06,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              margin: 0,
+              textShadow: "0 4px 28px rgba(0,0,0,0.55)",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="title" value={c.title ?? "Stránka"} tag="span" />
+          </h1>
+
+          {/* Diamond rule pod H1 (consistent s b03 motivem) */}
+          <div aria-hidden style={{ display: "inline-flex", alignItems: "center", gap: 14, marginTop: 22 }}>
+            <span style={{ width: 48, height: 1, backgroundColor: "#c8a96e" }} />
+            <span style={{ width: 6, height: 6, backgroundColor: "#c8a96e", transform: "rotate(45deg)" }} />
+            <span style={{ width: 48, height: 1, backgroundColor: "#c8a96e" }} />
+          </div>
         </div>
       </section>
     );
@@ -1056,22 +2108,43 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   // Originál selfbeauty.cz — žádný overlay (data-bg-effect-name="")
   // H1: Cormorant Garamond 100px → Fahkwang light, "na jednom místě." 70px italic
   if (variant === "hero-beauty-01-fullbleed") {
-    const bg       = String(content.backgroundImage ?? "");
-    const tag      = String(content.tag ?? "Praha 1 · Prémiové beauty studio");
-    const titleH1  = String(content.titleH1 ?? "Holičství, nehty\na péče o pleť");
-    const titleIta = String(content.titleItalic ?? "na jednom místě.");
-    const sub      = String(content.subtitle ?? "Vaše péče o sebe začíná tady.");
-    const cta      = String(content.ctaText ?? "Rezervovat");
-    const href     = String(content.ctaHref ?? "#rezervace");
-    const SERIF    = "'Cormorant Garamond', 'Fahkwang', Georgia, serif";
-    const SERIF_IT = "'Adobe Caslon Pro', 'Cormorant Garamond', 'Fahkwang', Georgia, serif";
-    const SANS     = "Inter, 'Fahkwang', sans-serif";
-    const SAND     = "#E0BE9A";
+    // beauty-01 — Sand-Cream Editorial Wellness fullbleed hero
+    // Cream paper + bg photo with light overlay, Fahkwang display title + sand italic accent,
+    // dual CTA (filled sand + ghost link), bottom info ledger row (ADRESA / OTEVŘENO / KONTAKT).
+    // Žádné /01 markery ani EST. badges (per feedback_no_numbered_decorative).
+    const cc = content as Record<string, unknown>;
+    const bg       = String(cc.backgroundImage ?? "");
+    const tag      = String(cc.tag       ?? "Wellness atelier · Vinohrady, Praha");
+    const titleH1  = String(cc.titleH1   ?? "Péče jako rituál,");
+    const titleIta = String(cc.titleItalic ?? "ne jako služba.");
+    const sub      = String(cc.subtitle  ?? "Holičství, manikúra a péče o pleť pod jednou střechou — pro klienty, kteří hledají preciznost a klid.");
+    const cta      = String(cc.ctaText   ?? "Rezervovat termín");
+    const href     = String(cc.ctaHref   ?? "/rezervace");
+    const secText  = String(cc.secondaryText ?? "Naše služby");
+    const secHref  = String(cc.secondaryHref ?? "/cenik");
+    type Ledger = { label?: string; value?: string };
+    const ledger: Ledger[] = (cc.ledger as Ledger[]) ?? [
+      { label: "Adresa",    value: "Mánesova 14, Praha 2" },
+      { label: "Otevřeno",  value: "Po–Pá 9—20  ·  So 9—15" },
+      { label: "Kontakt",   value: "+420 775 321 654" },
+    ];
+    const FONT    = "'Fahkwang', Georgia, serif";
+    const SANS    = "var(--font-overpass), 'Overpass', Inter, system-ui, sans-serif";
+    const MONO    = "var(--font-overpass-mono), 'Overpass Mono', Menlo, monospace";
+    const SAND    = "#E0BE9A";
+    const PAPER   = "#FFF8F1";
+    const INK     = "#1F1F1F";
+    const resolvedSecHref = tenantSlug && secHref.startsWith("/")
+      ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${secHref}` : secHref;
     return (
       <section
-        id="uvod"
-        className="relative w-full flex items-center justify-center overflow-hidden"
-        style={{ minHeight: 615, backgroundColor: "#2a2520" }}
+        id="hero"
+        className="relative w-full overflow-hidden"
+        style={{
+          minHeight: "100svh",
+          backgroundColor: PAPER,
+        }}
+        data-template="beauty-01"
       >
         {/* Bg foto */}
         {bg && (
@@ -1079,97 +2152,152 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
             <Image src={bg} alt="" fill className="object-cover object-center" sizes="100vw" priority unoptimized={shouldSkipNextImageOptimization(bg)} />
           </GenericEditableImage>
         )}
-        {/* Subtle dark overlay */}
-        <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{ backgroundColor: "rgba(0,0,0,0.22)" }} />
 
-        {/* Text content — zarovnáno na střed sekce */}
-        <div
-          className="relative z-[2] flex flex-col items-center text-center"
-          style={{ padding: "60px clamp(20px, 6vw, 80px)", width: "100%", maxWidth: 1040 }}
+        {/* Light gradient overlay — bottom heavier for ledger legibility, top airy */}
+        <div aria-hidden className="absolute inset-0 z-[1] pointer-events-none" style={{
+          background: "linear-gradient(180deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.12) 40%, rgba(0,0,0,0.65) 100%)",
+        }} />
+
+        {/* Center content cluster */}
+        <div className="relative z-[2] mx-auto w-full flex flex-col items-center text-center justify-center"
+          style={{
+            maxWidth: 1100,
+            padding: "clamp(180px, 22vw, 280px) clamp(24px, 5vw, 64px) clamp(160px, 18vw, 220px)",
+            minHeight: "100svh",
+          }}
         >
-          {/* Tag — Inter 14px bold, bílá */}
-          <p
-            style={{
-              fontFamily: SANS,
-              fontSize: 14,
-              fontWeight: 600,
-              color: "#ffffff",
-              letterSpacing: "0.06em",
-              marginBottom: 28,
-            }}
-          >
+          {/* Tag — Fahkwang uppercase wide */}
+          <p style={{
+            fontFamily: FONT, fontSize: 12, fontWeight: 400,
+            color: "rgba(255,255,255,0.85)", letterSpacing: "0.30em",
+            textTransform: "uppercase",
+            marginBottom: 36,
+          }}>
             <GenericEditableText sectionId={sectionId} field="tag" value={tag} tag="span" />
           </p>
 
-          {/* H1 — Cormorant Garamond, 100px → responsive */}
-          <h1
-            style={{
-              fontFamily: SERIF,
-              fontSize: "clamp(42px, 7vw, 100px)",
-              fontWeight: 400,
-              color: "#ffffff",
-              lineHeight: 1.05,
-              marginBottom: 0,
-              whiteSpace: "pre-line",
-            }}
-          >
+          {/* Title — Fahkwang display + italic accent line below */}
+          <h1 style={{
+            fontFamily: FONT,
+            fontSize: "clamp(40px, 8vw, 96px)",
+            fontWeight: 500,
+            color: "#ffffff",
+            lineHeight: 1.05,
+            margin: 0,
+            letterSpacing: "0.01em",
+            textShadow: "0 2px 24px rgba(0,0,0,0.3)",
+          }}>
             <GenericEditableText sectionId={sectionId} field="titleH1" value={titleH1} tag="span" />
           </h1>
 
-          {/* Italic část — Adobe Caslon / Cormorant, 70px sand, italic */}
-          <p
-            style={{
-              fontFamily: SERIF_IT,
-              fontSize: "clamp(30px, 5vw, 70px)",
-              fontWeight: 400,
-              fontStyle: "italic",
-              color: SAND,
-              lineHeight: 1.1,
-              marginTop: 4,
-              marginBottom: 24,
-            }}
-          >
+          {/* Italic line in sand color */}
+          <p style={{
+            fontFamily: FONT, fontStyle: "italic",
+            fontSize: "clamp(32px, 6vw, 80px)",
+            fontWeight: 400,
+            color: SAND,
+            lineHeight: 1.1,
+            margin: "10px 0 0",
+            letterSpacing: "0.01em",
+            textShadow: "0 2px 18px rgba(0,0,0,0.25)",
+          }}>
             <GenericEditableText sectionId={sectionId} field="titleItalic" value={titleIta} tag="span" />
           </p>
 
-          {/* Subtitle — Inter 18px bílá */}
-          <p
-            style={{
-              fontFamily: SANS,
-              fontSize: 18,
-              fontWeight: 400,
-              color: "#ffffff",
-              marginBottom: 36,
-              lineHeight: 1.5,
-            }}
-          >
+          {/* Subtle hairline divider (organic feel) */}
+          <span aria-hidden="true" style={{
+            display: "block",
+            width: 64, height: 1,
+            backgroundColor: "rgba(224,190,154,0.6)",
+            margin: "36px auto 28px",
+          }} />
+
+          {/* Subtitle */}
+          <p style={{
+            fontFamily: SANS, fontWeight: 300,
+            fontSize: "clamp(15px, 1.4vw, 18px)",
+            color: "rgba(255,255,255,0.86)",
+            lineHeight: 1.6,
+            maxWidth: 540,
+            margin: 0,
+          }}>
             <GenericEditableText sectionId={sectionId} field="subtitle" value={sub} tag="span" />
           </p>
 
-          {/* CTA tlačítko — sand bg */}
-          <a
-            href={resolveDemoHref(href, tenantSlug, isAdmin)}
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: SAND,
-              color: "#1F1F1F",
-              fontFamily: SANS,
-              fontSize: 13,
-              fontWeight: 600,
-              letterSpacing: "0.14em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              padding: "12px 36px",
-              transition: "background 0.25s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#C4A07E"; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = SAND; }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={cta} tag="span" />
-          </a>
+          {/* CTA cluster */}
+          <div className="b01-hero-actions" style={{
+            marginTop: 40,
+            display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center",
+            gap: 28,
+          }}>
+            {cta && (
+              <a
+                href={tenantSlug && href.startsWith("/") ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}` : href}
+                className="b01-hero-cta inline-flex items-center justify-center"
+                style={{
+                  fontFamily: FONT, fontSize: 13, fontWeight: 500,
+                  letterSpacing: "0.22em", textTransform: "uppercase",
+                  padding: "18px 36px",
+                  backgroundColor: SAND, color: INK,
+                  textDecoration: "none",
+                  border: `1px solid ${SAND}`,
+                  transition: "background-color 0.3s ease, transform 0.3s ease",
+                }}
+              >
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={cta} tag="span" />
+                <span aria-hidden="true" className="b01-hero-cta-arrow" style={{ marginLeft: 12, display: "inline-block", transition: "transform 0.3s ease" }}>→</span>
+              </a>
+            )}
+            {secText && (
+              <a
+                href={resolvedSecHref}
+                className="b01-hero-sec inline-flex items-center gap-2"
+                style={{
+                  fontFamily: FONT, fontSize: 12, fontWeight: 500,
+                  letterSpacing: "0.22em", textTransform: "uppercase",
+                  color: "#ffffff",
+                  textDecoration: "none",
+                  paddingBottom: 4,
+                  borderBottom: "1px solid rgba(255,255,255,0.4)",
+                  transition: "color 0.3s ease, border-color 0.3s ease",
+                }}
+              >
+                <GenericEditableText sectionId={sectionId} field="secondaryText" value={secText} tag="span" />
+              </a>
+            )}
+          </div>
         </div>
+
+        {/* Bottom info ledger */}
+        {ledger.length > 0 && (
+          <div className="absolute bottom-0 left-0 right-0 z-[2]"
+            style={{ padding: "0 clamp(24px, 5vw, 64px) clamp(28px, 4vw, 48px)" }}>
+            <div aria-hidden="true" style={{ height: 1, backgroundColor: "rgba(224,190,154,0.35)", marginBottom: 22 }} />
+            <div className="b01-hero-ledger" style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+              gap: 24,
+              maxWidth: 1320, margin: "0 auto",
+            }}>
+              {ledger.map((item, i) => (
+                <div key={`b01-led-${i}`} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  <span style={{
+                    fontFamily: MONO, fontSize: 10, letterSpacing: "0.24em",
+                    textTransform: "uppercase", color: "rgba(255,255,255,0.6)",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field={`ledger.${i}.label`} value={item.label ?? ""} tag="span" />
+                  </span>
+                  <span style={{
+                    fontFamily: FONT, fontSize: 14, fontWeight: 400,
+                    color: "#ffffff",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field={`ledger.${i}.value`} value={item.value ?? ""} tag="span" />
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
     );
   }
@@ -1551,14 +2679,26 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "clinic-02-hero") {
     return <HeroClinic02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "clinic-02-page-banner") {
+    return <HeroClinic02PageBanner content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "clinic-03-hero") {
     return <HeroClinic03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "hero-fitness-01-split") {
     return <HeroFitness01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-fitness-01-page") {
+    return <HeroFitness01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "hero-fitness-02-fullwidth") {
     return <HeroFitness02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-fitness-02-page") {
+    return <HeroFitness02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-solar-02-page") {
+    return <HeroSolar02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   if (variant === "hero-fyzio-01-fullbleed") {
@@ -1670,6 +2810,9 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "solar-01-hero") {
     return <HeroSolar01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "solar-01-hero-page" || variant === "hero-solar-01-page") {
+    return <HeroSolar01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "instala-02-hero") {
     return <HeroInstala02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
@@ -1712,8 +2855,16 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     return <HeroEvents01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
+  if (variant === "hero-events-01-page") {
+    return <HeroEvents01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+
   if (variant === "dj-01-hero") {
     return <HeroDj01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+
+  if (variant === "dj-01-hero-page") {
+    return <HeroDj01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   if (variant === "video-01-hero") {
@@ -1734,7 +2885,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
     >
       {hasBg && (
         <>
-          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage!} priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} />
+          <BackgroundEditableImage sectionId={sectionId} src={c.backgroundImage!} priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} focusMobileStyle={bgFocusMobileStyle} />
           <div className="absolute inset-0 z-10" style={{ backgroundColor: "rgba(0,0,0,0.45)" }} aria-hidden />
         </>
       )}
@@ -1774,184 +2925,283 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
 }
 
 // ── hero-fitness-01-split ───────────────────────────────────────────────────
-// Ref: lindasikorova.com
-// Layout: cream #FFF9F7, min-height 70vh, text col 52.311%, image col 50% flex-end
-// Image is a plain <img> at 82% col width, bottom-aligned (not fill/cover)
-// H1: 2.9rem / weight 700 / text-stroke 1px — matches Elementor style
-// Wave SVG divider at bottom, fill #D9C6B9 (transitions into benefits section)
+// Luxe Warm Physio Sanctuary — cream #FFF9F7 split hero
+// Left: badge s pulse dot, H1 Inter 800 + Instrument Serif italic accent word,
+// warm brown tagline, Roboto quote body, primary CTA pill s glow + arrow,
+// secondary link s hairline underline, rating cluster (avatary + hvězdy)
+// Right: photo v accent-hairline frame se subtle rotation + warm radial glow,
+// organic arc SVG blob místo hard diagonal clip (matches "arc" motif)
+// Bottom: floating benefits bar s pulse-hover ikonami + scroll cue arrow
 // ────────────────────────────────────────────────────────────────────────────
 function HeroFitness01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
-  const c           = content as Record<string, unknown>;
-  const headline    = String(c.headline    ?? c.title    ?? "Zpět do kondice\ns respektem k tělu");
-  const tagline     = String(c.tagline     ?? "Fyzioterapeutka & Osobní trenérka");
-  const quote       = String(c.quote       ?? "");
-  const ctaText     = String(c.ctaText     ?? "1. konzultace ZDARMA");
-  const ctaHref     = String(c.ctaHref     ?? "#kontakt");
-  const ctaNote     = String(c.ctaNote     ?? "(nutná registrace)");
-  const image       = String(c.image       ?? "");
-  const badgeText   = String(c.badgeText   ?? "");
-  const badgeHref   = String(c.badgeHref   ?? "#sluzby");
-  const rating      = String(c.rating      ?? "5.0");
-  const ratingCount = String(c.ratingCount ?? "60+ recenzí");
-  const ratingImage = String(c.ratingImage ?? "");
+  const c              = content as Record<string, unknown>;
+  const tagline        = String(c.tagline        ?? "Fyzioterapie · Osobní trénink · Regenerace");
+  const headlinePre    = String(c.headlinePre    ?? "Zpět do kondice");
+  const headlineAccent = String(c.headlineAccent ?? "s respektem");
+  const headlinePost   = String(c.headlinePost   ?? "k tělu");
+  const headlineFallback = String(c.headline ?? "");
+  const quote          = String(c.quote          ?? "");
+  const ctaText        = String(c.ctaText        ?? "První konzultace zdarma");
+  const ctaHref        = String(c.ctaHref        ?? "/kontakt");
+  const ctaNote        = String(c.ctaNote        ?? "");
+  const secondaryText  = String(c.secondaryText  ?? "");
+  const secondaryHref  = String(c.secondaryHref  ?? "/cenik");
+  const image          = String(c.image          ?? "/assets/fitness-01/hero-adam-vitek.webp");
+  const imageAlt       = String(c.imageAlt       ?? "Fyzioterapeut a osobní trenér");
+  const badgeText      = String(c.badgeText      ?? "");
+  const badgeHref      = String(c.badgeHref      ?? "/onas");
+  const rating         = String(c.rating         ?? "5.0");
+  const ratingCount    = String(c.ratingCount    ?? "84 recenzí");
+  const siteMode       = String(c.siteMode ?? "multipage");
 
-  const bHeading      = String(c.benefitsHeading      ?? "Přidejte se k těm, kteří dělají pokroky");
-  const bRating       = String(c.benefitsRating       ?? "5.0");
-  const bRatingCount  = String(c.benefitsRatingCount  ?? "60+ spokojených klientů");
   const bAvatars      = (c.benefitsAvatars as string[]) ?? [];
   const bItems        = (c.benefitsItems  as Array<{ icon: string; title: string; description: string }>) ?? [];
 
-  const BG     = "#FFF9F7";
-  const WAVE   = "#D9C6B9";
-  const ACCENT = "#AD8A72";
-  const TEXT   = "#000000";
-  const MUTED  = "#54595F";
-  const FONT   = "'Inter', sans-serif";
-
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveHeroNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const iconMap: Record<string, React.ReactElement> = {
-    dumbbell: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6.5 6.5h11M6.5 17.5h11M3 9.5h3v5H3zM18 9.5h3v5h-3z"/><line x1="6.5" y1="12" x2="17.5" y2="12"/></svg>,
-    calendar:  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
-    chat:      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
+    dumbbell: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6.5 6.5h11M6.5 17.5h11M3 9.5h3v5H3zM18 9.5h3v5h-3z"/><line x1="6.5" y1="12" x2="17.5" y2="12"/></svg>,
+    calendar:  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
+    chat:      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>,
   };
 
+  const Star = ({ size = 14 }: { size?: number }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  );
+
   return (
-    <section style={{ backgroundColor: BG, fontFamily: FONT, position: "relative", overflow: "hidden" }} data-template="fitness-01">
+    <section className="fit01-hero" data-template="fitness-01">
+      {/* Organic arc blob (right side, behind photo) */}
+      <svg className="fit01-hero-blob" viewBox="0 0 900 800" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+        <defs>
+          <radialGradient id="fit01BlobGradA" cx="55%" cy="50%" r="58%">
+            <stop offset="0%"   stopColor="#EBDACC" stopOpacity="0.9" />
+            <stop offset="55%"  stopColor="#DFCABA" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#DFCABA" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        <path fill="url(#fit01BlobGradA)" d="M 900 60 C 780 120, 620 100, 500 190 C 360 300, 300 480, 420 640 C 540 800, 800 780, 900 700 Z" />
+      </svg>
 
-      {/* Beige diagonal — pravá polovina */}
-      <div aria-hidden="true" className="f01-beige" style={{
-        position: "absolute", top: 0, right: 0, bottom: 60,
-        width: "68%",
-        background: WAVE,
-        clipPath: "polygon(22% 32%, 100% 16%, 100% 100%, 8% 100%)",
-        zIndex: 0,
-      }} />
+      {/* Subtle grain texture */}
+      <div className="fit01-hero-grain" aria-hidden="true" />
 
-      {/* Content row */}
-      <div style={{
-        position: "relative", zIndex: 1,
-        maxWidth: 1200, margin: "0 auto",
-        display: "flex", alignItems: "stretch",
-        minHeight: "82vh",
-      }} className="flex-col-mobile">
-
-        {/* ── Left: text ── */}
-        <div style={{
-          width: "46%", flexShrink: 0,
-          display: "flex", flexDirection: "column", justifyContent: "center",
-          padding: "100px 48px 80px 40px",
-        }} className="w-full-mobile">
-
-          {badgeText && (
-            <a href={resolve(badgeHref)} style={{
-              display: "inline-flex", alignItems: "center", gap: 6,
-              fontSize: 11, fontWeight: 700, letterSpacing: "2px",
-              color: ACCENT, textTransform: "uppercase", textDecoration: "none",
-              marginBottom: 24,
-            }}>
-              {badgeText}
-              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke={ACCENT} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="2" y1="6" x2="10" y2="6"/><polyline points="6 2 10 6 6 10"/></svg>
-            </a>
-          )}
-
-          <h1 style={{
-            fontSize: "clamp(2.4rem, 3.2vw, 3.4rem)", fontWeight: 800,
-            color: TEXT, lineHeight: 1.08, letterSpacing: "-0.01em",
-            whiteSpace: "pre-line", margin: "0 0 16px",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="headline" value={headline} tag="span" />
-          </h1>
-
-          <div style={{ fontSize: 15, fontWeight: 500, color: ACCENT, marginBottom: 16, letterSpacing: "0.02em" }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </div>
-
-          {quote && (
-            <p style={{ fontSize: 15, lineHeight: 1.7, color: MUTED, margin: "0 0 36px", maxWidth: 380 }}>
-              <GenericEditableText sectionId={sectionId} field="quote" value={quote} tag="span" />
-            </p>
-          )}
-
-          <div style={{ display: "inline-flex", flexDirection: "column", alignItems: "center", gap: 8, alignSelf: "flex-start" }}>
-            <a href={resolve(ctaHref)} data-btn="primary" style={{
-              display: "inline-flex", alignItems: "center", gap: 12,
-              background: ACCENT, color: "#fff",
-              padding: "15px 32px", borderRadius: 9999,
-              fontSize: 14, fontWeight: 700, textDecoration: "none",
-              letterSpacing: "0.03em", boxShadow: "0 4px 20px rgba(173,138,114,0.35)",
-            }}
-              onMouseEnter={e => { e.currentTarget.style.background = "#9a7762"; }}
-              onMouseLeave={e => { e.currentTarget.style.background = ACCENT; }}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-              <svg width="9" height="13" viewBox="0 0 10 16" fill="currentColor" aria-hidden="true"><path d="M0 14.5V1.5c0-1.1 1.3-1.6 2.1-.8l7 6.5c.5.5.5 1.2 0 1.7l-7 6.5c-.8.8-2.1.3-2.1-.9z"/></svg>
-            </a>
-            {ctaNote && (
-              <span style={{ fontSize: 11, color: MUTED, opacity: 0.8 }}>
-                <GenericEditableText sectionId={sectionId} field="ctaNote" value={ctaNote} tag="span" />
-              </span>
+      <div className="fit01-hero-inner">
+        <div className="fit01-hero-main">
+          {/* ── LEFT: copy ── */}
+          <div className="fit01-hero-copy">
+            {badgeText && (
+              <a href={resolve(badgeHref)} className="fit01-hero-badge">
+                <span className="fit01-badge-dot" aria-hidden="true" />
+                <GenericEditableText sectionId={sectionId} field="badgeText" value={badgeText} tag="span" />
+              </a>
             )}
-          </div>
-        </div>
 
-        {/* ── Right: photo ── */}
-        <div className="hidden md:flex" style={{
-          flex: 1,
-          display: "flex", alignItems: "flex-end", justifyContent: "center",
-          position: "relative", zIndex: 2,
-          paddingTop: 40,
-        }}>
-          {image && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={image} alt={headline} style={{
-              width: "90%", maxWidth: 520,
-              maxHeight: "78vh", objectFit: "contain", objectPosition: "bottom center",
-              display: "block",
-              position: "relative", top: -60,
-            }} loading="eager" />
-          )}
-        </div>
-      </div>
+            <h1 className="fit01-hero-h1">
+              {headlineFallback ? (
+                <GenericEditableText sectionId={sectionId} field="headline" value={headlineFallback} tag="span" />
+              ) : (
+                <>
+                  <span className="fit01-h1-line">
+                    <GenericEditableText sectionId={sectionId} field="headlinePre" value={headlinePre} tag="span" />{" "}
+                    <span className="fit01-h1-accent">
+                      <GenericEditableText sectionId={sectionId} field="headlineAccent" value={headlineAccent} tag="span" />
+                    </span>{" "}
+                    <GenericEditableText sectionId={sectionId} field="headlinePost" value={headlinePost} tag="span" />
+                  </span>
+                </>
+              )}
+            </h1>
 
-      {/* ── Benefits bar — absolutně v beige oblasti, v popředí před trenérem ── */}
-      <div className="f01-benefits-bar" style={{
-        position: "absolute",
-        left: "44%", right: 40,
-        top: "71%", transform: "translateY(-50%)",
-        zIndex: 4,
-      }}>
-        <div style={{
-          background: "rgba(255,255,255,0.88)",
-          backdropFilter: "blur(10px)",
-          borderRadius: 18,
-          padding: "21px 23px",
-          display: "flex", gap: 0, alignItems: "center",
-          boxShadow: "0 4px 28px rgba(0,0,0,0.08)",
-        }}>
-          {bItems.map((item, i) => (
-            <div key={i} style={{
-              flex: 1, display: "flex", gap: 14, alignItems: "center",
-              padding: "5px 18px",
-              borderRight: i < bItems.length - 1 ? "1px solid rgba(173,138,114,0.25)" : "none",
-            }}>
-              <div
-                style={{ width: 46, height: 46, borderRadius: "50%", background: ACCENT, color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "transform 0.2s ease, background 0.2s ease", cursor: "pointer" }}
-                onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.18)"; e.currentTarget.style.background = "#9a7762"; }}
-                onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.background = ACCENT; }}
-              >
-                {iconMap[item.icon] ?? iconMap.dumbbell}
-              </div>
-              <div>
-                <div style={{ fontSize: 12, fontWeight: 700, color: ACCENT, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 3, fontFamily: FONT }}>{item.title}</div>
-                <div style={{ fontSize: 13, color: "#5a4a3a", lineHeight: 1.4, fontFamily: FONT }}>{item.description}</div>
+            {quote && (
+              <p className="fit01-hero-quote">
+                <GenericEditableText sectionId={sectionId} field="quote" value={quote} tag="span" />
+              </p>
+            )}
+
+            <div className="fit01-hero-actions">
+              <a href={resolve(ctaHref)} className="fit01-hero-cta" data-btn="primary">
+                <span className="fit01-hero-cta-label">
+                  <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                </span>
+                <svg className="fit01-hero-cta-arrow" width="15" height="11" viewBox="0 0 15 11" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M1 5.5h12M9 1l4 4.5-4 4.5" />
+                </svg>
+              </a>
+              {secondaryText && (
+                <a href={resolve(secondaryHref)} className="fit01-hero-secondary">
+                  <GenericEditableText sectionId={sectionId} field="secondaryText" value={secondaryText} tag="span" />
+                </a>
+              )}
+            </div>
+
+            {/* Meta row: rating + note inline */}
+            <div className="fit01-hero-meta">
+              {bAvatars.length > 0 && (
+                <div className="fit01-avatar-stack" aria-hidden="true">
+                  {bAvatars.slice(0, 3).map((src, i) => (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img key={i} src={src} alt="" className="fit01-avatar" />
+                  ))}
+                </div>
+              )}
+              <div className="fit01-rating-inline">
+                <div className="fit01-rating-stars" aria-label={`Hodnocení ${rating} z 5`}>
+                  <Star /><Star /><Star /><Star /><Star />
+                </div>
+                <span className="fit01-rating-value">{rating}</span>
+                <span className="fit01-rating-count">
+                  · <GenericEditableText sectionId={sectionId} field="ratingCount" value={ratingCount} tag="span" />
+                </span>
               </div>
             </div>
-          ))}
+          </div>
+
+          {/* ── RIGHT: photo ── */}
+          <div className="fit01-hero-media">
+            <div className="fit01-hero-photo-wrap">
+              {image && (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img src={image} alt={imageAlt} className="fit01-hero-photo" loading="eager" fetchPriority="high" />
+              )}
+              <svg className="fit01-photo-arc" width="52" height="52" viewBox="0 0 60 60" fill="none" aria-hidden="true">
+                <path d="M 4 56 A 52 52 0 0 1 56 4" stroke="#AD8A72" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        {/* Benefits strip INSIDE hero (no overflow) */}
+        {bItems.length > 0 && (
+          <div className="fit01-benefits-strip">
+            {bItems.map((item, i) => (
+              <div key={i} className="fit01-benefit-chip">
+                <span className="fit01-benefit-chip-ico">{iconMap[item.icon] ?? iconMap.dumbbell}</span>
+                <span className="fit01-benefit-chip-body">
+                  <span className="fit01-benefit-chip-title">{item.title}</span>
+                  <span className="fit01-benefit-chip-desc">{item.description}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+// ── hero-fitness-01-page ────────────────────────────────────────────────────
+// Slim banner for subpages: cream bg, breadcrumb + H1 (italic accent) + decorative arc rule
+// ~340px viewport-safe, echoes homepage hero motifs (blob whisper, grain, hairline)
+// ──────────────────────────────────────────────────────────────────────────
+function HeroFitness01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const eyebrow        = String(c.eyebrow        ?? "");
+  const titlePre       = String(c.titlePre       ?? "");
+  const titleAccent    = String(c.titleAccent    ?? "");
+  const titlePost      = String(c.titlePost      ?? "");
+  const title          = String(c.title          ?? "Stránka");
+  const subtitle       = String(c.subtitle       ?? "");
+  const breadcrumb     = String(c.breadcrumb     ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const siteMode       = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveHeroNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const hasSplit = Boolean(titlePre || titleAccent || titlePost);
+
+  return (
+    <section className="fit01-hero-page" data-template="fitness-01">
+      <div className="fit01-hero-page-blob-wrap" aria-hidden="true">
+        <svg className="fit01-hero-page-blob" viewBox="0 0 900 400" preserveAspectRatio="xMaxYMid slice">
+          <defs>
+            <radialGradient id="fit01PageBlob" cx="65%" cy="55%" r="55%">
+              <stop offset="0%"   stopColor="#EBDACC" stopOpacity="0.75" />
+              <stop offset="60%"  stopColor="#DFCABA" stopOpacity="0.55" />
+              <stop offset="100%" stopColor="#DFCABA" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+          <path fill="url(#fit01PageBlob)" d="M 900 20 C 720 60, 560 90, 460 200 C 380 300, 460 400, 720 400 L 900 400 Z" />
+        </svg>
+      </div>
+      <div className="fit01-hero-grain" aria-hidden="true" />
+
+      <div className="fit01-hero-page-inner">
+        {/* Breadcrumb */}
+        <nav className="fit01-page-breadcrumb" aria-label="Drobečková navigace">
+          <a href={resolve(breadcrumbHref)} className="fit01-page-crumb-link">
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span className="fit01-page-crumb-sep" aria-hidden="true">/</span>
+          <span className="fit01-page-crumb-current">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+
+        {eyebrow && (
+          <div className="fit01-page-eyebrow">
+            <span className="fit01-tagline-mark" aria-hidden="true" />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </div>
+        )}
+
+        <h1 className="fit01-page-h1">
+          {hasSplit ? (
+            <>
+              {titlePre && (
+                <GenericEditableText sectionId={sectionId} field="titlePre" value={titlePre} tag="span" />
+              )}
+              {titleAccent && (
+                <>
+                  {titlePre ? " " : ""}
+                  <span className="fit01-h1-accent">
+                    <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
+                  </span>
+                  {titlePost ? " " : ""}
+                </>
+              )}
+              {titlePost && (
+                <GenericEditableText sectionId={sectionId} field="titlePost" value={titlePost} tag="span" />
+              )}
+            </>
+          ) : (
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          )}
+        </h1>
+
+        {subtitle && (
+          <p className="fit01-page-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+
+        {/* Decorative rule: hairline + arc + hairline */}
+        <div className="fit01-page-rule" aria-hidden="true">
+          <span className="fit01-page-rule-line" />
+          <svg width="26" height="14" viewBox="0 0 26 14" fill="none">
+            <path d="M 2 12 A 12 12 0 0 1 24 12" stroke="#AD8A72" strokeWidth="1.4" strokeLinecap="round" />
+          </svg>
+          <span className="fit01-page-rule-line" />
         </div>
       </div>
     </section>
   );
+}
+
+// Hero-local nav resolver (mirror of NavbarSection.resolveNavHref)
+function resolveHeroNavHref(href: string, siteMode: string, tenantSlug?: string, isAdmin = false) {
+  if (siteMode === "onepage") {
+    if (href.startsWith("/#")) return resolveDemoHref("/", tenantSlug, isAdmin) + href.slice(1);
+    if (href === "/" || href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return resolveDemoHref(href, tenantSlug, isAdmin);
+    const slug = href.replace(/^\//, "");
+    return resolveDemoHref("/", tenantSlug, isAdmin) + "#" + slug;
+  }
+  if (href.startsWith("/#")) {
+    const anchor = href.slice(2);
+    return resolveDemoHref("/" + anchor, tenantSlug, isAdmin);
+  }
+  return resolveDemoHref(href, tenantSlug, isAdmin);
 }
 
 function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
@@ -1968,29 +3218,44 @@ function HeroBarber04Slider({
   ctaText,
   ctaHref,
   sectionId,
+  heroEyebrow,
 }: {
   slides: Array<{ title?: string; subtitle?: string; backgroundImage?: string }>;
   interval: number;
   ctaText: string;
   ctaHref: string;
   sectionId: number;
+  heroEyebrow: string;
 }) {
   const [idx, setIdx] = useState(0);
   const [hovered, setHovered] = useState(false);
   const { isAdmin, updateField } = useGenericInlineEditor();
+  const studio = useStudioOptional();
   const count = Math.max(slides.length, 1);
+
+  // Sync displayed slide with inspector chip selection when in admin mode
+  useEffect(() => {
+    if (!isAdmin || !studio) return;
+    const studioIdx = studio.heroSlideIdx;
+    if (studioIdx?.sectionId === sectionId && studioIdx.idx !== idx) {
+      setIdx(studioIdx.idx);
+    }
+  }, [studio?.heroSlideIdx, isAdmin, sectionId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleAddSlide() {
     const next = [...slides, { title: "", subtitle: "", backgroundImage: "" }];
     updateField(sectionId, "slides", next);
     setIdx(next.length - 1);
+    if (isAdmin && studio) studio.setHeroSlideIdx({ sectionId, idx: next.length - 1 });
   }
 
   function handleDeleteSlide(i: number) {
     if (slides.length <= 1) return;
     const next = slides.filter((_, si) => si !== i);
     updateField(sectionId, "slides", next);
-    setIdx(Math.min(idx, next.length - 1));
+    const nextIdx = Math.min(idx, next.length - 1);
+    setIdx(nextIdx);
+    if (isAdmin && studio) studio.setHeroSlideIdx({ sectionId, idx: nextIdx });
   }
   useEffect(() => {
     if (count < 2 || isAdmin || hovered) return;
@@ -2068,7 +3333,7 @@ function HeroBarber04Slider({
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
           background:
-            "linear-gradient(to bottom,rgba(0,0,0,.12) 0%,rgba(0,0,0,.28) 50%,rgba(0,0,0,.58) 100%)",
+            "linear-gradient(to bottom,rgba(0,0,0,.45) 0%,rgba(0,0,0,.20) 35%,rgba(0,0,0,.40) 70%,rgba(10,8,6,.78) 100%)",
         }}
       />
 
@@ -2078,41 +3343,73 @@ function HeroBarber04Slider({
           0%   { opacity: 0; transform: translateY(36px); }
           100% { opacity: 1; transform: translateY(0); }
         }
+        @keyframes barber04LineGrow {
+          0%   { transform: scaleX(0); }
+          100% { transform: scaleX(1); }
+        }
         [data-template="barber-04"] .b04-anim-1 { animation: barber04SlideUp .9s cubic-bezier(.22,.61,.36,1) .15s both; }
         [data-template="barber-04"] .b04-anim-2 { animation: barber04SlideUp .9s cubic-bezier(.22,.61,.36,1) .35s both; }
         [data-template="barber-04"] .b04-anim-3 { animation: barber04SlideUp .9s cubic-bezier(.22,.61,.36,1) .55s both; }
+        [data-template="barber-04"] .b04-anim-4 { animation: barber04SlideUp .9s cubic-bezier(.22,.61,.36,1) .70s both; }
+        [data-template="barber-04"] .b04-hero-line { transform-origin: center; animation: barber04LineGrow .7s cubic-bezier(.4,0,.2,1) .55s both; }
         @media (prefers-reduced-motion: reduce) {
           [data-template="barber-04"] .b04-anim-1,
           [data-template="barber-04"] .b04-anim-2,
-          [data-template="barber-04"] .b04-anim-3 { animation: none; opacity: 1; transform: none; }
+          [data-template="barber-04"] .b04-anim-3,
+          [data-template="barber-04"] .b04-anim-4,
+          [data-template="barber-04"] .b04-hero-line { animation: none; opacity: 1; transform: none; }
         }
         @media (max-width: 639px) {
           [data-template="barber-04"] .b04-hero-content {
             padding-top: 88px;
-            padding-bottom: 100px;
-            justify-content: flex-end;
+            padding-bottom: 120px;
           }
-          [data-template="barber-04"] .b04-title { font-size: clamp(38px, 11vw, 52px) !important; margin-bottom: 12px !important; }
-          [data-template="barber-04"] .b04-subtitle { font-size: 15px !important; margin-bottom: 28px !important; }
-          [data-template="barber-04"] .b04-cta { padding: 13px 32px !important; font-size: 13px !important; }
+          [data-template="barber-04"] .b04-title { font-size: clamp(40px, 11vw, 58px) !important; margin-bottom: 18px !important; }
+          [data-template="barber-04"] .b04-subtitle { font-size: 13px !important; margin-bottom: 28px !important; letter-spacing: .12em !important; }
+          [data-template="barber-04"] .b04-cta { padding: 14px 28px !important; font-size: 12px !important; }
+          [data-template="barber-04"] .b04-hero-eyebrow { font-size: 10px !important; margin-bottom: 18px !important; }
+          [data-template="barber-04"] .b04-slide-counter { display: none; }
         }
       `}</style>
       <div
-        className="b04-hero-content relative z-10 flex items-center justify-center text-center text-white px-6 pointer-events-none"
-        style={{ minHeight: "100svh" }}
+        className="b04-hero-content relative z-10 flex items-end justify-center text-center text-white px-6 pointer-events-none"
+        style={{ minHeight: "100svh", paddingBottom: "14vh", paddingTop: 140 }}
       >
-        <div key={`slide-content-${idx}`} className="max-w-[960px] pt-24 pb-8 pointer-events-auto">
+        <div key={`slide-content-${idx}`} className="max-w-[1100px] pointer-events-auto" style={{ width: "100%" }}>
+          {/* Eyebrow industrial numbered badge */}
+          <div
+            className="b04-hero-eyebrow b04-anim-1"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 12,
+              marginBottom: 28,
+              fontFamily: "'Lato',Helvetica,Arial,sans-serif",
+              fontSize: 11,
+              fontWeight: 700,
+              letterSpacing: "0.32em",
+              color: "#d5b981",
+              textTransform: "uppercase",
+            }}
+          >
+            <span style={{ fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif", fontWeight: 400, letterSpacing: "0.10em", fontSize: 14 }}>
+              {String(idx + 1).padStart(2, "0")}
+            </span>
+            <span aria-hidden style={{ width: 28, height: 1, backgroundColor: "#d5b981", opacity: 0.7 }} />
+            <GenericEditableText sectionId={sectionId} field="heroEyebrow" value={heroEyebrow} tag="span" />
+          </div>
+
           <h1
-            className="b04-title uppercase b04-anim-1"
+            className="b04-title uppercase b04-anim-2"
             style={{
               fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif",
               fontWeight: 400,
-              fontSize: "clamp(38px, 4.2vw, 60px)",
-              letterSpacing: "0.04em",
-              lineHeight: 1.1,
+              fontSize: "clamp(44px, 5.5vw, 84px)",
+              letterSpacing: "0.03em",
+              lineHeight: 1.05,
               color: "#fff",
-              marginBottom: 16,
-              textShadow: "0 2px 16px rgba(0,0,0,.45)",
+              marginBottom: 28,
+              textShadow: "0 4px 32px rgba(0,0,0,.55)",
             }}
           >
             <GenericEditableText
@@ -2122,20 +3419,31 @@ function HeroBarber04Slider({
               tag="span"
             />
           </h1>
-          {/* Gold decorative line */}
-          <div aria-hidden style={{ width: 48, height: 2, backgroundColor: "#d5b981", margin: "0 auto 16px", opacity: 0.9 }} />
+
+          {/* Gold fade gradient signature line */}
+          <div
+            aria-hidden
+            className="b04-hero-line"
+            style={{
+              width: 220,
+              height: 1,
+              margin: "0 auto 28px",
+              background:
+                "linear-gradient(90deg, transparent 0%, rgba(213,185,129,.85) 50%, transparent 100%)",
+            }}
+          />
+
           <p
-            className="b04-subtitle b04-anim-2"
+            className="b04-subtitle b04-anim-3 uppercase"
             style={{
               fontFamily: "'Lato',Helvetica,Arial,sans-serif",
               fontWeight: 400,
-              fontStyle: "italic",
-              fontSize: "clamp(15px, 1.3vw, 18px)",
-              letterSpacing: "0.01em",
-              color: "rgba(255,255,255,0.9)",
-              maxWidth: 560,
-              margin: "0 auto 36px",
-              lineHeight: 1.65,
+              fontSize: "clamp(13px, 1.05vw, 15px)",
+              letterSpacing: "0.18em",
+              color: "rgba(255,255,255,0.78)",
+              maxWidth: 640,
+              margin: "0 auto 44px",
+              lineHeight: 1.7,
             }}
           >
             <GenericEditableText
@@ -2149,24 +3457,54 @@ function HeroBarber04Slider({
             <a
               href={ctaHref}
               data-btn="primary"
-
-              className="b04-cta inline-block uppercase no-underline transition-colors hover:bg-white hover:text-black b04-anim-3"
+              className="b04-cta b04-cta-outline inline-flex items-center gap-3 uppercase no-underline b04-anim-4"
               style={{
-                backgroundColor: "#d5b981",
-                color: "#fff",
+                background: "transparent",
+                color: "#d5b981",
+                border: "1px solid #d5b981",
                 fontFamily: "'Lato',Helvetica,Arial,sans-serif",
                 fontSize: 13,
                 fontWeight: 600,
-                letterSpacing: "2.5px",
-                padding: "12px 36px",
+                letterSpacing: "0.24em",
+                padding: "15px 34px",
                 borderRadius: 0,
+                transition: "background .25s cubic-bezier(.4,0,.2,1), color .25s ease, transform .25s ease",
               }}
             >
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <span aria-hidden className="b04-cta-arrow" style={{ display: "inline-flex", transition: "transform .3s cubic-bezier(.22,.68,0,1.1)" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </span>
             </a>
           )}
         </div>
       </div>
+
+      {/* Slide counter industrial — bottom-left */}
+      {count > 1 && (
+        <div
+          className="b04-slide-counter absolute z-20 hidden md:flex items-baseline gap-3 pointer-events-none"
+          style={{
+            left: "max(32px, 4vw)",
+            bottom: "max(36px, env(safe-area-inset-bottom, 0px) + 28px)",
+            fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif",
+            color: "#fff",
+            letterSpacing: "0.10em",
+          }}
+        >
+          <span style={{ fontSize: 38, lineHeight: 1, color: "#d5b981" }}>
+            {String(idx + 1).padStart(2, "0")}
+          </span>
+          <span aria-hidden style={{
+            width: 48, height: 1, background: "rgba(255,255,255,.4)", marginBottom: 8,
+          }} />
+          <span style={{ fontSize: 16, lineHeight: 1, color: "rgba(255,255,255,.6)", marginBottom: 4 }}>
+            {String(count).padStart(2, "0")}
+          </span>
+        </div>
+      )}
 
       {/* Šipky — pouze desktop */}
       {count > 1 && (
@@ -2396,12 +3734,16 @@ function HeroHair02Slider({ content, sectionId }: { content: Record<string, unkn
   );
 }
 
-function BackgroundEditableImage({ sectionId, src, overlayColor, priority, isAdmin, focusStyle }: { sectionId: number; src: string; overlayColor?: string; priority?: boolean; isAdmin?: boolean; focusStyle?: string }) {
+function BackgroundEditableImage({ sectionId, src, overlayColor, priority, isAdmin, focusStyle, focusMobileStyle }: { sectionId: number; src: string; overlayColor?: string; priority?: boolean; isAdmin?: boolean; focusStyle?: string; focusMobileStyle?: string }) {
+  const bgId = `hbg-${sectionId}`;
   // Public view with priority: use plain <img> so the URL stays clean (no ?dpl= added by Next.js Image).
   // This makes the src match the static <link rel="preload"> emitted by the server component → cache hit.
   if (!isAdmin && priority && src) {
     return (
-      <div className="absolute inset-0 z-0" style={{ position: "absolute" }}>
+      <div id={bgId} className="absolute inset-0 z-0" style={{ position: "absolute" }}>
+        {focusMobileStyle && (
+          <style>{`@media(max-width:767px){#${bgId} img{object-position:${focusMobileStyle}!important}}`}</style>
+        )}
         <img
           src={src}
           alt=""
@@ -3369,6 +4711,8 @@ function HeroNails03({
   const ctaHref = String(content.ctaHref ?? "#kontakt");
   const _nails03Focus = content.__heroBgFocus as { x: number; y: number } | undefined;
   const bgFocusStyle  = _nails03Focus ? `${_nails03Focus.x}% ${_nails03Focus.y}%` : undefined;
+  const _nails03FocusMobile = content.__heroBgFocusMobile as { x: number; y: number } | undefined;
+  const bgFocusMobileStyle  = _nails03FocusMobile ? `${_nails03FocusMobile.x}% ${_nails03FocusMobile.y}%` : undefined;
 
   return (
     <section
@@ -3385,7 +4729,7 @@ function HeroNails03({
         justifyContent: "center",
       }}
     >
-      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} />
+      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} focusMobileStyle={bgFocusMobileStyle} />
       {/* Dark overlay */}
       <div
         aria-hidden="true"
@@ -3493,6 +4837,8 @@ function HeroNails02({
   const ctaHref   = String(content.ctaHref   ?? "#kontakt");
   const _nails02Focus = content.__heroBgFocus as { x: number; y: number } | undefined;
   const bgFocusStyle  = _nails02Focus ? `${_nails02Focus.x}% ${_nails02Focus.y}%` : undefined;
+  const _nails02FocusMobile = content.__heroBgFocusMobile as { x: number; y: number } | undefined;
+  const bgFocusMobileStyle  = _nails02FocusMobile ? `${_nails02FocusMobile.x}% ${_nails02FocusMobile.y}%` : undefined;
 
   return (
     <section
@@ -3509,7 +4855,7 @@ function HeroNails02({
         // navbar (absolute) ramps over the top of this hero
       }}
     >
-      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} />
+      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} focusMobileStyle={bgFocusMobileStyle} />
       {/* Dark gradient overlay — bottom-heavy for text contrast */}
       <div
         aria-hidden="true"
@@ -3594,12 +4940,13 @@ function HeroNails02({
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroClinic03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const GOLD   = "#97855F";
-  const GOLD_H = "#716448";
+  const GOLD_H = "#82734f";
   const WHITE  = "#ffffff";
-  const SERIF  = "'Playfair Display', Georgia, serif";
+  const SERIF  = "'Cormorant Garamond', Georgia, serif";
   const SANS   = "'DM Sans', Arial, sans-serif";
 
   const ctaHref = String((content as Record<string,unknown>).ctaHref ?? "#sluzby");
+  const scrollLabel = String((content as Record<string,unknown>).scrollLabel ?? "Více");
 
   type Slide = { kicker?: string; title?: string; sub?: string; cta?: string; bg?: string; overlay?: string };
   const rawSlides = ((content as Record<string,unknown>).slides as Slide[]) ?? [];
@@ -3617,35 +4964,29 @@ function HeroClinic03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
   }
 
   useEffect(() => {
-    const t = setTimeout(() => go(current + 1), 5000);
+    const t = setTimeout(() => go(current + 1), 6000);
     return () => clearTimeout(t);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current]);
 
-  function resolveHref(href: string) {
-    if (!tenantSlug || !href.startsWith("#")) return href;
-    const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
-    return `${base}${href}`;
-  }
-
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
   const slide = slides[current];
+  const pad = (n: number) => String(n).padStart(2, "0");
 
   return (
-    <section id="uvod-clinic03" style={{
-      position: "relative",
-      width: "100%",
-      padding: "0 8px",
-      backgroundColor: WHITE,
-      boxSizing: "border-box",
-    }}>
-    <div style={{
-      position: "relative",
-      width: "100%",
-      height: "calc(100vh - 157px)",
-      minHeight: 480,
-      overflow: "hidden",
-    }}>
-      {/* Slides — preloaded side by side, only active visible */}
+    <section
+      id="hero"
+      data-template="clinic-03"
+      style={{
+        position: "relative",
+        width: "100%",
+        height: "calc(100vh - 76px)",
+        minHeight: 520,
+        overflow: "hidden",
+        backgroundColor: "#111",
+      }}
+    >
+      {/* Slides — crossfade with subtle zoom */}
       {slides.map((s, i) => (
         <div
           key={i}
@@ -3654,24 +4995,27 @@ function HeroClinic03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
             inset: 0,
             backgroundImage: `url('${s.bg}')`,
             backgroundSize: "cover",
-            backgroundPosition: "center",
+            backgroundPosition: "center 30%",
             opacity: i === current ? 1 : 0,
-            transition: "opacity 0.9s ease",
+            transform: i === current ? "scale(1.03)" : "scale(1)",
+            transition: "opacity 1.1s ease, transform 6s ease-out",
             pointerEvents: "none",
           }}
         />
       ))}
 
-      {/* Overlay */}
-      <div style={{
-        position: "absolute",
-        inset: 0,
-        backgroundColor: slide.overlay,
-        transition: "background-color 0.9s ease",
-        pointerEvents: "none",
-      }} />
+      {/* Gradient overlay — darker bottom for readability */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          background: `linear-gradient(165deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.45) 50%, rgba(0,0,0,0.62) 100%)`,
+          pointerEvents: "none",
+        }}
+      />
 
-      {/* Content — left-aligned, padded from edges like yesvisage.cz */}
+      {/* Content — left-aligned */}
       <div
         key={animKey}
         style={{
@@ -3682,34 +5026,40 @@ function HeroClinic03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           flexDirection: "column",
           alignItems: "flex-start",
           justifyContent: "center",
-          textAlign: "left",
-          padding: "clamp(40px, 8vw, 80px) clamp(24px, 7vw, 100px)",
-          maxWidth: 680,
-          animation: "c03FadeUp 0.7s ease both",
+          padding: "0 clamp(28px, 7vw, 100px)",
+          maxWidth: 720,
         }}
+        className="c03-hero-content"
       >
-        {/* Kicker */}
-        <p style={{
-          fontFamily: SANS,
-          fontSize: "0.72rem",
-          fontWeight: 400,
-          color: WHITE,
-          letterSpacing: "0.22em",
-          textTransform: "uppercase",
-          margin: "0 0 16px",
-          opacity: 0.7,
-        }}>
-          <GenericEditableText sectionId={sectionId} field={`slides.${current}.kicker`} value={slide.kicker ?? ""} tag="span" />
-        </p>
+        {/* Gold decorative line + Kicker */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 20 }}>
+          <span aria-hidden style={{ display: "block", width: 32, height: 1, backgroundColor: GOLD }} />
+          <GenericEditableText
+            sectionId={sectionId}
+            field={`slides.${current}.kicker`}
+            value={slide.kicker ?? ""}
+            tag="span"
+            style={{
+              fontFamily: SANS,
+              fontSize: "0.68rem",
+              fontWeight: 500,
+              color: WHITE,
+              letterSpacing: "0.24em",
+              textTransform: "uppercase",
+              opacity: 0.75,
+            }}
+          />
+        </div>
 
-        {/* Title */}
+        {/* Title — Cormorant Garamond italic */}
         <h1 style={{
           fontFamily: SERIF,
-          fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
-          fontWeight: 400,
+          fontSize: "clamp(2.4rem, 5.5vw, 4.2rem)",
+          fontWeight: 300,
+          fontStyle: "italic",
           color: WHITE,
-          lineHeight: 1.2,
-          margin: "0 0 22px",
+          lineHeight: 1.15,
+          margin: "0 0 24px",
           whiteSpace: "pre-line",
         }}>
           <GenericEditableText sectionId={sectionId} field={`slides.${current}.title`} value={slide.title ?? ""} tag="span" />
@@ -3718,118 +5068,228 @@ function HeroClinic03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
         {/* Subtitle */}
         <p style={{
           fontFamily: SANS,
-          fontSize: "clamp(0.88rem, 1.1vw, 0.98rem)",
+          fontSize: "clamp(0.88rem, 1.1vw, 1rem)",
+          fontWeight: 400,
           color: WHITE,
-          lineHeight: 1.65,
-          margin: "0 0 36px",
-          maxWidth: 480,
-          opacity: 0.85,
+          lineHeight: 1.7,
+          margin: "0 0 40px",
+          maxWidth: 500,
+          opacity: 0.8,
         }}>
           <GenericEditableText sectionId={sectionId} field={`slides.${current}.sub`} value={slide.sub ?? ""} tag="span" />
         </p>
 
         {/* CTA */}
         <a
-          href={resolveHref(ctaHref)}
-          data-btn="primary"
+          href={resolve(ctaHref)}
+          className="c03-hero-cta"
           style={{
             display: "inline-flex",
             alignItems: "center",
-            padding: "0 32px",
-            height: 52,
-            backgroundColor: "rgba(151,133,95,0.85)",
+            gap: 10,
+            padding: "14px 36px",
+            backgroundColor: GOLD,
             color: WHITE,
             fontFamily: SANS,
-            fontSize: "0.83rem",
-            fontWeight: 400,
-            letterSpacing: "0.12em",
+            fontSize: "0.7rem",
+            fontWeight: 600,
+            letterSpacing: "0.16em",
             textTransform: "uppercase",
             textDecoration: "none",
-            border: `1px solid rgba(255,255,255,0.4)`,
-            backdropFilter: "blur(4px)",
-            transition: "background-color 0.18s",
+            transition: "background-color 0.3s ease, transform 0.3s ease",
           }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = GOLD; }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = "rgba(151,133,95,0.85)"; }}
+          onMouseEnter={e => {
+            e.currentTarget.style.backgroundColor = GOLD_H;
+            e.currentTarget.style.transform = "translateY(-2px)";
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.backgroundColor = GOLD;
+            e.currentTarget.style.transform = "translateY(0)";
+          }}
         >
           <GenericEditableText sectionId={sectionId} field={`slides.${current}.cta`} value={slide.cta ?? "Zjistit více"} tag="span" />
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+            <line x1="5" y1="12" x2="19" y2="12" />
+            <polyline points="12 5 19 12 12 19" />
+          </svg>
         </a>
       </div>
 
-      {/* Dots — vertical, right side, like yesvisage.cz */}
+      {/* Slide counter — bottom left "01 / 05" */}
       <div style={{
         position: "absolute",
-        right: 24,
-        top: "50%",
-        transform: "translateY(-50%)",
+        bottom: 36,
+        left: "clamp(28px, 7vw, 100px)",
+        zIndex: 3,
+        display: "flex",
+        alignItems: "center",
+        gap: 6,
+      }}>
+        <span style={{
+          fontFamily: SANS,
+          fontSize: "0.82rem",
+          fontWeight: 600,
+          color: WHITE,
+          letterSpacing: "0.06em",
+        }}>{pad(current + 1)}</span>
+        <span style={{
+          display: "inline-block",
+          width: 28,
+          height: 1,
+          backgroundColor: "rgba(255,255,255,0.35)",
+          position: "relative",
+          overflow: "hidden",
+        }}>
+          <span
+            key={`bar-${current}`}
+            style={{
+              position: "absolute",
+              top: 0, left: 0, bottom: 0,
+              backgroundColor: GOLD,
+              animation: "c03Progress 6s linear both",
+            }}
+          />
+        </span>
+        <span style={{
+          fontFamily: SANS,
+          fontSize: "0.72rem",
+          fontWeight: 400,
+          color: "rgba(255,255,255,0.5)",
+          letterSpacing: "0.06em",
+        }}>{pad(total)}</span>
+
+        {/* Prev/Next arrows */}
+        <div style={{ display: "flex", gap: 4, marginLeft: 16 }}>
+          <button
+            onClick={() => go(current - 1)}
+            aria-label="Předchozí"
+            style={{
+              width: 32, height: 32,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              color: WHITE,
+              cursor: "pointer",
+              transition: "background 0.2s, border-color 0.2s",
+              padding: 0,
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = "rgba(151,133,95,0.3)";
+              e.currentTarget.style.borderColor = `${GOLD}66`;
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+          <button
+            onClick={() => go(current + 1)}
+            aria-label="Další"
+            style={{
+              width: 32, height: 32,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              color: WHITE,
+              cursor: "pointer",
+              transition: "background 0.2s, border-color 0.2s",
+              padding: 0,
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = "rgba(151,133,95,0.3)";
+              e.currentTarget.style.borderColor = `${GOLD}66`;
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.2)";
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden>
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      {/* Scroll indicator — bottom right */}
+      <div className="c03-scroll-hint" style={{
+        position: "absolute",
+        bottom: 36,
+        right: "clamp(28px, 7vw, 56px)",
         zIndex: 3,
         display: "flex",
         flexDirection: "column",
-        gap: 10,
+        alignItems: "center",
+        gap: 8,
       }}>
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            onClick={() => go(i)}
-            aria-label={`Slide ${i + 1}`}
-            style={{
-              width: 8,
-              height: i === current ? 24 : 8,
-              borderRadius: 4,
-              border: `1px solid rgba(255,255,255,0.6)`,
-              cursor: "pointer",
-              backgroundColor: i === current ? WHITE : "transparent",
-              transition: "all 0.35s ease",
-              padding: 0,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Progress bar */}
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, zIndex: 3, background: "rgba(255,255,255,0.12)" }}>
-        <div
-          key={`prog-${current}`}
+        <GenericEditableText
+          sectionId={sectionId}
+          field="scrollLabel"
+          value={scrollLabel}
+          tag="span"
           style={{
-            height: "100%",
-            backgroundColor: GOLD,
-            width: "100%",
-            animation: "c03Progress 5s linear both",
+            fontFamily: SANS,
+            fontSize: "0.58rem",
+            fontWeight: 500,
+            color: "rgba(255,255,255,0.55)",
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            writingMode: "vertical-rl",
           }}
         />
+        <span style={{
+          display: "block",
+          width: 1,
+          height: 32,
+          backgroundColor: "rgba(255,255,255,0.25)",
+          position: "relative",
+          overflow: "hidden",
+        }}>
+          <span style={{
+            position: "absolute",
+            top: 0, left: 0, right: 0,
+            height: "50%",
+            backgroundColor: GOLD,
+            animation: "c03ScrollPulse 2s ease-in-out infinite",
+          }} />
+        </span>
       </div>
-
-      <style>{`
-        @keyframes c03FadeUp {
-          from { opacity: 0; transform: translateY(18px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes c03Progress {
-          from { transform: scaleX(0); transform-origin: left; }
-          to   { transform: scaleX(1); transform-origin: left; }
-        }
-      `}</style>
-    </div>
     </section>
   );
 }
 
 // ── clinic-02-hero ────────────────────────────────────────────────────────────
-// Světlý hero 600px: text vlevo na bílé ploše, fotka vpravo (full cover)
-// Přesné hodnoty z bomtonclinic.cz:
-//   H2: 36px, #000, line-height 1.4, vlastní font (Poppins fallback)
-//   subtitle: 16px, #000, line-height 1.4
-//   CTA: outline černé tlačítko "online rezervace"
+// Premium editorial hero: fullbleed photo right, white/soft-gradient text plane
+// left. Navy primary CTA (matches sections below), outline navy secondary,
+// serif italic H1 accent word, amber decorative hairline, elegant trust bar
+// with vertical dividers.
+// ─────────────────────────────────────────────────────────────────────────────
 function HeroClinic02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
-  const BLACK  = "#000000";
+  const NAVY   = "#0F203E";
+  const NAVY_D = "#081428";
+  const AMBER  = "#ffa60b";
   const WHITE  = "#FFFFFF";
-  const FONT   = "'Poppins', Arial, sans-serif";
+  const MUTED  = "#606266";
+  const FONT_H = "'Poppins', Arial, sans-serif";
+  const FONT_B = "'Open Sans', 'Poppins', Arial, sans-serif";
+  const FONT_S = "'Cormorant Garamond', 'Playfair Display', Georgia, serif";
 
-  const title    = String((content as Record<string,unknown>).title    ?? "MÍSTO, KTERÉ VÁS ROZZÁŘÍ");
-  const tagline  = String((content as Record<string,unknown>).tagline  ?? "Podpořte svou přirozenou krásu pečlivě provedeným ošetřením a prožijte každý den s pocitem sebevědomí a radosti.");
-  const ctaText  = String((content as Record<string,unknown>).ctaText  ?? "Online rezervace");
-  const ctaHref  = String((content as Record<string,unknown>).ctaHref  ?? "#kontakt");
-  const bgImage  = String((content as Record<string,unknown>).bgImage  ?? "/clones/bomton/img/a16892_d78690f15f7f4ae68deef6b3c63d239b_mv2.jpg");
+  const kicker     = String((content as Record<string,unknown>).kicker    ?? "Klinika doporučená dermatology · 18. rok na trhu");
+  const title      = String((content as Record<string,unknown>).title     ?? "Přirozená krása v rukou špičkových lékařů");
+  const accentWord = String((content as Record<string,unknown>).accentWord ?? "krása");
+  const tagline    = String((content as Record<string,unknown>).tagline   ?? "Zvýrazněte svůj osobitý charakter a každý den se probouzejte s pocitem, že vypadáte přesně tak, jak se cítíte.");
+  const ctaText    = String((content as Record<string,unknown>).ctaText   ?? "Online rezervace");
+  const ctaHref    = String((content as Record<string,unknown>).ctaHref   ?? "/kontakt");
+  const ctaSecText = String((content as Record<string,unknown>).ctaSecondaryText ?? "Konzultace zdarma");
+  const ctaSecHref = String((content as Record<string,unknown>).ctaSecondaryHref ?? "/kontakt");
+  const bgImage    = String((content as Record<string,unknown>).bgImage   ?? "/images/clinic-02/hero.webp");
+  const trustItems = Array.isArray((content as Record<string,unknown>).trust)
+    ? ((content as Record<string,unknown>).trust as string[])
+    : ["5,0 ★ Google · 482 recenzí", "18 000+ spokojených klientek", "Certifikované preparáty Allergan"];
 
   function resolveDemoHref(href: string, slug?: string, admin?: boolean) {
     if (!href.startsWith("#") || !slug) return href;
@@ -3837,97 +5297,367 @@ function HeroClinic02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
     return `${base}${href}`;
   }
 
+  // Highlight the accent word inside the title with serif italic + amber underline
+  const renderTitle = () => {
+    if (!accentWord || !title.toLowerCase().includes(accentWord.toLowerCase())) return title;
+    const idx = title.toLowerCase().indexOf(accentWord.toLowerCase());
+    const before = title.slice(0, idx);
+    const match = title.slice(idx, idx + accentWord.length);
+    const after = title.slice(idx + accentWord.length);
+    return (<>
+      {before}
+      <span style={{
+        fontFamily: FONT_S,
+        fontStyle: "italic",
+        fontWeight: 500,
+        color: NAVY,
+        position: "relative",
+        display: "inline-block",
+        padding: "0 0.06em",
+      }}>
+        {match}
+        <span aria-hidden style={{
+          position: "absolute",
+          left: 0, right: 0, bottom: "0.03em",
+          height: "0.14em",
+          background: `linear-gradient(90deg, ${AMBER}, ${AMBER}00)`,
+          borderRadius: 2,
+        }} />
+      </span>
+      {after}
+    </>);
+  };
+
   return (
-    <section id="uvod-clinic02" style={{
-      position: "relative",
-      width: "100%",
-      height: "clamp(420px, 55vw, 620px)",
-      overflow: "hidden",
-      fontFamily: FONT,
-      backgroundImage: `url('${bgImage}')`,
-      backgroundSize: "cover",
-      backgroundPosition: "65% center",
-      backgroundRepeat: "no-repeat",
-      backgroundColor: WHITE,
-    }}>
-      {/* Left text overlay: bílý fade přes levou polovinu */}
-      <div style={{
-        position: "absolute",
-        inset: 0,
+    <section
+      id="uvod-clinic02"
+      data-template="clinic-02"
+      style={{
+        position: "relative",
+        width: "100%",
+        minHeight: "clamp(620px, 82vh, 820px)",
+        overflow: "hidden",
+        fontFamily: FONT_B,
+        backgroundImage: `url('${bgImage}')`,
+        backgroundSize: "cover",
+        backgroundPosition: "70% center",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: WHITE,
         display: "flex",
         alignItems: "center",
-      }}>
-        {/* White fade: plná bílá vlevo, fade doprava */}
-        <div style={{
-          position: "absolute",
-          inset: 0,
-          background: `linear-gradient(to right, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.82) 42%, rgba(255,255,255,0.4) 58%, rgba(255,255,255,0) 72%)`,
-          pointerEvents: "none",
-        }} />
+      }}
+    >
+      {/* Soft white gradient — legible left, photo visible right */}
+      <div aria-hidden style={{
+        position: "absolute", inset: 0,
+        background: "linear-gradient(to right, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.94) 34%, rgba(255,255,255,0.65) 54%, rgba(255,255,255,0.1) 74%, rgba(255,255,255,0) 100%)",
+        pointerEvents: "none",
+      }} />
 
-        {/* Text content */}
-        <div className="clinic02-hero-text" style={{
+      {/* Fine amber vertical hairline decoration */}
+      <div aria-hidden className="c02h-hairline" style={{
+        position: "absolute",
+        left: "clamp(20px, 5.5vw, 74px)",
+        top: "50%", transform: "translateY(-50%)",
+        width: 1, height: "clamp(180px, 30vh, 260px)",
+        background: `linear-gradient(180deg, ${AMBER}00 0%, ${AMBER} 45%, ${AMBER} 55%, ${AMBER}00 100%)`,
+        opacity: 0.7,
+        zIndex: 1,
+      }} />
+
+      {/* Content wrapper */}
+      <div
+        className="clinic02-hero-text"
+        style={{
           position: "relative",
-          zIndex: 1,
-          maxWidth: 520,
-          padding: "0 clamp(24px, 5vw, 80px)",
-          marginLeft: "clamp(40px, 10vw, 180px)",
-        }}>
-          <h2 style={{
-            fontFamily: FONT,
-            fontSize: "clamp(1.15rem, 2.2vw, 1.75rem)",
-            fontWeight: 700,
-            color: BLACK,
-            lineHeight: 1.2,
-            margin: 0,
-            marginBottom: 20,
-            letterSpacing: "0.04em",
+          zIndex: 2,
+          width: "100%",
+          maxWidth: 1320,
+          margin: "0 auto",
+          padding: "clamp(68px, 8vw, 110px) clamp(28px, 6vw, 88px) clamp(68px, 8vw, 110px) clamp(50px, 8vw, 118px)",
+        }}
+      >
+        <div style={{ maxWidth: 680 }}>
+          {/* Kicker */}
+          <div style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 12,
+            color: NAVY,
+            padding: "6px 0",
+            fontFamily: FONT_B,
+            fontSize: "0.76rem",
+            fontWeight: 600,
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            marginBottom: 30,
           }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
+            <span style={{ width: 28, height: 1, background: AMBER, display: "inline-block" }} />
+            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+          </div>
 
+          {/* H1 — sans + italic serif accent */}
+          <h1
+            className="c02h-title"
+            style={{
+              fontFamily: FONT_H,
+              fontSize: "clamp(2.4rem, 5.2vw, 4.4rem)",
+              fontWeight: 600,
+              color: NAVY,
+              lineHeight: 1.06,
+              letterSpacing: "-0.015em",
+              margin: 0,
+              marginBottom: 26,
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span">
+              {renderTitle()}
+            </GenericEditableText>
+          </h1>
+
+          {/* Tagline */}
           <p style={{
-            fontFamily: FONT,
-            fontSize: "clamp(0.85rem, 1.2vw, 1rem)",
-            color: BLACK,
-            lineHeight: 1.6,
+            fontFamily: FONT_B,
+            fontSize: "clamp(1.02rem, 1.35vw, 1.22rem)",
+            color: MUTED,
+            lineHeight: 1.7,
             margin: 0,
-            marginBottom: 32,
-            maxWidth: 520,
+            marginBottom: 44,
+            maxWidth: 580,
+            fontWeight: 400,
           }}>
             <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
           </p>
 
-          <a
-            href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
-            data-btn="inverse"
-            style={{
-              display: "inline-block",
-              padding: "12px 36px",
-              border: `2px solid ${BLACK}`,
-              backgroundColor: "transparent",
-              color: BLACK,
-              fontFamily: FONT,
-              fontSize: "0.82rem",
-              fontWeight: 500,
-              letterSpacing: "0.1em",
-              textTransform: "lowercase",
-              textDecoration: "none",
-              transition: "background 0.2s, color 0.2s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = BLACK; e.currentTarget.style.color = WHITE; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = BLACK; }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
+          {/* CTAs — NAVY primary + navy outline secondary */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 16, marginBottom: 52 }}>
+            <a
+              href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+              className="c02h-cta-primary"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 12,
+                backgroundColor: NAVY,
+                color: WHITE,
+                textDecoration: "none",
+                fontFamily: FONT_B,
+                fontSize: "0.88rem",
+                fontWeight: 700,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                padding: "18px 34px",
+                borderRadius: 999,
+                boxShadow: "0 10px 28px -8px rgba(15,32,62,0.5)",
+                transition: "transform .25s ease, box-shadow .25s ease, background-color .25s ease",
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ transition: "transform .25s ease" }}>
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 5 20 12 13 19"/>
+              </svg>
+            </a>
+
+            <a
+              href={resolveDemoHref(ctaSecHref, tenantSlug, isAdmin)}
+              className="c02h-cta-secondary"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+                backgroundColor: "transparent",
+                color: NAVY,
+                border: `1.5px solid ${NAVY}30`,
+                textDecoration: "none",
+                fontFamily: FONT_B,
+                fontSize: "0.88rem",
+                fontWeight: 600,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                padding: "16.5px 30px",
+                borderRadius: 999,
+                transition: "background-color .25s ease, color .25s ease, border-color .25s ease",
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
+            </a>
+          </div>
+
+          {/* Trust strip — elegant with vertical dividers */}
+          {trustItems.length > 0 && (
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                alignItems: "center",
+                gap: "clamp(14px, 2vw, 24px)",
+                paddingTop: 30,
+                borderTop: `1px solid rgba(15,32,62,0.12)`,
+                maxWidth: 640,
+              }}
+            >
+              {trustItems.map((item, i) => (
+                <React.Fragment key={`c02-trust-${i}`}>
+                  {i > 0 && <span aria-hidden style={{ width: 1, height: 18, background: `${NAVY}22` }} className="c02h-tsep" />}
+                  <div style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 9,
+                    fontFamily: FONT_B,
+                    fontSize: "0.82rem",
+                    fontWeight: 600,
+                    color: NAVY,
+                    letterSpacing: "0.02em",
+                  }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={AMBER} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    {item}
+                  </div>
+                </React.Fragment>
+              ))}
+            </div>
+          )}
         </div>
       </div>
+
       <style>{`
-        @media (max-width: 600px) {
-          #uvod-clinic02 .clinic02-hero-text { margin-left: 0 !important; padding: 0 20px !important; max-width: 100% !important; }
-          #uvod-clinic02 { background-position: 80% center !important; }
-          #uvod-clinic02 .clinic02-hero-fade { background: rgba(255,255,255,0.88) !important; }
+        .c02h-cta-primary:hover {
+          transform: translateY(-2px);
+          background-color: ${NAVY_D} !important;
+          box-shadow: 0 16px 34px -8px rgba(15,32,62,0.6);
         }
+        .c02h-cta-primary:hover svg { transform: translateX(3px); }
+        .c02h-cta-secondary:hover {
+          background-color: ${NAVY} !important;
+          color: ${WHITE} !important;
+          border-color: ${NAVY} !important;
+        }
+        @media (max-width: 900px) {
+          #uvod-clinic02 { background-position: 82% center !important; min-height: clamp(560px, 90vh, 780px) !important; }
+          #uvod-clinic02 .clinic02-hero-text { padding: 90px 22px 60px !important; }
+          .c02h-hairline { display: none !important; }
+          .c02h-tsep { display: none !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+// ── clinic-02-page-banner ─────────────────────────────────────────────────────
+// Slim subpage banner: navy gradient bg, breadcrumb + H1 + decorative amber
+// hairline (~320-400px). Used on /sluzby, /o-nas, /kontakt etc.
+function HeroClinic02PageBanner({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const NAVY   = "#0F203E";
+  const NAVY_D = "#0a172e";
+  const AMBER  = "#ffa60b";
+  const CREAM  = "#fffaf2";
+  const FONT_H = "'Poppins', Arial, sans-serif";
+  const FONT_B = "'Open Sans', Arial, sans-serif";
+
+  const c = content as Record<string, unknown>;
+  const title          = String(c.title          ?? "Stránka");
+  const subtitle       = String(c.subtitle       ?? "");
+  const breadcrumb     = String(c.breadcrumb     ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+
+  function resolveLink(href: string) {
+    if (!tenantSlug || !href.startsWith("/")) return href;
+    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
+  }
+
+  return (
+    <section
+      data-template="clinic-02"
+      style={{
+        position: "relative",
+        background: `linear-gradient(180deg, ${NAVY} 0%, ${NAVY_D} 100%)`,
+        minHeight: "clamp(280px, 38vh, 360px)",
+        overflow: "hidden",
+      }}
+    >
+      {/* Amber radial accent */}
+      <div aria-hidden style={{
+        position: "absolute", top: "-180px", right: "-140px",
+        width: 420, height: 420, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(255,166,11,0.18) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+      <div aria-hidden style={{
+        position: "absolute", bottom: "-200px", left: "-160px",
+        width: 480, height: 480, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(255,166,11,0.10) 0%, transparent 70%)",
+        pointerEvents: "none",
+      }} />
+
+      {/* Top + bottom amber hairlines */}
+      <div aria-hidden style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, rgba(255,166,11,0.45) 50%, transparent)" }} />
+      <div aria-hidden style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 1, background: "linear-gradient(90deg, transparent, rgba(255,166,11,0.45) 50%, transparent)" }} />
+
+      <div style={{
+        position: "relative",
+        maxWidth: 1280,
+        margin: "0 auto",
+        padding: "clamp(64px,8vw,96px) clamp(24px,5vw,60px)",
+        textAlign: "center",
+      }}>
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" style={{
+          display: "inline-flex", alignItems: "center", gap: 10,
+          fontFamily: FONT_B, fontSize: "0.74rem", fontWeight: 700,
+          letterSpacing: "0.22em", textTransform: "uppercase",
+          color: "rgba(255,250,242,0.55)", marginBottom: 22,
+        }}>
+          <a
+            href={resolveLink(breadcrumbHref)}
+            className="c02-banner-crumb"
+            style={{ color: AMBER, textDecoration: "none", transition: "opacity .2s" }}
+          >
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden style={{ color: "rgba(255,166,11,0.7)" }}>/</span>
+          <span style={{ color: CREAM }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+
+        {/* H1 */}
+        <h1 style={{
+          fontFamily: FONT_H,
+          fontSize: "clamp(2.2rem, 4.6vw, 3.6rem)",
+          fontWeight: 700,
+          color: CREAM,
+          lineHeight: 1.08,
+          letterSpacing: "-0.01em",
+          margin: 0,
+        }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        {/* Optional subtitle */}
+        {subtitle && (
+          <p style={{
+            fontFamily: FONT_B,
+            fontSize: "clamp(0.96rem, 1.2vw, 1.08rem)",
+            color: "rgba(255,250,242,0.72)",
+            lineHeight: 1.65,
+            margin: "20px auto 0",
+            maxWidth: 620,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+
+        {/* Decorative dot ornament */}
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginTop: 26 }}>
+          <span aria-hidden style={{ width: 36, height: 1, background: AMBER }} />
+          <span aria-hidden style={{ width: 6, height: 6, borderRadius: "50%", background: AMBER }} />
+          <span aria-hidden style={{ width: 36, height: 1, background: AMBER }} />
+        </div>
+      </div>
+
+      <style>{`
+        .c02-banner-crumb:hover { opacity: 0.75; }
       `}</style>
     </section>
   );
@@ -3944,15 +5674,19 @@ function HeroFitness02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
 
   const title         = String(content.title         ?? "Moderní fitness centra v Praze");
   const tagline       = String(content.tagline       ?? "Nejsme pouze fitness. My jsme VICTORY!");
+  const body          = String(content.body          ?? "");
   const ctaText       = String(content.ctaText       ?? "Skupinové lekce");
   const ctaHref       = String(content.ctaHref       ?? "#lekce");
   const ctaSecText    = String(content.ctaSecondaryText ?? "Akce a novinky");
   const ctaSecHref    = String(content.ctaSecondaryHref ?? "#o-nas");
   const image         = String(content.image         ?? "");
+  const scrollLabel   = String(content.scrollLabel   ?? "Scroll");
 
   const ACCENT  = "#FF5500";
   const WHITE   = "#FFFFFF";
+  const MUTED   = "#C3C3C3";
   const FONT    = "'Archivo Black', sans-serif";
+  const BODY    = "'Montserrat', sans-serif";
 
   return (
     <section
@@ -3967,10 +5701,220 @@ function HeroFitness02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
         backgroundColor: "#000",
       }}
       data-template="fitness-02"
+      data-section="fitness-02-hero"
     >
       {/* Background image */}
       {image && (
         <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Hero pozadí" className="absolute inset-0" style={{ position: "absolute", inset: 0 }}>
+          <div
+            className="fitness02-hero-bg"
+            style={{
+              position: "absolute", inset: 0,
+              backgroundImage: `url(${image})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              transform: "scale(1.05)",
+            }}
+          />
+        </GenericEditableImage>
+      )}
+
+      {/* Cinematic gradient overlay — darker at bottom for CTA contrast */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.45) 40%, rgba(0,0,0,0.75) 100%)",
+        }}
+      />
+
+      {/* Subtle vignette — draws eye to center */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute", inset: 0,
+          background: "radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.55) 100%)",
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Grain texture — cinematic film feel */}
+      <div
+        aria-hidden="true"
+        className="fitness02-grain"
+        style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.06, mixBlendMode: "overlay" }}
+      />
+
+      {/* Content */}
+      <div
+        className="fitness02-hero-content"
+        style={{
+          position: "relative", zIndex: 10,
+          textAlign: "center",
+          padding: "0 24px",
+          maxWidth: 1040,
+          margin: "0 auto",
+        }}
+      >
+        {/* Tagline / kicker — with orange hairline */}
+        <div className="fitness02-hero-kicker" style={{ display: "inline-flex", alignItems: "center", gap: 16, marginBottom: 28, justifyContent: "center" }}>
+          <span aria-hidden="true" style={{ display: "inline-block", width: 40, height: 2, background: ACCENT }} />
+          <span style={{
+            fontFamily: BODY,
+            fontSize: 13,
+            fontWeight: 600,
+            letterSpacing: "0.24em",
+            textTransform: "uppercase",
+            color: ACCENT,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+          </span>
+          <span aria-hidden="true" style={{ display: "inline-block", width: 40, height: 2, background: ACCENT }} />
+        </div>
+
+        {/* H1 */}
+        <h1
+          className="fitness02-hero-title"
+          style={{
+            fontFamily: FONT,
+            fontSize: "clamp(44px, 8.2vw, 96px)",
+            color: WHITE,
+            textTransform: "uppercase",
+            lineHeight: 1.05,
+            margin: 0,
+            marginBottom: 28,
+            letterSpacing: "-0.015em",
+            textShadow: "0 4px 40px rgba(0,0,0,0.5)",
+          }}
+        >
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        {/* Body — cinematic subheading */}
+        {body && (
+          <p
+            className="fitness02-hero-body"
+            style={{
+              fontFamily: BODY,
+              fontSize: "clamp(15px, 1.15vw, 17px)",
+              fontWeight: 400,
+              lineHeight: 1.65,
+              color: MUTED,
+              maxWidth: 640,
+              margin: "0 auto 44px",
+              letterSpacing: "0.01em",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+          </p>
+        )}
+        {!body && <div style={{ height: 12 }} />}
+
+        {/* CTA row */}
+        <div className="fitness02-hero-ctas" style={{ display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap" }}>
+          <a
+            href={resolve(ctaHref)}
+            data-btn="inverse"
+            className="fitness02-cta fitness02-hero-cta-primary"
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 12,
+              background: "transparent", color: ACCENT,
+              border: `2px solid ${ACCENT}`, borderRadius: 0,
+              padding: "17px 40px",
+              fontSize: 13, textDecoration: "none",
+              letterSpacing: "0.2em", textTransform: "uppercase",
+              fontFamily: FONT,
+              transition: "background 0.35s cubic-bezier(0.22,0.61,0.36,1), color 0.35s cubic-bezier(0.22,0.61,0.36,1), transform 0.35s cubic-bezier(0.22,0.61,0.36,1), box-shadow 0.35s ease",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg className="fitness02-cta-arrow" width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true" style={{ transition: "transform 0.35s cubic-bezier(0.22,0.61,0.36,1)" }}>
+              <path d="M0 5H12M12 5L8 1M12 5L8 9" stroke="currentColor" strokeWidth="2" />
+            </svg>
+          </a>
+          <a
+            href={resolve(ctaSecHref)}
+            className="fitness02-hero-cta-secondary"
+            style={{
+              display: "inline-flex", alignItems: "center",
+              background: "transparent", color: WHITE,
+              border: `2px solid ${WHITE}`, borderRadius: 0,
+              padding: "17px 40px",
+              fontSize: 13, textDecoration: "none",
+              letterSpacing: "0.2em", textTransform: "uppercase",
+              fontFamily: FONT,
+              transition: "background 0.35s cubic-bezier(0.22,0.61,0.36,1), color 0.35s cubic-bezier(0.22,0.61,0.36,1), transform 0.35s cubic-bezier(0.22,0.61,0.36,1)",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
+          </a>
+        </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div
+        aria-hidden="true"
+        className="fitness02-hero-scroll"
+        style={{
+          position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)",
+          zIndex: 10,
+          display: "flex", flexDirection: "column", alignItems: "center", gap: 14,
+        }}
+      >
+        <span style={{
+          fontFamily: FONT, fontSize: 10, letterSpacing: "0.32em", textTransform: "uppercase",
+          color: MUTED,
+        }}>{scrollLabel}</span>
+        <span className="fitness02-hero-scroll-line" style={{ display: "block", width: 1, height: 56, background: `linear-gradient(180deg, transparent 0%, ${ACCENT} 100%)`, transformOrigin: "top center" }} />
+      </div>
+    </section>
+  );
+}
+
+// ── hero-fitness-02-page ──────────────────────────────────────────────────────
+// Slim banner (~360px) for subpages — breadcrumb + H1 + orange hairline rule
+// Same DNA as homepage hero (black + orange + Archivo Black) but not fullscreen
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroFitness02Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const resolveHref = (href: string) => {
+    if (!href) return "/";
+    if (href.startsWith("http") || href.startsWith("#")) return href;
+    return tenantSlug ? `/demo/${tenantSlug}${href === "/" ? "" : href}` : href;
+  };
+  // Silence unused variable warning
+  void isAdmin;
+
+  const title           = String(content.title           ?? "");
+  const breadcrumb      = String(content.breadcrumb      ?? "Domů");
+  const breadcrumbHref  = String(content.breadcrumbHref  ?? "/");
+  const eyebrow         = String(content.eyebrow         ?? "");
+  const image           = String(content.image           ?? "");
+
+  const ACCENT  = "#FF5500";
+  const WHITE   = "#FFFFFF";
+  const MUTED   = "#C3C3C3";
+  const FONT    = "'Archivo Black', sans-serif";
+  const BODY    = "'Montserrat', sans-serif";
+
+  return (
+    <section
+      style={{
+        position: "relative",
+        minHeight: 360,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+        backgroundColor: "#000",
+        fontFamily: BODY,
+      }}
+      data-template="fitness-02"
+      data-section="fitness-02-hero-page"
+    >
+      {/* Background image (optional, subtle) */}
+      {image && (
+        <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Banner pozadí" className="absolute inset-0" style={{ position: "absolute", inset: 0 }}>
           <div
             style={{
               position: "absolute", inset: 0,
@@ -3978,95 +5922,98 @@ function HeroFitness02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
               backgroundSize: "cover",
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
+              opacity: 0.35,
             }}
           />
         </GenericEditableImage>
       )}
 
-      {/* Dark overlay */}
-      <div style={{ position: "absolute", inset: 0, background: "rgba(0,0,0,0.55)" }} />
+      {/* Dark gradient overlay */}
+      <div aria-hidden="true" style={{
+        position: "absolute", inset: 0,
+        background: "linear-gradient(180deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.9) 100%)",
+      }} />
+
+      {/* Grain */}
+      <div aria-hidden="true" className="fitness02-grain" style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.05, mixBlendMode: "overlay" }} />
 
       {/* Content */}
       <div
+        className="fitness02-page-content"
         style={{
           position: "relative", zIndex: 10,
           textAlign: "center",
-          padding: "0 24px",
+          padding: "80px 24px 60px",
           maxWidth: 900,
           margin: "0 auto",
         }}
       >
-        {/* Tagline / kicker */}
-        <p style={{
-          fontFamily: "'Montserrat', sans-serif",
-          fontSize: 16,
-          fontWeight: 600,
-          letterSpacing: "0.15em",
-          textTransform: "uppercase",
-          color: ACCENT,
-          marginBottom: 24,
-        }}>
-          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-        </p>
+        {/* Breadcrumb */}
+        <nav aria-label="Drobečková navigace" style={{ marginBottom: 20 }}>
+          <ol style={{ display: "inline-flex", alignItems: "center", gap: 10, listStyle: "none", margin: 0, padding: 0 }}>
+            <li>
+              <a href={resolveHref(breadcrumbHref)} className="fitness02-page-crumb" style={{
+                fontFamily: FONT, fontSize: 11, letterSpacing: "0.32em", textTransform: "uppercase",
+                color: MUTED, textDecoration: "none",
+                transition: "color 0.35s ease",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+              </a>
+            </li>
+            <li aria-hidden="true" style={{ display: "inline-flex", alignItems: "center" }}>
+              <span style={{ width: 18, height: 1, background: ACCENT, display: "inline-block" }} />
+            </li>
+            <li>
+              <span style={{
+                fontFamily: FONT, fontSize: 11, letterSpacing: "0.32em", textTransform: "uppercase",
+                color: ACCENT,
+              }} aria-current="page">
+                {title || " "}
+              </span>
+            </li>
+          </ol>
+        </nav>
+
+        {/* Optional eyebrow with hairlines */}
+        {eyebrow && (
+          <div className="fitness02-page-kicker" style={{ display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 18, justifyContent: "center" }}>
+            <span aria-hidden="true" style={{ display: "inline-block", width: 28, height: 2, background: ACCENT }} />
+            <span style={{
+              fontFamily: BODY, fontSize: 12, letterSpacing: "0.24em",
+              textTransform: "uppercase", color: ACCENT, fontWeight: 600,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </span>
+            <span aria-hidden="true" style={{ display: "inline-block", width: 28, height: 2, background: ACCENT }} />
+          </div>
+        )}
 
         {/* H1 */}
-        <h1 style={{
-          fontFamily: FONT,
-          fontSize: "clamp(40px, 7vw, 80px)",
-          fontWeight: 900,
-          color: WHITE,
-          textTransform: "uppercase",
-          lineHeight: 1.15,
-          marginBottom: 40,
-          letterSpacing: "0.03em",
-        }}>
+        <h1
+          className="fitness02-page-title"
+          style={{
+            fontFamily: FONT,
+            fontSize: "clamp(36px, 5.5vw, 68px)",
+            color: WHITE,
+            textTransform: "uppercase",
+            lineHeight: 1.05,
+            margin: 0,
+            letterSpacing: "-0.015em",
+            textShadow: "0 4px 24px rgba(0,0,0,0.5)",
+          }}
+        >
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h1>
 
-        {/* CTA row */}
-        <div style={{ display: "flex", gap: 20, justifyContent: "center", flexWrap: "wrap" }}>
-          <a
-            href={resolve(ctaHref)}
-            data-btn="inverse"
-            style={{
-              display: "inline-flex", alignItems: "center",
-              background: "transparent", color: ACCENT,
-              border: `2px solid ${ACCENT}`, borderRadius: 0,
-              padding: "16px 40px",
-              fontSize: 15, fontWeight: 700, textDecoration: "none",
-              letterSpacing: "0.1em", textTransform: "uppercase",
-              fontFamily: FONT, transition: "background 0.2s, color 0.2s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.background = ACCENT; e.currentTarget.style.color = "#000"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = ACCENT; }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
-          <a
-            href={resolve(ctaSecHref)}
-            style={{
-              display: "inline-flex", alignItems: "center",
-              background: "transparent", color: WHITE,
-              border: `2px solid ${WHITE}`, borderRadius: 0,
-              padding: "16px 40px",
-              fontSize: 15, fontWeight: 700, textDecoration: "none",
-              letterSpacing: "0.1em", textTransform: "uppercase",
-              fontFamily: FONT, transition: "background 0.2s, color 0.2s",
-            }}
-            onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = "transparent"; }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
-          </a>
-        </div>
+        {/* Decorative orange rule */}
+        <div
+          aria-hidden="true"
+          style={{
+            width: 64, height: 3, background: ACCENT,
+            margin: "28px auto 0",
+          }}
+        />
       </div>
-
-      <style>{`
-        @media (max-width: 600px) {
-          #uvod[data-template="fitness-02"] h1 { font-size: 36px !important; }
-          #uvod[data-template="fitness-02"] { min-height: 85vh !important; }
-        }
-      `}</style>
     </section>
   );
 }
@@ -7748,22 +9695,23 @@ function HeroElektro01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
 }
 
 // ── catering-01-hero ─────────────────────────────────────────────────────────
-// Fullscreen: photos fill 100vh bg, gradient overlay left→right,
-// text anchored bottom-left, dots bottom-left
+// Fullscreen luxury slider:
+// - 100vh photo bg with Ken Burns zoom + 1.2s crossfade
+// - Dark gradient overlay for legibility
+// - Text bottom-left: gold badge → Fraunces italic H1 (multi-line) → sub → terracotta pill CTA
+// - Dots + prev/next arrows + slide counter (01/03) bottom-right
+// - Auto-play 6s
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroCatering01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
-  const TEAL  = "#1c373a";
-  const DARK  = "#0d1a1c";
-  const CREAM = "#fefff1";
-  const GOLD  = "#baae8c";
-  const SERIF = "'Libre Baskerville', Georgia, serif";
-  const SANS  = "'Source Sans 3', 'Source Sans Pro', sans-serif";
+  const TERRA  = "#c4755b";
+  const CREAM  = "#f8f5f0";
+  const SERIF  = "'Fraunces', Georgia, serif";
+  const SANS   = "'Inter', system-ui, sans-serif";
 
-  const title    = String(content.title    ?? "Fine-dine catering");
-  const tagline  = String(content.tagline  ?? "Gastronomie\nje naše\nVášeň");
-  const subtitle = String(content.subtitle ?? "Tvoříme nezapomenutelnou gastronomii pro výjimečné události");
-  const badge    = String(content.badge    ?? "od roku 2004");
-  const ctaText  = String(content.ctaText  ?? "Kontaktujte nás");
+  const tagline  = String(content.tagline  ?? "Chuť,\nkterá\nosloví");
+  const subtitle = String(content.subtitle ?? "Gastronomické umění pro chvíle, na které se nezapomíná");
+  const badge    = String(content.badge    ?? "od roku 2007");
+  const ctaText  = String(content.ctaText  ?? "Nezávazná poptávka");
   const ctaHref  = String(content.ctaHref  ?? "#kontakt");
   const slides   = (content.slides as Array<{ url: string; alt?: string }>) ?? [];
 
@@ -7772,142 +9720,353 @@ function HeroCatering01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props,
 
   useEffect(() => {
     if (total < 2) return;
-    const t = setInterval(() => setActive(a => (a + 1) % total), 5500);
+    const t = setInterval(() => setActive(a => (a + 1) % total), 6000);
     return () => clearInterval(t);
   }, [total]);
 
-  function resolveDemoHref(href: string) {
+  function resolveHref(href: string) {
     if (!tenantSlug || href.startsWith("http")) return href;
     const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
     return href === "/" ? base : `${base}${href}`;
   }
 
-  const taglineLines = tagline.split("\n");
+  const go = (dir: 1 | -1) => setActive(a => (a + dir + total) % total);
 
   return (
     <section
+      id="uvod"
       data-template="catering-01"
       data-variant="catering-01-hero"
-      style={{ position: "relative", height: "100vh", minHeight: "42rem", overflow: "hidden", background: DARK }}
     >
       <style>{`
-        .c01h3-slide{
-          position:absolute;inset:0;z-index:0;
-          opacity:0;transition:opacity 1.4s ease;
-        }
-        .c01h3-slide.on{opacity:1}
-        .c01h3-slide img{width:100%;height:100%;object-fit:cover;display:block}
-        .c01h3-ov{
-          position:absolute;inset:0;z-index:1;
-          background:linear-gradient(100deg,
-            rgba(13,26,28,.97) 0%,
-            rgba(13,26,28,.82) 38%,
-            rgba(13,26,28,.45) 62%,
-            rgba(13,26,28,.08) 100%);
-        }
-        .c01h3-cnt{
-          position:absolute;inset:0;z-index:2;
-          display:flex;flex-direction:column;justify-content:flex-end;
-          padding:0 6% 3.5rem;
-        }
-        .c01h3-badge{
-          font-family:${SANS};font-size:.7rem;font-weight:700;
-          letter-spacing:.55rem;text-transform:uppercase;
-          color:${GOLD};margin:0 0 .9rem;
-        }
-        .c01h3-label{
-          font-family:${SERIF};font-style:italic;font-weight:300;
-          font-size:.85rem;letter-spacing:.22rem;text-transform:uppercase;
-          color:rgba(254,255,241,.42);margin:0 0 .4rem;
-        }
-        .c01h3-tagline{
-          font-family:${SERIF};font-style:italic;font-weight:300;
-          text-transform:uppercase;color:${CREAM};
-          margin:0 0 1.4rem;line-height:1.06;
-          font-size:clamp(1.9rem, 5.4vw, 8.5rem);
-        }
-        .c01h3-tagline em{color:${GOLD};font-style:italic}
-        .c01h3-sub{
-          font-family:${SANS};font-size:.88rem;line-height:1.7;
-          color:rgba(254,255,241,.55);max-width:36rem;margin:0 0 1.8rem;
-        }
-        .c01h3-cta{
-          display:inline-flex;align-items:center;align-self:flex-start;
-          border:.12rem solid rgba(254,255,241,.55);
-          padding:.72rem 2rem;
-          font-family:${SANS};font-size:.68rem;font-weight:700;
-          letter-spacing:.45rem;text-transform:uppercase;
-          color:${CREAM};text-decoration:none;
-          transition:background .2s,color .2s,border-color .2s;
-          margin-bottom:2.2rem;
-        }
-        .c01h3-cta:hover{background:${CREAM};color:${TEAL};border-color:${CREAM}}
-        .c01h3-dots{
-          display:flex;gap:.75rem;align-items:center;
-        }
-        .c01h3-dot{
-          width:.4rem;height:.4rem;border-radius:50%;border:none;padding:0;cursor:pointer;
-          background:rgba(254,255,241,.28);transition:background .3s,transform .3s;
-        }
-        .c01h3-dot.on{background:${CREAM};transform:scale(1.5)}
-        .c01h3-yr{
-          position:absolute;bottom:3.5rem;right:3rem;z-index:3;
-          font-family:${SANS};font-size:.65rem;font-weight:700;
-          letter-spacing:.5rem;text-transform:uppercase;
-          color:rgba(186,174,140,.65);
-          writing-mode:vertical-rl;transform:rotate(180deg);
-        }
-        @media(min-width:1280px){
-          .c01h3-cnt{padding-bottom:4.5rem}
-          .c01h3-sub{font-size:.95rem;max-width:40rem}
-          .c01h3-cta{padding:.8rem 2.4rem;font-size:.72rem}
-        }
-        @media(min-width:1600px){
-          .c01h3-cnt{padding:0 7% 5.5rem}
+        .ct1hero{position:relative;width:100%;height:100vh;height:100svh;min-height:600px;overflow:hidden;background:#0d1a15}
+        .ct1hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease}
+        .ct1hero-slide.on{opacity:1}
+        .ct1hero-slide > *{position:absolute;inset:0;width:100%;height:100%}
+        .ct1hero-slide img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1);transition:transform 8s ease-out}
+        .ct1hero-slide.on img{transform:scale(1.08)}
+        .ct1hero-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,26,21,0.15) 0%,rgba(13,26,21,0.15) 40%,rgba(13,26,21,0.55) 78%,rgba(13,26,21,0.85) 100%);pointer-events:none}
+        .ct1hero-veil-side{position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,26,21,0.55) 0%,rgba(13,26,21,0.15) 45%,rgba(13,26,21,0) 70%);pointer-events:none}
+        .ct1hero-wrap{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:0 5% 6rem;z-index:2;color:#fff}
+        .ct1hero-badge{font-family:${SANS};font-size:.72rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#f2c9a8;margin:0 0 1.6rem;display:flex;align-items:center;gap:.75rem}
+        .ct1hero-badge::before{content:'';width:2.4rem;height:1px;background:#f2c9a8}
+        .ct1hero-h1{font-family:${SERIF};font-weight:300;font-style:italic;color:${CREAM};margin:0 0 1.6rem;line-height:1.03;font-size:clamp(2.6rem,7vw,6.5rem);letter-spacing:-.02em;max-width:14ch;text-shadow:0 2px 30px rgba(0,0,0,0.35)}
+        .ct1hero-sub{font-family:${SANS};font-size:clamp(0.95rem,1.15vw,1.15rem);line-height:1.65;color:rgba(255,255,255,0.88);max-width:36rem;margin:0 0 2.4rem;font-weight:400}
+        .ct1hero-cta{display:inline-flex;align-items:center;gap:.7rem;align-self:flex-start;background:${TERRA};color:#fff;font-family:${SANS};font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;padding:1rem 2.4rem;border-radius:999px;transition:background .3s,transform .3s,box-shadow .3s;box-shadow:0 12px 32px -8px rgba(196,117,91,0.6)}
+        .ct1hero-cta:hover{background:#b0634a;transform:translateY(-2px);box-shadow:0 16px 40px -8px rgba(196,117,91,0.7)}
+        .ct1hero-cta svg{transition:transform .3s}
+        .ct1hero-cta:hover svg{transform:translateX(4px)}
+
+        .ct1hero-controls{position:absolute;bottom:2.2rem;right:5%;z-index:3;display:flex;align-items:center;gap:1.4rem;color:#fff;font-family:${SANS}}
+        .ct1hero-arrow{width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;transition:background .25s,border-color .25s,transform .25s}
+        .ct1hero-arrow:hover{background:${TERRA};border-color:${TERRA};transform:scale(1.05)}
+        .ct1hero-count{font-family:${SERIF};font-style:italic;font-size:1.05rem;letter-spacing:.05em;min-width:4ch;text-align:center}
+        .ct1hero-count strong{font-weight:400;color:${CREAM};font-size:1.5rem;margin-right:.3rem}
+        .ct1hero-count span.sep{opacity:.4;margin:0 .35rem}
+        .ct1hero-count span.total{opacity:.65}
+
+        .ct1hero-dots{position:absolute;bottom:2.6rem;left:5%;z-index:3;display:flex;gap:.7rem}
+        .ct1hero-dot{width:32px;height:2px;border:0;background:rgba(255,255,255,0.35);padding:0;cursor:pointer;transition:background .3s,transform .3s;position:relative;overflow:hidden}
+        .ct1hero-dot.on{background:rgba(255,255,255,0.85)}
+        .ct1hero-dot.on::after{content:'';position:absolute;inset:0;background:${TERRA};animation:ct1prog 6s linear forwards}
+        @keyframes ct1prog{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+
+        @media(max-width:768px){
+          .ct1hero{min-height:560px}
+          .ct1hero-wrap{padding:0 6% 8rem}
+          .ct1hero-controls{bottom:2.4rem;right:6%;gap:.8rem}
+          .ct1hero-arrow{width:38px;height:38px}
+          .ct1hero-dots{bottom:3rem;left:6%;gap:.5rem}
+          .ct1hero-dot{width:24px}
+          .ct1hero-h1{font-size:clamp(2.4rem,10vw,4rem)}
+          .ct1hero-sub{font-size:0.95rem}
+          .ct1hero-count{display:none}
         }
       `}</style>
 
-      {slides.map((sl, i) => (
-        <div key={i} className={`c01h3-slide${i === active ? " on" : ""}`}>
-          <GenericEditableImage sectionId={sectionId} field={`slides.${i}.url`} src={sl.url} alt={sl.alt ?? ""}>
-            <img src={sl.url} alt={sl.alt ?? ""} loading={i === 0 ? "eager" : "lazy"} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-          </GenericEditableImage>
+      <div className="ct1hero">
+        {/* Slides */}
+        {slides.map((sl, i) => (
+          <div key={i} className={`ct1hero-slide${i === active ? " on" : ""}`}>
+            <GenericEditableImage sectionId={sectionId} field={`slides.${i}.url`} src={sl.url} alt={sl.alt ?? ""}>
+              <img src={sl.url} alt={sl.alt ?? ""} loading={i === 0 ? "eager" : "lazy"} />
+            </GenericEditableImage>
+          </div>
+        ))}
+
+        {/* Overlays */}
+        <div className="ct1hero-veil" />
+        <div className="ct1hero-veil-side" />
+
+        {/* Content */}
+        <div className="ct1hero-wrap">
+          {badge && (
+            <div className="ct1hero-badge">
+              <GenericEditableText sectionId={sectionId} field="badge" value={badge} tag="span" />
+            </div>
+          )}
+          <h1 className="ct1hero-h1">
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span">
+              {tagline.split("\n").map((line, i) => (
+                <span key={i} style={{ display: "block" }}>{line}</span>
+              ))}
+            </GenericEditableText>
+          </h1>
+          <p className="ct1hero-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+          <a href={resolveHref(ctaHref)} data-btn="primary" className="ct1hero-cta">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </a>
         </div>
-      ))}
-      <div className="c01h3-ov" />
-      <div className="c01h3-cnt">
-        {badge && (
-          <div className="c01h3-badge">
-            <GenericEditableText sectionId={sectionId} field="badge" value={badge} tag="span" />
+
+        {/* Dots progress bars */}
+        {total > 1 && (
+          <div className="ct1hero-dots">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                className={`ct1hero-dot${i === active ? " on" : ""}`}
+                onClick={() => setActive(i)}
+                aria-label={`Snímek ${i + 1}`}
+              />
+            ))}
           </div>
         )}
-        <div className="c01h3-label">
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </div>
-        <h1 className="c01h3-tagline">
-          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span">
-            {taglineLines.map((line, i) => (
-              <span key={i} style={{ display: "block" }}>
-                {i === taglineLines.length - 1 ? <em>{line}</em> : line}
-              </span>
-            ))}
-          </GenericEditableText>
-        </h1>
-        <p className="c01h3-sub">
-          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-        </p>
-        <a href={resolveDemoHref(ctaHref)} data-btn="primary" className="c01h3-cta">
-          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-        </a>
-        {slides.length > 1 && (
-          <div className="c01h3-dots">
-            {slides.map((_, i) => (
-              <button key={i} className={`c01h3-dot${i === active ? " on" : ""}`} onClick={() => setActive(i)} aria-label={`Snímek ${i + 1}`} />
-            ))}
+
+        {/* Arrows + counter */}
+        {total > 1 && (
+          <div className="ct1hero-controls">
+            <button className="ct1hero-arrow" onClick={() => go(-1)} aria-label="Předchozí">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+              </svg>
+            </button>
+            <div className="ct1hero-count" aria-hidden>
+              <strong>{String(active + 1).padStart(2, "0")}</strong>
+              <span className="sep">/</span>
+              <span className="total">{String(total).padStart(2, "0")}</span>
+            </div>
+            <button className="ct1hero-arrow" onClick={() => go(1)} aria-label="Další">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </button>
           </div>
         )}
       </div>
-      {badge && <div className="c01h3-yr">{badge}</div>}
+    </section>
+  );
+}
+
+// ── hero-catering-01-page (slim subpage banner) ────────────────────────────────
+function HeroCatering01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const bg = String(c.backgroundImage ?? "");
+  const breadcrumb = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const title = String(c.title ?? "Stránka");
+  return (
+    <section
+      className="relative overflow-hidden"
+      style={{ minHeight: "clamp(280px, 40vh, 380px)", backgroundColor: "#2d4a3e" }}
+      data-template="catering-01"
+      data-variant="hero-catering-01-page"
+    >
+      <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+      {bg && (
+        <div aria-hidden style={{
+          position: "absolute", inset: 0,
+          backgroundImage: `url(${bg})`, backgroundSize: "cover", backgroundPosition: "center",
+          filter: "brightness(0.4) saturate(0.7)", zIndex: 0,
+        }} />
+      )}
+      <div aria-hidden style={{
+        position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
+        background: "linear-gradient(180deg, rgba(45,74,62,0.85) 0%, rgba(45,74,62,0.6) 100%)",
+      }} />
+      <div
+        className="relative flex flex-col items-center justify-center text-center"
+        style={{
+          zIndex: 3, minHeight: "clamp(280px, 40vh, 380px)",
+          paddingBlock: "120px 48px", paddingInline: "clamp(20px, 6vw, 80px)",
+        }}
+      >
+        <nav aria-label="Breadcrumb" style={{
+          display: "flex", alignItems: "center", gap: 10,
+          fontFamily: "'Inter', system-ui, sans-serif",
+          fontSize: "11px", fontWeight: 500, letterSpacing: "0.18em", textTransform: "uppercase",
+          color: "rgba(248,245,240,0.5)", marginBottom: 20,
+        }}>
+          <a
+            href={resolveDemoHref(breadcrumbHref, tenantSlug, isAdmin)}
+            style={{ color: "rgba(248,245,240,0.65)", textDecoration: "none", transition: "color 0.3s" }}
+            onMouseEnter={e => { e.currentTarget.style.color = "#c4755b"; }}
+            onMouseLeave={e => { e.currentTarget.style.color = "rgba(248,245,240,0.65)"; }}
+          >
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden style={{ color: "#c4755b", fontSize: "9px" }}>●</span>
+          <span style={{ color: "#c4755b" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+        <h1 style={{
+          fontFamily: "'Fraunces', Georgia, serif",
+          color: "#f8f5f0", fontSize: "clamp(2.2rem, 5vw, 3.6rem)",
+          fontWeight: 500, fontStyle: "italic", lineHeight: 1.1,
+          letterSpacing: "-0.01em", marginBottom: 16,
+        }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <div aria-hidden style={{
+          width: 48, height: 2, backgroundColor: "#c4755b", borderRadius: 1,
+        }} />
+      </div>
+    </section>
+  );
+}
+
+// ── hero-peak-cut-page (slim subpage banner) ───────────────────────────────────
+function HeroPeakCutPage({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const bg = String(c.backgroundImage ?? "");
+  const breadcrumb = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const title = String(c.title ?? "Stránka");
+  const OSWALD = "'Oswald', 'Bebas Neue', Impact, sans-serif";
+  const MONO = "'Overpass Mono', 'JetBrains Mono', Menlo, monospace";
+  const RED = "#c41e3a";
+  return (
+    <section
+      className="relative overflow-hidden"
+      style={{ minHeight: "clamp(260px, 38vh, 360px)", backgroundColor: "#1a1a1a" }}
+      data-template="peak-cut"
+      data-variant="hero-peak-cut-page"
+    >
+      <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Overpass+Mono:wght@400;600&display=swap" rel="stylesheet" />
+      {bg && (
+        <div aria-hidden style={{
+          position: "absolute", inset: 0,
+          backgroundImage: `url(${bg})`, backgroundSize: "cover", backgroundPosition: "center",
+          filter: "brightness(0.3) contrast(1.1)", zIndex: 0,
+        }} />
+      )}
+      <div
+        className="relative flex flex-col items-center justify-center text-center"
+        style={{
+          zIndex: 3, minHeight: "clamp(260px, 38vh, 360px)",
+          paddingBlock: "110px 44px", paddingInline: "clamp(20px, 6vw, 80px)",
+        }}
+      >
+        <nav aria-label="Breadcrumb" style={{
+          display: "flex", alignItems: "center", gap: 8,
+          fontFamily: MONO, fontSize: "10px", fontWeight: 600,
+          letterSpacing: "0.2em", textTransform: "uppercase",
+          color: "rgba(255,255,255,0.4)", marginBottom: 18,
+        }}>
+          <a
+            href={resolveDemoHref(breadcrumbHref, tenantSlug, isAdmin)}
+            style={{ color: "rgba(255,255,255,0.55)", textDecoration: "none", transition: "color 0.3s" }}
+            onMouseEnter={e => { e.currentTarget.style.color = RED; }}
+            onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.55)"; }}
+          >
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden style={{ color: RED }}>/</span>
+          <span style={{ color: "#fff" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+        <h1 style={{
+          fontFamily: OSWALD, color: "#ffffff",
+          fontSize: "clamp(2.4rem, 5.5vw, 4rem)",
+          fontWeight: 500, lineHeight: 1.05,
+          letterSpacing: "0.08em", textTransform: "uppercase",
+        }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <div aria-hidden style={{
+          width: 40, height: 2, backgroundColor: RED, marginTop: 16,
+        }} />
+      </div>
+    </section>
+  );
+}
+
+// ── hero-clinic-03-page (slim subpage banner) ──────────────────────────────────
+function HeroClinic03Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const bg = String(c.backgroundImage ?? "");
+  const breadcrumb = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const title = String(c.title ?? "Stránka");
+  const GOLD = "#97855F";
+  const SERIF = "'Cormorant Garamond', Georgia, serif";
+  const SANS = "'DM Sans', 'Inter', Arial, sans-serif";
+  return (
+    <section
+      className="relative overflow-hidden"
+      style={{ minHeight: "clamp(280px, 40vh, 380px)", backgroundColor: "#1A1A1A" }}
+      data-template="clinic-03"
+      data-variant="hero-clinic-03-page"
+    >
+      <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+      {bg && (
+        <div aria-hidden style={{
+          position: "absolute", inset: 0,
+          backgroundImage: `url(${bg})`, backgroundSize: "cover", backgroundPosition: "center",
+          filter: "brightness(0.35) saturate(0.8)", zIndex: 0,
+        }} />
+      )}
+      <div aria-hidden style={{
+        position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
+        background: "linear-gradient(180deg, rgba(26,26,26,0.7) 0%, rgba(26,26,26,0.5) 100%)",
+      }} />
+      <div
+        className="relative flex flex-col items-center justify-center text-center"
+        style={{
+          zIndex: 3, minHeight: "clamp(280px, 40vh, 380px)",
+          paddingBlock: "120px 48px", paddingInline: "clamp(20px, 6vw, 80px)",
+        }}
+      >
+        <nav aria-label="Breadcrumb" style={{
+          display: "flex", alignItems: "center", gap: 10,
+          fontFamily: SANS, fontSize: "10.5px", fontWeight: 500,
+          letterSpacing: "0.2em", textTransform: "uppercase",
+          color: "rgba(255,255,255,0.45)", marginBottom: 20,
+        }}>
+          <a
+            href={resolveDemoHref(breadcrumbHref, tenantSlug, isAdmin)}
+            style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none", transition: "color 0.3s" }}
+            onMouseEnter={e => { e.currentTarget.style.color = GOLD; }}
+            onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.6)"; }}
+          >
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden style={{ color: GOLD, fontSize: "6px" }}>◆</span>
+          <span style={{ color: GOLD }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+        <h1 style={{
+          fontFamily: SERIF, color: "#ffffff",
+          fontSize: "clamp(2.2rem, 5vw, 3.8rem)",
+          fontWeight: 400, fontStyle: "italic", lineHeight: 1.1,
+          letterSpacing: "0.02em",
+        }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <div aria-hidden style={{
+          width: 32, height: 1, backgroundColor: GOLD, marginTop: 18,
+        }} />
+      </div>
     </section>
   );
 }
@@ -8789,7 +10948,7 @@ interface Lang01HeroContent {
   languages?: Array<{ flag: string; name: string }>;
 }
 
-function HeroLang01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: string; tenantSlug?: string; isAdmin?: boolean }) {
+function HeroLang01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const c = content as Lang01HeroContent;
   const RED  = "#e63946";
   const DARK = "#1a1a2e";
@@ -9235,7 +11394,7 @@ function HeroPethotel01({
 // - Žádný text overlay na slidech — čisté fullbleed fotky
 // - Šipky vlevo/vpravo (bílé) + tečky dole uprostřed
 // ─────────────────────────────────────────────────────────────────────────────
-function HeroVet01({ content }: { content: Record<string, unknown>; sectionId?: string; tenantSlug?: string; isAdmin?: boolean }) {
+function HeroVet01({ content }: { content: Record<string, unknown>; sectionId?: number; tenantSlug?: string; isAdmin?: boolean }) {
   const DEFAULT_SLIDES = [
     { backgroundUrl: "/clones/veterinafenix/img/main-psi.jpg",  overlayColor: "#1abc9c" },
     { backgroundUrl: "/clones/veterinafenix/img/main-cat.jpg",  overlayColor: "#4054b2" },
@@ -10516,8 +12675,8 @@ function HeroArch01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroUcetni04({ content, sectionId, tenantSlug, isAdmin }: {
   content: Record<string, unknown>;
-  sectionId: string;
-  tenantSlug: string;
+  sectionId: number;
+  tenantSlug?: string;
   isAdmin: boolean;
 }) {
   const NAVY  = "#003366";
@@ -10718,183 +12877,282 @@ function HeroUcetni04({ content, sectionId, tenantSlug, isAdmin }: {
 }
 
 // ── solar-01-hero ─────────────────────────────────────────────────────────────
+// solar-01 — Awwwards-level B2B solar hero.
+// Dark navy w/ ambient orange glows + grid overlay + optional bg pan.
+// Left: pill eyebrow + H1 (italic gold accent), subtitle, dual CTAs
+//   (gradient shimmer + ghost with play glyph), trust checks + Google rating.
+// Right: main solar photo (5:4 zoom-pan), floating savings card,
+//   dark NZÚ badge, stat mini-bar (kW / years / days).
+// Sequenced fade-in reveal (0.1 → 0.8s), scroll indicator.
+// ─────────────────────────────────────────────────────────────────────────────
 function HeroSolar01({ content, sectionId, tenantSlug, isAdmin }: {
   content: Record<string, unknown>;
   sectionId: number;
   tenantSlug?: string;
   isAdmin: boolean;
 }) {
-  const title      = String(content.title    ?? "Fotovoltaika\npro váš domov");
-  const subtitle   = String(content.subtitle ?? "Profesionální instalace solárních panelů s baterií i bez. Návrh, vyřízení dotace a kompletní realizace na klíč — do 14 dnů od podpisu smlouvy.");
-  const ctaText    = String(content.ctaText  ?? "Spočítat úsporu");
-  const ctaHref    = String(content.ctaHref  ?? "#kontakt");
-  const ctaSecText = String(content.ctaSecondaryText ?? "Naše řešení");
-  const ctaSecHref = String(content.ctaSecondaryHref ?? "#sluzby");
-  const bgImg      = String(content.backgroundImage ?? "");
-  const kicker     = String(content.kicker    ?? "Fotovoltaika & tepelná čerpadla");
-  const trust1     = String(content.trust1    ?? "25 let záruka výkonu");
-  const trust2     = String(content.trust2    ?? "Instalace za 14 dní");
-  const trust3     = String(content.trust3    ?? "NZÚ dotace zdarma");
-  const starsText  = String(content.starsText ?? "4.9 · 5 200+ spokojených zákazníků");
-  const cardValue  = String(content.cardValue ?? "18 000 Kč/rok");
-  const cardLabel  = String(content.cardLabel ?? "průměrná úspora");
-  const badgeText  = String(content.badgeText ?? "až 200 000 Kč\nNZÚ dotace");
+  const siteMode        = String(content.siteMode ?? "multipage");
+  const eyebrow         = String(content.eyebrow ?? "Fotovoltaika & tepelná čerpadla");
+  const titleLine1      = String(content.titleLine1 ?? "Solární energie");
+  const titleAccent     = String(content.titleAccent ?? "pro váš dům");
+  const titleLine2      = String(content.titleLine2 ?? "i firmu.");
+  const subtitle        = String(content.subtitle ?? "Navrhujeme a instalujeme fotovoltaické systémy na míru. Kompletní realizace od projektu po uvedení do provozu — včetně vyřízení dotace NZÚ.");
+  const ctaText         = String(content.ctaText  ?? "Spočítat úsporu");
+  const ctaHref         = String(content.ctaHref  ?? "/kontakt");
+  const ctaSecText      = String(content.ctaSecondaryText ?? "Podívat se na realizace");
+  const ctaSecHref      = String(content.ctaSecondaryHref ?? "/sluzby");
+  const heroImg         = String(content.heroImage ?? content.backgroundImage ?? "/assets/solar-01/hero-panels.webp");
+  const heroImgAlt      = String(content.heroImageAlt ?? "Fotovoltaická elektrárna na střeše rodinného domu");
+  // Bg image only if explicitly set via backgroundImage — otherwise clean navy.
+  const bgImg           = content.backgroundImage ? String(content.backgroundImage) : "";
+  const trust1          = String(content.trust1 ?? "30 let záruka výkonu");
+  const trust2          = String(content.trust2 ?? "Instalace za 12 dní");
+  const trust3          = String(content.trust3 ?? "NZÚ dotace zdarma");
+  const starsRating     = String(content.starsRating ?? "4.8");
+  const starsText       = String(content.starsText  ?? "3 800+ recenzí · Google");
+  const cardValue       = String(content.cardValue ?? "18 400 Kč");
+  const cardLabel       = String(content.cardLabel ?? "roční úspora / průměr");
+  const badgeEyebrow    = String(content.badgeEyebrow ?? "NZÚ dotace");
+  const badgeValue      = String(content.badgeValue ?? "až 200 000 Kč");
+  const stat1Val        = String(content.stat1Val ?? "3 800+");
+  const stat1Lbl        = String(content.stat1Lbl ?? "instalací");
+  const stat2Val        = String(content.stat2Val ?? "30 let");
+  const stat2Lbl        = String(content.stat2Lbl ?? "životnost");
+  const stat3Val        = String(content.stat3Val ?? "12 dní");
+  const stat3Lbl        = String(content.stat3Lbl ?? "montáž");
+  const scrollLabel     = String(content.scrollLabel ?? "Prozkoumat");
 
-  const resolve = (href: string) => {
-    if (!href.startsWith("#") && tenantSlug) {
-      return isAdmin ? `/demo/${tenantSlug}${href}/admin` : `/demo/${tenantSlug}${href}`;
-    }
-    return href;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const CSS = `
-    .sh{position:relative;min-height:680px;background:#071c28;color:#fff;padding:100px 40px 80px;display:flex;align-items:center;overflow:hidden;font-family:'Inter',-apple-system,sans-serif;}
-    .sh::before{content:'';position:absolute;top:-160px;left:-80px;width:660px;height:660px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,0,0.22) 0%,transparent 70%);pointer-events:none;}
-    .sh::after{content:'';position:absolute;bottom:-200px;right:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(255,122,0,0.10) 0%,transparent 70%);pointer-events:none;}
-    .sh-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
-    .sh-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;width:100%;position:relative;z-index:1;}
-    .sh-kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:9999px;border:1px solid rgba(255,122,0,0.4);background:rgba(255,122,0,0.08);font-size:13px;font-weight:600;letter-spacing:0.4px;color:#ffb347;margin-bottom:22px;}
-    .sh-dot{width:7px;height:7px;border-radius:50%;background:#ff7a00;animation:sh-pulse 2s infinite;}
-    @keyframes sh-pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.3);}}
-    .sh h1{font-size:clamp(2.2rem,4.2vw,3.6rem);line-height:1.08;margin:0 0 22px;font-weight:800;letter-spacing:-1.5px;white-space:pre-line;color:#ffffff;text-shadow:0 2px 24px rgba(0,0,0,0.35);}
-    .sh h1 span.sh-accent{color:#ff7a00;}
-    .sh-sub{font-size:17px;line-height:1.65;color:rgba(255,255,255,0.72);margin:0 0 34px;max-width:480px;}
-    .sh-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px;}
-    .sh-btn{display:inline-block;padding:15px 30px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;transition:transform 0.18s,box-shadow 0.18s,opacity 0.18s;white-space:nowrap;}
-    .sh-btn-primary{background:linear-gradient(135deg,#ffb347 0%,#ff7a00 55%,#e86400 100%);color:#fff;box-shadow:0 4px 20px rgba(255,122,0,0.45);}
-    .sh-btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,122,0,0.55);}
-    .sh-btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.35);}
-    .sh-btn-outline:hover{background:rgba(255,255,255,0.06);transform:translateY(-1px);}
-    .sh-divider{width:40px;height:1px;background:rgba(255,255,255,0.15);margin:0 0 20px;}
-    .sh-trust{display:flex;flex-direction:column;gap:10px;}
-    .sh-trust-item{display:flex;align-items:center;gap:10px;font-size:14px;color:#ffffff;font-weight:600;}
-    .sh-check{width:18px;height:18px;flex-shrink:0;}
-    .sh-stars{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);}
-    .sh-stars-rating{color:#ffc947;font-size:15px;letter-spacing:1px;}
-    .sh-stars-text{color:rgba(255,255,255,0.85);}
-    .sh-img-wrap{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,0.55);}
-    .sh-img-wrap img{width:100%;height:auto;display:block;}
-    .sh-img-placeholder{width:100%;aspect-ratio:4/3;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;}
-    .sh-card{position:absolute;bottom:20px;left:-20px;background:#fff;border-radius:14px;padding:14px 18px;box-shadow:0 8px 32px rgba(0,0,0,0.22);display:flex;align-items:center;gap:12px;min-width:190px;}
-    .sh-card-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#ffb347,#ff7a00);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-    .sh-card-val{font-size:18px;font-weight:800;color:#071c28;line-height:1;}
-    .sh-card-lbl{font-size:11px;color:#666;font-weight:500;margin-top:2px;}
-    .sh-badge{position:absolute;top:16px;right:-12px;background:linear-gradient(135deg,#ffb347,#ff7a00);color:#fff;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;line-height:1.3;text-align:center;box-shadow:0 4px 16px rgba(255,122,0,0.4);}
-    @media(max-width:900px){
-      .sh{padding:70px 24px 60px;}
-      .sh-inner{grid-template-columns:1fr;gap:36px;}
-      .sh h1{font-size:clamp(1.9rem,7vw,2.8rem);}
-      .sh-sub{max-width:100%;}
-      .sh-card{left:10px;bottom:10px;}
-      .sh-badge{right:10px;}
-      .sh::before{width:350px;height:350px;top:-80px;left:-60px;}
-    }
-  `;
+  const IconCheck = () => (
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  );
+  const IconArrow = () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+    </svg>
+  );
+  const IconPlay = () => (
+    <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <polygon points="6 4 20 12 6 20"/>
+    </svg>
+  );
+  const IconPiggy = () => (
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M19 5.5a4.5 4.5 0 0 0-3.5 1.7L12 12 8.5 7.2A4.5 4.5 0 0 0 5 5.5"/>
+      <path d="M12 12v6"/>
+      <path d="M8 21h8"/>
+    </svg>
+  );
 
   return (
-    <>
-      <style>{CSS}</style>
-      <section className="sh" data-template="solar-01">
-        <div className="sh-grid" aria-hidden="true" />
-        <div className="sh-inner">
+    <section className="s01hero" data-template="solar-01">
+      {bgImg ? (
+        <>
+          <div className="s01hero-bg" style={{ backgroundImage: `url(${bgImg})` }} aria-hidden="true" />
+          <div className="s01hero-veil" aria-hidden="true" />
+        </>
+      ) : null}
+      <div className="s01hero-grid" aria-hidden="true" />
 
-          {/* ── Left column ── */}
-          <div>
-            <div className="sh-kicker">
-              <span className="sh-dot" />
-              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-            </div>
+      <div className="s01hero-inner">
+        {/* Left column */}
+        <div className="s01hero-copy">
+          <span className="s01hero-eyebrow">
+            <span className="s01hero-eyebrow-dot" />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </span>
 
-            <h1>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h1>
+          <h1 className="s01hero-title">
+            <GenericEditableText sectionId={sectionId} field="titleLine1" value={titleLine1} tag="span" />
+            {" "}
+            <span className="s01hero-title-accent">
+              <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
+            </span>
+            {" "}
+            <GenericEditableText sectionId={sectionId} field="titleLine2" value={titleLine2} tag="span" />
+          </h1>
 
-            <p className="sh-sub">
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </p>
+          <p className="s01hero-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
 
-            <div className="sh-btns">
-              <a href={resolve(ctaHref)} data-btn="primary" className="sh-btn sh-btn-primary">
-                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-              </a>
-              <a href={resolve(ctaSecHref)} className="sh-btn sh-btn-outline">
-                <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
-              </a>
-            </div>
+          <div className="s01hero-btns">
+            <a href={resolve(ctaHref)} data-btn="primary" className="s01hero-btn s01hero-btn-primary">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <span className="s01hero-btn-arrow"><IconArrow /></span>
+            </a>
+            <a href={resolve(ctaSecHref)} className="s01hero-btn s01hero-btn-ghost">
+              <span className="s01hero-btn-ghost-play"><IconPlay /></span>
+              <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
+            </a>
+          </div>
 
-            <div className="sh-divider" />
-
-            <div className="sh-trust">
-              {([
-                ["trust1", trust1],
-                ["trust2", trust2],
-                ["trust3", trust3],
-              ] as [string, string][]).map(([field, val]) => (
-                <div className="sh-trust-item" key={field}>
-                  <svg className="sh-check" viewBox="0 0 18 18" fill="none">
-                    <circle cx="9" cy="9" r="9" fill="#ff7a00"/>
-                    <path d="M5.5 9.5l2.5 2.5 5-5" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  <GenericEditableText sectionId={sectionId} field={field} value={val} tag="span" />
-                </div>
-              ))}
-            </div>
-
-            <div className="sh-stars">
-              <span className="sh-stars-rating">★★★★★</span>
-              <span className="sh-stars-text">
-                <GenericEditableText sectionId={sectionId} field="starsText" value={starsText} tag="span" />
+          <div className="s01hero-trust">
+            {([
+              ["trust1", trust1],
+              ["trust2", trust2],
+              ["trust3", trust3],
+            ] as [string, string][]).map(([field, val]) => (
+              <div className="s01hero-trust-item" key={field}>
+                <span className="s01hero-trust-check"><IconCheck /></span>
+                <GenericEditableText sectionId={sectionId} field={field} value={val} tag="span" />
+              </div>
+            ))}
+            <div className="s01hero-trust-stars">
+              <span className="s01hero-trust-stars-num">
+                ★{" "}
+                <GenericEditableText sectionId={sectionId} field="starsRating" value={starsRating} tag="span" />
               </span>
+              <GenericEditableText sectionId={sectionId} field="starsText" value={starsText} tag="span" />
             </div>
           </div>
-
-          {/* ── Right column ── */}
-          <div style={{ position: "relative" }}>
-            <div className="sh-img-wrap">
-              <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImg}>
-                {bgImg ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={bgImg} alt="Fotovoltaická elektrárna na střeše" loading="eager" />
-                ) : (
-                  <div className="sh-img-placeholder">
-                    <svg width="80" height="80" viewBox="0 0 80 80" fill="none" opacity={0.35}>
-                      <circle cx="40" cy="40" r="18" fill="#fff"/>
-                      {[0,45,90,135,180,225,270,315].map((deg, i) => {
-                        const rad = (deg * Math.PI) / 180;
-                        return <line key={i} x1={40+Math.cos(rad)*22} y1={40+Math.sin(rad)*22} x2={40+Math.cos(rad)*34} y2={40+Math.sin(rad)*34} stroke="#fff" strokeWidth="4" strokeLinecap="round"/>;
-                      })}
-                    </svg>
-                  </div>
-                )}
-              </GenericEditableImage>
-            </div>
-
-            {/* Floating savings card */}
-            <div className="sh-card">
-              <div className="sh-card-icon">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M10 2L12.39 7.26L18 8.18L14 12.08L14.9 17.69L10 15.13L5.1 17.69L6 12.08L2 8.18L7.61 7.26L10 2Z" fill="#fff"/>
-                </svg>
-              </div>
-              <div>
-                <div className="sh-card-val">
-                  <GenericEditableText sectionId={sectionId} field="cardValue" value={cardValue} tag="span" />
-                </div>
-                <div className="sh-card-lbl">
-                  <GenericEditableText sectionId={sectionId} field="cardLabel" value={cardLabel} tag="span" />
-                </div>
-              </div>
-            </div>
-
-            {/* NZÚ badge */}
-            <div className="sh-badge" style={{ whiteSpace: "pre-line" }}>
-              <GenericEditableText sectionId={sectionId} field="badgeText" value={badgeText} tag="span" />
-            </div>
-          </div>
-
         </div>
-      </section>
-    </>
+
+        {/* Right column — visual showcase */}
+        <div className="s01hero-visual">
+          <div className="s01hero-main-img">
+            <GenericEditableImage sectionId={sectionId} field="heroImage" src={heroImg}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={heroImg} alt={heroImgAlt} loading="eager" />
+            </GenericEditableImage>
+          </div>
+
+          <div className="s01hero-card">
+            <span className="s01hero-card-icon"><IconPiggy /></span>
+            <span className="s01hero-card-text">
+              <span className="s01hero-card-val">
+                <GenericEditableText sectionId={sectionId} field="cardValue" value={cardValue} tag="span" />
+              </span>
+              <span className="s01hero-card-lbl">
+                <GenericEditableText sectionId={sectionId} field="cardLabel" value={cardLabel} tag="span" />
+              </span>
+            </span>
+          </div>
+
+          <div className="s01hero-badge">
+            <span className="s01hero-badge-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="badgeEyebrow" value={badgeEyebrow} tag="span" />
+            </span>
+            <span className="s01hero-badge-val">
+              <GenericEditableText sectionId={sectionId} field="badgeValue" value={badgeValue} tag="span" />
+            </span>
+          </div>
+
+          <div className="s01hero-stats" role="group" aria-label="Klíčové statistiky">
+            <div className="s01hero-stat">
+              <div className="s01hero-stat-val">
+                <GenericEditableText sectionId={sectionId} field="stat1Val" value={stat1Val} tag="span" />
+              </div>
+              <div className="s01hero-stat-lbl">
+                <GenericEditableText sectionId={sectionId} field="stat1Lbl" value={stat1Lbl} tag="span" />
+              </div>
+            </div>
+            <div className="s01hero-stat">
+              <div className="s01hero-stat-val">
+                <GenericEditableText sectionId={sectionId} field="stat2Val" value={stat2Val} tag="span" />
+              </div>
+              <div className="s01hero-stat-lbl">
+                <GenericEditableText sectionId={sectionId} field="stat2Lbl" value={stat2Lbl} tag="span" />
+              </div>
+            </div>
+            <div className="s01hero-stat">
+              <div className="s01hero-stat-val">
+                <GenericEditableText sectionId={sectionId} field="stat3Val" value={stat3Val} tag="span" />
+              </div>
+              <div className="s01hero-stat-lbl">
+                <GenericEditableText sectionId={sectionId} field="stat3Lbl" value={stat3Lbl} tag="span" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="s01hero-scroll" aria-hidden="true">
+        <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span" />
+        <span className="s01hero-scroll-line" />
+      </div>
+    </section>
+  );
+}
+
+// ── solar-01-hero-page (slim banner for subpages) ─────────────────────────────
+// solar-01 — Slim page banner ~340px height for subpages.
+// Dark navy w/ ambient orange glows + grid overlay.
+// Centered breadcrumb + optional eyebrow + H1 (italic gold accent support)
+// + subtitle + decorative gold rule.
+// Sequenced fade-in reveal (0.1 → 0.48s).
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroSolar01Page({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const siteMode        = String(content.siteMode ?? "multipage");
+  const breadcrumb      = String(content.breadcrumb ?? "Domů");
+  const breadcrumbHref  = String(content.breadcrumbHref ?? "/");
+  const currentLabel    = String(content.currentLabel ?? "");
+  const eyebrow         = String(content.eyebrow ?? "");
+  const title           = String(content.title ?? "");
+  const titleAccent     = String(content.titleAccent ?? "");
+  const subtitle        = String(content.subtitle ?? "");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section className="s01hpg" data-template="solar-01">
+      <div className="s01hpg-grid" aria-hidden="true" />
+      <div className="s01hpg-inner">
+        {(breadcrumb.trim() || currentLabel.trim()) && (
+          <div className="s01hpg-crumb" aria-label="Drobečková navigace">
+            {breadcrumb.trim() && (
+              <a href={resolve(breadcrumbHref)}>
+                <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+              </a>
+            )}
+            <span className="s01hpg-crumb-sep" aria-hidden="true">/</span>
+            <span className="s01hpg-crumb-cur">
+              <GenericEditableText sectionId={sectionId} field="currentLabel" value={currentLabel || title} tag="span" />
+            </span>
+          </div>
+        )}
+
+        {eyebrow.trim() && (
+          <span className="s01hpg-eyebrow">
+            <span className="s01hpg-eyebrow-dot" />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </span>
+        )}
+
+        {title.trim() && (
+          <h1 className="s01hpg-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            {titleAccent.trim() && (
+              <>
+                {" "}
+                <span className="s01hpg-title-em">
+                  <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
+                </span>
+              </>
+            )}
+          </h1>
+        )}
+
+        {subtitle.trim() && (
+          <p className="s01hpg-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+
+        <div className="s01hpg-rule" aria-hidden="true">
+          <span className="s01hpg-rule-line" />
+          <span className="s01hpg-rule-dot" />
+          <span className="s01hpg-rule-line" />
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -11350,73 +13608,191 @@ function HeroSolar02({ content, sectionId, tenantSlug, isAdmin }: {
   tenantSlug?: string;
   isAdmin: boolean;
 }) {
-  const GREEN   = "#79c44f";
-  const FONT    = "'DM Sans','Barlow',sans-serif";
+  const siteMode   = String(content.siteMode   ?? "multipage");
+  const eyebrow    = String(content.eyebrow    ?? "Fotovoltaika · Baterie BESS · Energetický management");
+  const title      = String(content.title      ?? "Zelená energie, která se skutečně vyplatí.");
+  const subtitle   = String(content.subtitle   ?? "Projektujeme, stavíme a provozujeme fotovoltaické systémy pro firmy, průmyslové areály i celé obce po celé ČR.");
+  const ctaText    = String(content.ctaText    ?? "Spočítat úspory zdarma");
+  const ctaHref    = String(content.ctaHref    ?? "/kontakt");
+  const cta2Text   = String(content.cta2Text   ?? "Prohlédnout reference");
+  const cta2Href   = String(content.cta2Href   ?? "/reference");
+  const image      = String(content.image      ?? "/assets/solar-02/hero.webp");
+  const stat1Value = String(content.stat1Value ?? "420+");
+  const stat1Label = String(content.stat1Label ?? "realizací v ČR i SK");
+  const stat2Value = String(content.stat2Value ?? "14 MWp");
+  const stat2Label = String(content.stat2Label ?? "instalovaný výkon");
+  const stat3Value = String(content.stat3Value ?? "6 let");
+  const stat3Label = String(content.stat3Label ?? "průměrná návratnost");
+  const trustText  = String(content.trustText  ?? "Dotace Modernizační fond · NRB · Nová zelená úsporám");
 
-  const title      = String(content.title      ?? "Chytrá energetická řešení pro firmy, obce i bytové domy");
-  const subtitle   = String(content.subtitle   ?? "Navrhneme, zajistíme a dlouhodobě spravujeme řešení, které vám sníží náklady na elektřinu.");
-  const ctaText    = String(content.ctaText    ?? "Zjistit možnosti pro náš objekt →");
-  const ctaHref    = String(content.ctaHref    ?? "#kontakt");
-  const cta2Text   = String(content.cta2Text   ?? "Nezávazně poptat řešení");
-  const cta2Href   = String(content.cta2Href   ?? "#kontakt");
-  const videoUrl   = String(content.videoUrl   ?? "https://www.greensie.cz/wp-content/uploads/web-heroshot-2.webm");
-
-  const resolve = (href: string) => {
-    if (!href.startsWith("#") && tenantSlug) {
-      return isAdmin ? `/demo/${tenantSlug}${href}/admin` : `/demo/${tenantSlug}${href}`;
-    }
-    return href;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    <>
-      <style>{`
-        .s02h{position:relative;width:100%;height:800px;min-height:800px;overflow:hidden;font-family:${FONT};background:#0a2535;}
-        .s02h-video-wrap{position:absolute;inset:0;z-index:0;}
-        .s02h-video-wrap video{width:100%;height:100%;object-fit:cover;display:block;}
-        .s02h-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(rgba(9,34,50,0.50),rgba(9,34,50,0.40));}
-        .s02h-inner{position:relative;z-index:2;max-width:1160px;margin:0 auto;padding:0 24px;margin-top:200px;}
-        .s02h h1{font-family:'Barlow',${FONT};font-size:48px;font-weight:700;line-height:60px;color:#fff;margin:0 0 22px;max-width:650px;white-space:pre-line;}
-        .s02h-sub{font-size:18px;line-height:29px;font-weight:700;color:rgba(255,255,255,0.92);max-width:560px;margin-bottom:60px;}
-        .s02h-btns{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
-        .s02h-btn1{display:inline-block;background:${GREEN};color:#fff;font-size:15px;font-weight:700;padding:14px 30px;border-radius:9999px;text-decoration:none;transition:background 0.2s,color 0.2s;}
-        .s02h-btn1:hover{background:#8fd461;}
-        .s02h-btn2{display:inline-block;background:#fff;color:#000;font-size:15px;font-weight:700;padding:14px 30px;border-radius:9999px;text-decoration:none;border:2px solid #fff;transition:background 0.2s,color 0.2s,border-color 0.2s;}
-        .s02h-btn2:hover{background:transparent;color:#fff;border-color:#fff;}
-        @media(max-width:767px){
-          .s02h{height:auto;min-height:600px;}
-          .s02h-inner{margin-top:120px;padding-bottom:60px;}
-          .s02h h1{font-size:32px;line-height:42px;}
-          .s02h-sub{font-size:16px;margin-bottom:36px;}
-          .s02h-btns{flex-direction:column;align-items:flex-start;}
-        }
-      `}</style>
-      <section className="s02h" data-template="solar-02">
-        <div className="s02h-video-wrap">
-          <video autoPlay loop muted playsInline>
-            <source src={videoUrl} type="video/webm" />
-          </video>
+    <section className="s02h" data-template="solar-02">
+      {/* BG image (WebP) */}
+      <div className="s02h-bg" aria-hidden="true">
+        <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="" style={{ position: "absolute", inset: 0 }}>
+          <Image src={image} alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} unoptimized={shouldSkipNextImageOptimization(image)} />
+        </GenericEditableImage>
+      </div>
+
+      {/* Layered overlays: dark gradient + green tint */}
+      <div className="s02h-overlay" aria-hidden="true" />
+      <div className="s02h-tint"    aria-hidden="true" />
+
+      {/* Decorative PV panel grid — top-right corner */}
+      <svg className="s02h-grid s02h-grid-tr" viewBox="0 0 240 160" aria-hidden="true" preserveAspectRatio="none">
+        <g stroke="rgba(121,196,79,0.28)" strokeWidth="0.8" fill="none">
+          {Array.from({length: 8}).map((_, i) => <line key={`v${i}`} x1={i*30} y1="0" x2={i*30} y2="160" />)}
+          {Array.from({length: 6}).map((_, i) => <line key={`h${i}`} x1="0" y1={i*30} x2="240" y2={i*30} />)}
+        </g>
+      </svg>
+      <svg className="s02h-grid s02h-grid-bl" viewBox="0 0 240 160" aria-hidden="true" preserveAspectRatio="none">
+        <g stroke="rgba(121,196,79,0.20)" strokeWidth="0.8" fill="none">
+          {Array.from({length: 8}).map((_, i) => <line key={`v${i}`} x1={i*30} y1="0" x2={i*30} y2="160" />)}
+          {Array.from({length: 6}).map((_, i) => <line key={`h${i}`} x1="0" y1={i*30} x2="240" y2={i*30} />)}
+        </g>
+      </svg>
+
+      {/* Content */}
+      <div className="s02h-inner">
+        <div className="s02h-eyebrow">
+          <span className="s02h-eyebrow-dot" aria-hidden="true" />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
         </div>
-        <div className="s02h-overlay" aria-hidden="true" />
-        <div className="s02h-inner">
-          <h1>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h1>
-          <p className="s02h-sub">
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-          </p>
-          <div className="s02h-btns">
-            <a href={resolve(ctaHref)} data-btn="primary" className="s02h-btn1">
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
-            <a href={resolve(cta2Href)} className="s02h-btn2">
-              <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
-            </a>
-          </div>
+
+        <h1 className="s02h-h1">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        <p className="s02h-sub">
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+        </p>
+
+        <div className="s02h-ctas">
+          <a href={resolve(ctaHref)} data-btn="primary" className="s02h-cta s02h-cta-primary">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg className="s02h-cta-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+          <a href={resolve(cta2Href)} className="s02h-cta s02h-cta-ghost">
+            <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
+            <svg className="s02h-cta-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
         </div>
-      </section>
-    </>
+
+        <div className="s02h-trust">
+          <span className="s02h-trust-dot" aria-hidden="true" />
+          <GenericEditableText sectionId={sectionId} field="trustText" value={trustText} tag="span" />
+        </div>
+      </div>
+
+      {/* Bottom stats strip */}
+      <div className="s02h-stats">
+        <div className="s02h-stat">
+          <span className="s02h-stat-value"><GenericEditableText sectionId={sectionId} field="stat1Value" value={stat1Value} tag="span" /></span>
+          <span className="s02h-stat-label"><GenericEditableText sectionId={sectionId} field="stat1Label" value={stat1Label} tag="span" /></span>
+        </div>
+        <div className="s02h-stat-sep" aria-hidden="true" />
+        <div className="s02h-stat">
+          <span className="s02h-stat-value"><GenericEditableText sectionId={sectionId} field="stat2Value" value={stat2Value} tag="span" /></span>
+          <span className="s02h-stat-label"><GenericEditableText sectionId={sectionId} field="stat2Label" value={stat2Label} tag="span" /></span>
+        </div>
+        <div className="s02h-stat-sep" aria-hidden="true" />
+        <div className="s02h-stat">
+          <span className="s02h-stat-value"><GenericEditableText sectionId={sectionId} field="stat3Value" value={stat3Value} tag="span" /></span>
+          <span className="s02h-stat-label"><GenericEditableText sectionId={sectionId} field="stat3Label" value={stat3Label} tag="span" /></span>
+        </div>
+      </div>
+    </section>
   );
+}
+
+// ── hero-solar-02-page ─────────────────────────────────────────────────────
+// Slim banner (~340px) pro subpages solar-02 — breadcrumb + eyebrow + H1 + green hairline
+// DNA sdílená s homepage hero (dark #0b0f14 + green #79c44f + DM Sans + PV grid motif)
+// ───────────────────────────────────────────────────────────────────────────
+function HeroSolar02Page({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const siteMode = String(content.siteMode ?? "multipage");
+  const eyebrow  = String(content.eyebrow  ?? "");
+  const title    = String(content.title    ?? "");
+  const breadcrumb     = String(content.breadcrumb     ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const image    = String(content.image    ?? "/assets/solar-02/hero.webp");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section className="s02hp" data-template="solar-02" data-section="hero-solar-02-page">
+      {/* BG image */}
+      <div className="s02hp-bg" aria-hidden="true">
+        <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="" style={{ position: "absolute", inset: 0 }}>
+          <Image src={image} alt="" fill priority sizes="100vw" style={{ objectFit: "cover" }} unoptimized={shouldSkipNextImageOptimization(image)} />
+        </GenericEditableImage>
+      </div>
+
+      {/* Layered overlays */}
+      <div className="s02hp-overlay" aria-hidden="true" />
+      <div className="s02hp-tint"    aria-hidden="true" />
+
+      {/* PV grid decorative motif */}
+      <svg className="s02hp-motif" viewBox="0 0 300 180" aria-hidden="true" preserveAspectRatio="none">
+        <g stroke="rgba(121,196,79,0.24)" strokeWidth="0.8" fill="none">
+          {Array.from({length: 10}).map((_, i) => <line key={`v${i}`} x1={i*30} y1="0" x2={i*30} y2="180" />)}
+          {Array.from({length: 7}).map((_, i) => <line key={`h${i}`} x1="0" y1={i*30} x2="300" y2={i*30} />)}
+        </g>
+      </svg>
+
+      <div className="s02hp-inner">
+        {/* Breadcrumb */}
+        <nav aria-label="Drobečková navigace" className="s02hp-crumbs">
+          <a href={resolve(breadcrumbHref)} className="s02hp-crumb">
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden="true" className="s02hp-crumb-sep" />
+          <span className="s02hp-crumb-current" aria-current="page">{title || " "}</span>
+        </nav>
+
+        {/* Eyebrow */}
+        {eyebrow && (
+          <div className="s02hp-eyebrow">
+            <span className="s02hp-eyebrow-dot" aria-hidden="true" />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </div>
+        )}
+
+        {/* H1 */}
+        <h1 className="s02hp-h1">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        {/* Green hairline rule */}
+        <span className="s02hp-rule" aria-hidden="true" />
+      </div>
+    </section>
+  );
+}
+
+// Local resolveNavHref — mirrors NavbarSection helper for siteMode-aware links.
+function resolveNavHref(href: string, siteMode: string, tenantSlug?: string, isAdmin = false) {
+  if (siteMode === "onepage") {
+    if (href.startsWith("/#")) return resolveDemoHref("/", tenantSlug, isAdmin) + href.slice(1);
+    if (href === "/" || href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return resolveDemoHref(href, tenantSlug, isAdmin);
+    const slug = href.replace(/^\//, "");
+    return resolveDemoHref("/", tenantSlug, isAdmin) + "#" + slug;
+  }
+  if (href.startsWith("/#")) {
+    const anchor = href.slice(2);
+    return resolveDemoHref("/" + anchor, tenantSlug, isAdmin);
+  }
+  return resolveDemoHref(href, tenantSlug, isAdmin);
 }
 
 // ── solar-03-hero ─────────────────────────────────────────────────────────────
@@ -11430,201 +13806,225 @@ function HeroSolar02({ content, sectionId, tenantSlug, isAdmin }: {
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroSolar03({ content, sectionId, tenantSlug, isAdmin }: {
   content: Record<string, unknown>;
-  sectionId: string;
+  sectionId: number;
   tenantSlug?: string;
   isAdmin?: boolean;
 }) {
-  const ORANGE = "#ff8b00";
-  const BROWN  = "#833500";
-  const DARK   = "#222222";
-  const WHITE  = "#ffffff";
-  const FONT_M = "'Montserrat', 'Inter', sans-serif";
-  const FONT_U = "'Inter', -apple-system, sans-serif";
+  const ORANGE    = "#ff8b00";
+  const ORANGE_LT = "#ffa733";
+  const DARK      = "#222222";
+  const WHITE     = "#ffffff";
 
   const c = content as Record<string, unknown>;
-  const title    = String(c.title    ?? "Tepelná čerpadla a fotovoltaika od českého výrobce");
-  const items    = (c.items as string[]) ?? ["Pro rodinné i bytové domy", "Vyřízení dotace", "Vše skladem"];
-  const ctaText  = String(c.ctaText  ?? "Nezávazná poptávka");
-  const ctaHref  = String(c.ctaHref  ?? "#kontakt");
-  const image    = String(c.image    ?? "/templates/solar-03/hero.jpg");
-  const badge1   = String(c.badge1   ?? "20 let na trhu");
-  const badge2   = String(c.badge2   ?? "4,9 ★ Google");
-  const resolve  = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const siteMode = String(c.siteMode ?? "multipage");
+  const eyebrow  = String(c.eyebrow  ?? "Tepelná čerpadla · Fotovoltaika · Rekuperace");
+  const title    = String(c.title    ?? "Energetická nezávislost pro váš dům i firmu");
+  const titleAccent = String(c.titleAccent ?? "");
+  const subtitle = String(c.subtitle ?? "Kompletní energetická řešení od českého výrobce. Vlastní servisní síť po celé ČR, vyřízení dotace NZÚ i Nová Zelená úsporám a garantovaná návratnost do sedmi let.");
+  const items    = (c.items as string[]) ?? [
+    "Pro rodinné i komerční objekty",
+    "Dotaci NZÚ vyřídíme za vás",
+    "Vlastní servisní síť po celé ČR",
+  ];
+  const ctaText    = String(c.ctaText    ?? "Bezplatná konzultace");
+  const ctaHref    = String(c.ctaHref    ?? "/kontakt");
+  const ctaText2   = String(c.ctaText2   ?? "Prohlédnout realizace");
+  const ctaHref2   = String(c.ctaHref2   ?? "/realizace");
+  const image      = String(c.image      ?? "/templates/solar-03/hero.jpg");
+  const badge1     = String(c.badge1     ?? "20 let na trhu");
+  const badge2     = String(c.badge2     ?? "4,9 ★ Google (1 240 recenzí)");
+  const badge3     = String(c.badge3     ?? "1 200+ instalací ročně");
+  const specLabel  = String(c.specLabel  ?? "Úspora energií");
+  const specValue  = String(c.specValue  ?? "až 78 %");
+  const specNote   = String(c.specNote   ?? "měřeno v provozu 2025");
+  const resolve    = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const CheckIcon = () => (
-    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
-      <circle cx="9" cy="9" r="9" fill={ORANGE}/>
-      <path d="M5 9l3 3 5-5" stroke={WHITE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
+    <span aria-hidden="true" style={{
+      display: "inline-flex", alignItems: "center", justifyContent: "center",
+      width: 26, height: 26, borderRadius: "50%",
+      background: `linear-gradient(135deg, ${ORANGE} 0%, ${ORANGE_LT} 100%)`,
+      boxShadow: "0 5px 14px -5px rgba(255,139,0,0.55)", flexShrink: 0,
+    }}>
+      <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
+        <path d="M4.5 9l3 3 6-6.5" stroke={WHITE} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </span>
   );
 
   return (
     <>
-      <style>{`
-        .s03h-section {
-          position: relative;
-          overflow: hidden;
-          background: #fff;
-          margin-bottom: 80px;
-        }
-        .s03h-bg {
-          position: absolute;
-          top: 0; right: 0; bottom: 0;
-          width: 60%;
-          clip-path: polygon(18% 0, 100% 0, 100% 100%, 0% 100%);
-          background-color: ${ORANGE};
-        }
-        .s03h-bg img {
-          width: 100%; height: 100%;
-          object-fit: cover; display: block;
-        }
-        .s03h-inner {
-          position: relative;
-          max-width: 1440px;
-          margin: 0 auto;
-          padding: 0 clamp(16px,3vw,40px);
-          min-height: clamp(480px, 82vh, 720px);
-          display: flex;
-          align-items: center;
-        }
-        .s03h-text {
-          width: 44%;
-          padding: clamp(48px,6vw,80px) 0;
-          z-index: 1;
-        }
-        .s03h-h1 {
-          font-family: ${FONT_M};
-          font-weight: 800;
-          font-size: clamp(26px, 2.8vw, 44px);
-          line-height: 1.12;
-          text-transform: uppercase;
-          color: ${DARK};
-          margin: 0 0 28px;
-        }
-        .s03h-list {
-          list-style: none;
-          padding: 0; margin: 0 0 36px;
-          display: flex; flex-direction: column; gap: 10px;
-        }
-        .s03h-list li {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          font-family: ${FONT_M};
-          font-weight: 700;
-          font-size: clamp(15px, 1.2vw, 18px);
-          color: ${DARK};
-        }
-        .s03h-cta {
-          display: inline-block;
-          padding: 14px 30px;
-          background-color: ${ORANGE};
-          color: ${WHITE};
-          font-family: ${FONT_M};
-          font-weight: 700;
-          font-size: 15px;
-          text-transform: uppercase;
-          letter-spacing: 0.03em;
-          text-decoration: none;
-          border-radius: 4px;
-          margin-bottom: 32px;
-          transition: background-color 0.2s;
-        }
-        .s03h-cta:hover { background-color: ${BROWN}; }
-        .s03h-badges {
-          display: flex;
-          gap: 16px;
-          flex-wrap: wrap;
-          align-items: center;
-        }
-        .s03h-badge {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          background: rgba(255,255,255,0.9);
-          border: 1.5px solid ${ORANGE};
-          border-radius: 6px;
-          padding: 6px 12px;
-          font-family: ${FONT_U};
-          font-size: 13px;
-          font-weight: 700;
-          color: ${DARK};
-        }
-        .s03h-badge-dot {
-          width: 10px; height: 10px;
-          border-radius: 50%;
-          background-color: ${ORANGE};
-          flex-shrink: 0;
-        }
-        @media (max-width: 900px) {
-          .s03h-bg {
-            position: relative;
-            width: 100%;
-            height: 260px;
-            clip-path: none;
-          }
-          .s03h-inner {
-            flex-direction: column;
-            min-height: auto;
-            padding-top: 0;
-          }
-          .s03h-text {
-            width: 100%;
-            padding: 32px 0;
-          }
-          .s03h-section { margin-bottom: 48px; }
-        }
-      `}</style>
-
       <section className="s03h-section" data-template="solar-03">
-        {/* Right: image-skew background */}
+        {/* Left-side subtle solar grid pattern */}
+        <div className="s03h-textgrid" aria-hidden="true" />
+
+        {/* Right: orange polygon panel + image */}
         <div className="s03h-bg">
-          <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} className="relative" style={{ height: "100%" }}>
-            <Image
-              src={image}
-              alt={title}
-              fill
-              style={{ objectFit: "cover" }}
-              priority
-              unoptimized={shouldSkipNextImageOptimization(image)}
-            />
-          </GenericEditableImage>
+          <div className="s03h-bg-grid" aria-hidden="true" />
+          <div className="s03h-bg-img">
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} style={{ position: "absolute", inset: 0 }}>
+              <Image
+                src={image}
+                alt={title}
+                fill
+                style={{ objectFit: "cover" }}
+                priority
+                unoptimized={shouldSkipNextImageOptimization(image)}
+              />
+            </GenericEditableImage>
+            <div className="s03h-bg-shade" aria-hidden="true" />
+          </div>
+
+          <svg className="s03h-corner s03h-corner-tl" width="46" height="46" viewBox="0 0 46 46" fill="none" aria-hidden="true">
+            <path d="M2 16V2h14" stroke={ORANGE} strokeWidth="2" strokeLinecap="square"/>
+          </svg>
+          <svg className="s03h-corner s03h-corner-br" width="46" height="46" viewBox="0 0 46 46" fill="none" aria-hidden="true">
+            <path d="M44 30v14H30" stroke={ORANGE} strokeWidth="2" strokeLinecap="square"/>
+          </svg>
+
+          <div className="s03h-spec">
+            <span className="s03h-spec-icon" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24">
+                <path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill={ORANGE}/>
+              </svg>
+            </span>
+            <div className="s03h-spec-body">
+              <span className="s03h-spec-label">
+                <GenericEditableText sectionId={sectionId} field="specLabel" value={specLabel} tag="span" />
+              </span>
+              <span className="s03h-spec-value">
+                <GenericEditableText sectionId={sectionId} field="specValue" value={specValue} tag="span" />
+              </span>
+              <span className="s03h-spec-note">
+                <GenericEditableText sectionId={sectionId} field="specNote" value={specNote} tag="span" />
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* Left: text */}
         <div className="s03h-inner">
           <div className="s03h-text">
+            <div className="s03h-eyebrow">
+              <span className="s03h-eyebrow-dot" aria-hidden="true" />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </div>
+
             <h1 className="s03h-h1">
               <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              {titleAccent && (
+                <>
+                  {" "}
+                  <span className="s03h-h1-accent">
+                    <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
+                  </span>
+                </>
+              )}
             </h1>
+
+            <p className="s03h-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
 
             <ul className="s03h-list">
               {items.map((item, i) => (
-                <li key={i}>
+                <li key={i} className="s03h-list-row">
                   <CheckIcon />
                   <GenericEditableText sectionId={sectionId} field={`items.${i}`} value={item} tag="span" />
                 </li>
               ))}
             </ul>
 
-            <a href={resolve(ctaHref)} data-btn="primary" className="s03h-cta">
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
+            <div className="s03h-ctas">
+              <a href={resolve(ctaHref)} data-btn="primary" className="s03h-cta s03h-cta-primary">
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <span aria-hidden="true" style={{ marginLeft: 8, display: "inline-flex" }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                  </svg>
+                </span>
+              </a>
+              <a href={resolve(ctaHref2)} data-btn="ghost" className="s03h-cta s03h-cta-ghost">
+                <GenericEditableText sectionId={sectionId} field="ctaText2" value={ctaText2} tag="span" />
+                <span aria-hidden="true" style={{ marginLeft: 8, display: "inline-flex" }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={DARK} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                  </svg>
+                </span>
+              </a>
+            </div>
 
             <div className="s03h-badges">
               <div className="s03h-badge">
-                <div className="s03h-badge-dot" />
+                <span className="s03h-badge-dot" aria-hidden="true" />
                 <GenericEditableText sectionId={sectionId} field="badge1" value={badge1} tag="span" />
               </div>
               <div className="s03h-badge">
-                <span style={{ color: ORANGE, fontSize: 14 }}>★</span>
+                <span className="s03h-badge-star" aria-hidden="true">★</span>
                 <GenericEditableText sectionId={sectionId} field="badge2" value={badge2} tag="span" />
+              </div>
+              <div className="s03h-badge">
+                <span className="s03h-badge-dot" aria-hidden="true" />
+                <GenericEditableText sectionId={sectionId} field="badge3" value={badge3} tag="span" />
               </div>
             </div>
           </div>
         </div>
       </section>
     </>
+  );
+}
+
+// ── hero-solar-03-page (slim subpage banner) ─────────────────────────────────
+function HeroSolar03Page({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin?: boolean;
+}) {
+  const c = content as Record<string, unknown>;
+  const siteMode      = String(c.siteMode      ?? "multipage");
+  const eyebrow       = String(c.eyebrow       ?? "SolarPro");
+  const title         = String(c.title         ?? "Podstránka");
+  const subtitle      = String(c.subtitle      ?? "");
+  const breadcrumb    = String(c.breadcrumb    ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const current       = String(c.current       ?? title);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section className="s03pg-banner" data-template="solar-03">
+      <div className="s03pg-bg-grid" aria-hidden="true" />
+      <div className="s03pg-glow" aria-hidden="true" />
+      <div className="s03pg-inner">
+        <nav className="s03pg-crumbs" aria-label="Breadcrumb">
+          <a href={resolve(breadcrumbHref)} className="s03pg-crumb-link">
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span className="s03pg-crumb-sep" aria-hidden="true">/</span>
+          <span className="s03pg-crumb-current">
+            <GenericEditableText sectionId={sectionId} field="current" value={current} tag="span" />
+          </span>
+        </nav>
+
+        <div className="s03pg-eyebrow">
+          <span className="s03pg-eyebrow-dot" aria-hidden="true" />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </div>
+
+        <h1 className="s03pg-title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        {subtitle && (
+          <p className="s03pg-subtitle">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+
+        <div className="s03pg-hairline" aria-hidden="true" />
+      </div>
+    </section>
   );
 }
 
@@ -12837,7 +15237,7 @@ function HeroArbo01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
 
       <section
         className="arbo01-hero"
-        id={sectionId}
+        id={String(sectionId)}
         data-template="arbo-01-hero"
       >
         <div className="arbo01-hero-grid">
@@ -13052,7 +15452,7 @@ function HeroDdd01({ content, sectionId }: Omit<Props, "variant">) {
 }
 
 // ── hotel-01-hero ─────────────────────────────────────────────────────────────
-function HeroHotel01({ content, sectionId, isAdmin }: { content: SectionContent; sectionId: string; tenantSlug: string; isAdmin: boolean }) {
+function HeroHotel01({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const c = (content ?? {}) as Record<string, any>;
   const title     = c.title     ?? "Luxusní pobyt v srdci Prahy";
   const subtitle  = c.subtitle  ?? "";
@@ -13271,7 +15671,7 @@ function HeroHotel01({ content, sectionId, isAdmin }: { content: SectionContent;
 }
 
 // ── hotel-02-hero ─────────────────────────────────────────────────────────────
-function HeroHotel02({ content, sectionId, isAdmin }: { content: SectionContent; sectionId: string; tenantSlug: string; isAdmin: boolean }) {
+function HeroHotel02({ content, sectionId, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const c = (content ?? {}) as Record<string, any>;
   const title    = c.title    ?? "Ideální místo pro práci i relax nedaleko přehrady";
   const subtitle = c.subtitle ?? "Relax Hotel";
@@ -13907,17 +16307,27 @@ function HeroMalir02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
 }
 
 // ── events-01-hero ────────────────────────────────────────────────────────────
-// 1:1 amdenevents.cz: fullscreen bg showcase image, dark overlay,
-// large centered Playfair H1 on two lines, purple Video button, bounce arrow.
+// Prémiová event-agentura: fullscreen bg + subtle grain + radial vignette,
+// gold hairline eyebrow, Playfair display H1 s italic druhou linkou (editorial
+// gala swash), purple Video CTA s gold ring hover, secondary ghost link,
+// refined scroll indicator (gold hairline + label). Awwwards polish 2026-07-01.
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const [vidOpen, setVidOpen] = useState(false);
   const PURPLE = "#931789";
+  const GOLD   = "#d4b896";
 
-  const title      = String(content.title     ?? "Eventy a akce od");
-  const titleLine2 = String(content.titleLine2?? "Perfect Events");
-  const imageUrl   = String(content.imageUrl  ?? "/clones/amdenevents/wp-content/uploads/2018/08/showcase-1920x1000.jpg");
-  const videoUrl   = String(content.videoUrl  ?? "");
+  const eyebrow       = String(content.eyebrow      ?? "Eventová agentura · Praha");
+  const title         = String(content.title        ?? "Eventy a akce od");
+  const titleLine2    = String(content.titleLine2   ?? "Perfect Events");
+  const subtitle      = String(content.subtitle     ?? "");
+  const imageUrl      = String(content.imageUrl     ?? "/clones/amdenevents/wp-content/uploads/2018/08/showcase-1920x1000.jpg");
+  const videoUrl      = String(content.videoUrl     ?? "");
+  const videoText     = String(content.videoText    ?? "Video");
+  const ctaLabel      = String(content.ctaLabel     ?? "Prozkoumat portfolio");
+  const ctaHref       = String(content.ctaHref      ?? "/portfolio");
+  const scrollLabel   = String(content.scrollLabel  ?? "Objevte více");
+  const resolve       = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   return (
     <>
@@ -13937,6 +16347,12 @@ function HeroEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
           background-image: url('${imageUrl}');
           background-size: cover;
           background-position: center center;
+          transform: scale(1.04);
+          animation: ev01heroPan 24s ease-in-out infinite alternate;
+        }
+        @keyframes ev01heroPan {
+          from { transform: scale(1.04) translate(-8px, -6px); }
+          to   { transform: scale(1.08) translate(8px, 6px); }
         }
         .ev01-hero-vid {
           position: absolute;
@@ -13950,61 +16366,203 @@ function HeroEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
         .ev01-hero-overlay {
           position: absolute;
           inset: 0;
-          background: rgba(0,0,0,0.52);
+          background:
+            radial-gradient(circle at 50% 45%, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.62) 65%, rgba(0,0,0,0.82) 100%),
+            linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.35) 40%, rgba(10,10,10,0.7) 100%);
           z-index: 2;
+        }
+        .ev01-hero-grain {
+          position: absolute;
+          inset: 0;
+          z-index: 3;
+          pointer-events: none;
+          opacity: 0.14;
+          mix-blend-mode: overlay;
+          background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.55'/></svg>");
         }
         .ev01-hero-body {
           position: relative;
-          z-index: 3;
+          z-index: 4;
           display: flex;
           flex-direction: column;
           align-items: center;
           text-align: center;
-          padding: 120px 40px 100px;
+          padding: 130px 40px 110px;
           width: 100%;
+          max-width: 1200px;
+        }
+        .ev01-hero-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 16px;
+          font-family: 'Inter', sans-serif;
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 4px;
+          text-transform: uppercase;
+          color: ${GOLD};
+          margin-bottom: 40px;
+          opacity: 0;
+          transform: translateY(12px);
+          animation: ev01Rise 1s cubic-bezier(.32,.72,0,1) 0.15s forwards;
+        }
+        .ev01-hero-eyebrow::before,
+        .ev01-hero-eyebrow::after {
+          content: "";
+          display: block;
+          width: 44px;
+          height: 1px;
+          background: linear-gradient(90deg, transparent 0%, ${GOLD} 100%);
+        }
+        .ev01-hero-eyebrow::after {
+          background: linear-gradient(90deg, ${GOLD} 0%, transparent 100%);
         }
         .ev01-hero-h1 {
           font-family: 'Playfair Display', Georgia, serif;
-          font-size: clamp(46px, 7vw, 90px);
+          font-size: clamp(46px, 7.5vw, 100px);
           font-weight: 400;
           color: #ffffff;
-          line-height: 1.1;
-          margin: 0 0 48px;
+          line-height: 1.05;
+          letter-spacing: -0.01em;
+          margin: 0 0 28px;
+          text-shadow: 0 2px 30px rgba(0,0,0,0.4);
+          opacity: 0;
+          transform: translateY(20px);
+          animation: ev01Rise 1.1s cubic-bezier(.32,.72,0,1) 0.35s forwards;
         }
-        .ev01-hero-vidbtn {
+        .ev01-hero-h1-l2 {
+          display: block;
+          font-style: italic;
+          font-weight: 400;
+          color: ${GOLD};
+        }
+        .ev01-hero-sub {
+          font-family: 'Inter', sans-serif;
+          font-size: clamp(14px, 1.1vw, 16px);
+          font-weight: 400;
+          color: rgba(255,255,255,0.78);
+          line-height: 1.7;
+          max-width: 560px;
+          margin: 0 auto 44px;
+          letter-spacing: 0.2px;
+          opacity: 0;
+          transform: translateY(14px);
+          animation: ev01Rise 1s cubic-bezier(.32,.72,0,1) 0.55s forwards;
+        }
+        .ev01-hero-actions {
           display: inline-flex;
           align-items: center;
-          gap: 10px;
-          padding: 15px 30px;
+          gap: 32px;
+          flex-wrap: wrap;
+          justify-content: center;
+          opacity: 0;
+          transform: translateY(14px);
+          animation: ev01Rise 1s cubic-bezier(.32,.72,0,1) 0.75s forwards;
+        }
+        .ev01-hero-vidbtn {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          padding: 16px 34px;
           background: ${PURPLE};
           color: #ffffff;
           font-family: 'Inter', sans-serif;
-          font-size: 12px;
-          font-weight: 700;
-          letter-spacing: 2px;
+          font-size: 11.5px;
+          font-weight: 600;
+          letter-spacing: 2.4px;
           text-transform: uppercase;
           border: none;
           cursor: pointer;
-          transition: background 0.2s;
           text-decoration: none;
+          transition: background 0.4s cubic-bezier(.32,.72,0,1), transform 0.4s cubic-bezier(.32,.72,0,1), box-shadow 0.4s cubic-bezier(.32,.72,0,1);
         }
-        .ev01-hero-vidbtn:hover { background: #7a1272; }
+        .ev01-hero-vidbtn::before {
+          content: "";
+          position: absolute;
+          inset: -4px;
+          border: 1px solid rgba(212,184,150,0);
+          transition: border-color 0.5s cubic-bezier(.32,.72,0,1);
+          pointer-events: none;
+        }
+        .ev01-hero-vidbtn:hover {
+          background: #a5199a;
+          transform: translateY(-2px);
+          box-shadow: 0 18px 40px -12px rgba(147,23,137,0.6);
+        }
+        .ev01-hero-vidbtn:hover::before { border-color: rgba(212,184,150,0.65); }
+        .ev01-hero-vidbtn svg { transition: transform 0.4s cubic-bezier(.32,.72,0,1); }
+        .ev01-hero-vidbtn:hover svg { transform: translateX(2px); }
+        .ev01-hero-ghost {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic;
+          font-size: 16px;
+          color: rgba(255,255,255,0.85);
+          text-decoration: none;
+          transition: color 0.4s cubic-bezier(.32,.72,0,1), gap 0.4s cubic-bezier(.32,.72,0,1);
+          padding: 6px 0;
+          border-bottom: 1px solid rgba(212,184,150,0.35);
+        }
+        .ev01-hero-ghost svg { transition: transform 0.4s cubic-bezier(.32,.72,0,1); }
+        .ev01-hero-ghost:hover { color: ${GOLD}; gap: 16px; }
+        .ev01-hero-ghost:hover svg { transform: translateX(4px); }
         .ev01-hero-arr {
           position: absolute;
-          bottom: 30px;
+          bottom: 36px;
           left: 50%;
           transform: translateX(-50%);
-          z-index: 3;
-          animation: ev01arrBounce 1.6s ease-in-out infinite;
+          z-index: 4;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 10px;
+          opacity: 0;
+          animation: ev01ScrollFade 1s cubic-bezier(.32,.72,0,1) 1s forwards;
         }
-        @keyframes ev01arrBounce {
-          0%, 100% { transform: translateX(-50%) translateY(0); }
-          50% { transform: translateX(-50%) translateY(10px); }
+        .ev01-hero-arr-label {
+          font-family: 'Inter', sans-serif;
+          font-size: 10px;
+          font-weight: 500;
+          letter-spacing: 3.5px;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.6);
+        }
+        .ev01-hero-arr-line {
+          width: 1px;
+          height: 46px;
+          background: linear-gradient(180deg, ${GOLD} 0%, transparent 100%);
+          position: relative;
+          overflow: hidden;
+        }
+        .ev01-hero-arr-line::after {
+          content: "";
+          position: absolute;
+          top: -46px;
+          left: 0;
+          width: 1px;
+          height: 46px;
+          background: linear-gradient(180deg, transparent 0%, #ffffff 50%, transparent 100%);
+          animation: ev01scrollLine 2.4s cubic-bezier(.65,0,.35,1) infinite;
+        }
+        @keyframes ev01scrollLine {
+          0%   { top: -46px; }
+          100% { top: 46px; }
+        }
+        @keyframes ev01Rise {
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes ev01ScrollFade {
+          to { opacity: 1; }
         }
         .ev01-vid-modal {
           position: fixed;
           inset: 0;
-          background: rgba(0,0,0,0.92);
+          background: rgba(0,0,0,0.94);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
           z-index: 9999;
           display: flex;
           align-items: center;
@@ -14016,6 +16574,7 @@ function HeroEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
           max-width: 960px;
           aspect-ratio: 16/9;
           background: #000;
+          box-shadow: 0 40px 80px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(212,184,150,0.12);
         }
         .ev01-vid-modal-inner video {
           width: 100%;
@@ -14024,7 +16583,7 @@ function HeroEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
         }
         .ev01-vid-modal-close {
           position: absolute;
-          top: -40px;
+          top: -48px;
           right: 0;
           background: none;
           border: none;
@@ -14032,14 +16591,21 @@ function HeroEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
           font-size: 28px;
           cursor: pointer;
           line-height: 1;
+          transition: color 0.3s;
         }
+        .ev01-vid-modal-close:hover { color: ${GOLD}; }
         @media (max-width: 768px) {
-          .ev01-hero-body { padding: 90px 24px 80px; }
-          .ev01-hero-h1 { font-size: clamp(36px, 10vw, 58px); }
-          .ev01-hero-vidbtn { width: 100%; max-width: 220px; justify-content: center; }
+          .ev01-hero-body { padding: 100px 24px 90px; }
+          .ev01-hero-h1 { font-size: clamp(34px, 9.5vw, 58px); }
+          .ev01-hero-eyebrow { font-size: 10px; letter-spacing: 3px; gap: 12px; margin-bottom: 28px; }
+          .ev01-hero-eyebrow::before, .ev01-hero-eyebrow::after { width: 28px; }
+          .ev01-hero-actions { gap: 22px; }
+          .ev01-hero-vidbtn { padding: 14px 26px; }
+          .ev01-hero-arr { bottom: 22px; }
         }
         @media (max-width: 480px) {
-          .ev01-hero-body { padding: 80px 20px 70px; }
+          .ev01-hero-body { padding: 90px 20px 80px; }
+          .ev01-hero-ghost { font-size: 14px; }
         }
       `}</style>
       <section className="ev01-hero" data-template="events-01-hero">
@@ -14052,23 +16618,46 @@ function HeroEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
           </video>
         )}
         <div className="ev01-hero-overlay" />
+        <div className="ev01-hero-grain" />
         <div className="ev01-hero-body">
+          {eyebrow && (
+            <div className="ev01-hero-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span">{eyebrow}</GenericEditableText>
+            </div>
+          )}
           <h1 className="ev01-hero-h1">
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span">
               <span>{title}</span>
             </GenericEditableText>
-            <br />
-            <GenericEditableText sectionId={sectionId} field="titleLine2" value={titleLine2} tag="span">
-              <span>{titleLine2}</span>
-            </GenericEditableText>
+            <span className="ev01-hero-h1-l2">
+              <GenericEditableText sectionId={sectionId} field="titleLine2" value={titleLine2} tag="span">
+                <span>{titleLine2}</span>
+              </GenericEditableText>
+            </span>
           </h1>
-          <button className="ev01-hero-vidbtn" onClick={() => setVidOpen(true)}>
-            <svg width="13" height="13" viewBox="0 0 13 13" fill="currentColor"><path d="M2.5 1.5l9 5-9 5V1.5z"/></svg>
-            <GenericEditableText sectionId={sectionId} field="videoText" value="Video" tag="span">Video</GenericEditableText>
-          </button>
+          {subtitle && (
+            <p className="ev01-hero-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span">{subtitle}</GenericEditableText>
+            </p>
+          )}
+          <div className="ev01-hero-actions">
+            <button className="ev01-hero-vidbtn" onClick={() => setVidOpen(true)}>
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="currentColor"><path d="M2.5 1.5l9 5-9 5V1.5z"/></svg>
+              <GenericEditableText sectionId={sectionId} field="videoText" value={videoText} tag="span">{videoText}</GenericEditableText>
+            </button>
+            {ctaLabel && (
+              <a href={resolve(ctaHref)} className="ev01-hero-ghost">
+                <GenericEditableText sectionId={sectionId} field="ctaLabel" value={ctaLabel} tag="span">{ctaLabel}</GenericEditableText>
+                <svg width="20" height="10" viewBox="0 0 20 10" fill="none" stroke="currentColor" strokeWidth="1"><path d="M0 5h18M14 1l4 4-4 4"/></svg>
+              </a>
+            )}
+          </div>
         </div>
         <div className="ev01-hero-arr">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5"><path d="M5 10l9 9 9-9"/></svg>
+          <span className="ev01-hero-arr-label">
+            <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span">{scrollLabel}</GenericEditableText>
+          </span>
+          <div className="ev01-hero-arr-line" />
         </div>
       </section>
       {vidOpen && videoUrl && (
@@ -14081,6 +16670,189 @@ function HeroEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
           </div>
         </div>
       )}
+    </>
+  );
+}
+
+// ── hero-events-01-page ───────────────────────────────────────────────────────
+// Slim page banner pro subpages events-01. Dark bg + optional bg image s dark
+// overlay + grain, gold hairline breadcrumb, Playfair italic H1, subtitle,
+// gold hairline dividers top+bottom. Cca 360px. Anti-flash safe (reveal inner).
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroEvents01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const GOLD = "#d4b896";
+  const title           = String(content.title ?? "Stránka");
+  const subtitle        = String(content.subtitle ?? "");
+  const breadcrumb      = String(content.breadcrumb ?? "Domů");
+  const breadcrumbHref  = String(content.breadcrumbHref ?? "/");
+  const currentLabel    = String(content.currentLabel ?? title);
+  const imageUrl        = String(content.imageUrl ?? "");
+  const resolve         = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <>
+      <style>{`
+        .ev01ph {
+          position: relative;
+          padding: 170px 40px 90px;
+          background: #0a0a0a;
+          color: #fff;
+          overflow: hidden;
+          min-height: 340px;
+          display: flex;
+          align-items: center;
+        }
+        .ev01ph-bg {
+          position: absolute;
+          inset: 0;
+          background-size: cover;
+          background-position: center;
+          transform: scale(1.05);
+          animation: ev01phPan 26s ease-in-out infinite alternate;
+        }
+        @keyframes ev01phPan {
+          from { transform: scale(1.05) translate(-6px,-4px); }
+          to   { transform: scale(1.08) translate(6px, 4px); }
+        }
+        .ev01ph-overlay {
+          position: absolute;
+          inset: 0;
+          background:
+            radial-gradient(circle at 50% 50%, rgba(0,0,0,0.4) 0%, rgba(10,10,10,0.78) 80%),
+            linear-gradient(180deg, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.7) 100%);
+        }
+        .ev01ph-grain {
+          position: absolute;
+          inset: 0;
+          pointer-events: none;
+          opacity: 0.1;
+          mix-blend-mode: overlay;
+          background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.55'/></svg>");
+        }
+        .ev01ph::before,
+        .ev01ph::after {
+          content: "";
+          position: absolute;
+          left: 0; right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent 0%, rgba(212,184,150,0.28) 50%, transparent 100%);
+          z-index: 2;
+        }
+        .ev01ph::before { top: 76px; }
+        .ev01ph::after  { bottom: 0; }
+        .ev01ph-inner {
+          position: relative;
+          z-index: 3;
+          max-width: 1240px;
+          margin: 0 auto;
+          text-align: center;
+          width: 100%;
+        }
+        .ev01ph-crumb {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          font-family: 'Inter', sans-serif;
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.55);
+          margin-bottom: 26px;
+          opacity: 0;
+          transform: translateY(8px);
+          animation: ev01phRise 0.9s cubic-bezier(.32,.72,0,1) 0.15s forwards;
+        }
+        .ev01ph-crumb a {
+          color: ${GOLD};
+          text-decoration: none;
+          transition: color 0.35s cubic-bezier(.32,.72,0,1);
+        }
+        .ev01ph-crumb a:hover { color: #f0d9b8; }
+        .ev01ph-crumb-sep {
+          display: block;
+          width: 22px;
+          height: 1px;
+          background: rgba(212,184,150,0.4);
+        }
+        .ev01ph-current { color: rgba(255,255,255,0.85); }
+        .ev01ph h1 {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic;
+          font-size: clamp(38px, 5vw, 68px);
+          font-weight: 400;
+          line-height: 1.1;
+          letter-spacing: -0.01em;
+          margin: 0 auto;
+          max-width: 900px;
+          color: #fff;
+          text-shadow: 0 2px 30px rgba(0,0,0,0.4);
+          opacity: 0;
+          transform: translateY(14px);
+          animation: ev01phRise 1s cubic-bezier(.32,.72,0,1) 0.3s forwards;
+        }
+        .ev01ph h1 em {
+          font-style: italic;
+          color: ${GOLD};
+        }
+        .ev01ph-sub {
+          font-family: 'Inter', sans-serif;
+          font-size: 15px;
+          color: rgba(255,255,255,0.68);
+          line-height: 1.75;
+          max-width: 620px;
+          margin: 22px auto 0;
+          letter-spacing: 0.2px;
+          opacity: 0;
+          transform: translateY(10px);
+          animation: ev01phRise 0.9s cubic-bezier(.32,.72,0,1) 0.45s forwards;
+        }
+        .ev01ph-rule {
+          width: 40px;
+          height: 1px;
+          background: ${GOLD};
+          margin: 30px auto 0;
+          opacity: 0;
+          animation: ev01phRise 0.9s cubic-bezier(.32,.72,0,1) 0.6s forwards;
+        }
+        @keyframes ev01phRise { to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 768px) {
+          .ev01ph { padding: 130px 24px 70px; min-height: 280px; }
+          .ev01ph::before { top: 68px; }
+          .ev01ph-crumb { font-size: 10px; letter-spacing: 2.4px; gap: 10px; margin-bottom: 20px; }
+          .ev01ph-crumb-sep { width: 16px; }
+          .ev01ph h1 { font-size: clamp(28px, 8vw, 42px); }
+        }
+      `}</style>
+      <section className="ev01ph" data-template="hero-events-01-page">
+        {imageUrl && (
+          <GenericEditableBackground sectionId={sectionId} field="imageUrl" value={imageUrl}>
+            <div className="ev01ph-bg" style={{ backgroundImage: `url('${imageUrl}')` }} />
+          </GenericEditableBackground>
+        )}
+        <div className="ev01ph-overlay" />
+        <div className="ev01ph-grain" />
+        <div className="ev01ph-inner">
+          <nav className="ev01ph-crumb" aria-label="Breadcrumb">
+            <a href={resolve(breadcrumbHref)}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span">{breadcrumb}</GenericEditableText>
+            </a>
+            <span className="ev01ph-crumb-sep" aria-hidden="true" />
+            <span className="ev01ph-current">
+              <GenericEditableText sectionId={sectionId} field="currentLabel" value={currentLabel} tag="span">{currentLabel}</GenericEditableText>
+            </span>
+          </nav>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1">
+            <h1>{title}</h1>
+          </GenericEditableText>
+          {subtitle && (
+            <p className="ev01ph-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span">{subtitle}</GenericEditableText>
+            </p>
+          )}
+          <div className="ev01ph-rule" aria-hidden="true" />
+        </div>
+      </section>
     </>
   );
 }
@@ -14600,20 +17372,24 @@ function HeroRestaurant04({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
 }
 
 // ── dj-01-hero ────────────────────────────────────────────────────────────────
-// 1:1 vasdj.cz:
-// - 100svh fullscreen; bg foto + rgba(24,24,24,0.6) overlay
-// - Centrovaný: H1 3.25rem uppercase bílý + subtitle 1.75rem + animovaný arrow
-// - Font: system fonts (-apple-system atd.), barva textu: bílá
-// - Spacer pro transparentní navbar: padding-top 0 (navbar je fixed, hero startuje od top:0)
-// ─────────────────────────────────────────────────────────────────────────────
+// LUXE REDESIGN (Neon Nocturne — vasdj.cz Awwwards edition):
+// - 100svh (structure preserved) midnight fullscreen s Unsplash DJ WebP bg
+// - Layered overlay: dark radial gradient + orange radial glow bottom + noise texture
+// - Eyebrow "01 / LIVE SET" JetBrains Mono 0.16em tracking, orange accent square
+// - H1: Space Grotesk 700 clamp(2.5rem,7vw,5.5rem) uppercase s kinetic slide-up + variable letter-spacing reveal
+// - Subtitle: Inter Tight 400 s fade-in delay
+// - Scroll indicator = pulsing waveform 5-bar SVG + JetBrains Mono "SCROLL" label
+// ──────────────────────────────────────────────────────────────────────────────
 function HeroDj01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const ORANGE = "#f15a24";
+  const AMBER  = "#ff8347";
   const WHITE  = "#ffffff";
 
-  const title    = String(content.title    ?? "DJ & technický support bez kompromisů");
-  const subtitle = String(content.subtitle ?? "Naše služby Vás budou bavit!");
+  const eyebrow  = String(content.eyebrow  ?? "01 / LIVE SET");
+  const title    = String(content.title    ?? "Půlnoc patří\nzvuku, který si pamatuješ.");
+  const subtitle = String(content.subtitle ?? "Rezidentní DJ tým pro svatby, corporate večery a klubové noci — od prvního beatu do posledního tónu.");
   const ctaHref  = String(content.ctaHref  ?? "#sluzby");
-  const bgImage  = String(content.bgImage  ?? "/clones/vasdj/_layout/_www/category-18.jpg");
+  const bgImage  = String(content.bgImage  ?? "/templates/dj-01/hero-nocturne.webp");
 
   const resolve = (href: string) => {
     if (tenantSlug && href.startsWith("#")) return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
@@ -14622,90 +17398,208 @@ function HeroDj01({ content, sectionId, tenantSlug, isAdmin }: { content: Record
 
   return (
     <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Inter+Tight:wght@300;400;500&display=swap" />
       <style>{`
-        @keyframes dj01-updown {
-          0%,100% { transform: translateX(-50%) translateY(0); }
-          50%      { transform: translateX(-50%) translateY(12px); }
+        @keyframes dj01h-reveal-up {
+          from { opacity: 0; transform: translateY(28px); letter-spacing: 0.14em; }
+          to   { opacity: 1; transform: translateY(0);    letter-spacing: 0.02em; }
+        }
+        @keyframes dj01h-fade-in {
+          from { opacity: 0; transform: translateY(14px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes dj01h-bar-pulse {
+          0%,100% { transform: scaleY(0.35); }
+          50%     { transform: scaleY(1);    }
+        }
+        @keyframes dj01h-scroll-nudge {
+          0%,100% { transform: translateX(-50%) translateY(0); opacity: 0.85; }
+          50%     { transform: translateX(-50%) translateY(6px); opacity: 1; }
+        }
+        @keyframes dj01h-glow-drift {
+          0%,100% { transform: translate(-50%, 40%) scale(1); opacity: 0.55; }
+          50%     { transform: translate(-50%, 40%) scale(1.08); opacity: 0.75; }
         }
         .dj01-hero {
           position: relative;
           min-height: 100svh;
-          background-color: #000;
+          background-color: #08080b;
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
           text-align: center;
           overflow: hidden;
+          isolation: isolate;
         }
+        .dj01-hero-bg-wrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
         .dj01-hero-bg {
           position: absolute;
           inset: 0;
           width: 100%;
           height: 100%;
           object-fit: cover;
-          object-position: 50% 0;
-          z-index: 0;
+          object-position: 50% 40%;
+          transform: scale(1.06);
+          filter: grayscale(0.15) contrast(1.05) brightness(0.72);
+          animation: dj01h-fade-in 1400ms cubic-bezier(.2,.7,.2,1) both;
         }
         .dj01-hero-overlay {
           position: absolute;
           inset: 0;
-          background: rgba(24,24,24,0.6);
+          background:
+            radial-gradient(120% 80% at 50% 0%, rgba(8,8,11,0.35) 0%, rgba(8,8,11,0.65) 60%, rgba(8,8,11,0.92) 100%),
+            linear-gradient(180deg, rgba(8,8,11,0.55) 0%, rgba(8,8,11,0.25) 40%, rgba(8,8,11,0.9) 100%);
           z-index: 1;
+        }
+        .dj01-hero-glow {
+          position: absolute;
+          left: 50%; bottom: 0;
+          width: 90vw; max-width: 1400px; height: 65vh;
+          background: radial-gradient(closest-side, rgba(241,90,36,0.45) 0%, rgba(241,90,36,0.14) 40%, rgba(241,90,36,0) 72%);
+          transform: translate(-50%, 40%);
+          filter: blur(4px);
+          z-index: 1;
+          animation: dj01h-glow-drift 8s cubic-bezier(.4,.0,.2,1) infinite;
+          pointer-events: none;
+        }
+        .dj01-hero-noise {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          opacity: 0.35;
+          mix-blend-mode: overlay;
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+          pointer-events: none;
         }
         .dj01-hero-inner {
           position: relative;
-          z-index: 2;
-          padding: 0 1.25rem;
-          max-width: 900px;
+          z-index: 3;
+          padding: 0 1.5rem;
+          max-width: 1100px;
+          width: 100%;
+        }
+        .dj01-hero-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.75rem;
+          font-family: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+          font-weight: 500;
+          font-size: 0.78rem;
+          letter-spacing: 0.34em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.7);
+          margin: 0 0 2rem;
+          animation: dj01h-fade-in 900ms cubic-bezier(.2,.7,.2,1) 120ms both;
+        }
+        .dj01-hero-eyebrow::before {
+          content: "";
+          display: inline-block;
+          width: 8px; height: 8px;
+          background: ${ORANGE};
+          box-shadow: 0 0 12px rgba(241,90,36,0.7);
         }
         .dj01-hero-title {
-          font-size: clamp(2rem, 5vw, 3.25rem);
+          font-family: 'Space Grotesk', -apple-system, sans-serif;
+          font-size: clamp(2.3rem, 6.5vw, 5rem);
           font-weight: 700;
-          line-height: 1.25;
+          line-height: 1.02;
           color: ${WHITE};
           text-transform: uppercase;
-          margin: 0 0 1rem;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+          margin: 0 0 1.5rem;
+          letter-spacing: 0.02em;
+          white-space: pre-line;
+          animation: dj01h-reveal-up 1100ms cubic-bezier(.2,.7,.2,1) 280ms both;
+          text-shadow: 0 2px 40px rgba(0,0,0,0.4);
         }
+        .dj01-hero-title .dj01-mark-dot { color: ${ORANGE}; }
         .dj01-hero-subtitle {
-          font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+          font-family: 'Inter Tight', -apple-system, sans-serif;
+          font-size: clamp(1rem, 1.8vw, 1.25rem);
           font-weight: 400;
-          color: ${WHITE};
-          margin: 0 0 3.5rem;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+          line-height: 1.6;
+          color: rgba(255,255,255,0.78);
+          margin: 0 auto;
+          max-width: 640px;
+          animation: dj01h-fade-in 900ms cubic-bezier(.2,.7,.2,1) 640ms both;
         }
-        .dj01-hero-arrow {
+        .dj01-hero-scroll {
           position: absolute;
-          bottom: 2rem;
+          bottom: 2.5rem;
           left: 50%;
           transform: translateX(-50%);
-          z-index: 2;
-          display: block;
-          width: 80px;
-          height: 80px;
-          animation: dj01-updown 2.5s linear infinite;
-          color: ${WHITE};
+          z-index: 3;
+          display: inline-flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 0.85rem;
           text-decoration: none;
-          transition: color 125ms linear;
+          color: rgba(255,255,255,0.75);
+          animation: dj01h-scroll-nudge 2.6s cubic-bezier(.4,.0,.2,1) infinite;
+          transition: color 240ms cubic-bezier(.2,.7,.2,1);
         }
-        .dj01-hero-arrow:hover { color: ${ORANGE}; }
-        .dj01-hero-arrow svg { width: 100%; height: 100%; }
-        @media (max-width: 480px) {
-          .dj01-hero-arrow { width: 48px; height: 48px; }
+        .dj01-hero-scroll:hover { color: ${ORANGE}; }
+        .dj01-hero-scroll-label {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 0.7rem;
+          font-weight: 500;
+          letter-spacing: 0.36em;
+          text-transform: uppercase;
+        }
+        .dj01-hero-wave {
+          display: inline-flex;
+          align-items: flex-end;
+          gap: 4px;
+          height: 28px;
+        }
+        .dj01-hero-wave span {
+          display: block;
+          width: 3px;
+          height: 100%;
+          background: linear-gradient(180deg, ${AMBER} 0%, ${ORANGE} 100%);
+          transform-origin: bottom center;
+          animation: dj01h-bar-pulse 1.2s cubic-bezier(.4,.0,.2,1) infinite;
+        }
+        .dj01-hero-wave span:nth-child(1) { animation-delay:   0ms; }
+        .dj01-hero-wave span:nth-child(2) { animation-delay: 120ms; }
+        .dj01-hero-wave span:nth-child(3) { animation-delay: 240ms; }
+        .dj01-hero-wave span:nth-child(4) { animation-delay: 360ms; }
+        .dj01-hero-wave span:nth-child(5) { animation-delay: 480ms; }
+        @media (max-width: 640px) {
+          .dj01-hero-inner   { padding: 0 1.25rem; }
+          .dj01-hero-eyebrow { font-size: 0.68rem; letter-spacing: 0.28em; margin-bottom: 1.5rem; }
+          .dj01-hero-title   { line-height: 1.1; }
+          .dj01-hero-scroll  { bottom: 1.75rem; }
+          .dj01-hero-wave    { height: 22px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .dj01-hero-bg, .dj01-hero-eyebrow, .dj01-hero-title, .dj01-hero-subtitle,
+          .dj01-hero-scroll, .dj01-hero-glow, .dj01-hero-wave span {
+            animation: none !important;
+          }
+          .dj01-hero-title { letter-spacing: 0.02em; opacity: 1; transform: none; }
         }
       `}</style>
 
       <section className="dj01-hero" data-template="dj-01-hero">
-        {bgImage && (
-          <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 0 }}>
-            <img src={bgImage} alt="" loading="eager" className="dj01-hero-bg" />
-          </GenericEditableImage>
-        )}
+        <div className="dj01-hero-bg-wrap">
+          {bgImage && (
+            <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 0 }}>
+              <img src={bgImage} alt="" loading="eager" className="dj01-hero-bg" />
+            </GenericEditableImage>
+          )}
+        </div>
         <div className="dj01-hero-overlay" aria-hidden />
+        <div className="dj01-hero-glow" aria-hidden />
+        <div className="dj01-hero-noise" aria-hidden />
 
         <div className="dj01-hero-inner">
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" className="dj01-hero-title">
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" className="dj01-hero-eyebrow">
+            {eyebrow}
+          </GenericEditableText>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1" className="dj01-hero-title">
             {title}
           </GenericEditableText>
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" className="dj01-hero-subtitle">
@@ -14713,12 +17607,175 @@ function HeroDj01({ content, sectionId, tenantSlug, isAdmin }: { content: Record
           </GenericEditableText>
         </div>
 
-        <a href={resolve(ctaHref)} data-btn="primary" className="dj01-hero-arrow" aria-label="Přehled nabízených služeb">
-          <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="40" cy="40" r="38" stroke="currentColor" strokeWidth="2.5"/>
-            <path d="M27 35 L40 50 L53 35" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+        <a href={resolve(ctaHref)} className="dj01-hero-scroll" aria-label="Přehled setů">
+          <span className="dj01-hero-wave" aria-hidden>
+            <span /><span /><span /><span /><span />
+          </span>
+          <span className="dj01-hero-scroll-label">Scroll</span>
         </a>
+      </section>
+    </>
+  );
+}
+
+// ── dj-01-hero-page ──────────────────────────────────────────────────────────
+// Slim banner hero variant pro podstránky (Neon Nocturne):
+// - Height ~360px (auto-scale) — NE fullscreen
+// - Midnight bg + subtle orange radial glow bottom + noise
+// - Breadcrumb (Domů › [page]) JBM Mono + Space Grotesk H1 + decorative gradient rule
+// ──────────────────────────────────────────────────────────────────────────────
+function HeroDj01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const ORANGE = "#f15a24";
+  const AMBER  = "#ff8347";
+  const WHITE  = "#ffffff";
+
+  const eyebrow       = String(content.eyebrow       ?? "");
+  const title         = String(content.title         ?? "Podstránka");
+  const breadcrumb    = String(content.breadcrumb    ?? "Domů");
+  const breadcrumbHref= String(content.breadcrumbHref?? "/");
+
+  const resolve = (href: string) => {
+    if (tenantSlug && (href === "/" || href.startsWith("#"))) {
+      return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href === "/" ? "" : href}`;
+    }
+    return href;
+  };
+
+  return (
+    <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter+Tight:wght@300;400&display=swap" />
+      <style>{`
+        @keyframes dj01hp-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes dj01hp-grow { from { width: 0; } to { width: 72px; } }
+        .dj01-heropage {
+          position: relative;
+          min-height: 360px;
+          background: #08080b;
+          padding: 6rem 1.5rem 3.5rem;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          overflow: hidden;
+          isolation: isolate;
+          color: ${WHITE};
+        }
+        .dj01-heropage::before {
+          content: "";
+          position: absolute;
+          left: 50%; bottom: -40%;
+          width: 90vw; max-width: 1200px; height: 70vh;
+          background: radial-gradient(closest-side, rgba(241,90,36,0.25) 0%, rgba(241,90,36,0.04) 45%, rgba(241,90,36,0) 72%);
+          transform: translateX(-50%);
+          z-index: 0; pointer-events: none;
+        }
+        .dj01-heropage::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/></svg>");
+          opacity: 0.2;
+          mix-blend-mode: overlay;
+          z-index: 1;
+          pointer-events: none;
+        }
+        .dj01-heropage-inner {
+          position: relative;
+          z-index: 2;
+          max-width: 900px;
+        }
+        .dj01-heropage-crumb {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.65rem;
+          font-family: 'JetBrains Mono', ui-monospace, monospace;
+          font-weight: 500;
+          font-size: 0.72rem;
+          letter-spacing: 0.28em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.55);
+          margin: 0 0 1.5rem;
+          animation: dj01hp-in 700ms cubic-bezier(.2,.7,.2,1) 60ms both;
+        }
+        .dj01-heropage-crumb a {
+          color: rgba(255,255,255,0.7);
+          text-decoration: none;
+          transition: color 260ms cubic-bezier(.2,.7,.2,1);
+        }
+        .dj01-heropage-crumb a:hover { color: ${ORANGE}; }
+        .dj01-heropage-crumb-sep {
+          display: inline-block;
+          width: 4px; height: 4px;
+          background: ${ORANGE};
+          border-radius: 0;
+          box-shadow: 0 0 8px rgba(241,90,36,0.5);
+        }
+        .dj01-heropage-crumb-current { color: ${WHITE}; }
+        .dj01-heropage-eyebrow {
+          display: block;
+          font-family: 'JetBrains Mono', monospace;
+          font-weight: 500;
+          font-size: 0.7rem;
+          letter-spacing: 0.34em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.5);
+          margin: 0 0 0.9rem;
+          animation: dj01hp-in 700ms cubic-bezier(.2,.7,.2,1) 120ms both;
+        }
+        .dj01-heropage-title {
+          font-family: 'Space Grotesk', -apple-system, sans-serif;
+          font-size: clamp(2rem, 5vw, 3.8rem);
+          font-weight: 700;
+          line-height: 1.05;
+          color: ${WHITE};
+          text-transform: uppercase;
+          margin: 0 0 1.5rem;
+          letter-spacing: 0.02em;
+          animation: dj01hp-in 900ms cubic-bezier(.2,.7,.2,1) 200ms both;
+        }
+        .dj01-heropage-rule {
+          display: inline-block;
+          width: 72px;
+          height: 2px;
+          background: linear-gradient(90deg, ${ORANGE} 0%, ${AMBER} 100%);
+          animation: dj01hp-grow 700ms cubic-bezier(.2,.7,.2,1) 340ms both;
+        }
+        @media (max-width: 640px) {
+          .dj01-heropage { min-height: 300px; padding: 5rem 1.25rem 2.75rem; }
+          .dj01-heropage-crumb { font-size: 0.66rem; letter-spacing: 0.22em; }
+          .dj01-heropage-title { line-height: 1.12; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .dj01-heropage-crumb, .dj01-heropage-eyebrow, .dj01-heropage-title, .dj01-heropage-rule {
+            animation: none !important; opacity: 1 !important; transform: none !important;
+          }
+        }
+      `}</style>
+
+      <section className="dj01-heropage" data-template="dj-01-hero-page">
+        <div className="dj01-heropage-inner">
+          <div className="dj01-heropage-crumb">
+            <a href={resolve(breadcrumbHref)}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span">
+                {breadcrumb}
+              </GenericEditableText>
+            </a>
+            <span className="dj01-heropage-crumb-sep" aria-hidden />
+            <span className="dj01-heropage-crumb-current">{title}</span>
+          </div>
+          {eyebrow && (
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" className="dj01-heropage-eyebrow">
+              {eyebrow}
+            </GenericEditableText>
+          )}
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1" className="dj01-heropage-title">
+            {title}
+          </GenericEditableText>
+          <div><span className="dj01-heropage-rule" /></div>
+        </div>
       </section>
     </>
   );
@@ -14733,8 +17790,8 @@ function HeroDj01({ content, sectionId, tenantSlug, isAdmin }: { content: Record
 ───────────────────────────────────────────── */
 function HeroVideo01({ content, sectionId, isAdmin }: {
   content: Record<string, unknown>;
-  sectionId: string;
-  tenantSlug: string;
+  sectionId: number;
+  tenantSlug?: string;
   isAdmin: boolean;
 }) {
   const c = content as {
@@ -14751,7 +17808,7 @@ function HeroVideo01({ content, sectionId, isAdmin }: {
   const imageAlt = c.imageAlt ?? "";
 
   return (
-    <section id={sectionId} style={{ background: "#ffffff" }}>
+    <section id={String(sectionId)} style={{ background: "#ffffff" }}>
       <style>{`
         /* photo max 1246px centered = 980px content + 133px each side */
         .vd01h-photo-outer {

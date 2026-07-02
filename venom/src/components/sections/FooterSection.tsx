@@ -1,8 +1,12 @@
+"use client";
+
 import type React from "react";
 import { useRef, useEffect } from "react";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
 import { OptimizedPicture } from "@/components/OptimizedPicture";
+import { WeberoCredit } from "@/components/WeberoCredit";
+import { CateringSaveurLogo } from "@/components/sections/NavbarSection";
 
 interface Props {
   content: Record<string, unknown>;
@@ -39,7 +43,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   if (variant === "reality-05-footer")    return <FooterReality05 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "reality-06-footer")    return <FooterReality06 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "fitness-01-footer") return <FooterFitness01 content={content} sectionId={sectionId} />;
-  if (variant === "fitness-02-footer") return <FooterFitness02 content={content} sectionId={sectionId} />;
+  if (variant === "fitness-02-footer") return <FooterFitness02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "fyzio-01-footer")   return <FooterFyzio01 content={content} sectionId={sectionId} />;
   if (variant === "fyzio-02-footer")   return <FooterFyzio02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "dental-01-footer")  return <FooterDental01 content={content} sectionId={sectionId} />;
@@ -174,140 +178,219 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   const logoSrc = logoUrl || demoLogoDataUrl(siteName);
   const legalLinks = (content.legalLinks as Array<{ label: string; href: string }>) ?? [];
 
-  // beauty-01 — Demo Beauty Studio footer
-  // Dark #1F1F1F bg, logo + CTA heading vlevo, 3 info sloupce vpravo, legal bar dole
+  // beauty-01 — Sand-Cream Editorial Wellness footer
+  // Dark ink #1F1F1F (kontrast k cream body), HUGE Fahkwang wordmark hero + brandTag,
+  // 4-col grid (Navigace / Kontakt / Otevřeno / Sledujte), bottom legal + WeberoCredit.
   if (variant === "beauty-01-footer") {
-    const heading    = String(content.heading    ?? "Jste připraveni vypadat a cítit se co nejlépe?");
-    const subheading = String(content.subheading ?? "");
-    const ctaText    = String(content.ctaText    ?? "REZERVOVAT");
-    const ctaHref    = String(content.ctaHref    ?? "#rezervace");
-    const hours      = (content.hours as Array<{ day: string; value: string }>) ?? [];
-    const legal      = String(content.legal ?? "");
-    const web        = String(content.web ?? "");
+    const cc = content as Record<string, unknown>;
+    const brandTag   = String(cc.brandTag ?? "Wellness atelier. Vinohrady, Praha.");
+    const links      = (cc.links as Array<{ label: string; href: string }>) ?? [];
+    const hours      = (cc.hours as Array<{ day: string; value: string }>) ?? [];
+    const navTitle      = String(cc.navTitle      ?? "Navigace");
+    const contactTitle  = String(cc.contactTitle  ?? "Kontakt");
+    const hoursTitle    = String(cc.hoursTitle    ?? "Otevřeno");
+    const socialTitle   = String(cc.socialTitle   ?? "Sledujte");
+    const copyright     = String(cc.copyright     ?? "© 2026 Atelier Lumina s.r.o.");
+    const legalText     = String(cc.legalText     ?? "Všechna práva vyhrazena");
 
     const BG     = "#1F1F1F";
-    const BORDER = "rgba(224,190,154,0.15)";
+    const BORDER = "rgba(224,190,154,0.18)";
     const SAND   = "#E0BE9A";
     const WHITE  = "#ffffff";
     const MUTED  = "rgba(255,255,255,0.55)";
-    const FONT_H = "'Cormorant Garamond', 'Fahkwang', Georgia, serif";
-    const FONT_B = "'Fahkwang', sans-serif";
+    const FONT   = "'Fahkwang', Georgia, serif";
+    const SANS   = "var(--font-overpass), 'Overpass', Inter, system-ui, sans-serif";
+    const MONO   = "var(--font-overpass-mono), 'Overpass Mono', Menlo, monospace";
 
     return (
-      <footer style={{ backgroundColor: BG, fontFamily: FONT_B }} data-template="beauty-01">
-        {/* Main grid */}
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "72px 24px 48px" }}>
-          <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: "48px 64px" }}>
-            {/* Levý sloupec — logo + heading + CTA */}
-            <div>
-              {logoSrc && (
-                <div style={{ marginBottom: 28 }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img loading="lazy" src={logoSrc} alt={siteName} style={{ height: 36, objectFit: "contain", filter: "brightness(0) invert(1)" }} />
-                </div>
-              )}
-              <h2 style={{ fontFamily: FONT_H, fontSize: "clamp(22px, 2.5vw, 32px)", fontWeight: 400, color: WHITE, lineHeight: 1.3, marginBottom: 16 }}>
-                <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-              </h2>
-              {subheading && (
-                <p style={{ fontFamily: FONT_B, fontSize: 14, fontWeight: 200, color: MUTED, lineHeight: 1.7, marginBottom: 28, maxWidth: 400 }}>
-                  <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-                </p>
-              )}
-              <a
-                href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
-                data-btn="primary"
-                style={{
-                  display: "inline-flex", alignItems: "center", justifyContent: "center",
-                  backgroundColor: SAND, color: BG,
-                  fontFamily: FONT_B, fontSize: 11, fontWeight: 500,
-                  letterSpacing: "0.18em", textTransform: "uppercase", textDecoration: "none",
-                  padding: "12px 32px", transition: "background 0.2s",
-                }}
-                onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#C4A07E"; }}
-                onMouseLeave={e => { e.currentTarget.style.backgroundColor = SAND; }}
-              >
-                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-              </a>
-            </div>
+      <footer
+        className="b01-footer"
+        style={{
+          backgroundColor: BG,
+          fontFamily: FONT,
+          color: WHITE,
+          paddingTop: "clamp(64px, 8vw, 96px)",
+          paddingBottom: "clamp(28px, 3vw, 40px)",
+          paddingLeft: "clamp(24px, 5vw, 64px)",
+          paddingRight: "clamp(24px, 5vw, 64px)",
+        }}
+        data-template="beauty-01"
+      >
+        <div className="mx-auto" style={{ maxWidth: 1320 }}>
+          {/* Wordmark hero */}
+          <div style={{
+            paddingBottom: "clamp(40px, 5vw, 56px)",
+            borderBottom: `1px solid ${BORDER}`,
+            marginBottom: "clamp(40px, 5vw, 56px)",
+          }}>
+            <h2 style={{
+              margin: 0,
+              fontFamily: FONT, fontWeight: 500,
+              fontSize: "clamp(36px, 6vw, 84px)",
+              lineHeight: 1.05, letterSpacing: "0.16em",
+              textTransform: "uppercase",
+              color: WHITE,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+            </h2>
+            <p style={{
+              margin: "14px 0 0",
+              fontFamily: SANS, fontWeight: 300,
+              fontSize: "clamp(13px, 1.2vw, 16px)",
+              color: MUTED, fontStyle: "italic",
+              letterSpacing: "0.01em",
+              maxWidth: 540,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="brandTag" value={brandTag} tag="span" />
+            </p>
+          </div>
 
-            {/* Pravý sloupec — kontakt + hodiny + social */}
-            <div className="grid grid-cols-1 sm:grid-cols-2" style={{ gap: "32px 32px" }}>
-              {/* Kontakt */}
+          {/* 4-col grid */}
+          <div className="b01-foot-grid" style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: "clamp(32px, 4vw, 48px)",
+          }}>
+            {links.length > 0 && (
               <div>
-                <p style={{ fontFamily: FONT_B, fontSize: 10, fontWeight: 300, letterSpacing: "0.2em", color: SAND, textTransform: "uppercase", marginBottom: 14 }}>
-                  Kontakt
-                </p>
-                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                  {phone && (
-                    <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ fontFamily: FONT_B, fontSize: 14, fontWeight: 200, color: WHITE, textDecoration: "none" }}>
-                      <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-                    </a>
-                  )}
-                  {email && (
-                    <a href={`mailto:${email}`} style={{ fontFamily: FONT_B, fontSize: 14, fontWeight: 200, color: WHITE, textDecoration: "none" }}>
-                      <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-                    </a>
-                  )}
-                  {address && (
-                    <p style={{ fontFamily: FONT_B, fontSize: 14, fontWeight: 200, color: MUTED, lineHeight: 1.6, margin: 0 }}>
-                      <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
-                    </p>
-                  )}
-                </div>
-                {/* Social */}
-                {socials.length > 0 && (
-                  <div style={{ display: "flex", gap: 16, marginTop: 20 }}>
-                    {socials.map((s, i) => (
-                      <a
-                        key={i}
-                        href={s.href ?? "#"}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 300, color: MUTED, letterSpacing: "0.1em", textDecoration: "none", textTransform: "uppercase", transition: "color 0.2s" }}
-                        onMouseEnter={e => { e.currentTarget.style.color = SAND; }}
-                        onMouseLeave={e => { e.currentTarget.style.color = MUTED as string; }}
-                      >
-                        <GenericEditableText sectionId={sectionId} field={`socials.${i}.label`} value={s.label ?? ""} tag="span" />
+                <h3 style={{
+                  margin: "0 0 18px",
+                  fontFamily: MONO, fontSize: 11, fontWeight: 400,
+                  letterSpacing: "0.24em", textTransform: "uppercase",
+                  color: SAND,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="navTitle" value={navTitle} tag="span" />
+                </h3>
+                <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+                  {links.map((l, i) => (
+                    <li key={`b1-f-l-${i}`}>
+                      <a href={l.href} className="b01-foot-link" style={{
+                        fontFamily: FONT, fontWeight: 400, fontSize: 14,
+                        letterSpacing: "0.08em",
+                        color: WHITE, textDecoration: "none",
+                        transition: "color 0.3s ease",
+                      }}>
+                        <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                       </a>
-                    ))}
-                  </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div>
+              <h3 style={{
+                margin: "0 0 18px",
+                fontFamily: MONO, fontSize: 11, fontWeight: 400,
+                letterSpacing: "0.24em", textTransform: "uppercase",
+                color: SAND,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="contactTitle" value={contactTitle} tag="span" />
+              </h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {phone && (
+                  <a href={`tel:${phone.replace(/\s/g, "")}`} className="b01-foot-link" style={{
+                    fontFamily: SANS, fontSize: 14, color: WHITE,
+                    textDecoration: "none", transition: "color 0.3s ease",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                  </a>
+                )}
+                {email && (
+                  <a href={`mailto:${email}`} className="b01-foot-link" style={{
+                    fontFamily: SANS, fontSize: 14, color: WHITE,
+                    textDecoration: "none", transition: "color 0.3s ease",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                  </a>
+                )}
+                {address && (
+                  <span style={{
+                    fontFamily: SANS, fontSize: 14, color: MUTED,
+                    whiteSpace: "pre-line", lineHeight: 1.5,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                  </span>
                 )}
               </div>
+            </div>
 
-              {/* Hodiny */}
-              {hours.length > 0 && (
-                <div>
-                  <p style={{ fontFamily: FONT_B, fontSize: 10, fontWeight: 300, letterSpacing: "0.2em", color: SAND, textTransform: "uppercase", marginBottom: 14 }}>
-                    Otevírací doba
-                  </p>
+            {hours.length > 0 && (
+              <div>
+                <h3 style={{
+                  margin: "0 0 18px",
+                  fontFamily: MONO, fontSize: 11, fontWeight: 400,
+                  letterSpacing: "0.24em", textTransform: "uppercase",
+                  color: SAND,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="hoursTitle" value={hoursTitle} tag="span" />
+                </h3>
+                <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 6 }}>
                   {hours.map((h, i) => (
-                    <div key={i} style={{ display: "flex", justifyContent: "space-between", marginBottom: 8, paddingBottom: 8, borderBottom: `1px solid ${BORDER}` }}>
-                      <span style={{ fontFamily: FONT_B, fontSize: 13, fontWeight: 200, color: MUTED }}>
+                    <li key={`b1-f-h-${i}`} style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+                      <span style={{ fontFamily: SANS, fontSize: 13, color: MUTED }}>
                         <GenericEditableText sectionId={sectionId} field={`hours.${i}.day`} value={h.day} tag="span" />
                       </span>
-                      <span style={{ fontFamily: FONT_B, fontSize: 13, fontWeight: 300, color: WHITE }}>
+                      <span style={{ fontFamily: MONO, fontSize: 12, color: WHITE, letterSpacing: "0.04em" }}>
                         <GenericEditableText sectionId={sectionId} field={`hours.${i}.value`} value={h.value} tag="span" />
                       </span>
-                    </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {socials.length > 0 && (
+              <div>
+                <h3 style={{
+                  margin: "0 0 18px",
+                  fontFamily: MONO, fontSize: 11, fontWeight: 400,
+                  letterSpacing: "0.24em", textTransform: "uppercase",
+                  color: SAND,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="socialTitle" value={socialTitle} tag="span" />
+                </h3>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {socials.map((s, i) => (
+                    <a
+                      key={`b1-f-s-${i}`}
+                      href={s.href ?? "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="b01-foot-link"
+                      style={{
+                        fontFamily: FONT, fontSize: 14, color: WHITE,
+                        letterSpacing: "0.06em", textDecoration: "none",
+                        transition: "color 0.3s ease",
+                      }}
+                    >
+                      <GenericEditableText sectionId={sectionId} field={`socials.${i}.label`} value={s.label ?? ""} tag="span" />
+                    </a>
                   ))}
                 </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Legal bar */}
-        <div style={{ borderTop: `1px solid ${BORDER}`, padding: "18px 24px" }}>
-          <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
-            <p style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 200, color: MUTED, margin: 0 }}>
-              <GenericEditableText sectionId={sectionId} field="legal" value={legal} tag="span" />
-            </p>
-            {web && (
-              <a href={web} target="_blank" rel="noopener noreferrer" style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 200, color: MUTED, textDecoration: "none" }}>
-                {web.replace(/^https?:\/\//, "")}
-              </a>
+              </div>
             )}
+          </div>
+
+          {/* Bottom legal */}
+          <div style={{
+            marginTop: "clamp(48px, 6vw, 72px)",
+            paddingTop: 24,
+            borderTop: `1px solid ${BORDER}`,
+            display: "flex", flexWrap: "wrap",
+            alignItems: "center", justifyContent: "space-between",
+            gap: 16,
+          }}>
+            <p style={{
+              margin: 0,
+              fontFamily: MONO, fontSize: 11, letterSpacing: "0.08em",
+              color: MUTED,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+              <span style={{ margin: "0 8px", opacity: 0.4 }}>·</span>
+              <GenericEditableText sectionId={sectionId} field="legalText" value={legalText} tag="span" />
+            </p>
+            <WeberoCredit />
           </div>
         </div>
       </footer>
@@ -411,6 +494,239 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
     );
   }
 
+  // Footer — peak-cut (aka barber-05) Brutalist Atelier White
+  // Dark ink #0a0a0a footer (kontrast k whitebody), 4-col grid: BRAND / NAV / KONTAKT / OTEVŘENO,
+  // wordmark hero, mono labels, hairline white 0.15 dividers, bottom legal + socials + WeberoCredit.
+  if (variant === "footer-peak-cut") {
+    const OSWALD = "var(--font-oswald), 'Oswald', 'Bebas Neue', Impact, sans-serif";
+    const MONO   = "var(--font-overpass-mono), 'Overpass Mono', 'JetBrains Mono', Menlo, monospace";
+    const OVERPASS = "var(--font-overpass), 'Overpass', 'Inter', system-ui, sans-serif";
+    const cc = content as Record<string, unknown>;
+    const siteName = String(cc.siteName ?? "Peak Cut");
+    const brandTag = String(cc.brandTag ?? "Pánský barbershop. Vinohrady, Praha.");
+    const links = (cc.links as Array<{ label: string; href: string }>) ?? [];
+    const phone = String(cc.phone ?? "");
+    const email = String(cc.email ?? "");
+    const address = String(cc.address ?? "");
+    const hours = (cc.hours as Array<{ day: string; value: string }>) ?? [];
+    const socials = (cc.socials as Array<{ icon?: string; label?: string; href?: string }>) ?? [];
+    const navTitle      = String(cc.navTitle      ?? "Navigace");
+    const contactTitle  = String(cc.contactTitle  ?? "Kontakt");
+    const hoursTitle    = String(cc.hoursTitle    ?? "Otevírací doba");
+    const copyright     = String(cc.copyright     ?? "© 2025 Peak Cut s.r.o.");
+    const legalText     = String(cc.legalText     ?? "Všechna práva vyhrazena");
+
+    const SocialIcon = ({ name }: { name?: string }) => {
+      const p = { width: 16, height: 16, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true as const };
+      switch (name) {
+        case "instagram":
+          return (<svg {...p}><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>);
+        case "facebook":
+          return (<svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>);
+        case "youtube":
+          return (<svg {...p}><path d="M22.5 6.5a3 3 0 0 0-2.1-2.1C18.6 4 12 4 12 4s-6.6 0-8.4.4A3 3 0 0 0 1.5 6.5C1 8.3 1 12 1 12s0 3.7.5 5.5a3 3 0 0 0 2.1 2.1C5.4 20 12 20 12 20s6.6 0 8.4-.4a3 3 0 0 0 2.1-2.1c.5-1.8.5-5.5.5-5.5s0-3.7-.5-5.5z"/><polygon points="10 15 16 12 10 9"/></svg>);
+        case "tiktok":
+          return (<svg {...p}><path d="M21 8.5a6.5 6.5 0 0 1-4.5-1.8v8.2A5.6 5.6 0 1 1 10.9 9v3a2.6 2.6 0 1 0 2.6 2.6V2h2.4A4.6 4.6 0 0 0 21 6z"/></svg>);
+        default:
+          return (<span style={{ fontSize: 11 }}>{name}</span>);
+      }
+    };
+
+    return (
+      <footer
+        className="relative w-full overflow-hidden pc-footer"
+        style={{
+          backgroundColor: "#0a0a0a",
+          color: "#ffffff",
+          paddingTop: "clamp(64px, 8vw, 96px)",
+          paddingBottom: "clamp(28px, 3vw, 40px)",
+          paddingLeft: "clamp(24px, 5vw, 64px)",
+          paddingRight: "clamp(24px, 5vw, 64px)",
+        }}
+        data-template="peak-cut"
+      >
+        <div className="mx-auto" style={{ maxWidth: 1320 }}>
+          {/* Wordmark hero — full width above the grid */}
+          <div style={{
+            paddingBottom: "clamp(40px, 5vw, 56px)",
+            borderBottom: "1px solid rgba(255,255,255,0.15)",
+            marginBottom: "clamp(40px, 5vw, 56px)",
+          }}>
+            <h2 style={{
+              margin: 0,
+              fontFamily: OSWALD, fontWeight: 700,
+              fontSize: "clamp(40px, 7vw, 96px)",
+              lineHeight: 1, letterSpacing: "0.06em",
+              textTransform: "uppercase",
+              color: "#ffffff",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+            </h2>
+            <p style={{
+              margin: "16px 0 0",
+              fontFamily: OVERPASS, fontWeight: 300,
+              fontSize: "clamp(14px, 1.2vw, 17px)",
+              color: "rgba(255,255,255,0.6)",
+              maxWidth: 540,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="brandTag" value={brandTag} tag="span" />
+            </p>
+          </div>
+
+          {/* 4-col grid */}
+          <div className="pc-foot-grid" style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: "clamp(32px, 4vw, 48px)",
+          }}>
+            {links.length > 0 && (
+              <div>
+                <h3 style={{
+                  margin: "0 0 18px",
+                  fontFamily: MONO, fontSize: 11, fontWeight: 400,
+                  letterSpacing: "0.24em", textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.5)",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="navTitle" value={navTitle} tag="span" />
+                </h3>
+                <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+                  {links.map((l, i) => (
+                    <li key={`pc-f-l-${i}`}>
+                      <a href={l.href} className="pc-foot-link" style={{
+                        fontFamily: OSWALD, fontWeight: 500, fontSize: 14,
+                        letterSpacing: "0.10em", textTransform: "uppercase",
+                        color: "#ffffff", textDecoration: "none",
+                        transition: "color 0.3s ease",
+                      }}>
+                        <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            <div>
+              <h3 style={{
+                margin: "0 0 18px",
+                fontFamily: MONO, fontSize: 11, fontWeight: 400,
+                letterSpacing: "0.24em", textTransform: "uppercase",
+                color: "rgba(255,255,255,0.5)",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="contactTitle" value={contactTitle} tag="span" />
+              </h3>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                {phone && (
+                  <a href={`tel:${phone.replace(/\s/g, "")}`} className="pc-foot-link" style={{
+                    fontFamily: OVERPASS, fontSize: 14, color: "#ffffff",
+                    textDecoration: "none", transition: "color 0.3s ease",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                  </a>
+                )}
+                {email && (
+                  <a href={`mailto:${email}`} className="pc-foot-link" style={{
+                    fontFamily: OVERPASS, fontSize: 14, color: "#ffffff",
+                    textDecoration: "none", transition: "color 0.3s ease",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                  </a>
+                )}
+                {address && (
+                  <span style={{
+                    fontFamily: OVERPASS, fontSize: 14, color: "rgba(255,255,255,0.7)",
+                    whiteSpace: "pre-line", lineHeight: 1.5,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {hours.length > 0 && (
+              <div>
+                <h3 style={{
+                  margin: "0 0 18px",
+                  fontFamily: MONO, fontSize: 11, fontWeight: 400,
+                  letterSpacing: "0.24em", textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.5)",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="hoursTitle" value={hoursTitle} tag="span" />
+                </h3>
+                <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 6 }}>
+                  {hours.map((h, i) => (
+                    <li key={`pc-f-h-${i}`} style={{ display: "flex", justifyContent: "space-between", gap: 12 }}>
+                      <span style={{ fontFamily: OVERPASS, fontSize: 13, color: "rgba(255,255,255,0.7)" }}>
+                        <GenericEditableText sectionId={sectionId} field={`hours.${i}.day`} value={h.day} tag="span" />
+                      </span>
+                      <span style={{ fontFamily: MONO, fontSize: 12, color: "#ffffff", letterSpacing: "0.04em" }}>
+                        <GenericEditableText sectionId={sectionId} field={`hours.${i}.value`} value={h.value} tag="span" />
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {socials.length > 0 && (
+              <div>
+                <h3 style={{
+                  margin: "0 0 18px",
+                  fontFamily: MONO, fontSize: 11, fontWeight: 400,
+                  letterSpacing: "0.24em", textTransform: "uppercase",
+                  color: "rgba(255,255,255,0.5)",
+                }}>Sledujte</h3>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                  {socials.map((s, i) => (
+                    <a
+                      key={`pc-f-s-${i}`}
+                      href={s.href ?? "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={s.label ?? s.icon ?? "social"}
+                      className="pc-foot-soc inline-flex items-center justify-center"
+                      style={{
+                        width: 36, height: 36,
+                        border: "1px solid rgba(255,255,255,0.25)",
+                        color: "#ffffff",
+                        transition: "color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease",
+                      }}
+                    >
+                      <SocialIcon name={s.icon} />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Bottom legal row */}
+          <div style={{
+            marginTop: "clamp(48px, 6vw, 72px)",
+            paddingTop: 24,
+            borderTop: "1px solid rgba(255,255,255,0.15)",
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 16,
+          }}>
+            <p style={{
+              margin: 0,
+              fontFamily: MONO, fontSize: 11, letterSpacing: "0.08em",
+              color: "rgba(255,255,255,0.5)",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+              <span style={{ margin: "0 8px", opacity: 0.4 }}>·</span>
+              <GenericEditableText sectionId={sectionId} field="legalText" value={legalText} tag="span" />
+            </p>
+            <WeberoCredit />
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
   // Footer — barber-04 (Černý Fade) — 3-col blurbs (lokalita / hodiny / kontakt s legal a social) — bez bottom legal řádku
   if (variant === "barber-04-multi-blurb-legal") {
     const hours = (content.hours as Array<{ day: string; value: string }>) ?? [];
@@ -434,39 +750,48 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
     };
     const h4 = {
       fontFamily: "'Bebas Neue','Oswald',Impact,sans-serif" as const,
-      fontWeight: 300 as const,
-      fontSize: 16,
-      letterSpacing: 3,
+      fontWeight: 400 as const,
+      fontSize: 18,
+      letterSpacing: "0.20em",
       color: "#ffffff",
       textTransform: "uppercase" as const,
-      marginBottom: 36,
+      marginBottom: 12,
       textAlign: "center" as const,
     };
     const body = {
       fontFamily: "'Lato',Helvetica,Arial,sans-serif" as const,
-      fontSize: 14,
+      fontSize: 13.5,
       lineHeight: 1.9,
-      color: "rgba(255,255,255,0.85)",
+      color: "rgba(255,255,255,0.70)",
       textAlign: "center" as const,
-      margin: "0 0 14px",
+      margin: "0 0 12px",
     };
     const card = {
-      backgroundColor: "#1d1d1d",
-      padding: "56px 32px",
+      backgroundColor: "#13110d",
+      padding: "52px 32px",
       minHeight: 460,
-    };
-    const goldLink = { color: "#d5b981", textDecoration: "none" } as const;
+      border: "1px solid rgba(213,185,129,0.06)",
+      transition: "border-color .3s ease, transform .3s ease",
+    } as const;
+    const goldLink = { color: "#d5b981", textDecoration: "none", transition: "color .2s ease" } as const;
     return (
       <footer
-        style={{ backgroundColor: "#000000", color: "rgba(255,255,255,0.85)", padding: "60px 24px 0" }}
+        style={{ backgroundColor: "#050403", color: "rgba(255,255,255,0.85)", padding: "0 24px", position: "relative" }}
         data-template="barber-04"
       >
-        <div className="max-w-[1320px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-7">
+        {/* Top gold fade divider — signature */}
+        <div aria-hidden style={{
+          position: "absolute", top: 0, left: "15%", right: "15%", height: 1,
+          background: "linear-gradient(90deg, transparent 0%, rgba(213,185,129,.45) 50%, transparent 100%)",
+        }} />
+        <div style={{ paddingTop: 72 }} />
+        <div className="max-w-[1320px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 b04-footer-grid">
           {/* Lokalita */}
-          <div style={card}>
+          <div style={card} className="b04-footer-card">
             <h4 style={h4}>
               <GenericEditableText sectionId={sectionId} field="locationTitle" value={String(content.locationTitle ?? "lokalita")} tag="span" />
             </h4>
+            <div aria-hidden style={{ width: 64, height: 1, margin: "0 auto 32px", background: "linear-gradient(90deg, transparent 0%, rgba(213,185,129,.7) 50%, transparent 100%)" }} />
             {address && address.split("\n").map((line, i) => (
               <p key={`addr-${i}`} style={body}>
                 <GenericEditableText sectionId={sectionId} field={i === 0 ? "address" : `address-${i}`} value={line} tag="span" />
@@ -480,10 +805,11 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
           </div>
 
           {/* Otevírací doba — souhrnný řádek (Po–Ne 9–20) + poznámka */}
-          <div style={card}>
+          <div style={card} className="b04-footer-card">
             <h4 style={h4}>
               <GenericEditableText sectionId={sectionId} field="hoursTitle" value={String(content.hoursTitle ?? "Otevírací doba")} tag="span" />
             </h4>
+            <div aria-hidden style={{ width: 64, height: 1, margin: "0 auto 32px", background: "linear-gradient(90deg, transparent 0%, rgba(213,185,129,.7) 50%, transparent 100%)" }} />
             {hours.map((h, i) => (
               <p key={`hr-${i}`} style={{ ...body, marginBottom: 4 }}>
                 <GenericEditableText sectionId={sectionId} field={`hours.${i}.day`} value={h.day} tag="span" />
@@ -503,10 +829,11 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
           </div>
 
           {/* Kontakt — telefon/email gold + IČ/DIČ/DPH/účet/platba + Daňový doklad + social */}
-          <div style={card}>
+          <div style={card} className="b04-footer-card">
             <h4 style={h4}>
               <GenericEditableText sectionId={sectionId} field="contactTitle" value={String(content.contactTitle ?? "kontakt")} tag="span" />
             </h4>
+            <div aria-hidden style={{ width: 64, height: 1, margin: "0 auto 32px", background: "linear-gradient(90deg, transparent 0%, rgba(213,185,129,.7) 50%, transparent 100%)" }} />
             {phone && (
               <p style={body}>
                 <a href={`tel:${phone.replace(/\s/g, "")}`} style={goldLink}>
@@ -560,7 +887,8 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={s.label ?? s.icon ?? "social"}
-                    style={{ color: "inherit" }}
+                    className="b04-social"
+                    style={{ color: "inherit", opacity: 0.85 }}
                   >
                     <SocialIcon name={s.icon} />
                   </a>
@@ -570,24 +898,30 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
           </div>
         </div>
 
-        {/* Copyright (žádný oddělený legal řádek dle originálu) */}
+        {/* Copyright + Webero credit */}
         <div
           style={{
-            maxWidth: 1180,
-            margin: "48px auto 0",
-            paddingTop: 20,
-            paddingBottom: 20,
-            borderTop: "1px solid rgba(255,255,255,0.08)",
-            color: "rgba(255,255,255,0.45)",
+            maxWidth: 1320,
+            margin: "60px auto 0",
+            paddingTop: 24,
+            paddingBottom: 24,
+            borderTop: "1px solid rgba(213,185,129,0.10)",
+            color: "rgba(255,255,255,0.42)",
             fontFamily: "'Lato',Helvetica,Arial,sans-serif",
             fontSize: 12,
             lineHeight: 1.7,
-            textAlign: "center",
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 16,
           }}
         >
-          <p>
-            © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+          <p style={{ margin: 0, letterSpacing: "0.08em", textTransform: "uppercase", fontSize: 11 }}>
+            © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /> · <GenericEditableText sectionId={sectionId} field="legalText" value={String(content.legalText ?? "Všechna práva vyhrazena")} tag="span" />
           </p>
+          <WeberoCredit />
         </div>
       </footer>
     );
@@ -595,22 +929,118 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
 
   // Footer — map + contact (barber-03): large map left, contact widget right
   if (variant === "footer-map-contact") {
-    const logoUrl = String(content.logoUrl ?? "");
     const hours = (content.hours as Array<{ day: string; value: string }>) ?? [];
     const hoursTitle = String(content.hoursTitle ?? "Otevírací doba");
     const kontaktyTitle = String(content.kontaktyTitle ?? "Kontakty");
     const mapEmbedUrl = String(content.mapEmbedUrl ?? "");
     const mapImage = String(content.mapImage ?? "");
+    const tagline = String(content.tagline ?? "");
     const legal = String(content.legal ?? "");
+    const SocialIcon = ({ name }: { name?: string }) => {
+      const p = { width: 14, height: 14, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true as const };
+      const key = (name ?? "").toLowerCase();
+      switch (true) {
+        case key.includes("insta"):
+          return (<svg {...p}><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>);
+        case key.includes("facebook") || key.includes("fb"):
+          return (<svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>);
+        case key.includes("twitter") || key === "x":
+          return (<svg {...p}><path d="M4 4l7.5 9.5L4.5 20H7l6-6.2L17.5 20H20l-7.8-10L19.5 4H17l-5.4 5.6L7 4z"/></svg>);
+        case key.includes("tiktok"):
+          return (<svg {...p}><path d="M21 8.5a6.4 6.4 0 0 1-4-1.4V15a6 6 0 1 1-6-6h1v3.5h-1a2.5 2.5 0 1 0 2.5 2.5V3h3a4 4 0 0 0 4 4z"/></svg>);
+        case key.includes("youtube"):
+          return (<svg {...p}><rect x="2" y="6" width="20" height="12" rx="3"/><polygon points="10 9 16 12 10 15" fill="currentColor"/></svg>);
+        default: return null;
+      }
+    };
     return (
-      <footer id="footer" style={{ backgroundColor: "#1c1410", color: "rgba(255,255,255,0.7)" }} data-template="barber-03">
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "60px 24px" }}>
-          <div className="footer-bb03-grid" style={{ display: "grid", gap: 32 }}>
-            <div>
+      <footer
+        id="footer"
+        style={{
+          backgroundColor: "#0f0a07",
+          color: "rgba(245,239,230,0.7)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+        data-template="barber-03"
+      >
+        {/* Top gold hairline accent */}
+        <div aria-hidden style={{
+          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+          width: 220, height: 1,
+          background: "linear-gradient(90deg, transparent, #c8a96e 50%, transparent)",
+        }} />
+
+        {/* Warm radial ambient glow */}
+        <div aria-hidden style={{
+          position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
+          background: "radial-gradient(ellipse at center top, rgba(200,169,110,0.06) 0%, transparent 55%)",
+        }} />
+
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(80px, 11vw, 120px) 24px clamp(36px, 5vw, 56px)", position: "relative", zIndex: 1 }}>
+          {/* Brand wordmark centered */}
+          <div style={{ textAlign: "center", marginBottom: "clamp(48px, 7vw, 72px)" }}>
+            <a
+              href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "#"}
+              className="b03-footer-brand"
+              style={{
+                display: "inline-block",
+                textDecoration: "none",
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                color: "#f5efe6",
+                textTransform: "uppercase",
+                transition: "color 0.3s ease",
+                marginBottom: 14,
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+            </a>
+            {/* Decorative diamond rule */}
+            <div aria-hidden style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginTop: 14 }}>
+              <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+              <span style={{ width: 6, height: 6, backgroundColor: "#c8a96e", transform: "rotate(45deg)" }} />
+              <span style={{ width: 48, height: 1, backgroundColor: "rgba(200,169,110,0.55)" }} />
+            </div>
+            {tagline && (
+              <p style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontStyle: "italic",
+                fontSize: "0.95rem",
+                color: "rgba(200,169,110,0.85)",
+                margin: "20px auto 0",
+                maxWidth: 560,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+              </p>
+            )}
+          </div>
+
+          {/* Map + contact card 2-col grid */}
+          <div className="footer-bb03-grid" style={{ display: "grid", gap: 32, alignItems: "stretch" }}>
+            {/* MAP — left, with gold corner brackets */}
+            <div className="b03-footer-map-wrap" style={{ position: "relative", minHeight: 400 }}>
+              <span aria-hidden className="b03-footer-map-corner b03-footer-map-corner-tl" style={{
+                position: "absolute", top: -10, left: -10, width: 40, height: 40, zIndex: 3,
+                borderTop: "1px solid #c8a96e", borderLeft: "1px solid #c8a96e",
+                transition: "all 0.4s cubic-bezier(.22,.68,0,1.1)",
+              }} />
+              <span aria-hidden className="b03-footer-map-corner b03-footer-map-corner-br" style={{
+                position: "absolute", bottom: -10, right: -10, width: 40, height: 40, zIndex: 3,
+                borderBottom: "1px solid #c8a96e", borderRight: "1px solid #c8a96e",
+                transition: "all 0.4s cubic-bezier(.22,.68,0,1.1)",
+              }} />
               {mapEmbedUrl ? (
                 <iframe
                   src={mapEmbedUrl}
-                  style={{ border: 0, width: "100%", height: 360, display: "block" }}
+                  style={{
+                    border: 0, width: "100%", height: 400, display: "block",
+                    filter: "grayscale(0.4) brightness(0.85) sepia(0.15)",
+                    transition: "filter 0.5s ease",
+                  }}
+                  className="b03-footer-map-iframe"
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
@@ -618,81 +1048,225 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
                 />
               ) : mapImage ? (
                 /* eslint-disable-next-line @next/next/no-img-element */
-                <img loading="lazy" src={mapImage} alt="Mapa" style={{ width: "100%", height: 360, objectFit: "cover", display: "block" }} />
+                <img loading="lazy" src={mapImage} alt="Mapa" style={{ width: "100%", height: 400, objectFit: "cover", display: "block" }} />
               ) : (
-                <div style={{ width: "100%", height: 360, backgroundColor: "#0f0a07", border: "1px solid rgba(200,169,110,0.2)", display: "flex", alignItems: "center", justifyContent: "center", color: "rgba(255,255,255,0.4)", fontSize: "0.9rem" }}>
+                <div style={{
+                  width: "100%", height: 400,
+                  backgroundColor: "#1c1410",
+                  border: "1px solid rgba(200,169,110,0.18)",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  color: "rgba(245,239,230,0.4)",
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontStyle: "italic",
+                  fontSize: "0.95rem",
+                }}>
                   Mapa — vlož embed v Studio
                 </div>
               )}
             </div>
-            <div style={{ backgroundColor: "rgba(255,255,255,0.03)", border: "1px solid rgba(200,169,110,0.18)", padding: "32px 28px" }}>
-              {logoUrl && (
-                <a href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "#"} style={{ display: "inline-block", marginBottom: 24 }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img loading="lazy" src={logoUrl} alt={siteName} style={{ width: 140, height: "auto" }} />
-                </a>
-              )}
-              <h3 className="uppercase" style={{ fontFamily: "var(--font-heading)", color: "#c8a96e", fontWeight: 700, fontSize: "1.1rem", letterSpacing: "0.16em", marginBottom: 16 }}>
-                <GenericEditableText sectionId={sectionId} field="kontaktyTitle" value={kontaktyTitle} tag="span" />
-              </h3>
+
+            {/* CONTACT CARD — right */}
+            <div className="b03-footer-card" style={{
+              backgroundColor: "rgba(255,255,255,0.025)",
+              border: "1px solid rgba(200,169,110,0.22)",
+              padding: "36px 32px",
+              minHeight: 400,
+              display: "flex", flexDirection: "column",
+            }}>
+              {/* Eyebrow */}
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                <span aria-hidden style={{ width: 32, height: 1, backgroundColor: "#c8a96e" }} />
+                <span style={{
+                  fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                  fontSize: 10,
+                  fontWeight: 700,
+                  letterSpacing: "0.32em",
+                  textTransform: "uppercase",
+                  color: "#c8a96e",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="kontaktyTitle" value={kontaktyTitle} tag="span" />
+                </span>
+              </div>
+
               {address && (
-                <p style={{ fontSize: "0.92rem", lineHeight: 1.7, marginBottom: 12, color: "rgba(255,255,255,0.85)", whiteSpace: "pre-line" }}>
+                <p style={{
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontStyle: "italic",
+                  fontSize: "1.02rem",
+                  lineHeight: 1.7,
+                  marginBottom: 22,
+                  color: "rgba(245,239,230,0.88)",
+                  whiteSpace: "pre-line",
+                }}>
                   <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
                 </p>
               )}
+
+              {/* Phone + email as icon rows */}
               {phone && (
-                <p style={{ fontSize: "0.92rem", lineHeight: 1.7, marginBottom: 8 }}>
-                  <a href={`tel:${phone.replace(/\s+/g, "")}`} style={{ color: "#c8a96e", textDecoration: "none" }}>
-                    <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-                  </a>
-                </p>
+                <a
+                  href={`tel:${phone.replace(/\s+/g, "")}`}
+                  className="b03-footer-contact-row"
+                  style={{
+                    display: "flex", alignItems: "center", gap: 12,
+                    color: "#c8a96e", textDecoration: "none",
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    fontSize: "0.95rem", fontWeight: 600,
+                    letterSpacing: "0.04em",
+                    paddingBlock: 8,
+                  }}
+                >
+                  <span aria-hidden style={{
+                    display: "inline-flex", alignItems: "center", justifyContent: "center",
+                    width: 28, height: 28, borderRadius: "50%",
+                    border: "1px solid rgba(200,169,110,0.4)",
+                    flexShrink: 0,
+                    transition: "background 0.3s, border-color 0.3s",
+                  }}>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.63 3.45 2 2 0 0 1 3.61 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                  </span>
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                </a>
               )}
               {email && (
-                <p style={{ fontSize: "0.92rem", lineHeight: 1.7, marginBottom: 16 }}>
-                  <a href={`mailto:${email}`} style={{ color: "rgba(255,255,255,0.85)", textDecoration: "none" }}>
-                    <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-                  </a>
-                </p>
+                <a
+                  href={`mailto:${email}`}
+                  className="b03-footer-contact-row"
+                  style={{
+                    display: "flex", alignItems: "center", gap: 12,
+                    color: "rgba(245,239,230,0.85)", textDecoration: "none",
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    fontSize: "0.95rem",
+                    paddingBlock: 8,
+                    marginBottom: 10,
+                  }}
+                >
+                  <span aria-hidden style={{
+                    display: "inline-flex", alignItems: "center", justifyContent: "center",
+                    width: 28, height: 28, borderRadius: "50%",
+                    border: "1px solid rgba(200,169,110,0.4)",
+                    flexShrink: 0,
+                    transition: "background 0.3s, border-color 0.3s",
+                  }}>
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                  </span>
+                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                </a>
               )}
+
+              {/* Hours */}
               {hours.length > 0 && (
-                <>
-                  <h4 className="uppercase" style={{ fontFamily: "var(--font-heading)", color: "#c8a96e", fontWeight: 700, fontSize: "0.95rem", letterSpacing: "0.14em", marginTop: 16, marginBottom: 10 }}>
-                    <GenericEditableText sectionId={sectionId} field="hoursTitle" value={hoursTitle} tag="span" />
-                  </h4>
-                  <div style={{ fontSize: "0.9rem", lineHeight: 1.7, color: "rgba(255,255,255,0.85)" }}>
-                    {hours.map((h, i) => (
-                      <p key={i} style={{ marginBottom: 4 }}>
-                        <strong style={{ color: "#fff", fontWeight: 500 }}>
-                          <GenericEditableText sectionId={sectionId} field={`hours.${i}.day`} value={h.day} tag="span" />
-                        </strong>
-                        {": "}
-                        <GenericEditableText sectionId={sectionId} field={`hours.${i}.value`} value={h.value} tag="span" />
-                      </p>
-                    ))}
+                <div style={{ marginTop: "auto", paddingTop: 24, borderTop: "1px solid rgba(200,169,110,0.18)" }}>
+                  <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
+                    <span aria-hidden style={{ width: 32, height: 1, backgroundColor: "#c8a96e" }} />
+                    <span style={{
+                      fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                      fontSize: 10,
+                      fontWeight: 700,
+                      letterSpacing: "0.32em",
+                      textTransform: "uppercase",
+                      color: "#c8a96e",
+                    }}>
+                      <GenericEditableText sectionId={sectionId} field="hoursTitle" value={hoursTitle} tag="span" />
+                    </span>
                   </div>
-                </>
-              )}
-              {socials.length > 0 && (
-                <div style={{ display: "flex", gap: 16, marginTop: 24, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.1)" }}>
-                  {socials.map((s, i) => (
-                    <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} style={{ color: "#c8a96e", textDecoration: "none", fontSize: 12, letterSpacing: "0.14em", textTransform: "uppercase" }}>
-                      <GenericEditableText sectionId={sectionId} field={`socials.${i}.label`} value={s.label ?? ""} tag="span" />
-                    </a>
-                  ))}
+                  <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                    {hours.map((h, i) => (
+                      <li key={i} className="b03-footer-hours-row" style={{
+                        display: "flex", justifyContent: "space-between", alignItems: "baseline",
+                        gap: 10, paddingBlock: 8,
+                        borderBottom: "1px dashed rgba(200,169,110,0.14)",
+                        position: "relative",
+                      }}>
+                        <span style={{
+                          fontFamily: "'Libre Baskerville', Georgia, serif",
+                          fontStyle: "italic",
+                          fontSize: "0.88rem",
+                          color: "rgba(245,239,230,0.72)",
+                        }}>
+                          <GenericEditableText sectionId={sectionId} field={`hours.${i}.day`} value={h.day} tag="span" />
+                        </span>
+                        <span style={{
+                          fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                          fontSize: "0.86rem", fontWeight: 600,
+                          color: "#c8a96e", whiteSpace: "nowrap",
+                        }}>
+                          <GenericEditableText sectionId={sectionId} field={`hours.${i}.value`} value={h.value} tag="span" />
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               )}
             </div>
           </div>
-          {legal && (
-            <div style={{ marginTop: 40, paddingTop: 24, borderTop: "1px solid rgba(255,255,255,0.08)", textAlign: "center", fontSize: "0.78rem", color: "rgba(255,255,255,0.4)", letterSpacing: "0.04em" }}>
-              <GenericEditableText sectionId={sectionId} field="legal" value={legal} tag="span" />
+
+          {/* Bottom row: legal + socials + Webero credit */}
+          <div
+            style={{
+              marginTop: "clamp(40px, 5vw, 60px)",
+              paddingTop: 28,
+              borderTop: "1px solid rgba(200,169,110,0.18)",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 24,
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <p style={{
+              fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+              fontSize: 12,
+              color: "rgba(245,239,230,0.45)",
+              margin: 0,
+            }}>
+              {legal ? (
+                <GenericEditableText sectionId={sectionId} field="legal" value={legal} tag="span" />
+              ) : (
+                <>© {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. <GenericEditableText sectionId={sectionId} field="legalText" value={String(content.legalText ?? "Všechna práva vyhrazena.")} tag="span" /></>
+              )}
+            </p>
+
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 26 }}>
+              {socials.length > 0 && (
+                <div style={{ display: "flex", gap: 14 }}>
+                  {socials.map((s, i) => (
+                    <a
+                      key={i}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={s.label}
+                      className="b03-footer-social"
+                      style={{
+                        color: "rgba(245,239,230,0.6)",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 34, height: 34,
+                        borderRadius: "50%",
+                        border: "1px solid rgba(200,169,110,0.28)",
+                        transition: "color 0.3s ease, border-color 0.3s ease, transform 0.3s ease, background 0.3s ease",
+                      }}
+                    >
+                      <SocialIcon name={s.label} />
+                    </a>
+                  ))}
+                </div>
+              )}
+              <WeberoCredit />
             </div>
-          )}
+          </div>
         </div>
+
         <style>{`
           .footer-bb03-grid { grid-template-columns: 1fr; }
           @media (min-width: 1024px) {
-            .footer-bb03-grid { grid-template-columns: 3fr 1fr; gap: 40px; }
+            .footer-bb03-grid { grid-template-columns: 2.2fr 1fr; gap: 40px; }
           }
         `}</style>
       </footer>
@@ -701,137 +1275,308 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
 
   // Footer — luxury barber 2-col (barber-02): logo+contact+social left, hours right
   if (variant === "barber-luxury") {
-    const logoUrl = String(content.logoUrl ?? "");
     const hours = (content.hours as Array<{ day: string; value: string }>) ?? [];
     const hoursTitle = String(content.hoursTitle ?? "Otevírací doba");
+    const tagline = String(content.tagline ?? "");
     const legal = String(content.legal ?? "");
+    // Fallback navigation links so 3-col grid always fills properly
+    const effectiveLinks = links.length > 0 ? links : [
+      { label: "Domů",    href: "/" },
+      { label: "O nás",   href: "/o-nas" },
+      { label: "Služby",  href: "#cenik" },
+      { label: "Galerie", href: "#galerie" },
+      { label: "Kontakt", href: "#kontakt" },
+    ];
+    // Dynamic grid columns based on which content columns are filled
+    const hasContact = !!(address || phone || email);
+    const hasNav     = effectiveLinks.length > 0;
+    const hasHours   = hours.length > 0;
+    const colCount   = [hasContact, hasNav, hasHours].filter(Boolean).length;
+    const gridCols   = colCount === 3 ? "1.05fr 0.9fr 0.95fr"
+                     : colCount === 2 ? "1fr 1fr"
+                     : "1fr";
+    const SocialIcon = ({ name }: { name?: string }) => {
+      const p = { width: 14, height: 14, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true as const };
+      const key = (name ?? "").toLowerCase();
+      switch (true) {
+        case key.includes("insta"):
+          return (<svg {...p}><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>);
+        case key.includes("facebook") || key.includes("fb"):
+          return (<svg {...p}><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>);
+        case key.includes("twitter") || key === "x":
+          return (<svg {...p}><path d="M4 4l7.5 9.5L4.5 20H7l6-6.2L17.5 20H20l-7.8-10L19.5 4H17l-5.4 5.6L7 4z"/></svg>);
+        case key.includes("tiktok"):
+          return (<svg {...p}><path d="M21 8.5a6.4 6.4 0 0 1-4-1.4V15a6 6 0 1 1-6-6h1v3.5h-1a2.5 2.5 0 1 0 2.5 2.5V3h3a4 4 0 0 0 4 4z"/></svg>);
+        case key.includes("youtube"):
+          return (<svg {...p}><path d="M22 8.6a3 3 0 0 0-2.1-2.1C17.8 6 12 6 12 6s-5.8 0-7.9.5A3 3 0 0 0 2 8.6C1.5 10.7 1.5 12 1.5 12s0 1.3.5 3.4a3 3 0 0 0 2.1 2.1C6.2 18 12 18 12 18s5.8 0 7.9-.5a3 3 0 0 0 2.1-2.1c.5-2.1.5-3.4.5-3.4s0-1.3-.5-3.4z"/><polygon points="10 9 15 12 10 15" fill="currentColor"/></svg>);
+        default:
+          return null;
+      }
+    };
     return (
       <footer
         style={{
-          backgroundColor: "#111111",
-          color: "rgba(255,255,255,0.65)",
-          padding: "60px clamp(20px,5vw,40px)",
+          backgroundColor: "#0f0a06",
+          color: "rgba(245,239,230,0.7)",
+          padding: "clamp(72px, 10vw, 110px) clamp(20px,5vw,40px) clamp(36px, 5vw, 56px)",
+          position: "relative",
+          overflow: "hidden",
         }}
+        data-template="barber-02"
       >
-        <div
-          data-footer-barber-luxury
-          className="grid"
-          style={{
-            maxWidth: 1100,
-            margin: "0 auto",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 60,
-            alignItems: "start",
-          }}
-        >
-          <div>
-            {logoUrl && (
-              <a
-                href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "#"}
-                style={{ display: "inline-block", marginBottom: 20 }}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={logoUrl}
-                  alt={siteName}
-                  style={{ width: 80, height: "auto", filter: "brightness(0.85)" }}
-                />
-              </a>
+        {/* Top decorative gold hairline */}
+        <div aria-hidden style={{
+          position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)",
+          width: 200, height: 1,
+          background: "linear-gradient(90deg, transparent, #d4a96e 50%, transparent)",
+        }} />
+
+        {/* Subtle ambient glow */}
+        <div aria-hidden style={{
+          position: "absolute", inset: 0, pointerEvents: "none", zIndex: 0,
+          background: "radial-gradient(ellipse at center top, rgba(212,169,110,0.04) 0%, transparent 60%)",
+        }} />
+
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 1180, margin: "0 auto" }}>
+          {/* Brand wordmark — large centered */}
+          <div style={{ textAlign: "center", marginBottom: "clamp(48px, 7vw, 72px)" }}>
+            <a
+              href={tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "#"}
+              className="b02-footer-brand"
+              style={{
+                display: "inline-block",
+                textDecoration: "none",
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontSize: "clamp(1.6rem, 3vw, 2.2rem)",
+                fontWeight: 700,
+                letterSpacing: "0.08em",
+                color: "#f5efe6",
+                transition: "color 0.3s ease",
+                marginBottom: 18,
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+            </a>
+            {/* Decorative rule */}
+            <div aria-hidden style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 14, marginTop: 14 }}>
+              <span style={{ width: 48, height: 1, backgroundColor: "rgba(212,169,110,0.55)" }} />
+              <span style={{ width: 5, height: 5, borderRadius: "50%", backgroundColor: "#d4a96e" }} />
+              <span style={{ width: 48, height: 1, backgroundColor: "rgba(212,169,110,0.55)" }} />
+            </div>
+            {tagline && (
+              <p style={{
+                fontFamily: "'Libre Baskerville', Georgia, serif",
+                fontStyle: "italic",
+                fontSize: "0.95rem",
+                color: "rgba(212,169,110,0.85)",
+                margin: "20px auto 0",
+                maxWidth: 540,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+              </p>
             )}
-            {address && (
-              <p
-                style={{
-                  fontSize: "0.9rem",
-                  lineHeight: 1.8,
-                  marginBottom: 8,
-                  color: "rgba(255,255,255,0.65)",
+          </div>
+
+          {/* Grid: kontakt | navigace | hodiny — adapts to filled columns */}
+          <div
+            data-footer-barber-luxury
+            className="grid"
+            style={{
+              gridTemplateColumns: gridCols,
+              gap: "clamp(40px, 5vw, 64px)",
+              alignItems: "start",
+            }}
+          >
+            {/* Contact column */}
+            <div>
+              <p className="b02-footer-eyebrow"><GenericEditableText sectionId={sectionId} field="contactTitle" value={String(content.contactTitle ?? "Kontakt")} tag="span" /></p>
+              {address && (
+                <p style={{
+                  fontFamily: "'Libre Baskerville', Georgia, serif",
+                  fontStyle: "italic",
+                  fontSize: "0.92rem",
+                  lineHeight: 1.7,
+                  marginBottom: 14,
+                  color: "rgba(245,239,230,0.78)",
                   whiteSpace: "pre-line",
-                }}
-              >
-                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
-              </p>
-            )}
-            {phone && (
-              <p style={{ fontSize: "0.9rem", lineHeight: 1.8, marginBottom: 8 }}>
-                <a href={`tel:${phone.replace(/\s+/g, "")}`} style={{ color: "rgba(255,255,255,0.65)", textDecoration: "none" }}>
-                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-                </a>
-              </p>
-            )}
-            {email && (
-              <p style={{ fontSize: "0.9rem", lineHeight: 1.8, marginBottom: 8 }}>
-                <a href={`mailto:${email}`} style={{ color: "rgba(255,255,255,0.65)", textDecoration: "none" }}>
-                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-                </a>
-              </p>
-            )}
-            {socials.length > 0 && (
-              <div style={{ display: "flex", gap: 16, marginTop: 20 }}>
-                {socials.map((s, i) => (
-                  <a
-                    key={i}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={s.label}
-                    style={{ color: "rgba(255,255,255,0.5)", textDecoration: "none", fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase" }}
-                  >
-                    <GenericEditableText sectionId={sectionId} field={`socials.${i}.label`} value={s.label ?? ""} tag="span" />
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                </p>
+              )}
+              {phone && (
+                <p style={{ fontSize: "0.95rem", lineHeight: 1.8, marginBottom: 6 }}>
+                  <a href={`tel:${phone.replace(/\s+/g, "")}`} className="b02-footer-link" style={{
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    color: "rgba(245,239,230,0.78)",
+                    textDecoration: "none",
+                    position: "relative",
+                    paddingBottom: 2,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
                   </a>
-                ))}
+                </p>
+              )}
+              {email && (
+                <p style={{ fontSize: "0.95rem", lineHeight: 1.8 }}>
+                  <a href={`mailto:${email}`} className="b02-footer-link" style={{
+                    fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                    color: "rgba(245,239,230,0.78)",
+                    textDecoration: "none",
+                    position: "relative",
+                    paddingBottom: 2,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                  </a>
+                </p>
+              )}
+            </div>
+
+            {/* Navigation links column */}
+            {hasNav && (
+              <div>
+                <p className="b02-footer-eyebrow"><GenericEditableText sectionId={sectionId} field="navTitle" value={String(content.navTitle ?? "Navigace")} tag="span" /></p>
+                <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                  {effectiveLinks.map((l, i) => (
+                    <li key={`${l.href}-${i}`} style={{ marginBottom: 12 }}>
+                      <a
+                        href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+                        className="b02-footer-link"
+                        style={{
+                          fontFamily: "'Libre Baskerville', Georgia, serif",
+                          fontStyle: "italic",
+                          fontSize: "0.95rem",
+                          color: "rgba(245,239,230,0.78)",
+                          textDecoration: "none",
+                          position: "relative",
+                          paddingBottom: 2,
+                          display: "inline-block",
+                        }}
+                      >
+                        {links.length > 0 ? (
+                          <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                        ) : (
+                          <span>{l.label}</span>
+                        )}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Hours column */}
+            {hours.length > 0 && (
+              <div>
+                <p className="b02-footer-eyebrow">
+                  <GenericEditableText sectionId={sectionId} field="hoursTitle" value={hoursTitle} tag="span" />
+                </p>
+                <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                  {hours.map((h, i) => (
+                    <li key={i} className="b02-footer-hours-row" style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "baseline",
+                      gap: 10,
+                      paddingBlock: 8,
+                      borderBottom: "1px dashed rgba(212,169,110,0.14)",
+                    }}>
+                      <span style={{
+                        fontFamily: "'Libre Baskerville', Georgia, serif",
+                        fontStyle: "italic",
+                        fontSize: "0.9rem",
+                        color: "rgba(245,239,230,0.72)",
+                      }}>
+                        <GenericEditableText sectionId={sectionId} field={`hours.${i}.day`} value={h.day} tag="span" />
+                      </span>
+                      <span style={{
+                        fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+                        fontSize: "0.88rem",
+                        fontWeight: 600,
+                        color: "#d4a96e",
+                        whiteSpace: "nowrap",
+                      }}>
+                        <GenericEditableText sectionId={sectionId} field={`hours.${i}.value`} value={h.value} tag="span" />
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>
-          {hours.length > 0 && (
-            <div>
-              <h3
-                style={{
-                  fontFamily: "var(--font-heading)",
-                  fontSize: "1rem",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.85)",
-                  marginBottom: 20,
-                  fontWeight: 400,
-                }}
-              >
-                <GenericEditableText sectionId={sectionId} field="hoursTitle" value={hoursTitle} tag="span" />
-              </h3>
-              <table style={{ borderCollapse: "collapse", fontSize: "0.9rem" }}>
-                <tbody>
-                  {hours.map((h, i) => (
-                    <tr key={i}>
-                      <td style={{ padding: "6px 20px 6px 0", color: "rgba(255,255,255,0.65)" }}>
-                        <GenericEditableText sectionId={sectionId} field={`hours.${i}.day`} value={h.day} tag="span" />
-                      </td>
-                      <td style={{ padding: "6px 20px 6px 0", color: "var(--color-accent, #d4a96e)" }}>
-                        <GenericEditableText sectionId={sectionId} field={`hours.${i}.value`} value={h.value} tag="span" />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-        {legal && (
+
+          {/* Bottom row: legal + socials + Webero credit */}
           <div
+            data-footer-barber-luxury-bottom
             style={{
-              maxWidth: 1100,
-              margin: "32px auto 0",
+              marginTop: "clamp(48px, 6vw, 72px)",
               paddingTop: 32,
-              borderTop: "1px solid rgba(255,255,255,0.08)",
-              fontSize: 12,
-              color: "rgba(255,255,255,0.4)",
-              textAlign: "center",
-              fontFamily: "var(--font-body)",
+              borderTop: "1px solid rgba(212,169,110,0.18)",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 24,
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
           >
-            <GenericEditableText sectionId={sectionId} field="legal" value={legal} tag="span" />
+            <p style={{
+              fontFamily: "'Source Sans Pro', system-ui, sans-serif",
+              fontSize: 12,
+              color: "rgba(245,239,230,0.45)",
+              margin: 0,
+            }}>
+              {legal ? (
+                <GenericEditableText sectionId={sectionId} field="legal" value={legal} tag="span" />
+              ) : (
+                <>© {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. <GenericEditableText sectionId={sectionId} field="legalText" value={String(content.legalText ?? "Všechna práva vyhrazena.")} tag="span" /></>
+              )}
+            </p>
+
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 26 }}>
+              {socials.length > 0 && (
+                <div style={{ display: "flex", gap: 16 }}>
+                  {socials.map((s, i) => (
+                    <a
+                      key={i}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={s.label}
+                      className="b02-footer-social"
+                      style={{
+                        color: "rgba(245,239,230,0.6)",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: 32, height: 32,
+                        borderRadius: "50%",
+                        border: "1px solid rgba(212,169,110,0.22)",
+                        transition: "color 0.3s ease, border-color 0.3s ease, transform 0.3s ease",
+                      }}
+                    >
+                      <SocialIcon name={s.label} />
+                    </a>
+                  ))}
+                </div>
+              )}
+              <WeberoCredit />
+            </div>
           </div>
-        )}
+        </div>
+
         <style>{`
-          @media(max-width:900px){[data-footer-barber-luxury]{grid-template-columns:1fr !important;gap:40px !important;}}
+          [data-template="barber-02"] .b02-footer-eyebrow {
+            font-family: 'Source Sans Pro', system-ui, sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: #d4a96e;
+            margin: 0 0 20px;
+          }
+          @media(max-width:900px){
+            [data-footer-barber-luxury]{grid-template-columns:1fr !important;gap:36px !important;}
+            [data-footer-barber-luxury-bottom]{justify-content:center !important;text-align:center;}
+          }
         `}</style>
       </footer>
     );
@@ -841,7 +1586,8 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
     return (
       <footer
         className="py-16 px-4"
-        style={{ backgroundColor: "#0A0A0A", borderTop: "1px solid var(--color-border, #2A2A2A)" }}
+        style={{ backgroundColor: "#080808", borderTop: "1px solid rgba(201,168,76,0.18)" }}
+        data-template="barber-01"
       >
         <div className="max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
@@ -861,14 +1607,14 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
 
             {links.length > 0 && (
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "var(--color-text-muted, #A0A0A0)" }}>Navigace</p>
+                <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "var(--color-text-muted, #A0A0A0)" }}><GenericEditableText sectionId={sectionId} field="navTitle" value={String(content.navTitle ?? "Navigace")} tag="span" /></p>
                 <ul className="space-y-3">
                   {links.map((l, i) => (
                     <li key={l.href}>
                       <a
                         href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
-                        className="text-sm transition-opacity hover:opacity-100"
-                        style={{ color: "var(--color-text-muted, #A0A0A0)", opacity: 0.8 }}
+                        className="bc-footer-link text-sm"
+                        style={{ color: "rgba(245,245,245,0.7)", textDecoration: "none", position: "relative", display: "inline-block", paddingBottom: 2 }}
                       >
                         <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                       </a>
@@ -880,7 +1626,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
 
             {(phone || email || address) && (
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "var(--color-text-muted, #A0A0A0)" }}>Kontakt</p>
+                <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "var(--color-text-muted, #A0A0A0)" }}><GenericEditableText sectionId={sectionId} field="contactTitle" value={String(content.contactTitle ?? "Kontakt")} tag="span" /></p>
                 <ul className="space-y-3 text-sm" style={{ color: "var(--color-text-muted, #A0A0A0)" }}>
                   {phone && (
                     <li><a href={`tel:${phone}`}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a></li>
@@ -896,21 +1642,25 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
             )}
           </div>
 
-          <div className="pt-6 border-t flex flex-col md:flex-row md:items-center md:justify-between gap-2" style={{ borderColor: "var(--color-border, #2A2A2A)" }}>
-            <p className="text-xs" style={{ color: "var(--color-text-muted, #A0A0A0)" }}>
-              © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. Všechna práva vyhrazena.
+          <div className="pt-6 border-t flex flex-col md:flex-row md:items-center md:justify-between gap-4" style={{ borderColor: "rgba(201,168,76,0.18)" }}>
+            <p className="text-xs" style={{ color: "rgba(245,245,245,0.5)" }}>
+              © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. <GenericEditableText sectionId={sectionId} field="legalText" value={String(content.legalText ?? "Všechna práva vyhrazena.")} tag="span" />
             </p>
-            {socials.length > 0 && (
-              <ul className="flex gap-5">
-                {socials.map((s, i) => (
-                  <li key={i}>
-                    <a href={s.href} target="_blank" rel="noopener noreferrer" className="text-xs hover:opacity-80 transition-opacity" style={{ color: "var(--color-text-muted, #A0A0A0)" }}>
-                      <GenericEditableText sectionId={sectionId} field={`socials.${i}.label`} value={s.label ?? ""} tag="span" />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
+            <div className="flex flex-col-reverse sm:flex-row sm:items-center sm:gap-6 gap-3">
+              {socials.length > 0 && (
+                <ul className="flex gap-5">
+                  {socials.map((s, i) => (
+                    <li key={i}>
+                      <a href={s.href} target="_blank" rel="noopener noreferrer" className="bc-footer-link text-xs" style={{ color: "rgba(245,245,245,0.6)", textDecoration: "none", position: "relative", paddingBottom: 2 }}>
+                        <GenericEditableText sectionId={sectionId} field={`socials.${i}.label`} value={s.label ?? ""} tag="span" />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {/* Webero credit — always visible bottom-right */}
+              <WeberoCredit />
+            </div>
           </div>
         </div>
       </footer>
@@ -1021,7 +1771,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
   if (variant === "ddd-01-footer")     return <FooterDdd01     content={content} sectionId={sectionId} />;
   if (variant === "chalet-01-footer")  return <FooterChalet01  content={content} sectionId={sectionId} />;
   if (variant === "photo-01-footer")   return <FooterPhoto01   content={content} sectionId={sectionId} />;
-  if (variant === "events-01-footer")  return <FooterEvents01  content={content} sectionId={sectionId} />;
+  if (variant === "events-01-footer")  return <FooterEvents01  content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "dj-01-footer")      return <FooterDj01      content={content} sectionId={sectionId} />;
   if (variant === "restaurant-04-footer") return <FooterRestaurant04 content={content} sectionId={sectionId} />;
   if (variant === "video-01-footer")      return <FooterVideo01      content={content} sectionId={sectionId} isAdmin={isAdmin} />;
@@ -1113,7 +1863,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
         {/* Copyright řádek */}
         <div style={{ borderTop: "1px solid #e8e4df", padding: "10px 0", textAlign: "center" }}>
           <p style={{ fontSize: 11, color: "#999", margin: 0 }}>
-            © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. Všechna práva vyhrazena.
+            © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. <GenericEditableText sectionId={sectionId} field="legalText" value={String(content.legalText ?? "Všechna práva vyhrazena.")} tag="span" />
           </p>
         </div>
       </footer>
@@ -1146,7 +1896,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
 
           {links.length > 0 && (
             <div>
-              <p className="font-semibold text-sm mb-3 opacity-60 uppercase tracking-wide">Navigace</p>
+              <p className="font-semibold text-sm mb-3 opacity-60 uppercase tracking-wide"><GenericEditableText sectionId={sectionId} field="navTitle" value={String(content.navTitle ?? "Navigace")} tag="span" /></p>
               <ul className="space-y-2">
                 {links.map((l) => (
                   <li key={l.href}>
@@ -1161,7 +1911,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
 
           {(phone || email || address) && (
             <div>
-              <p className="font-semibold text-sm mb-3 opacity-60 uppercase tracking-wide">Kontakt</p>
+              <p className="font-semibold text-sm mb-3 opacity-60 uppercase tracking-wide"><GenericEditableText sectionId={sectionId} field="contactTitle" value={String(content.contactTitle ?? "Kontakt")} tag="span" /></p>
               <ul className="space-y-2 text-sm opacity-80">
                 {phone && <li><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></li>}
                 {email && <li><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></li>}
@@ -1172,7 +1922,7 @@ export function FooterSection({ content, variant, isAdmin, tenantSlug, sectionId
         </div>
 
         <div className="border-t border-white/10 pt-6 text-center text-xs opacity-50">
-          © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. Všechna práva vyhrazena.
+          © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. <GenericEditableText sectionId={sectionId} field="legalText" value={String(content.legalText ?? "Všechna práva vyhrazena.")} tag="span" />
         </div>
       </div>
     </footer>
@@ -2765,208 +3515,78 @@ function FooterNails03({ content, sectionId }: { content: Record<string, unknown
 }
 
 // ── clinic-02-footer ───────────────────────────────────────────────────────
-// Surface bg, navy text, navbar-style wordmark logo, 3-col layout
+// Navy bg, cream text, navbar-style wordmark, 4-col layout with amber accents.
 function FooterClinic02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const NAVY   = "#0F203E";
-  const AMBER  = "#ffa60b";
-  const MUTED  = "#606266";
-  const FONT_H = "'Poppins', Arial, sans-serif";
-  const FONT_B = "'Open Sans', Arial, sans-serif";
+  const NAVY    = "#0F203E";
+  const NAVY_D  = "#0a172e";
+  const AMBER   = "#ffa60b";
+  const CREAM   = "#fffaf2";
+  const MUTED   = "rgba(255,250,242,0.55)";
+  const BORDER  = "rgba(255,250,242,0.10)";
+  const FONT_H  = "'Poppins', Arial, sans-serif";
+  const FONT_B  = "'Open Sans', Arial, sans-serif";
 
-  const tagline   = String(content.tagline   ?? "Klinika estetické dermatologie");
-  const address   = String(content.address   ?? "Ukázková 123, 110 00 Praha 1");
-  const phone     = String(content.phone     ?? "+420 704 123 456");
-  const email     = String(content.email     ?? "info@demo.cz");
-  const facebook  = String(content.facebook  ?? "#");
-  const instagram = String(content.instagram ?? "#");
-  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} Premium Clinic. Všechna práva vyhrazena.`);
-  const hours     = Array.isArray(content.hours)
+  const siteName    = String((content as Record<string,unknown>).siteName    ?? "AURÉLIE");
+  const siteTagline = String((content as Record<string,unknown>).siteTagline ?? "CLINIC");
+  const tagline     = String(content.tagline   ?? "Klinika estetické dermatologie & medicínské kosmetiky v centru Prahy.");
+  const address     = String(content.address   ?? "Vinohradská 2828/151, 130 00 Praha 3");
+  const phone       = String(content.phone     ?? "+420 234 567 890");
+  const email       = String(content.email     ?? "info@aurelie-clinic.cz");
+  const facebook    = String(content.facebook  ?? "https://facebook.com/aurelie.clinic");
+  const instagram   = String(content.instagram ?? "https://instagram.com/aurelie.clinic");
+  const copyright   = String(content.copyright ?? `© ${new Date().getFullYear()} Aurélie Clinic s.r.o. Všechna práva vyhrazena.`);
+  const hours       = Array.isArray(content.hours)
     ? (content.hours as Array<{ days?: string; time?: string }>)
     : [];
-  const links     = Array.isArray(content.links)
+  const links       = Array.isArray(content.links)
     ? (content.links as Array<{ label?: string; href?: string }>)
     : [];
 
   return (
-    <footer style={{ backgroundColor: "#f7f6f5", color: NAVY, fontFamily: FONT_B }}>
-      {/* Main 3-col */}
-      <div style={{
-        maxWidth: 1140, margin: "0 auto",
-        padding: "clamp(56px,7vw,80px) clamp(24px,5vw,60px) clamp(40px,5vw,56px)",
+    <footer data-template="clinic-02" style={{
+      background: `linear-gradient(180deg, ${NAVY} 0%, ${NAVY_D} 100%)`,
+      color: CREAM, fontFamily: FONT_B,
+      borderTop: `2px solid ${AMBER}`,
+    }}>
+      {/* Main grid */}
+      <div className="c02-footer-grid" style={{
+        maxWidth: 1280, margin: "0 auto",
+        padding: "clamp(64px,8vw,96px) clamp(24px,5vw,60px) clamp(40px,5vw,56px)",
         display: "grid",
-        gridTemplateColumns: "1.2fr 1fr 1fr",
-        gap: "clamp(32px,5vw,60px)",
+        gridTemplateColumns: "1.4fr 1fr 1fr 1fr",
+        gap: "clamp(32px,4vw,56px)",
       }}>
-        {/* Col 1: navbar-style wordmark + tagline + socials */}
+        {/* Col 1: wordmark + tagline + socials */}
         <div>
-          {/* Same wordmark as navbar */}
-          <div style={{ marginBottom: 20, lineHeight: 1 }}>
-            <div style={{ fontFamily: FONT_H, fontSize: "clamp(1.5rem,2.5vw,2rem)", fontWeight: 700, color: NAVY, letterSpacing: "0.04em" }}>
-              PREMIUM
-            </div>
-            <div style={{ fontFamily: FONT_H, fontSize: "0.65rem", fontWeight: 400, color: NAVY, letterSpacing: "0.55em", marginTop: 2 }}>
-              CLINIC
-            </div>
-          </div>
-          <p style={{ fontSize: "0.85rem", color: MUTED, lineHeight: 1.7, margin: "0 0 24px", maxWidth: 240 }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </p>
-          {/* Social icons */}
-          <div style={{ display: "flex", gap: 10 }}>
-            {[
-              { href: instagram, label: "Instagram", d: "M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z M17.5 6.5h.01 M7.5 2h9a5.5 5.5 0 0 1 5.5 5.5v9a5.5 5.5 0 0 1-5.5 5.5h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2z" },
-              { href: facebook,  label: "Facebook",  d: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
-            ].map(({ href, label, d }) => (
-              <a key={label} href={href} aria-label={label} style={{
-                width: 34, height: 34, borderRadius: "50%",
-                border: `1px solid rgba(15,32,62,0.2)`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                color: MUTED, textDecoration: "none", transition: "border-color 0.2s, color 0.2s",
-              }}
-              onMouseEnter={e => { const el = e.currentTarget; el.style.borderColor = AMBER; el.style.color = AMBER; }}
-              onMouseLeave={e => { const el = e.currentTarget; el.style.borderColor = "rgba(15,32,62,0.2)"; el.style.color = MUTED; }}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d={d} />
-                </svg>
-              </a>
-            ))}
-          </div>
-        </div>
-
-        {/* Col 2: contact */}
-        <div>
-          <div style={{ fontFamily: FONT_H, fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: NAVY, marginBottom: 20 }}>
-            Kontakt
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <div style={{ fontSize: "0.875rem", color: MUTED, lineHeight: 1.6 }}>
-              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
-            </div>
-            <a href={`tel:${phone.replace(/\s/g,"")}`} style={{ fontSize: "0.875rem", color: MUTED, textDecoration: "none" }}
-              onMouseEnter={e => (e.currentTarget.style.color = NAVY)}
-              onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-            >
-              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-            </a>
-            <a href={`mailto:${email}`} style={{ fontSize: "0.875rem", color: MUTED, textDecoration: "none" }}
-              onMouseEnter={e => (e.currentTarget.style.color = NAVY)}
-              onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-            >
-              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-            </a>
-          </div>
-        </div>
-
-        {/* Col 3: hours + links */}
-        <div>
-          <div style={{ fontFamily: FONT_H, fontSize: "0.75rem", fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", color: NAVY, marginBottom: 20 }}>
-            Provozní doba
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 28 }}>
-            {hours.map((h, i) => (
-              <div key={i} style={{ display: "flex", justifyContent: "space-between", fontSize: "0.85rem" }}>
-                <span style={{ color: MUTED }}>{h.days}</span>
-                <span style={{ color: NAVY, fontWeight: 600 }}>{h.time}</span>
-              </div>
-            ))}
-          </div>
-          {links.length > 0 && (
-            <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-              {links.map((l, i) => (
-                <a key={i} href={l.href ?? "#"} style={{ fontSize: "0.8rem", color: MUTED, textDecoration: "none" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = AMBER)}
-                  onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
-                >
-                  {l.label}
-                </a>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Copyright bar */}
-      <div style={{
-        borderTop: "1px solid rgba(15,32,62,0.1)",
-        padding: "20px clamp(24px,5vw,60px)",
-        maxWidth: 1140, margin: "0 auto",
-        display: "flex", alignItems: "center", justifyContent: "center",
-      }}>
-        <span style={{ fontSize: "0.78rem", color: MUTED }}>
-          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
-        </span>
-      </div>
-
-      <style>{`
-        @media (max-width: 800px) {
-          footer > div:first-child { grid-template-columns: 1fr 1fr !important; }
-        }
-        @media (max-width: 500px) {
-          footer > div:first-child { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
-    </footer>
-  );
-}
-
-// ── clinic-03-footer ───────────────────────────────────────────────────────
-// Dark #2D2D2D bg, 3-col: logo+tagline+social / navigace / kontakt
-// Gold top linka, bílý copyright bar dole
-// Reference: yesvisage.cz — footer
-// ─────────────────────────────────────────────────────────────────────────────
-function FooterClinic03({ content, sectionId }: { content: Record<string,unknown>; sectionId: number }) {
-  const GOLD  = "#97855F";
-  const WHITE = "#ffffff";
-  const BG    = "#2D2D2D";
-  const MUTED = "rgba(255,255,255,0.5)";
-  const FONT  = "'DM Sans', Arial, sans-serif";
-  const SERIF = "'Playfair Display', Georgia, serif";
-
-  const siteName  = String(content.siteName  ?? "Diamond Look");
-  const tagline   = String(content.tagline   ?? "Přední klinika estetické medicíny v Praze");
-  const address   = String(content.address   ?? "Ukázková 123, 110 00 Praha 1");
-  const phone     = String(content.phone     ?? "+420 704 123 456");
-  const email     = String(content.email     ?? "email@demo.cz");
-  const hours     = String(content.hours     ?? "Po–Pá 9:00–18:00, So 9:00–14:00");
-  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} Demo Yes Visage. Všechna práva vyhrazena.`);
-  const instagram = String(content.instagram ?? "https://instagram.com/demo");
-  const facebook  = String(content.facebook  ?? "https://facebook.com/demo");
-  const logoUrl   = content.logoUrl ? String(content.logoUrl) : null;
-
-  type NavLink = { label: string; href: string };
-  const links = (content.links as NavLink[]) ?? [];
-
-  return (
-    <footer data-variant="clinic-03-footer" style={{ backgroundColor: BG, fontFamily: FONT, borderTop: `2px solid ${GOLD}` }}>
-      <div className="c03-footer-grid" style={{ maxWidth: 1280, margin: "0 auto", padding: "60px clamp(20px, 4vw, 60px) 44px", display: "grid", gridTemplateColumns: "1.6fr 1fr 1.3fr", gap: 48 }}>
-
-        {/* Col 1: logo + tagline + social */}
-        <div>
-          {logoUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 44, width: "auto", marginBottom: 20, filter: "brightness(0) invert(1)" }} />
-          ) : (
-            <div style={{ fontFamily: SERIF, fontSize: "1.3rem", fontWeight: 400, color: WHITE, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: 20 }}>
+          <a href="/" style={{ textDecoration: "none", display: "block", marginBottom: 22, lineHeight: 1 }}>
+            <div style={{ fontFamily: FONT_H, fontSize: "clamp(1.7rem,2.6vw,2.2rem)", fontWeight: 700, color: CREAM, letterSpacing: "0.06em" }}>
               <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
             </div>
-          )}
-          <p style={{ fontFamily: FONT, fontSize: "0.85rem", color: MUTED, lineHeight: 1.7, margin: "0 0 24px", maxWidth: 280 }}>
+            <div style={{ fontFamily: FONT_H, fontSize: "0.7rem", fontWeight: 400, color: AMBER, letterSpacing: "0.55em", marginTop: 6, textTransform: "uppercase" }}>
+              <GenericEditableText sectionId={sectionId} field="siteTagline" value={siteTagline} tag="span" />
+            </div>
+          </a>
+          <p style={{ fontSize: "0.88rem", color: MUTED, lineHeight: 1.75, margin: "0 0 28px", maxWidth: 320 }}>
             <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
           </p>
-
-          {/* Social icons */}
-          <div style={{ display: "flex", gap: 14 }}>
+          <div style={{ display: "flex", gap: 10 }}>
             {[
-              { href: instagram, label: "Instagram", icon: <><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></> },
-              { href: facebook,  label: "Facebook",  icon: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/> },
-            ].map(({ href, label, icon }) => (
+              { href: instagram, label: "Instagram", inner: <><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></> },
+              { href: facebook,  label: "Facebook",  inner: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /> },
+            ].map(({ href, label, inner }) => (
               <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label}
-                style={{ width: 36, height: 36, border: `1px solid rgba(255,255,255,0.15)`, display: "flex", alignItems: "center", justifyContent: "center", color: MUTED, transition: "all 0.18s" }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = GOLD; e.currentTarget.style.color = GOLD; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.15)"; e.currentTarget.style.color = MUTED; }}
+                className="c02-footer-social"
+                style={{
+                  width: 38, height: 38, borderRadius: "50%",
+                  border: `1px solid ${BORDER}`,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  color: CREAM, textDecoration: "none",
+                  transition: "border-color .2s, color .2s, background-color .2s",
+                }}
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{icon}</svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  {inner}
+                </svg>
               </a>
             ))}
           </div>
@@ -2974,15 +3594,22 @@ function FooterClinic03({ content, sectionId }: { content: Record<string,unknown
 
         {/* Col 2: navigace */}
         <div>
-          <div style={{ fontFamily: FONT, fontSize: "0.68rem", fontWeight: 400, color: GOLD, letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: 20 }}>Navigace</div>
+          <div style={{ fontFamily: FONT_B, fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: AMBER, marginBottom: 22, display: "inline-flex", alignItems: "center", gap: 10 }}>
+            <span style={{ width: 18, height: 1, backgroundColor: AMBER }} />
+            Navigace
+          </div>
           <nav style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {links.map((l, i) => (
-              <a key={i} href={l.href}
-                style={{ fontFamily: FONT, fontSize: "0.85rem", color: MUTED, textDecoration: "none", transition: "color 0.18s", letterSpacing: "0.02em" }}
-                onMouseEnter={e => { e.currentTarget.style.color = WHITE; }}
-                onMouseLeave={e => { e.currentTarget.style.color = MUTED; }}
+              <a key={i} href={l.href ?? "#"}
+                className="c02-footer-link"
+                style={{
+                  fontFamily: FONT_B, fontSize: "0.88rem", color: CREAM,
+                  textDecoration: "none", opacity: 0.82,
+                  transition: "color .2s, opacity .2s, transform .2s",
+                  display: "inline-flex", alignItems: "center", gap: 8, width: "fit-content",
+                }}
               >
-                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label ?? ""} tag="span" />
               </a>
             ))}
           </nav>
@@ -2990,21 +3617,40 @@ function FooterClinic03({ content, sectionId }: { content: Record<string,unknown
 
         {/* Col 3: kontakt */}
         <div>
-          <div style={{ fontFamily: FONT, fontSize: "0.68rem", fontWeight: 400, color: GOLD, letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: 20 }}>Kontakt</div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {[
-              { val: address, field: "address", icon: "M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0zM12 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" },
-              { val: phone,   field: "phone",   icon: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.59 3.45 2 2 0 0 1 3.56 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" },
-              { val: email,   field: "email",   icon: "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zM22 6l-10 7L2 6" },
-              { val: hours,   field: "hours",   icon: "M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zM12 6v6l4 2" },
-            ].map(({ val, field, icon }, i) => (
-              <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 3 }}>
-                  <path d={icon}/>
-                </svg>
-                <span style={{ fontFamily: FONT, fontSize: "0.85rem", color: MUTED, lineHeight: 1.55 }}>
-                  <GenericEditableText sectionId={sectionId} field={field} value={val} tag="span" />
-                </span>
+          <div style={{ fontFamily: FONT_B, fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: AMBER, marginBottom: 22, display: "inline-flex", alignItems: "center", gap: 10 }}>
+            <span style={{ width: 18, height: 1, backgroundColor: AMBER }} />
+            Kontakt
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <div style={{ fontSize: "0.86rem", color: MUTED, lineHeight: 1.65 }}>
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+            </div>
+            <a href={`tel:${phone.replace(/\s/g, "")}`}
+              className="c02-footer-link"
+              style={{ fontSize: "0.92rem", fontWeight: 600, color: CREAM, textDecoration: "none", transition: "color .2s" }}
+            >
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+            <a href={`mailto:${email}`}
+              className="c02-footer-link"
+              style={{ fontSize: "0.86rem", color: MUTED, textDecoration: "none", transition: "color .2s" }}
+            >
+              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+            </a>
+          </div>
+        </div>
+
+        {/* Col 4: hodiny */}
+        <div>
+          <div style={{ fontFamily: FONT_B, fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: AMBER, marginBottom: 22, display: "inline-flex", alignItems: "center", gap: 10 }}>
+            <span style={{ width: 18, height: 1, backgroundColor: AMBER }} />
+            Otevřeno
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            {hours.map((h, i) => (
+              <div key={i} style={{ display: "flex", justifyContent: "space-between", gap: 12, fontSize: "0.86rem" }}>
+                <span style={{ color: MUTED }}>{h.days}</span>
+                <span style={{ color: CREAM, fontWeight: 600 }}>{h.time}</span>
               </div>
             ))}
           </div>
@@ -3012,113 +3658,329 @@ function FooterClinic03({ content, sectionId }: { content: Record<string,unknown
       </div>
 
       {/* Copyright bar */}
-      <div style={{ borderTop: `1px solid rgba(255,255,255,0.08)`, padding: "16px clamp(20px, 4vw, 60px)", display: "flex", justifyContent: "center" }}>
-        <span style={{ fontFamily: FONT, fontSize: "0.75rem", color: MUTED }}>
-          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
-        </span>
+      <div style={{ borderTop: `1px solid ${BORDER}` }}>
+        <div style={{
+          maxWidth: 1280, margin: "0 auto",
+          padding: "22px clamp(24px,5vw,60px)",
+          display: "flex", alignItems: "center", justifyContent: "space-between",
+          gap: 16, flexWrap: "wrap",
+        }}>
+          <span style={{ fontSize: "0.78rem", color: MUTED }}>
+            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+          </span>
+          <WeberoCredit />
+        </div>
       </div>
 
       <style>{`
-        @media (max-width: 800px) {
-          .c03-footer-grid { grid-template-columns: 1fr 1fr !important; }
+        .c02-footer-social:hover {
+          color: ${NAVY} !important;
+          background-color: ${AMBER};
+          border-color: ${AMBER} !important;
         }
-        @media (max-width: 500px) {
-          .c03-footer-grid { grid-template-columns: 1fr !important; }
+        .c02-footer-link:hover {
+          color: ${AMBER} !important;
+          opacity: 1 !important;
+        }
+        @media (max-width: 900px) {
+          footer .c02-footer-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 520px) {
+          footer .c02-footer-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </footer>
   );
 }
 
-// ── fitness-01-footer ─────────────────────────────────────────────────────────
-// Cream 3-col — 1:1 lindasikorova.cz
-// Cream #FFF9F7 bg, border-top #E5D9D1
-// Col1: wordmark + tagline + social; Col2: nav links; Col3: contact
-// ─────────────────────────────────────────────────────────────────────────────
-function FooterFitness01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const siteName  = String(content.siteName  ?? "Demo Linda Studio");
-  const tagline   = String(content.tagline   ?? "Fyzioterapeutka & Osobní trenérka");
-  const phone     = String(content.phone     ?? "704 123 456");
-  const email     = String(content.email     ?? "email@demo.cz");
-  const address   = String(content.address   ?? "Ukázková 123, 110 00 Praha 1");
-  const fbUrl     = String(content.facebookUrl  ?? "https://facebook.com/demo");
-  const igUrl     = String(content.instagramUrl ?? "https://instagram.com/demo");
-  const copyright = String(content.copyright    ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
-  const links     = (content.links as Array<{ label: string; href: string }>) ?? [];
+// ── clinic-03-footer ───────────────────────────────────────────────────────
+function FooterClinic03({ content, sectionId }: { content: Record<string,unknown>; sectionId: number }) {
+  const GOLD  = "#97855F";
+  const GOLD_H = "#82734f";
+  const WHITE = "#ffffff";
+  const BG    = "#1A1A1A";
+  const MUTED = "rgba(255,255,255,0.45)";
+  const LIGHT = "rgba(255,255,255,0.7)";
+  const SANS  = "'DM Sans', Arial, sans-serif";
+  const SERIF = "'Cormorant Garamond', Georgia, serif";
 
-  const BG     = "#FFF9F7";
-  const BORDER = "#E5D9D1";
-  const ACCENT = "#AD8A72";
-  const TEXT   = "#54595F";
-  const DARK   = "#000000";
-  const FONT   = "'Inter', sans-serif";
+  const siteName  = String(content.siteName  ?? "Diamond Look");
+  const tagline   = String(content.tagline   ?? "Klinika estetické medicíny s více než 15letou tradicí. Prémiová péče v srdci Prahy.");
+  const address   = String(content.address   ?? "Pařížská 28, 110 00 Praha 1");
+  const phone     = String(content.phone     ?? "+420 222 888 999");
+  const email     = String(content.email     ?? "recepce@diamondlook.cz");
+  const hours     = String(content.hours     ?? "Po–Pá 8:00–19:00, So 9:00–14:00");
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} Diamond Look s.r.o. Všechna práva vyhrazena.`);
+  const instagram = String(content.instagram ?? "https://instagram.com/diamondlook");
+  const facebook  = String(content.facebook  ?? "https://facebook.com/diamondlook");
+
+  type NavLink = { label: string; href: string };
+  const links = (content.links as NavLink[]) ?? [];
 
   return (
-    <footer style={{ backgroundColor: BG, borderTop: `1px solid ${BORDER}`, fontFamily: FONT }} data-template="fitness-01">
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "60px 48px 40px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 48 }} className="f01-footer-grid">
-          {/* Col1 */}
-          <div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: DARK, marginBottom: 4 }}>
-              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-            </div>
-            <div style={{ fontSize: 11, fontWeight: 600, letterSpacing: "2px", color: ACCENT, textTransform: "uppercase", marginBottom: 20 }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </div>
-            <div style={{ display: "flex", gap: 12 }}>
-              {fbUrl && (
-                <a href={fbUrl} style={{ color: ACCENT, lineHeight: 1 }} aria-label="Facebook">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                  </svg>
-                </a>
-              )}
-              {igUrl && (
-                <a href={igUrl} style={{ color: ACCENT, lineHeight: 1 }} aria-label="Instagram">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
-                  </svg>
-                </a>
-              )}
-            </div>
+    <footer data-template="clinic-03" style={{ backgroundColor: BG, fontFamily: SANS }}>
+      {/* Gold top line */}
+      <div style={{ height: 2, background: `linear-gradient(90deg, transparent, ${GOLD}, transparent)` }} />
+
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(48px, 6vw, 80px) clamp(20px, 4vw, 56px) 40px" }}>
+
+        {/* Top: diamond monogram + siteName */}
+        <div style={{ textAlign: "center", marginBottom: 48 }}>
+          <svg width="28" height="28" viewBox="0 0 30 30" aria-hidden style={{ marginBottom: 16 }}>
+            <path d="M15 2 L28 15 L15 28 L2 15 Z" fill="none" stroke={GOLD} strokeWidth="1" />
+            <path d="M15 9 L21 15 L15 21 L9 15 Z" fill={GOLD} opacity="0.35" />
+          </svg>
+          <div style={{ fontFamily: SERIF, fontSize: "clamp(1.2rem, 2vw, 1.5rem)", fontWeight: 300, fontStyle: "italic", color: WHITE, letterSpacing: "0.08em", marginBottom: 10 }}>
+            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
           </div>
-          {/* Col2 */}
-          <nav>
-            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "1.5px", color: DARK, textTransform: "uppercase", marginBottom: 16 }}>Menu</div>
-            <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-              {links.map((l, i) => (
-                <li key={i}>
-                  <a href={l.href} style={{ color: TEXT, fontSize: 14, textDecoration: "none", fontWeight: 400 }}
-                    onMouseEnter={e => e.currentTarget.style.color = ACCENT}
-                    onMouseLeave={e => e.currentTarget.style.color = TEXT}>
-                    <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          {/* Col3 */}
-          <div>
-            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "1.5px", color: DARK, textTransform: "uppercase", marginBottom: 16 }}>Kontakt</div>
-            <div style={{ fontSize: 14, color: TEXT, lineHeight: 1.8 }}>
-              {phone && <div><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></div>}
-              {email && <div><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></div>}
-              {address && <div style={{ marginTop: 8 }}><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></div>}
-            </div>
-          </div>
+          <div style={{ width: 40, height: 1, backgroundColor: `${GOLD}40`, margin: "0 auto 16px" }} />
+          <p style={{ fontFamily: SANS, fontSize: "0.8rem", color: MUTED, lineHeight: 1.7, margin: "0 auto", maxWidth: 400 }}>
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+          </p>
         </div>
-        <div style={{ borderTop: `1px solid ${BORDER}`, marginTop: 40, paddingTop: 24, fontSize: 13, color: TEXT, textAlign: "center" }}>
-          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+
+        {/* 3-col grid */}
+        <div className="c03-footer-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "clamp(32px, 4vw, 56px)", borderTop: `1px solid rgba(255,255,255,0.06)`, paddingTop: 40 }}>
+
+          {/* Col 1: Navigace */}
+          <div>
+            <div style={{ fontSize: "0.6rem", fontWeight: 500, color: GOLD, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 20 }}>Navigace</div>
+            <nav style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {links.map((l, i) => (
+                <a key={i} href={l.href} className="c03-footer-link"
+                  style={{ fontFamily: SANS, fontSize: "0.82rem", color: MUTED, textDecoration: "none", transition: "color 0.2s ease" }}
+                >
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                </a>
+              ))}
+            </nav>
+          </div>
+
+          {/* Col 2: Kontakt */}
+          <div>
+            <div style={{ fontSize: "0.6rem", fontWeight: 500, color: GOLD, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 20 }}>Kontakt</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+              {[
+                { val: address, field: "address", d: "M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z" },
+                { val: phone,   field: "phone",   d: "M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 5 13a19.79 19.79 0 0 1-3-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.73.32 1.44.58 2.12a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.68.26 1.39.46 2.12.58A2 2 0 0 1 22 16.92z" },
+                { val: email,   field: "email",   d: "M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" },
+                { val: hours,   field: "hours",   d: "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z" },
+              ].map(({ val, field, d }, i) => (
+                <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={GOLD} strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 3, opacity: 0.7 }}>
+                    <path d={d}/>
+                  </svg>
+                  <span style={{ fontSize: "0.82rem", color: MUTED, lineHeight: 1.55 }}>
+                    <GenericEditableText sectionId={sectionId} field={field} value={val} tag="span" />
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Col 3: Sociální sítě */}
+          <div>
+            <div style={{ fontSize: "0.6rem", fontWeight: 500, color: GOLD, letterSpacing: "0.2em", textTransform: "uppercase", marginBottom: 20 }}>Sledujte nás</div>
+            <div style={{ display: "flex", gap: 12, marginBottom: 24 }}>
+              {[
+                { href: instagram, label: "Instagram", icon: <><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></> },
+                { href: facebook,  label: "Facebook",  icon: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/> },
+              ].map(({ href, label, icon }) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={label} className="c03-footer-social"
+                  style={{ width: 38, height: 38, border: `1px solid rgba(255,255,255,0.1)`, display: "flex", alignItems: "center", justifyContent: "center", color: MUTED, transition: "all 0.25s ease" }}
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">{icon}</svg>
+                </a>
+              ))}
+            </div>
+            <GenericEditableText sectionId={sectionId} field="socialNote" value={
+              String(content.socialNote ?? "Sledujte naše proměny a novinky ze světa estetické medicíny.")
+            } tag="p"
+              style={{ fontSize: "0.78rem", color: MUTED, lineHeight: 1.65, margin: 0, maxWidth: 260 }}
+            />
+          </div>
         </div>
       </div>
-      <style>{`
-        @media (max-width: 768px) {
-          .f01-footer-grid { grid-template-columns: 1fr 1fr !important; }
-        }
-        @media (max-width: 480px) {
-          .f01-footer-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
+
+      {/* Copyright bar */}
+      <div style={{ borderTop: `1px solid rgba(255,255,255,0.06)`, padding: "18px clamp(20px, 4vw, 56px)", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+        <span style={{ fontSize: "0.72rem", color: `rgba(255,255,255,0.3)` }}>
+          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+        </span>
+        <WeberoCredit />
+      </div>
+    </footer>
+  );
+}
+
+// ── fitness-01-footer ─────────────────────────────────────────────────────────
+// Luxe Warm Physio Sanctuary — cocoa-dark footer se signature quote pull
+// Top row: brand blok (Instrument Serif italic name + tagline + italic quote pull) + Menu + Kontakt/Studio + Social
+// Bottom bar: copyright + legal links + WeberoCredit
+// ─────────────────────────────────────────────────────────────────────────────
+function FooterFitness01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const siteName        = String(content.siteName        ?? "Adam Vítek");
+  const tagline         = String(content.tagline         ?? "Fyzio · Osobní trénink");
+  const quote           = String(content.quote           ?? "");
+  const phone           = String(content.phone           ?? "");
+  const email           = String(content.email           ?? "");
+  const address         = String(content.address         ?? "");
+  const city            = String(content.city            ?? "");
+  const hours           = String(content.hours           ?? "");
+  const fbUrl           = String(content.facebookUrl     ?? "");
+  const igUrl           = String(content.instagramUrl    ?? "");
+  const menuHeading     = String(content.menuHeading     ?? "Menu");
+  const contactHeading  = String(content.contactHeading  ?? "Kontakt & studio");
+  const socialHeading   = String(content.socialHeading   ?? "Sledujte mě");
+  const copyright       = String(content.copyright       ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
+  const siteMode        = String((content as { siteMode?: string }).siteMode ?? "multipage");
+  const links           = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const legalLinks      = (content.legalLinks as Array<{ label: string; href: string }>) ?? [];
+
+  const resolveHref = (href: string) => {
+    if (!href) return href;
+    if (href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("#")) return href;
+    if (siteMode === "onepage") {
+      if (href === "/") return "/";
+      return "/#" + href.replace(/^\//, "");
+    }
+    return href;
+  };
+
+  return (
+    <footer className="fit01-footer" data-template="fitness-01">
+      {/* Ambient warm glow */}
+      <div className="fit01-footer-glow" aria-hidden="true" />
+      {/* Decorative arc top-right */}
+      <svg className="fit01-footer-arc" width="120" height="120" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+        <path d="M 10 110 A 100 100 0 0 1 110 10" stroke="#AD8A72" strokeWidth="1.2" strokeLinecap="round" opacity="0.35" />
+        <path d="M 30 110 A 80 80 0 0 1 110 30"   stroke="#AD8A72" strokeWidth="1.2" strokeLinecap="round" opacity="0.2" />
+      </svg>
+
+      <div className="fit01-footer-inner">
+        <div className="fit01-footer-grid">
+          {/* Brand column */}
+          <div className="fit01-footer-brand">
+            <div className="fit01-footer-name">
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+            </div>
+            <div className="fit01-footer-tagline">
+              <span className="fit01-tagline-mark fit01-tagline-mark-dark" aria-hidden="true" />
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </div>
+            {quote && (
+              <p className="fit01-footer-quote">
+                <span className="fit01-footer-quote-mark" aria-hidden="true">&ldquo;</span>
+                <GenericEditableText sectionId={sectionId} field="quote" value={quote} tag="span" />
+              </p>
+            )}
+          </div>
+
+          {/* Menu */}
+          {links.length > 0 && (
+            <div className="fit01-footer-col">
+              <div className="fit01-footer-h">
+                <GenericEditableText sectionId={sectionId} field="menuHeading" value={menuHeading} tag="span" />
+              </div>
+              <ul className="fit01-footer-list">
+                {links.map((l, i) => (
+                  <li key={i}>
+                    <a href={resolveHref(l.href)} className="fit01-footer-link">
+                      <span className="fit01-footer-link-arrow" aria-hidden="true">
+                        <svg width="10" height="8" viewBox="0 0 10 8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M1 4h7M5 1l3 3-3 3"/></svg>
+                      </span>
+                      <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Contact/Studio */}
+          <div className="fit01-footer-col">
+            <div className="fit01-footer-h">
+              <GenericEditableText sectionId={sectionId} field="contactHeading" value={contactHeading} tag="span" />
+            </div>
+            <ul className="fit01-footer-contact-list">
+              {phone && (
+                <li>
+                  <a href={`tel:${phone.replace(/\s/g, "")}`} className="fit01-footer-c-value">
+                    <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                  </a>
+                </li>
+              )}
+              {email && (
+                <li>
+                  <a href={`mailto:${email}`} className="fit01-footer-c-value">
+                    <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                  </a>
+                </li>
+              )}
+              {(address || city) && (
+                <li className="fit01-footer-c-address">
+                  {address && (
+                    <div>
+                      <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                    </div>
+                  )}
+                  {city && (
+                    <div className="fit01-footer-c-muted">
+                      <GenericEditableText sectionId={sectionId} field="city" value={city} tag="span" />
+                    </div>
+                  )}
+                </li>
+              )}
+              {hours && (
+                <li className="fit01-footer-c-hours">
+                  <span className="fit01-footer-hours-dot" aria-hidden="true" />
+                  <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+                </li>
+              )}
+            </ul>
+          </div>
+
+          {/* Social */}
+          {(fbUrl || igUrl) && (
+            <div className="fit01-footer-col">
+              <div className="fit01-footer-h">
+                <GenericEditableText sectionId={sectionId} field="socialHeading" value={socialHeading} tag="span" />
+              </div>
+              <div className="fit01-footer-socials">
+                {fbUrl && (
+                  <a href={fbUrl} target="_blank" rel="noopener noreferrer" className="fit01-footer-social" aria-label="Facebook">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12A10 10 0 1 0 10.42 21.88v-6.98H7.9V12h2.52V9.84c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.9h-2.34v6.98A10 10 0 0 0 22 12z"/></svg>
+                    <span>Facebook</span>
+                  </a>
+                )}
+                {igUrl && (
+                  <a href={igUrl} target="_blank" rel="noopener noreferrer" className="fit01-footer-social" aria-label="Instagram">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+                    <span>Instagram</span>
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Bottom bar */}
+        <div className="fit01-footer-bottom">
+          <div className="fit01-footer-copyright">
+            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+          </div>
+          <div className="fit01-footer-legal">
+            {legalLinks.map((l, i) => (
+              <a key={i} href={resolveHref(l.href)} className="fit01-footer-legal-link">
+                <GenericEditableText sectionId={sectionId} field={`legalLinks.${i}.label`} value={l.label} tag="span" />
+              </a>
+            ))}
+          </div>
+          <div className="fit01-footer-webero">
+            <WeberoCredit />
+          </div>
+        </div>
+      </div>
     </footer>
   );
 }
@@ -3130,18 +3992,19 @@ function FooterFitness01({ content, sectionId }: { content: Record<string, unkno
 // Col3: contact (tel/email/address/hours)
 // Bottom copyright #C3C3C3
 // ─────────────────────────────────────────────────────────────────────────────
-function FooterFitness02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function FooterFitness02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const siteName  = String(content.siteName  ?? "Power Fitness");
-  const tagline   = String(content.tagline   ?? "Moderní fitness centra v Praze");
+  const tagline   = String(content.tagline   ?? "Moderní fitness studia v Praze");
   const logoUrl   = String(content.logoUrl   ?? "");
-  const phone     = String(content.phone     ?? "704 123 456");
-  const email     = String(content.email     ?? "email@demo.cz");
+  const phone     = String(content.phone     ?? "704 111 222");
+  const email     = String(content.email     ?? "info@demo.cz");
   const address   = String(content.address   ?? "Ukázková 123, 110 00 Praha 1");
   const hours     = String(content.hours     ?? "Po–Pá 6:00–22:00, So–Ne 8:00–20:00");
   const fbUrl     = String(content.facebookUrl  ?? "https://facebook.com/demo");
   const igUrl     = String(content.instagramUrl ?? "https://instagram.com/demo");
   const copyright = String(content.copyright   ?? `© ${new Date().getFullYear()} Power Fitness. Všechna práva vyhrazena.`);
   const links     = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode  = String((content as { siteMode?: string }).siteMode ?? "multipage");
 
   const BG     = "#000000";
   const ACCENT = "#FF5500";
@@ -3149,6 +4012,13 @@ function FooterFitness02({ content, sectionId }: { content: Record<string, unkno
   const MUTED  = "#C3C3C3";
   const FONT_H = "'Archivo Black', sans-serif";
   const FONT_B = "'Montserrat', sans-serif";
+
+  const resolveHref = (href: string) => {
+    if (!href) return href;
+    if (href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:") || href.startsWith("#")) return href;
+    if (siteMode === "onepage") return href === "/" ? "/" : "/#" + href.replace(/^\//, "");
+    return tenantSlug ? `/demo/${tenantSlug}${href === "/" ? "" : href}` : href;
+  };
 
   const FbIcon = () => (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -3163,52 +4033,56 @@ function FooterFitness02({ content, sectionId }: { content: Record<string, unkno
 
   return (
     <footer
+      className="fitness02-footer"
       style={{
         backgroundColor: BG,
         borderTop: `2px solid ${ACCENT}`,
         fontFamily: FONT_B,
+        position: "relative",
+        overflow: "hidden",
       }}
       data-template="fitness-02"
+      data-section="fitness-02-footer"
+      {...(isAdmin ? {} : {})}
     >
-      <div style={{ maxWidth: 1140, margin: "0 auto", padding: "60px 40px 40px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1.4fr", gap: 64 }} className="f02-footer-grid">
+      <div aria-hidden="true" className="fitness02-grain" style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.04, mixBlendMode: "overlay" }} />
+
+      <div style={{ maxWidth: 1240, margin: "0 auto", padding: "80px 40px 40px", position: "relative", zIndex: 1 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr 1.4fr", gap: 72 }} className="fitness02-footer-grid">
           {/* Col1 — logo + tagline + social */}
           <div>
             {logoUrl ? (
-              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} className="relative" style={{ display: "inline-block", marginBottom: 16 }}>
+              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} className="relative" style={{ display: "inline-block", marginBottom: 20 }}>
                 <img loading="lazy" src={logoUrl} alt={siteName} style={{ height: 44, width: "auto", objectFit: "contain", display: "block" }} />
               </GenericEditableImage>
             ) : (
-              <div style={{ fontSize: 20, fontWeight: 900, color: WHITE, fontFamily: FONT_H, letterSpacing: "1px", textTransform: "uppercase", marginBottom: 16 }}>
+              <div style={{ fontSize: 22, color: WHITE, fontFamily: FONT_H, letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: 20, display: "inline-flex", alignItems: "baseline", gap: 4 }}>
                 <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+                <span aria-hidden="true" style={{ color: ACCENT }}>.</span>
               </div>
             )}
-            <p style={{ fontSize: 14, fontWeight: 300, color: MUTED, marginBottom: 24, lineHeight: 1.6 }}>
+            <p style={{ fontSize: 14, fontWeight: 400, color: MUTED, marginBottom: 28, lineHeight: 1.65, maxWidth: 340 }}>
               <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
             </p>
             <div style={{ display: "flex", gap: 12 }}>
               {fbUrl && (
-                <a href={fbUrl} aria-label="Facebook"
+                <a href={fbUrl} aria-label="Facebook" className="fitness02-footer-social"
                   style={{
-                    color: ACCENT, width: 36, height: 36, border: `1px solid ${ACCENT}`,
+                    color: ACCENT, width: 40, height: 40, border: `1px solid ${ACCENT}`,
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    transition: "background 0.2s, color 0.2s",
+                    transition: "background 0.35s cubic-bezier(0.22,0.61,0.36,1), color 0.35s cubic-bezier(0.22,0.61,0.36,1), transform 0.35s cubic-bezier(0.22,0.61,0.36,1)",
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = ACCENT; e.currentTarget.style.color = "#000"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = ACCENT; }}
                 >
                   <FbIcon />
                 </a>
               )}
               {igUrl && (
-                <a href={igUrl} aria-label="Instagram"
+                <a href={igUrl} aria-label="Instagram" className="fitness02-footer-social"
                   style={{
-                    color: ACCENT, width: 36, height: 36, border: `1px solid ${ACCENT}`,
+                    color: ACCENT, width: 40, height: 40, border: `1px solid ${ACCENT}`,
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    transition: "background 0.2s, color 0.2s",
+                    transition: "background 0.35s cubic-bezier(0.22,0.61,0.36,1), color 0.35s cubic-bezier(0.22,0.61,0.36,1), transform 0.35s cubic-bezier(0.22,0.61,0.36,1)",
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.background = ACCENT; e.currentTarget.style.color = "#000"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = ACCENT; }}
                 >
                   <IgIcon />
                 </a>
@@ -3218,13 +4092,19 @@ function FooterFitness02({ content, sectionId }: { content: Record<string, unkno
 
           {/* Col2 — nav links */}
           <nav>
-            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.12em", color: ACCENT, textTransform: "uppercase", fontFamily: FONT_H, marginBottom: 20 }}>Navigace</div>
+            <div className="fitness02-footer-heading" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
+              <span aria-hidden="true" style={{ display: "inline-block", width: 24, height: 2, background: ACCENT }} />
+              <span style={{ fontSize: 12, letterSpacing: "0.28em", color: ACCENT, textTransform: "uppercase", fontFamily: FONT_H }}>Navigace</span>
+            </div>
             <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
               {links.map((l, i) => (
                 <li key={i}>
-                  <a href={l.href} style={{ color: MUTED, fontSize: 14, fontWeight: 400, textDecoration: "none", transition: "color 0.2s" }}
-                    onMouseEnter={e => e.currentTarget.style.color = WHITE}
-                    onMouseLeave={e => e.currentTarget.style.color = MUTED}>
+                  <a href={resolveHref(l.href)} className="fitness02-footer-link" style={{
+                    color: MUTED, fontSize: 14, textDecoration: "none",
+                    letterSpacing: "0.08em",
+                    transition: "color 0.35s ease, padding-left 0.35s cubic-bezier(0.22,0.61,0.36,1)",
+                    display: "inline-block",
+                  }}>
                     <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                   </a>
                 </li>
@@ -3234,35 +4114,57 @@ function FooterFitness02({ content, sectionId }: { content: Record<string, unkno
 
           {/* Col3 — contact */}
           <div>
-            <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.12em", color: ACCENT, textTransform: "uppercase", fontFamily: FONT_H, marginBottom: 20 }}>Kontakt</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              {phone   && <div style={{ fontSize: 14, color: MUTED, fontWeight: 300 }}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></div>}
-              {email   && <div style={{ fontSize: 14, color: MUTED, fontWeight: 300 }}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></div>}
-              {address && <div style={{ fontSize: 14, color: MUTED, fontWeight: 300 }}><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></div>}
-              {hours   && <div style={{ fontSize: 14, color: MUTED, fontWeight: 300, marginTop: 4 }}><GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" /></div>}
+            <div className="fitness02-footer-heading" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
+              <span aria-hidden="true" style={{ display: "inline-block", width: 24, height: 2, background: ACCENT }} />
+              <span style={{ fontSize: 12, letterSpacing: "0.28em", color: ACCENT, textTransform: "uppercase", fontFamily: FONT_H }}>Kontakt</span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+              {phone && (
+                <a href={`tel:${phone.replace(/\s/g,"")}`} className="fitness02-footer-contact" style={{
+                  fontSize: 14, color: MUTED, textDecoration: "none",
+                  letterSpacing: "0.06em",
+                  transition: "color 0.35s ease",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                </a>
+              )}
+              {email && (
+                <a href={`mailto:${email}`} className="fitness02-footer-contact" style={{
+                  fontSize: 14, color: MUTED, textDecoration: "none",
+                  letterSpacing: "0.06em",
+                  transition: "color 0.35s ease",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                </a>
+              )}
+              {address && (
+                <div style={{ fontSize: 14, color: MUTED, letterSpacing: "0.03em", lineHeight: 1.55 }}>
+                  <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                </div>
+              )}
+              {hours && (
+                <div style={{ fontSize: 13, color: MUTED, letterSpacing: "0.06em", marginTop: 6, opacity: 0.85, lineHeight: 1.55 }}>
+                  <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+                </div>
+              )}
             </div>
           </div>
         </div>
 
-        {/* Copyright */}
-        <div style={{
-          borderTop: "1px solid rgba(255,85,0,0.2)",
-          marginTop: 48, paddingTop: 24,
-          fontSize: 13, color: MUTED, textAlign: "center",
-          fontWeight: 300,
+        {/* Bottom bar — copyright + WeberoCredit */}
+        <div className="fitness02-footer-bottom" style={{
+          borderTop: "1px solid rgba(255,85,0,0.28)",
+          marginTop: 56, paddingTop: 26,
+          display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 20,
+          fontSize: 12, color: MUTED,
+          letterSpacing: "0.1em",
         }}>
-          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+          <span style={{ opacity: 0.8 }}>
+            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+          </span>
+          <WeberoCredit />
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          .f02-footer-grid { grid-template-columns: 1fr 1fr !important; }
-        }
-        @media (max-width: 480px) {
-          .f02-footer-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </footer>
   );
 }
@@ -3401,7 +4303,7 @@ function FooterFyzio01({ content, sectionId }: { content: Record<string, unknown
 // Navy #1a2e4a bg, 3-col: brand + tagline | navigace | kontakt
 // Logo, zlatá čára separator, copyright
 // ─────────────────────────────────────────────────────────────────────────────
-function FooterFyzio02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug: string; isAdmin: boolean }) {
+function FooterFyzio02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   type Link = { label: string; href: string };
   const siteName  = String(content.siteName  ?? "Demo Reset Fyzio");
   const logoUrl   = String(content.logoUrl   ?? "/templates/fyzio-02/logo.svg");
@@ -3851,7 +4753,7 @@ function FooterRestaurant02({ content, sectionId, tenantSlug, isAdmin }: { conte
       {/* Copyright bar */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", maxWidth: 1200, margin: "0 auto", padding: "20px clamp(20px, 5vw, 60px)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }} className="r02-footer-copyright">
         <p style={{ fontSize: 11, color: "rgba(255,255,255,0.3)", margin: 0 }}>
-          © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. Všechna práva vyhrazena.
+          © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. <GenericEditableText sectionId={sectionId} field="legalText" value={String(content.legalText ?? "Všechna práva vyhrazena.")} tag="span" />
         </p>
       </div>
 
@@ -6124,7 +7026,7 @@ function FooterStavba01({ content, sectionId, tenantSlug, isAdmin }: Props) {
       {/* Bottom bar */}
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "18px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-          <span style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.78rem" }}>© {new Date().getFullYear()} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. Všechna práva vyhrazena.</span>
+          <span style={{ color: "rgba(255,255,255,0.35)", fontSize: "0.78rem" }}>© {new Date().getFullYear()} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. <GenericEditableText sectionId={sectionId} field="legalText" value={String(content.legalText ?? "Všechna práva vyhrazena.")} tag="span" /></span>
           <div style={{ width: 32, height: 3, backgroundColor: ORANGE, borderRadius: 2 }} />
         </div>
       </div>
@@ -6409,7 +7311,7 @@ function FooterElektro01({ content, sectionId, tenantSlug, isAdmin }: { content:
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", marginTop: 48 }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "18px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
           <p style={{ color: "rgba(255,255,255,0.30)", fontFamily: "'Roboto',sans-serif", fontSize: "0.78rem", margin: 0 }}>
-            © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. Všechna práva vyhrazena.
+            © {year} <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />. <GenericEditableText sectionId={sectionId} field="legalText" value={String(content.legalText ?? "Všechna práva vyhrazena.")} tag="span" />
           </p>
           {ic && (
             <p style={{ color: "rgba(255,255,255,0.25)", fontFamily: "'Roboto',sans-serif", fontSize: "0.78rem", margin: 0 }}>
@@ -6943,14 +7845,20 @@ function FooterFlorist01({ content, sectionId, tenantSlug, isAdmin }: { content:
 // ── catering-01-footer ────────────────────────────────────────────────────────
 // Velmi tmavý teal #0d1a1c, 3 sloupce: logo+popis | nav | kontakt, spodní bar s IČO/DIČ
 // ─────────────────────────────────────────────────────────────────────────────
+// ── catering-01-footer ────────────────────────────────────────────────────────
+// Nordic Minimal Gastro:
+// - Dark forest green bg, 3-col grid, Fraunces brand, Inter nav/contact
+// - Terracotta accents, stone border, WeberoCredit bottom right
+// ─────────────────────────────────────────────────────────────────────────────
 function FooterCatering01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const TEAL  = "#0d1a1c";
-  const GOLD  = "#baae8c";
-  const CREAM = "#fefff1";
-  const SERIF = "'Libre Baskerville', Georgia, serif";
-  const SANS  = "'Source Sans 3', 'Source Sans Pro', sans-serif";
+  const GREEN  = "#1e3329";
+  const TERRA  = "#c4755b";
+  const WARM   = "#f8f5f0";
+  const STONE  = "#e8e2d8";
+  const SERIF  = "'Fraunces', Georgia, serif";
+  const SANS   = "'Inter', system-ui, sans-serif";
 
-  const siteName  = String(content.siteName  ?? "Demo Catering");
+  const siteName  = String(content.siteName  ?? "Saveur & Co.");
   const logoUrl   = String(content.logoUrl   ?? "");
   const company   = String(content.company   ?? "");
   const address   = String(content.address   ?? "");
@@ -6967,142 +7875,98 @@ function FooterCatering01({ content, sectionId, tenantSlug, isAdmin }: { content
   }
 
   const navLinks = [
-    { label: "Úvod",       href: "/" },
-    { label: "Naše služby",href: "/sluzby" },
-    { label: "O nás",      href: "/o-nas" },
-    { label: "Galerie",    href: "/galerie" },
-    { label: "Kontakt",    href: "/kontakt" },
+    { label: "Úvod",        href: "/" },
+    { label: "Naše služby", href: "/sluzby" },
+    { label: "O nás",       href: "/o-nas" },
+    { label: "Galerie",     href: "/galerie" },
+    { label: "Kontakt",     href: "/kontakt" },
   ];
 
   return (
     <footer
       data-template="catering-01"
       data-variant="catering-01-footer"
-      style={{ background: TEAL }}
+      style={{ background: GREEN }}
     >
       <style>{`
-        .c01ft-wrap{
-          max-width:calc(100% - 3.2rem);margin:0 auto;
-          padding:4.5rem 0 0;
-        }
-        .c01ft-grid{
-          display:grid;
-          grid-template-columns:1fr;
-          gap:2.8rem;
-          padding-bottom:3.5rem;
-          border-bottom:.07rem solid rgba(186,174,140,.15);
-        }
-        .c01ft-logo-img{max-height:2.4rem;width:auto;filter:brightness(0) invert(1);opacity:.85}
-        .c01ft-name{
-          font-family:${SERIF};font-style:italic;font-weight:300;
-          font-size:1.35rem;color:${CREAM};margin:.65rem 0 .8rem;
-          opacity:.9;
-        }
-        .c01ft-desc{font-family:${SANS};font-size:.8rem;line-height:1.75;color:rgba(254,255,241,.45);margin:0}
-
-        .c01ft-col-title{
-          font-family:${SANS};font-size:.62rem;font-weight:700;
-          letter-spacing:.28rem;text-transform:uppercase;
-          color:${GOLD};margin:0 0 1.2rem;
-        }
-        .c01ft-nav{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.65rem}
-        .c01ft-nav a{
-          font-family:${SANS};font-size:.83rem;
-          color:rgba(254,255,241,.55);text-decoration:none;
-          transition:color .2s;
-        }
-        .c01ft-nav a:hover{color:${GOLD}}
-
-        .c01ft-contact{display:flex;flex-direction:column;gap:.7rem}
-        .c01ft-contact-item{display:flex;gap:.65rem;align-items:flex-start}
-        .c01ft-contact-icon{flex-shrink:0;color:${GOLD};margin-top:.12rem}
-        .c01ft-contact-val{
-          font-family:${SANS};font-size:.83rem;
-          color:rgba(254,255,241,.6);text-decoration:none;margin:0;
-        }
-        a.c01ft-contact-val:hover{color:${GOLD}}
-
-        /* bottom bar */
-        .c01ft-bar{
-          display:flex;flex-direction:column;gap:.5rem;
-          padding:1.4rem 0 2rem;
-        }
-        .c01ft-copy{font-family:${SANS};font-size:.72rem;color:rgba(254,255,241,.28);margin:0}
-        .c01ft-legal{display:flex;flex-wrap:wrap;gap:.4rem 1.4rem}
-        .c01ft-legal span{font-family:${SANS};font-size:.68rem;color:rgba(254,255,241,.22)}
-
-        @media(min-width:640px){
-          .c01ft-grid{grid-template-columns:1fr 1fr}
-        }
-        @media(min-width:900px){
-          .c01ft-wrap{max-width:calc(100% - 6.4rem)}
-          .c01ft-grid{grid-template-columns:2fr 1fr 1.4fr;gap:4rem}
-        }
-        @media(min-width:1400px){
-          .c01ft-grid{grid-template-columns:2.2fr 1fr 1.6fr}
-        }
+        .ct1ft-wrap{max-width:1200px;margin:0 auto;padding:4rem 1.5rem 0}
+        .ct1ft-grid{display:grid;grid-template-columns:1fr;gap:2.5rem;padding-bottom:3rem;border-bottom:1px solid rgba(232,226,216,.12)}
+        .ct1ft-brand{font-family:${SERIF};font-weight:400;font-size:1.4rem;color:${WARM};margin:0 0 .6rem;letter-spacing:-.01em}
+        .ct1ft-desc{font-family:${SANS};font-size:.8rem;line-height:1.7;color:rgba(248,245,240,.4);margin:0}
+        .ct1ft-col-title{font-family:${SANS};font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:${TERRA};margin:0 0 1rem}
+        .ct1ft-nav{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.55rem}
+        .ct1ft-nav a{font-family:${SANS};font-size:.85rem;color:rgba(248,245,240,.5);text-decoration:none;transition:color .2s}
+        .ct1ft-nav a:hover{color:${TERRA}}
+        .ct1ft-contact{display:flex;flex-direction:column;gap:.6rem}
+        .ct1ft-ci{display:flex;gap:.6rem;align-items:center}
+        .ct1ft-cicon{flex-shrink:0;color:${TERRA};opacity:.7}
+        .ct1ft-cval{font-family:${SANS};font-size:.85rem;color:rgba(248,245,240,.55);text-decoration:none;margin:0;transition:color .2s}
+        a.ct1ft-cval:hover{color:${WARM}}
+        .ct1ft-bar{display:flex;flex-direction:column;gap:.4rem;padding:1.2rem 0 1.8rem}
+        .ct1ft-bot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem}
+        .ct1ft-copy{font-family:${SANS};font-size:.7rem;color:rgba(248,245,240,.22);margin:0}
+        .ct1ft-legal{display:flex;flex-wrap:wrap;gap:.3rem 1rem}
+        .ct1ft-legal span{font-family:${SANS};font-size:.65rem;color:rgba(248,245,240,.18)}
+        @media(min-width:640px){.ct1ft-grid{grid-template-columns:1fr 1fr}}
+        @media(min-width:900px){.ct1ft-grid{grid-template-columns:2fr 1fr 1.4fr;gap:3.5rem}}
       `}</style>
 
-      <div className="c01ft-wrap">
-        <div className="c01ft-grid">
-          {/* col 1 — brand */}
+      <div className="ct1ft-wrap">
+        <div className="ct1ft-grid">
           <div>
-            {logoUrl ? (
-              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName}>
-                <img loading="lazy" src={logoUrl} alt={siteName} className="c01ft-logo-img" />
-              </GenericEditableImage>
-            ) : (
-              <p className="c01ft-name">
-                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-              </p>
-            )}
+            <div style={{ marginBottom: "0.9rem" }}>
+              <CateringSaveurLogo color={WARM} accent={TERRA} height="3.2rem" />
+            </div>
+            {logoUrl && <span style={{ display: "none" }} data-field="logoUrl">{logoUrl}</span>}
+            {/* Screen-reader-only brand name for editability parity */}
+            <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden" }}>
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+            </span>
             {company && (
-              <p className="c01ft-desc">
+              <p className="ct1ft-desc">
                 <GenericEditableText sectionId={sectionId} field="company" value={company} tag="span" />
               </p>
             )}
           </div>
 
-          {/* col 2 — nav */}
           <div>
-            <p className="c01ft-col-title">Navigace</p>
-            <ul className="c01ft-nav">
+            <p className="ct1ft-col-title">Navigace</p>
+            <ul className="ct1ft-nav">
               {navLinks.map(l => (
                 <li key={l.href}><a href={resolveHref(l.href)}>{l.label}</a></li>
               ))}
             </ul>
           </div>
 
-          {/* col 3 — contact */}
           <div>
-            <p className="c01ft-col-title">Kontakt</p>
-            <div className="c01ft-contact">
+            <p className="ct1ft-col-title">Kontakt</p>
+            <div className="ct1ft-contact">
               {phone && (
-                <div className="c01ft-contact-item">
-                  <span className="c01ft-contact-icon">
+                <div className="ct1ft-ci">
+                  <span className="ct1ft-cicon">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                   </span>
-                  <a href={`tel:${phone.replace(/\s/g,"")}`} className="c01ft-contact-val">
+                  <a href={`tel:${phone.replace(/\s/g,"")}`} className="ct1ft-cval">
                     <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
                   </a>
                 </div>
               )}
               {email && (
-                <div className="c01ft-contact-item">
-                  <span className="c01ft-contact-icon">
+                <div className="ct1ft-ci">
+                  <span className="ct1ft-cicon">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                   </span>
-                  <a href={`mailto:${email}`} className="c01ft-contact-val">
+                  <a href={`mailto:${email}`} className="ct1ft-cval">
                     <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
                   </a>
                 </div>
               )}
               {address && (
-                <div className="c01ft-contact-item">
-                  <span className="c01ft-contact-icon">
+                <div className="ct1ft-ci">
+                  <span className="ct1ft-cicon">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                   </span>
-                  <p className="c01ft-contact-val">
+                  <p className="ct1ft-cval">
                     <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
                   </p>
                 </div>
@@ -7111,17 +7975,21 @@ function FooterCatering01({ content, sectionId, tenantSlug, isAdmin }: { content
           </div>
         </div>
 
-        {/* bottom bar */}
-        <div className="c01ft-bar">
-          <p className="c01ft-copy">
-            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
-          </p>
-          {(ico || dic) && (
-            <div className="c01ft-legal">
-              {ico && <span>IČO: {ico}</span>}
-              {dic && <span>DIČ: {dic}</span>}
+        <div className="ct1ft-bar">
+          <div className="ct1ft-bot">
+            <div>
+              <p className="ct1ft-copy">
+                <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+              </p>
+              {(ico || dic) && (
+                <div className="ct1ft-legal">
+                  {ico && <span>IČO: {ico}</span>}
+                  {dic && <span>DIČ: {dic}</span>}
+                </div>
+              )}
             </div>
-          )}
+            <WeberoCredit />
+          </div>
         </div>
       </div>
     </footer>
@@ -7570,7 +8438,7 @@ function FooterAutoskola01({ content, sectionId, tenantSlug, isAdmin }: { conten
 // - Linky: 14px, #a0a0b0, hover #e63946, line-height 1.9
 // - Bottom bar: border-top #2a2a3e, font-size 13px, text-align center
 // ─────────────────────────────────────────────────────────────────────────────
-function FooterLang01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: string; tenantSlug?: string; isAdmin?: boolean }) {
+function FooterLang01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const FONT = "'Inter', -apple-system, sans-serif";
   const RED  = "#e63946";
   const DARK = "#1a1a2e";
@@ -7687,7 +8555,7 @@ function FooterLang01({ content, sectionId, tenantSlug, isAdmin }: { content: Re
 // Navy (#132339) bg, 4 sloupce: brand+popis+socials, 3× link sloupce.
 // Spodní bar: copyright + IČO. Stejné téma jako navbar.
 // ─────────────────────────────────────────────────────────────────────────────
-function FooterEdu01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number | string; tenantSlug?: string; isAdmin: boolean }) {
+function FooterEdu01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const NAVY  = "#132339";
   const BLUE  = "#0059df";
   const LIGHT = "#91bae4";
@@ -9209,102 +10077,209 @@ function FooterUcetni01({ content, sectionId, tenantSlug, isAdmin }: { content: 
 }
 
 // ── solar-01-footer ───────────────────────────────────────────────────────────
-function FooterSolar01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+// solar-01 — Premium 4-col dark navy footer.
+// Col 1 (brand, wide): SunMark logo w/ orbit + tagline + contact rows (phone/email
+// w/ icon boxes) + social buttons w/ gradient hover.
+// Col 2 (services): links list w/ orange hairline slide-in on hover.
+// Col 3 (company): links list.
+// Col 4 (info): address, IČ, hours w/ orange labels.
+// Bottom bar: copyright + legal links + WeberoCredit (SEO backlink).
+// resolveNavHref for multipage/onepage support.
+// ─────────────────────────────────────────────────────────────────────────────
+function FooterSolar01({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin?: boolean;
+}) {
   type LinkItem = { label?: string; href?: string };
-  const siteName  = String(content.siteName  ?? "Demo Solar");
-  const tagline   = String(content.tagline   ?? "Specialista na fotovoltaické elektrárny a tepelná čerpadla.");
-  const phone     = String(content.phone     ?? "704 123 456");
-  const email     = String(content.email     ?? "info@demo.cz");
-  const address   = String(content.address   ?? "Ukázková 123, 110 00 Praha 1");
-  const ic        = String(content.ic        ?? "");
-  const hours     = String(content.hours     ?? "Po–Pá 8–17 h");
-  const facebook  = String(content.facebook  ?? "");
-  const instagram = String(content.instagram ?? "");
-  const youtube   = String(content.youtube   ?? "");
-  const links     = ((content.links as LinkItem[]) ?? []).slice(0, 6);
-  const year      = new Date().getFullYear();
+  const siteMode      = String(content.siteMode ?? "multipage");
+  const siteName      = String(content.siteName ?? "HeliosTech");
+  const tagline       = String(content.tagline  ?? "Fotovoltaika & tepelná čerpadla");
+  const tagName       = String(content.tagName  ?? "Solar Systems");
+  const description   = String(content.description ?? "Kompletní realizace fotovoltaických elektráren a tepelných čerpadel po celé České republice — od návrhu po předání do provozu.");
+  const phone         = String(content.phone   ?? "800 123 456");
+  const email         = String(content.email   ?? "info@heliostech-demo.cz");
+  const address       = String(content.address ?? "Energetická 42, 602 00 Brno");
+  const ic            = String(content.ic      ?? "87654321");
+  const hours         = String(content.hours   ?? "Po–Pá 8:00–17:00");
+  const facebook      = String(content.facebook  ?? "https://facebook.com/demo");
+  const instagram     = String(content.instagram ?? "https://instagram.com/demo");
+  const linkedin      = String(content.linkedin  ?? "https://linkedin.com/company/demo");
+  const servicesTitle = String(content.servicesTitle ?? "Služby");
+  const companyTitle  = String(content.companyTitle  ?? "Společnost");
+  const infoTitle     = String(content.infoTitle     ?? "Kontakt & sídlo");
+  const addressLabel  = String(content.addressLabel  ?? "Sídlo firmy");
+  const icLabel       = String(content.icLabel       ?? "IČO");
+  const hoursLabel    = String(content.hoursLabel    ?? "Otevírací doba");
+  const rawServices   = ((content.links as LinkItem[]) ?? []).slice(0, 5);
+  const services      = rawServices.length > 0 ? rawServices : [
+    { label: "Fotovoltaika s baterií",  href: "/sluzby" },
+    { label: "Fotovoltaika do sítě",    href: "/sluzby" },
+    { label: "Tepelná čerpadla",        href: "/sluzby" },
+    { label: "Solární ohřev vody",      href: "/sluzby" },
+  ];
+  const rawCompany    = (content.companyLinks as LinkItem[]) ?? [];
+  const company       = rawCompany.length > 0 ? rawCompany : [
+    { label: "O nás",       href: "/onas"    },
+    { label: "Reference",   href: "/recenze" },
+    { label: "Dotace NZÚ",  href: "/dotace"  },
+    { label: "Kontakt",     href: "/kontakt" },
+  ];
+  const legal = (content.legalLinks as LinkItem[]) ?? [
+    { label: "Ochrana údajů", href: "/gdpr"     },
+    { label: "Cookies",       href: "/cookies"  },
+  ];
+  const copyright = String(content.copyright ?? "Všechna práva vyhrazena.");
+  const year = new Date().getFullYear();
+  // Local resolveNavHref (multipage/onepage compat) — matches NavbarSection helper.
+  const resolve = (href: string): string => {
+    if (!href) return "#";
+    if (siteMode === "onepage") {
+      // pages -> anchors: /sluzby -> /#sluzby
+      if (href.startsWith("/") && href !== "/") {
+        const slug = href.replace(/^\//, "");
+        return tenantSlug ? (isAdmin ? `/demo/${tenantSlug}/admin#${slug}` : `/demo/${tenantSlug}#${slug}`) : `/#${slug}`;
+      }
+      if (href.startsWith("#")) {
+        return tenantSlug ? (isAdmin ? `/demo/${tenantSlug}/admin${href}` : `/demo/${tenantSlug}${href}`) : href;
+      }
+      return href;
+    }
+    // multipage: anchors -> pages, /sluzby stays /sluzby
+    if (href.startsWith("#")) {
+      const slug = href.replace(/^#/, "");
+      return tenantSlug ? (isAdmin ? `/demo/${tenantSlug}/${slug}/admin` : `/demo/${tenantSlug}/${slug}`) : `/${slug}`;
+    }
+    if (href.startsWith("/") && tenantSlug) {
+      return isAdmin ? `/demo/${tenantSlug}${href === "/" ? "" : href}/admin` : `/demo/${tenantSlug}${href === "/" ? "" : href}`;
+    }
+    return href;
+  };
+  const phoneTel = phone.replace(/\s+/g, "");
 
-  const CSS = `
-    .ft01{background:#071c28;color:rgba(255,255,255,0.75);font-family:'Inter',-apple-system,sans-serif;padding:64px 40px 0;}
-    .ft01-grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,0.08);}
-    .ft01-logo{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
-    .ft01-logo-name{font-size:18px;font-weight:800;color:#fff;letter-spacing:-0.3px;}
-    .ft01-tagline{font-size:14px;line-height:1.65;margin:0 0 24px;max-width:300px;}
-    .ft01-contact{display:flex;flex-direction:column;gap:10px;}
-    .ft01-contact-item{display:flex;align-items:center;gap:9px;font-size:14px;color:rgba(255,255,255,0.7);text-decoration:none;transition:color 0.15s;}
-    .ft01-contact-item:hover{color:#ff7a00;}
-    .ft01-social{display:flex;gap:10px;margin-top:20px;}
-    .ft01-soc-btn{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;transition:background 0.15s;}
-    .ft01-soc-btn:hover{background:rgba(255,122,0,0.3);}
-    .ft01-col-title{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin:0 0 18px;}
-    .ft01-links{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
-    .ft01-links a{font-size:14px;color:rgba(255,255,255,0.65);text-decoration:none;transition:color 0.15s;}
-    .ft01-links a:hover{color:#ff7a00;}
-    .ft01-info{display:flex;flex-direction:column;gap:10px;}
-    .ft01-info-row{font-size:14px;color:rgba(255,255,255,0.65);line-height:1.5;}
-    .ft01-info-row strong{color:rgba(255,255,255,0.85);font-weight:600;}
-    .ft01-bar{max-width:1240px;margin:0 auto;padding:20px 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
-    .ft01-copy{font-size:13px;color:rgba(255,255,255,0.35);}
-    .ft01-badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:rgba(255,122,0,0.7);}
-    @media(max-width:800px){
-      .ft01{padding:48px 24px 0;}
-      .ft01-grid{grid-template-columns:1fr 1fr;gap:32px;}
-    }
-    @media(max-width:520px){
-      .ft01-grid{grid-template-columns:1fr;}
-    }
-  `;
+  const NAVY = "#0d2a3a";
+
+  const IconPhone = () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72a2 2 0 0 1 1.72 2z"/>
+    </svg>
+  );
+  const IconMail = () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/>
+    </svg>
+  );
+  const IconFacebook = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+    </svg>
+  );
+  const IconInstagram = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+    </svg>
+  );
+  const IconLinkedin = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M4 4h4v16H4zM6 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM10 8h4v2a4 4 0 0 1 8 0v10h-4v-9a2 2 0 0 0-4 0v9h-4z"/>
+    </svg>
+  );
 
   return (
-    <>
-      <style>{CSS}</style>
-      <footer className="ft01" data-template="solar-01">
-        <div className="ft01-grid">
-
+    <footer className="s01ft" data-template="solar-01">
+      <div className="s01ft-inner">
+        <div className="s01ft-grid">
           {/* Brand col */}
-          <div>
-            <div className="ft01-logo">
-              <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <circle cx="14" cy="14" r="6" fill="#ff7a00"/>
-                {[0,45,90,135,180,225,270,315].map((deg, i) => {
-                  const r = (deg * Math.PI) / 180;
-                  return <line key={i} x1={14+Math.cos(r)*8} y1={14+Math.sin(r)*8} x2={14+Math.cos(r)*12} y2={14+Math.sin(r)*12} stroke="#ff7a00" strokeWidth="2.2" strokeLinecap="round"/>;
-                })}
-              </svg>
-              <span className="ft01-logo-name">
-                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+          <div className="s01ft-brand">
+            <a href={resolve("/")} className="s01ft-brand-logo" aria-label={siteName}>
+              <span className="s01ft-brand-mark">
+                <span className="s01ft-brand-orbit" />
+                <span className="s01ft-brand-sun">
+                  <svg viewBox="0 0 26 26" fill="none" aria-hidden="true">
+                    <g stroke="#ff7a00" strokeWidth="2" strokeLinecap="round">
+                      <line x1="13" y1="2" x2="13" y2="5"/>
+                      <line x1="13" y1="21" x2="13" y2="24"/>
+                      <line x1="2" y1="13" x2="5" y2="13"/>
+                      <line x1="21" y1="13" x2="24" y2="13"/>
+                      <line x1="4.5" y1="4.5" x2="7" y2="7"/>
+                      <line x1="19" y1="19" x2="21.5" y2="21.5"/>
+                      <line x1="21.5" y1="4.5" x2="19" y2="7"/>
+                      <line x1="7" y1="19" x2="4.5" y2="21.5"/>
+                    </g>
+                    <circle cx="13" cy="13" r="5" fill="#ff7a00"/>
+                  </svg>
+                </span>
               </span>
-            </div>
-            <p className="ft01-tagline">
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+              <span className="s01ft-brand-name">
+                <span className="s01ft-brand-name-txt">
+                  <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+                </span>
+                <span className="s01ft-brand-name-tag">
+                  <GenericEditableText sectionId={sectionId} field="tagName" value={tagName} tag="span" />
+                </span>
+              </span>
+            </a>
+            <p className="s01ft-brand-tagline">
+              <GenericEditableText sectionId={sectionId} field="description" value={description} tag="span" />
             </p>
-            <div className="ft01-contact">
-              <a href={`tel:${phone.replace(/\s/g,"")}`} className="ft01-contact-item">
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 1.5h2.5l1.25 2.9-1.45 1.45a9 9 0 0 0 3.8 3.8l1.45-1.45 2.9 1.25v2.5a1.25 1.25 0 0 1-1.25 1.25C5.4 13.2 1.25 9.05 1.25 3.75A1.25 1.25 0 0 1 2.5 1.5Z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            <div className="s01ft-brand-contact">
+              <a href={`tel:${phoneTel}`} className="s01ft-brand-contact-item">
+                <span className="s01ft-brand-contact-icon"><IconPhone /></span>
                 <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
               </a>
-              <a href={`mailto:${email}`} className="ft01-contact-item">
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><rect x="1.5" y="3" width="12" height="9" rx="1.5" stroke="currentColor" strokeWidth="1.3"/><path d="M1.5 5l6 4 6-4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
+              <a href={`mailto:${email}`} className="s01ft-brand-contact-item">
+                <span className="s01ft-brand-contact-icon"><IconMail /></span>
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>
             </div>
-            {(facebook || instagram || youtube) && (
-              <div className="ft01-social">
-                {facebook && <a href={facebook} className="ft01-soc-btn" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>}
-                {instagram && <a href={instagram} className="ft01-soc-btn" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="rgba(255,255,255,0.7)"/></svg></a>}
-                {youtube && <a href={youtube} className="ft01-soc-btn" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(255,255,255,0.7)"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.4a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#071c28"/></svg></a>}
-              </div>
-            )}
+            <div className="s01ft-social">
+              {facebook && (
+                <a href={facebook} target="_blank" rel="noopener" className="s01ft-soc-btn" aria-label="Facebook">
+                  <IconFacebook />
+                </a>
+              )}
+              {instagram && (
+                <a href={instagram} target="_blank" rel="noopener" className="s01ft-soc-btn" aria-label="Instagram">
+                  <IconInstagram />
+                </a>
+              )}
+              {linkedin && (
+                <a href={linkedin} target="_blank" rel="noopener" className="s01ft-soc-btn" aria-label="LinkedIn">
+                  <IconLinkedin />
+                </a>
+              )}
+            </div>
           </div>
 
-          {/* Links col */}
+          {/* Services col */}
           <div>
-            <p className="ft01-col-title">Služby</p>
-            <ul className="ft01-links">
-              {links.map((l, i) => (
-                <li key={i}>
-                  <a href={l.href ?? "#"}>
+            <p className="s01ft-col-title">
+              <GenericEditableText sectionId={sectionId} field="servicesTitle" value={servicesTitle} tag="span" />
+            </p>
+            <ul className="s01ft-links">
+              {services.map((l, i) => (
+                <li key={`sv-${i}`}>
+                  <a href={resolve(l.href ?? "#")}>
                     <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label ?? ""} tag="span" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company col */}
+          <div>
+            <p className="s01ft-col-title">
+              <GenericEditableText sectionId={sectionId} field="companyTitle" value={companyTitle} tag="span" />
+            </p>
+            <ul className="s01ft-links">
+              {company.map((l, i) => (
+                <li key={`co-${i}`}>
+                  <a href={resolve(l.href ?? "#")}>
+                    <GenericEditableText sectionId={sectionId} field={`companyLinks.${i}.label`} value={l.label ?? ""} tag="span" />
                   </a>
                 </li>
               ))}
@@ -9313,37 +10288,63 @@ function FooterSolar01({ content, sectionId }: { content: Record<string, unknown
 
           {/* Info col */}
           <div>
-            <p className="ft01-col-title">Kontakt</p>
-            <div className="ft01-info">
-              <div className="ft01-info-row">
-                <strong>Adresa</strong><br/>
-                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+            <p className="s01ft-col-title">
+              <GenericEditableText sectionId={sectionId} field="infoTitle" value={infoTitle} tag="span" />
+            </p>
+            <div className="s01ft-info">
+              <div className="s01ft-info-row">
+                <span className="s01ft-info-lbl">
+                  <GenericEditableText sectionId={sectionId} field="addressLabel" value={addressLabel} tag="span" />
+                </span>
+                <span>
+                  <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                </span>
               </div>
-              {ic && (
-                <div className="ft01-info-row">
-                  <strong>IČ</strong>&nbsp;
+              <div className="s01ft-info-row">
+                <span className="s01ft-info-lbl">
+                  <GenericEditableText sectionId={sectionId} field="icLabel" value={icLabel} tag="span" />
+                </span>
+                <span>
                   <GenericEditableText sectionId={sectionId} field="ic" value={ic} tag="span" />
-                </div>
-              )}
-              <div className="ft01-info-row">
-                <strong>Provozní doba</strong><br/>
-                <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+                </span>
+              </div>
+              <div className="s01ft-info-row">
+                <span className="s01ft-info-lbl">
+                  <GenericEditableText sectionId={sectionId} field="hoursLabel" value={hoursLabel} tag="span" />
+                </span>
+                <span>
+                  <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+                </span>
               </div>
             </div>
           </div>
-
         </div>
 
         {/* Bottom bar */}
-        <div className="ft01-bar">
-          <span className="ft01-copy">© {year} {siteName}. Všechna práva vyhrazena.</span>
-          <span className="ft01-badge">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="3" fill="#ff7a00"/>{[0,60,120,180,240,300].map((d,i)=>{const r=d*Math.PI/180;return <line key={i} x1={7+Math.cos(r)*4} y1={7+Math.sin(r)*4} x2={7+Math.cos(r)*6} y2={7+Math.sin(r)*6} stroke="#ff7a00" strokeWidth="1.5" strokeLinecap="round"/>})}</svg>
-            Solární energie pro Českou republiku
-          </span>
+        <div className="s01ft-bar">
+          <div className="s01ft-bar-left">
+            <span>
+              © {year}{" "}
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+              {" · "}
+              <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+            </span>
+            <span className="s01ft-bar-legal">
+              {legal.map((l, i) => (
+                <a key={`lg-${i}`} href={resolve(l.href ?? "#")}>
+                  <GenericEditableText sectionId={sectionId} field={`legalLinks.${i}.label`} value={l.label ?? ""} tag="span" />
+                </a>
+              ))}
+            </span>
+          </div>
+          <div className="s01ft-bar-right">
+            <WeberoCredit />
+          </div>
         </div>
-      </footer>
-    </>
+      </div>
+      {/* Avoid unused const warning for NAVY */}
+      <span style={{ display: "none" }} data-navy={NAVY} />
+    </footer>
   );
 }
 
@@ -11125,122 +12126,199 @@ function FooterFloors01({ content, sectionId, tenantSlug, isAdmin }: { content: 
 
 // ── solar-03-footer ───────────────────────────────────────────────────────────
 function FooterSolar03({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const FONT_M  = "'Montserrat', 'Inter', sans-serif";
-  const BG      = "#1e1e1e";
-  const WHITE   = "#ffffff";
-  const MUTED   = "rgba(255,255,255,0.55)";
   const ORANGE  = "#ff8b00";
+  const WHITE   = "#ffffff";
 
   const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   type LinkItem = { label: string; href: string };
-  const siteName   = String(content.siteName   ?? "AC Heating");
-  const tagline    = String(content.tagline    ?? "Tepelná čerpadla");
-  const copyright  = String(content.copyright  ?? `© ${new Date().getFullYear()} KUFI INT, s.r.o.`);
-  const col1Title  = String(content.col1Title  ?? "Tepelná čerpadla");
+  const siteName   = String(content.siteName   ?? "SolarPro");
+  const tagline    = String(content.tagline    ?? "Tepelná čerpadla & fotovoltaika");
+  const brandLede  = String(content.brandLede  ?? "Český výrobce energetických řešení. Vlastní servisní síť po celé republice a garantovaná návratnost do sedmi let.");
+  const ctaEyebrow = String(content.ctaEyebrow ?? "Rozhodujete se?");
+  const ctaTitle   = String(content.ctaTitle   ?? "Získejte nezávazný návrh systému do 48 hodin");
+  const ctaText    = String(content.ctaText    ?? "Bezplatná konzultace");
+  const ctaHref    = String(content.ctaHref    ?? "/kontakt");
+  const phone      = String(content.phone      ?? "+420 800 555 234");
+  const phoneNote  = String(content.phoneNote  ?? "Po–Pá 8:00–18:00");
+  const email      = String(content.email      ?? "info@solarpro.cz");
+  const emailNote  = String(content.emailNote  ?? "Odpovídáme do 4 h");
+  const address    = String(content.address    ?? "Průmyslová 1428, 370 01 České Budějovice");
+  const addressNote = String(content.addressNote ?? "Výrobní závod & showroom");
+  const copyright  = String(content.copyright  ?? `© ${new Date().getFullYear()} SolarPro Energetika, s.r.o.`);
+  const legal1     = String(content.legal1     ?? "Ochrana osobních údajů");
+  const legal1Href = String(content.legal1Href ?? "/kontakt");
+  const legal2     = String(content.legal2     ?? "Obchodní podmínky");
+  const legal2Href = String(content.legal2Href ?? "/kontakt");
+  const col1Title  = String(content.col1Title  ?? "Řešení");
   const col1Links  = (content.col1Links  as LinkItem[] | undefined) ?? [];
   const col2Title  = String(content.col2Title  ?? "Produkty");
   const col2Links  = (content.col2Links  as LinkItem[] | undefined) ?? [];
-  const col3Title  = String(content.col3Title  ?? "Informace");
+  const col3Title  = String(content.col3Title  ?? "Společnost");
   const col3Links  = (content.col3Links  as LinkItem[] | undefined) ?? [];
   const fbHref     = String(content.fbHref     ?? "#");
   const igHref     = String(content.igHref     ?? "#");
   const ytHref     = String(content.ytHref     ?? "#");
+  const liHref     = String(content.liHref     ?? "#");
 
-  const FbIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>;
-  const IgIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>;
-  const YtIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>;
+  const FbIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>;
+  const IgIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>;
+  const YtIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>;
+  const LiIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.56c0-1.33-.02-3.03-1.85-3.03-1.85 0-2.14 1.45-2.14 2.94v5.65H9.35V9h3.42v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.07 2.07 0 010-4.13 2.07 2.07 0 010 4.13zM7.11 20.45H3.55V9h3.56v11.45z"/></svg>;
+
+  const socials = [
+    { href: fbHref, Icon: FbIcon, label: "Facebook" },
+    { href: igHref, Icon: IgIcon, label: "Instagram" },
+    { href: ytHref, Icon: YtIcon, label: "YouTube" },
+    { href: liHref, Icon: LiIcon, label: "LinkedIn" },
+  ];
 
   return (
-    <>
-      <style>{`
-        @media (max-width: 768px) {
-          .s03ft-grid { grid-template-columns: 1fr !important; gap: 36px !important; }
-          .s03ft-bar { flex-direction: column !important; gap: 12px !important; text-align: center; }
-        }
-        @media (min-width: 481px) and (max-width: 768px) {
-          .s03ft-grid { grid-template-columns: 1fr 1fr !important; }
-        }
-      `}</style>
-      <footer style={{ backgroundColor: BG, color: WHITE, fontFamily: FONT_M }} data-template="solar-03">
-        <div style={{ maxWidth: 1160, margin: "0 auto", padding: "60px 24px 0" }}>
-          {/* Logo + tagline */}
-          <div style={{ marginBottom: 48, display: "flex", alignItems: "baseline", gap: 12 }}>
-            <span style={{ fontWeight: 800, fontSize: 22, textTransform: "uppercase", letterSpacing: "0.04em", color: WHITE }}>
-              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+    <footer className="s03ft-footer" data-template="solar-03">
+      <div className="s03ft-inner">
+        {/* CTA strip */}
+        <div className="s03ft-cta">
+          <div className="s03ft-cta-body">
+            <span className="s03ft-cta-eyebrow">
+              <span className="s03ft-cta-eyebrow-dot" aria-hidden="true" />
+              <GenericEditableText sectionId={sectionId} field="ctaEyebrow" value={ctaEyebrow} tag="span" />
             </span>
-            <span style={{ fontSize: 13, color: ORANGE, fontWeight: 600 }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            <h3 className="s03ft-cta-title">
+              <GenericEditableText sectionId={sectionId} field="ctaTitle" value={ctaTitle} tag="span" />
+            </h3>
+          </div>
+          <a href={resolve(ctaHref)} className="s03ft-cta-btn" data-btn="primary">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <span aria-hidden="true" style={{ marginLeft: 8, display: "inline-flex" }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
             </span>
-          </div>
+          </a>
+        </div>
 
-          {/* 3-col nav grid */}
-          <div className="s03ft-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0 48px", paddingBottom: 48, borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
-            {/* Col 1 */}
-            <div>
-              <p style={{ fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.08em", color: ORANGE, margin: "0 0 16px" }}>
-                <GenericEditableText sectionId={sectionId} field="col1Title" value={col1Title} tag="span" />
-              </p>
-              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-                {col1Links.map((l, i) => (
-                  <li key={i}><a href={resolve(l.href)} style={{ color: MUTED, fontSize: 14, textDecoration: "none", transition: "color 0.15s" }}
-                    onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-                    onMouseLeave={e => (e.currentTarget.style.color = MUTED)}>
-                    <GenericEditableText sectionId={sectionId} field={`col1Links.${i}.label`} value={l.label} tag="span" />
-                  </a></li>
-                ))}
-              </ul>
+        {/* Grid: brand + 3 cols */}
+        <div className="s03ft-grid">
+          <div className="s03ft-brand">
+            <div className="s03ft-logo">
+              <span className="s03ft-logo-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="9" r="3" />
+                  <line x1="12" y1="2.5" x2="12" y2="4"/>
+                  <line x1="4.9" y1="4.9" x2="6" y2="6"/>
+                  <line x1="19.1" y1="4.9" x2="18" y2="6"/>
+                  <line x1="2.5" y1="9" x2="4" y2="9"/>
+                  <line x1="20" y1="9" x2="21.5" y2="9"/>
+                  <path d="M3 17c1.8-1.6 3.6-1.6 5.4 0s3.6 1.6 5.4 0 3.6-1.6 5.4 0" />
+                </svg>
+              </span>
+              <div className="s03ft-logo-text">
+                <span className="s03ft-logo-name">
+                  <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+                </span>
+                <span className="s03ft-logo-tag">
+                  <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+                </span>
+              </div>
             </div>
-            {/* Col 2 */}
-            <div>
-              <p style={{ fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.08em", color: ORANGE, margin: "0 0 16px" }}>
-                <GenericEditableText sectionId={sectionId} field="col2Title" value={col2Title} tag="span" />
-              </p>
-              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-                {col2Links.map((l, i) => (
-                  <li key={i}><a href={resolve(l.href)} style={{ color: MUTED, fontSize: 14, textDecoration: "none", transition: "color 0.15s" }}
-                    onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-                    onMouseLeave={e => (e.currentTarget.style.color = MUTED)}>
-                    <GenericEditableText sectionId={sectionId} field={`col2Links.${i}.label`} value={l.label} tag="span" />
-                  </a></li>
-                ))}
-              </ul>
-            </div>
-            {/* Col 3 */}
-            <div>
-              <p style={{ fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.08em", color: ORANGE, margin: "0 0 16px" }}>
-                <GenericEditableText sectionId={sectionId} field="col3Title" value={col3Title} tag="span" />
-              </p>
-              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-                {col3Links.map((l, i) => (
-                  <li key={i}><a href={resolve(l.href)} style={{ color: MUTED, fontSize: 14, textDecoration: "none", transition: "color 0.15s" }}
-                    onMouseEnter={e => (e.currentTarget.style.color = WHITE)}
-                    onMouseLeave={e => (e.currentTarget.style.color = MUTED)}>
-                    <GenericEditableText sectionId={sectionId} field={`col3Links.${i}.label`} value={l.label} tag="span" />
-                  </a></li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Bottom bar */}
-          <div className="s03ft-bar" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 0 24px" }}>
-            <p style={{ color: MUTED, fontSize: 13, margin: 0 }}>
-              <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+            <p className="s03ft-lede">
+              <GenericEditableText sectionId={sectionId} field="brandLede" value={brandLede} tag="span" />
             </p>
-            <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-              {[{ href: fbHref, Icon: FbIcon }, { href: igHref, Icon: IgIcon }, { href: ytHref, Icon: YtIcon }].map(({ href, Icon }, i) => (
-                <a key={i} href={resolve(href)} style={{ color: MUTED, display: "flex", alignItems: "center", transition: "color 0.15s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = ORANGE)}
-                  onMouseLeave={e => (e.currentTarget.style.color = MUTED)}>
+
+            <ul className="s03ft-contact">
+              <li>
+                <span className="s03ft-contact-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={ORANGE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0122 16.92z"/></svg>
+                </span>
+                <div>
+                  <a href={`tel:${phone.replace(/\s/g, "")}`} className="s03ft-contact-primary">
+                    <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                  </a>
+                  <span className="s03ft-contact-note">
+                    <GenericEditableText sectionId={sectionId} field="phoneNote" value={phoneNote} tag="span" />
+                  </span>
+                </div>
+              </li>
+              <li>
+                <span className="s03ft-contact-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={ORANGE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </span>
+                <div>
+                  <a href={`mailto:${email}`} className="s03ft-contact-primary">
+                    <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                  </a>
+                  <span className="s03ft-contact-note">
+                    <GenericEditableText sectionId={sectionId} field="emailNote" value={emailNote} tag="span" />
+                  </span>
+                </div>
+              </li>
+              <li>
+                <span className="s03ft-contact-icon" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={ORANGE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </span>
+                <div>
+                  <span className="s03ft-contact-primary">
+                    <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                  </span>
+                  <span className="s03ft-contact-note">
+                    <GenericEditableText sectionId={sectionId} field="addressNote" value={addressNote} tag="span" />
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {[
+            { title: col1Title, links: col1Links, prefix: "col1Links" },
+            { title: col2Title, links: col2Links, prefix: "col2Links" },
+            { title: col3Title, links: col3Links, prefix: "col3Links" },
+          ].map((col, ci) => (
+            <div className="s03ft-col" key={ci}>
+              <p className="s03ft-col-title">
+                <GenericEditableText sectionId={sectionId} field={ci === 0 ? "col1Title" : ci === 1 ? "col2Title" : "col3Title"} value={col.title} tag="span" />
+              </p>
+              <ul className="s03ft-col-links">
+                {col.links.map((l, i) => (
+                  <li key={i}>
+                    <a href={resolve(l.href)} className="s03ft-link">
+                      <GenericEditableText sectionId={sectionId} field={`${col.prefix}.${i}.label`} value={l.label} tag="span" />
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom bar */}
+        <div className="s03ft-bar">
+          <div className="s03ft-bar-left">
+            <span className="s03ft-copy">
+              <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+            </span>
+            <span className="s03ft-legal">
+              <a href={resolve(legal1Href)} className="s03ft-legal-link">
+                <GenericEditableText sectionId={sectionId} field="legal1" value={legal1} tag="span" />
+              </a>
+              <span aria-hidden="true">·</span>
+              <a href={resolve(legal2Href)} className="s03ft-legal-link">
+                <GenericEditableText sectionId={sectionId} field="legal2" value={legal2} tag="span" />
+              </a>
+            </span>
+          </div>
+          <div className="s03ft-bar-right">
+            <div className="s03ft-socials">
+              {socials.map(({ href, Icon, label }, i) => (
+                <a key={i} href={resolve(href)} aria-label={label} className="s03ft-social">
                   <Icon />
                 </a>
               ))}
             </div>
+            <WeberoCredit />
           </div>
         </div>
-      </footer>
-    </>
+      </div>
+    </footer>
   );
 }
 
@@ -11248,100 +12326,122 @@ function FooterSolar03({ content, sectionId, tenantSlug, isAdmin }: { content: R
 function FooterSolar02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const siteName  = String(content.siteName  ?? "GREENIA");
   const tagline   = String(content.tagline   ?? "Chytrá energetická řešení pro firmy, obce i bytové domy.");
-  const phone     = String(content.phone     ?? "704 123 456");
-  const email     = String(content.email     ?? "email@demo.cz");
-  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} GREENIA. Všechna práva vyhrazena.`);
+  const phone     = String(content.phone     ?? "777 234 890");
+  const email     = String(content.email     ?? "info@demo.cz");
+  const address   = String(content.address   ?? "Brno · Praha · Ostrava");
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} ${siteName}. Všechna práva vyhrazena.`);
+  const navTitle    = String(content.navTitle    ?? "Řešení");
+  const supTitle    = String(content.supTitle    ?? "Společnost");
+  const contactTitle = String(content.contactTitle ?? "Kontakt");
+  const ctaText     = String(content.ctaText  ?? "Bezplatná konzultace");
+  const ctaHref     = String(content.ctaHref  ?? "/kontakt");
   const links = (content.links as Array<{ label: string; href: string }> | undefined) ?? [
-    { label: "Fotovoltaika",       href: "#sluzby"    },
-    { label: "PPA – bez investice",href: "#moznosti"  },
-    { label: "BESS",               href: "#bess"      },
-    { label: "Správa a monitoring",href: "#sluzby"    },
-    { label: "Reference",          href: "#reference" },
-    { label: "Kontakt",            href: "#kontakt"   },
+    { label: "Fotovoltaika",       href: "/sluzby"    },
+    { label: "PPA — bez investice",href: "/moznosti"  },
+    { label: "Baterie BESS",       href: "/bess"      },
+    { label: "Reference",          href: "/reference" },
+    { label: "O nás",              href: "/onas"      },
+    { label: "Kontakt",            href: "/kontakt"   },
   ];
+  const solutionLinks = links.slice(0, 3);
+  const companyLinks  = links.slice(3);
 
   const GREEN = "#79c44f";
-  const FONT  = "'DM Sans', sans-serif";
 
   return (
-    <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" />
-      <style>{`        .s02ft { background: #0b0f14; padding: 60px 0 0; }
-        .s02ft-inner { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
-        .s02ft-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-        .s02ft-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; text-decoration: none; }
-        .s02ft-wordmark { font-family: ${FONT}; font-weight: 800; font-size: 22px; color: #fff; letter-spacing: 0.04em; }
-        .s02ft-tagline { font-family: ${FONT}; font-size: 14px; color: #8fa8b8; line-height: 1.65; margin: 0 0 24px; max-width: 300px; }
-        .s02ft-contact a { display: block; font-family: ${FONT}; font-size: 14px; color: #8fa8b8; text-decoration: none; margin-bottom: 8px; transition: color 0.15s; }
-        .s02ft-contact a:hover { color: ${GREEN}; }
-        .s02ft-col-title { font-family: ${FONT}; font-weight: 700; font-size: 13px; color: #fff; text-transform: uppercase; letter-spacing: 0.07em; margin: 0 0 18px; }
-        .s02ft-nav { list-style: none; margin: 0; padding: 0; }
-        .s02ft-nav li { margin-bottom: 10px; }
-        .s02ft-nav a { font-family: ${FONT}; font-size: 14px; color: #8fa8b8; text-decoration: none; transition: color 0.15s; }
-        .s02ft-nav a:hover { color: ${GREEN}; }
-        .s02ft-bottom { display: flex; align-items: center; justify-content: space-between; padding: 20px 0; }
-        .s02ft-copy { font-family: ${FONT}; font-size: 13px; color: rgba(255,255,255,0.3); }
-        .s02ft-badge { font-family: ${FONT}; font-size: 12px; color: rgba(255,255,255,0.2); }
-        @media (max-width: 760px) {
-          .s02ft-top { grid-template-columns: 1fr; gap: 32px; }
-          .s02ft-bottom { flex-direction: column; gap: 8px; text-align: center; }
-        }
-      `}</style>
-      <footer className="s02ft">
-        <div className="s02ft-inner">
-          <div className="s02ft-top">
-            <div>
-              <a className="s02ft-logo" href="#">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                  <path d="M14 3C8.477 3 4 7.477 4 13c0 3.5 1.8 6.6 4.5 8.4C9.8 22.3 11.8 23 14 23s4.2-.7 5.5-1.6C22.2 19.6 24 16.5 24 13c0-5.523-4.477-10-10-10z" fill={GREEN} fillOpacity="0.2"/>
-                  <path d="M14 6c-1.8 2-3 4.5-3 7s1.2 5 3 7c1.8-2 3-4.5 3-7s-1.2-5-3-7z" fill={GREEN}/>
-                  <path d="M8 10c2 1 4.5 1.5 6 3s2.5 4 2 6c-2-1-4.5-1.5-6-3S7.5 12 8 10z" fill={GREEN} fillOpacity="0.7"/>
-                  <path d="M20 10c-2 1-4.5 1.5-6 3s-2.5 4-2 6c2-1 4.5-1.5 6-3S20.5 12 20 10z" fill={GREEN} fillOpacity="0.5"/>
-                </svg>
-                <span className="s02ft-wordmark">
-                  <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-                </span>
-              </a>
-              <p className="s02ft-tagline">
-                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-              </p>
-              <div className="s02ft-contact">
-                <a href={`tel:${phone.replace(/\s/g, "")}`}>
+    <footer className="s02ft" data-template="solar-02">
+      <div className="s02ft-glow" aria-hidden="true" />
+      <div className="s02ft-inner">
+        <div className="s02ft-top">
+          {/* Brand */}
+          <div className="s02ft-brand">
+            <a className="s02ft-logo" href={ctaHref}>
+              <svg width="30" height="30" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                <path d="M14 3C8.477 3 4 7.477 4 13c0 3.5 1.8 6.6 4.5 8.4C9.8 22.3 11.8 23 14 23s4.2-.7 5.5-1.6C22.2 19.6 24 16.5 24 13c0-5.523-4.477-10-10-10z" fill={GREEN} fillOpacity="0.2"/>
+                <path d="M14 6c-1.8 2-3 4.5-3 7s1.2 5 3 7c1.8-2 3-4.5 3-7s-1.2-5-3-7z" fill={GREEN}/>
+                <path d="M8 10c2 1 4.5 1.5 6 3s2.5 4 2 6c-2-1-4.5-1.5-6-3S7.5 12 8 10z" fill={GREEN} fillOpacity="0.7"/>
+                <path d="M20 10c-2 1-4.5 1.5-6 3s-2.5 4-2 6c2-1 4.5-1.5 6-3S20.5 12 20 10z" fill={GREEN} fillOpacity="0.5"/>
+              </svg>
+              <span className="s02ft-wordmark">
+                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+              </span>
+            </a>
+            <p className="s02ft-tagline">
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </p>
+            <a href={ctaHref} className="s02ft-cta">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+          </div>
+
+          {/* Solutions */}
+          <div className="s02ft-col">
+            <p className="s02ft-col-title">
+              <GenericEditableText sectionId={sectionId} field="navTitle" value={navTitle} tag="span" />
+            </p>
+            <ul className="s02ft-nav">
+              {solutionLinks.map((l, i) => (
+                <li key={i}>
+                  <a href={l.href} className="s02ft-navlink">
+                    <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Company */}
+          <div className="s02ft-col">
+            <p className="s02ft-col-title">
+              <GenericEditableText sectionId={sectionId} field="supTitle" value={supTitle} tag="span" />
+            </p>
+            <ul className="s02ft-nav">
+              {companyLinks.map((l, i) => (
+                <li key={i}>
+                  <a href={l.href} className="s02ft-navlink">
+                    <GenericEditableText sectionId={sectionId} field={`links.${i + 3}.label`} value={l.label} tag="span" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div className="s02ft-col">
+            <p className="s02ft-col-title">
+              <GenericEditableText sectionId={sectionId} field="contactTitle" value={contactTitle} tag="span" />
+            </p>
+            <ul className="s02ft-nav">
+              <li>
+                <a href={`tel:+420${phone.replace(/\s/g, "")}`} className="s02ft-navlink">
                   <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
                 </a>
-                <a href={`mailto:${email}`}>
+              </li>
+              <li>
+                <a href={`mailto:${email}`} className="s02ft-navlink">
                   <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
                 </a>
-              </div>
-            </div>
-            <div>
-              <p className="s02ft-col-title">Navigace</p>
-              <ul className="s02ft-nav">
-                {links.slice(0, 3).map((l, i) => (
-                  <li key={i}><a href={l.href}><GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" /></a></li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="s02ft-col-title">Řešení</p>
-              <ul className="s02ft-nav">
-                {links.slice(3).map((l, i) => (
-                  <li key={i}><a href={l.href}><GenericEditableText sectionId={sectionId} field={`links.${i + 3}.label`} value={l.label} tag="span" /></a></li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="s02ft-bottom">
-            <span className="s02ft-copy">
-              <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
-            </span>
-            <span className="s02ft-badge">Powered by Webero</span>
+              </li>
+              <li>
+                <span className="s02ft-static">
+                  <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
-      </footer>
-    </>
+
+        <div className="s02ft-bottom">
+          <span className="s02ft-copy">
+            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+          </span>
+          <WeberoCredit />
+        </div>
+      </div>
+    </footer>
   );
 }
 
@@ -12955,7 +14055,7 @@ function FooterHotel02({ content, sectionId }: { content: Record<string, unknown
 }
 
 // ─── photo-01 Footer ─────────────────────────────────────────────────────────
-function FooterPhoto01({ content, sectionId }: { content: unknown; sectionId: string }) {
+function FooterPhoto01({ content, sectionId }: { content: unknown; sectionId: number }) {
   const c         = content as Record<string, unknown>;
   const siteName  = (c.siteName  as string) ?? "";
   const tagline   = (c.tagline   as string) ?? "";
@@ -13310,79 +14410,245 @@ function FooterMalir02({ content, sectionId }: { content: Record<string, unknown
 }
 
 // ── events-01-footer ──────────────────────────────────────────────────────────
-// 1:1 amdenevents.cz: černý bg, 3-col (2fr 1fr 1fr), gold border-top, copyright bar
+// Prémiová event-agentura: dark bg s gold hairline top border, 3-col (brand +
+// nav + kontakt), Playfair italic tagline, gold ring social icons, refined
+// hover polish, WeberoCredit v bottom baru. Awwwards polish 2026-07-01.
 // ─────────────────────────────────────────────────────────────────────────────
-function FooterEvents01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+function FooterEvents01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const GOLD = "#d4b896";
-  const siteName  = String(content.siteName  ?? "DEMO EVENTS");
-  const tagline   = String(content.tagline   ?? "Eventová agentura Praha");
-  const phone     = String(content.phone     ?? "704 123 456");
-  const email     = String(content.email     ?? "email@demo.cz");
-  const address   = String(content.address   ?? "Ukázková 123, 110 00 Praha 1");
-  const ico       = String(content.ico       ?? "12345678");
-  const copyright = String(content.copyright ?? "© 2026 Demo Events. Všechna práva vyhrazena.");
-  const facebook  = String(content.facebook  ?? "https://facebook.com/demo");
-  const instagram = String(content.instagram ?? "https://instagram.com/demo");
-  const links     = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteName    = String(content.siteName    ?? "DEMO EVENTS");
+  const tagline     = String(content.tagline     ?? "Eventová agentura Praha");
+  const phone       = String(content.phone       ?? "704 123 456");
+  const email       = String(content.email       ?? "email@demo.cz");
+  const address     = String(content.address     ?? "Ukázková 123, 110 00 Praha 1");
+  const ico         = String(content.ico         ?? "12345678");
+  const icoLabel    = String(content.icoLabel    ?? "IČO");
+  const copyright   = String(content.copyright   ?? "© 2026 Demo Events. Všechna práva vyhrazena.");
+  const navLabel    = String(content.navLabel    ?? "Navigace");
+  const contactLabel= String(content.contactLabel?? "Kontakt");
+  const facebook    = String(content.facebook    ?? "https://facebook.com/demo");
+  const instagram   = String(content.instagram   ?? "https://instagram.com/demo");
+  const siteMode    = String(content.siteMode    ?? "multipage");
+  const links       = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const resolveHref = (href: string) => {
+    if (!href.startsWith("/")) return href;
+    if (!tenantSlug) return href;
+    if (siteMode === "onepage") {
+      if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
+      return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}#${href.replace(/^\//, "")}`;
+    }
+    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
+  };
+
   return (
     <>
       <style>{`
-        .ev01ft { background: #000; color: #888; padding: 60px 40px 30px; border-top: 1px solid #1a1a1a; }
-        .ev01ft-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; }
-        .ev01ft h3 { color: ${GOLD}; font-family: 'Inter', sans-serif; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; margin: 0 0 18px; }
-        .ev01ft p, .ev01ft a { font-family: 'Inter', sans-serif; font-size: 14px; color: #888; text-decoration: none; line-height: 1.9; display: block; }
-        .ev01ft a:hover { color: ${GOLD}; }
-        .ev01ft-brand { font-family: 'Inter', sans-serif; font-size: 20px; font-weight: 700; color: ${GOLD}; letter-spacing: 3px; text-transform: uppercase; display: block; margin-bottom: 8px; text-decoration: none; }
-        .ev01ft-tagline { font-size: 13px; color: #666; margin-bottom: 20px; display: block; font-style: italic; }
-        .ev01ft-social { display: flex; gap: 16px; margin-top: 16px; }
-        .ev01ft-social a { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #333; color: #888; font-size: 14px; text-decoration: none; transition: border-color 0.2s, color 0.2s; }
-        .ev01ft-social a:hover { border-color: ${GOLD}; color: ${GOLD}; }
-        .ev01ft-bottom { border-top: 1px solid #1a1a1a; margin-top: 40px; padding-top: 24px; text-align: center; font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 2px; color: #555; }
-        @media (max-width: 900px) { .ev01ft { padding: 50px 24px 24px; } .ev01ft-inner { grid-template-columns: 1fr; gap: 40px; } }
+        .ev01ft {
+          position: relative;
+          background: linear-gradient(180deg, #050505 0%, #000 100%);
+          color: rgba(255,255,255,0.55);
+          padding: 90px 40px 30px;
+        }
+        .ev01ft::before {
+          content: "";
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent 0%, rgba(212,184,150,0.28) 50%, transparent 100%);
+        }
+        .ev01ft-inner {
+          max-width: 1280px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 2fr 1fr 1fr;
+          gap: 72px;
+        }
+        .ev01ft-col-head {
+          color: ${GOLD};
+          font-family: 'Inter', sans-serif;
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 3.5px;
+          text-transform: uppercase;
+          margin: 0 0 24px;
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+        }
+        .ev01ft-col-head::before {
+          content: "";
+          display: block;
+          width: 22px;
+          height: 1px;
+          background: ${GOLD};
+        }
+        .ev01ft p,
+        .ev01ft-list a,
+        .ev01ft-nav-link {
+          font-family: 'Inter', sans-serif;
+          font-size: 13.5px;
+          color: rgba(255,255,255,0.58);
+          text-decoration: none;
+          line-height: 1.9;
+          margin: 0;
+          display: block;
+          transition: color 0.35s cubic-bezier(.32,.72,0,1), padding-left 0.4s cubic-bezier(.32,.72,0,1);
+          position: relative;
+        }
+        .ev01ft-nav-link { padding: 3px 0; }
+        .ev01ft-list a::before,
+        .ev01ft-nav-link::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 50%;
+          width: 6px;
+          height: 1px;
+          background: ${GOLD};
+          transform: translateY(-50%) scaleX(0);
+          transform-origin: left center;
+          transition: transform 0.4s cubic-bezier(.32,.72,0,1);
+        }
+        .ev01ft-list a:hover,
+        .ev01ft-nav-link:hover { color: ${GOLD}; padding-left: 14px; }
+        .ev01ft-list a:hover::before,
+        .ev01ft-nav-link:hover::before { transform: translateY(-50%) scaleX(1); }
+        .ev01ft-brand {
+          font-family: 'Inter', sans-serif;
+          font-size: 20px;
+          font-weight: 600;
+          color: #fff;
+          letter-spacing: 4px;
+          text-transform: uppercase;
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 12px;
+          text-decoration: none;
+        }
+        .ev01ft-brand::before {
+          content: "";
+          display: block;
+          width: 6px;
+          height: 6px;
+          background: ${GOLD};
+          border-radius: 50%;
+          box-shadow: 0 0 0 3px rgba(212,184,150,0.12);
+        }
+        .ev01ft-tagline {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic;
+          font-size: 15px;
+          color: ${GOLD};
+          margin: 0 0 26px;
+          letter-spacing: 0.1px;
+          display: block;
+        }
+        .ev01ft-list { display: flex; flex-direction: column; gap: 2px; }
+        .ev01ft-ico { color: rgba(255,255,255,0.4); font-size: 12px; letter-spacing: 1.5px; margin-top: 16px; }
+        .ev01ft-social {
+          display: flex;
+          gap: 12px;
+          margin-top: 26px;
+        }
+        .ev01ft-social a {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          border: 1px solid rgba(212,184,150,0.24);
+          color: rgba(255,255,255,0.62);
+          text-decoration: none;
+          transition: color 0.4s cubic-bezier(.32,.72,0,1), border-color 0.4s cubic-bezier(.32,.72,0,1), background 0.4s cubic-bezier(.32,.72,0,1), box-shadow 0.4s cubic-bezier(.32,.72,0,1), transform 0.4s cubic-bezier(.32,.72,0,1);
+        }
+        .ev01ft-social a:hover {
+          color: ${GOLD};
+          border-color: ${GOLD};
+          background: rgba(212,184,150,0.06);
+          box-shadow: 0 0 0 4px rgba(212,184,150,0.08);
+          transform: translateY(-2px);
+        }
+        .ev01ft-bottom {
+          border-top: 1px solid rgba(212,184,150,0.1);
+          margin-top: 60px;
+          padding-top: 26px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 20px;
+          flex-wrap: wrap;
+          font-family: 'Inter', sans-serif;
+          font-size: 11px;
+          letter-spacing: 2px;
+          color: rgba(255,255,255,0.35);
+        }
+        @media (max-width: 900px) {
+          .ev01ft { padding: 70px 24px 24px; }
+          .ev01ft-inner { grid-template-columns: 1fr; gap: 44px; }
+          .ev01ft-bottom { flex-direction: column; gap: 14px; text-align: center; }
+        }
       `}</style>
       <footer className="ev01ft" id="footer" data-template="events-01-footer">
         <div className="ev01ft-inner">
           <div>
-            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span">
-              <span className="ev01ft-brand">{siteName}</span>
-            </GenericEditableText>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span">
-              <span className="ev01ft-tagline">{tagline}</span>
-            </GenericEditableText>
-            <GenericEditableText sectionId={sectionId} field="address" value={address} tag="p">
-              <p>{address}</p>
-            </GenericEditableText>
-            <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span">
-              <a href={`tel:${phone.replace(/\s/g,"")}`}>{phone}</a>
-            </GenericEditableText>
-            <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span">
-              <a href={`mailto:${email}`}>{email}</a>
-            </GenericEditableText>
-            <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span">
-              <p style={{ marginTop: 4 }}>IČO: {ico}</p>
-            </GenericEditableText>
+            <span className="ev01ft-brand">
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span">{siteName}</GenericEditableText>
+            </span>
+            <span className="ev01ft-tagline">
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span">{tagline}</GenericEditableText>
+            </span>
+            <div className="ev01ft-list">
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="p"><p>{address}</p></GenericEditableText>
+              <a href={`tel:${phone.replace(/\s/g,"")}`}>
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span">{phone}</GenericEditableText>
+              </a>
+              <a href={`mailto:${email}`}>
+                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span">{email}</GenericEditableText>
+              </a>
+            </div>
+            <p className="ev01ft-ico">
+              <GenericEditableText sectionId={sectionId} field="icoLabel" value={icoLabel} tag="span">{icoLabel}</GenericEditableText>
+              {" "}
+              <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span">{ico}</GenericEditableText>
+            </p>
             <div className="ev01ft-social">
-              <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">f</a>
-              <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">in</a>
+              <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 22v-8h3l1-4h-4V7c0-1.1.4-2 2-2h2V1.1C16.7 1 15.4 1 14 1c-3 0-5 1.9-5 5.3V10H6v4h3v8h4z"/></svg>
+              </a>
+              <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.9" fill="currentColor"/></svg>
+              </a>
             </div>
           </div>
           <div>
-            <h3>Navigace</h3>
-            {links.map((l, i) => (
-              <a key={i} href={l.href}>
-                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span">{l.label}</GenericEditableText>
-              </a>
-            ))}
+            <h3 className="ev01ft-col-head">
+              <GenericEditableText sectionId={sectionId} field="navLabel" value={navLabel} tag="span">{navLabel}</GenericEditableText>
+            </h3>
+            <div className="ev01ft-list">
+              {links.map((l, i) => (
+                <a key={i} href={resolveHref(l.href)} className="ev01ft-nav-link">
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span">{l.label}</GenericEditableText>
+                </a>
+              ))}
+            </div>
           </div>
           <div>
-            <h3>Kontakt</h3>
-            <p>{address}</p>
-            <a href={`tel:${phone.replace(/\s/g,"")}`}>{phone}</a>
-            <a href={`mailto:${email}`}>{email}</a>
+            <h3 className="ev01ft-col-head">
+              <GenericEditableText sectionId={sectionId} field="contactLabel" value={contactLabel} tag="span">{contactLabel}</GenericEditableText>
+            </h3>
+            <div className="ev01ft-list">
+              <p>{address}</p>
+              <a href={`tel:${phone.replace(/\s/g,"")}`}>{phone}</a>
+              <a href={`mailto:${email}`}>{email}</a>
+            </div>
           </div>
         </div>
         <div className="ev01ft-bottom">
-          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span">{copyright}</GenericEditableText>
+          <span>
+            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span">{copyright}</GenericEditableText>
+          </span>
+          <WeberoCredit />
         </div>
       </footer>
     </>
@@ -13390,112 +14656,148 @@ function FooterEvents01({ content, sectionId }: { content: Record<string, unknow
 }
 
 // ── dj-01-footer ─────────────────────────────────────────────────────────────
-// Nový design: černý bg, oranžová top linka, velký brand block, nav,
-// kontakty, social ikony, bottom bar. Fade-up animace při scrollu.
-// ─────────────────────────────────────────────────────────────────────────────
+// LUXE REDESIGN (Neon Nocturne — vasdj.cz Awwwards edition):
+// - Preserved: dark bg + orange top border + brand block + divider + nav + contact row + socials + bottom copyright
+// - Enhanced: midnight #08080b + gradient orange→amber 2px top rule + EQ-bar brand icon (match navbar)
+// - Space Grotesk wordmark + JBM Mono nav/labels/copyright + subtle orange radial glow bottom
+// - Nav: gradient underline slide-in hover; contact: minimalist mono stroke icons; socials: outline→gradient hover
+// - Powinná <WeberoCredit /> v bottom bar (per playbook)
+// ──────────────────────────────────────────────────────────────────────────────
 function FooterDj01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const ORANGE = "#f15a24";
 
-  const copyright = String(content.copyright ?? "© 2026 DJ Agosto");
-  const facebook  = String(content.facebook  ?? "https://facebook.com/demo");
-  const youtube   = String(content.youtube   ?? "https://youtube.com/demo");
-  const email     = String(content.email     ?? "email@demo.cz");
-  const phone     = String(content.phone     ?? "+420 704 123 456");
+  const siteName  = String(content.siteName  ?? "NOKTURN");
+  const tagline   = String(content.tagline   ?? "Půlnoční rezidenti pro váš zvuk.");
+  const copyright = String(content.copyright ?? "© 2026 Nokturn Sound Collective · Praha");
+  const facebook  = String(content.facebook  ?? "https://facebook.com/nokturn");
+  const youtube   = String(content.youtube   ?? "https://youtube.com/nokturn");
+  const instagram = String(content.instagram ?? "https://instagram.com/nokturn");
+  const email     = String(content.email     ?? "booking@nokturn.cz");
+  const phone     = String(content.phone     ?? "+420 731 456 789");
 
   const navLinks = [
-    { label: "Služby",     href: "#sluzby" },
-    { label: "Reference",  href: "#reference" },
-    { label: "O nás",      href: "#o-nas" },
-    { label: "Kontakt",    href: "#kontakt" },
+    { label: "Sety",      href: "#sluzby" },
+    { label: "Klienti",   href: "#reference" },
+    { label: "Studio",    href: "#o-nas" },
+    { label: "Booking",   href: "#kontakt" },
   ];
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
       <style>{`
         .dj01ft {
-          background: #0a0a0a;
-          border-top: 3px solid ${ORANGE};
-          font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+          position: relative;
+          background: #08080b;
+          font-family: 'Space Grotesk', -apple-system, sans-serif;
           overflow: hidden;
+          isolation: isolate;
+        }
+        .dj01ft::before {
+          content: "";
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, transparent 0%, #f15a24 20%, #ff8347 50%, #f15a24 80%, transparent 100%);
+          z-index: 3;
+        }
+        .dj01ft::after {
+          content: "";
+          position: absolute;
+          left: 50%; bottom: -30%;
+          width: 90vw; max-width: 1200px; height: 55vh;
+          background: radial-gradient(closest-side, rgba(241,90,36,0.18) 0%, rgba(241,90,36,0.03) 45%, rgba(241,90,36,0) 72%);
+          transform: translateX(-50%);
+          z-index: 0;
+          pointer-events: none;
         }
 
-        /* ── fade-up animation ── */
-        @keyframes dj01ft-fadeup {
-          from { opacity: 0; transform: translateY(32px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        .dj01ft-animate {
-          opacity: 0;
-          transform: translateY(32px);
-        }
-        .dj01ft-animate.dj01ft-visible {
-          animation: dj01ft-fadeup 0.7s ease forwards;
-        }
-        .dj01ft-animate.dj01ft-visible:nth-child(2) { animation-delay: 0.1s; }
-        .dj01ft-animate.dj01ft-visible:nth-child(3) { animation-delay: 0.2s; }
-        .dj01ft-animate.dj01ft-visible:nth-child(4) { animation-delay: 0.3s; }
-        .dj01ft-animate.dj01ft-visible:nth-child(5) { animation-delay: 0.4s; }
+        @keyframes dj01ft-fadeup { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+        .dj01ft-animate { opacity: 0; transform: translateY(28px); }
+        .dj01ft-animate.dj01ft-visible { animation: dj01ft-fadeup 0.7s cubic-bezier(.2,.7,.2,1) forwards; }
+        .dj01ft-animate.dj01ft-visible:nth-child(2) { animation-delay: 0.08s; }
+        .dj01ft-animate.dj01ft-visible:nth-child(3) { animation-delay: 0.16s; }
+        .dj01ft-animate.dj01ft-visible:nth-child(4) { animation-delay: 0.24s; }
+        .dj01ft-animate.dj01ft-visible:nth-child(5) { animation-delay: 0.32s; }
 
-        /* ── body ── */
         .dj01ft-body {
-          max-width: 1240px;
+          position: relative;
+          z-index: 1;
+          max-width: 1280px;
           margin: 0 auto;
-          padding: 4rem 2rem 3rem;
+          padding: 4.5rem 2rem 2rem;
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 0;
         }
 
-        /* ── brand block ── */
+        /* ── brand ── */
         .dj01ft-brand {
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 1rem;
+          gap: 1.15rem;
           margin-bottom: 2.5rem;
         }
         .dj01ft-icon {
-          width: 64px;
-          height: 64px;
-          background: ${ORANGE};
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
+          display: inline-flex;
+          align-items: flex-end;
           justify-content: center;
-          box-shadow: 0 0 32px rgba(241,90,36,0.45);
+          gap: 4px;
+          width: 68px;
+          height: 68px;
+          background: rgba(241,90,36,0.08);
+          border: 1px solid rgba(241,90,36,0.4);
+          padding: 14px 12px;
+          box-sizing: border-box;
+          box-shadow: 0 0 32px rgba(241,90,36,0.25);
+        }
+        .dj01ft-icon span {
+          display: block;
+          width: 4px;
+          background: linear-gradient(180deg, #ff8347 0%, ${ORANGE} 100%);
+          transform-origin: bottom center;
+          animation: dj01ft-eq 1.6s cubic-bezier(.4,.0,.2,1) infinite;
+        }
+        .dj01ft-icon span:nth-child(1) { height: 55%; animation-delay:   0ms; }
+        .dj01ft-icon span:nth-child(2) { height: 100%;animation-delay: 120ms; }
+        .dj01ft-icon span:nth-child(3) { height: 70%; animation-delay: 240ms; }
+        .dj01ft-icon span:nth-child(4) { height: 88%; animation-delay: 360ms; }
+        @keyframes dj01ft-eq {
+          0%,100% { transform: scaleY(0.4); }
+          50%     { transform: scaleY(1); }
         }
         .dj01ft-wordmark {
-          font-size: clamp(2.2rem, 5vw, 3.5rem);
-          font-weight: 900;
-          letter-spacing: 0.12em;
+          font-family: 'Space Grotesk', sans-serif;
+          font-size: clamp(2rem, 4vw, 2.85rem);
+          font-weight: 700;
+          letter-spacing: 0.28em;
           text-transform: uppercase;
           margin: 0;
           line-height: 1;
           color: #fff;
         }
-        .dj01ft-wordmark span { color: ${ORANGE}; }
+        .dj01ft-wordmark .dj01ft-dot { color: ${ORANGE}; }
         .dj01ft-tagline {
-          font-size: 0.875rem;
-          font-weight: 400;
-          color: #666;
-          letter-spacing: 0.18em;
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 0.72rem;
+          font-weight: 500;
+          color: rgba(255,255,255,0.55);
+          letter-spacing: 0.32em;
           text-transform: uppercase;
           margin: 0;
         }
 
-        /* ── divider ── */
         .dj01ft-divider {
           width: 100%;
           height: 1px;
-          background: linear-gradient(to right, transparent, #2a2a2a 20%, #2a2a2a 80%, transparent);
+          background: linear-gradient(to right, transparent, rgba(255,255,255,0.14) 20%, rgba(255,255,255,0.14) 80%, transparent);
           margin: 0 0 2.5rem;
         }
 
-        /* ── nav links ── */
+        /* ── nav ── */
         .dj01ft-nav {
           display: flex;
           align-items: center;
@@ -13505,29 +14807,29 @@ function FooterDj01({ content, sectionId }: { content: Record<string, unknown>; 
           justify-content: center;
         }
         .dj01ft-nav a {
-          color: #aaa;
-          font-size: 0.8125rem;
-          font-weight: 600;
-          letter-spacing: 0.15em;
+          font-family: 'JetBrains Mono', monospace;
+          color: rgba(255,255,255,0.65);
+          font-size: 0.75rem;
+          font-weight: 500;
+          letter-spacing: 0.22em;
           text-transform: uppercase;
           text-decoration: none;
-          transition: color 200ms ease;
+          padding: 0.35rem 0;
+          transition: color 260ms cubic-bezier(.2,.7,.2,1);
           position: relative;
         }
         .dj01ft-nav a::after {
           content: '';
           position: absolute;
-          bottom: -3px;
-          left: 0;
-          width: 0;
-          height: 2px;
-          background: ${ORANGE};
-          transition: width 250ms ease;
+          bottom: -2px; left: 0;
+          width: 0; height: 2px;
+          background: linear-gradient(90deg, ${ORANGE} 0%, #ff8347 100%);
+          transition: width 320ms cubic-bezier(.2,.7,.2,1);
         }
-        .dj01ft-nav a:hover { color: #fff; }
+        .dj01ft-nav a:hover { color: ${ORANGE}; }
         .dj01ft-nav a:hover::after { width: 100%; }
 
-        /* ── contact row ── */
+        /* ── contact ── */
         .dj01ft-contact {
           display: flex;
           align-items: center;
@@ -13537,99 +14839,131 @@ function FooterDj01({ content, sectionId }: { content: Record<string, unknown>; 
           justify-content: center;
         }
         .dj01ft-contact-item {
-          display: flex;
+          display: inline-flex;
           align-items: center;
-          gap: 0.6rem;
+          gap: 0.75rem;
           text-decoration: none;
-          transition: opacity 200ms ease;
+          transition: transform 260ms cubic-bezier(.2,.7,.2,1);
         }
-        .dj01ft-contact-item:hover { opacity: 0.75; }
+        .dj01ft-contact-item:hover { transform: translateY(-1px); }
         .dj01ft-contact-icon {
-          width: 36px;
-          height: 36px;
-          border: 1px solid #2a2a2a;
-          border-radius: 50%;
-          display: flex;
+          width: 34px; height: 34px;
+          border: 1px solid rgba(255,255,255,0.15);
+          display: inline-flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
+          transition: border-color 260ms cubic-bezier(.2,.7,.2,1);
         }
+        .dj01ft-contact-item:hover .dj01ft-contact-icon { border-color: ${ORANGE}; }
         .dj01ft-contact-icon svg { display: block; }
-        .dj01ft-contact-label {
-          font-size: 1rem;
-          font-weight: 600;
-          color: #fff;
-          letter-spacing: 0.02em;
+        .dj01ft-contact-icon svg path, .dj01ft-contact-icon svg rect, .dj01ft-contact-icon svg polyline, .dj01ft-contact-icon svg line {
+          stroke: ${ORANGE};
         }
+        .dj01ft-contact-label {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 0.82rem;
+          font-weight: 500;
+          color: rgba(255,255,255,0.88);
+          letter-spacing: 0.06em;
+          transition: color 260ms cubic-bezier(.2,.7,.2,1);
+        }
+        .dj01ft-contact-item:hover .dj01ft-contact-label { color: #fff; }
 
-        /* ── social ── */
+        /* ── socials ── */
         .dj01ft-social {
           display: flex;
           align-items: center;
-          gap: 1.25rem;
+          gap: 1rem;
           margin-bottom: 3rem;
         }
         .dj01ft-social a {
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          border: 1px solid #2a2a2a;
-          display: flex;
+          position: relative;
+          width: 44px; height: 44px;
+          border: 1px solid rgba(255,255,255,0.15);
+          display: inline-flex;
           align-items: center;
           justify-content: center;
           text-decoration: none;
-          transition: background 250ms ease, border-color 250ms ease, transform 200ms ease;
+          overflow: hidden;
+          transition: border-color 320ms cubic-bezier(.2,.7,.2,1), transform 260ms cubic-bezier(.2,.7,.2,1);
+        }
+        .dj01ft-social a::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, ${ORANGE} 0%, #ff8347 100%);
+          transform: scale(0);
+          transform-origin: center;
+          transition: transform 320ms cubic-bezier(.2,.7,.2,1);
+          border-radius: 50%;
+          z-index: 0;
         }
         .dj01ft-social a:hover {
-          background: ${ORANGE};
           border-color: ${ORANGE};
           transform: translateY(-3px);
         }
-        .dj01ft-social a svg { display: block; }
-        .dj01ft-social a svg path,
-        .dj01ft-social a svg circle,
-        .dj01ft-social a svg rect {
-          fill: #aaa;
-          transition: fill 250ms ease;
+        .dj01ft-social a:hover::before { transform: scale(2.5); border-radius: 0; }
+        .dj01ft-social a svg { position: relative; z-index: 1; display: block; }
+        .dj01ft-social a svg path, .dj01ft-social a svg circle, .dj01ft-social a svg rect, .dj01ft-social a svg line, .dj01ft-social a svg polygon {
+          fill: rgba(255,255,255,0.7);
+          transition: fill 320ms cubic-bezier(.2,.7,.2,1);
         }
         .dj01ft-social a:hover svg path,
         .dj01ft-social a:hover svg circle,
-        .dj01ft-social a:hover svg rect {
-          fill: #fff;
-        }
+        .dj01ft-social a:hover svg rect,
+        .dj01ft-social a:hover svg line,
+        .dj01ft-social a:hover svg polygon { fill: #fff; }
 
         /* ── bottom bar ── */
         .dj01ft-bottom {
           width: 100%;
-          border-top: 1px solid #1a1a1a;
+          border-top: 1px solid rgba(255,255,255,0.08);
           padding-top: 1.5rem;
           display: flex;
           align-items: center;
-          justify-content: center;
+          justify-content: space-between;
+          gap: 1.5rem;
+          flex-wrap: wrap;
         }
         .dj01ft-copy {
-          color: #444;
-          font-size: 0.8rem;
-          font-weight: 400;
-          letter-spacing: 0.06em;
+          font-family: 'JetBrains Mono', monospace;
+          color: rgba(255,255,255,0.4);
+          font-size: 0.72rem;
+          font-weight: 500;
+          letter-spacing: 0.14em;
           margin: 0;
-          text-align: center;
+          text-align: left;
         }
+        .dj01ft-credit {
+          font-family: 'JetBrains Mono', monospace;
+          font-size: 0.7rem;
+          color: rgba(255,255,255,0.4);
+        }
+        .dj01ft-credit a { color: rgba(255,255,255,0.55); transition: color 260ms cubic-bezier(.2,.7,.2,1); }
+        .dj01ft-credit a:hover { color: ${ORANGE}; }
 
-        /* ── mobile ── */
         @media (max-width: 640px) {
-          .dj01ft-body { padding: 3rem 1.5rem 2rem; }
+          .dj01ft-body { padding: 3rem 1.25rem 1.75rem; }
           .dj01ft-contact { gap: 1.5rem; flex-direction: column; }
-          .dj01ft-nav { gap: 1.5rem; }
+          .dj01ft-nav { gap: 1.25rem; }
+          .dj01ft-bottom { flex-direction: column; justify-content: center; }
+          .dj01ft-copy, .dj01ft-credit { text-align: center; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .dj01ft-animate, .dj01ft-icon span { animation: none !important; opacity: 1 !important; transform: none !important; }
         }
       `}</style>
 
       <footer className="dj01ft" data-template="dj-01-footer">
         <Dj01FooterInner
           sectionId={sectionId}
+          siteName={siteName}
+          tagline={tagline}
           copyright={copyright}
           facebook={facebook}
           youtube={youtube}
+          instagram={instagram}
           email={email}
           phone={phone}
           navLinks={navLinks}
@@ -13640,17 +14974,19 @@ function FooterDj01({ content, sectionId }: { content: Record<string, unknown>; 
 }
 
 function Dj01FooterInner({
-  sectionId, copyright, facebook, youtube, email, phone, navLinks,
+  sectionId, siteName, tagline, copyright, facebook, youtube, instagram, email, phone, navLinks,
 }: {
   sectionId: number;
+  siteName: string;
+  tagline: string;
   copyright: string;
   facebook: string;
   youtube: string;
+  instagram: string;
   email: string;
   phone: string;
   navLinks: { label: string; href: string }[];
 }) {
-  const ORANGE = "#f15a24";
   const wrapRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -13676,21 +15012,18 @@ function Dj01FooterInner({
     <div className="dj01ft-body" ref={wrapRef}>
       {/* Brand block */}
       <div className="dj01ft-brand dj01ft-animate">
-        <div className="dj01ft-icon">
-          <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 30C8 30 8 36 14 36C14 36 14 42 20 42" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
-            <path d="M40 30C40 30 40 36 34 36C34 36 34 42 28 42" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
-            <path d="M6 30V24C6 13.5 14.5 5 24 5C33.5 5 42 13.5 42 24V30" stroke="#fff" strokeWidth="3" strokeLinecap="round"/>
-            <rect x="3" y="28" width="8" height="12" rx="4" fill="#fff"/>
-            <rect x="37" y="28" width="8" height="12" rx="4" fill="#fff"/>
-            <circle cx="24" cy="26" r="4" fill="#fff"/>
-            <path d="M20 26 Q18 20 24 18 Q30 20 28 26" stroke="#fff" strokeWidth="1.5" fill="none"/>
-          </svg>
+        <div className="dj01ft-icon" aria-hidden>
+          <span /><span /><span /><span />
         </div>
         <h2 className="dj01ft-wordmark">
-          <span>DJ&nbsp;</span>AGOSTO
+          <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span">
+            {siteName}
+          </GenericEditableText>
+          <span className="dj01ft-dot">.</span>
         </h2>
-        <p className="dj01ft-tagline">DJ & technický support bez kompromisů</p>
+        <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="p" className="dj01ft-tagline">
+          {tagline}
+        </GenericEditableText>
       </div>
 
       <div className="dj01ft-divider dj01ft-animate" />
@@ -13705,21 +15038,22 @@ function Dj01FooterInner({
       {/* Contact row */}
       <div className="dj01ft-contact dj01ft-animate">
         <a href={`tel:${phone.replace(/\s/g, "")}`} className="dj01ft-contact-item">
-          <div className="dj01ft-contact-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z" fill={ORANGE}/>
+          <span className="dj01ft-contact-icon" aria-hidden>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.86 19.86 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          </div>
+          </span>
           <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" className="dj01ft-contact-label">
             {phone}
           </GenericEditableText>
         </a>
         <a href={`mailto:${email}`} className="dj01ft-contact-item">
-          <div className="dj01ft-contact-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" fill={ORANGE}/>
+          <span className="dj01ft-contact-icon" aria-hidden>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <rect x="3" y="5" width="18" height="14" strokeWidth="1.6" strokeLinejoin="round"/>
+              <polyline points="3 7 12 13 21 7" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-          </div>
+          </span>
           <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" className="dj01ft-contact-label">
             {email}
           </GenericEditableText>
@@ -13729,21 +15063,21 @@ function Dj01FooterInner({
       {/* Social */}
       <div className="dj01ft-social dj01ft-animate">
         <a href={facebook} title="Facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
             <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
           </svg>
         </a>
         <a href={youtube} title="YouTube" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
             <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
-            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0a0a0a"/>
+            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#08080b"/>
           </svg>
         </a>
-        <a href="#" title="Instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+        <a href={instagram} title="Instagram" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18">
             <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="#0a0a0a"/>
-            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="#0a0a0a" strokeWidth="2" strokeLinecap="round"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="#08080b"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="#08080b"/>
           </svg>
         </a>
       </div>
@@ -13753,6 +15087,7 @@ function Dj01FooterInner({
         <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="p" className="dj01ft-copy">
           {copyright}
         </GenericEditableText>
+        <span className="dj01ft-credit"><WeberoCredit /></span>
       </div>
     </div>
   );
@@ -13945,7 +15280,7 @@ function FooterRestaurant04({ content, sectionId }: { content: Record<string, un
 ───────────────────────────────────────────── */
 function FooterVideo01({ content, sectionId, isAdmin }: {
   content: Record<string, unknown>;
-  sectionId: string;
+  sectionId: number;
   isAdmin: boolean;
 }) {
   const c = content as {
@@ -13972,7 +15307,7 @@ function FooterVideo01({ content, sectionId, isAdmin }: {
   const WHITE = "#ffffff";
 
   return (
-    <footer id={sectionId} style={{ background: BG }}>
+    <footer id={String(sectionId)} style={{ background: BG }}>
       <style>{`
         .vd01ft-inner {
           max-width: 980px;

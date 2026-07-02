@@ -4,6 +4,7 @@ import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 
 interface MapContent {
   title?: string;
+  kicker?: string;
   description?: string;
   address?: string;
   mapEmbed?: string; // Google Maps embed URL or iframe src

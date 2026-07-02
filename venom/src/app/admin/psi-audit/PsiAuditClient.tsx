@@ -173,7 +173,7 @@ export function PsiAuditClient() {
             <>
               <button
                 onClick={() => runAll(notAudited.map(r => r.key))}
-                disabled={notAudited.length === 0 || runState === "running"}
+                disabled={notAudited.length === 0}
                 className="flex items-center gap-2 px-3 py-1.5 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-40"
               >
                 <Play size={14} />
@@ -181,7 +181,7 @@ export function PsiAuditClient() {
               </button>
               <button
                 onClick={() => runAll(rows.map(r => r.key))}
-                disabled={rows.length === 0 || runState === "running"}
+                disabled={rows.length === 0}
                 className="flex items-center gap-2 px-3 py-1.5 text-sm bg-gray-800 text-white rounded hover:bg-gray-900 disabled:opacity-40"
               >
                 <RefreshCw size={14} />

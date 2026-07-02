@@ -24,6 +24,7 @@ export function FaqSection({ content, variant, sectionId }: Props) {
   if (variant === "instala-02-faq")   return <FaqInstala02 content={content} sectionId={sectionId} />;
   if (variant === "floors-01-faq")    return <FaqFloors01 content={content} sectionId={sectionId} />;
   if (variant === "malir-01-faq")     return <FaqMalir01  content={content} sectionId={sectionId} />;
+  if (variant === "ananda-01-faq")    return <FaqAnanda01 content={content} sectionId={sectionId} />;
 
   // Support both field name conventions: faq[]{question,answer} and items[]{q,a} (generator)
   const faq = (
@@ -53,9 +54,10 @@ export function FaqSection({ content, variant, sectionId }: Props) {
           {/* Items */}
           <div>
             {faq.map((item, i) => (
-              <div key={i} style={{ borderBottom: `1px solid ${BORDER}` }}>
+              <div key={i} className="bc-faq-item" style={{ borderBottom: `1px solid ${BORDER}`, position: "relative", transition: "padding-left 0.3s ease" }} data-open={open === i ? "true" : "false"}>
                 <button
                   onClick={() => setOpen(open === i ? null : i)}
+                  className="bc-faq-btn"
                   style={{ width: "100%", background: "none", border: "none", cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center", padding: "22px 0", gap: 16, textAlign: "left" }}
                 >
                   <span style={{ fontFamily: "var(--font-heading)", fontSize: "0.95rem", fontWeight: 600, color: open === i ? GOLD : "#F5F5F5", letterSpacing: "0.01em", transition: "color 0.2s", flex: 1 }}>
@@ -187,55 +189,101 @@ function FaqOrtho01({ content, sectionId }: { content: Record<string, unknown>; 
 }
 
 // ── faq-fitness-01 ────────────────────────────────────────────────────────────
+// Luxe Warm Physio Sanctuary — 2-col FAQ, sticky levý header + accordion vpravo
+// Header: rail 06 + eyebrow + H2 italic accent + subheading + primary CTA
+// Accordion: card border hairline, question Inter 600 s Instrument Serif italic Q number,
+// smooth height animation, chevron rotate, aktivní item cocoa-tint bg
+// ────────────────────────────────────────────────────────────────────────────
 function FaqFitness01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const items = ((content as { items?: FaqItem[] }).items ?? []) as FaqItem[];
-  const heading = String(content.heading ?? "Máte dotaz?");
-  const [open, setOpen] = useState<number | null>(null);
-
-  const BG     = "#FFF9F7";
-  const ACCENT = "#AD8A72";
-  const FONT   = "'Inter', sans-serif";
+  const items         = ((content as { items?: FaqItem[] }).items ?? []) as FaqItem[];
+  const sectionTag    = String(content.sectionTag    ?? "FAQ");
+  const eyebrowMark   = String(content.eyebrowMark   ?? "06");
+  const headingPre    = String(content.headingPre    ?? "Máte dotaz");
+  const headingAccent = String(content.headingAccent ?? "před tím,");
+  const headingPost   = String(content.headingPost   ?? "než se objednáte?");
+  const subheading    = String(content.subheading    ?? "");
+  const ctaText       = String(content.ctaText       ?? "Zeptat se přímo");
+  const ctaHref       = String(content.ctaHref       ?? "/kontakt");
+  const showHeader    = (content as { showHeader?: boolean }).showHeader !== false;
+  const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" style={{ backgroundColor: BG, padding: "clamp(60px,8vw,100px) clamp(20px,5vw,60px)", fontFamily: FONT }} data-template="fitness-01">
-      <div style={{ maxWidth: 740, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 52 }}>
-          <span style={{ display: "inline-block", fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: ACCENT, marginBottom: 12 }}>FAQ</span>
-          <h2 style={{ fontSize: "clamp(1.8rem,3vw,2.4rem)", fontWeight: 800, color: "#1a1a1a", margin: 0, lineHeight: 1.15 }}>
-            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-          </h2>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {items.map((item, i) => (
-            <div key={i} style={{ borderRadius: 12, overflow: "hidden", border: "1px solid rgba(173,138,114,0.2)", background: "#fff" }}>
-              <button
-                onClick={() => setOpen(open === i ? null : i)}
-                style={{
-                  width: "100%", textAlign: "left", background: "none", border: "none", cursor: "pointer",
-                  padding: "18px 24px", display: "flex", justifyContent: "space-between", alignItems: "center",
-                  gap: 16, fontFamily: FONT,
-                }}
-              >
-                <span style={{ fontSize: 15, fontWeight: 600, color: "#1a1a1a", lineHeight: 1.4 }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={item.question} tag="span" />
-                </span>
-                <span style={{
-                  width: 28, height: 28, borderRadius: "50%", flexShrink: 0,
-                  background: open === i ? ACCENT : "rgba(173,138,114,0.12)",
-                  color: open === i ? "#fff" : ACCENT,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  fontSize: 18, lineHeight: 1, fontWeight: 300, transition: "background 0.2s, color 0.2s",
-                }}>
-                  {open === i ? "−" : "+"}
-                </span>
-              </button>
-              {open === i && (
-                <div style={{ padding: "0 24px 20px", fontSize: 14, color: "#54595F", lineHeight: 1.75 }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer} tag="span" />
+    <section id="faq" className="fit01-faq" data-template="fitness-01" data-noheader={showHeader ? undefined : "y"}>
+      <div className="fit01-faq-inner">
+        <div className="fit01-faq-grid">
+          {/* Left sticky header */}
+          {showHeader && (
+            <div className="fit01-faq-sticky">
+              <div className="fit01-faq-copy">
+                <div className="fit01-services-rail" aria-hidden="true">
+                  <span className="fit01-rail-line" />
+                  <span className="fit01-rail-mark">{eyebrowMark}</span>
                 </div>
-              )}
+                <div className="fit01-services-eyebrow">
+                  <span className="fit01-tagline-mark" aria-hidden="true" />
+                  <GenericEditableText sectionId={sectionId} field="sectionTag" value={sectionTag} tag="span" />
+                </div>
+                <h2 className="fit01-services-h2">
+                  <span className="fit01-h2-line">
+                    <GenericEditableText sectionId={sectionId} field="headingPre" value={headingPre} tag="span" />
+                  </span>
+                  <span className="fit01-h2-line fit01-h2-line-accent">
+                    <span className="fit01-h2-accent">
+                      <GenericEditableText sectionId={sectionId} field="headingAccent" value={headingAccent} tag="span" />
+                    </span>{" "}
+                    <span className="fit01-h2-post">
+                      <GenericEditableText sectionId={sectionId} field="headingPost" value={headingPost} tag="span" />
+                    </span>
+                  </span>
+                </h2>
+                {subheading && (
+                  <p className="fit01-services-sub">
+                    <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
+                  </p>
+                )}
+                {ctaText && (
+                  <a href={ctaHref} className="fit01-faq-cta" data-btn="primary">
+                    <span>
+                      <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                    </span>
+                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M1 5h11M8 1l4 4-4 4"/></svg>
+                  </a>
+                )}
+              </div>
             </div>
-          ))}
+          )}
+
+          {/* Right accordion */}
+          <div className="fit01-faq-list">
+            {items.map((item, i) => {
+              const isOpen = open === i;
+              return (
+                <div key={i} className={`fit01-faq-item${isOpen ? " fit01-faq-item-open" : ""}`} style={{ ["--i" as string]: i }}>
+                  <button
+                    onClick={() => setOpen(isOpen ? null : i)}
+                    className="fit01-faq-q"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="fit01-faq-num">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="fit01-faq-q-text">
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={item.question} tag="span" />
+                    </span>
+                    <span className="fit01-faq-toggle" aria-hidden="true">
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round">
+                        <line x1="2" y1="7" x2="12" y2="7" />
+                        <line x1="7" y1="2" x2="7" y2="12" className="fit01-faq-toggle-v" />
+                      </svg>
+                    </span>
+                  </button>
+                  <div className="fit01-faq-a-wrap" aria-hidden={!isOpen}>
+                    <div className="fit01-faq-a">
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer} tag="span" />
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
@@ -765,6 +813,54 @@ function FaqMalir01({ content, sectionId }: { content: Record<string, unknown>; 
                 <div className="m01f-answer-inner">
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer} tag="span">{item.answer}</GenericEditableText>
                 </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
+  );
+}
+
+function FaqAnanda01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const GOLD   = "#AA813A";
+  const CREAM  = "#F2EDE4";
+  const BORDER = "#e2d8cc";
+  const TEXT   = "#334155";
+  const title  = String(content.title ?? "Časté dotazy");
+  const items  = ((content as { items?: Array<{ q?: string; a?: string }> }).items ?? []);
+  const [open, setOpen] = useState<number | null>(null);
+  if (!items.length) return null;
+  return (
+    <>
+      <style>{`
+        .an01faq { padding: clamp(64px,10vw,100px) 24px; background: ${CREAM}; }
+        .an01faq-inner { max-width: 780px; margin: 0 auto; }
+        .an01faq-title { font-family: 'Jost', sans-serif; font-size: clamp(22px,3vw,34px); font-weight: 300; letter-spacing: 4px; text-transform: uppercase; color: ${GOLD}; text-align: center; margin-bottom: 48px; }
+        .an01faq-item { border-bottom: 1px solid ${BORDER}; }
+        .an01faq-q { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; cursor: pointer; font-family: 'Jost', sans-serif; font-size: 16px; font-weight: 400; color: ${TEXT}; background: none; border: none; width: 100%; text-align: left; }
+        .an01faq-q svg { flex-shrink: 0; transition: transform .28s ease; color: ${GOLD}; }
+        .an01faq-q.open svg { transform: rotate(180deg); }
+        .an01faq-a { overflow: hidden; max-height: 0; transition: max-height .32s ease, padding .28s ease; font-family: 'Jost', sans-serif; font-size: 15px; line-height: 1.7; color: #64748b; }
+        .an01faq-a.open { max-height: 400px; padding-bottom: 20px; }
+      `}</style>
+      <section className="an01faq" data-template="ananda-01-faq">
+        <div className="an01faq-inner">
+          <h2 className="an01faq-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+          {items.map((item, i) => (
+            <div key={i} className="an01faq-item">
+              <button
+                className={`an01faq-q${open === i ? " open" : ""}`}
+                onClick={() => setOpen(open === i ? null : i)}
+                aria-expanded={open === i}
+              >
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.q`} value={item.q ?? ""} tag="span" />
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 6l6 6 6-6"/></svg>
+              </button>
+              <div className={`an01faq-a${open === i ? " open" : ""}`}>
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.a`} value={item.a ?? ""} tag="span" />
               </div>
             </div>
           ))}
