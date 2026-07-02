@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Monitor, Tablet, Smartphone, Undo2, Redo2, ExternalLink, ChevronLeft, Folder, PanelLeft,
-  ZoomIn, ZoomOut, ChevronDown, Check, Loader2,
+  ZoomIn, ZoomOut, ChevronDown, Check, Loader2, History,
 } from "@/components/studio/icons";
 import clsx from "clsx";
 import { useStudio, type StudioBreakpoint } from "./StudioContext";
@@ -54,8 +54,8 @@ export function StudioTopBar({
           style={{ boxShadow: "inset -1px 0 0 rgba(255,255,255,0.055)" }}
         >
           <span
-            className="flex h-9 w-9 items-center justify-center rounded-[10px] select-none shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_8px_22px_rgba(139,92,246,0.38)] ring-1 ring-white/10"
-            style={{ background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 56%, #a855f7 100%)" }}
+            className="flex h-9 w-9 items-center justify-center rounded-[10px] select-none shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_8px_22px_rgba(var(--vs-cta-rgb),0.38)] ring-1 ring-white/10"
+            style={{ background: "var(--vs-cta-grad)" }}
           >
             <svg width="22" height="22" viewBox="0 0 30 30" fill="none" aria-hidden>
               <path
@@ -174,6 +174,20 @@ export function StudioTopBar({
                 className="flex h-[31px] w-[31px] items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] disabled:opacity-30 transition-colors duration-100"
               >
                 <Redo2 className="h-4 w-4" strokeWidth={1.75} />
+              </button>
+              <button
+                type="button"
+                aria-label="Historie verzí"
+                title="Historie verzí"
+                onClick={() => studio.setHistoryPanelOpen(true)}
+                className={clsx(
+                  "flex h-[31px] w-[31px] items-center justify-center rounded-lg transition-colors duration-100",
+                  studio.historyPanelOpen
+                    ? "bg-[var(--vs-accent-bg)] text-[var(--vs-accent-hi)]"
+                    : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"
+                )}
+              >
+                <History className="h-4 w-4" weight={studio.historyPanelOpen ? "duotone" : "regular"} />
               </button>
             </>
           )}

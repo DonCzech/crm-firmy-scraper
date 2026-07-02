@@ -25,7 +25,7 @@ import {
   Briefcase as PhBriefcase, Buildings, Calendar as PhCalendar, TextAa,
   Check as PhCheck, CheckSquare as PhCheckSquare,
   CaretDown, CaretLeft, CaretRight, CaretUp, CaretDoubleDown, CaretDoubleUp,
-  ClipboardText, Clipboard as PhClipboard, Clock as PhClock, Copy as PhCopy,
+  ClipboardText, Clipboard as PhClipboard, Clock as PhClock, ClockCounterClockwise, Copy as PhCopy,
   CreditCard as PhCreditCard, Drop, ArrowSquareOut, Eye as PhEye, EyeSlash,
   Feather as PhFeather, FileText as PhFileText,
   Folder as PhFolder, FolderOpen as PhFolderOpen, FolderPlus as PhFolderPlus, Files as PhFiles,
@@ -114,6 +114,7 @@ export const FolderPlus = wrap(PhFolderPlus);
 export const Globe = wrap(PhGlobe);
 export const GripVertical = wrap(DotsSixVertical);
 export const HelpCircle = wrap(Question);
+export const History = wrap(ClockCounterClockwise);
 export const Home = wrap(House);
 export const Image = wrap(PhImage);
 export const ImageIcon = Image; // lucide alias kompatibilita

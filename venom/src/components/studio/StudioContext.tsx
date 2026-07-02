@@ -161,7 +161,16 @@ export interface StudioContextValue {
   setChecklistOpen: (v: boolean) => void;
   aiPanelOpen: boolean;
   setAiPanelOpen: (v: boolean) => void;
+  historyPanelOpen: boolean;
+  setHistoryPanelOpen: (v: boolean) => void;
+  /** Barevné téma editoru (violet = default, viz design-tokens.css data-vs-theme) */
+  editorTheme: EditorTheme;
+  setEditorTheme: (t: EditorTheme) => void;
 }
+
+export type EditorTheme = "violet" | "silver" | "indigo";
+const EDITOR_THEME_KEY = "venom-studio.editor-theme";
+const EDITOR_THEMES: EditorTheme[] = ["violet", "silver", "indigo"];
 
 export type CloneCommand =
   | { type: "setStyle"; editId: string; patch: Partial<CloneSelection["style"]> }
@@ -214,7 +223,27 @@ export function StudioProvider({ children }: { children: ReactNode }) {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState<boolean>(false);
   const [checklistOpen, setChecklistOpen] = useState<boolean>(false);
   const [aiPanelOpen, setAiPanelOpen] = useState<boolean>(false);
+  const [historyPanelOpen, setHistoryPanelOpen] = useState<boolean>(false);
+  const [editorTheme, setEditorThemeState] = useState<EditorTheme>("violet");
   const [pendingAddEl, setPendingAddEl] = useState<{ sectionId: number; elementType: string } | null>(null);
+
+  // Téma editoru: načíst z localStorage po mountu (SSR-safe) a aplikovat na <html>
+  useEffect(() => {
+    try {
+      const stored = window.localStorage.getItem(EDITOR_THEME_KEY) as EditorTheme | null;
+      if (stored && EDITOR_THEMES.includes(stored)) setEditorThemeState(stored);
+    } catch { /* ignore */ }
+  }, []);
+  useEffect(() => {
+    const root = document.documentElement;
+    if (editorTheme === "violet") root.removeAttribute("data-vs-theme");
+    else root.setAttribute("data-vs-theme", editorTheme);
+    return () => { root.removeAttribute("data-vs-theme"); };
+  }, [editorTheme]);
+  const setEditorTheme = (t: EditorTheme) => {
+    setEditorThemeState(t);
+    try { window.localStorage.setItem(EDITOR_THEME_KEY, t); } catch { /* ignore */ }
+  };
   const [selectedOverlayEl, setSelectedOverlayEl] = useState<{ sectionId: number; elementId: string } | null>(null);
   const [overlayZOrderCmd, setOverlayZOrderCmd] = useState<{ sectionId: number; cmd: "front" | "back" | "forward" | "backward" } | null>(null);
 
@@ -318,6 +347,7 @@ export function StudioProvider({ children }: { children: ReactNode }) {
       setCommandPaletteOpen(false);
       setChecklistOpen(false);
       setAiPanelOpen(false);
+      setHistoryPanelOpen(false);
       setPendingAddEl(null);
       setSelectedOverlayEl(null);
       setOverlayZOrderCmd(null);
@@ -342,13 +372,18 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     setChecklistOpen,
     aiPanelOpen,
     setAiPanelOpen,
+    historyPanelOpen,
+    setHistoryPanelOpen,
+    editorTheme,
+    setEditorTheme,
     pendingAddEl,
     setPendingAddEl,
     selectedOverlayEl,
     setSelectedOverlayEl,
     overlayZOrderCmd,
     setOverlayZOrderCmd,
-  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride, transientPadding, heroSlideIdx, sidebarOpen, mobileRailCollapsed, shortcutsOpen, notificationsOpen, helpPanelOpen, commandPaletteOpen, checklistOpen, aiPanelOpen, pendingAddEl, selectedOverlayEl, overlayZOrderCmd, zoom]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride, transientPadding, heroSlideIdx, sidebarOpen, mobileRailCollapsed, shortcutsOpen, notificationsOpen, helpPanelOpen, commandPaletteOpen, checklistOpen, aiPanelOpen, historyPanelOpen, editorTheme, pendingAddEl, selectedOverlayEl, overlayZOrderCmd, zoom]);
 
   return <StudioContext.Provider value={value}>{children}</StudioContext.Provider>;
 }

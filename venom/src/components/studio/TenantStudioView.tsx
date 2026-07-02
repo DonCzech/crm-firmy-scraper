@@ -22,6 +22,8 @@ interface Props {
 const MAX_HISTORY = 30;
 const AUTOSAVE_DELAY = 1500;
 const HIGHLIGHT_DELAY = 2400;
+/** Periodický snapshot do page_revisions — max. jednou za 10 min editace */
+const AUTO_SNAPSHOT_INTERVAL = 10 * 60 * 1000;
 
 type HistoryEntry = { sections: Section[]; changed: GenericHighlightChange[] };
 type MutablePathContainer = Record<string, unknown> | unknown[];
@@ -196,6 +198,19 @@ function InnerStudio({
     return true;
   }, [tenant.slug]);
 
+  // Auto-snapshot: textové PATCHe (na rozdíl od batch PUT) revize nevytváří,
+  // tak po úspěšném flushi max. 1× za 10 min uložíme verzi do page_revisions.
+  const lastSnapshotRef = useRef<number>(Date.now());
+  const maybeAutoSnapshot = useCallback(() => {
+    if (Date.now() - lastSnapshotRef.current < AUTO_SNAPSHOT_INTERVAL) return;
+    lastSnapshotRef.current = Date.now();
+    void fetch(`/api/demo/${tenant.slug}/revisions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pageId: page.id, label: "auto" }),
+    }).catch(() => { /* snapshot je best-effort */ });
+  }, [tenant.slug, page.id]);
+
   const flushGenericSave = useCallback(async (opts?: { force?: boolean }) => {
     const ids = Array.from(pendingIdsRef.current);
     if (!ids.length) return;
@@ -208,10 +223,11 @@ function InnerStudio({
         return patchSectionRequest(id, { settings: section.settings ?? {} }, opts);
       }));
       markStatus(results.every(Boolean) ? "saved" : "idle");
+      if (results.every(Boolean)) maybeAutoSnapshot();
     } catch (e) {
       markStatus("error", e instanceof Error ? e.message : "Síťová chyba");
     }
-  }, [markStatus, patchSectionRequest]);
+  }, [markStatus, patchSectionRequest, maybeAutoSnapshot]);
 
   const queueGenericSave = useCallback((sectionId: number) => {
     pendingIdsRef.current.add(sectionId);

@@ -44,6 +44,11 @@ const STATIC_ITEMS: CmdItem[] = [
   { id: "redo",             label: "Znovu",                     category: "Akce",        keys: ["⌘", "⇧", "Z"],    icon: Undo2,         action: "redo" },
   { id: "publish-page",     label: "Publikovat stránku",        category: "Akce",        keys: [],                 icon: Globe,         action: "publish-page" },
   { id: "publish-site",     label: "Publikovat celý web",       category: "Akce",        keys: [],                 icon: Globe,         action: "publish-site" },
+  { id: "history",          label: "Historie verzí",            category: "Akce",        keys: [],                 icon: Undo2,         action: "history" },
+  // Themes
+  { id: "theme-violet",     label: "Téma editoru: Violet",      category: "Vzhled",      keys: [],                 icon: Palette,       action: "theme-violet" },
+  { id: "theme-silver",     label: "Téma editoru: Stříbrná",    category: "Vzhled",      keys: [],                 icon: Palette,       action: "theme-silver" },
+  { id: "theme-indigo",     label: "Téma editoru: Indigo",      category: "Vzhled",      keys: [],                 icon: Palette,       action: "theme-indigo" },
   // Settings
   { id: "settings-web",     label: "Nastavení webu",            category: "Nastavení",   keys: [],                 icon: Globe,         action: "settings-web" },
   { id: "settings-billing", label: "Fakturace a platby",        category: "Nastavení",   keys: [],                 icon: CreditCard,    action: "settings-billing" },
@@ -157,6 +162,10 @@ export function CommandPalette({ state }: { state?: StudioState }) {
       case "redo":              state?.redo(); break;
       case "publish-page":      window.dispatchEvent(new CustomEvent("venom-studio:publish", { detail: { mode: "page" } })); break;
       case "publish-site":      window.dispatchEvent(new CustomEvent("venom-studio:publish", { detail: { mode: "site" } })); break;
+      case "history":           studio.setHistoryPanelOpen(true); break;
+      case "theme-violet":      studio.setEditorTheme("violet"); break;
+      case "theme-silver":      studio.setEditorTheme("silver"); break;
+      case "theme-indigo":      studio.setEditorTheme("indigo"); break;
       case "settings-web":      studio.setLeftPanel("settings"); studio.setSettingsView("web"); break;
       case "settings-billing":  studio.setLeftPanel("settings"); studio.setSettingsView("billing"); break;
       case "checklist":         studio.setChecklistOpen(true); break;

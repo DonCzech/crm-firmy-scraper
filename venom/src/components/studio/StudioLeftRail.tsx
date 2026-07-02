@@ -6,7 +6,7 @@ import {
   CreditCard, Users, HelpCircle, Keyboard, LogOut, CheckSquare, Files,
 } from "@/components/studio/icons";
 import type { IconWeight } from "@phosphor-icons/react";
-import { useStudio, type StudioLeftPanel } from "./StudioContext";
+import { useStudio, type StudioLeftPanel, type EditorTheme } from "./StudioContext";
 import { Tooltip } from "./ui";
 import clsx from "clsx";
 
@@ -97,8 +97,8 @@ function AccountDropdown({ onClose }: { onClose: () => void }) {
       {/* User header */}
       <div className="flex items-center gap-2.5 px-3 py-3 border-b border-[var(--vs-border)]">
         <div
-          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white text-[11px] font-bold shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_8px_22px_rgba(139,92,246,0.34)]"
-          style={{ background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 56%, #a855f7 100%)" }}
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white text-[11px] font-bold shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_8px_22px_rgba(var(--vs-cta-rgb),0.34)]"
+          style={{ background: "var(--vs-cta-grad)" }}
         >
           TB
         </div>
@@ -126,6 +126,33 @@ function AccountDropdown({ onClose }: { onClose: () => void }) {
             )}
           </button>
         ))}
+      </div>
+
+      {/* Editor theme switcher */}
+      <div className="border-t border-[var(--vs-border)] px-3 py-2.5">
+        <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-[var(--vs-text-dim)]">Vzhled editoru</p>
+        <div className="flex items-center gap-2">
+          {([
+            { id: "violet", label: "Violet", swatch: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 56%, #a855f7 100%)" },
+            { id: "silver", label: "Stříbrná", swatch: "linear-gradient(135deg, #47474f 0%, #6a6a74 55%, #8e8e99 100%)" },
+            { id: "indigo", label: "Indigo", swatch: "linear-gradient(135deg, #3b82f6 0%, #6366f1 60%, #7c5cf6 100%)" },
+          ] as Array<{ id: EditorTheme; label: string; swatch: string }>).map((t) => (
+            <Tooltip key={t.id} side="top" label={t.label}>
+              <button
+                type="button"
+                aria-label={`Téma ${t.label}`}
+                onClick={() => studio.setEditorTheme(t.id)}
+                className={clsx(
+                  "h-7 w-7 rounded-full ring-2 transition-[transform,box-shadow] duration-100 hover:scale-110",
+                  studio.editorTheme === t.id
+                    ? "ring-[var(--vs-accent-hi)] shadow-[0_0_10px_var(--vs-accent-ring)]"
+                    : "ring-[var(--vs-border-strong)] hover:ring-[var(--vs-text-dim)]"
+                )}
+                style={{ background: t.swatch }}
+              />
+            </Tooltip>
+          ))}
+        </div>
       </div>
 
       {/* Sign out */}
@@ -264,8 +291,8 @@ export function StudioLeftRail() {
               type="button"
               aria-label="Profil"
               onClick={() => setAccountOpen((v) => !v)}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-white text-[12px] font-bold shrink-0 hover:brightness-110 transition-[filter] shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_8px_22px_rgba(139,92,246,0.36)] ring-1 ring-white/10"
-              style={{ background: "linear-gradient(135deg, #6366f1 0%, #8b5cf6 56%, #a855f7 100%)" }}
+              className="flex h-9 w-9 items-center justify-center rounded-full text-white text-[12px] font-bold shrink-0 hover:brightness-110 transition-[filter] shadow-[0_1px_0_rgba(255,255,255,0.24)_inset,0_8px_22px_rgba(var(--vs-cta-rgb),0.36)] ring-1 ring-white/10"
+              style={{ background: "var(--vs-cta-grad)" }}
             >
               TB
             </button>

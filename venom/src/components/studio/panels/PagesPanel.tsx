@@ -530,7 +530,7 @@ export function PagesPanel({ state }: { state: StudioState }) {
       <SearchHeader search={search} onSearch={setSearch} />
 
       {navigatingPageId !== null && (
-        <div className="shrink-0 border-b border-[var(--vs-border)] bg-[rgba(139,92,246,0.08)] px-4 py-2 text-[12px] text-[var(--vs-accent-hi)]">
+        <div className="shrink-0 border-b border-[var(--vs-border)] bg-[rgba(var(--vs-cta-rgb),0.08)] px-4 py-2 text-[12px] text-[var(--vs-accent-hi)]">
           <span className="inline-flex items-center gap-2">
             <Loader2 className="h-3.5 w-3.5 animate-spin" />
             Načítám stránku...

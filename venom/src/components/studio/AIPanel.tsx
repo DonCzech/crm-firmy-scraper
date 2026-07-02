@@ -67,7 +67,7 @@ export function AIPanel({ state }: { state: StudioState }) {
       {/* Header */}
       <div className="flex items-center justify-between border-b border-[var(--vs-border)] px-4 py-3 shrink-0">
         <div className="flex items-center gap-2">
-          <Sparkles className="h-4 w-4 text-[#a78bfa]" strokeWidth={1.75} />
+          <Sparkles className="h-4 w-4 text-[var(--vs-cta-text)]" strokeWidth={1.75} />
           <span className="text-[13.5px] font-semibold text-[var(--vs-text)]">Pomocník AI</span>
         </div>
         <button

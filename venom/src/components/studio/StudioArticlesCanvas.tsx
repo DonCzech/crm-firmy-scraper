@@ -316,7 +316,7 @@ function EditorMode({ state, post, onRefresh }: {
       </div>
 
       {/* Content area */}
-      <div className="flex-1 overflow-y-auto bg-[radial-gradient(900px_420px_at_50%_-80px,rgba(139,92,246,0.10),transparent_65%),linear-gradient(180deg,rgba(12,12,14,0.92)_0%,rgba(18,18,20,0.86)_100%)]">
+      <div className="flex-1 overflow-y-auto bg-[radial-gradient(900px_420px_at_50%_-80px,rgba(var(--vs-cta-rgb),0.10),transparent_65%),linear-gradient(180deg,rgba(12,12,14,0.92)_0%,rgba(18,18,20,0.86)_100%)]">
         <div className="max-w-3xl mx-auto px-8 pt-10 pb-20">
           <input
             type="text"
@@ -467,7 +467,7 @@ export function StudioArticlesCanvas({ state }: { state: StudioState }) {
   };
 
   return (
-    <div className="h-full overflow-y-auto bg-[radial-gradient(900px_420px_at_50%_-80px,rgba(139,92,246,0.10),transparent_65%),linear-gradient(180deg,rgba(12,12,14,0.92)_0%,rgba(18,18,20,0.86)_100%)]">
+    <div className="h-full overflow-y-auto bg-[radial-gradient(900px_420px_at_50%_-80px,rgba(var(--vs-cta-rgb),0.10),transparent_65%),linear-gradient(180deg,rgba(12,12,14,0.92)_0%,rgba(18,18,20,0.86)_100%)]">
       {studio.articleMode === "editor" ? (
         <EditorMode
           state={state}

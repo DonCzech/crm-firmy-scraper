@@ -17,6 +17,7 @@ import { OnboardingTour } from "./OnboardingTour";
 import { CommandPalette } from "./CommandPalette";
 import { NotificationsPanel } from "./NotificationsPanel";
 import { HelpPanel } from "./HelpPanel";
+import { HistoryPanel } from "./HistoryPanel";
 import { WixAddOverlay } from "./panels/WixAddOverlay";
 import { WixAddButton } from "./panels/WixAddButton";
 import { ReorderSectionsModal } from "./panels/ReorderSectionsModal";
@@ -187,6 +188,7 @@ export function StudioShell({ state }: { state: StudioState }) {
       <CommandPalette state={state} />
       <NotificationsPanel />
       <HelpPanel tenantSlug={state.tenant.slug} />
+      <HistoryPanel state={state} />
       <OnboardingTour tenantSlug={state.tenant.slug} />
 
       {studio.assetsOpen && (
@@ -223,9 +225,9 @@ function SecondaryActionBar({ state, onOpenReorder }: { state: StudioState; onOp
         type="button"
         title="AI návrhy a opravy textů"
         onClick={() => studio.setAiPanelOpen(!studio.aiPanelOpen)}
-        className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12.5px] transition-colors ${studio.aiPanelOpen ? "bg-[rgba(212,212,216,0.15)] text-[#a78bfa]" : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"}`}
+        className={`flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-[12.5px] transition-colors ${studio.aiPanelOpen ? "bg-[rgba(212,212,216,0.15)] text-[var(--vs-cta-text)]" : "text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)]"}`}
       >
-        <span className="text-[#a78bfa]">✨</span>
+        <span className="text-[var(--vs-cta-text)]">✨</span>
         <span>Pomocník AI</span>
       </button>
       <span className="mx-1 h-3.5 w-px bg-[var(--vs-border)]" />
@@ -282,7 +284,7 @@ function TrialBanner({ sidebarOpen, state }: { sidebarOpen: boolean; state: Stud
         <button
           type="button"
           onClick={goToBilling}
-          className="shrink-0 rounded-md bg-[linear-gradient(135deg,#6366f1_0%,#8b5cf6_56%,#a855f7_100%)] px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-[0_1px_0_rgba(255,255,255,0.22)_inset,0_8px_22px_rgba(139,92,246,0.34)] transition-[filter,box-shadow] duration-100 hover:brightness-110 hover:shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_10px_28px_rgba(139,92,246,0.46)]"
+          className="shrink-0 rounded-md bg-[var(--vs-cta-grad)] px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-[0_1px_0_rgba(255,255,255,0.22)_inset,0_8px_22px_rgba(var(--vs-cta-rgb),0.34)] transition-[filter,box-shadow] duration-100 hover:brightness-110 hover:shadow-[0_1px_0_rgba(255,255,255,0.25)_inset,0_10px_28px_rgba(var(--vs-cta-rgb),0.46)]"
         >
           Předplatit · 499 Kč/měs.
         </button>

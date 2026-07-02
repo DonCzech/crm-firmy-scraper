@@ -43,6 +43,15 @@
   --vs-info:          #60a5fa;            /* blue-400                        */
   --vs-info-bg:       rgba(96,165,250,0.10);
 
+  /* ── CTA brand (přepínatelné téma editoru — default "violet") ──────────
+     Hodnoty defaultu odpovídají 1:1 původním hardcoded gradientům, takže
+     výchozí vzhled je pixel-identický. Přepnutí přes data-vs-theme na <html>. */
+  --vs-cta-grad:      linear-gradient(135deg, #6366f1 0%, #8b5cf6 56%, #a855f7 100%);
+  --vs-cta-rgb:       139, 92, 246;        /* glow/podklady — rgba(var(--vs-cta-rgb), α) */
+  --vs-cta-soft-rgb:  167, 139, 250;       /* ringy, jemné akcenty                       */
+  --vs-cta-text:      #a78bfa;             /* textové akcenty (AI sparkle apod.)          */
+  --vs-cta-text-hi:   #ddd6fe;             /* zvýrazněný text na cta podkladu             */
+
   /* ── Typography scale ─────────────────────────────────────────────────── */
   --vs-font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --vs-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
@@ -221,6 +230,44 @@
 .vs-pop {
   animation: vs-pop-in var(--vs-dur-2) var(--vs-ease-out);
   transform-origin: top center;
+}
+
+/* ── Editor themes (data-vs-theme na <html>) ────────────────────────────────
+   Default (bez atributu / "violet") = hodnoty výše. Témata přebarvují jen
+   akcentovou rodinu — shell, plátno i layout zůstávají. Selektor cílí :root
+   i [data-studio], protože [data-studio] si tokeny redefinuje. */
+
+:root[data-vs-theme="silver"],
+:root[data-vs-theme="silver"] [data-studio] {
+  --vs-cta-grad:      linear-gradient(135deg, #47474f 0%, #6a6a74 55%, #8e8e99 100%);
+  --vs-cta-rgb:       148, 148, 160;
+  --vs-cta-soft-rgb:  212, 212, 216;
+  --vs-cta-text:      #d4d4d8;
+  --vs-cta-text-hi:   #f4f4f5;
+}
+
+:root[data-vs-theme="indigo"],
+:root[data-vs-theme="indigo"] [data-studio] {
+  --vs-accent:        #818cf8;
+  --vs-accent-hi:     #a5b4fc;
+  --vs-accent-bg:     rgba(129,140,248,0.13);
+  --vs-accent-ring:   rgba(129,140,248,0.40);
+  --vs-accent-solid:    #4f46e5;
+  --vs-accent-solid-hi: #6366f1;
+  --vs-grad-brand:    linear-gradient(135deg, #3b82f6 0%, #6366f1 60%, #7c5cf6 100%);
+  --vs-grad-brand-hi: linear-gradient(135deg, #60a5fa 0%, #818cf8 60%, #957af8 100%);
+  --vs-glow-accent:
+    0 0 0 1px rgba(129,140,248,0.35),
+    0 8px 24px rgba(129,140,248,0.18);
+  --vs-glow-brand:
+    0 1px 0 0 rgba(255,255,255,0.18) inset,
+    0 2px 10px rgba(99,102,241,0.45),
+    0 6px 22px rgba(99,102,241,0.25);
+  --vs-cta-grad:      linear-gradient(135deg, #3b82f6 0%, #6366f1 60%, #7c5cf6 100%);
+  --vs-cta-rgb:       99, 102, 241;
+  --vs-cta-soft-rgb:  129, 140, 248;
+  --vs-cta-text:      #818cf8;
+  --vs-cta-text-hi:   #a5b4fc;
 }
 
 /* Per-breakpoint section visibility — set by ElementMicroRail's

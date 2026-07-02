@@ -44,7 +44,7 @@ export function StudioModulesCanvas({ state: _state }: { state: StudioState }) {
   const title = TITLES[studio.modulesView] ?? "Moduly";
 
   return (
-    <div className="h-full flex flex-col overflow-hidden bg-[radial-gradient(900px_420px_at_50%_-80px,rgba(139,92,246,0.10),transparent_65%),linear-gradient(180deg,rgba(12,12,14,0.92)_0%,rgba(18,18,20,0.86)_100%)]">
+    <div className="h-full flex flex-col overflow-hidden bg-[radial-gradient(900px_420px_at_50%_-80px,rgba(var(--vs-cta-rgb),0.10),transparent_65%),linear-gradient(180deg,rgba(12,12,14,0.92)_0%,rgba(18,18,20,0.86)_100%)]">
       {/* Sticky top bar */}
       <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[rgba(255,255,255,0.09)] bg-[rgba(18,18,20,0.78)] px-8 py-4 backdrop-blur-xl shadow-[0_12px_32px_rgba(0,0,0,0.16)]">
         <h1 className="text-[22px] font-bold text-[var(--vs-text)]">{title}</h1>

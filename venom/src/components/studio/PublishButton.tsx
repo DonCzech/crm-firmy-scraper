@@ -145,12 +145,12 @@ export function PublishButton({ state }: Props) {
 
   return (
     <div ref={rootRef} className="relative">
-      <div className="inline-flex h-8 overflow-hidden rounded-lg shadow-[0_1px_0_rgba(255,255,255,0.22)_inset,0_8px_22px_rgba(139,92,246,0.34)]">
+      <div className="inline-flex h-8 overflow-hidden rounded-lg shadow-[0_1px_0_rgba(255,255,255,0.22)_inset,0_8px_22px_rgba(var(--vs-cta-rgb),0.34)]">
         <button
           type="button"
           onClick={() => void runMode(mode)}
           disabled={busy}
-          className="inline-flex items-center gap-1.5 bg-[linear-gradient(135deg,#6366f1_0%,#8b5cf6_56%,#a855f7_100%)] px-3.5 text-[12.5px] font-semibold text-white transition-[filter,opacity] hover:brightness-110 disabled:opacity-60"
+          className="inline-flex items-center gap-1.5 bg-[var(--vs-cta-grad)] px-3.5 text-[12.5px] font-semibold text-white transition-[filter,opacity] hover:brightness-110 disabled:opacity-60"
         >
           {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
           {label}
@@ -159,7 +159,7 @@ export function PublishButton({ state }: Props) {
           type="button"
           aria-label="Možnosti publikace"
           onClick={() => setOpen((o) => !o)}
-          className="grid w-7 place-items-center border-l border-white/20 bg-[linear-gradient(135deg,#6366f1_0%,#8b5cf6_56%,#a855f7_100%)] text-white transition-[filter] hover:brightness-110"
+          className="grid w-7 place-items-center border-l border-white/20 bg-[var(--vs-cta-grad)] text-white transition-[filter] hover:brightness-110"
         >
           <ChevronDown className="h-3.5 w-3.5" />
         </button>
