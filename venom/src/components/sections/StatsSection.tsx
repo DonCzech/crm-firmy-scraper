@@ -911,64 +911,133 @@ function StatsCatering01Timeline({ content, sectionId }: { content: Record<strin
 }
 
 // ── florist-01-stats ─────────────────────────────────────────────────────────
-// 1:1 freja.cz trust bar: 4-col grid, icon #8b9fdb stroke, bold label + muted sub
+// Botanical Atelier Editorial luxe trust bar:
+// - Warm ivory section s Georgia italic centered header + Inter tracked eyebrow
+// - 4 karty odděleny olive-gold vertical hairlines
+// - Custom botanické line-art ikony (truck-with-sprig, atelier-window, star-in-leaf, polaroid)
+// - Karty: velké Georgia italic číslo/nadpis + Inter subtitle
+// - Hover: karta ivory→sage-tint, ikona moss color + subtle rotate, hairline pod nadpisem expand
 function StatsFlorist01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const ARIMO = "Arimo, Arial, sans-serif";
-  const ICON_COLOR = "#1c1f28";
-  const LABEL_COLOR = "#1c1f28";
-  const SUB_COLOR = "#6b7085";
+  const MOSS   = "#2f4a3a";
+  const SAGE   = "#5c8a6a";
+  const IVORY  = "#faf7f2";
+  const INK    = "#2a1a0a";
+  const INK70  = "rgba(42,26,10,0.72)";
+  const GOLD   = "#c9b78a";
+  const GEORGIA = "Georgia, 'Times New Roman', serif";
+  const INTER   = "Inter, system-ui, sans-serif";
 
   interface Item { icon?: string; title?: string; subtitle?: string; }
-  const items = (content.items as Item[]) ?? [];
+  const rawItems = (content.items as Item[]) ?? [];
+  const items = rawItems.length > 0 ? rawItems : [
+    { icon: "truck",   title: "Doručení ještě dnes",     subtitle: "Objednejte do 15:00" },
+    { icon: "atelier", title: "Ateliér v centru Brna",   subtitle: "Veveří · Královo Pole · Žabovřesky" },
+    { icon: "star",    title: "4,9 na Google",            subtitle: "220+ ověřených recenzí" },
+    { icon: "camera",  title: "Foto před doručením",     subtitle: "Vždy vidíte, co dostane obdarovaný" },
+  ];
 
-  const IconSvg = ({ name }: { name?: string }) => {
-    const props = { width: 28, height: 28, viewBox: "0 0 24 24", fill: "none", stroke: ICON_COLOR, strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true };
+  const heading   = String(content.heading   ?? "Náš slib — vždy čerstvé, vždy včas.");
+  const eyebrow   = String(content.eyebrow   ?? "PROČ PRÁVĚ PETALA");
+  const kicker    = String(content.kicker    ?? "01 · zážitek");
+
+  const Icon = ({ name }: { name?: string }) => {
+    const base = { width: 44, height: 44, viewBox: "0 0 48 48", fill: "none" as const, stroke: "currentColor", strokeWidth: 1.2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true };
     switch (name) {
-      case "truck":
-        return <svg {...props}><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>;
-      case "store":
-        return <svg {...props}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>;
-      case "star":
-        return <svg {...props}><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>;
-      case "camera":
-        return <svg {...props}><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>;
-      case "clock":
-        return <svg {...props}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>;
+      case "truck": // dodávka + kytice
+        return <svg {...base}>
+          <rect x="4" y="20" width="22" height="14" rx="1"/>
+          <path d="M26 25h9l5 5v4h-14z"/>
+          <circle cx="12" cy="36" r="3"/>
+          <circle cx="34" cy="36" r="3"/>
+          <path d="M15 20V13M15 13c-2 0-4-1.5-4-4M15 13c2 0 4-1.5 4-4M15 13c-1-1-3-2-5-2M15 13c1-1 3-2 5-2"/>
+        </svg>;
+      case "atelier": // ateliérové okno se sprig
+        return <svg {...base}>
+          <rect x="6" y="8" width="36" height="30" rx="1"/>
+          <path d="M6 23h36M24 8v30"/>
+          <path d="M24 42v3M18 45h12"/>
+          <path d="M14 18v-2M20 16v-2M28 16v-2M34 18v-2"/>
+        </svg>;
+      case "star": // hvězda uvnitř listu
+        return <svg {...base}>
+          <path d="M24 6C14 6 6 14 6 24s8 18 18 18c8 0 12-4 14-10"/>
+          <path d="M24 6c6 4 10 10 10 18 0 6-2 10-4 12"/>
+          <polygon points="24,18 26.5,23 32,24 28,28 29,33.5 24,30.5 19,33.5 20,28 16,24 21.5,23"/>
+        </svg>;
+      case "camera": // polaroid s kvítkem
+        return <svg {...base}>
+          <rect x="6" y="12" width="36" height="28" rx="1"/>
+          <rect x="10" y="16" width="28" height="18"/>
+          <circle cx="24" cy="25" r="4"/>
+          <path d="M24 21v-2M24 30v-2M20 25h-2M30 25h-2"/>
+          <circle cx="35" cy="18" r="1" fill="currentColor"/>
+        </svg>;
       default:
-        return <svg {...props}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>;
+        return <svg {...base}><circle cx="24" cy="24" r="14"/></svg>;
     }
   };
 
   return (
-    <section style={{ background: "#ffffff", fontFamily: ARIMO }}>
+    <section data-template="florist-01" className="f01stats" style={{ background: IVORY, fontFamily: INTER, padding: "88px 24px 96px" }}>
       <style>{`
-        .f01-stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; align-items: start; }
-        .f01-stats-item { display: flex; align-items: center; gap: 12px; justify-content: center; }
-        @media (max-width: 749px) {
-          .f01-stats-grid { grid-template-columns: repeat(2,1fr); gap: 20px 16px; }
-          .f01-stats-item { justify-content: flex-start; }
-        }
-        @media (max-width: 374px) {
-          .f01-stats-grid { grid-template-columns: 1fr; gap: 16px; }
-          .f01-stats-item { justify-content: center; }
+        .f01stats-inner { max-width: 1240px; margin: 0 auto; }
+        .f01stats-head { text-align:center; margin-bottom: 56px; display:flex; flex-direction:column; align-items:center; gap:14px; }
+        .f01stats-eye { display:inline-flex; align-items:center; gap:14px; font-family:${INTER}; font-weight:500; font-size:11px; letter-spacing:0.34em; text-transform:uppercase; color:${MOSS}; }
+        .f01stats-eye i { width:26px; height:1px; background:${GOLD}; display:inline-block; }
+        .f01stats-eye em { color:${GOLD}; font-style:normal; font-size:10px; }
+        .f01stats-h { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:clamp(28px, 3.2vw, 40px); line-height:1.15; color:${INK}; margin:0; letter-spacing:-0.01em; max-width:720px; }
+        .f01stats-kick { font-family:${GEORGIA}; font-style:italic; font-size:13px; color:${INK70}; letter-spacing:0.06em; }
+
+        .f01stats-grid { display:grid; grid-template-columns: repeat(4, 1fr); align-items:stretch; border-top:1px solid ${GOLD}; border-bottom:1px solid ${GOLD}; }
+        .f01stats-card { position:relative; padding: 42px 30px 42px; display:flex; flex-direction:column; align-items:flex-start; gap:20px;
+          background:${IVORY}; color:${INK}; transition: background 0.4s ease, color 0.4s ease; }
+        .f01stats-card + .f01stats-card::before { content:""; position:absolute; left:0; top:20%; bottom:20%; width:1px; background:${GOLD}; opacity:0.6; }
+        .f01stats-icon { color:${MOSS}; transition: color 0.4s ease, transform 0.6s cubic-bezier(.6,.05,.35,1); }
+        .f01stats-num { font-family:${GEORGIA}; font-style:italic; font-size:14px; color:${GOLD}; letter-spacing:0.08em; }
+        .f01stats-title { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:22px; line-height:1.25; color:${INK}; margin:0; letter-spacing:-0.005em; position:relative; padding-bottom:12px; }
+        .f01stats-title::after { content:""; position:absolute; left:0; bottom:0; width:22px; height:1px; background:${GOLD}; transition: width 0.5s cubic-bezier(.6,.05,.35,1); }
+        .f01stats-sub { font-family:${INTER}; font-weight:300; font-size:13.5px; line-height:1.6; color:${INK70}; margin:0; }
+        .f01stats-card:hover { background: rgba(92,138,106,0.06); }
+        .f01stats-card:hover .f01stats-icon { color:${SAGE}; transform: rotate(-4deg); }
+        .f01stats-card:hover .f01stats-title::after { width:64px; background:${MOSS}; }
+
+        @media(max-width:960px){ .f01stats-grid { grid-template-columns: repeat(2, 1fr); } .f01stats-card:nth-child(3)::before { display:none; } .f01stats-card:nth-child(3), .f01stats-card:nth-child(4) { border-top:1px solid ${GOLD}; } }
+        @media(max-width:560px){
+          .f01stats { padding: 60px 20px 68px; }
+          .f01stats-grid { grid-template-columns: 1fr; }
+          .f01stats-card::before { display:none !important; }
+          .f01stats-card + .f01stats-card { border-top:1px solid ${GOLD}; }
+          .f01stats-h { font-size: 26px; }
         }
       `}</style>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 3rem 24px" }}>
-        <div className="f01-stats-grid">
+
+      <div className="f01stats-inner">
+        <header className="f01stats-head">
+          <span className="f01stats-eye">
+            <i /><em>✿</em>
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            <em>✿</em><i />
+          </span>
+          <h2 className="f01stats-h">
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+          </h2>
+          <span className="f01stats-kick">
+            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+          </span>
+        </header>
+
+        <div className="f01stats-grid">
           {items.map((item, i) => (
-            <div key={i} className="f01-stats-item">
-              <div style={{ color: ICON_COLOR, flexShrink: 0, display: "flex", alignItems: "center" }}>
-                <IconSvg name={item.icon} />
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                <span style={{ fontWeight: 600, fontSize: 14, lineHeight: 1.3, color: LABEL_COLOR }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title ?? ""} tag="span" />
-                </span>
-                <span style={{ fontSize: 12, lineHeight: 1.3, color: SUB_COLOR }}>
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.subtitle`} value={item.subtitle ?? ""} tag="span" />
-                </span>
-              </div>
-            </div>
+            <article key={i} className="f01stats-card">
+              <span className="f01stats-icon"><Icon name={item.icon} /></span>
+              <span className="f01stats-num">0{i + 1}</span>
+              <h3 className="f01stats-title">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title ?? ""} tag="span" />
+              </h3>
+              <p className="f01stats-sub">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.subtitle`} value={item.subtitle ?? ""} tag="span" />
+              </p>
+            </article>
           ))}
         </div>
       </div>

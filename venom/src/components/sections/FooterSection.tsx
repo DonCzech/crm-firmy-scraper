@@ -3083,160 +3083,254 @@ function FooterTattoo03({ content, sectionId }: { content: Record<string, unknow
   );
 }
 
-// nails-01: burgundy bg, 4-col: Logo | Navigace | Otevírací doba | Kontakt + copyright row
+// nails-01 · Kyoto Wabi-Sabi Beauty footer — burgundy luxe
+// Top hairline s central diamond · hanko seal + Georgia italic wordmark left
+// 4-col: Brand+Newsletter | Navigace | Otevřeno (dotted-leader) | Kontakt+Social
+// Bottom copyright bar s WeberoCredit
 function FooterNails01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const BURGUNDY = "#79142b";
   const CREAM    = "#f4f1e9";
   const SERIF    = "Georgia, 'Times New Roman', serif";
-  const SANS     = "'Helvetica Neue', Arial, sans-serif";
+  const SANS     = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
 
-  const siteName  = (content.siteName  as string) ?? "Demo Soho Nails & Spa";
-  const tagline   = (content.tagline   as string) ?? "Prémiové nehtové studio a beauty salon v srdci Prahy.";
-  const nav       = (content.nav       as Array<{ label: string; href: string }>) ?? [];
-  const hours     = (content.hours     as Array<{ days: string; time: string }>) ?? [];
-  const address   = (content.address   as string) ?? "Ukázková 123, 110 00 Praha 1";
-  const phone     = (content.phone     as string) ?? "704 123 456";
-  const email     = (content.email     as string) ?? "email@demo.cz";
-  const instagram = (content.instagram as string) ?? "#";
-  const facebook  = (content.facebook  as string) ?? "#";
-  const copyright = (content.copyright as string) ?? `© ${new Date().getFullYear()} Demo Soho Nails & Spa. Všechna práva vyhrazena.`;
+  const wordmark  = String(content.wordmark  ?? "SOHO NAILS");
+  const subtitle  = String(content.subtitle  ?? "Beauty · Spa · Praha");
+  const tagline   = String(content.tagline   ?? "Prémiové nehtové studio a beauty salon inspirované japonským wabi-sabi.");
+  const nav       = (content.nav as Array<{ label: string; href: string }>) ?? [];
+  const hours     = (content.hours as Array<{ days: string; time: string }>) ?? [];
+  const address   = String(content.address   ?? "Vinohradská 26, 110 00 Praha 1");
+  const phone     = String(content.phone     ?? "+420 777 123 456");
+  const email     = String(content.email     ?? "studio@sohonails.cz");
+  const instagram = String(content.instagram ?? "https://instagram.com/demo");
+  const facebook  = String(content.facebook  ?? "https://facebook.com/demo");
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} Demo Soho Nails & Spa · Všechna práva vyhrazena`);
+  const legalText = String(content.legalText ?? "Ochrana údajů · Obchodní podmínky");
+  const legalHref = String(content.legalHref ?? "/kontakt");
+  const siteMode  = String(content.siteMode ?? "multipage");
 
-  void siteName;
+  const resolve = (href: string): string => {
+    if (!href) return "#";
+    if (href.startsWith("http") || href.startsWith("mailto:") || href.startsWith("tel:")) return href;
+    const base = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "";
+    if (siteMode === "onepage") {
+      if (href.startsWith("/") && href !== "/") return `${base}#${href.slice(1)}`;
+      if (href.startsWith("#")) return `${base}${href}`;
+      return href;
+    }
+    if (href.startsWith("#")) return `${base}/${href.slice(1)}`;
+    if (href.startsWith("/")) return `${base}${href}`;
+    return href;
+  };
 
   const colHead: React.CSSProperties = {
     fontFamily: SANS,
-    fontSize: "0.72rem",
-    fontWeight: 700,
+    fontSize: "0.68rem",
+    fontWeight: 400,
     color: CREAM,
-    letterSpacing: "0.16em",
+    letterSpacing: "0.36em",
     textTransform: "uppercase",
-    marginBottom: 16,
-    opacity: 0.7,
-  };
-  const colLink: React.CSSProperties = {
-    fontFamily: SANS,
-    fontSize: "0.88rem",
-    color: CREAM,
+    margin: "0 0 22px",
     opacity: 0.85,
-    textDecoration: "none",
-    display: "block",
-    marginBottom: 8,
-    lineHeight: 1.5,
-    transition: "opacity 0.2s",
-  };
-  const colText: React.CSSProperties = {
-    fontFamily: SANS,
-    fontSize: "0.88rem",
-    color: CREAM,
-    opacity: 0.85,
-    marginBottom: 6,
-    lineHeight: 1.5,
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
   };
 
   return (
     <footer
       id="kontakt"
       data-template="nails-01"
-      style={{ backgroundColor: BURGUNDY }}
+      data-section-type="footer"
+      data-variant="nails-01-footer"
+      className="n01-footer"
+      style={{ backgroundColor: BURGUNDY, position: "relative", overflow: "hidden" }}
     >
-      {/* 4-col grid */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-        gap: "clamp(32px, 4vw, 56px)",
-        padding: "clamp(48px, 7vh, 80px) clamp(24px, 6vw, 80px)",
-        maxWidth: "1200px",
-        margin: "0 auto",
+      {/* Noir gradient overlay */}
+      <div aria-hidden="true" style={{
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse at 100% 0%, rgba(0,0,0,0.28), transparent 55%), radial-gradient(ellipse at 0% 100%, rgba(0,0,0,0.28), transparent 55%)",
+      }} />
+
+      {/* Top hairline s central diamond */}
+      <div aria-hidden="true" style={{
+        position: "relative",
+        height: 1,
+        background: "linear-gradient(90deg, transparent 0%, rgba(244,241,233,0.4) 30%, rgba(244,241,233,0.4) 70%, transparent 100%)",
       }}>
-        {/* Col 1 — Logo + tagline */}
+        <span style={{
+          position: "absolute", left: "50%", top: "50%",
+          transform: "translate(-50%, -50%) rotate(45deg)",
+          width: 8, height: 8,
+          backgroundColor: BURGUNDY,
+          border: `1px solid ${CREAM}`,
+        }} />
+      </div>
+
+      {/* 4-col grid */}
+      <div className="n01-footer-grid" style={{
+        display: "grid",
+        gridTemplateColumns: "1.5fr 1fr 1fr 1.2fr",
+        gap: "clamp(32px, 4vw, 64px)",
+        padding: "clamp(64px, 8vh, 96px) clamp(28px, 6vw, 80px)",
+        maxWidth: 1320,
+        margin: "0 auto",
+        position: "relative",
+      }}>
+        {/* Col 1 — Brand */}
         <div>
-          <div style={{ marginBottom: 20 }}>
-            <svg width="44" height="51" viewBox="0 0 48 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <ellipse cx="24" cy="28" rx="22" ry="26" stroke={CREAM} strokeWidth="1.2"/>
-              <ellipse cx="24" cy="28" rx="18" ry="22" stroke={CREAM} strokeWidth="0.6" strokeDasharray="2 2"/>
-              <text x="24" y="34" textAnchor="middle" fontFamily="Georgia, serif" fontSize="18" fontWeight="700" fill={CREAM} letterSpacing="0">N</text>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 10, marginBottom: 22 }}>
+            {/* Hanko seal (cream) */}
+            <svg width="64" height="64" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="n01-footer-seal">
+              <circle cx="36" cy="36" r="32" stroke={CREAM} strokeWidth="1.3" fill="none" />
+              <circle cx="36" cy="36" r="27" stroke={CREAM} strokeWidth="0.5" strokeDasharray="1.5 2" fill="none" opacity="0.55" />
+              <path d="M 12 30 Q 20 14, 40 12" stroke={CREAM} strokeWidth="1.6" strokeLinecap="round" fill="none" opacity="0.35" />
+              <circle cx="55" cy="55" r="1.4" fill={CREAM} opacity="0.5" />
+              <text x="36" y="45" textAnchor="middle" fontFamily="Georgia, 'Times New Roman', serif" fontStyle="italic" fontSize="26" fontWeight="700" fill={CREAM} letterSpacing="0">N</text>
             </svg>
-            <p style={{ fontFamily: SERIF, fontSize: "0.9rem", color: CREAM, letterSpacing: "0.18em", textTransform: "uppercase", margin: "8px 0 0", fontWeight: 400 }}>
-              NAILS &amp; SPA
-            </p>
+            <span style={{
+              fontFamily: SERIF, fontStyle: "italic",
+              fontSize: "1.35rem", fontWeight: 700,
+              color: CREAM, letterSpacing: "0.06em",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="wordmark" value={wordmark} tag="span" />
+            </span>
+            <span style={{
+              fontFamily: SANS, fontSize: "0.62rem", fontWeight: 300,
+              letterSpacing: "0.36em", textTransform: "uppercase",
+              color: CREAM, opacity: 0.7,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </span>
           </div>
-          <p style={{ ...colText, opacity: 0.65, fontSize: "0.82rem", maxWidth: 200 }}>
+          <p style={{
+            fontFamily: SERIF, fontStyle: "italic",
+            fontSize: "0.95rem", color: CREAM, opacity: 0.75,
+            lineHeight: 1.65, margin: 0, maxWidth: 280,
+          }}>
             <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
           </p>
         </div>
 
         {/* Col 2 — Navigace */}
         <div>
-          <p style={colHead}>Navigace</p>
-          {nav.map((l, i) => (
-            <a
-              key={i}
-              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
-              style={colLink}
-              onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
-              onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.85")}
-            >
-              <GenericEditableText sectionId={sectionId} field={`nav.${i}.label`} value={l.label} tag="span" />
-            </a>
-          ))}
-        </div>
-
-        {/* Col 3 — Otevírací doba */}
-        <div>
-          <p style={colHead}>Otevírací doba</p>
-          {hours.map((h, i) => (
-            <p key={i} style={colText}>
-              <span style={{ opacity: 0.65 }}>{h.days}</span>
-              <br />
-              <GenericEditableText sectionId={sectionId} field={`hours.${i}.time`} value={h.time} tag="span" />
-            </p>
-          ))}
-        </div>
-
-        {/* Col 4 — Kontakt */}
-        <div>
-          <p style={colHead}>Kontakt</p>
-          <p style={colText}>
-            <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+          <p style={colHead}>
+            <span aria-hidden="true" style={{ width: 24, height: 1, background: CREAM, opacity: 0.6 }} />
+            Navigace
           </p>
-          <p style={colText}>
-            T:{" "}<a href={`tel:+420${phone.replace(/\s/g, "")}`} style={{ color: CREAM, textDecoration: "none" }}>
+          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+            {nav.map((l, i) => (
+              <li key={`n01-fnav-${i}`}>
+                <a
+                  href={resolve(l.href)}
+                  className="n01-footer-link"
+                  style={{
+                    fontFamily: SERIF, fontStyle: "italic",
+                    fontSize: "1.02rem", color: CREAM,
+                    textDecoration: "none", opacity: 0.85,
+                  }}
+                >
+                  <GenericEditableText sectionId={sectionId} field={`nav.${i}.label`} value={l.label} tag="span" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Col 3 — Otevřeno (dotted-leader) */}
+        <div>
+          <p style={colHead}>
+            <span aria-hidden="true" style={{ width: 24, height: 1, background: CREAM, opacity: 0.6 }} />
+            Otevřeno
+          </p>
+          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 12 }}>
+            {hours.map((h, i) => (
+              <li key={`n01-fh-${i}`} style={{
+                display: "flex", alignItems: "baseline", gap: 8,
+                fontFamily: SANS, fontSize: "0.85rem", color: CREAM,
+              }}>
+                <span style={{
+                  fontFamily: SERIF, fontStyle: "italic",
+                  fontSize: "0.98rem", opacity: 0.85, flexShrink: 0,
+                }}>{h.days}</span>
+                <span aria-hidden="true" style={{
+                  flex: 1, height: 0,
+                  borderBottom: `1px dotted rgba(244,241,233,0.35)`,
+                  transform: "translateY(-4px)",
+                }} />
+                <span style={{ opacity: 0.9, letterSpacing: "0.04em", flexShrink: 0 }}>
+                  <GenericEditableText sectionId={sectionId} field={`hours.${i}.time`} value={h.time} tag="span" />
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Col 4 — Kontakt + Social */}
+        <div>
+          <p style={colHead}>
+            <span aria-hidden="true" style={{ width: 24, height: 1, background: CREAM, opacity: 0.6 }} />
+            Kontakt
+          </p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 22 }}>
+            <div style={{ fontFamily: SANS, fontSize: "0.88rem", color: CREAM, opacity: 0.85, lineHeight: 1.55 }}>
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+            </div>
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="n01-footer-contact" style={{
+              fontFamily: SANS, fontSize: "0.88rem", color: CREAM,
+              textDecoration: "none", opacity: 0.85,
+            }}>
               <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
             </a>
-          </p>
-          <p style={colText}>
-            E:{" "}<a href={`mailto:${email}`} style={{ color: CREAM, textDecoration: "none" }}>
+            <a href={`mailto:${email}`} className="n01-footer-contact" style={{
+              fontFamily: SANS, fontSize: "0.88rem", color: CREAM,
+              textDecoration: "none", opacity: 0.85,
+            }}>
               <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
             </a>
-          </p>
-          <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
-            {instagram && instagram !== "#" && (
-              <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-                style={{ color: CREAM, opacity: 0.75, fontSize: "0.85rem", fontFamily: SANS, letterSpacing: "0.08em", textDecoration: "none", transition: "opacity 0.2s" }}
-                onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
-                onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.75")}
-              >Instagram</a>
-            )}
-            {facebook && facebook !== "#" && (
-              <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook"
-                style={{ color: CREAM, opacity: 0.75, fontSize: "0.85rem", fontFamily: SANS, letterSpacing: "0.08em", textDecoration: "none", transition: "opacity 0.2s" }}
-                onMouseEnter={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "1")}
-                onMouseLeave={e => ((e.currentTarget as HTMLAnchorElement).style.opacity = "0.75")}
-              >Facebook</a>
-            )}
+          </div>
+          <div style={{ display: "flex", gap: 10 }}>
+            <a href={instagram} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="n01-social-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href={facebook} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="n01-social-pill">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
           </div>
         </div>
       </div>
 
-      {/* Copyright row */}
+      {/* Bottom copyright bar */}
       <div style={{
-        borderTop: `1px solid rgba(244,241,233,0.15)`,
-        padding: "16px clamp(24px, 6vw, 80px)",
-        textAlign: "center",
+        position: "relative",
+        borderTop: `1px solid rgba(244,241,233,0.18)`,
+        padding: "22px clamp(28px, 6vw, 80px)",
       }}>
-        <p style={{ fontFamily: SANS, fontSize: "0.78rem", color: CREAM, opacity: 0.5, margin: 0 }}>
-          <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
-        </p>
+        <div style={{
+          maxWidth: 1320, margin: "0 auto",
+          display: "flex", flexWrap: "wrap",
+          alignItems: "center", justifyContent: "space-between",
+          gap: 16,
+        }}>
+          <p style={{
+            margin: 0,
+            fontFamily: SANS, fontSize: "0.7rem",
+            fontWeight: 300, letterSpacing: "0.2em",
+            textTransform: "uppercase", color: CREAM, opacity: 0.6,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
+          </p>
+          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            <a href={resolve(legalHref)} className="n01-footer-legal" style={{
+              fontFamily: SANS, fontSize: "0.7rem",
+              fontWeight: 300, letterSpacing: "0.2em",
+              textTransform: "uppercase", color: CREAM,
+              opacity: 0.6, textDecoration: "none",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="legalText" value={legalText} tag="span" />
+            </a>
+            <WeberoCredit />
+          </div>
+        </div>
       </div>
     </footer>
   );
@@ -3248,38 +3342,49 @@ function FooterNails01({ content, sectionId, tenantSlug, isAdmin }: { content: R
 // ─────────────────────────────────────────────────────────────────────────────
 function FooterNails02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const DARK  = "#14100e";
+  const WINE  = "#6b3f38";
   const TAUPE = "#d4a080";
   const CREAM = "#f6efe9";
+  const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
+  const SANS  = "'Helvetica Neue', Arial, sans-serif";
+
+  const ctaKicker = String(content.ctaKicker ?? "Rezervace");
+  const ctaTitle  = String(content.ctaTitle  ?? "Objednáte si termín ještě dnes?");
+  const ctaText   = String(content.ctaText   ?? "Rezervovat termín");
+  const ctaHref   = String(content.ctaHref   ?? "/kontakt");
 
   const siteName  = String(content.siteName  ?? "Premium Nails");
-  const tagline   = String(content.tagline   ?? "Prémiové nehtové studio v srdci Prahy. Manikúra, pedikúra a originální nail design.");
-  const address   = String(content.address   ?? "Ukázková 123, 110 00 Praha 1");
-  const email     = String(content.email     ?? "email@demo.cz");
+  const tagline   = String(content.tagline   ?? "Prémiové nehtové studio v srdci Prahy — manikúra, pedikúra a originální nail design.");
+  const address   = String(content.address   ?? "Melantrichova 15, 110 00 Praha 1");
+  const email     = String(content.email     ?? "studio@premiumnails.cz");
   const phone     = String(content.phone     ?? "+420 704 123 456");
-  const hours     = String(content.hours     ?? "Po–Pá 9:00–18:00, So 9:00–14:00");
+  const hours     = String(content.hours     ?? "Po–Pá 9:00–20:00 · So 9:00–15:00");
   const links     = (content.links as Array<{ label: string; href: string }>) ?? [];
   const ico       = String(content.ico       ?? "12345678");
   const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} Premium Nails. Demo web.`);
-  const igHref    = String(content.igHref    ?? "https://instagram.com/demo");
+  const igHref    = String(content.igHref    ?? "https://instagram.com/premiumnails.demo");
   const waHref    = String(content.waHref    ?? "https://wa.me/420704123456");
 
   const colTitle: React.CSSProperties = {
-    fontFamily: "'Poppins', Arial, sans-serif",
-    fontSize: "0.72rem",
-    fontWeight: 600,
+    fontFamily: SERIF,
+    fontStyle: "italic",
+    fontSize: "1.25rem",
+    fontWeight: 400,
     color: TAUPE,
-    textTransform: "uppercase",
-    letterSpacing: "0.32em",
-    margin: "0 0 24px",
+    margin: "0 0 20px",
+    letterSpacing: "0.005em",
+    paddingBottom: 12,
+    borderBottom: `1px solid ${TAUPE}33`,
   };
   const colItem: React.CSSProperties = {
-    fontFamily: "'Poppins', Arial, sans-serif",
+    fontFamily: SANS,
     fontSize: "0.94rem",
     fontWeight: 300,
     color: "rgba(246,239,233,0.78)",
     textDecoration: "none",
     lineHeight: 1.7,
-    transition: "color 0.2s",
+    transition: "color 0.25s, transform 0.3s",
+    display: "inline-block",
   };
 
   return (
@@ -3289,65 +3394,148 @@ function FooterNails02({ content, sectionId }: { content: Record<string, unknown
       data-template="nails-02"
       style={{
         backgroundColor: DARK,
-        padding: "clamp(64px, 8vw, 96px) clamp(24px, 6vw, 72px) 0",
+        padding: "0 clamp(24px, 6vw, 72px) 0",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div style={{ maxWidth: 1320, margin: "0 auto" }}>
+        {/* CTA strip */}
+        <div
+          className="n02-footer-cta-strip"
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr auto",
+            alignItems: "center",
+            gap: 40,
+            padding: "clamp(56px, 7vw, 88px) 0",
+            borderBottom: `1px solid ${TAUPE}22`,
+          }}
+        >
+          <div>
+            <p style={{
+              fontFamily: SANS,
+              fontSize: "0.72rem",
+              fontWeight: 600,
+              color: TAUPE,
+              textTransform: "uppercase",
+              letterSpacing: "0.36em",
+              margin: "0 0 20px",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="ctaKicker" value={ctaKicker} tag="span" />
+            </p>
+            <h3 style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: "clamp(2rem, 4vw, 3.4rem)",
+              lineHeight: 1.05,
+              color: CREAM,
+              margin: 0,
+              letterSpacing: "-0.01em",
+              maxWidth: 720,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="ctaTitle" value={ctaTitle} tag="span" />
+            </h3>
+          </div>
+          <a
+            href={ctaHref}
+            data-btn="primary"
+            className="n02-footer-cta"
+            style={{
+              position: "relative",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 12,
+              padding: "17px 36px",
+              backgroundColor: "transparent",
+              color: CREAM,
+              border: `1px solid ${CREAM}`,
+              fontFamily: SANS,
+              fontSize: "0.8rem",
+              fontWeight: 600,
+              letterSpacing: "0.24em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              overflow: "hidden",
+              transition: "color 0.35s ease",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
+            }}
+          >
+            <span style={{ position: "relative", zIndex: 2 }}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </span>
+            <span style={{ position: "relative", zIndex: 2, display: "inline-flex" }} className="n02-footer-cta-arrow">
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h11m-3.5-3.5L12 5l-3.5 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
+            </span>
+          </a>
+        </div>
+
+        {/* 4-col main grid */}
         <div
           className="nails02-footer-grid"
           style={{
             display: "grid",
-            gridTemplateColumns: "1.4fr 1fr 1fr",
-            gap: "clamp(40px, 5vw, 80px)",
-            paddingBottom: "clamp(48px, 6vw, 72px)",
+            gridTemplateColumns: "1.5fr 1fr 1fr 1fr",
+            gap: "clamp(40px, 5vw, 72px)",
+            padding: "clamp(64px, 8vw, 96px) 0 clamp(56px, 7vw, 80px)",
           }}
         >
           {/* Col 1: brand */}
           <div>
             <div
               style={{
-                fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-                fontWeight: 600,
-                fontSize: "1.4rem",
-                color: CREAM,
-                letterSpacing: "0.16em",
-                textTransform: "uppercase",
-                marginBottom: 20,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 12,
+                marginBottom: 22,
               }}
             >
-              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M20 12A8 8 0 1 1 12 4a6 6 0 0 0 8 8Z" fill={TAUPE} opacity="0.9"/>
+              </svg>
+              <span style={{
+                fontFamily: SERIF,
+                fontStyle: "italic",
+                fontWeight: 500,
+                fontSize: "1.8rem",
+                color: CREAM,
+                letterSpacing: "0.005em",
+                lineHeight: 1,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+              </span>
             </div>
             <p
               style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontFamily: SERIF,
                 fontStyle: "italic",
                 fontSize: "1.05rem",
                 fontWeight: 400,
                 color: "rgba(246,239,233,0.7)",
                 lineHeight: 1.65,
                 margin: 0,
-                maxWidth: 360,
+                maxWidth: 340,
               }}
             >
               <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
             </p>
-            {/* Social pills */}
-            <div style={{ display: "flex", gap: 10, marginTop: 28 }}>
+            <div style={{ display: "flex", gap: 10, marginTop: 30 }}>
               <a
                 href={igHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
+                className="n02-footer-social"
                 style={{
                   display: "inline-flex", alignItems: "center", justifyContent: "center",
-                  width: 38, height: 38, borderRadius: 999,
+                  width: 40, height: 40, borderRadius: 999,
                   border: `1px solid ${TAUPE}`,
                   color: TAUPE,
                   textDecoration: "none",
-                  transition: "background 0.2s, color 0.2s",
+                  transition: "background 0.25s, color 0.25s, transform 0.3s",
                 }}
-                onMouseEnter={e => { e.currentTarget.style.backgroundColor = TAUPE; e.currentTarget.style.color = DARK; }}
-                onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = TAUPE; }}
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
               </a>
@@ -3356,16 +3544,15 @@ function FooterNails02({ content, sectionId }: { content: Record<string, unknown
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="WhatsApp"
+                className="n02-footer-social"
                 style={{
                   display: "inline-flex", alignItems: "center", justifyContent: "center",
-                  width: 38, height: 38, borderRadius: 999,
+                  width: 40, height: 40, borderRadius: 999,
                   border: `1px solid ${TAUPE}`,
                   color: TAUPE,
                   textDecoration: "none",
-                  transition: "background 0.2s, color 0.2s",
+                  transition: "background 0.25s, color 0.25s, transform 0.3s",
                 }}
-                onMouseEnter={e => { e.currentTarget.style.backgroundColor = TAUPE; e.currentTarget.style.color = DARK; }}
-                onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = TAUPE; }}
               >
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 14.3c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.2-.7.1-.2.3-.8.9-1 1.1-.2.2-.4.2-.7.1-.3-.1-1.2-.4-2.4-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7.1-.1.3-.3.5-.5.1-.2.2-.3.3-.5.1-.2.1-.4 0-.5-.1-.1-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .2.2 2 3.1 4.9 4.4 1.7.7 2.4.8 3.3.7.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>
               </a>
@@ -3380,9 +3567,8 @@ function FooterNails02({ content, sectionId }: { content: Record<string, unknown
                 <li key={`fn-${i}`}>
                   <a
                     href={l.href}
+                    className="n02-footer-navlink"
                     style={colItem}
-                    onMouseEnter={e => (e.currentTarget.style.color = CREAM)}
-                    onMouseLeave={e => (e.currentTarget.style.color = "rgba(246,239,233,0.78)")}
                   >
                     <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                   </a>
@@ -3394,24 +3580,25 @@ function FooterNails02({ content, sectionId }: { content: Record<string, unknown
           {/* Col 3: contact */}
           <div>
             <h4 style={colTitle}>Kontakt</h4>
-            <address style={{ fontStyle: "normal", display: "flex", flexDirection: "column", gap: 10 }}>
+            <address style={{ fontStyle: "normal", display: "flex", flexDirection: "column", gap: 12 }}>
               <span style={colItem}>
                 <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
               </span>
-              <a href={`mailto:${email}`} style={colItem}
-                 onMouseEnter={e => (e.currentTarget.style.color = CREAM)}
-                 onMouseLeave={e => (e.currentTarget.style.color = "rgba(246,239,233,0.78)")}>
+              <a href={`mailto:${email}`} className="n02-footer-navlink" style={colItem}>
                 <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>
-              <a href={`tel:${phone.replace(/\s/g, "")}`} style={colItem}
-                 onMouseEnter={e => (e.currentTarget.style.color = CREAM)}
-                 onMouseLeave={e => (e.currentTarget.style.color = "rgba(246,239,233,0.78)")}>
+              <a href={`tel:${phone.replace(/\s/g, "")}`} className="n02-footer-navlink" style={colItem}>
                 <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
               </a>
-              <span style={colItem}>
-                <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
-              </span>
             </address>
+          </div>
+
+          {/* Col 4: hours */}
+          <div>
+            <h4 style={colTitle}>Otevřeno</h4>
+            <p style={{ ...colItem, whiteSpace: "pre-line", cursor: "default" }}>
+              <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+            </p>
           </div>
         </div>
 
@@ -3420,17 +3607,17 @@ function FooterNails02({ content, sectionId }: { content: Record<string, unknown
           className="nails02-footer-bottom"
           style={{
             borderTop: `1px solid rgba(212,160,128,0.18)`,
-            padding: "24px 0 28px",
+            padding: "22px 0 28px",
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
-            gap: 16,
+            gap: 20,
             flexWrap: "wrap",
           }}
         >
           <span
             style={{
-              fontFamily: "'Poppins', Arial, sans-serif",
+              fontFamily: SANS,
               fontSize: "0.78rem",
               fontWeight: 300,
               color: "rgba(246,239,233,0.55)",
@@ -3441,7 +3628,7 @@ function FooterNails02({ content, sectionId }: { content: Record<string, unknown
           </span>
           <span
             style={{
-              fontFamily: "'Poppins', Arial, sans-serif",
+              fontFamily: SANS,
               fontSize: "0.72rem",
               fontWeight: 400,
               color: "rgba(246,239,233,0.45)",
@@ -3451,10 +3638,29 @@ function FooterNails02({ content, sectionId }: { content: Record<string, unknown
           >
             IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" />
           </span>
+          <WeberoCredit />
         </div>
       </div>
       <style>{`
-        @media (max-width: 768px) {
+        .n02-footer-cta::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background-color: ${CREAM};
+          transform: translateX(-101%);
+          transition: transform 0.45s cubic-bezier(0.65,0,0.35,1);
+          z-index: 1;
+        }
+        .n02-footer-cta:hover::before { transform: translateX(0); }
+        .n02-footer-cta:hover { color: ${DARK}; }
+        .n02-footer-cta:hover .n02-footer-cta-arrow { transform: translateX(4px); transition: transform 0.3s ease; }
+        .n02-footer-navlink:hover { color: ${CREAM}; transform: translateX(4px); }
+        .n02-footer-social:hover { background-color: ${TAUPE}; color: ${DARK}; transform: translateY(-2px); }
+        @media (max-width: 900px) {
+          .nails02-footer-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .n02-footer-cta-strip { grid-template-columns: 1fr !important; gap: 28px !important; }
+        }
+        @media (max-width: 560px) {
           .nails02-footer-grid { grid-template-columns: 1fr !important; }
           .nails02-footer-bottom { flex-direction: column !important; align-items: flex-start !important; }
         }
@@ -7843,125 +8049,285 @@ function FooterInstala01({ content, sectionId, tenantSlug, isAdmin }: { content:
 }
 
 // ─── florist-01 Footer ───────────────────────────────────────────────────────
+// Botanical Atelier Editorial luxe footer:
+// - Deep moss #2f4a3a bg + olive-gold hairline separators + ivory type
+// - Top eyebrow strip s botanickým mottem
+// - 4-col grid: BRAND (wordmark Atelier Petala + tagline + newsletter form)
+//   + KATALOG links + STUDIO info + KDE NÁS NAJDETE (adresa + hours + social kruhy)
+// - Wordmark: Georgia italic 44px "Atelier Petala" + tracked "BOTANICAL STUDIO · BRNO"
+// - Newsletter form: ivory underline-only input + moss submit s petal-blush sweep
+// - Bottom bar s copyright + IČO + WeberoCredit
 function FooterFlorist01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const logoText     = (content.logoText     as string) ?? "Flóra";
-  const tagline      = (content.tagline      as string) ?? "";
-  const instagramUrl = (content.instagramUrl as string) ?? "";
-  const facebookUrl  = (content.facebookUrl  as string) ?? "";
-  const address      = (content.address      as string) ?? "";
-  const phone        = (content.phone        as string) ?? "";
-  const email        = (content.email        as string) ?? "";
-  const hours        = (content.hours        as string) ?? "";
-  const ico          = (content.ico          as string) ?? "";
-  const copyright    = (content.copyright    as string) ?? "";
-  const catalogLinks = (content.catalogLinks as Array<{ label: string; href: string }>) ?? [];
-  const infoLinks    = (content.infoLinks    as Array<{ label: string; href: string }>) ?? [];
+  const MOSS   = "#2f4a3a";
+  const MOSSD  = "#243a2e";
+  const SAGE   = "#5c8a6a";
+  const IVORY  = "#faf7f2";
+  const IVORY82 = "rgba(250,247,242,0.82)";
+  const IVORY50 = "rgba(250,247,242,0.55)";
+  const IVORY30 = "rgba(250,247,242,0.32)";
+  const GOLD   = "#c9b78a";
+  const GOLDBRIGHT = "#e5cd8d";
+  const BLUSH  = "#e8c5c0";
+  const GEORGIA = "Georgia, 'Times New Roman', serif";
+  const INTER   = "Inter, system-ui, sans-serif";
 
-  const FONT = "'Arimo', Arial, sans-serif";
-  const BG   = "#121212";
-  const MUTED = "rgba(255,255,255,0.5)";
-  const TEXT  = "rgba(255,255,255,0.85)";
+  const logoText     = String(content.logoText     ?? "Atelier Petala");
+  const tagline      = String(content.tagline      ?? "Čerstvě vázané kytice s doručením po celém Brně od roku 2015.");
+  const brandKicker  = String(content.brandKicker  ?? "BOTANICAL STUDIO · BRNO");
+  const motto        = String(content.motto        ?? "Květiny, které mluví za vás.");
+  const instagram    = String(content.instagram    ?? "@atelier.petala");
+  const instagramUrl = String(content.instagramUrl ?? "https://instagram.com/atelier.petala");
+  const facebookUrl  = String(content.facebookUrl  ?? "https://facebook.com/atelier.petala");
+  const pinterestUrl = String(content.pinterestUrl ?? "https://pinterest.com/atelier.petala");
+  const address      = String(content.address      ?? "Veveří 42, 602 00 Brno");
+  const phone        = String(content.phone        ?? "+420 731 456 789");
+  const email        = String(content.email        ?? "atelier@petala.cz");
+  const hours        = String(content.hours        ?? "Po–Pá 8—20 · So–Ne 9—18");
+  const ico          = String(content.ico          ?? "12345678");
+  const dic          = String(content.dic          ?? "CZ12345678");
+  const copyright    = String(content.copyright    ?? `© ${new Date().getFullYear()} Atelier Petala. Ručně vázané v Brně.`);
+
+  const catalogLinks = (content.catalogLinks as Array<{ label: string; href: string }>) ?? [
+    { label: "Kytice růží",         href: "/katalog" },
+    { label: "Signature kolekce",    href: "/katalog" },
+    { label: "Svatební floristika",  href: "/katalog" },
+    { label: "Sušené & interiér",    href: "/katalog" },
+    { label: "Firemní zakázky",      href: "/kontakt" },
+  ];
+  const studioLinks = (content.studioLinks as Array<{ label: string; href: string }>) ?? [
+    { label: "O ateliéru",   href: "/onas"    },
+    { label: "Doručení",     href: "/doruceni" },
+    { label: "Časté dotazy", href: "/faq"     },
+    { label: "Kontakt",      href: "/kontakt" },
+    { label: "Blog & inspirace", href: "/katalog" },
+  ];
+
+  const newsletterEyebrow = String(content.newsletterEyebrow ?? "PŘIHLASTE SE K ODBĚRU");
+  const newsletterCopy    = String(content.newsletterCopy    ?? "Sezónní novinky, inspirace a příležitostné slevy jednou za měsíc.");
+  const newsletterPh      = String(content.newsletterPh      ?? "Váš e-mail");
+  const newsletterCta     = String(content.newsletterCta     ?? "Odebírat");
 
   const resolve = (href: string) => {
-    if (!tenantSlug || !href.startsWith("#")) return href;
-    return isAdmin ? `/demo/${tenantSlug}/admin${href}` : `/demo/${tenantSlug}${href}`;
+    if (!href) return "#";
+    if (href.startsWith("http") || href.startsWith("mailto") || href.startsWith("tel") || href.startsWith("#")) return href;
+    if (isAdmin) return `/demo/${tenantSlug}/admin${href}`;
+    if (tenantSlug) return `/demo/${tenantSlug}${href}`;
+    return href;
   };
 
   return (
-    <footer style={{ backgroundColor: BG, color: TEXT, fontFamily: FONT, paddingTop: 60, paddingBottom: 0 }}>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&display=swap" />
-      <style>{`        .f01-ft-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
-        @media (max-width: 900px) { .f01-ft-grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
-        @media (max-width: 540px) { .f01-ft-grid { grid-template-columns: 1fr; gap: 28px; } }
-        .f01-ft-nav-link { color: rgba(255,255,255,0.65); font-size: 14px; text-decoration: none; display: block; margin-bottom: 10px; font-family: 'Arimo', Arial, sans-serif; transition: color 0.15s; }
-        .f01-ft-nav-link:hover { color: #fff; }
-        .f01-ft-col-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 18px; font-family: 'Arimo', Arial, sans-serif; }
-        .f01-ft-logo { font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: 28px; font-weight: 400; color: #fff; letter-spacing: 0.02em; margin-bottom: 6px; }
-        .f01-ft-tagline { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 20px; font-family: 'Arimo', Arial, sans-serif; }
-        .f01-ft-social { display: flex; gap: 12px; margin-bottom: 24px; }
-        .f01-ft-social a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.7); text-decoration: none; transition: border-color 0.15s, color 0.15s; }
-        .f01-ft-social a:hover { border-color: #fff; color: #fff; }
-        .f01-ft-info-row { font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 8px; font-family: 'Arimo', Arial, sans-serif; }
-        .f01-ft-info-row a { color: rgba(255,255,255,0.6); text-decoration: none; }
-        .f01-ft-info-row a:hover { color: #fff; }
-        .f01-ft-bottom { border-top: 1px solid rgba(255,255,255,0.08); margin-top: 48px; padding: 18px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-        .f01-ft-copy { font-size: 12px; color: rgba(255,255,255,0.3); font-family: 'Arimo', Arial, sans-serif; }
-        .f01-ft-ico { font-size: 12px; color: rgba(255,255,255,0.25); font-family: 'Arimo', Arial, sans-serif; }
+    <footer data-template="florist-01" className="f01ft" style={{ background: MOSS, color: IVORY, fontFamily: INTER, position: "relative", overflow: "hidden" }}>
+      <style>{`
+        .f01ft::before { content:""; position:absolute; top:-160px; right:-160px; width:320px; height:320px; border:1px solid ${GOLD}; opacity:0.14; transform: rotate(45deg); pointer-events:none; }
+        .f01ft::after  { content:""; position:absolute; bottom:-140px; left:-140px; width:280px; height:280px; border:1px solid ${GOLD}; opacity:0.12; transform: rotate(45deg); pointer-events:none; }
+        .f01ft-inner { max-width: 1280px; margin: 0 auto; padding: 84px 24px 0; position:relative; z-index:1; }
+
+        .f01ft-motto { display:flex; align-items:center; gap:22px; padding-bottom: 44px; border-bottom: 1px solid ${GOLD}; margin-bottom: 56px; }
+        .f01ft-motto-eye { font-family:${INTER}; font-weight:500; font-size:10.5px; letter-spacing:0.34em; text-transform:uppercase; color:${GOLDBRIGHT}; white-space:nowrap; display:inline-flex; align-items:center; gap:12px; }
+        .f01ft-motto-eye i { width:20px; height:1px; background:${GOLD}; display:inline-block; }
+        .f01ft-motto-txt { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:clamp(22px, 2.4vw, 32px); color:${IVORY}; margin:0; letter-spacing:-0.008em; line-height:1.2; flex:1; }
+        .f01ft-motto-txt::after { content: "  ✿"; color:${GOLD}; font-style:normal; font-size:0.7em; margin-left: 8px; }
+
+        .f01ft-grid { display:grid; grid-template-columns: 1.5fr 1fr 1fr 1.15fr; gap: 56px; padding-bottom: 60px; }
+
+        /* BRAND col */
+        .f01ft-brand { display:flex; flex-direction:column; gap: 18px; }
+        .f01ft-logo { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:40px; line-height:1; color:${IVORY}; letter-spacing:-0.01em; margin:0; }
+        .f01ft-brand-kick { display:inline-flex; align-items:center; gap:8px; font-family:${INTER}; font-weight:500; font-size:10px; letter-spacing:0.32em; text-transform:uppercase; color:${GOLDBRIGHT}; }
+        .f01ft-brand-kick i { width:20px; height:1px; background:${GOLD}; display:inline-block; }
+        .f01ft-tagline { font-family:${INTER}; font-weight:300; font-size:14px; line-height:1.7; color:${IVORY82}; margin:0; max-width:340px; }
+
+        .f01ft-nl { margin-top: 14px; display:flex; flex-direction:column; gap: 10px; }
+        .f01ft-nl-eye { font-family:${INTER}; font-weight:500; font-size:10.5px; letter-spacing:0.32em; text-transform:uppercase; color:${GOLDBRIGHT}; }
+        .f01ft-nl-copy { font-family:${INTER}; font-weight:300; font-size:12.5px; line-height:1.6; color:${IVORY50}; max-width:320px; margin:0 0 6px; }
+        .f01ft-nl-form { display:flex; align-items:center; gap:0; max-width:340px; border-bottom: 1px solid ${GOLD}; padding: 6px 0; }
+        .f01ft-nl-form input { flex:1; background:transparent; border:none; outline:none; padding: 6px 4px; font-family:${INTER}; font-weight:400; font-size:14px; color:${IVORY}; }
+        .f01ft-nl-form input::placeholder { color:${IVORY50}; font-style:italic; font-family:${GEORGIA}; }
+        .f01ft-nl-btn { position:relative; overflow:hidden; background:transparent; border:none; color:${GOLDBRIGHT}; cursor:pointer; font-family:${INTER}; font-weight:500; font-size:11px; letter-spacing:0.24em; text-transform:uppercase; padding: 6px 12px; transition: color 0.35s ease; display:inline-flex; align-items:center; gap:8px; }
+        .f01ft-nl-btn:hover { color:${IVORY}; }
+        .f01ft-nl-btn .arr { transition: transform 0.4s ease; }
+        .f01ft-nl-btn:hover .arr { transform: translateX(4px); }
+
+        /* Nav columns */
+        .f01ft-col-eye { font-family:${INTER}; font-weight:500; font-size:10.5px; letter-spacing:0.32em; text-transform:uppercase; color:${GOLDBRIGHT}; margin: 0 0 24px; display:inline-flex; align-items:center; gap:10px; }
+        .f01ft-col-eye i { width:18px; height:1px; background:${GOLD}; display:inline-block; }
+        .f01ft-nav { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap: 12px; }
+        .f01ft-nav a { position:relative; display:inline-block; font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:16px; color:${IVORY82}; text-decoration:none; transition: color 0.3s ease, padding 0.3s ease; padding-left: 0; letter-spacing:-0.005em; }
+        .f01ft-nav a::before { content:""; position:absolute; left:0; top:50%; width:0; height:1px; background:${GOLDBRIGHT}; transition: width 0.4s cubic-bezier(.6,.05,.35,1); }
+        .f01ft-nav a:hover { color:${GOLDBRIGHT}; padding-left: 20px; }
+        .f01ft-nav a:hover::before { width: 14px; }
+
+        /* CONTACT col */
+        .f01ft-info { display:flex; flex-direction:column; gap: 14px; margin-bottom: 24px; }
+        .f01ft-info-row { display:flex; align-items:flex-start; gap:12px; }
+        .f01ft-info-icon { width:16px; color:${GOLDBRIGHT}; margin-top: 3px; flex-shrink:0; }
+        .f01ft-info-val { font-family:${GEORGIA}; font-style:italic; font-size:14px; color:${IVORY82}; text-decoration:none; line-height:1.55; letter-spacing:-0.005em; transition: color 0.3s ease; }
+        a.f01ft-info-val:hover { color:${IVORY}; }
+
+        .f01ft-social { display:flex; gap: 10px; margin-top: 10px; }
+        .f01ft-social a { display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:50%; border: 1px solid ${GOLD}; color:${IVORY82}; background:transparent; transition: background 0.4s ease, color 0.4s ease, transform 0.4s ease; text-decoration:none; }
+        .f01ft-social a:hover { background: ${IVORY}; color: ${MOSS}; transform: translateY(-2px); }
+        .f01ft-social-tag { font-family:${GEORGIA}; font-style:italic; font-size:13px; color:${IVORY50}; margin-top: 12px; display:block; }
+
+        /* Bottom bar */
+        .f01ft-bot { border-top: 1px solid ${GOLD}; padding: 26px 0 34px; display:grid; grid-template-columns: 1fr auto auto; align-items:center; gap: 24px; }
+        .f01ft-copy { font-family:${GEORGIA}; font-style:italic; font-size:12.5px; color:${IVORY50}; letter-spacing:-0.005em; }
+        .f01ft-legal { display:inline-flex; align-items:center; gap: 16px; font-family:${INTER}; font-weight:400; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:${IVORY30}; }
+        .f01ft-legal span { color:${IVORY50}; }
+        .f01ft-credit { justify-self:end; }
+
+        @media(max-width:1100px){ .f01ft-grid { grid-template-columns: 1fr 1fr; gap: 44px; } }
+        @media(max-width:700px){
+          .f01ft-inner { padding: 60px 20px 0; }
+          .f01ft-motto { flex-direction:column; align-items:flex-start; gap: 14px; padding-bottom: 32px; margin-bottom: 40px; }
+          .f01ft-grid { grid-template-columns: 1fr; gap: 40px; padding-bottom: 40px; }
+          .f01ft-bot { grid-template-columns: 1fr; text-align: left; }
+          .f01ft-logo { font-size: 34px; }
+        }
       `}</style>
 
-      <div style={{ maxWidth: 1280, margin: "0 auto", paddingLeft: 24, paddingRight: 24 }}>
-        <div className="f01-ft-grid">
+      <div className="f01ft-inner">
+        {/* Top motto strip */}
+        <div className="f01ft-motto">
+          <span className="f01ft-motto-eye"><i /> AT&#8203;ELIER · MMXV</span>
+          <p className="f01ft-motto-txt">
+            <GenericEditableText sectionId={sectionId} field="motto" value={motto} tag="span" />
+          </p>
+        </div>
 
-          {/* Brand column */}
-          <div>
-            <div className="f01-ft-logo">
+        <div className="f01ft-grid">
+          {/* BRAND + newsletter */}
+          <div className="f01ft-brand">
+            <h3 className="f01ft-logo">
               <GenericEditableText sectionId={sectionId} field="logoText" value={logoText} tag="span" />
+            </h3>
+            <span className="f01ft-brand-kick"><i />
+              <GenericEditableText sectionId={sectionId} field="brandKicker" value={brandKicker} tag="span" />
+            </span>
+            <p className="f01ft-tagline">
+              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            </p>
+
+            <div className="f01ft-nl">
+              <span className="f01ft-nl-eye">
+                <GenericEditableText sectionId={sectionId} field="newsletterEyebrow" value={newsletterEyebrow} tag="span" />
+              </span>
+              <p className="f01ft-nl-copy">
+                <GenericEditableText sectionId={sectionId} field="newsletterCopy" value={newsletterCopy} tag="span" />
+              </p>
+              <form className="f01ft-nl-form" onSubmit={(e) => e.preventDefault()}>
+                <input type="email" placeholder={newsletterPh} aria-label="E-mail" />
+                <button type="submit" className="f01ft-nl-btn">
+                  <GenericEditableText sectionId={sectionId} field="newsletterCta" value={newsletterCta} tag="span" />
+                  <span className="arr" aria-hidden>→</span>
+                </button>
+              </form>
             </div>
-            {tagline && (
-              <div className="f01-ft-tagline">
-                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-              </div>
-            )}
-            <div className="f01-ft-social">
-              {instagramUrl && (
-                <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-                  </svg>
-                </a>
-              )}
-              {facebookUrl && (
-                <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                  </svg>
-                </a>
-              )}
-            </div>
-            {address && <div className="f01-ft-info-row"><GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" /></div>}
-            {phone && <div className="f01-ft-info-row"><a href={`tel:${phone}`}><GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" /></a></div>}
-            {email && <div className="f01-ft-info-row"><a href={`mailto:${email}`}><GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" /></a></div>}
-            {hours && <div className="f01-ft-info-row"><GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" /></div>}
           </div>
 
-          {/* Catalog links */}
+          {/* KATALOG */}
           <div>
-            <div className="f01-ft-col-title">Katalog</div>
-            <nav>
+            <div className="f01ft-col-eye"><i /> Katalog</div>
+            <ul className="f01ft-nav">
               {catalogLinks.map((link, i) => (
-                <a key={i} href={resolve(link.href)} className="f01-ft-nav-link">
-                  <GenericEditableText sectionId={sectionId} field={`catalogLinks.${i}.label`} value={link.label} tag="span" />
-                </a>
+                <li key={i}>
+                  <a href={resolve(link.href)}>
+                    <GenericEditableText sectionId={sectionId} field={`catalogLinks.${i}.label`} value={link.label} tag="span" />
+                  </a>
+                </li>
               ))}
-            </nav>
+            </ul>
           </div>
 
-          {/* Info links */}
+          {/* STUDIO */}
           <div>
-            <div className="f01-ft-col-title">Informace</div>
-            <nav>
-              {infoLinks.map((link, i) => (
-                <a key={i} href={resolve(link.href)} className="f01-ft-nav-link">
-                  <GenericEditableText sectionId={sectionId} field={`infoLinks.${i}.label`} value={link.label} tag="span" />
-                </a>
+            <div className="f01ft-col-eye"><i /> Studio</div>
+            <ul className="f01ft-nav">
+              {studioLinks.map((link, i) => (
+                <li key={i}>
+                  <a href={resolve(link.href)}>
+                    <GenericEditableText sectionId={sectionId} field={`studioLinks.${i}.label`} value={link.label} tag="span" />
+                  </a>
+                </li>
               ))}
-            </nav>
+            </ul>
           </div>
 
-          {/* Empty 4th column on large screens — spacer */}
-          <div />
+          {/* CONTACT + social */}
+          <div>
+            <div className="f01ft-col-eye"><i /> Kde nás najdete</div>
+            <div className="f01ft-info">
+              <div className="f01ft-info-row">
+                <svg className="f01ft-info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="1.3"/>
+                  <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="1.3"/>
+                </svg>
+                <span className="f01ft-info-val">
+                  <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+                </span>
+              </div>
+              <div className="f01ft-info-row">
+                <svg className="f01ft-info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.3"/>
+                  <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+                </svg>
+                <span className="f01ft-info-val">
+                  <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+                </span>
+              </div>
+              <div className="f01ft-info-row">
+                <svg className="f01ft-info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z" stroke="currentColor" strokeWidth="1.3"/>
+                </svg>
+                <a className="f01ft-info-val" href={`tel:${phone.replace(/\s+/g,"")}`}>
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                </a>
+              </div>
+              <div className="f01ft-info-row">
+                <svg className="f01ft-info-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 6h16v12H4z M4 6l8 6 8-6" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
+                </svg>
+                <a className="f01ft-info-val" href={`mailto:${email}`}>
+                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                </a>
+              </div>
+            </div>
+
+            <div className="f01ft-social">
+              <a href={instagramUrl} target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                </svg>
+              </a>
+              <a href={facebookUrl} target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+              <a href={pinterestUrl} target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M8 22l4-10 4 10 M12 12v4" strokeLinecap="round"/>
+                </svg>
+              </a>
+            </div>
+            <span className="f01ft-social-tag">
+              <GenericEditableText sectionId={sectionId} field="instagram" value={instagram} tag="span" />
+            </span>
+          </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="f01-ft-bottom">
-          <span className="f01-ft-copy">
+        <div className="f01ft-bot">
+          <span className="f01ft-copy">
             <GenericEditableText sectionId={sectionId} field="copyright" value={copyright} tag="span" />
           </span>
-          {ico && (
-            <span className="f01-ft-ico">IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></span>
-          )}
+          <div className="f01ft-legal">
+            <span>IČO: <GenericEditableText sectionId={sectionId} field="ico" value={ico} tag="span" /></span>
+            <span aria-hidden>·</span>
+            <span>DIČ: <GenericEditableText sectionId={sectionId} field="dic" value={dic} tag="span" /></span>
+          </div>
+          <div className="f01ft-credit">
+            <WeberoCredit />
+          </div>
         </div>
       </div>
     </footer>

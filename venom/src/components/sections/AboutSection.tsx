@@ -4229,121 +4229,270 @@ function ProcessTattoo03({ content, sectionId }: { content: Record<string, unkno
 }
 
 // ── nails-01-about ────────────────────────────────────────────────────────────
-// About sekce — soho nails 1:1
-// Bílé bg, 2-col: 2/5 text vlevo (H4 + body + SLUŽBY btn) + 3/5 foto vpravo
-// Burgund: #79142b, section padding 80px vert
+// Kyoto Wabi-Sabi Beauty about — editorial luxe
+// White bg s subtle washi texture · asymmetric 5:7 grid (text left / photo right)
+// Left: eyebrow "01 · FILOZOFIE" + Georgia H2 s italic accent · dvouparagraf body ·
+// italic pull-quote block s hanko dots · Georgia italic signature · outline CTA
+// Right: photo v corner-bracket frame + Georgia italic caption + floating stat card
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutNails01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const BURGUNDY = "#79142b";
+  const CREAM = "#f4f1e9";
 
-  const title   = String(content.title   ?? "The One and Only – filozofie Studia");
-  const lead    = String(content.lead    ?? "Studio vzniklo z inspirace světovými metropolemi – místy, kde se potkává umění, styl a osobitost.");
-  const body    = String(content.body    ?? "Filozofie studia čerpá z principů japonského wabi-sabi – z jednoduchosti, klidu a přijetí přirozené nedokonalosti. Každý detail byl vytvořen tak, aby vám přinesl harmonii a pocit opravdového luxusu.");
-  const ctaText = String(content.ctaText ?? "SLUŽBY");
-  const ctaHref = String(content.ctaHref ?? "#sluzby");
-  const imageUrl = String(content.imageUrl ?? "/clones/soho/wp-content/uploads/2025/10/SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-Interior-Hair-Styling-1x.webp");
+  const eyebrow      = String(content.eyebrow      ?? "01 · FILOZOFIE");
+  const title        = String(content.title        ?? "The One and Only —");
+  const titleAccent  = String(content.titleAccent  ?? "filozofie SOHO");
+  const hideHeader   = content.hideHeader === true;
+  const lead         = String(content.lead         ?? "SOHO vzniklo z inspirace ikonickými čtvrtěmi ve světových metropolích — místy, kde se potkává umění, styl a osobitost.");
+  const body         = String(content.body         ?? "Filozofie čerpá z principů japonského wabi-sabi — z jednoduchosti, klidu a přijetí přirozené nedokonalosti. Každý detail, dotek a vůně v prostoru byly vytvořeny tak, aby přinesly harmonii a pocit opravdového luxusu.");
+  const quote        = String(content.quote        ?? "Krása není jen vzhled. Je to zážitek. Detail. Vůně. Klidný dotek, který zůstane s vámi celý den.");
+  const signature    = String(content.signature    ?? "— Studio SOHO, Praha");
+  const ctaText      = String(content.ctaText      ?? "Naše služby");
+  const ctaHref      = String(content.ctaHref      ?? "/sluzby");
+  const imageUrl     = String(content.imageUrl     ?? "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1120&h=1400&fit=crop&q=88&fm=webp");
+  const imageCaption = String(content.imageCaption ?? "Studio · Vinohradská 26, Praha");
+  const statValue    = String(content.statValue    ?? "wabi-sabi");
+  const statLabel    = String(content.statLabel    ?? "od 2018 · Praha 1");
 
   return (
     <section
       id="o-nas"
+      data-template="nails-01"
       data-section-type="about"
       data-variant="nails-01-about"
-      style={{ backgroundColor: "#ffffff", padding: "clamp(60px, 8vh, 100px) 0" }}
+      className="n01-about"
+      style={{ backgroundColor: "#ffffff", padding: "clamp(80px, 12vh, 140px) 0", position: "relative", overflow: "hidden" }}
     >
+      {/* Washi texture */}
+      <div aria-hidden="true" style={{
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse at 90% 5%, rgba(121,20,43,0.03), transparent 55%), radial-gradient(ellipse at 5% 95%, rgba(121,20,43,0.025), transparent 55%)",
+      }} />
+
+      {/* Ghost Georgia italic word background */}
+      <div aria-hidden="true" className="hidden lg:block" style={{
+        position: "absolute",
+        top: "50%",
+        right: "-4%",
+        transform: "translateY(-50%)",
+        fontSize: "clamp(140px, 18vw, 240px)",
+        fontFamily: "Georgia, serif",
+        fontStyle: "italic",
+        color: BURGUNDY,
+        opacity: 0.028,
+        whiteSpace: "nowrap",
+        userSelect: "none",
+        pointerEvents: "none",
+        lineHeight: 1,
+      }}>
+        filozofie
+      </div>
+
       <div style={{
-        maxWidth: 1280,
+        maxWidth: 1320,
         margin: "0 auto",
         padding: "0 clamp(24px, 6vw, 80px)",
-        display: "flex",
-        flexDirection: "row",
-        flexWrap: "wrap",
-        gap: "clamp(40px, 5vw, 80px)",
-        alignItems: "center",
-      }}>
-        {/* Levý sloupec — 2/5 šířky */}
-        <div style={{ flex: "2 1 280px", minWidth: 0 }}>
-          <h2 style={{
+        display: "grid",
+        gridTemplateColumns: "minmax(0, 5fr) minmax(0, 7fr)",
+        gap: "clamp(48px, 6vw, 96px)",
+        alignItems: "start",
+        position: "relative",
+      }} className="n01-about-grid">
+        {/* LEFT — editorial text */}
+        <div style={{ paddingTop: "clamp(0px, 2vh, 24px)" }}>
+          {!hideHeader && (
+            <>
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 14,
+                marginBottom: 26,
+                fontFamily: "'Montserrat', 'Helvetica Neue', Arial, sans-serif",
+                fontSize: "0.7rem",
+                fontWeight: 300,
+                letterSpacing: "0.36em",
+                textTransform: "uppercase",
+                color: BURGUNDY,
+              }}>
+                <span aria-hidden="true" style={{ width: 40, height: 1, background: BURGUNDY, opacity: 0.55 }} />
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </div>
+
+              <h2 style={{
+                fontFamily: "Georgia, 'Times New Roman', serif",
+                fontSize: "clamp(32px, 3.4vw, 50px)",
+                fontWeight: 400,
+                color: BURGUNDY,
+                lineHeight: 1.1,
+                margin: "0 0 32px",
+                letterSpacing: "-0.005em",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                <br />
+                <em style={{ fontStyle: "italic", fontWeight: 400 }}>
+                  <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
+                </em>
+              </h2>
+            </>
+          )}
+
+          {/* Body — s vertical rail vlevo */}
+          <div style={{ position: "relative", paddingLeft: 22, marginBottom: 32 }}>
+            <span aria-hidden="true" style={{
+              position: "absolute", left: 0, top: 6, bottom: 6,
+              width: 1,
+              background: `linear-gradient(180deg, ${BURGUNDY} 0%, rgba(121,20,43,0.2) 100%)`,
+            }} />
+            <p style={{
+              fontFamily: "'Montserrat', 'Helvetica Neue', Arial, sans-serif",
+              fontSize: "clamp(15px, 1.15vw, 17px)",
+              fontWeight: 400,
+              color: BURGUNDY,
+              lineHeight: 1.75,
+              margin: "0 0 18px",
+              opacity: 0.9,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
+            </p>
+            <p style={{
+              fontFamily: "'Montserrat', 'Helvetica Neue', Arial, sans-serif",
+              fontSize: "clamp(14px, 1.05vw, 16px)",
+              fontWeight: 300,
+              color: BURGUNDY,
+              lineHeight: 1.75,
+              margin: 0,
+              opacity: 0.78,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+            </p>
+          </div>
+
+          {/* Pull-quote — Georgia italic s hanko dots */}
+          <blockquote style={{
+            margin: "36px 0 32px",
+            padding: "24px 0",
+            borderTop: `1px solid rgba(121,20,43,0.2)`,
+            borderBottom: `1px solid rgba(121,20,43,0.2)`,
             fontFamily: "Georgia, 'Times New Roman', serif",
-            fontSize: "clamp(22px, 2.2vw, 30px)",
-            fontWeight: 700,
+            fontStyle: "italic",
+            fontSize: "clamp(18px, 1.5vw, 22px)",
+            fontWeight: 400,
             color: BURGUNDY,
-            lineHeight: 1.3,
-            margin: "0 0 24px",
+            lineHeight: 1.5,
+            position: "relative",
           }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
+            <span aria-hidden="true" style={{
+              display: "block",
+              width: 8, height: 8, borderRadius: "50%",
+              background: BURGUNDY, opacity: 0.6,
+              margin: "0 auto 14px",
+            }} />
+            <GenericEditableText sectionId={sectionId} field="quote" value={quote} tag="span" />
+            <footer style={{
+              marginTop: 16,
+              fontFamily: "'Montserrat', sans-serif",
+              fontStyle: "normal",
+              fontSize: "0.7rem",
+              fontWeight: 300,
+              letterSpacing: "0.28em",
+              textTransform: "uppercase",
+              opacity: 0.65,
+              textAlign: "right",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="signature" value={signature} tag="span" />
+            </footer>
+          </blockquote>
 
-          <p style={{
-            fontFamily: "'Helvetica Neue', Arial, sans-serif",
-            fontSize: "clamp(14px, 1.1vw, 15px)",
-            color: BURGUNDY,
-            lineHeight: 1.75,
-            margin: "0 0 16px",
-            opacity: 0.9,
-          }}>
-            <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
-          </p>
-
-          <p style={{
-            fontFamily: "'Helvetica Neue', Arial, sans-serif",
-            fontSize: "clamp(14px, 1.1vw, 15px)",
-            color: BURGUNDY,
-            lineHeight: 1.75,
-            margin: "0 0 36px",
-            opacity: 0.75,
-          }}>
-            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-          </p>
-
-          {/* SLUŽBY button — outline burgundy */}
+          {/* CTA outline */}
           <a
             href={ctaHref}
             data-btn="primary"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              fontFamily: "'Helvetica Neue', Arial, sans-serif",
-              fontSize: "0.78rem",
-              fontWeight: 700,
-              letterSpacing: "0.12em",
-              textTransform: "uppercase",
-              color: BURGUNDY,
-              textDecoration: "none",
-              border: `1.5px solid ${BURGUNDY}`,
-              padding: "12px 28px",
-              transition: "background 0.2s, color 0.2s",
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.backgroundColor = BURGUNDY;
-              (e.currentTarget as HTMLElement).style.color = "#ffffff";
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.backgroundColor = "transparent";
-              (e.currentTarget as HTMLElement).style.color = BURGUNDY;
-            }}
+            className="n01-about-cta"
           >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <span className="n01-about-cta-label">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </span>
+            <span aria-hidden="true" className="n01-about-cta-arrow">→</span>
           </a>
         </div>
 
-        {/* Pravý sloupec — 3/5 šířky, foto */}
-        <div style={{ flex: "3 1 380px", minWidth: 0 }}>
-          <GenericEditableImage
-            sectionId={sectionId}
-            field="imageUrl"
-            src={imageUrl}
-            alt="Interior studia"
-            className="w-full"
-            style={{ display: "block" }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+        {/* RIGHT — photo v corner-bracket frame */}
+        <div style={{ position: "relative", paddingTop: "clamp(24px, 4vh, 48px)" }}>
+          <div className="n01-about-photo-wrap" style={{ position: "relative" }}>
+            {/* Corner brackets */}
+            <span aria-hidden="true" className="n01-about-frame n01-about-frame-tl" />
+            <span aria-hidden="true" className="n01-about-frame n01-about-frame-tr" />
+            <span aria-hidden="true" className="n01-about-frame n01-about-frame-bl" />
+            <span aria-hidden="true" className="n01-about-frame n01-about-frame-br" />
+            <GenericEditableImage
+              sectionId={sectionId}
+              field="imageUrl"
               src={imageUrl}
-              alt="Interior studia"
-              style={{ width: "100%", height: "auto", display: "block", objectFit: "cover" }}
-            />
-          </GenericEditableImage>
+              alt="Interiér studia"
+              className="w-full"
+              style={{ display: "block" }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imageUrl}
+                alt="Interiér studia"
+                style={{ width: "100%", aspectRatio: "4/5", objectFit: "cover", display: "block" }}
+              />
+            </GenericEditableImage>
+
+            {/* Floating hanko-style stat card — bottom-left overlap */}
+            <div className="hidden md:flex" style={{
+              position: "absolute",
+              left: "-28px",
+              bottom: "-32px",
+              width: 190,
+              padding: "22px 22px",
+              backgroundColor: CREAM,
+              border: `1px solid rgba(121,20,43,0.25)`,
+              flexDirection: "column",
+              gap: 8,
+              zIndex: 5,
+            }}>
+              <span aria-hidden="true" style={{
+                width: 34, height: 1, background: BURGUNDY, opacity: 0.6,
+              }} />
+              <div style={{
+                fontFamily: "Georgia, serif",
+                fontStyle: "italic",
+                fontSize: "1.5rem",
+                fontWeight: 400,
+                color: BURGUNDY,
+                lineHeight: 1.05,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="statValue" value={statValue} tag="span" />
+              </div>
+              <div style={{
+                fontFamily: "'Montserrat', sans-serif",
+                fontSize: "0.62rem",
+                fontWeight: 300,
+                letterSpacing: "0.26em",
+                textTransform: "uppercase",
+                color: BURGUNDY,
+                opacity: 0.75,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="statLabel" value={statLabel} tag="span" />
+              </div>
+            </div>
+          </div>
+
+          {/* Georgia italic caption below */}
+          <figcaption style={{
+            marginTop: 48,
+            fontFamily: "Georgia, serif",
+            fontStyle: "italic",
+            fontSize: "0.95rem",
+            color: BURGUNDY,
+            textAlign: "right",
+            opacity: 0.75,
+          }}>
+            <span aria-hidden="true" style={{ display: "inline-block", width: 20, height: 1, background: BURGUNDY, verticalAlign: "middle", marginRight: 10, opacity: 0.5 }} />
+            <GenericEditableText sectionId={sectionId} field="imageCaption" value={imageCaption} tag="span" />
+          </figcaption>
         </div>
       </div>
     </section>
@@ -4363,12 +4512,30 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
   const TAUPE = "#d4a080";
   const CREAM = "#f6efe9";
   const INK   = "#3a2a25";
+  const MUTED = "#6e6e6e";
+  const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
+  const SANS  = "'Helvetica Neue', Arial, sans-serif";
 
   const numberPrefix = String(content.numberPrefix ?? "(01)");
   const title        = String(content.title        ?? "O nás");
-  const kicker       = String(content.kicker       ?? "O studiu");
-  const body         = String(content.body         ?? "Nabízíme manikúru a pedikúru všech typů – od přirozeného vzhledu po prodloužení a originální design. Naše práce skutečně vydrží a samozřejmostí je individuální přístup i váš maximální komfort.");
-  const imageUrl     = String(content.imageUrl     ?? "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1200&q=80");
+  const ampersand    = String(content.ampersand    ?? "&");
+  const titleTail    = String(content.titleTail    ?? "studio");
+  const kicker       = String(content.kicker       ?? "O studiu · Praha");
+  const bodyDrop     = String(content.bodyDrop     ?? "N");
+  const body         = String(content.body         ?? "abízíme manikúru, pedikúru a nail design všech stylů — od přirozeného French vzhledu po prodloužení a podpisové kolekce. Naše práce vydrží dlouhé týdny a samozřejmostí je individuální přístup, sterilizované nástroje a maximální komfort.");
+  const signature    = String(content.signature    ?? "— Kateřina Novotná · zakladatelka studia");
+  const imageUrl     = String(content.imageUrl     ?? "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1600&q=88");
+  const caption      = String(content.caption      ?? "Signature Collection · No. 2026");
+  const polaroidLine1 = String(content.polaroidLine1 ?? "Studio");
+  const polaroidLine2 = String(content.polaroidLine2 ?? "Praha 1");
+
+  type Stat = { number: string; label: string };
+  const rawStats = (content.stats as Stat[]) ?? [];
+  const stats: Stat[] = rawStats.length > 0 ? rawStats : [
+    { number: "8+",    label: "let zkušeností"  },
+    { number: "2 200+", label: "spokojených klientek" },
+    { number: "20+",   label: "podpisových designů" },
+  ];
 
   return (
     <section
@@ -4378,100 +4545,231 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
       data-template="nails-02"
       style={{
         backgroundColor: CREAM,
-        padding: "clamp(60px, 8vw, 110px) clamp(24px, 6vw, 72px) clamp(120px, 16vw, 200px)",
+        padding: "clamp(80px, 11vw, 160px) clamp(24px, 6vw, 72px) clamp(120px, 16vw, 200px)",
         position: "relative",
         overflow: "hidden",
       }}
     >
+      {/* Section eyebrow — top-right editorial numeral */}
+      <div
+        className="n02-about-eyebrow"
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "clamp(40px, 6vw, 80px)",
+          right: "clamp(24px, 6vw, 72px)",
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+          fontFamily: SANS,
+          fontSize: "0.7rem",
+          fontWeight: 500,
+          color: TAUPE,
+          letterSpacing: "0.32em",
+          textTransform: "uppercase",
+          opacity: 0.75,
+        }}
+      >
+        <span>Kapitola · 01</span>
+        <span style={{ display: "block", width: 42, height: 1, backgroundColor: TAUPE, opacity: 0.6 }} />
+      </div>
+
       <div
         className="nails02-about-grid"
         style={{
-          maxWidth: 1320,
+          maxWidth: 1360,
           margin: "0 auto",
           display: "grid",
           gridTemplateColumns: "minmax(0, 7fr) minmax(0, 5fr)",
           gap: "clamp(60px, 10vw, 140px)",
-          alignItems: "center",
+          alignItems: "start",
         }}
       >
-        {/* Left: text — generous breathing */}
-        <div style={{ maxWidth: 620 }}>
-          <div
-            style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
+        {/* Left: editorial text column */}
+        <div style={{ maxWidth: 640 }}>
+          {/* (01) prefix with vertical hairline */}
+          <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 44 }}>
+            <span aria-hidden style={{ display: "block", width: 1, height: 32, backgroundColor: TAUPE }} />
+            <span style={{
+              fontFamily: SERIF,
               fontStyle: "italic",
               fontWeight: 400,
-              fontSize: "clamp(1.5rem, 2vw, 2rem)",
+              fontSize: "clamp(1.5rem, 1.9vw, 1.9rem)",
               color: TAUPE,
               lineHeight: 1,
-              marginBottom: 40,
-              letterSpacing: "0.06em",
-            }}
-          >
-            <GenericEditableText sectionId={sectionId} field="numberPrefix" value={numberPrefix} tag="span" />
+              letterSpacing: "0.02em",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="numberPrefix" value={numberPrefix} tag="span" />
+            </span>
           </div>
+
+          {/* Display H2 — italic serif with ampersand ornament */}
           <h2
+            className="n02-about-title"
             style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontFamily: SERIF,
               fontWeight: 400,
               fontStyle: "italic",
-              fontSize: "clamp(3.2rem, 6.8vw, 6.4rem)",
-              lineHeight: 1.0,
+              fontSize: "clamp(3.2rem, 7vw, 6.6rem)",
+              lineHeight: 0.95,
               color: WINE,
               margin: 0,
-              letterSpacing: "-0.01em",
+              letterSpacing: "-0.015em",
+              display: "flex",
+              flexDirection: "column",
+              gap: 4,
             }}
           >
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            <span style={{ display: "block" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </span>
+            <span style={{ display: "flex", alignItems: "baseline", gap: "0.18em" }}>
+              <span
+                aria-hidden="true"
+                className="n02-about-amp"
+                style={{
+                  fontFamily: SERIF,
+                  fontStyle: "italic",
+                  fontWeight: 300,
+                  fontSize: "1.35em",
+                  color: TAUPE,
+                  lineHeight: 0.6,
+                  transform: "translateY(-0.05em)",
+                  display: "inline-block",
+                }}
+              >
+                <GenericEditableText sectionId={sectionId} field="ampersand" value={ampersand} tag="span" />
+              </span>
+              <span style={{ fontSize: "0.72em", color: WINE, opacity: 0.85 }}>
+                <GenericEditableText sectionId={sectionId} field="titleTail" value={titleTail} tag="span" />
+              </span>
+            </span>
           </h2>
-          <div
-            aria-hidden="true"
-            style={{
-              width: 64,
-              height: 1,
-              backgroundColor: TAUPE,
-              margin: "56px 0 36px",
-            }}
-          />
-          <p
-            style={{
-              fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-              fontSize: "0.78rem",
-              fontWeight: 500,
-              color: TAUPE,
-              textTransform: "uppercase",
-              letterSpacing: "0.32em",
-              margin: 0,
-            }}
-          >
+
+          {/* Terracotta hairline */}
+          <div aria-hidden="true" style={{ width: 88, height: 1, backgroundColor: TAUPE, margin: "56px 0 32px" }} />
+
+          {/* Kicker eyebrow */}
+          <p style={{
+            fontFamily: SANS,
+            fontSize: "0.76rem",
+            fontWeight: 600,
+            color: TAUPE,
+            textTransform: "uppercase",
+            letterSpacing: "0.32em",
+            margin: 0,
+          }}>
             <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
           </p>
-          <p
-            style={{
-              marginTop: 28,
-              fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-              fontSize: "1.08rem",
+
+          {/* Body with drop-cap */}
+          <div style={{ marginTop: 28, maxWidth: 540, position: "relative" }}>
+            <span
+              aria-hidden="true"
+              className="n02-about-dropcap"
+              style={{
+                float: "left",
+                fontFamily: SERIF,
+                fontStyle: "italic",
+                fontWeight: 400,
+                fontSize: "clamp(3.6rem, 5vw, 4.8rem)",
+                lineHeight: 0.85,
+                color: TAUPE,
+                marginRight: 12,
+                marginTop: 6,
+                marginBottom: -6,
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="bodyDrop" value={bodyDrop} tag="span" />
+            </span>
+            <p style={{
+              fontFamily: SANS,
+              fontSize: "1.05rem",
               fontWeight: 300,
               lineHeight: 1.85,
               color: INK,
-              maxWidth: 520,
+              margin: 0,
+              letterSpacing: "0.005em",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+            </p>
+          </div>
+
+          {/* Signature */}
+          <p style={{
+            marginTop: 32,
+            fontFamily: SERIF,
+            fontStyle: "italic",
+            fontWeight: 400,
+            fontSize: "1.15rem",
+            color: WINE,
+            letterSpacing: "0.01em",
+            opacity: 0.9,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="signature" value={signature} tag="span" />
+          </p>
+
+          {/* Stats mini-strip */}
+          <div
+            className="n02-about-stats"
+            style={{
+              marginTop: 64,
+              display: "grid",
+              gridTemplateColumns: `repeat(${stats.length}, 1fr)`,
+              gap: 0,
+              borderTop: `1px solid ${TAUPE}55`,
+              borderBottom: `1px solid ${TAUPE}55`,
             }}
           >
-            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-          </p>
+            {stats.map((s, i) => (
+              <div
+                key={`n02-about-stat-${i}`}
+                className="n02-about-stat"
+                style={{
+                  padding: "26px 20px 22px",
+                  borderLeft: i > 0 ? `1px dashed ${TAUPE}70` : "none",
+                  textAlign: "center",
+                }}
+              >
+                <div style={{
+                  fontFamily: SERIF,
+                  fontStyle: "italic",
+                  fontWeight: 400,
+                  fontSize: "clamp(2rem, 3vw, 2.6rem)",
+                  color: WINE,
+                  lineHeight: 1,
+                  marginBottom: 8,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`stats.${i}.number`} value={s.number} tag="span" />
+                </div>
+                <div style={{
+                  fontFamily: SANS,
+                  fontSize: "0.72rem",
+                  fontWeight: 500,
+                  color: MUTED,
+                  letterSpacing: "0.24em",
+                  textTransform: "uppercase",
+                  lineHeight: 1.4,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Right: clean photo — no shadow, no rounding, offset down */}
+        {/* Right: photo with nail-crescent brackets + polaroid overlay */}
         <div
-          className="nails02-about-photo"
+          className="nails02-about-photo n02-about-photo-group"
           style={{
             position: "relative",
             width: "100%",
-            maxWidth: 460,
+            maxWidth: 480,
             justifySelf: "end",
-            marginTop: "clamp(0px, 4vw, 48px)",
+            marginTop: "clamp(20px, 4vw, 64px)",
           }}
         >
+          {/* Photo frame */}
           <div
             style={{
               position: "relative",
@@ -4492,6 +4790,7 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
               <img
                 src={imageUrl}
                 alt={title}
+                className="n02-about-photo-img"
                 style={{
                   width: "100%",
                   height: "100%",
@@ -4499,27 +4798,123 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
                   display: "block",
                   position: "absolute",
                   inset: 0,
+                  transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
                 }}
               />
             </GenericEditableImage>
+
+            {/* 4 nail-crescent corner brackets */}
+            {[
+              { top: -12, left: -12, rotate: 0 },
+              { top: -12, right: -12, rotate: 90 },
+              { bottom: -12, right: -12, rotate: 180 },
+              { bottom: -12, left: -12, rotate: 270 },
+            ].map(({ rotate, ...pos }, i) => (
+              <span
+                key={`n02-brk-${i}`}
+                aria-hidden="true"
+                className="n02-about-bracket"
+                style={{
+                  position: "absolute",
+                  ...pos,
+                  width: 44,
+                  height: 44,
+                  transform: `rotate(${rotate}deg)`,
+                  transformOrigin: "center",
+                  zIndex: 3,
+                  pointerEvents: "none",
+                }}
+              >
+                <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+                  <path d="M44 4 A20 20 0 0 0 4 44" stroke={TAUPE} strokeWidth="1.5" fill="none"/>
+                </svg>
+              </span>
+            ))}
           </div>
-          {/* Decorative taupe line below image — magazine feel */}
+
+          {/* Polaroid mini-card floating bottom-left */}
           <div
+            className="n02-about-polaroid"
             aria-hidden="true"
             style={{
-              marginTop: 28,
-              width: 96,
-              height: 1,
-              backgroundColor: TAUPE,
-              opacity: 0.5,
+              position: "absolute",
+              bottom: -20,
+              left: -20,
+              backgroundColor: WINE,
+              color: CREAM,
+              padding: "18px 22px",
+              transform: "rotate(-3deg)",
+              boxShadow: "0 12px 28px rgba(107,63,56,0.22)",
+              zIndex: 4,
+              minWidth: 110,
             }}
-          />
+          >
+            <div style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: "1.4rem",
+              lineHeight: 1.1,
+              color: TAUPE,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="polaroidLine1" value={polaroidLine1} tag="span" />
+            </div>
+            <div style={{
+              marginTop: 4,
+              fontFamily: SANS,
+              fontSize: "0.66rem",
+              fontWeight: 500,
+              letterSpacing: "0.28em",
+              textTransform: "uppercase",
+              color: CREAM,
+              opacity: 0.85,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="polaroidLine2" value={polaroidLine2} tag="span" />
+            </div>
+          </div>
+
+          {/* Caption below photo */}
+          <div
+            style={{
+              marginTop: 40,
+              display: "flex",
+              alignItems: "center",
+              gap: 14,
+            }}
+          >
+            <span aria-hidden style={{ display: "block", width: 40, height: 1, backgroundColor: TAUPE, opacity: 0.7 }} />
+            <span style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: "0.95rem",
+              color: WINE,
+              opacity: 0.85,
+              letterSpacing: "0.02em",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="caption" value={caption} tag="span" />
+            </span>
+          </div>
         </div>
       </div>
+
       <style>{`
+        .n02-about-photo-group:hover .n02-about-photo-img { transform: scale(1.05); }
+        .n02-about-photo-group:hover .n02-about-bracket svg path { stroke: ${WINE}; }
+        .n02-about-bracket svg path { transition: stroke 0.45s ease; }
+        .n02-about-stat { transition: background-color 0.35s ease; }
+        .n02-about-stat:hover { background-color: rgba(212,160,128,0.08); }
+        .n02-about-dropcap::after { content: ""; }
+        .n02-about-title span { transition: color 0.4s ease; }
         @media (max-width: 900px) {
           .nails02-about-grid { grid-template-columns: 1fr !important; gap: 64px !important; }
           .nails02-about-photo { justify-self: start !important; margin-top: 0 !important; max-width: 100% !important; }
+          .n02-about-eyebrow { display: none !important; }
+        }
+        @media (max-width: 560px) {
+          .n02-about-stats { grid-template-columns: 1fr !important; }
+          .n02-about-stats .n02-about-stat { border-left: none !important; border-top: 1px dashed ${TAUPE}70 !important; }
+          .n02-about-stats .n02-about-stat:first-child { border-top: none !important; }
         }
       `}</style>
     </section>
@@ -7976,53 +8371,177 @@ function AboutInstala01({ content, sectionId }: Pick<Props, "content" | "section
 }
 
 // ─── florist-01 Process / Jak objednat ──────────────────────────────────────
+// ── florist-01-process ────────────────────────────────────────────────────────
+// Botanical Atelier Editorial luxe process:
+// - Split 2-col: LEFT tall portrait photo s olive-gold corner brackets + Georgia italic caption
+//   overlay; RIGHT 3 steps stacked vertikálně s dashed vertical connector
+// - Každý step: obrovská Georgia italic číslice "01" 64px moss + Georgia italic title
+//   + Inter 300 description + micro botanická sprig ikona
+// - Bottom CTA row (moss filled + Georgia italic note)
+// - Conditional header (empty eyebrow+title → skip pro subpages)
 function ProcessFlorist01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title = (content.title as string) ?? "Jak objednat kytici?";
-  const steps = (content.steps as Array<{ number: string; title: string; description: string }>) ?? [];
+  const MOSS   = "#2f4a3a";
+  const SAGE   = "#5c8a6a";
+  const IVORY  = "#faf7f2";
+  const INK    = "#2a1a0a";
+  const INK70  = "rgba(42,26,10,0.72)";
+  const GOLD   = "#c9b78a";
+  const BLUSH  = "#e8c5c0";
+  const GEORGIA = "Georgia, 'Times New Roman', serif";
+  const INTER   = "Inter, system-ui, sans-serif";
 
-  const FONT = "'Arimo', Arial, sans-serif";
+  const eyebrow = String(content.eyebrow ?? "04 · PROCES");
+  const title   = String(content.title   ?? "Jak si u nás objednáte kytici");
+  const kicker  = String(content.kicker  ?? "Tři kroky, které trvají méně než pět minut. Zbytek — floristickou magii — necháte na nás.");
+  const image   = String(content.image   ?? "https://images.unsplash.com/photo-1516633630673-67bbad747022?auto=format&fit=crop&w=1200&q=85");
+  const imageCaption = String(content.imageCaption ?? "Ranní vazba v ateliéru Petala");
+  const imageEyebrow = String(content.imageEyebrow ?? "DENNĚ OD 6:30");
+  const ctaText = String(content.ctaText ?? "Objednat kytici");
+  const ctaHref = String(content.ctaHref ?? "/katalog");
+  const ctaNote = String(content.ctaNote ?? "Nebo zavolejte na +420 731 456 789");
+  const rawSteps = (content.steps as Array<{ number?: string; title?: string; description?: string }>) ?? [];
+  const steps = rawSteps.length > 0 ? rawSteps : [
+    { number: "01", title: "Vyberte kytici",       description: "Online v katalogu, přes Instagram nebo nám jednoduše zavolejte. Rádi vám poradíme s výběrem — od klasické kytice růží po sušenou floristiku." },
+    { number: "02", title: "Zaplaťte a vzkažte",   description: "Bezpečná platba kartou, převodem nebo v hotovosti při doručení. K objednávce přidáte osobní vzkaz na ručně malovanou kartičku." },
+    { number: "03", title: "Doručíme včas",        description: "Váš čas a místo — Brno a okolí. Před doručením vám pošleme foto kytice, takže víte, co obdarovaný převezme. Doručení mezi 17 a 21 hodinou." },
+  ];
+
+  const showHeader = !!(eyebrow.trim() || title.trim());
 
   return (
-    <section style={{ backgroundColor: "#f9f9f9", padding: "72px 0", fontFamily: FONT }}>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&display=swap" />
-      <style>{`        .f01-proc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
-        @media (max-width: 768px) { .f01-proc-grid { grid-template-columns: 1fr; gap: 32px; } }
-        .f01-proc-step { display: flex; flex-direction: column; align-items: flex-start; }
-        .f01-proc-number {
-          font-size: 48px;
-          font-weight: 700;
-          color: rgba(18,18,18,0.08);
-          font-family: 'Arimo', Arial, sans-serif;
-          line-height: 1;
-          margin-bottom: 16px;
+    <section id="jak-objednat" data-template="florist-01" className="f01proc" style={{ background: IVORY, fontFamily: INTER, padding: "96px 24px 108px" }}>
+      <style>{`
+        .f01proc-inner { max-width: 1280px; margin: 0 auto; }
+        .f01proc-head { text-align:center; display:flex; flex-direction:column; align-items:center; gap:16px; margin-bottom: 64px; }
+        .f01proc-eye { display:inline-flex; align-items:center; gap:14px; font-family:${INTER}; font-weight:500; font-size:11px; letter-spacing:0.34em; text-transform:uppercase; color:${MOSS}; }
+        .f01proc-eye i { width:26px; height:1px; background:${GOLD}; display:inline-block; }
+        .f01proc-eye em { color:${GOLD}; font-style:normal; font-size:10px; }
+        .f01proc-h { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:clamp(30px, 3.6vw, 46px); line-height:1.12; color:${INK}; margin:0; letter-spacing:-0.012em; max-width:760px; }
+        .f01proc-k { font-family:${INTER}; font-weight:300; font-size:15px; line-height:1.7; color:${INK70}; max-width:600px; margin:0; }
+
+        .f01proc-grid { display:grid; grid-template-columns: minmax(0, 460px) 1fr; gap: 72px; align-items:flex-start; }
+        .f01proc-photo { position:relative; aspect-ratio: 4/5; overflow:hidden; background:${MOSS}; }
+        .f01proc-photo img { width:100%; height:100%; object-fit:cover; display:block; transition: transform 8s ease; }
+        .f01proc-photo:hover img { transform: scale(1.05); }
+        .f01proc-photo::before, .f01proc-photo::after,
+        .f01proc-photo-brk::before, .f01proc-photo-brk::after {
+          content:""; position:absolute; width:44px; height:44px; pointer-events:none; z-index:2;
+          border: 0 solid ${GOLD};
         }
-        .f01-proc-divider { width: 40px; height: 2px; background: #121212; margin-bottom: 20px; }
-        .f01-proc-step-title { font-size: 17px; font-weight: 700; color: #121212; margin-bottom: 10px; font-family: 'Arimo', Arial, sans-serif; }
-        .f01-proc-step-desc { font-size: 14px; color: rgba(18,18,18,0.65); line-height: 1.6; font-family: 'Arimo', Arial, sans-serif; }
-        .f01-proc-section-title { font-size: 28px; font-weight: 700; color: #121212; font-family: 'Arimo', Arial, sans-serif; text-align: center; margin-bottom: 48px; }
-        @media (max-width: 600px) { .f01-proc-section-title { font-size: 22px; margin-bottom: 36px; } }
+        .f01proc-photo::before { top:16px; left:16px; border-top-width:1px; border-left-width:1px; }
+        .f01proc-photo::after  { bottom:16px; right:16px; border-bottom-width:1px; border-right-width:1px; }
+        .f01proc-photo-brk::before { top:16px; right:16px; border-top-width:1px; border-right-width:1px; }
+        .f01proc-photo-brk::after  { bottom:16px; left:16px; border-bottom-width:1px; border-left-width:1px; }
+
+        .f01proc-cap { position:absolute; left:24px; right:24px; bottom:22px; z-index:3; display:flex; flex-direction:column; gap:6px; color:${IVORY}; }
+        .f01proc-cap-eye { font-family:${INTER}; font-weight:500; font-size:10.5px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(250,247,242,0.7); }
+        .f01proc-cap-text { font-family:${GEORGIA}; font-style:italic; font-size:18px; letter-spacing:-0.005em; }
+
+        .f01proc-steps { display:flex; flex-direction:column; gap:0; position:relative; }
+        .f01proc-steps::before { content:""; position:absolute; left:36px; top:72px; bottom:130px; border-left: 1px dashed ${GOLD}; opacity:0.6; }
+        .f01proc-step { display:grid; grid-template-columns: 92px 1fr; gap: 28px; padding: 26px 0 28px; position:relative; transition: transform 0.5s cubic-bezier(.6,.05,.35,1); }
+        .f01proc-step + .f01proc-step { border-top: 1px dotted ${GOLD}; }
+        .f01proc-num-wrap { position:relative; z-index:1; display:flex; align-items:flex-start; }
+        .f01proc-num-bg { position:absolute; top:-8px; left:-14px; width:74px; height:74px; background:${IVORY}; border-radius:50%; z-index:-1; box-shadow: 0 0 0 4px ${IVORY}; }
+        .f01proc-num { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:64px; line-height:1; color:${MOSS}; letter-spacing:-0.02em; transition: color 0.4s ease, transform 0.5s ease; position:relative; }
+        .f01proc-num::before { content: attr(data-num); position:absolute; top:3px; left:3px; color:${BLUSH}; opacity:0.55; z-index:-1; }
+        .f01proc-step:hover .f01proc-num { color:${SAGE}; transform: translateX(4px); }
+
+        .f01proc-title { display:flex; align-items:center; gap:12px; font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:clamp(22px, 2.2vw, 28px); line-height:1.2; color:${INK}; margin:0 0 12px; letter-spacing:-0.008em; }
+        .f01proc-title svg { color:${GOLD}; flex-shrink:0; }
+        .f01proc-desc { font-family:${INTER}; font-weight:300; font-size:14.5px; line-height:1.75; color:${INK70}; margin:0; max-width:560px; }
+
+        .f01proc-cta-row { display:flex; align-items:center; gap:24px; margin-top: 32px; padding-top: 32px; border-top: 1px solid ${GOLD}; }
+        .f01proc-cta { position:relative; overflow:hidden; display:inline-flex; align-items:center; gap:12px; padding:15px 30px;
+          background:${MOSS}; color:${IVORY}; font-family:${INTER}; font-weight:500; font-size:13px; letter-spacing:0.22em; text-transform:uppercase;
+          text-decoration:none; border:1px solid ${MOSS}; transition:color 0.4s ease; flex-shrink:0; }
+        .f01proc-cta::before { content:""; position:absolute; inset:0; background:${BLUSH}; transform:translateY(101%); transition:transform 0.5s cubic-bezier(.6,.05,.35,1); }
+        .f01proc-cta:hover { color:${MOSS}; }
+        .f01proc-cta:hover::before { transform:translateY(0); }
+        .f01proc-cta > * { position:relative; z-index:1; }
+        .f01proc-cta-note { font-family:${GEORGIA}; font-style:italic; font-size:14px; color:${INK70}; }
+
+        @media(max-width:900px){
+          .f01proc { padding: 64px 20px 76px; }
+          .f01proc-grid { grid-template-columns: 1fr; gap: 40px; }
+          .f01proc-photo { max-width: 420px; margin: 0 auto; }
+          .f01proc-steps::before { left:28px; }
+          .f01proc-step { grid-template-columns: 70px 1fr; gap: 20px; }
+          .f01proc-num { font-size: 52px; }
+          .f01proc-cta-row { flex-direction:column; align-items:flex-start; gap: 16px; }
+        }
       `}</style>
 
-      <div style={{ maxWidth: 1280, margin: "0 auto", paddingLeft: 24, paddingRight: 24 }}>
-        <div className="f01-proc-section-title">
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </div>
+      <div className="f01proc-inner">
+        {showHeader && (
+          <header className="f01proc-head">
+            <span className="f01proc-eye"><i /><em>✿</em>
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              <em>✿</em><i />
+            </span>
+            <h2 className="f01proc-h">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            <p className="f01proc-k">
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+            </p>
+          </header>
+        )}
 
-        <div className="f01-proc-grid">
-          {steps.map((step, i) => (
-            <div key={i} className="f01-proc-step">
-              <div className="f01-proc-number">{step.number}</div>
-              <div className="f01-proc-divider" />
-              <div className="f01-proc-step-title">
-                <GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={step.title} tag="span" />
-              </div>
-              <div className="f01-proc-step-desc">
-                <GenericEditableText sectionId={sectionId} field={`steps.${i}.description`} value={step.description} tag="span" />
-              </div>
+        <div className="f01proc-grid">
+          <figure className="f01proc-photo">
+            <span className="f01proc-photo-brk" aria-hidden />
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={imageCaption} style={{ display: "block", width: "100%", height: "100%" }}>
+              <img src={image} alt={imageCaption} loading="lazy" />
+            </GenericEditableImage>
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(47,74,58,0.55) 100%)", pointerEvents: "none" }} aria-hidden />
+            <figcaption className="f01proc-cap">
+              <span className="f01proc-cap-eye">
+                <GenericEditableText sectionId={sectionId} field="imageEyebrow" value={imageEyebrow} tag="span" />
+              </span>
+              <span className="f01proc-cap-text">
+                <GenericEditableText sectionId={sectionId} field="imageCaption" value={imageCaption} tag="span" />
+              </span>
+            </figcaption>
+          </figure>
+
+          <div className="f01proc-steps">
+            {steps.map((step, i) => {
+              const num = step.number ?? String(i + 1).padStart(2, "0");
+              return (
+                <article key={i} className="f01proc-step">
+                  <div className="f01proc-num-wrap">
+                    <span className="f01proc-num-bg" aria-hidden />
+                    <span className="f01proc-num" data-num={num}>
+                      <GenericEditableText sectionId={sectionId} field={`steps.${i}.number`} value={num} tag="span" />
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="f01proc-title">
+                      <svg width="14" height="14" viewBox="0 0 24 24" aria-hidden>
+                        <path d="M12 22 V6 M12 18 Q7 16 5 12 M12 15 Q17 13 19 9 M12 12 Q8 10 6.5 6.5" stroke="currentColor" strokeWidth="1" fill="none" strokeLinecap="round"/>
+                        <circle cx="12" cy="5" r="1.4" fill="currentColor"/>
+                      </svg>
+                      <GenericEditableText sectionId={sectionId} field={`steps.${i}.title`} value={step.title ?? ""} tag="span" />
+                    </h3>
+                    <p className="f01proc-desc">
+                      <GenericEditableText sectionId={sectionId} field={`steps.${i}.description`} value={step.description ?? ""} tag="span" />
+                    </p>
+                  </div>
+                </article>
+              );
+            })}
+
+            <div className="f01proc-cta-row">
+              <a href={ctaHref} className="f01proc-cta">
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <span aria-hidden>→</span>
+              </a>
+              <span className="f01proc-cta-note">
+                <GenericEditableText sectionId={sectionId} field="ctaNote" value={ctaNote} tag="span" />
+              </span>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

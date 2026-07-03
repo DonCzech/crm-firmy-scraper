@@ -301,115 +301,149 @@ export function PromoSection({ content, variant, sectionId, isAdmin, tenantSlug 
   return null;
 }
 
-// nails-01: centered H1 + subtitle + 4 brand logo images (uploadable)
+// nails-01 · Kyoto Wabi-Sabi Beauty products — editorial brand rail
+// White bg · eyebrow "03 · PARTNEŘI KVALITY" + Georgia H2 s italic accent
+// 4-col brand rail s hairline vertical rules · Georgia italic wordmark + tagline
+// Burgundy slide-up hover — wordmark → cream
 function ProductsNails01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const BURGUNDY = "#79142b";
   const SERIF    = "Georgia, 'Times New Roman', serif";
-  const SANS     = "'Helvetica Neue', Arial, sans-serif";
+  const SANS     = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
 
-  const title    = (content.title    as string) ?? "Jen to nejlepší pro vás";
-  const subtitle = (content.subtitle as string) ?? "Pečlivě jsme pro vás vybrali pouze produkty té nejvyšší kvality";
-  const brands   = (content.brands   as Array<{ name: string; logoUrl: string }>) ?? [
-    { name: "Blazingstar", logoUrl: "" },
-    { name: "OPI",         logoUrl: "" },
-    { name: "CNDC",        logoUrl: "" },
-    { name: "Footlogix",   logoUrl: "" },
+  const eyebrow  = String(content.eyebrow     ?? "03 · PARTNEŘI KVALITY");
+  const title    = String(content.title       ?? "Jen to nejlepší");
+  const titleAc  = String(content.titleAccent ?? "pro vaše ruce");
+  const subtitle = String(content.subtitle    ?? "Značky, kterým věříme — profesionální systémy vybírané roky pečlivě podle složení, výdrže a šetrnosti k nehtům.");
+  const trust    = String(content.trust       ?? "Certifikované · cruelty-free · testované ve studiu");
+  const brands   = (content.brands as Array<{ name: string; tagline?: string; logoUrl?: string }>) ?? [
+    { name: "OPI",         tagline: "profi lakový systém",     logoUrl: "" },
+    { name: "CND Shellac", tagline: "hybridní gel · manikúra", logoUrl: "" },
+    { name: "Footlogix",   tagline: "medicinální pedikúra",    logoUrl: "" },
+    { name: "Kaeso",       tagline: "organic aromaterapie",    logoUrl: "" },
   ];
 
   return (
     <section
       id="produkty"
       data-template="nails-01"
-      style={{ backgroundColor: "#ffffff", padding: "clamp(60px, 8vh, 96px) clamp(24px, 6vw, 80px)" }}
+      data-section-type="products"
+      data-variant="nails-01-products"
+      className="n01-products"
+      style={{ backgroundColor: "#ffffff", padding: "clamp(80px, 11vh, 130px) clamp(24px, 6vw, 80px)", position: "relative", overflow: "hidden" }}
     >
-      {/* Heading */}
-      <div style={{ textAlign: "center", marginBottom: "clamp(40px, 5vh, 64px)" }}>
-        <h2 style={{
-          fontFamily: SERIF,
-          fontSize: "clamp(26px, 3vw, 42px)",
-          fontWeight: 400,
-          color: BURGUNDY,
-          margin: "0 0 16px",
-          lineHeight: 1.2,
-        }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
-        <p style={{
-          fontFamily: SANS,
-          fontSize: "clamp(14px, 1.2vw, 18px)",
-          color: BURGUNDY,
-          opacity: 0.75,
-          margin: 0,
-          lineHeight: 1.5,
-        }}>
-          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-        </p>
-      </div>
+      <div aria-hidden="true" style={{
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse at 50% 100%, rgba(121,20,43,0.025), transparent 55%)",
+      }} />
 
-      {/* Brand logo images — klikatelné pro upload */}
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "clamp(24px, 5vw, 72px)",
-        flexWrap: "wrap",
-      }}>
-        {brands.map((b, i) => (
-          <GenericEditableImage
-            key={b.name}
-            sectionId={sectionId}
-            field={`brands.${i}.logoUrl`}
-            src={b.logoUrl}
-            alt={b.name}
-            style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-          >
-            {b.logoUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={b.logoUrl}
+      <div style={{ maxWidth: 1180, margin: "0 auto", position: "relative" }}>
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: "clamp(48px, 6vh, 72px)" }}>
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22,
+            fontFamily: SANS, fontSize: "0.7rem", fontWeight: 300,
+            letterSpacing: "0.36em", textTransform: "uppercase", color: BURGUNDY,
+          }}>
+            <span aria-hidden="true" style={{ width: 60, height: 1, background: BURGUNDY, opacity: 0.5 }} />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            <span aria-hidden="true" style={{ width: 60, height: 1, background: BURGUNDY, opacity: 0.5 }} />
+          </div>
+          <h2 style={{
+            fontFamily: SERIF, fontSize: "clamp(32px, 3.6vw, 52px)",
+            fontWeight: 400, color: BURGUNDY, margin: "0 0 22px",
+            lineHeight: 1.08, letterSpacing: "-0.005em",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            <span style={{ margin: "0 0.28em", opacity: 0.5, fontStyle: "italic" }}>·</span>
+            <em style={{ fontStyle: "italic" }}>
+              <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAc} tag="span" />
+            </em>
+          </h2>
+          <p style={{
+            fontFamily: SANS, fontSize: "clamp(14px, 1.05vw, 16px)",
+            fontWeight: 300, color: BURGUNDY, opacity: 0.75,
+            margin: "0 auto", maxWidth: 620, lineHeight: 1.7,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        </div>
+
+        {/* Brand rail — 4-col */}
+        <div
+          className="n01-products-rail"
+          style={{
+            display: "grid",
+            gridTemplateColumns: `repeat(${brands.length}, 1fr)`,
+            borderTop: `1px solid rgba(121,20,43,0.28)`,
+            borderBottom: `1px solid rgba(121,20,43,0.28)`,
+          }}
+        >
+          {brands.map((b, i) => (
+            <div
+              key={`n01-brand-${i}`}
+              className="n01-brand"
+              style={{
+                position: "relative",
+                padding: "44px 20px",
+                textAlign: "center",
+                borderLeft: i === 0 ? "none" : `1px solid rgba(121,20,43,0.14)`,
+                overflow: "hidden",
+              }}
+            >
+              <span aria-hidden="true" className="n01-brand-swipe" />
+
+              <GenericEditableImage
+                sectionId={sectionId}
+                field={`brands.${i}.logoUrl`}
+                src={b.logoUrl ?? ""}
                 alt={b.name}
-                style={{
-                  maxHeight: "clamp(32px, 3.5vw, 52px)",
-                  maxWidth: "clamp(80px, 10vw, 160px)",
-                  width: "auto",
-                  objectFit: "contain",
-                  opacity: 0.6,
-                  filter: "grayscale(1)",
-                  transition: "opacity 0.2s, filter 0.2s",
-                  display: "block",
-                }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLImageElement).style.opacity = "1";
-                  (e.currentTarget as HTMLImageElement).style.filter = "none";
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLImageElement).style.opacity = "0.6";
-                  (e.currentTarget as HTMLImageElement).style.filter = "grayscale(1)";
-                }}
-              />
-            ) : (
-              /* Fallback: text placeholder do doby, než admin nahraje logo */
-              <div style={{
-                width: "clamp(80px, 10vw, 150px)",
-                height: "clamp(32px, 3.5vw, 52px)",
-                border: `1.5px dashed ${BURGUNDY}44`,
-                borderRadius: 4,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontFamily: SANS,
-                fontSize: "clamp(10px, 1vw, 13px)",
-                fontWeight: 600,
-                letterSpacing: "0.16em",
-                color: `${BURGUNDY}55`,
-                textTransform: "uppercase",
-                userSelect: "none",
+                style={{ display: "block", position: "relative", zIndex: 1 }}
+              >
+                {b.logoUrl ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={b.logoUrl}
+                    alt={b.name}
+                    className="n01-brand-logo"
+                    style={{ maxHeight: 46, maxWidth: 160, width: "auto", margin: "0 auto", objectFit: "contain", display: "block" }}
+                  />
+                ) : (
+                  <div className="n01-brand-wordmark" style={{
+                    fontFamily: SERIF, fontStyle: "italic",
+                    fontSize: "clamp(1.5rem, 2.4vw, 2.1rem)",
+                    fontWeight: 400, color: BURGUNDY,
+                    lineHeight: 1, letterSpacing: "0.01em",
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field={`brands.${i}.name`} value={b.name} tag="span" />
+                  </div>
+                )}
+              </GenericEditableImage>
+
+              <div className="n01-brand-tagline" style={{
+                marginTop: 14, position: "relative", zIndex: 1,
+                fontFamily: SANS, fontSize: "0.66rem",
+                fontWeight: 300, letterSpacing: "0.28em",
+                textTransform: "uppercase", color: BURGUNDY,
+                opacity: 0.7,
               }}>
-                {b.name}
+                <GenericEditableText sectionId={sectionId} field={`brands.${i}.tagline`} value={b.tagline ?? ""} tag="span" />
               </div>
-            )}
-          </GenericEditableImage>
-        ))}
+            </div>
+          ))}
+        </div>
+
+        {/* Trust caption */}
+        <div style={{
+          marginTop: "clamp(28px, 4vh, 44px)",
+          textAlign: "center",
+          fontFamily: SERIF, fontStyle: "italic",
+          fontSize: "0.95rem", color: BURGUNDY,
+          opacity: 0.68,
+        }}>
+          <span aria-hidden="true" style={{ display: "inline-block", width: 22, height: 1, background: BURGUNDY, verticalAlign: "middle", marginRight: 12, opacity: 0.5 }} />
+          <GenericEditableText sectionId={sectionId} field="trust" value={trust} tag="span" />
+          <span aria-hidden="true" style={{ display: "inline-block", width: 22, height: 1, background: BURGUNDY, verticalAlign: "middle", marginLeft: 12, opacity: 0.5 }} />
+        </div>
       </div>
     </section>
   );
@@ -425,11 +459,17 @@ function MarqueeNails02({ content, sectionId }: { content: Record<string, unknow
   const WINE  = "#6b3f38";
   const TAUPE = "#d4a080";
   const CREAM = "#f6efe9";
+  const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
+  const SANS  = "'Helvetica Neue', Arial, sans-serif";
 
-  const label   = String(content.label   ?? "Nová klientka");
-  const message = String(content.message ?? "10% sleva na vaši první návštěvu — manikúra, pedikúra a nail design v Premium Nails.");
-  const ctaText = String(content.ctaText ?? "Rezervovat termín");
-  const ctaHref = String(content.ctaHref ?? "#kontakt");
+  const decorNumber   = String(content.decorNumber   ?? "10%");
+  const label         = String(content.label         ?? "Nová klientka");
+  const message       = String(content.message       ?? "Věnujeme vám 10% slevu na první návštěvu — manikúru, pedikúru nebo podpisový nail design v Premium Nails.");
+  const ctaText       = String(content.ctaText       ?? "Rezervovat termín");
+  const ctaHref       = String(content.ctaHref       ?? "/kontakt");
+  const secondaryText = String(content.secondaryText ?? "Prohlédnout ceník");
+  const secondaryHref = String(content.secondaryHref ?? "/cenik");
+  const signature     = String(content.signature     ?? "— Nová kolekce 2026");
 
   return (
     <section
@@ -437,73 +477,187 @@ function MarqueeNails02({ content, sectionId }: { content: Record<string, unknow
       data-variant="nails-02-marquee"
       data-template="nails-02"
       style={{
+        position: "relative",
         backgroundColor: WINE,
-        borderTop: `1px solid rgba(212,160,128,0.28)`,
-        borderBottom: `1px solid rgba(212,160,128,0.28)`,
-        padding: "clamp(48px, 7vw, 88px) clamp(24px, 6vw, 72px)",
+        padding: "clamp(64px, 9vw, 120px) clamp(24px, 6vw, 72px)",
+        overflow: "hidden",
       }}
     >
+      {/* Double hairline top border with diamond ornament */}
+      <div aria-hidden="true" style={{
+        position: "absolute", top: 0, left: 0, right: 0,
+        display: "flex", flexDirection: "column", alignItems: "center", gap: 4,
+        paddingTop: 24,
+      }}>
+        <div style={{ width: "100%", height: 1, backgroundColor: `${TAUPE}44` }} />
+        <div style={{ width: "100%", height: 1, backgroundColor: `${TAUPE}44` }} />
+      </div>
+      <div aria-hidden="true" style={{
+        position: "absolute", top: 18, left: "50%", transform: "translateX(-50%) rotate(45deg)",
+        width: 12, height: 12, backgroundColor: WINE, border: `1px solid ${TAUPE}`,
+      }} />
+
+      {/* Bottom mirror */}
+      <div aria-hidden="true" style={{
+        position: "absolute", bottom: 0, left: 0, right: 0,
+        display: "flex", flexDirection: "column-reverse", alignItems: "center", gap: 4,
+        paddingBottom: 24,
+      }}>
+        <div style={{ width: "100%", height: 1, backgroundColor: `${TAUPE}44` }} />
+        <div style={{ width: "100%", height: 1, backgroundColor: `${TAUPE}44` }} />
+      </div>
+      <div aria-hidden="true" style={{
+        position: "absolute", bottom: 18, left: "50%", transform: "translateX(-50%) rotate(45deg)",
+        width: 12, height: 12, backgroundColor: WINE, border: `1px solid ${TAUPE}`,
+      }} />
+
+      {/* Decorative giant 10% */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%,-50%)",
+          fontFamily: SERIF,
+          fontStyle: "italic",
+          fontWeight: 300,
+          fontSize: "clamp(12rem, 32vw, 32rem)",
+          lineHeight: 0.85,
+          color: "transparent",
+          WebkitTextStroke: `1px ${TAUPE}`,
+          opacity: 0.1,
+          pointerEvents: "none",
+          userSelect: "none",
+          letterSpacing: "-0.03em",
+          zIndex: 1,
+          whiteSpace: "nowrap",
+        }}
+      >
+        {decorNumber}
+      </div>
+
+      {/* Main content */}
       <div
         style={{
-          maxWidth: 820,
+          position: "relative",
+          zIndex: 2,
+          maxWidth: 880,
           margin: "0 auto",
           textAlign: "center",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 18,
+          gap: 22,
         }}
       >
-        <span
-          style={{
-            fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-            fontSize: "0.72rem",
-            fontWeight: 600,
-            color: TAUPE,
-            textTransform: "uppercase",
-            letterSpacing: "0.4em",
-          }}
-        >
-          <GenericEditableText sectionId={sectionId} field="label" value={label} tag="span" />
-        </span>
+        {/* Kicker row: crescent + label + crescent */}
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20 12A8 8 0 1 1 12 4a6 6 0 0 0 8 8Z" stroke={TAUPE} strokeWidth="1.2" fill="none"/>
+          </svg>
+          <span
+            style={{
+              fontFamily: SANS,
+              fontSize: "0.72rem",
+              fontWeight: 600,
+              color: TAUPE,
+              textTransform: "uppercase",
+              letterSpacing: "0.4em",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="label" value={label} tag="span" />
+          </span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ transform: "scaleX(-1)" }}>
+            <path d="M20 12A8 8 0 1 1 12 4a6 6 0 0 0 8 8Z" stroke={TAUPE} strokeWidth="1.2" fill="none"/>
+          </svg>
+        </div>
+
+        {/* Serif italic message */}
         <p
           style={{
             margin: 0,
-            fontFamily: "'Cormorant Garamond', Georgia, serif",
+            fontFamily: SERIF,
             fontStyle: "italic",
             fontWeight: 400,
-            fontSize: "clamp(1.6rem, 2.8vw, 2.4rem)",
-            lineHeight: 1.3,
+            fontSize: "clamp(1.8rem, 3.2vw, 2.8rem)",
+            lineHeight: 1.25,
             color: CREAM,
-            letterSpacing: "0.005em",
+            letterSpacing: "-0.005em",
+            maxWidth: 780,
           }}
         >
           <GenericEditableText sectionId={sectionId} field="message" value={message} tag="span" />
         </p>
-        <a
-          href={ctaHref}
-          data-btn="primary"
-          style={{
-            marginTop: 6,
-            display: "inline-block",
-            fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-            fontSize: "0.78rem",
-            fontWeight: 500,
-            color: TAUPE,
-            textTransform: "uppercase",
-            letterSpacing: "0.28em",
-            textDecoration: "none",
-            paddingBottom: 4,
-            borderBottom: `1px solid ${TAUPE}`,
-            transition: "color 0.2s, border-color 0.2s",
-          }}
-          onMouseEnter={e => { e.currentTarget.style.color = CREAM; e.currentTarget.style.borderBottomColor = CREAM; }}
-          onMouseLeave={e => { e.currentTarget.style.color = TAUPE; e.currentTarget.style.borderBottomColor = TAUPE; }}
-        >
-          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          <span aria-hidden="true" style={{ marginLeft: 8 }}>→</span>
-        </a>
+
+        {/* Dual CTA row */}
+        <div style={{ marginTop: 14, display: "flex", alignItems: "center", gap: 28, flexWrap: "wrap", justifyContent: "center" }}>
+          <a
+            href={ctaHref}
+            data-btn="primary"
+            className="n02-promo-cta"
+            style={{
+              position: "relative",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              fontFamily: SANS,
+              fontSize: "0.78rem",
+              fontWeight: 600,
+              color: TAUPE,
+              textTransform: "uppercase",
+              letterSpacing: "0.28em",
+              textDecoration: "none",
+              paddingBottom: 8,
+              borderBottom: `1px solid ${TAUPE}`,
+              transition: "color 0.3s ease, border-color 0.3s ease, letter-spacing 0.3s ease",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <span aria-hidden="true" className="n02-promo-cta-arrow" style={{ display: "inline-block", transition: "transform 0.3s ease" }}>→</span>
+          </a>
+          <a
+            href={secondaryHref}
+            className="n02-promo-secondary"
+            style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: "1rem",
+              color: CREAM,
+              textDecoration: "none",
+              opacity: 0.75,
+              transition: "opacity 0.3s ease",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="secondaryText" value={secondaryText} tag="span" />
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        {/* Bottom signature */}
+        <div style={{
+          marginTop: 8,
+          fontFamily: SERIF,
+          fontStyle: "italic",
+          fontWeight: 400,
+          fontSize: "0.92rem",
+          color: TAUPE,
+          opacity: 0.75,
+          letterSpacing: "0.05em",
+        }}>
+          <GenericEditableText sectionId={sectionId} field="signature" value={signature} tag="span" />
+        </div>
       </div>
+
+      <style>{`
+        .n02-promo-cta:hover { color: ${CREAM}; border-bottom-color: ${CREAM}; letter-spacing: 0.32em; }
+        .n02-promo-cta:hover .n02-promo-cta-arrow { transform: translateX(6px); }
+        .n02-promo-secondary:hover { opacity: 1; color: ${TAUPE}; }
+      `}</style>
     </section>
   );
 }
@@ -1718,82 +1872,188 @@ function ProcessOrtho02({ content, sectionId, tenantSlug, isAdmin }: { content: 
 }
 
 // ─── florist-01 Products / Bestsellers ──────────────────────────────────────
+// Botanical Atelier Editorial luxe product grid:
+// - Warm ivory bg + editorial header (moss eyebrow + Georgia italic H2 + moss ghost CTA "Zobrazit vše")
+// - 4-col grid × 2 rows, 8 produktů
+// - Karta: cover image aspect 4/5 s botanickými corner brackets on hover
+//   + floating heart wishlist top-right + kategori kicker + Georgia italic name
+//   + olive-gold hairline separator + row (Inter tracked "OD" + Georgia italic gold price + "Do košíku" link)
+// - Hover: image scale, whole card lift -4px, name → moss, hairline expand, arrow slide
 function ProductsFlorist01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const title    = (content.title    as string) ?? "Bestsellery";
-  const kicker   = (content.kicker   as string) ?? "BESTSELLERY";
-  const ctaText  = (content.ctaText  as string) ?? "Zobrazit vše";
-  const ctaHref  = (content.ctaHref  as string) ?? "#katalog";
-  const items    = (content.items    as Array<{ name: string; price: string; badge?: string; image?: string }>) ?? [];
+  const MOSS   = "#2f4a3a";
+  const SAGE   = "#5c8a6a";
+  const IVORY  = "#faf7f2";
+  const IVORY2 = "#f4efe6";
+  const INK    = "#2a1a0a";
+  const INK70  = "rgba(42,26,10,0.72)";
+  const GOLD   = "#c9b78a";
+  const BLUSH  = "#e8c5c0";
+  const GEORGIA = "Georgia, 'Times New Roman', serif";
+  const INTER   = "Inter, system-ui, sans-serif";
 
-  const FONT = "'Arimo', Arial, sans-serif";
-  const DARK = "#121212";
+  const title    = (content.title    as string) ?? "Nejčastěji objednávané tento týden";
+  const eyebrow  = (content.eyebrow  as string) ?? "03 · BESTSELLERY";
+  const kicker   = (content.kicker   as string) ?? "Osm ateliérových kytic, které v posledních dnech odcestovaly nejčastěji.";
+  const ctaText  = (content.ctaText  as string) ?? "Zobrazit vše";
+  const ctaHref  = (content.ctaHref  as string) ?? "/katalog";
+  const rawItems = (content.items    as Array<{ name: string; price: string; category?: string; badge?: string; image?: string; href?: string }>) ?? [];
+  const items = rawItems.length > 0 ? rawItems : [
+    { name: "Zlatá hodina",     category: "Kytice", price: "2 890 Kč", badge: "Signature", image: "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=900&q=85", href: "/katalog" },
+    { name: "Letní vítr",       category: "Kytice", price: "Od 1 750 Kč", badge: "Bestseller", image: "https://images.unsplash.com/photo-1502977249166-824b3a8a4d6d?auto=format&fit=crop&w=900&q=85", href: "/katalog" },
+    { name: "Červené tulipány", category: "Kytice", price: "Od 1 850 Kč", image: "https://images.unsplash.com/photo-1520302519878-3fc7c633b95d?auto=format&fit=crop&w=900&q=85", href: "/katalog" },
+    { name: "Ranní rosa",       category: "Kytice", price: "Od 2 100 Kč", badge: "Novinka", image: "https://images.unsplash.com/photo-1567696911980-2eed69a46042?auto=format&fit=crop&w=900&q=85", href: "/katalog" },
+    { name: "Hedvábný oblak",   category: "Signature", price: "Od 2 490 Kč", badge: "Edice 30 ks", image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=900&q=85", href: "/katalog" },
+    { name: "Pivoňky se stuhou", category: "Sezónní", price: "Od 2 350 Kč", image: "https://images.unsplash.com/photo-1526047932273-341f2a7631f9?auto=format&fit=crop&w=900&q=85", href: "/katalog" },
+    { name: "Fialový soumrak",  category: "Kytice", price: "Od 1 490 Kč", image: "https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=900&q=85", href: "/katalog" },
+    { name: "Jarní ráno",       category: "Kytice", price: "1 550 Kč",    image: "https://images.unsplash.com/photo-1487530811176-3780de880c2d?auto=format&fit=crop&w=900&q=85", href: "/katalog" },
+  ];
 
   const resolve = (href: string) => {
-    if (!tenantSlug || !href.startsWith("#")) return href;
-    return isAdmin ? `/demo/${tenantSlug}/admin${href}` : `/demo/${tenantSlug}${href}`;
+    if (!href) return "#";
+    if (href.startsWith("http") || href.startsWith("#") || href.startsWith("tel") || href.startsWith("mailto")) return href;
+    if (isAdmin) return `/demo/${tenantSlug}/admin${href}`;
+    if (tenantSlug) return `/demo/${tenantSlug}${href}`;
+    return href;
   };
 
   return (
-    <section style={{ backgroundColor: "#fff", padding: "60px 0" }}>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&display=swap" />
-      <style>{`        .f01-prod-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-        @media (max-width: 900px) { .f01-prod-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
-        @media (max-width: 480px) { .f01-prod-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
-        .f01-prod-img-wrap { position: relative; width: 100%; aspect-ratio: 1; overflow: hidden; background: #f5f5f5; }
-        .f01-prod-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
-        .f01-prod-img-wrap:hover .f01-prod-img { transform: scale(1.06); }
-        .f01-prod-badge { position: absolute; top: 10px; left: 10px; background: #121212; color: #fff; font-size: 10px; font-weight: 600; letter-spacing: 0.08em; padding: 3px 8px; text-transform: uppercase; font-family: 'Arimo', Arial, sans-serif; }
-        .f01-prod-name { font-size: 13px; font-weight: 500; color: #121212; font-family: 'Arimo', Arial, sans-serif; margin-top: 10px; line-height: 1.4; }
-        .f01-prod-price { font-size: 13px; color: #121212; font-family: 'Arimo', Arial, sans-serif; margin-top: 4px; }
-        .f01-prod-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; }
-        .f01-prod-cta { display: inline-flex; align-items: center; padding: 10px 28px; border: 1px solid #121212; color: #121212; background: transparent; font-family: 'Arimo', Arial, sans-serif; font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-decoration: none; transition: background 0.2s, color 0.2s; cursor: pointer; }
-        .f01-prod-cta:hover { background: #121212; color: #fff; }
-        .f01-prod-kicker { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: rgba(18,18,18,0.5); text-transform: uppercase; font-family: 'Arimo', Arial, sans-serif; margin-bottom: 6px; }
-        .f01-prod-title { font-size: 26px; font-weight: 700; color: #121212; font-family: 'Arimo', Arial, sans-serif; line-height: 1.2; }
-        @media (max-width: 600px) { .f01-prod-header { flex-direction: column; align-items: flex-start; gap: 16px; } .f01-prod-title { font-size: 22px; } }
+    <section data-template="florist-01" className="f01prod" style={{ background: IVORY2, fontFamily: INTER, padding: "96px 24px 108px" }}>
+      <style>{`
+        .f01prod-inner { max-width: 1280px; margin: 0 auto; }
+        .f01prod-head { display:grid; grid-template-columns: 1fr auto; gap: 32px; align-items:flex-end; padding-bottom: 32px; margin-bottom: 48px; border-bottom: 1px solid ${GOLD}; }
+        .f01prod-head-l { display:flex; flex-direction:column; gap:14px; max-width:640px; }
+        .f01prod-eye { display:inline-flex; align-items:center; gap:14px; font-family:${INTER}; font-weight:500; font-size:11px; letter-spacing:0.34em; text-transform:uppercase; color:${MOSS}; }
+        .f01prod-eye i { width:26px; height:1px; background:${GOLD}; display:inline-block; }
+        .f01prod-h { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:clamp(28px, 3.2vw, 40px); line-height:1.12; color:${INK}; margin:0; letter-spacing:-0.012em; }
+        .f01prod-k { font-family:${INTER}; font-weight:300; font-size:14.5px; line-height:1.7; color:${INK70}; margin:0; max-width:560px; }
+        .f01prod-cta { position:relative; display:inline-flex; align-items:center; gap:12px; padding:14px 26px; background:transparent; color:${MOSS}; font-family:${INTER}; font-weight:500; font-size:12.5px; letter-spacing:0.24em; text-transform:uppercase; text-decoration:none; border:1px solid ${MOSS}; transition: background 0.4s ease, color 0.4s ease; flex-shrink:0; }
+        .f01prod-cta:hover { background:${MOSS}; color:${IVORY}; }
+        .f01prod-cta .arr { transition: transform 0.4s ease; }
+        .f01prod-cta:hover .arr { transform: translateX(4px); }
+
+        .f01prod-grid { display:grid; grid-template-columns: repeat(4, 1fr); gap: 32px 24px; }
+        .f01prod-card { position:relative; display:flex; flex-direction:column; gap:14px; text-decoration:none; color:${INK};
+          transition: transform 0.6s cubic-bezier(.6,.05,.35,1); }
+        .f01prod-card:hover { transform: translateY(-4px); }
+
+        .f01prod-img { position:relative; aspect-ratio: 4/5; overflow:hidden; background:${IVORY}; border: 1px solid rgba(0,0,0,0.05); }
+        .f01prod-img img { width:100%; height:100%; object-fit:cover; display:block; transition: transform 1.1s cubic-bezier(.2,.7,.2,1), filter 0.6s ease; filter: brightness(0.98) saturate(1); }
+        .f01prod-card:hover .f01prod-img img { transform: scale(1.07); }
+
+        /* Corner brackets olive-gold, fade on hover */
+        .f01prod-brk::before, .f01prod-brk::after,
+        .f01prod-brk span::before, .f01prod-brk span::after {
+          content:""; position:absolute; width:24px; height:24px; opacity:0; transition: opacity 0.5s ease, transform 0.5s ease; transform: scale(0.85);
+          border: 0 solid ${GOLD};
+        }
+        .f01prod-brk::before { top:10px; left:10px; border-top-width:1px; border-left-width:1px; }
+        .f01prod-brk::after  { top:10px; right:10px; border-top-width:1px; border-right-width:1px; }
+        .f01prod-brk span::before { bottom:10px; left:10px; border-bottom-width:1px; border-left-width:1px; }
+        .f01prod-brk span::after  { bottom:10px; right:10px; border-bottom-width:1px; border-right-width:1px; }
+        .f01prod-card:hover .f01prod-brk::before,
+        .f01prod-card:hover .f01prod-brk::after,
+        .f01prod-card:hover .f01prod-brk span::before,
+        .f01prod-card:hover .f01prod-brk span::after { opacity:1; transform: scale(1); }
+
+        .f01prod-badge { position:absolute; top:14px; left:14px; z-index:2; background:${IVORY}; color:${MOSS};
+          font-family:${GEORGIA}; font-style:italic; font-size:12px; padding: 6px 14px 6px; letter-spacing: 0.02em;
+          border: 1px solid ${GOLD}; }
+        .f01prod-heart { position:absolute; top:14px; right:14px; z-index:2; width:38px; height:38px; border-radius:50%; background:${IVORY};
+          border:1px solid rgba(0,0,0,0.06); display:flex; align-items:center; justify-content:center; color:${INK70};
+          transition: color 0.35s ease, background 0.35s ease, transform 0.35s ease; cursor:pointer; }
+        .f01prod-card:hover .f01prod-heart { color:${BLUSH}; }
+        .f01prod-heart:hover { transform: scale(1.08); }
+
+        .f01prod-cat { font-family:${INTER}; font-weight:500; font-size:10.5px; letter-spacing:0.28em; text-transform:uppercase; color:${INK70}; }
+        .f01prod-name { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:22px; line-height:1.2; color:${INK}; margin:0; transition: color 0.35s ease; letter-spacing:-0.005em; }
+        .f01prod-card:hover .f01prod-name { color:${MOSS}; }
+
+        .f01prod-rule { height:1px; background: ${GOLD}; opacity:0.5; width:26px; transition: width 0.5s cubic-bezier(.6,.05,.35,1), background 0.4s ease; margin-top: 4px; }
+        .f01prod-card:hover .f01prod-rule { width: 90px; background: ${MOSS}; opacity: 1; }
+
+        .f01prod-row { display:flex; align-items:baseline; justify-content:space-between; gap: 12px; margin-top: 6px; }
+        .f01prod-price-lbl { font-family:${INTER}; font-weight:500; font-size:10.5px; letter-spacing:0.24em; text-transform:uppercase; color:${INK70}; margin-right:8px; }
+        .f01prod-price { font-family:${GEORGIA}; font-style:italic; font-size:20px; color:${MOSS}; letter-spacing:-0.005em; }
+        .f01prod-add { display:inline-flex; align-items:center; gap:8px; font-family:${INTER}; font-weight:500; font-size:11.5px; letter-spacing:0.22em; text-transform:uppercase; color:${INK70}; text-decoration:none; transition: color 0.35s ease; padding: 4px 0; position:relative; }
+        .f01prod-add::after { content:""; position:absolute; left:0; right:0; bottom:-2px; height:1px; background:${MOSS}; transform: scaleX(0); transform-origin: right; transition: transform 0.5s cubic-bezier(.6,.05,.35,1); }
+        .f01prod-card:hover .f01prod-add { color:${MOSS}; }
+        .f01prod-card:hover .f01prod-add::after { transform: scaleX(1); transform-origin: left; }
+        .f01prod-add .arr { transition: transform 0.35s ease; }
+        .f01prod-card:hover .f01prod-add .arr { transform: translateX(3px); }
+
+        @media(max-width:1024px){ .f01prod-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media(max-width:720px){
+          .f01prod { padding: 64px 20px 76px; }
+          .f01prod-head { grid-template-columns: 1fr; align-items:flex-start; }
+          .f01prod-grid { grid-template-columns: repeat(2, 1fr); gap: 24px 16px; }
+          .f01prod-name { font-size: 18px; }
+          .f01prod-price { font-size: 17px; }
+          .f01prod-add { display:none; }
+        }
       `}</style>
 
-      <div style={{ maxWidth: 1280, margin: "0 auto", paddingLeft: 24, paddingRight: 24 }}>
-        {/* Header row */}
-        <div className="f01-prod-header">
-          <div>
-            <div className="f01-prod-kicker">
-              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-            </div>
-            <div className="f01-prod-title">
+      <div className="f01prod-inner">
+        <header className="f01prod-head">
+          <div className="f01prod-head-l">
+            <span className="f01prod-eye"><i />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              <i />
+            </span>
+            <h2 className="f01prod-h">
               <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </div>
+            </h2>
+            <p className="f01prod-k">
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+            </p>
           </div>
-          <a href={resolve(ctaHref)} data-btn="primary" className="f01-prod-cta">
+          <a href={resolve(ctaHref)} className="f01prod-cta">
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <span className="arr" aria-hidden>→</span>
           </a>
-        </div>
+        </header>
 
-        {/* Product grid */}
-        <div className="f01-prod-grid">
+        <div className="f01prod-grid">
           {items.map((item, i) => (
-            <div key={i}>
-              <div className="f01-prod-img-wrap">
-                <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image ?? ""} alt={item.name} style={{ display: "block", width: "100%", height: "100%" }}>
-                  <OptimizedPicture
-                    src={item.image ?? ""}
-                    alt={item.name}
-                    width={600}
-                    height={600}
-                    className="f01-prod-img"
-                  />
-                </GenericEditableImage>
-                {item.badge && <span className="f01-prod-badge">{item.badge}</span>}
+            <a key={i} href={resolve(item.href ?? "/katalog")} className="f01prod-card">
+              <div className="f01prod-img">
+                <span className="f01prod-brk" aria-hidden><span /></span>
+                {item.image && (
+                  <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={item.name} style={{ display: "block", width: "100%", height: "100%" }}>
+                    <OptimizedPicture src={item.image} alt={item.name} width={700} height={875} />
+                  </GenericEditableImage>
+                )}
+                {item.badge && (
+                  <span className="f01prod-badge">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.badge`} value={item.badge} tag="span" />
+                  </span>
+                )}
+                <span className="f01prod-heart" aria-label="Přidat do oblíbených">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.5-7 10-7 10z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round"/>
+                  </svg>
+                </span>
               </div>
-              <div className="f01-prod-name">
+
+              <span className="f01prod-cat">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.category`} value={item.category ?? ""} tag="span" />
+              </span>
+              <h3 className="f01prod-name">
                 <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name} tag="span" />
+              </h3>
+              <span className="f01prod-rule" aria-hidden />
+
+              <div className="f01prod-row">
+                <span>
+                  <span className="f01prod-price-lbl">Cena</span>
+                  <span className="f01prod-price">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.price`} value={item.price} tag="span" />
+                  </span>
+                </span>
+                <span className="f01prod-add">
+                  Do košíku <span className="arr" aria-hidden>→</span>
+                </span>
               </div>
-              <div className="f01-prod-price">
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.price`} value={item.price} tag="span" />
-              </div>
-            </div>
+            </a>
           ))}
         </div>
       </div>

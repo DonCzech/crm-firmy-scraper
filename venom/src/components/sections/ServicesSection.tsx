@@ -2587,76 +2587,173 @@ function ServicesTattoo03({ content, sectionId }: { content: Record<string, unkn
   );
 }
 
-// nails-01: 2×2 grid, square images, service name + arrow + right-aligned list — 1:1 soho-nails.cz
+// nails-01 · Kyoto Wabi-Sabi Beauty services — editorial 2×2 grid
+// Cream bg · centered eyebrow "02 · SLUŽBY" + Georgia H2 s italic accent · 4 portrait
+// karty s Roman numeral hanko badge + corner brackets + Georgia italic tagline + procedury
+// list s hanko dot bullets · "Ceník" underline-reveal link · bottom trust strip
 function ServicesNails01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const BURGUNDY = "#79142b";
+  const CREAM    = "#f4f1e9";
   const SERIF    = "Georgia, 'Times New Roman', serif";
   const SANS     = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const ROMAN    = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
 
-  type ServiceItem = { name?: string; description?: string; imageUrl?: string };
-  const items   = (content.items as ServiceItem[]) ?? [];
-  const title   = (content.title as string)       ?? "Objevte naše";
-  const titleAc = (content.titleAccent as string) ?? "jedinečné služby";
+  type ServiceItem = { name?: string; tagline?: string; description?: string; imageUrl?: string };
+  const items    = (content.items as ServiceItem[]) ?? [];
+  const eyebrow    = String(content.eyebrow     ?? "02 · SLUŽBY");
+  const title      = String(content.title       ?? "Objevte naše");
+  const titleAc    = String(content.titleAccent ?? "jedinečné rituály");
+  const hideHeader = content.hideHeader === true;
+  const linkText   = String(content.linkText    ?? "Kompletní ceník");
+  const linkHref   = String(content.linkHref    ?? "/cenik");
 
   return (
     <section
       id="sluzby"
       data-template="nails-01"
-      style={{ backgroundColor: "#ffffff", padding: "clamp(60px, 8vh, 96px) clamp(24px, 6vw, 80px)" }}
+      data-section-type="services"
+      data-variant="nails-01-services"
+      className="n01-services"
+      style={{ backgroundColor: CREAM, padding: "clamp(80px, 12vh, 140px) clamp(24px, 6vw, 80px)", position: "relative", overflow: "hidden" }}
     >
-      <style>{`
-        .n01-services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(24px, 3vw, 48px); max-width: 960px; margin: 0 auto; }
-        @media (max-width: 600px) { .n01-services-grid { grid-template-columns: 1fr; } }
-      `}</style>
+      {/* Washi texture */}
+      <div aria-hidden="true" style={{
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse at 10% 90%, rgba(121,20,43,0.035), transparent 55%), radial-gradient(ellipse at 90% 10%, rgba(121,20,43,0.03), transparent 55%)",
+      }} />
 
-      {/* Heading */}
-      <div style={{ textAlign: "center", marginBottom: "clamp(40px, 5vh, 64px)" }}>
-        <h2 style={{ fontFamily: SERIF, fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 400, color: BURGUNDY, lineHeight: 1.2, margin: 0 }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          <br />
-          <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAc} tag="span" />
-        </h2>
-      </div>
-
-      {/* 2×2 grid → 1-col na mobilu */}
-      <div className="n01-services-grid">
-        {items.map((item, i) => (
-          <div key={i} style={{ display: "flex", flexDirection: "column" }}>
-            {/* Square image */}
-            <GenericEditableImage
-              sectionId={sectionId}
-              field={`items.${i}.imageUrl`}
-              src={item.imageUrl ?? ""}
-              alt={item.name ?? ""}
-              style={{ width: "100%", aspectRatio: "1 / 1", overflow: "hidden", borderRadius: "2px" }}
-            >
-              {item.imageUrl ? (
-                <img loading="lazy" src={item.imageUrl} alt={item.name ?? ""} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-              ) : (
-                <div style={{ width: "100%", height: "100%", backgroundColor: "#f0ece4" }} />
-              )}
-            </GenericEditableImage>
-
-            {/* Name + arrow */}
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "14px" }}>
-              <h4 style={{ fontFamily: SERIF, fontSize: "clamp(16px, 1.4vw, 20px)", fontWeight: 600, color: BURGUNDY, margin: 0 }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name ?? ""} tag="span" />
-              </h4>
-              <a href="#cenik" aria-label={`Ceník – ${item.name}`} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, borderRadius: "50%", border: `1.5px solid ${BURGUNDY}`, color: BURGUNDY, textDecoration: "none", flexShrink: 0, fontSize: "1rem" }}>↗</a>
+      <div style={{ maxWidth: 1240, margin: "0 auto", position: "relative" }}>
+        {/* Header */}
+        {!hideHeader && (
+          <div style={{ textAlign: "center", marginBottom: "clamp(56px, 8vh, 88px)" }}>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 22,
+              fontFamily: SANS, fontSize: "0.7rem", fontWeight: 300,
+              letterSpacing: "0.36em", textTransform: "uppercase", color: BURGUNDY,
+            }}>
+              <span aria-hidden="true" style={{ width: 60, height: 1, background: BURGUNDY, opacity: 0.5 }} />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              <span aria-hidden="true" style={{ width: 60, height: 1, background: BURGUNDY, opacity: 0.5 }} />
             </div>
-
-            {/* Description — celé pole editovatelné */}
-            <div style={{ marginTop: "10px", textAlign: "right" }}>
-              <GenericEditableText
-                sectionId={sectionId}
-                field={`items.${i}.description`}
-                value={item.description ?? ""}
-                tag="p"
-                style={{ fontFamily: SANS, fontSize: "clamp(12px, 1vw, 14px)", color: "#555", margin: 0, lineHeight: 1.7, whiteSpace: "pre-line" } as React.CSSProperties}
-              />
-            </div>
+            <h2 style={{
+              fontFamily: SERIF, fontSize: "clamp(36px, 4.4vw, 64px)",
+              fontWeight: 400, color: BURGUNDY, lineHeight: 1.08, margin: 0,
+              letterSpacing: "-0.005em",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              <br />
+              <em style={{ fontStyle: "italic" }}>
+                <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAc} tag="span" />
+              </em>
+            </h2>
           </div>
-        ))}
+        )}
+
+        {/* 2×2 karty */}
+        <div className="n01-services-grid">
+          {items.map((item, i) => (
+            <article key={`n01s-${i}`} className="n01-service-card">
+              {/* Image s corner brackets + Roman numeral hanko badge */}
+              <div className="n01-service-photo">
+                <span aria-hidden="true" className="n01-service-frame n01-service-frame-tl" />
+                <span aria-hidden="true" className="n01-service-frame n01-service-frame-br" />
+
+                <GenericEditableImage
+                  sectionId={sectionId}
+                  field={`items.${i}.imageUrl`}
+                  src={item.imageUrl ?? ""}
+                  alt={item.name ?? ""}
+                  style={{ display: "block", overflow: "hidden" }}
+                >
+                  {item.imageUrl ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img loading="lazy" src={item.imageUrl} alt={item.name ?? ""} style={{ width: "100%", aspectRatio: "4/5", objectFit: "cover", display: "block" }} />
+                  ) : (
+                    <div style={{ width: "100%", aspectRatio: "4/5", backgroundColor: "#f0ece4" }} />
+                  )}
+                </GenericEditableImage>
+
+                {/* Roman numeral hanko badge — top-right */}
+                <span aria-hidden="true" className="n01-service-numeral">
+                  <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="26" cy="26" r="24" fill={BURGUNDY} />
+                    <circle cx="26" cy="26" r="20" stroke={CREAM} strokeWidth="0.5" strokeDasharray="1.2 1.6" fill="none" opacity="0.55" />
+                  </svg>
+                  <span style={{
+                    position: "absolute", inset: 0,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    fontFamily: SERIF, fontStyle: "italic",
+                    fontSize: "1.15rem", fontWeight: 400,
+                    color: CREAM, letterSpacing: 0,
+                  }}>{ROMAN[i] ?? String(i + 1)}</span>
+                </span>
+              </div>
+
+              {/* Text */}
+              <div style={{ marginTop: 24, padding: "0 4px" }}>
+                <h3 style={{
+                  fontFamily: SERIF, fontSize: "clamp(22px, 2vw, 28px)",
+                  fontWeight: 400, color: BURGUNDY, lineHeight: 1.15,
+                  margin: "0 0 6px", letterSpacing: "-0.005em",
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name ?? ""} tag="span" />
+                </h3>
+                <div style={{
+                  fontFamily: SERIF, fontStyle: "italic",
+                  fontSize: "0.98rem", color: BURGUNDY,
+                  opacity: 0.65, marginBottom: 18,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.tagline`} value={item.tagline ?? ""} tag="span" />
+                </div>
+                <div aria-hidden="true" style={{
+                  width: 40, height: 1, background: BURGUNDY, opacity: 0.35,
+                  marginBottom: 18,
+                }} />
+                <GenericEditableText
+                  sectionId={sectionId}
+                  field={`items.${i}.description`}
+                  value={item.description ?? ""}
+                  tag="p"
+                  style={{
+                    fontFamily: SANS, fontSize: "clamp(13px, 1vw, 15px)",
+                    color: BURGUNDY, opacity: 0.82, fontWeight: 300,
+                    margin: 0, lineHeight: 1.75, whiteSpace: "pre-line",
+                  } as React.CSSProperties}
+                />
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {/* Bottom link + trust strip */}
+        <div style={{
+          marginTop: "clamp(56px, 7vh, 84px)",
+          display: "flex", flexDirection: "column", alignItems: "center", gap: 32,
+        }}>
+          <a href={linkHref} className="n01-services-link">
+            <GenericEditableText sectionId={sectionId} field="linkText" value={linkText} tag="span" />
+            <span aria-hidden="true" className="n01-services-link-arrow">→</span>
+          </a>
+          <div aria-hidden="true" style={{
+            width: 220, height: 1,
+            background: "linear-gradient(90deg, transparent, rgba(121,20,43,0.4), transparent)",
+            position: "relative",
+          }}>
+            <span style={{
+              position: "absolute", left: "50%", top: "50%",
+              transform: "translate(-50%, -50%) rotate(45deg)",
+              width: 6, height: 6, background: CREAM,
+              border: `1px solid ${BURGUNDY}`,
+            }} />
+          </div>
+          <div style={{
+            fontFamily: SANS, fontSize: "0.68rem", fontWeight: 300,
+            letterSpacing: "0.32em", textTransform: "uppercase",
+            color: BURGUNDY, opacity: 0.65, textAlign: "center",
+          }}>
+            Reservio online · Praha 1 · od 2018
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -2675,11 +2772,25 @@ function PricingNails02({ content, sectionId }: { content: Record<string, unknow
   const TAUPE = "#d4a080";
   const CREAM = "#f6efe9";
   const INK   = "#3a2a25";
+  const MUTED = "#6e6e6e";
+  const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
+  const SANS  = "'Helvetica Neue', Arial, sans-serif";
 
   const numberPrefix = String(content.numberPrefix ?? "(02)");
+  const kicker       = String(content.kicker       ?? "Ceník · Praha 1");
   const title        = String(content.title        ?? "Ceník");
-  const lead         = String(content.lead         ?? "Demonstrační ceník — všechny ceny v Kč včetně DPH. Skutečné ceny upraví majitel přes editor.");
+  const lead         = String(content.lead         ?? "Editoriální ceník — všechny ceny v Kč včetně DPH. Skutečné ceny upraví majitel přes editor.");
   const groups       = (content.groups as PricingGroup[]) ?? [];
+
+  const infoText  = String(content.infoText  ?? "Ceny včetně DPH");
+  const infoText2 = String(content.infoText2 ?? "Rezervace 24 h předem");
+  const infoText3 = String(content.infoText3 ?? "Storno 12 h předem");
+  const ctaText     = String(content.ctaText     ?? "Objednat se");
+  const ctaHref     = String(content.ctaHref     ?? "/kontakt");
+  const secondaryText = String(content.secondaryText ?? "Prohlédnout galerii");
+  const secondaryHref = String(content.secondaryHref ?? "/galerie");
+
+  const roman = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"];
 
   return (
     <section
@@ -2689,103 +2800,188 @@ function PricingNails02({ content, sectionId }: { content: Record<string, unknow
       data-template="nails-02"
       style={{
         backgroundColor: CREAM,
-        padding: "clamp(80px, 12vw, 160px) clamp(24px, 6vw, 72px)",
+        padding: "clamp(90px, 12vw, 160px) clamp(24px, 6vw, 72px)",
+        position: "relative",
       }}
     >
-      <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+      {/* Section eyebrow */}
+      <div
+        className="n02-price-eyebrow"
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "clamp(40px, 6vw, 80px)",
+          right: "clamp(24px, 6vw, 72px)",
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+          fontFamily: SANS,
+          fontSize: "0.7rem",
+          fontWeight: 500,
+          color: TAUPE,
+          letterSpacing: "0.32em",
+          textTransform: "uppercase",
+          opacity: 0.75,
+        }}
+      >
+        <span>Kapitola · 02</span>
+        <span style={{ display: "block", width: 42, height: 1, backgroundColor: TAUPE, opacity: 0.6 }} />
+      </div>
+
+      <div style={{ maxWidth: 1120, margin: "0 auto" }}>
         {/* Header */}
-        <div style={{ marginBottom: "clamp(56px, 8vw, 96px)" }}>
-          <div
-            style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontStyle: "italic",
-              fontSize: "clamp(1.5rem, 2vw, 2rem)",
-              color: TAUPE,
-              letterSpacing: "0.06em",
-              marginBottom: 28,
-            }}
-          >
-            <GenericEditableText sectionId={sectionId} field="numberPrefix" value={numberPrefix} tag="span" />
-          </div>
-          <h2
-            style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
+        <div style={{ marginBottom: "clamp(72px, 9vw, 120px)", maxWidth: 720 }}>
+          {/* (02) with vertical hairline */}
+          <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 40 }}>
+            <span aria-hidden style={{ display: "block", width: 1, height: 32, backgroundColor: TAUPE }} />
+            <span style={{
+              fontFamily: SERIF,
               fontStyle: "italic",
               fontWeight: 400,
-              fontSize: "clamp(3.2rem, 6.8vw, 6.4rem)",
+              fontSize: "clamp(1.5rem, 1.9vw, 1.9rem)",
+              color: TAUPE,
               lineHeight: 1,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="numberPrefix" value={numberPrefix} tag="span" />
+            </span>
+          </div>
+
+          <h2
+            style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: "clamp(3.2rem, 7vw, 6.6rem)",
+              lineHeight: 0.95,
               color: WINE,
               margin: 0,
-              letterSpacing: "-0.01em",
+              letterSpacing: "-0.015em",
             }}
           >
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
-          <div aria-hidden="true" style={{ width: 64, height: 1, backgroundColor: TAUPE, margin: "40px 0 28px" }} />
+
+          <div aria-hidden="true" style={{ width: 88, height: 1, backgroundColor: TAUPE, margin: "48px 0 28px" }} />
+
+          <p style={{
+            fontFamily: SANS,
+            fontSize: "0.76rem",
+            fontWeight: 600,
+            color: TAUPE,
+            textTransform: "uppercase",
+            letterSpacing: "0.32em",
+            margin: 0,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+          </p>
+
           <p
             style={{
-              fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-              fontSize: "1rem",
+              marginTop: 28,
+              fontFamily: SANS,
+              fontSize: "1.02rem",
               fontWeight: 300,
-              lineHeight: 1.7,
+              lineHeight: 1.8,
               color: INK,
               maxWidth: 580,
-              margin: 0,
             }}
           >
             <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
           </p>
         </div>
 
-        {/* Pricing groups — 2-col on desktop, stacked on mobile */}
+        {/* Pricing groups — 2-col on desktop */}
         <div
           className="nails02-pricing-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-            columnGap: "clamp(48px, 7vw, 96px)",
-            rowGap: "clamp(56px, 7vw, 80px)",
+            columnGap: "clamp(56px, 8vw, 108px)",
+            rowGap: "clamp(64px, 8vw, 96px)",
           }}
         >
           {groups.map((group, gi) => (
-            <div key={`pg-${gi}`}>
-              <h3
-                style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontStyle: "italic",
-                  fontWeight: 500,
-                  fontSize: "1.85rem",
-                  color: WINE,
-                  margin: "0 0 28px",
-                  letterSpacing: "0.005em",
-                }}
-              >
-                <GenericEditableText sectionId={sectionId} field={`groups.${gi}.title`} value={group.title} tag="span" />
-              </h3>
-              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 18 }}>
+            <div key={`pg-${gi}`} className="n02-price-group">
+              {/* Group header: Roman badge + italic title */}
+              <div style={{ display: "flex", alignItems: "center", gap: 18, marginBottom: 12 }}>
+                <span
+                  aria-hidden="true"
+                  className="n02-price-roman"
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: 44,
+                    height: 44,
+                    borderRadius: 999,
+                    border: `1px solid ${TAUPE}`,
+                    fontFamily: SERIF,
+                    fontStyle: "italic",
+                    fontWeight: 400,
+                    fontSize: "1.05rem",
+                    color: WINE,
+                    letterSpacing: "0.02em",
+                    transition: "background-color 0.4s ease, color 0.4s ease",
+                  }}
+                >
+                  {roman[gi] ?? String(gi + 1)}
+                </span>
+                <h3
+                  style={{
+                    fontFamily: SERIF,
+                    fontStyle: "italic",
+                    fontWeight: 500,
+                    fontSize: "clamp(1.7rem, 2.4vw, 2rem)",
+                    color: WINE,
+                    margin: 0,
+                    letterSpacing: "0.005em",
+                    flex: 1,
+                  }}
+                >
+                  <GenericEditableText sectionId={sectionId} field={`groups.${gi}.title`} value={group.title} tag="span" />
+                </h3>
+              </div>
+              <div aria-hidden style={{ height: 1, backgroundColor: `${TAUPE}55`, marginBottom: 26 }} />
+
+              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 4 }}>
                 {(group.items ?? []).map((item, ii) => (
                   <li
                     key={`pg-${gi}-it-${ii}`}
+                    className="n02-price-row"
                     style={{
                       display: "flex",
                       alignItems: "baseline",
                       gap: 12,
-                      fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
+                      padding: "12px 10px 12px 4px",
+                      fontFamily: SANS,
+                      transition: "background-color 0.35s ease, padding 0.35s ease",
+                      borderBottom: `1px solid transparent`,
                     }}
                   >
                     <span
+                      className="n02-price-name"
                       style={{
                         fontSize: "1rem",
                         fontWeight: 400,
                         color: INK,
-                        whiteSpace: "nowrap",
+                        maxWidth: "58%",
                         flexShrink: 0,
-                        maxWidth: "60%",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
+                        transition: "color 0.3s ease, transform 0.3s ease",
                       }}
                     >
                       <GenericEditableText sectionId={sectionId} field={`groups.${gi}.items.${ii}.name`} value={item.name} tag="span" />
+                      {item.note && (
+                        <span style={{
+                          marginLeft: 8,
+                          fontFamily: SERIF,
+                          fontStyle: "italic",
+                          fontSize: "0.88rem",
+                          color: MUTED,
+                          opacity: 0.85,
+                        }}>
+                          <GenericEditableText sectionId={sectionId} field={`groups.${gi}.items.${ii}.note`} value={item.note} tag="span" />
+                        </span>
+                      )}
                     </span>
                     <span
                       aria-hidden="true"
@@ -2798,12 +2994,16 @@ function PricingNails02({ content, sectionId }: { content: Record<string, unknow
                       }}
                     />
                     <span
+                      className="n02-price-price"
                       style={{
-                        fontSize: "1rem",
+                        fontFamily: SERIF,
+                        fontStyle: "italic",
+                        fontSize: "1.15rem",
                         fontWeight: 500,
                         color: WINE,
                         whiteSpace: "nowrap",
-                        letterSpacing: "0.02em",
+                        letterSpacing: "0.005em",
+                        transition: "color 0.3s ease",
                       }}
                     >
                       <GenericEditableText sectionId={sectionId} field={`groups.${gi}.items.${ii}.price`} value={item.price} tag="span" />
@@ -2814,10 +3014,151 @@ function PricingNails02({ content, sectionId }: { content: Record<string, unknow
             </div>
           ))}
         </div>
+
+        {/* Footer info strip */}
+        <div
+          className="n02-price-footer"
+          style={{
+            marginTop: "clamp(72px, 10vw, 120px)",
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: 0,
+            borderTop: `1px solid ${TAUPE}55`,
+            borderBottom: `1px solid ${TAUPE}55`,
+          }}
+        >
+          {[
+            { key: "infoText",  val: infoText,  icon: "★" },
+            { key: "infoText2", val: infoText2, icon: "◈" },
+            { key: "infoText3", val: infoText3, icon: "❋" },
+          ].map((info, i) => (
+            <div
+              key={`info-${i}`}
+              style={{
+                padding: "28px 20px",
+                borderLeft: i > 0 ? `1px dashed ${TAUPE}70` : "none",
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
+              <span aria-hidden style={{
+                fontFamily: SERIF,
+                fontStyle: "italic",
+                fontSize: "1.2rem",
+                color: TAUPE,
+                opacity: 0.9,
+              }}>
+                {info.icon}
+              </span>
+              <span style={{
+                fontFamily: SANS,
+                fontSize: "0.74rem",
+                fontWeight: 500,
+                color: WINE,
+                letterSpacing: "0.24em",
+                textTransform: "uppercase",
+              }}>
+                <GenericEditableText sectionId={sectionId} field={info.key} value={info.val} tag="span" />
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Dual CTA row */}
+        <div style={{
+          marginTop: 56,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 40,
+          flexWrap: "wrap",
+        }}>
+          <a
+            href={ctaHref}
+            data-btn="primary"
+            className="n02-price-cta"
+            style={{
+              position: "relative",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 12,
+              padding: "16px 36px",
+              backgroundColor: "transparent",
+              color: WINE,
+              border: `1px solid ${WINE}`,
+              fontFamily: SANS,
+              fontSize: "0.78rem",
+              fontWeight: 600,
+              letterSpacing: "0.24em",
+              textTransform: "uppercase",
+              textDecoration: "none",
+              overflow: "hidden",
+              transition: "color 0.35s ease",
+            }}
+          >
+            <span style={{ position: "relative", zIndex: 2 }}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </span>
+            <span style={{ position: "relative", zIndex: 2, display: "inline-flex" }} className="n02-price-cta-arrow">
+              <svg width="14" height="10" viewBox="0 0 14 10" fill="none"><path d="M1 5h11m-3.5-3.5L12 5l-3.5 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
+            </span>
+          </a>
+          <a
+            href={secondaryHref}
+            style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: "1.02rem",
+              color: WINE,
+              textDecoration: "none",
+              opacity: 0.8,
+              transition: "opacity 0.3s ease",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              paddingBottom: 4,
+              borderBottom: `1px solid ${TAUPE}80`,
+            }}
+            className="n02-price-secondary"
+          >
+            <GenericEditableText sectionId={sectionId} field="secondaryText" value={secondaryText} tag="span" />
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
       </div>
+
       <style>{`
+        .n02-price-row:hover {
+          background-color: rgba(212,160,128,0.09);
+          padding-left: 12px !important;
+        }
+        .n02-price-row:hover .n02-price-name { color: ${WINE}; }
+        .n02-price-group:hover .n02-price-roman { background-color: ${WINE}; color: ${CREAM}; border-color: ${WINE}; }
+        .n02-price-cta::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background-color: ${WINE};
+          transform: translateX(-101%);
+          transition: transform 0.45s cubic-bezier(0.65,0,0.35,1);
+          z-index: 1;
+        }
+        .n02-price-cta:hover::before { transform: translateX(0); }
+        .n02-price-cta:hover { color: ${CREAM}; }
+        .n02-price-cta:hover .n02-price-cta-arrow { transform: translateX(4px); transition: transform 0.3s ease; }
+        .n02-price-secondary:hover { opacity: 1; border-bottom-color: ${WINE}; }
         @media (max-width: 768px) {
           .nails02-pricing-grid { grid-template-columns: 1fr !important; }
+          .n02-price-eyebrow { display: none !important; }
+        }
+        @media (max-width: 560px) {
+          .n02-price-footer { grid-template-columns: 1fr !important; }
+          .n02-price-footer > div { border-left: none !important; border-top: 1px dashed ${TAUPE}70 !important; }
+          .n02-price-footer > div:first-child { border-top: none !important; }
         }
       `}</style>
     </section>

@@ -32,6 +32,7 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   const c = content as HeroContent;
 
   if (variant === "florist-01-hero") return <HeroFlorist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-florist-01-page") return <HeroFlorist01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "sweet-01-hero") return <HeroSweet01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "stavba-01-hero") return <HeroStavba01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "stavba-02-hero") return <HeroStavba02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -2738,9 +2739,15 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "nails-01-hero") {
     return <HeroNails01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-nails-01-page") {
+    return <HeroNails01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
 
   if (variant === "nails-02-hero") {
     return <HeroNails02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-nails-02-page") {
+    return <HeroNails02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   if (variant === "nails-03-hero") {
@@ -4571,11 +4578,10 @@ function HeroTattoo03({ content, sectionId, tenantSlug, isAdmin }: {
 }
 
 // ── nails-01-hero ─────────────────────────────────────────────────────────────
-// Hero sekce — soho nails 1:1
-// Cream bg (#f4f1e9), min-height 100vh
-// 3 portrait fotky vedle sebe (střed je 1.27× větší)
-// Pod fotkami 2-col: velký H2 vlevo (48px burgundy serif) + body text vpravo
-// Kulatý "SLUŽBY" badge absolutně vpravo dole
+// Kyoto Wabi-Sabi Beauty hero — luxe editorial
+// Cream bg (#f4f1e9), min-height 100vh, corner brackets frame + washi paper texture
+// Eyebrow s hanko dots · Georgia italic H1 · 3 asymmetric portrait fotky s off-set +
+// Georgia italic captions · body copy centrovaný · trust strip (4 stats) + hanko badge CTA
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroNails01({
   content,
@@ -4591,182 +4597,482 @@ function HeroNails01({
   const CREAM    = "#f4f1e9";
   const BURGUNDY = "#79142b";
 
-  const title      = String(content.title      ?? "Vítejte v");
-  const titleAccent = String(content.titleAccent ?? "Demo Nails & Spa");
-  const body       = String(content.body        ?? "Věříme, že krása není jen vzhled, ale pocit a sebevědomí. Vytvořili jsme místo, kde si dopřejete kompletní péči.");
-  const imgLeft    = String(content.imgLeft     ?? "/clones/soho/wp-content/uploads/2025/10/SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-Hair-Styling-1x.webp");
-  const imgCenter  = String(content.imgCenter   ?? "/clones/soho/wp-content/uploads/2025/10/SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-1x.webp");
-  const imgRight   = String(content.imgRight    ?? "/clones/soho/wp-content/uploads/2025/10/SOHO-Beauty-Salon-Nail-Art-Manicure-Pedicure-Hair-Styling-Near-Me-1x.webp");
-  const badgeText  = String(content.badgeText   ?? "SLUŽBY");
-  const badgeHref  = String(content.badgeHref   ?? "#sluzby");
+  const eyebrow     = String(content.eyebrow     ?? "SOHO PRAHA · WABI-SABI BEAUTY");
+  const title       = String(content.title       ?? "Krása je");
+  const titleAccent = String(content.titleAccent ?? "opravdový pocit");
+  const body        = String(content.body        ?? "Prémiové nehtové studio a beauty salon v srdci Prahy. Manikúra, pedikúra, řasy, kadeřnictví a masáže — kompletní péče inspirovaná japonským wabi-sabi.");
+  const imgLeft     = String(content.imgLeft     ?? "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=760&h=1080&fit=crop&q=88&fm=webp");
+  const imgCenter   = String(content.imgCenter   ?? "https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=760&h=1080&fit=crop&q=88&fm=webp");
+  const imgRight    = String(content.imgRight    ?? "https://images.unsplash.com/photo-1607779097040-26e80aa78e66?w=760&h=1080&fit=crop&q=88&fm=webp");
+  const capLeft     = String(content.capLeft     ?? "Manikúra");
+  const capCenter   = String(content.capCenter   ?? "Nail Art");
+  const capRight    = String(content.capRight    ?? "Spa & Pedikúra");
+  const badgeText   = String(content.badgeText   ?? "Naše\nslužby");
+  const badgeHref   = String(content.badgeHref   ?? "/sluzby");
+  const trustItems  = (content.trustItems as Array<{ value: string; label: string }>) ?? [
+    { value: "Praha 1", label: "Vinohradská 26" },
+    { value: "od 2018", label: "6 let řemesla" },
+    { value: "500+", label: "klientek měsíčně" },
+    { value: "Online", label: "rezervace 24/7" },
+  ];
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolvedBadgeHref = resolveNavHref(badgeHref, siteMode, tenantSlug, isAdmin);
 
-  const resolvedBadgeHref = tenantSlug
-    ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${badgeHref}`
-    : badgeHref;
-
-  // navbar is static, 40px top gap
-  const PHOTOS_TOP = 40;
+  const HankoBadgeSvg = () => (
+    <svg width="118" height="118" viewBox="0 0 118 118" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+      style={{ position: "absolute", inset: 0 }}>
+      <circle cx="59" cy="59" r="56" stroke={CREAM} strokeWidth="1.3" fill="none" opacity="0.75" />
+      <circle cx="59" cy="59" r="49" stroke={CREAM} strokeWidth="0.5" strokeDasharray="1.5 2" fill="none" opacity="0.4" />
+      <path d="M 20 45 Q 30 25, 65 22" stroke={CREAM} strokeWidth="1.4" strokeLinecap="round" fill="none" opacity="0.3" />
+      <circle cx="92" cy="92" r="1.6" fill={CREAM} opacity="0.55" />
+    </svg>
+  );
 
   return (
     <section
+      data-template="nails-01"
       data-section-type="hero"
       data-variant="nails-01-hero"
+      className="n01-hero"
       style={{
         backgroundColor: CREAM,
         minHeight: "100vh",
         position: "relative",
         overflow: "hidden",
-        paddingBottom: "5vh",
+        paddingBottom: "clamp(48px, 8vh, 96px)",
       }}
     >
-      {/* Dekorativní ghost text pozadí */}
+      {/* Washi paper texture */}
+      <div aria-hidden="true" style={{
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse at 15% 10%, rgba(121,20,43,0.035), transparent 55%), radial-gradient(ellipse at 85% 90%, rgba(121,20,43,0.03), transparent 60%)",
+      }} />
+
+      {/* Corner brackets */}
+      <span aria-hidden="true" className="n01-hero-bracket n01-hero-bracket-tl" />
+      <span aria-hidden="true" className="n01-hero-bracket n01-hero-bracket-tr" />
+      <span aria-hidden="true" className="n01-hero-bracket n01-hero-bracket-bl" />
+      <span aria-hidden="true" className="n01-hero-bracket n01-hero-bracket-br" />
+
+      {/* Ghost italic "beauty" background */}
       <div
         aria-hidden="true"
         className="hidden lg:block"
         style={{
           position: "absolute",
-          top: "50%",
+          top: "48%",
           left: "50%",
-          transform: "translate(-50%, -52%)",
-          fontSize: "clamp(120px, 22vw, 280px)",
+          transform: "translate(-50%, -50%)",
+          fontSize: "clamp(160px, 26vw, 340px)",
           fontFamily: "Georgia, 'Times New Roman', serif",
-          fontWeight: 700,
+          fontStyle: "italic",
+          fontWeight: 400,
           color: BURGUNDY,
-          opacity: 0.04,
+          opacity: 0.035,
           whiteSpace: "nowrap",
           userSelect: "none",
           pointerEvents: "none",
           lineHeight: 1,
-          letterSpacing: "0.04em",
+          letterSpacing: "-0.02em",
         }}
       >
-        NAILS
+        beauty
       </div>
 
-      {/* Shared outer padding — fotky i text sdílí stejné okraje */}
-      <div className="hidden md:block" style={{ padding: `${PHOTOS_TOP}px clamp(24px, 4vw, 60px) clamp(36px, 5vh, 60px)` }}>
+      {/* DESKTOP */}
+      <div className="hidden md:block" style={{ position: "relative", padding: "clamp(36px, 5vh, 64px) clamp(48px, 6vw, 96px) 0" }}>
 
-        {/* 3 portrait fotky */}
-        <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "center", gap: 0 }}>
-          {/* Levá fotka +10% → 24% */}
-          <div style={{ flex: "0 0 24%", alignSelf: "flex-end" }}>
-            <GenericEditableImage sectionId={sectionId} field="imgLeft" src={imgLeft} alt="Salon" className="w-full">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img loading="eager" src={imgLeft} alt="Salon" style={{ width: "100%", height: "auto", objectFit: "cover", display: "block", borderRadius: "4px 4px 0 0" }} />
-            </GenericEditableImage>
-          </div>
-
-          {/* Střední fotka +10% → 29%, vyčnívá nahoru */}
-          <div style={{ flex: "0 0 29%", transform: "scale(1.08)", transformOrigin: "bottom center", zIndex: 2 }}>
-            <GenericEditableImage sectionId={sectionId} field="imgCenter" src={imgCenter} alt="Salon studio" className="w-full">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img loading="eager" src={imgCenter} alt="Salon studio" style={{ width: "100%", height: "auto", objectFit: "cover", display: "block", borderRadius: "4px 4px 0 0" }} />
-            </GenericEditableImage>
-          </div>
-
-          {/* Pravá fotka +10% → 24% */}
-          <div style={{ flex: "0 0 24%", alignSelf: "flex-end" }}>
-            <GenericEditableImage sectionId={sectionId} field="imgRight" src={imgRight} alt="Salon services" className="w-full">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img loading="eager" src={imgRight} alt="Salon services" style={{ width: "100%", height: "auto", objectFit: "cover", display: "block", borderRadius: "4px 4px 0 0" }} />
-            </GenericEditableImage>
-          </div>
-        </div>
-
-        {/* 2-col text — maxWidth 77% = 24+29+24 = šířka skupiny fotek, centrováno */}
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "clamp(20px, 4vw, 48px)",
-            width: "77%",
-            margin: "clamp(28px, 4vh, 48px) auto 0",
-            position: "relative",
-            zIndex: 3,
-          }}
-        >
-          {/* Vlevo — serif titulek */}
-          <div style={{ flex: "1 1 260px", minWidth: 0 }}>
-            <h2 style={{
-              fontFamily: "Georgia, 'Times New Roman', serif",
-              fontSize: "clamp(24px, 2.8vw, 48px)",
-              fontWeight: 400,
-              color: BURGUNDY,
-              lineHeight: 1.2,
-              margin: 0,
-              letterSpacing: "0.01em",
-            }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-              <br />
-              <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
-            </h2>
-          </div>
-
-          {/* Vpravo — body text 15px/1.6em */}
-          <div style={{ flex: "1 1 240px", minWidth: 0, display: "flex", alignItems: "center" }}>
-            <p style={{
-              fontFamily: "'Helvetica Neue', Arial, sans-serif",
-              fontSize: "15px",
-              color: BURGUNDY,
-              lineHeight: 1.6,
-              margin: 0,
-              opacity: 0.8,
-            }}>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-            </p>
-          </div>
-        </div>
-
-      </div>
-
-      {/* Mobile: jedna fotka na celou šířku */}
-      <div className="md:hidden" style={{ width: "100%", paddingTop: 80 }}>
-        <GenericEditableImage sectionId={sectionId} field="imgCenter" src={imgCenter} alt="Salon studio" className="w-full">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img loading="eager" src={imgCenter} alt="Salon studio" style={{ width: "100%", height: 360, objectFit: "cover", objectPosition: "center top" }} />
-        </GenericEditableImage>
-        <div style={{ padding: "24px 20px 32px" }}>
-          <h2 style={{ fontFamily: "Georgia, serif", fontSize: "28px", fontWeight: 400, color: BURGUNDY, margin: "0 0 12px" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            <br />
-            <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
-          </h2>
-          <p style={{ fontFamily: "sans-serif", fontSize: "15px", color: BURGUNDY, lineHeight: 1.6, margin: 0, opacity: 0.8 }}>
-            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-          </p>
-        </div>
-      </div>
-
-      {/* Kulatý SLUŽBY badge — absolutně vpravo */}
-      <a
-        href={resolvedBadgeHref}
-        style={{
-          position: "absolute",
-          bottom: "5vh",
-          right: "5vw",
-          width: 100,
-          height: 100,
-          borderRadius: "50%",
-          backgroundColor: BURGUNDY,
-          color: "#ffffff",
+        {/* Eyebrow s hairline + hanko dots */}
+        <div style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          fontFamily: "'Helvetica Neue', Arial, sans-serif",
-          fontSize: "0.65rem",
-          fontWeight: 700,
-          letterSpacing: "0.18em",
+          gap: 18,
+          marginBottom: "clamp(28px, 4vh, 44px)",
+          fontFamily: "'Montserrat', 'Helvetica Neue', Arial, sans-serif",
+          fontSize: "0.7rem",
+          fontWeight: 300,
+          letterSpacing: "0.36em",
           textTransform: "uppercase",
+          color: BURGUNDY,
+        }}>
+          <span aria-hidden="true" style={{ flex: "0 0 84px", height: 1, background: BURGUNDY, opacity: 0.4 }} />
+          <span aria-hidden="true" style={{ width: 6, height: 6, borderRadius: "50%", background: BURGUNDY, opacity: 0.7, transform: "translateY(-1px)" }} />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          <span aria-hidden="true" style={{ width: 6, height: 6, borderRadius: "50%", background: BURGUNDY, opacity: 0.7, transform: "translateY(-1px)" }} />
+          <span aria-hidden="true" style={{ flex: "0 0 84px", height: 1, background: BURGUNDY, opacity: 0.4 }} />
+        </div>
+
+        {/* Editorial H1 */}
+        <h1 style={{
+          fontFamily: "Georgia, 'Times New Roman', serif",
+          fontSize: "clamp(48px, 6.2vw, 96px)",
+          fontWeight: 400,
+          color: BURGUNDY,
+          lineHeight: 1.02,
+          margin: "0 auto",
+          letterSpacing: "-0.01em",
+          textAlign: "center",
+          maxWidth: 1080,
+        }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          <span style={{ display: "inline-block", margin: "0 0.28em", opacity: 0.5, fontStyle: "italic" }}>·</span>
+          <em style={{ fontStyle: "italic", fontWeight: 400 }}>
+            <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
+          </em>
+        </h1>
+
+        {/* 3 asymmetric portrait fotky s wabi-sabi off-set */}
+        <div style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "center",
+          gap: "clamp(12px, 1.5vw, 22px)",
+          marginTop: "clamp(40px, 5.5vh, 68px)",
+        }}>
+          <figure className="n01-hero-photo" style={{ flex: "0 0 22%", margin: 0, position: "relative", transform: "translateY(24px)" }}>
+            <GenericEditableImage sectionId={sectionId} field="imgLeft" src={imgLeft} alt={capLeft} className="w-full">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img loading="eager" src={imgLeft} alt={capLeft} style={{ width: "100%", aspectRatio: "3/4.2", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+            <figcaption style={{
+              marginTop: 14,
+              fontFamily: "Georgia, 'Times New Roman', serif",
+              fontStyle: "italic",
+              fontSize: "0.95rem",
+              color: BURGUNDY,
+              textAlign: "center",
+            }}>
+              <span aria-hidden="true" style={{ display: "inline-block", width: 14, height: 1, background: BURGUNDY, verticalAlign: "middle", marginRight: 8, opacity: 0.5 }} />
+              <GenericEditableText sectionId={sectionId} field="capLeft" value={capLeft} tag="span" />
+            </figcaption>
+          </figure>
+
+          <figure className="n01-hero-photo" style={{ flex: "0 0 30%", margin: 0, position: "relative", transform: "translateY(-8px)", zIndex: 2 }}>
+            <GenericEditableImage sectionId={sectionId} field="imgCenter" src={imgCenter} alt={capCenter} className="w-full">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img loading="eager" src={imgCenter} alt={capCenter} style={{ width: "100%", aspectRatio: "3/4.2", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+            <figcaption style={{
+              marginTop: 14,
+              fontFamily: "Georgia, 'Times New Roman', serif",
+              fontStyle: "italic",
+              fontSize: "0.95rem",
+              color: BURGUNDY,
+              textAlign: "center",
+            }}>
+              <span aria-hidden="true" style={{ display: "inline-block", width: 14, height: 1, background: BURGUNDY, verticalAlign: "middle", marginRight: 8, opacity: 0.5 }} />
+              <GenericEditableText sectionId={sectionId} field="capCenter" value={capCenter} tag="span" />
+            </figcaption>
+          </figure>
+
+          <figure className="n01-hero-photo" style={{ flex: "0 0 22%", margin: 0, position: "relative", transform: "translateY(38px)" }}>
+            <GenericEditableImage sectionId={sectionId} field="imgRight" src={imgRight} alt={capRight} className="w-full">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img loading="eager" src={imgRight} alt={capRight} style={{ width: "100%", aspectRatio: "3/4.2", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+            <figcaption style={{
+              marginTop: 14,
+              fontFamily: "Georgia, 'Times New Roman', serif",
+              fontStyle: "italic",
+              fontSize: "0.95rem",
+              color: BURGUNDY,
+              textAlign: "center",
+            }}>
+              <span aria-hidden="true" style={{ display: "inline-block", width: 14, height: 1, background: BURGUNDY, verticalAlign: "middle", marginRight: 8, opacity: 0.5 }} />
+              <GenericEditableText sectionId={sectionId} field="capRight" value={capRight} tag="span" />
+            </figcaption>
+          </figure>
+        </div>
+
+        {/* Body copy */}
+        <div style={{
+          margin: "clamp(64px, 8vh, 96px) auto 0",
+          maxWidth: 720,
+          position: "relative",
+          zIndex: 3,
+        }}>
+          <p style={{
+            fontFamily: "'Montserrat', 'Helvetica Neue', Arial, sans-serif",
+            fontSize: "clamp(16px, 1.1vw, 18px)",
+            fontWeight: 300,
+            color: BURGUNDY,
+            lineHeight: 1.75,
+            margin: 0,
+            textAlign: "center",
+            letterSpacing: "0.01em",
+            opacity: 0.85,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+          </p>
+        </div>
+
+        {/* Trust strip */}
+        <div style={{
+          display: "grid",
+          gridTemplateColumns: `repeat(${trustItems.length}, 1fr)`,
+          gap: 0,
+          maxWidth: 940,
+          margin: "clamp(56px, 7vh, 84px) auto 0",
+          borderTop: `1px solid rgba(121,20,43,0.2)`,
+          borderBottom: `1px solid rgba(121,20,43,0.2)`,
+        }}>
+          {trustItems.map((t, i) => (
+            <div key={`n01-trust-${i}`} style={{
+              padding: "22px 12px",
+              textAlign: "center",
+              borderLeft: i === 0 ? "none" : `1px solid rgba(121,20,43,0.14)`,
+            }}>
+              <div style={{
+                fontFamily: "Georgia, 'Times New Roman', serif",
+                fontStyle: "italic",
+                fontSize: "clamp(20px, 1.7vw, 26px)",
+                fontWeight: 400,
+                color: BURGUNDY,
+                lineHeight: 1.1,
+                marginBottom: 6,
+              }}>
+                <GenericEditableText sectionId={sectionId} field={`trustItems.${i}.value`} value={t.value} tag="span" />
+              </div>
+              <div style={{
+                fontFamily: "'Montserrat', 'Helvetica Neue', Arial, sans-serif",
+                fontSize: "0.66rem",
+                fontWeight: 300,
+                letterSpacing: "0.28em",
+                textTransform: "uppercase",
+                color: BURGUNDY,
+                opacity: 0.7,
+              }}>
+                <GenericEditableText sectionId={sectionId} field={`trustItems.${i}.label`} value={t.label} tag="span" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Hanko seal CTA badge */}
+      <a
+        href={resolvedBadgeHref}
+        className="n01-hero-badge hidden md:flex"
+        style={{
+          position: "absolute",
+          bottom: "clamp(24px, 4vh, 48px)",
+          right: "clamp(24px, 4vw, 56px)",
+          width: 118,
+          height: 118,
+          backgroundColor: BURGUNDY,
+          color: CREAM,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "50%",
+          fontFamily: "Georgia, 'Times New Roman', serif",
+          fontStyle: "italic",
+          fontSize: "0.98rem",
+          fontWeight: 400,
+          lineHeight: 1.2,
+          textAlign: "center",
           textDecoration: "none",
           zIndex: 10,
-          transition: "transform 0.2s, background 0.2s",
+          padding: "6px",
         }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = "scale(1.08)"; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = "scale(1)"; }}
-        className="hidden md:flex"
       >
-        <GenericEditableText sectionId={sectionId} field="badgeText" value={badgeText} tag="span" />
+        <HankoBadgeSvg />
+        <span style={{ position: "relative", zIndex: 1, whiteSpace: "pre-line" }}>
+          <GenericEditableText sectionId={sectionId} field="badgeText" value={badgeText} tag="span" />
+        </span>
+        <span aria-hidden="true" style={{ position: "relative", zIndex: 1, marginTop: 4, fontFamily: "'Montserrat', sans-serif", fontStyle: "normal", fontSize: "0.72rem", letterSpacing: "0.2em" }}>→</span>
       </a>
+
+      {/* MOBILE */}
+      <div className="md:hidden" style={{ position: "relative", padding: "36px 20px 24px" }}>
+        <div style={{
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 12,
+          fontFamily: "'Montserrat', sans-serif", fontSize: "0.62rem", fontWeight: 300,
+          letterSpacing: "0.28em", textTransform: "uppercase", color: BURGUNDY,
+          marginBottom: 20,
+        }}>
+          <span aria-hidden="true" style={{ width: 32, height: 1, background: BURGUNDY, opacity: 0.4 }} />
+          <span>{eyebrow}</span>
+          <span aria-hidden="true" style={{ width: 32, height: 1, background: BURGUNDY, opacity: 0.4 }} />
+        </div>
+        <h1 style={{
+          fontFamily: "Georgia, serif",
+          fontSize: "clamp(34px, 9vw, 44px)",
+          fontWeight: 400,
+          color: BURGUNDY,
+          lineHeight: 1.1,
+          margin: "0 0 24px",
+          textAlign: "center",
+          letterSpacing: "-0.005em",
+        }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          <br />
+          <em style={{ fontStyle: "italic" }}>
+            <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
+          </em>
+        </h1>
+        <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
+          <div style={{ flex: 1, transform: "translateY(8px)" }}>
+            <GenericEditableImage sectionId={sectionId} field="imgLeft" src={imgLeft} alt={capLeft} className="w-full">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img loading="eager" src={imgLeft} alt={capLeft} style={{ width: "100%", aspectRatio: "3/4.2", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+          </div>
+          <div style={{ flex: 1.15 }}>
+            <GenericEditableImage sectionId={sectionId} field="imgCenter" src={imgCenter} alt={capCenter} className="w-full">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img loading="eager" src={imgCenter} alt={capCenter} style={{ width: "100%", aspectRatio: "3/4.2", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+          </div>
+        </div>
+        <p style={{
+          fontFamily: "'Montserrat', sans-serif", fontSize: "15px",
+          color: BURGUNDY, lineHeight: 1.7, margin: "0 0 24px",
+          opacity: 0.85, fontWeight: 300, textAlign: "center",
+        }}>
+          <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+        </p>
+        <a
+          href={resolvedBadgeHref}
+          style={{
+            display: "block", padding: "16px 24px",
+            backgroundColor: BURGUNDY, color: "#ffffff",
+            textAlign: "center",
+            fontFamily: "'Montserrat', sans-serif",
+            fontSize: "0.75rem", fontWeight: 500,
+            letterSpacing: "0.28em", textTransform: "uppercase",
+            textDecoration: "none",
+          }}
+        >
+          Prozkoumat služby →
+        </a>
+      </div>
+    </section>
+  );
+}
+
+// ── hero-nails-01-page ────────────────────────────────────────────────────────
+// Slim banner hero pro podstránky — cream bg, corner brackets, breadcrumb + H1
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroNails01Page({
+  content,
+  sectionId,
+  tenantSlug,
+  isAdmin,
+}: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const CREAM    = "#f4f1e9";
+  const BURGUNDY = "#79142b";
+
+  const breadcrumbHome = String(content.breadcrumbHome ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const title          = String(content.title          ?? "Podstránka");
+  const titleAccent    = String(content.titleAccent    ?? "");
+  const subtitle       = String(content.subtitle       ?? "");
+  const siteMode       = String(content.siteMode       ?? "multipage");
+  const resolvedHome   = resolveNavHref(breadcrumbHref, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section
+      data-template="nails-01"
+      data-section-type="hero"
+      data-variant="hero-nails-01-page"
+      className="n01-hero-page"
+      style={{
+        backgroundColor: CREAM,
+        minHeight: 360,
+        position: "relative",
+        overflow: "hidden",
+        padding: "clamp(56px, 8vh, 96px) clamp(24px, 6vw, 96px) clamp(48px, 6vh, 72px)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+      }}
+    >
+      <div aria-hidden="true" style={{
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse at 20% 0%, rgba(121,20,43,0.03), transparent 60%), radial-gradient(ellipse at 80% 100%, rgba(121,20,43,0.025), transparent 55%)",
+      }} />
+
+      <span aria-hidden="true" className="n01-hero-bracket n01-hero-bracket-tl" />
+      <span aria-hidden="true" className="n01-hero-bracket n01-hero-bracket-tr" />
+      <span aria-hidden="true" className="n01-hero-bracket n01-hero-bracket-bl" />
+      <span aria-hidden="true" className="n01-hero-bracket n01-hero-bracket-br" />
+
+      {/* Breadcrumb */}
+      <div style={{
+        position: "relative", zIndex: 2,
+        display: "inline-flex", alignItems: "center", gap: 12,
+        marginBottom: 22,
+        fontFamily: "'Montserrat', 'Helvetica Neue', Arial, sans-serif",
+        fontSize: "0.68rem", fontWeight: 300,
+        letterSpacing: "0.36em", textTransform: "uppercase",
+        color: BURGUNDY, opacity: 0.85,
+      }}>
+        <a href={resolvedHome} className="n01-page-breadcrumb-home" style={{
+          color: BURGUNDY, textDecoration: "none",
+        }}>
+          {breadcrumbHome}
+        </a>
+        <span aria-hidden="true" style={{ width: 5, height: 5, borderRadius: "50%", background: BURGUNDY, opacity: 0.7 }} />
+        <span style={{ opacity: 0.85 }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </span>
+      </div>
+
+      {/* H1 */}
+      <h1 style={{
+        position: "relative", zIndex: 2,
+        fontFamily: "Georgia, 'Times New Roman', serif",
+        fontSize: "clamp(38px, 5vw, 68px)",
+        fontWeight: 400, color: BURGUNDY, lineHeight: 1.05,
+        margin: 0, letterSpacing: "-0.005em",
+        maxWidth: 900,
+      }}>
+        <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        {titleAccent && (
+          <>
+            {" "}
+            <em style={{ fontStyle: "italic" }}>
+              <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
+            </em>
+          </>
+        )}
+      </h1>
+
+      {/* Hairline s diamond */}
+      <div aria-hidden="true" style={{
+        position: "relative", zIndex: 2,
+        margin: "24px auto 0",
+        width: 180, height: 1,
+        background: `linear-gradient(90deg, transparent, ${BURGUNDY}66, transparent)`,
+      }}>
+        <span style={{
+          position: "absolute", left: "50%", top: "50%",
+          transform: "translate(-50%, -50%) rotate(45deg)",
+          width: 6, height: 6, background: CREAM, border: `1px solid ${BURGUNDY}`,
+        }} />
+      </div>
+
+      {subtitle && (
+        <p style={{
+          position: "relative", zIndex: 2,
+          margin: "22px auto 0", maxWidth: 620,
+          fontFamily: "Georgia, serif", fontStyle: "italic",
+          fontSize: "clamp(15px, 1.15vw, 18px)",
+          color: BURGUNDY, opacity: 0.75, lineHeight: 1.6,
+        }}>
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+        </p>
+      )}
     </section>
   );
 }
@@ -4897,9 +5203,13 @@ function HeroNails03({
 }
 
 // ── nails-02-hero ────────────────────────────────────────────────────────────
-// Full-bleed close-up nehtové foto, tmavý overlay; navbar je absolute overlay
-// nad tímto hero (žádný spacer). Centrovaný serif italic tagline + subtitle
-// + taupe filled CTA. Inspirováno celebratesalon.cz "We only live once" hero.
+// LUXE editorial hero — full-bleed macro nail-close-up foto s wine-tinted
+// gradientem, slow Ken-Burns zoom (10s). Left-aligned magazine kompozice s
+// vertical wine hairline + kicker "N°01 · STUDIO · PRAHA", Cormorant Garamond
+// italic display H1 s terracotta-accent slovem, outline cream CTA s wine-fill
+// sweep hover + secondary tel link. Bottom-left: obří "N°01" Cormorant italic
+// decorative korner, bottom-right: scroll indicator + hours mini-strip.
+// Brand: wine #6b3f38, terracotta #d4a080, cream #f6efe9.
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroNails02({
   content,
@@ -4912,23 +5222,36 @@ function HeroNails02({
   tenantSlug?: string;
   isAdmin: boolean;
 }) {
+  const WINE  = "#6b3f38";
   const TAUPE = "#d4a080";
-  const LIGHT = "#ffffff";
+  const CREAM = "#f6efe9";
+  const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
+  const SANS  = "'Helvetica Neue', Arial, sans-serif";
 
-  const tagline   = String(content.tagline   ?? "Elegance, která začíná u detailu.");
-  const subtitle  = String(content.subtitle  ?? "Prémiové nehtové studio v srdci Prahy. Manikúra, pedikúra a originální nail design.");
-  const bgImage   = String(content.bgImage   ?? "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=2400&q=80");
+  const kicker        = String(content.kicker        ?? "N°01 · Studio · Praha");
+  const tagline       = String(content.tagline       ?? "Elegance, která začíná\nu ");
+  const taglineAccent = String(content.taglineAccent ?? "detailu");
+  const taglineTail   = String(content.taglineTail   ?? ".");
+  const subtitle  = String(content.subtitle  ?? "Prémiové nehtové studio v srdci Prahy. Manikúra, pedikúra a originální nail design — od přirozeného vzhledu po výrazné podpisové kolekce.");
+  const bgImage   = String(content.bgImage   ?? "https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=2400&q=88");
   const ctaText   = String(content.ctaText   ?? "Objednat se");
-  const ctaHref   = String(content.ctaHref   ?? "#kontakt");
+  const ctaHref   = String(content.ctaHref   ?? "/kontakt");
+  const phone     = String(content.phone     ?? "+420 704 123 456");
+  const hours     = String(content.hours     ?? "Po–Pá 9:00–20:00");
+  const editionNumber = String(content.editionNumber ?? "N°01");
   const _nails02Focus = content.__heroBgFocus as { x: number; y: number } | undefined;
   const bgFocusStyle  = _nails02Focus ? `${_nails02Focus.x}% ${_nails02Focus.y}%` : undefined;
   const _nails02FocusMobile = content.__heroBgFocusMobile as { x: number; y: number } | undefined;
   const bgFocusMobileStyle  = _nails02FocusMobile ? `${_nails02FocusMobile.x}% ${_nails02FocusMobile.y}%` : undefined;
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
     <section
       data-section-type="hero"
       data-variant="nails-02-hero"
+      data-template="nails-02"
+      className="n02-hero"
       style={{
         position: "relative",
         width: "100%",
@@ -4936,85 +5259,435 @@ function HeroNails02({
         overflow: "hidden",
         display: "flex",
         alignItems: "center",
-        justifyContent: "center",
-        // navbar (absolute) ramps over the top of this hero
+        backgroundColor: "#1a0f0d",
+        paddingTop: "clamp(150px, 18vh, 200px)",
+        paddingBottom: "clamp(80px, 10vh, 130px)",
       }}
     >
-      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} focusMobileStyle={bgFocusMobileStyle} />
-      {/* Dark gradient overlay — bottom-heavy for text contrast */}
+      {/* Ken-Burns zoom background wrapper */}
+      <div
+        aria-hidden="true"
+        className="n02-hero-bg"
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 5,
+          overflow: "hidden",
+        }}
+      >
+        <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} focusMobileStyle={bgFocusMobileStyle} />
+      </div>
+
+      {/* Wine-tinted gradient overlay */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
           zIndex: 10,
-          background: "linear-gradient(180deg, rgba(20,12,10,0.55) 0%, rgba(20,12,10,0.35) 45%, rgba(20,12,10,0.7) 100%)",
+          background: `linear-gradient(115deg, rgba(20,10,9,0.78) 0%, rgba(60,25,20,0.55) 40%, rgba(107,63,56,0.35) 75%, rgba(20,10,9,0.55) 100%)`,
+          pointerEvents: "none",
         }}
       />
+      {/* Bottom vignette */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          zIndex: 11,
+          background: `linear-gradient(180deg, transparent 50%, rgba(15,8,7,0.55) 100%)`,
+          pointerEvents: "none",
+        }}
+      />
+
+      {/* Decorative giant N°01 in bottom-left */}
+      <div
+        aria-hidden="true"
+        className="n02-hero-numeral"
+        style={{
+          position: "absolute",
+          left: "clamp(-20px, 2vw, 40px)",
+          bottom: "clamp(-40px, -4vw, -20px)",
+          zIndex: 12,
+          fontFamily: SERIF,
+          fontStyle: "italic",
+          fontWeight: 300,
+          fontSize: "clamp(9rem, 24vw, 22rem)",
+          lineHeight: 0.85,
+          color: "transparent",
+          WebkitTextStroke: `1px ${TAUPE}`,
+          opacity: 0.18,
+          pointerEvents: "none",
+          userSelect: "none",
+          letterSpacing: "-0.02em",
+        }}
+      >
+        {editionNumber}
+      </div>
+
+      {/* Main content column */}
       <div
         style={{
           position: "relative",
           zIndex: 20,
-          maxWidth: 980,
+          maxWidth: 1440,
           width: "100%",
-          padding: "120px 24px 80px",
-          textAlign: "center",
-          color: LIGHT,
+          margin: "0 auto",
+          padding: "0 clamp(24px, 6vw, 88px)",
+          color: CREAM,
         }}
       >
-        <h1
-          style={{
-            fontFamily: "'Cormorant Garamond', 'Playfair Display', Georgia, serif",
-            fontStyle: "italic",
-            fontWeight: 500,
-            fontSize: "clamp(2.6rem, 6.5vw, 5.4rem)",
-            lineHeight: 1.1,
-            letterSpacing: "-0.005em",
-            margin: 0,
-            color: LIGHT,
-            textShadow: "0 2px 24px rgba(0,0,0,0.35)",
-          }}
-        >
-          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-        </h1>
-        <p
-          style={{
-            marginTop: 28,
-            fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-            fontSize: "clamp(0.98rem, 1.4vw, 1.15rem)",
-            fontWeight: 300,
-            lineHeight: 1.6,
-            color: "rgba(255,255,255,0.88)",
-            maxWidth: 620,
-            margin: "28px auto 0",
-            letterSpacing: "0.02em",
-          }}
-        >
-          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-        </p>
-        <a
-          href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
-          data-btn="primary"
-          style={{
-            display: "inline-flex",
-            marginTop: 44,
-            padding: "16px 44px",
-            backgroundColor: TAUPE,
-            color: LIGHT,
-            fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-            fontSize: "0.98rem",
-            fontWeight: 500,
-            letterSpacing: "0.03em",
-            textDecoration: "none",
-            borderRadius: 999,
-            transition: "background 0.2s, transform 0.2s",
-          }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#c08e6e"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = TAUPE; e.currentTarget.style.transform = "translateY(0)"; }}
-        >
-          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-        </a>
+        <div style={{ maxWidth: 780, display: "flex", flexDirection: "column", gap: 0 }}>
+          {/* Kicker row: vertical hairline + uppercase eyebrow */}
+          <div className="n02-hero-kicker" style={{ display: "flex", alignItems: "center", gap: 18, marginBottom: 34 }}>
+            <span aria-hidden style={{ display: "block", width: 1, height: 44, backgroundColor: TAUPE, opacity: 0.9 }} />
+            <span style={{
+              fontFamily: SANS,
+              fontSize: "0.76rem",
+              fontWeight: 500,
+              color: TAUPE,
+              letterSpacing: "0.32em",
+              textTransform: "uppercase",
+            }}>
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+            </span>
+          </div>
+
+          {/* Display H1 — Cormorant italic with terracotta em accent */}
+          <h1
+            className="n02-hero-title"
+            style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: "clamp(2.8rem, 7vw, 6rem)",
+              lineHeight: 1.02,
+              letterSpacing: "-0.012em",
+              margin: 0,
+              color: CREAM,
+              whiteSpace: "pre-line",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+            <span className="n02-hero-accent" style={{ color: TAUPE, fontStyle: "italic" }}>
+              <GenericEditableText sectionId={sectionId} field="taglineAccent" value={taglineAccent} tag="span" />
+            </span>
+            <GenericEditableText sectionId={sectionId} field="taglineTail" value={taglineTail} tag="span" />
+          </h1>
+
+          {/* Subtitle */}
+          <p
+            className="n02-hero-sub"
+            style={{
+              marginTop: 34,
+              maxWidth: 560,
+              fontFamily: SANS,
+              fontSize: "clamp(0.98rem, 1.3vw, 1.12rem)",
+              fontWeight: 300,
+              lineHeight: 1.7,
+              color: "rgba(246,239,233,0.82)",
+              letterSpacing: "0.01em",
+              margin: "34px 0 0",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+
+          {/* CTA row */}
+          <div className="n02-hero-ctarow" style={{ marginTop: 48, display: "flex", alignItems: "center", gap: 32, flexWrap: "wrap" }}>
+            <a
+              href={resolve(ctaHref)}
+              data-btn="primary"
+              className="n02-hero-cta"
+              style={{
+                position: "relative",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 14,
+                padding: "17px 38px",
+                backgroundColor: "transparent",
+                color: CREAM,
+                border: `1px solid ${CREAM}`,
+                fontFamily: SANS,
+                fontSize: "0.82rem",
+                fontWeight: 600,
+                letterSpacing: "0.24em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                overflow: "hidden",
+                transition: "color 0.35s ease, border-color 0.35s ease",
+              }}
+            >
+              <span style={{ position: "relative", zIndex: 2 }}>
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              </span>
+              <span style={{ position: "relative", zIndex: 2, display: "inline-flex" }} className="n02-hero-cta-arrow">
+                <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M1 5h13m-4-4l4 4-4 4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </span>
+            </a>
+
+            <a
+              href={`tel:${phone.replace(/\s/g,"")}`}
+              className="n02-hero-tel"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+                color: CREAM,
+                fontFamily: SANS,
+                fontSize: "0.86rem",
+                fontWeight: 400,
+                letterSpacing: "0.12em",
+                textDecoration: "none",
+                borderBottom: `1px solid transparent`,
+                paddingBottom: 4,
+                transition: "border-color 0.3s ease, color 0.3s ease",
+              }}
+            >
+              <span style={{ opacity: 0.6, fontSize: "0.72rem", letterSpacing: "0.2em", textTransform: "uppercase" }}>Volejte</span>
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+              <svg width="12" height="10" viewBox="0 0 12 10" fill="none"><path d="M1 5h9m-3-3l3 3-3 3" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"/></svg>
+            </a>
+          </div>
+        </div>
       </div>
+
+      {/* Bottom-right meta strip */}
+      <div
+        className="n02-hero-meta"
+        style={{
+          position: "absolute",
+          right: "clamp(24px, 6vw, 88px)",
+          bottom: "clamp(36px, 5vh, 56px)",
+          zIndex: 20,
+          display: "flex",
+          alignItems: "center",
+          gap: 22,
+          color: CREAM,
+          fontFamily: SANS,
+          fontSize: "0.72rem",
+          fontWeight: 500,
+          letterSpacing: "0.24em",
+          textTransform: "uppercase",
+          opacity: 0.75,
+        }}
+      >
+        <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <span aria-hidden style={{ display: "block", width: 32, height: 1, backgroundColor: CREAM, opacity: 0.55 }} />
+          <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+        </span>
+        <span aria-hidden style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+          <span style={{ fontSize: "0.65rem", opacity: 0.7 }}>Scroll</span>
+          <span className="n02-hero-scroll-line" style={{ display: "block", width: 1, height: 28, backgroundColor: CREAM, opacity: 0.75 }} />
+        </span>
+      </div>
+
+      {/* Hover + Ken-Burns styles */}
+      <style>{`
+        .n02-hero-bg > * {
+          animation: n02HeroZoom 14s ease-out forwards;
+          transform-origin: center 40%;
+        }
+        @keyframes n02HeroZoom {
+          from { transform: scale(1.02); }
+          to   { transform: scale(1.12); }
+        }
+        .n02-hero-cta::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background-color: ${CREAM};
+          transform: translateX(-101%);
+          transition: transform 0.45s cubic-bezier(0.65,0,0.35,1);
+          z-index: 1;
+        }
+        .n02-hero-cta:hover::before { transform: translateX(0); }
+        .n02-hero-cta:hover { color: ${WINE}; border-color: ${CREAM}; }
+        .n02-hero-cta:hover .n02-hero-cta-arrow { transform: translateX(4px); transition: transform 0.35s ease; }
+        .n02-hero-tel:hover { border-bottom-color: ${TAUPE}; color: ${TAUPE}; }
+        .n02-hero-scroll-line {
+          animation: n02HeroScroll 2.4s ease-in-out infinite;
+          transform-origin: top;
+        }
+        @keyframes n02HeroScroll {
+          0%, 100% { transform: scaleY(1); opacity: 0.75; }
+          50%      { transform: scaleY(0.35); opacity: 0.35; }
+        }
+        @media (max-width: 700px) {
+          .n02-hero-meta { display: none !important; }
+          .n02-hero-numeral { opacity: 0.12 !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+// ── hero-nails-02-page (slim subpage banner) ─────────────────────────────────
+// ~360px slim page banner — cream #f6efe9 bg s subtle radial wine tint, centered
+// breadcrumb (Domů / Aktuální) uppercase Helvetica letter-spacing 0.28em s wine
+// separator + hover, terracotta hairline eyebrow s dot ornament, Cormorant italic
+// H1 clamp(2.4rem, 5vw, 4.4rem) v wine s -0.015em letter-spacing, optional
+// terracotta italic subtitle, terracotta hairline rule s center diamond ornament
+// dole. Multipage/onepage compat přes resolveNavHref. Nail-crescent decorative
+// motif top-right.
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroNails02Page({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin?: boolean;
+}) {
+  const WINE  = "#6b3f38";
+  const TAUPE = "#d4a080";
+  const CREAM = "#f6efe9";
+  const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
+  const SANS  = "'Helvetica Neue', Arial, sans-serif";
+
+  const c = content as Record<string, unknown>;
+  const siteMode        = String(c.siteMode        ?? "multipage");
+  const eyebrow         = String(c.eyebrow         ?? "Premium Nails");
+  const title           = String(c.title           ?? "Podstránka");
+  const subtitle        = String(c.subtitle        ?? "");
+  const breadcrumb      = String(c.breadcrumb      ?? "Domů");
+  const breadcrumbHref  = String(c.breadcrumbHref  ?? "/");
+  const current         = String(c.current         ?? title);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section
+      data-section-type="hero"
+      data-variant="hero-nails-02-page"
+      data-template="nails-02"
+      style={{
+        position: "relative",
+        backgroundColor: CREAM,
+        padding: "clamp(150px, 18vh, 200px) clamp(24px, 6vw, 72px) clamp(56px, 7vw, 80px)",
+        overflow: "hidden",
+        borderBottom: `1px solid ${TAUPE}33`,
+      }}
+    >
+      {/* Subtle radial wine tint */}
+      <div aria-hidden="true" style={{
+        position: "absolute",
+        inset: 0,
+        background: "radial-gradient(ellipse at 85% 20%, rgba(107,63,56,0.08), transparent 60%), radial-gradient(ellipse at 15% 90%, rgba(212,160,128,0.08), transparent 55%)",
+        pointerEvents: "none",
+      }} />
+
+      {/* Decorative nail-crescent top-right */}
+      <div aria-hidden="true" style={{
+        position: "absolute",
+        top: "clamp(30px, 5vw, 60px)",
+        right: "clamp(24px, 5vw, 72px)",
+        opacity: 0.18,
+        pointerEvents: "none",
+      }}>
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+          <path d="M68 40A28 28 0 1 1 40 12a22 22 0 0 0 28 28Z" stroke={WINE} strokeWidth="1" fill="none"/>
+        </svg>
+      </div>
+
+      <div style={{
+        position: "relative",
+        zIndex: 2,
+        maxWidth: 1080,
+        margin: "0 auto",
+        textAlign: "center",
+      }}>
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 14,
+          marginBottom: 32,
+          fontFamily: SANS,
+          fontSize: "0.72rem",
+          fontWeight: 500,
+          color: WINE,
+          textTransform: "uppercase",
+          letterSpacing: "0.28em",
+          opacity: 0.85,
+        }}>
+          <a
+            href={resolve(breadcrumbHref)}
+            className="n02-crumb-link"
+            style={{ color: WINE, textDecoration: "none", opacity: 0.75, transition: "opacity 0.25s" }}
+          >
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden="true" style={{ color: TAUPE, opacity: 0.55 }}>/</span>
+          <span style={{ color: WINE }}>
+            <GenericEditableText sectionId={sectionId} field="current" value={current} tag="span" />
+          </span>
+        </nav>
+
+        {/* Eyebrow with dot */}
+        <div style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: 10,
+          marginBottom: 20,
+          fontFamily: SANS,
+          fontSize: "0.72rem",
+          fontWeight: 600,
+          color: TAUPE,
+          textTransform: "uppercase",
+          letterSpacing: "0.36em",
+        }}>
+          <span aria-hidden="true" style={{ display: "inline-block", width: 5, height: 5, borderRadius: "50%", backgroundColor: TAUPE }} />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          <span aria-hidden="true" style={{ display: "inline-block", width: 5, height: 5, borderRadius: "50%", backgroundColor: TAUPE }} />
+        </div>
+
+        {/* H1 */}
+        <h1 style={{
+          fontFamily: SERIF,
+          fontStyle: "italic",
+          fontWeight: 400,
+          fontSize: "clamp(2.4rem, 5vw, 4.4rem)",
+          lineHeight: 1.05,
+          color: WINE,
+          margin: 0,
+          letterSpacing: "-0.015em",
+        }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        {subtitle && (
+          <p style={{
+            marginTop: 20,
+            fontFamily: SERIF,
+            fontStyle: "italic",
+            fontSize: "1.15rem",
+            fontWeight: 400,
+            color: TAUPE,
+            lineHeight: 1.55,
+            maxWidth: 620,
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+
+        {/* Hairline rule with diamond ornament */}
+        <div style={{
+          marginTop: 34,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 12,
+        }} aria-hidden="true">
+          <span style={{ display: "block", width: 42, height: 1, backgroundColor: TAUPE, opacity: 0.6 }} />
+          <span style={{ display: "block", width: 8, height: 8, backgroundColor: "transparent", border: `1px solid ${TAUPE}`, transform: "rotate(45deg)" }} />
+          <span style={{ display: "block", width: 42, height: 1, backgroundColor: TAUPE, opacity: 0.6 }} />
+        </div>
+      </div>
+
+      <style>{`
+        [data-variant="hero-nails-02-page"] .n02-crumb-link:hover { opacity: 1; }
+      `}</style>
     </section>
   );
 }
@@ -10558,157 +11231,366 @@ function HeroInstala01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
 }
 
 // ── florist-01-hero ───────────────────────────────────────────────────────────
-// 1:1 freja.cz hero: horizontal slide + Ken Burns ambient zoom + controls bar below
+// Botanical Atelier Editorial luxe:
+// - Warm ivory outer frame (24px margin) wrapping cinematic 88vh Ken-Burns slider
+// - Olive-gold hairline corner brackets on the image frame
+// - Left overlay editorial CARD (frosted ivory) with italic Georgia H1, Inter subtitle,
+//   dual CTA (moss filled + underline-only), rating strip
+// - Right floating polaroid detail with Georgia italic caption
+// - Bottom slim editorial control bar: "01 / 02" italic counter + hairline progress + prev/next arrows
+// - Ken Burns ambient zoom (30s), 5s auto-advance with pause
 function HeroFlorist01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const ARIMO = "Arimo, Arial, sans-serif";
-  const WHITE = "#ffffff";
-  const FG = "rgb(18,18,18)";
+  const MOSS   = "#2f4a3a";
+  const SAGE   = "#5c8a6a";
+  const IVORY  = "#faf7f2";
+  const IVORY94 = "rgba(250,247,242,0.96)";
+  const INK    = "#2a1a0a";
+  const INK70  = "rgba(42,26,10,0.72)";
+  const GOLD   = "#c9b78a";
+  const BLUSH  = "#e8c5c0";
+  const GEORGIA = "Georgia, 'Times New Roman', serif";
+  const INTER   = "Inter, system-ui, sans-serif";
 
-  interface Slide { tag?: string; title?: string; subtitle?: string; ctaText?: string; ctaHref?: string; backgroundImage?: string; }
+  interface Slide { tag?: string; title?: string; subtitle?: string; ctaText?: string; ctaHref?: string; ctaSecondaryText?: string; ctaSecondaryHref?: string; backgroundImage?: string; detailImage?: string; detailCaption?: string; }
 
   const rawSlides = (content.slides as Slide[]) ?? [];
   const slides: Slide[] = rawSlides.length > 0 ? rawSlides : [
-    { title: "Květiny s láskou —\nrozvoz po celé Praze", subtitle: "Doručíme kytici ve stanovenou dobu po celé Praze", ctaText: "Vybrat kytici", ctaHref: "#katalog", backgroundImage: "/clones/freja/img/img-flowers.jpg" },
-    { tag: "JARNÍ KOLEKCE 2026", title: "Přivítejte jaro\nkrásnou kyticí", ctaText: "Prozkoumat", ctaHref: "#katalog", backgroundImage: "/clones/freja/img/img-spring.jpg" },
+    {
+      tag: "SEZÓNNÍ KOLEKCE · LÉTO 2026",
+      title: "Čerstvé květiny,\nvázané rukou —\ndoručené za 3 hodiny.",
+      subtitle: "Ateliérové kytice ze sezónních květin, které skládáme každé ráno v našem ateliéru na Veveří. Doručujeme po celém Brně a okolí ještě týž den.",
+      ctaText: "Vybrat kytici",
+      ctaHref: "/katalog",
+      ctaSecondaryText: "Doručení dnes",
+      ctaSecondaryHref: "/doruceni",
+      backgroundImage: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=2000&q=85",
+      detailImage: "https://images.unsplash.com/photo-1487530811176-3780de880c2d?auto=format&fit=crop&w=800&q=85",
+      detailCaption: "Zahradní pivoňky · červen"
+    },
+    {
+      tag: "SIGNATURE BOUQUET",
+      title: "Hedvábný oblak —\nnová letní kytice\nkolekce Petala.",
+      subtitle: "Zahradní růže, pivoňky a lisianthus svázané pastelovou hedvábnou stuhou. Ručně skládáno v edici 30 kusů týdně.",
+      ctaText: "Prohlédnout kolekci",
+      ctaHref: "/katalog",
+      ctaSecondaryText: "Rezervovat",
+      ctaSecondaryHref: "/kontakt",
+      backgroundImage: "https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?auto=format&fit=crop&w=2000&q=85",
+      detailImage: "https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=800&q=85",
+      detailCaption: "Hedvábný oblak · edice 30 ks"
+    },
   ];
 
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const SLIDE_MS = 6000;
 
   const goTo = useCallback((idx: number) => {
     setCurrent(((idx % slides.length) + slides.length) % slides.length);
+    setProgress(0);
   }, [slides.length]);
 
   useEffect(() => {
     if (paused) return;
-    const t = setInterval(() => goTo(current + 1), 2000);
-    return () => clearInterval(t);
+    setProgress(0);
+    const start = Date.now();
+    const tick = setInterval(() => {
+      const pct = Math.min(1, (Date.now() - start) / SLIDE_MS);
+      setProgress(pct);
+      if (pct >= 1) goTo(current + 1);
+    }, 60);
+    return () => clearInterval(tick);
   }, [current, paused, goTo]);
 
   const resolveHref = (href: string) => {
-    if (!href || href.startsWith("#")) return href ?? "#";
-    if (isAdmin) return `/demo/${tenantSlug}/admin`;
+    if (!href) return "#";
+    if (href.startsWith("#") || href.startsWith("http") || href.startsWith("mailto") || href.startsWith("tel")) return href;
+    if (isAdmin) return `/demo/${tenantSlug}/admin${href}`;
+    if (tenantSlug) return `/demo/${tenantSlug}${href}`;
     return href;
   };
 
-  // caret ∨ → rotate(90deg)=‹ prev, rotate(-90deg)=› next
-  const Caret = ({ dir }: { dir: "prev" | "next" }) => (
-    <svg viewBox="0 0 10 6" width="10" height="6" aria-hidden="true"
-      style={{ display: "block", transform: dir === "prev" ? "rotate(90deg)" : "rotate(-90deg)" }}>
-      <path fill="currentColor" fillRule="evenodd" d="M9.354.646a.5.5 0 0 0-.708 0L5 4.293 1.354.646a.5.5 0 0 0-.708.708l4 4a.5.5 0 0 0 .708 0l4-4a.5.5 0 0 0 0-.708" clipRule="evenodd" />
-    </svg>
-  );
+  const s = slides[current] ?? slides[0];
 
-  const btnStyle: React.CSSProperties = {
-    background: "none", border: "none", cursor: "pointer", color: FG,
-    display: "flex", alignItems: "center", justifyContent: "center",
-    padding: "14px 16px", lineHeight: 1,
+  return (
+    <section data-template="florist-01" className="f01hero" style={{ background: IVORY, fontFamily: INTER, padding: "24px", position: "relative" }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&display=swap" />
+      <style>{`
+        @keyframes f01KB { 0% { transform:scale(1.06) translate(-1%,0);} 100% { transform:scale(1.16) translate(2%,-1%);} }
+        @keyframes f01Fade { from { opacity:0; transform:translateY(14px);} to { opacity:1; transform:none; } }
+        @keyframes f01FloatSlow { 0%,100% { transform:translateY(0) rotate(-2deg);} 50% { transform:translateY(-8px) rotate(-1.5deg);} }
+        .f01hero { color: ${INK}; }
+        .f01hero-frame { position:relative; height: min(88vh, 780px); min-height: 560px; overflow:hidden; border-radius:2px; background:${MOSS}; }
+        .f01hero-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; animation: f01KB 22s ease-in-out infinite alternate; }
+        .f01hero-overlay { position:absolute; inset:0; background:
+          linear-gradient(105deg, rgba(47,74,58,0.55) 0%, rgba(47,74,58,0.30) 45%, rgba(47,74,58,0.05) 90%),
+          linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.25) 100%);
+        }
+        /* Corner brackets — olive-gold */
+        .f01hero-frame::before, .f01hero-frame::after,
+        .f01hero-brk-tr, .f01hero-brk-bl {
+          content:""; position:absolute; width:56px; height:56px; pointer-events:none; z-index:3;
+          border: 0 solid ${GOLD};
+        }
+        .f01hero-frame::before { top:16px; left:16px; border-top-width:1px; border-left-width:1px; }
+        .f01hero-frame::after  { bottom:16px; right:16px; border-bottom-width:1px; border-right-width:1px; }
+        .f01hero-brk-tr { top:16px; right:16px; border-top-width:1px; border-right-width:1px; }
+        .f01hero-brk-bl { bottom:16px; left:16px; border-bottom-width:1px; border-left-width:1px; }
+
+        .f01hero-grid { position:relative; z-index:4; height:100%; display:grid; grid-template-columns: minmax(0, 620px) 1fr; gap:24px; padding: 56px; align-items:center; }
+        .f01hero-card { background:${IVORY94}; backdrop-filter: blur(6px); padding: 44px 44px 40px; border:1px solid ${GOLD}; box-shadow: 0 24px 60px -30px rgba(0,0,0,0.35);
+          position:relative; animation: f01Fade 0.7s ease both; }
+        .f01hero-card::before { content:""; position:absolute; top:-1px; left:-1px; width:38px; height:38px; border-top:2px solid ${MOSS}; border-left:2px solid ${MOSS}; }
+        .f01hero-card::after  { content:""; position:absolute; bottom:-1px; right:-1px; width:38px; height:38px; border-bottom:2px solid ${MOSS}; border-right:2px solid ${MOSS}; }
+        .f01hero-eyebrow { display:inline-flex; align-items:center; gap:12px; font-family:${INTER}; font-weight:500; font-size:11px; letter-spacing:0.32em; text-transform:uppercase; color:${MOSS}; margin-bottom:22px; }
+        .f01hero-eyebrow em { width:26px; height:1px; background:${GOLD}; display:inline-block; }
+        .f01hero-title { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:clamp(34px, 4.4vw, 60px); line-height:1.06; letter-spacing:-0.015em; color:${INK}; margin:0 0 22px; white-space:pre-line; }
+        .f01hero-title strong { font-style:normal; font-family:${INTER}; font-weight:500; }
+        .f01hero-sub { font-family:${INTER}; font-weight:300; font-size:15px; line-height:1.7; color:${INK70}; max-width:480px; margin:0 0 32px; }
+        .f01hero-ctas { display:inline-flex; align-items:center; gap:22px; flex-wrap:wrap; }
+        .f01hero-cta { position:relative; overflow:hidden; display:inline-flex; align-items:center; gap:10px;
+          padding:15px 28px; background:${MOSS}; color:${IVORY}; font-family:${INTER}; font-weight:500; font-size:13px; letter-spacing:0.22em; text-transform:uppercase;
+          text-decoration:none; border:1px solid ${MOSS}; transition:color 0.4s ease; }
+        .f01hero-cta::before { content:""; position:absolute; inset:0; background:${BLUSH}; transform:translateY(101%); transition:transform 0.5s cubic-bezier(.6,.05,.35,1); }
+        .f01hero-cta:hover { color:${MOSS}; }
+        .f01hero-cta:hover::before { transform:translateY(0); }
+        .f01hero-cta > * { position:relative; z-index:1; }
+        .f01hero-cta-alt { position:relative; font-family:${INTER}; font-weight:500; font-size:13px; letter-spacing:0.22em; text-transform:uppercase; color:${MOSS};
+          text-decoration:none; padding: 6px 2px; }
+        .f01hero-cta-alt::after { content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:${MOSS}; transform-origin: right; transition: transform 0.5s cubic-bezier(.6,.05,.35,1); }
+        .f01hero-cta-alt:hover::after { transform-origin: left; transform: scaleX(0.5); }
+
+        .f01hero-trust { display:flex; align-items:center; gap:14px; margin-top:34px; padding-top:22px; border-top:1px dotted ${GOLD}; }
+        .f01hero-trust-stars { color:${GOLD}; letter-spacing:2px; font-size:13px; }
+        .f01hero-trust-text { font-family:${INTER}; font-size:11.5px; letter-spacing:0.14em; text-transform:uppercase; color:${INK70}; }
+        .f01hero-trust-text b { color:${INK}; font-weight:500; }
+
+        .f01hero-polaroid { justify-self:end; align-self:end; width:min(280px, 28vw); padding: 14px 14px 40px; background:${IVORY}; border:1px solid rgba(0,0,0,0.06);
+          box-shadow: 0 28px 44px -24px rgba(0,0,0,0.45); transform: rotate(-2deg); animation: f01FloatSlow 6s ease-in-out infinite; position:relative; z-index:5;
+          display: flex; flex-direction: column; gap: 12px; }
+        .f01hero-polaroid img { width:100%; aspect-ratio: 4/5; object-fit: cover; display:block; }
+        .f01hero-polaroid figcaption { text-align:center; font-family:${GEORGIA}; font-style:italic; font-size:14px; color:${INK}; padding: 0 8px; }
+        .f01hero-polaroid::after { content:""; position:absolute; top:-8px; left:50%; transform:translateX(-50%) rotate(-4deg); width:80px; height:22px; background:${BLUSH}; opacity:0.85; }
+
+        .f01hero-ctrl { display:flex; align-items:center; gap:20px; padding: 22px 8px 4px; margin-top: 14px; }
+        .f01hero-counter { font-family:${GEORGIA}; font-style:italic; font-size:22px; color:${INK}; letter-spacing:0.02em; min-width: 90px; }
+        .f01hero-counter b { font-family:${INTER}; font-style:normal; font-weight:500; font-size:14px; color:${INK70}; letter-spacing:0.14em; text-transform:uppercase; }
+        .f01hero-progress { flex:1; height:1px; background:${GOLD}; opacity:0.35; position:relative; }
+        .f01hero-progress span { position:absolute; inset:0 auto 0 0; background:${MOSS}; transition:width 0.06s linear; }
+        .f01hero-arrows { display:inline-flex; gap:6px; }
+        .f01hero-arrow { width:44px; height:44px; border:1px solid ${GOLD}; background:transparent; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; color:${INK}; transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; border-radius:50%; }
+        .f01hero-arrow:hover { background:${MOSS}; color:${IVORY}; border-color:${MOSS}; }
+        .f01hero-pause { background:transparent; border:none; cursor:pointer; color:${INK70}; font-family:${INTER}; font-size:11px; letter-spacing:0.24em; text-transform:uppercase; padding:8px 12px; transition:color 0.3s ease; }
+        .f01hero-pause:hover { color:${MOSS}; }
+
+        @media(max-width:900px){
+          .f01hero { padding: 16px; }
+          .f01hero-frame { min-height: 620px; height: auto; padding: 0; }
+          .f01hero-grid { grid-template-columns: 1fr; padding: 32px 24px; gap: 20px; }
+          .f01hero-card { padding: 32px 26px 30px; }
+          .f01hero-polaroid { display:none; }
+          .f01hero-title { font-size: clamp(30px, 8vw, 44px); }
+          .f01hero-counter { min-width: 66px; font-size: 18px; }
+          .f01hero-arrow { width:40px; height:40px; }
+        }
+      `}</style>
+
+      <div className="f01hero-frame">
+        <span className="f01hero-brk-tr" aria-hidden />
+        <span className="f01hero-brk-bl" aria-hidden />
+
+        {s.backgroundImage && (
+          <GenericEditableImage sectionId={sectionId} field={`slides.${current}.backgroundImage`} src={s.backgroundImage} alt={s.title ?? ""} style={{ position: "absolute", inset: 0 }}>
+            <img key={current + "-bg"} src={s.backgroundImage} alt={s.title ?? ""} className="f01hero-img" />
+          </GenericEditableImage>
+        )}
+        <div className="f01hero-overlay" aria-hidden />
+
+        <div className="f01hero-grid" key={"grid-" + current}>
+          <article className="f01hero-card">
+            {s.tag && (
+              <div className="f01hero-eyebrow">
+                <em />
+                <GenericEditableText sectionId={sectionId} field={`slides.${current}.tag`} value={s.tag} tag="span" />
+                <em />
+              </div>
+            )}
+            <h1 className="f01hero-title">
+              <GenericEditableText sectionId={sectionId} field={`slides.${current}.title`} value={s.title ?? ""} tag="span" />
+            </h1>
+            {s.subtitle && (
+              <p className="f01hero-sub">
+                <GenericEditableText sectionId={sectionId} field={`slides.${current}.subtitle`} value={s.subtitle} tag="span" />
+              </p>
+            )}
+            <div className="f01hero-ctas">
+              {s.ctaText && (
+                <a href={resolveHref(s.ctaHref ?? "/katalog")} className="f01hero-cta">
+                  <GenericEditableText sectionId={sectionId} field={`slides.${current}.ctaText`} value={s.ctaText} tag="span" />
+                  <span aria-hidden>→</span>
+                </a>
+              )}
+              {s.ctaSecondaryText && (
+                <a href={resolveHref(s.ctaSecondaryHref ?? "/doruceni")} className="f01hero-cta-alt">
+                  <GenericEditableText sectionId={sectionId} field={`slides.${current}.ctaSecondaryText`} value={s.ctaSecondaryText} tag="span" />
+                </a>
+              )}
+            </div>
+
+            <div className="f01hero-trust">
+              <span className="f01hero-trust-stars" aria-hidden>★★★★★</span>
+              <span className="f01hero-trust-text"><b>4,9 / 5</b> · Google · 220+ hodnocení</span>
+            </div>
+          </article>
+
+          {s.detailImage && (
+            <figure className="f01hero-polaroid">
+              <GenericEditableImage sectionId={sectionId} field={`slides.${current}.detailImage`} src={s.detailImage} alt={s.detailCaption ?? ""}>
+                <img src={s.detailImage} alt={s.detailCaption ?? ""} />
+              </GenericEditableImage>
+              <figcaption>
+                <GenericEditableText sectionId={sectionId} field={`slides.${current}.detailCaption`} value={s.detailCaption ?? ""} tag="span" />
+              </figcaption>
+            </figure>
+          )}
+        </div>
+      </div>
+
+      <div className="f01hero-ctrl">
+        <span className="f01hero-counter">
+          {String(current + 1).padStart(2, "0")}
+          <b style={{ margin: "0 10px" }}>/</b>
+          {String(slides.length).padStart(2, "0")}
+        </span>
+        <div className="f01hero-progress"><span style={{ width: `${progress * 100}%` }} /></div>
+        <button className="f01hero-pause" onClick={() => setPaused(p => !p)} aria-label={paused ? "Spustit" : "Pauza"}>
+          {paused ? "Play" : "Pause"}
+        </button>
+        <div className="f01hero-arrows">
+          <button className="f01hero-arrow" aria-label="Předchozí snímek" onClick={() => goTo(current - 1)}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>
+          </button>
+          <button className="f01hero-arrow" aria-label="Další snímek" onClick={() => goTo(current + 1)}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── hero-florist-01-page (slim subpage banner) ────────────────────────────────
+// Botanical Atelier Editorial slim banner (~360px):
+// - Warm ivory bg s subtle sage gradient washing
+// - Breadcrumb (Domů › aktuální) tracked Inter
+// - Georgia italic H1 44-56px + optional Inter subtitle
+// - Olive-gold hairline rule s ✿ sprig ornament
+// - Corner brackets ve všech 4 rozích
+function HeroFlorist01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const MOSS   = "#2f4a3a";
+  const SAGE   = "#5c8a6a";
+  const IVORY  = "#faf7f2";
+  const IVORY2 = "#f4efe6";
+  const INK    = "#2a1a0a";
+  const INK70  = "rgba(42,26,10,0.72)";
+  const GOLD   = "#c9b78a";
+  const GEORGIA = "Georgia, 'Times New Roman', serif";
+  const INTER   = "Inter, system-ui, sans-serif";
+
+  const title         = String(content.title         ?? "Katalog");
+  const subtitle      = String(content.subtitle      ?? "");
+  const breadcrumb    = String(content.breadcrumb    ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const currentLabel  = String(content.currentLabel  ?? title);
+
+  const resolve = (href: string) => {
+    if (!href) return "#";
+    if (href.startsWith("http") || href.startsWith("mailto") || href.startsWith("tel") || href.startsWith("#")) return href;
+    if (isAdmin) return `/demo/${tenantSlug}/admin${href}`;
+    if (tenantSlug) return `/demo/${tenantSlug}${href}`;
+    return href;
   };
 
   return (
-    <div style={{ fontFamily: ARIMO }}>
+    <section data-template="florist-01" className="f01banner" style={{ background: IVORY, fontFamily: INTER, position: "relative", overflow: "hidden" }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" />
       <style>{`
-        @keyframes f01Ambient {
-          0%   { transform: rotate(0deg)   translate(0.8em) rotate(0deg)   scale(1.15); }
-          100% { transform: rotate(360deg) translate(0.8em) rotate(-360deg) scale(1.15); }
+        .f01banner { padding: 72px 24px 68px; min-height: 340px; display:flex; align-items:center; justify-content:center; }
+        .f01banner::before { content:""; position:absolute; inset: 24px; border: 1px solid ${GOLD}; opacity: 0.5; pointer-events:none; }
+        .f01banner-brk { position:absolute; pointer-events:none; z-index: 1; }
+        .f01banner-brk::before, .f01banner-brk::after,
+        .f01banner-brk span::before, .f01banner-brk span::after {
+          content:""; position:absolute; width: 46px; height: 46px; border: 0 solid ${MOSS};
         }
-        @media (prefers-reduced-motion: no-preference) {
-          .f01-kb { animation: f01Ambient 30s linear infinite; }
+        .f01banner-brk::before { top: 24px; left: 24px; border-top-width: 2px; border-left-width: 2px; }
+        .f01banner-brk::after  { top: 24px; right: 24px; border-top-width: 2px; border-right-width: 2px; }
+        .f01banner-brk span::before { bottom: 24px; left: 24px; border-bottom-width: 2px; border-left-width: 2px; }
+        .f01banner-brk span::after  { bottom: 24px; right: 24px; border-bottom-width: 2px; border-right-width: 2px; }
+
+        .f01banner-veil { position:absolute; inset:0; background:
+          radial-gradient(circle at 15% 20%, rgba(92,138,106,0.08), transparent 50%),
+          radial-gradient(circle at 85% 80%, rgba(232,197,192,0.12), transparent 50%);
+          pointer-events:none; }
+
+        .f01banner-inner { position:relative; z-index: 2; max-width: 900px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+        .f01banner-crumb { display: inline-flex; align-items: center; gap: 12px; font-family: ${INTER}; font-weight: 500; font-size: 10.5px; letter-spacing: 0.34em; text-transform: uppercase; color: ${INK70}; }
+        .f01banner-crumb a { color: ${INK70}; text-decoration: none; transition: color 0.3s ease; }
+        .f01banner-crumb a:hover { color: ${MOSS}; }
+        .f01banner-crumb em { color: ${GOLD}; font-style: normal; font-size: 10px; }
+        .f01banner-crumb b { color: ${MOSS}; font-weight: 500; }
+
+        .f01banner-h { font-family: ${GEORGIA}; font-style: italic; font-weight: 400; font-size: clamp(36px, 5vw, 60px); line-height: 1.05; color: ${INK}; margin: 8px 0 0; letter-spacing: -0.015em; }
+
+        .f01banner-rule { display: inline-flex; align-items: center; gap: 14px; margin-top: 6px; }
+        .f01banner-rule i { width: 44px; height: 1px; background: ${GOLD}; display: inline-block; }
+        .f01banner-rule em { color: ${GOLD}; font-style: normal; font-size: 12px; }
+
+        .f01banner-sub { font-family: ${INTER}; font-weight: 300; font-size: 15px; line-height: 1.7; color: ${INK70}; margin: 4px 0 0; max-width: 560px; }
+
+        @media(max-width:640px){
+          .f01banner { padding: 60px 20px 56px; min-height: 300px; }
+          .f01banner::before { inset: 18px; }
+          .f01banner-brk::before, .f01banner-brk::after,
+          .f01banner-brk span::before, .f01banner-brk span::after { width: 34px; height: 34px; }
+          .f01banner-brk::before { top: 18px; left: 18px; }
+          .f01banner-brk::after  { top: 18px; right: 18px; }
+          .f01banner-brk span::before { bottom: 18px; left: 18px; }
+          .f01banner-brk span::after  { bottom: 18px; right: 18px; }
+          .f01banner-h { font-size: clamp(30px, 8vw, 42px); }
         }
-        .f01-hero-track { display: flex; transition: transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94); }
-        .f01-hero-slide { flex: 0 0 100%; width: 100%; position: relative; height: 340px; }
-        @media (min-width: 750px) { .f01-hero-slide { height: 560px; } }
       `}</style>
+      <span className="f01banner-brk" aria-hidden><span /></span>
+      <div className="f01banner-veil" aria-hidden />
 
-      {/* Slider — full-bleed, slides side by side */}
-      <div style={{ overflow: "hidden", position: "relative", width: "100%" }}>
-        <div className="f01-hero-track" style={{ transform: `translateX(-${current * 100}%)` }}>
-          {slides.map((s, i) => (
-            <div key={i} className="f01-hero-slide">
-              {/* Image clipping wrapper — Ken Burns stays inside */}
-              <div style={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-                {s.backgroundImage && (
-                  <GenericEditableImage sectionId={sectionId} field={`slides.${i}.backgroundImage`} src={s.backgroundImage} alt={s.title ?? ""} style={{ position: "absolute", inset: 0, width: "100%", height: "100%" }}>
-                    <img
-                      src={s.backgroundImage}
-                      alt={s.title ?? ""}
-                      className="f01-kb"
-                      style={{ position: "absolute", top: "50%", left: "50%", translate: "-50% -50%", width: "110%", height: "110%", objectFit: "cover", objectPosition: "center", transformOrigin: "center" }}
-                    />
-                  </GenericEditableImage>
-                )}
-              </div>
-              {/* Dark overlay */}
-              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0.0) 100%)" }} />
-              {/* Text — page-width container, left-aligned */}
-              <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center" }}>
-                <div style={{ width: "100%", maxWidth: 1200, margin: "0 auto", padding: "0 3rem" }}>
-                  {s.tag && (
-                    <p style={{ color: "rgba(255,255,255,0.8)", fontSize: 11, fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase", margin: "0 0 16px" }}>
-                      <GenericEditableText sectionId={sectionId} field={`slides.${i}.tag`} value={s.tag} tag="span" />
-                    </p>
-                  )}
-                  <h1 style={{ color: WHITE, fontSize: "clamp(28px, 4vw, 54px)", fontWeight: 400, fontFamily: "Georgia, serif", fontStyle: "italic", lineHeight: 1.18, margin: "0 0 20px", maxWidth: 560, whiteSpace: "pre-line" }}>
-                    <GenericEditableText sectionId={sectionId} field={`slides.${i}.title`} value={s.title ?? ""} tag="span" />
-                  </h1>
-                  {s.subtitle && (
-                    <p style={{ color: "rgba(255,255,255,0.85)", fontSize: 16, lineHeight: 1.6, margin: "0 0 32px", maxWidth: 420 }}>
-                      <GenericEditableText sectionId={sectionId} field={`slides.${i}.subtitle`} value={s.subtitle} tag="span" />
-                    </p>
-                  )}
-                  {s.ctaText && (
-                    <a href={resolveHref(s.ctaHref ?? "#katalog")} data-btn="inverse"
-                      style={{ display: "inline-flex", alignItems: "center", backgroundColor: "transparent", color: WHITE, border: `1px solid ${WHITE}`, fontSize: 15, fontWeight: 400, padding: "13px 30px", borderRadius: 2, textDecoration: "none", letterSpacing: "0.03em", transition: "background-color 0.2s, color 0.2s" }}
-                      onMouseEnter={e => { e.currentTarget.style.backgroundColor = WHITE; e.currentTarget.style.color = FG; }}
-                      onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = WHITE; }}
-                    >
-                      <GenericEditableText sectionId={sectionId} field={`slides.${i}.ctaText`} value={s.ctaText} tag="span" />
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Controls bar — ‹ ○ ● › centered as one group, pause absolute right */}
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", borderTop: "1px solid rgba(18,18,18,0.08)", borderBottom: "1px solid rgba(18,18,18,0.08)", position: "relative", minHeight: 44 }}>
-        {/* ONE centered group: prev + dots + next */}
-        <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
-          <button style={btnStyle} aria-label="Předchozí snímek" onClick={() => goTo(current - 1)}>
-            <Caret dir="prev" />
-          </button>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, margin: "0 12px" }}>
-            {slides.map((_, i) => (
-              <button key={i} onClick={() => goTo(i)} aria-label={`Snímek ${i + 1} z ${slides.length}`}
-                style={{ background: "none", border: "none", cursor: "pointer", padding: "8px 4px", display: "flex", alignItems: "center" }}>
-                <span style={{
-                  display: "block", width: 10, height: 10, borderRadius: "50%",
-                  border: `1px solid ${i === current ? FG : "rgba(18,18,18,0.5)"}`,
-                  backgroundColor: i === current ? FG : "transparent",
-                  transition: "background-color 0.2s, border-color 0.2s",
-                }} />
-              </button>
-            ))}
-          </div>
-          <button style={btnStyle} aria-label="Další snímek" onClick={() => goTo(current + 1)}>
-            <Caret dir="next" />
-          </button>
+      <div className="f01banner-inner">
+        <div className="f01banner-crumb">
+          <a href={resolve(breadcrumbHref)}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <em>✿</em>
+          <b>
+            <GenericEditableText sectionId={sectionId} field="currentLabel" value={currentLabel} tag="span" />
+          </b>
         </div>
 
-        {/* Pause — absolute far right */}
-        <button
-          style={{ ...btnStyle, position: "absolute", right: 0, borderLeft: "1px solid rgba(18,18,18,0.08)", alignSelf: "stretch" }}
-          aria-label={paused ? "Spustit prezentaci" : "Pozastavit prezentaci"}
-          onClick={() => setPaused(p => !p)}>
-          {paused
-            ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14" width="10" height="14"><path fill="currentColor" fillRule="evenodd" d="M1.482.815A1 1 0 0 0 0 1.69v10.517a1 1 0 0 0 1.525.851L10.54 7.5a1 1 0 0 0-.043-1.728z" clipRule="evenodd" /></svg>
-            : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 8 12" width="8" height="12"><path fill="currentColor" d="M1.2.75c-.387 0-.7.235-.7.525v9.45c0 .29.313.525.7.525s.7-.235.7-.525v-9.45c0-.29-.313-.525-.7-.525m5.6 0c-.387 0-.7.235-.7.525v9.45c0 .29.313.525.7.525s.7-.235.7-.525v-9.45c0-.29-.313-.525-.7-.525" /></svg>
-          }
-        </button>
+        <h1 className="f01banner-h">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        <span className="f01banner-rule">
+          <i />
+          <em>✿</em>
+          <i />
+        </span>
+
+        {subtitle && (
+          <p className="f01banner-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
       </div>
-    </div>
+    </section>
   );
 }
 

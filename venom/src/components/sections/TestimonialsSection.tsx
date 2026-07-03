@@ -1869,15 +1869,21 @@ interface Nails02Review { quote: string; author: string; meta?: string }
 
 function TestimonialsNails02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const DARK  = "#1f1411";
+  const WINE  = "#6b3f38";
   const TAUPE = "#d4a080";
   const CREAM = "#f6efe9";
+  const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
+  const SANS  = "'Helvetica Neue', Arial, sans-serif";
 
-  const numberPrefix = String(content.numberPrefix ?? "(03)");
-  const title        = String(content.title        ?? "Recenze");
-  const kicker       = String(content.kicker       ?? "Co o nás říkají klientky");
-  const reviews      = (content.reviews as Nails02Review[]) ?? [];
-  const ratingText   = String(content.ratingText   ?? "4.9 / 5 hodnocení na Google");
-  const ratingHref   = String(content.ratingHref   ?? "https://google.com/search?q=demo");
+  const numberPrefix    = String(content.numberPrefix    ?? "(03)");
+  const title           = String(content.title           ?? "Recenze");
+  const kicker          = String(content.kicker          ?? "Co o nás říkají klientky");
+  const reviews         = (content.reviews as Nails02Review[]) ?? [];
+  const ratingScore     = String(content.ratingScore     ?? "4.9");
+  const ratingText      = String(content.ratingText      ?? "/ 5 hodnocení na Google");
+  const ratingHref      = String(content.ratingHref      ?? "https://google.com/search?q=demo");
+  const secondaryText   = String(content.secondaryText   ?? "Přečíst všechny recenze");
+  const secondaryHref   = String(content.secondaryHref   ?? "https://google.com/search?q=demo");
 
   return (
     <section
@@ -1887,45 +1893,72 @@ function TestimonialsNails02({ content, sectionId }: { content: Record<string, u
       data-template="nails-02"
       style={{
         backgroundColor: DARK,
-        padding: "clamp(80px, 12vw, 160px) clamp(24px, 6vw, 72px)",
+        padding: "clamp(90px, 12vw, 160px) clamp(24px, 6vw, 72px)",
+        position: "relative",
       }}
     >
-      <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+      {/* Section eyebrow */}
+      <div
+        className="n02-rev-eyebrow"
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "clamp(40px, 6vw, 80px)",
+          right: "clamp(24px, 6vw, 72px)",
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+          fontFamily: SANS,
+          fontSize: "0.7rem",
+          fontWeight: 500,
+          color: TAUPE,
+          letterSpacing: "0.32em",
+          textTransform: "uppercase",
+          opacity: 0.75,
+        }}
+      >
+        <span>Kapitola · 03</span>
+        <span style={{ display: "block", width: 42, height: 1, backgroundColor: TAUPE, opacity: 0.6 }} />
+      </div>
+
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         {/* Header */}
-        <div style={{ marginBottom: "clamp(56px, 8vw, 96px)" }}>
-          <div
-            style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontStyle: "italic",
-              fontSize: "clamp(1.5rem, 2vw, 2rem)",
-              color: TAUPE,
-              letterSpacing: "0.06em",
-              marginBottom: 28,
-              opacity: 0.9,
-            }}
-          >
-            <GenericEditableText sectionId={sectionId} field="numberPrefix" value={numberPrefix} tag="span" />
-          </div>
-          <h2
-            style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
+        <div style={{ marginBottom: "clamp(72px, 9vw, 120px)", maxWidth: 720 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 40 }}>
+            <span aria-hidden style={{ display: "block", width: 1, height: 32, backgroundColor: TAUPE }} />
+            <span style={{
+              fontFamily: SERIF,
               fontStyle: "italic",
               fontWeight: 400,
-              fontSize: "clamp(3.2rem, 6.8vw, 6.4rem)",
+              fontSize: "clamp(1.5rem, 1.9vw, 1.9rem)",
+              color: TAUPE,
               lineHeight: 1,
+              opacity: 0.9,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="numberPrefix" value={numberPrefix} tag="span" />
+            </span>
+          </div>
+
+          <h2
+            style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: "clamp(3.2rem, 7vw, 6.6rem)",
+              lineHeight: 0.95,
               color: CREAM,
               margin: 0,
-              letterSpacing: "-0.01em",
+              letterSpacing: "-0.015em",
             }}
           >
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
-          <div aria-hidden="true" style={{ width: 64, height: 1, backgroundColor: TAUPE, margin: "40px 0 28px" }} />
+          <div aria-hidden="true" style={{ width: 88, height: 1, backgroundColor: TAUPE, margin: "48px 0 28px" }} />
           <p
             style={{
-              fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-              fontSize: "0.78rem",
-              fontWeight: 500,
+              fontFamily: SANS,
+              fontSize: "0.76rem",
+              fontWeight: 600,
               color: TAUPE,
               textTransform: "uppercase",
               letterSpacing: "0.32em",
@@ -1942,112 +1975,261 @@ function TestimonialsNails02({ content, sectionId }: { content: Record<string, u
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-            gap: "clamp(24px, 3vw, 36px)",
+            gap: "clamp(24px, 3vw, 40px)",
           }}
         >
-          {reviews.map((r, i) => (
-            <article
-              key={`rv-${i}`}
-              style={{
-                padding: "44px 36px 40px",
-                backgroundColor: "rgba(246,239,233,0.04)",
-                border: `1px solid rgba(212,160,128,0.18)`,
-                display: "flex",
-                flexDirection: "column",
-                gap: 24,
-              }}
-            >
-              <span
-                aria-hidden="true"
+          {reviews.map((r, i) => {
+            const nStr = String(i + 1).padStart(2, "0");
+            return (
+              <article
+                key={`rv-${i}`}
+                className="n02-rev-card"
                 style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontStyle: "italic",
-                  fontSize: "4rem",
-                  lineHeight: 0.5,
-                  color: TAUPE,
-                  opacity: 0.85,
+                  position: "relative",
+                  padding: "48px 36px 40px",
+                  backgroundColor: "rgba(246,239,233,0.04)",
+                  border: `1px solid rgba(212,160,128,0.18)`,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 22,
+                  transition: "transform 0.45s cubic-bezier(0.22,1,0.36,1), border-color 0.4s ease, background-color 0.4s ease",
                 }}
               >
-                “
-              </span>
-              <blockquote
-                style={{
-                  margin: 0,
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontStyle: "italic",
-                  fontWeight: 400,
-                  fontSize: "1.25rem",
-                  lineHeight: 1.55,
-                  color: CREAM,
-                  flex: 1,
-                }}
-              >
-                <GenericEditableText sectionId={sectionId} field={`reviews.${i}.quote`} value={r.quote} tag="span" />
-              </blockquote>
-              <div aria-hidden="true" style={{ width: 32, height: 1, backgroundColor: TAUPE, opacity: 0.6 }} />
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                {/* N°XX top-right */}
                 <span
+                  aria-hidden="true"
                   style={{
-                    fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-                    fontSize: "0.78rem",
-                    fontWeight: 600,
+                    position: "absolute",
+                    top: 20,
+                    right: 26,
+                    fontFamily: SERIF,
+                    fontStyle: "italic",
+                    fontWeight: 400,
+                    fontSize: "1.15rem",
                     color: TAUPE,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.24em",
+                    opacity: 0.7,
+                    letterSpacing: "0.02em",
                   }}
                 >
-                  <GenericEditableText sectionId={sectionId} field={`reviews.${i}.author`} value={r.author} tag="span" />
+                  N°{nStr}
                 </span>
-                {r.meta && (
+
+                {/* Corner brackets — reveal on hover */}
+                {[
+                  { top: -1, left: -1, rotate: 0 },
+                  { top: -1, right: -1, rotate: 90 },
+                  { bottom: -1, right: -1, rotate: 180 },
+                  { bottom: -1, left: -1, rotate: 270 },
+                ].map(({ rotate, ...pos }, bi) => (
                   <span
+                    key={`brk-${bi}`}
+                    aria-hidden="true"
+                    className="n02-rev-bracket"
                     style={{
-                      fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-                      fontSize: "0.78rem",
-                      fontWeight: 300,
-                      color: "rgba(246,239,233,0.55)",
-                      letterSpacing: "0.04em",
+                      position: "absolute",
+                      ...pos,
+                      width: 20,
+                      height: 20,
+                      transform: `rotate(${rotate}deg)`,
+                      transformOrigin: "center",
+                      pointerEvents: "none",
+                      opacity: 0,
+                      transition: "opacity 0.4s ease",
                     }}
                   >
-                    <GenericEditableText sectionId={sectionId} field={`reviews.${i}.meta`} value={r.meta} tag="span" />
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M20 0 H4 A4 4 0 0 0 0 4 V20" stroke={TAUPE} strokeWidth="1" fill="none"/>
+                    </svg>
                   </span>
-                )}
-              </div>
-            </article>
-          ))}
+                ))}
+
+                {/* 5-star row */}
+                <div aria-hidden="true" style={{
+                  display: "flex",
+                  gap: 3,
+                  color: TAUPE,
+                  fontSize: "0.82rem",
+                  letterSpacing: "0.15em",
+                }}>
+                  ★★★★★
+                </div>
+
+                {/* Big italic quote glyph */}
+                <span
+                  aria-hidden="true"
+                  style={{
+                    fontFamily: SERIF,
+                    fontStyle: "italic",
+                    fontSize: "4.5rem",
+                    lineHeight: 0.4,
+                    color: TAUPE,
+                    opacity: 0.6,
+                    marginTop: -8,
+                  }}
+                >
+                  “
+                </span>
+
+                <blockquote
+                  style={{
+                    margin: 0,
+                    fontFamily: SERIF,
+                    fontStyle: "italic",
+                    fontWeight: 400,
+                    fontSize: "1.28rem",
+                    lineHeight: 1.55,
+                    color: CREAM,
+                    flex: 1,
+                    letterSpacing: "0.005em",
+                  }}
+                >
+                  <GenericEditableText sectionId={sectionId} field={`reviews.${i}.quote`} value={r.quote} tag="span" />
+                </blockquote>
+
+                <div aria-hidden="true" style={{ width: 42, height: 1, backgroundColor: TAUPE, opacity: 0.55 }} />
+
+                {/* Author block with verified badge */}
+                <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 12 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                    <span
+                      style={{
+                        fontFamily: SANS,
+                        fontSize: "0.78rem",
+                        fontWeight: 600,
+                        color: TAUPE,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.28em",
+                      }}
+                    >
+                      <GenericEditableText sectionId={sectionId} field={`reviews.${i}.author`} value={r.author} tag="span" />
+                    </span>
+                    {r.meta && (
+                      <span
+                        style={{
+                          fontFamily: SERIF,
+                          fontStyle: "italic",
+                          fontSize: "0.9rem",
+                          fontWeight: 400,
+                          color: "rgba(246,239,233,0.55)",
+                          letterSpacing: "0.01em",
+                        }}
+                      >
+                        <GenericEditableText sectionId={sectionId} field={`reviews.${i}.meta`} value={r.meta} tag="span" />
+                      </span>
+                    )}
+                  </div>
+                  <span
+                    aria-label="Ověřená recenze"
+                    title="Ověřená recenze"
+                    style={{
+                      flexShrink: 0,
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      width: 22,
+                      height: 22,
+                      borderRadius: 999,
+                      border: `1px solid ${TAUPE}55`,
+                      color: TAUPE,
+                    }}
+                  >
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 6l3 3 5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </span>
+                </div>
+              </article>
+            );
+          })}
         </div>
 
-        {/* Footer rating */}
-        <div style={{ marginTop: "clamp(48px, 6vw, 72px)", textAlign: "center" }}>
+        {/* Rating hero + secondary */}
+        <div style={{
+          marginTop: "clamp(64px, 8vw, 96px)",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 24,
+        }}>
           <a
             href={ratingHref}
             target="_blank"
             rel="noopener noreferrer"
+            className="n02-rev-rating"
             style={{
               display: "inline-flex",
-              alignItems: "center",
-              gap: 12,
-              fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-              fontSize: "0.84rem",
-              fontWeight: 500,
-              color: TAUPE,
-              textTransform: "uppercase",
-              letterSpacing: "0.28em",
+              alignItems: "baseline",
+              gap: 14,
+              color: CREAM,
               textDecoration: "none",
-              paddingBottom: 4,
-              borderBottom: `1px solid ${TAUPE}`,
-              transition: "color 0.2s, border-color 0.2s",
+              transition: "opacity 0.3s ease",
             }}
-            onMouseEnter={e => { e.currentTarget.style.color = CREAM; e.currentTarget.style.borderBottomColor = CREAM; }}
-            onMouseLeave={e => { e.currentTarget.style.color = TAUPE; e.currentTarget.style.borderBottomColor = TAUPE; }}
           >
-            <span aria-hidden="true" style={{ letterSpacing: 2 }}>★★★★★</span>
-            <GenericEditableText sectionId={sectionId} field="ratingText" value={ratingText} tag="span" />
+            <span
+              style={{
+                fontFamily: SERIF,
+                fontStyle: "italic",
+                fontWeight: 400,
+                fontSize: "clamp(3rem, 4.5vw, 4rem)",
+                lineHeight: 0.9,
+                color: TAUPE,
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="ratingScore" value={ratingScore} tag="span" />
+            </span>
+            <span
+              style={{
+                fontFamily: SANS,
+                fontSize: "0.82rem",
+                fontWeight: 500,
+                color: CREAM,
+                textTransform: "uppercase",
+                letterSpacing: "0.28em",
+                opacity: 0.85,
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="ratingText" value={ratingText} tag="span" />
+            </span>
+          </a>
+          <a
+            href={secondaryHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="n02-rev-secondary"
+            style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: "1rem",
+              color: TAUPE,
+              textDecoration: "none",
+              opacity: 0.8,
+              paddingBottom: 4,
+              borderBottom: `1px solid ${TAUPE}70`,
+              transition: "opacity 0.3s ease, border-color 0.3s ease",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="secondaryText" value={secondaryText} tag="span" />
+            <span aria-hidden="true">→</span>
           </a>
         </div>
       </div>
+
       <style>{`
+        .n02-rev-card:hover {
+          transform: translateY(-6px);
+          border-color: rgba(212,160,128,0.5);
+          background-color: rgba(246,239,233,0.06);
+        }
+        .n02-rev-card:hover .n02-rev-bracket { opacity: 1; }
+        .n02-rev-secondary:hover { opacity: 1; border-bottom-color: ${CREAM}; }
+        .n02-rev-rating:hover { opacity: 0.85; }
         @media (max-width: 900px) {
           .nails02-reviews-grid { grid-template-columns: 1fr !important; }
+          .n02-rev-eyebrow { display: none !important; }
         }
       `}</style>
     </section>
@@ -3560,72 +3742,192 @@ function TestimonialsInstala01({ content, sectionId }: { content: Record<string,
 }
 
 // ─── florist-01 Testimonials ─────────────────────────────────────────────────
+// ── florist-01-testimonials ───────────────────────────────────────────────────
+// Botanical Atelier Editorial luxe testimonials:
+// - Deep moss #2f4a3a section pro dramatický contrast s ivory sekcemi
+// - LEFT sticky aggregate rating card: huge Georgia italic "4,9" + 5 gold stars +
+//   Google badge + trust copy + olive-gold corner brackets
+// - RIGHT 3 testimonial cards ivory bg s pull-quote Georgia italic + author avatar circle
+// - Olive-gold hairline separators mezi kartami
+// - Conditional header pattern pro subpage FAQ
 function TestimonialsFlorist01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title      = (content.title      as string) ?? "Co říkají naši zákazníci";
-  const ratingText = (content.ratingText as string) ?? "4.9 z 5 na základě 150+ hodnocení";
-  const items      = (content.items as Array<{ text: string; author: string; location?: string; date?: string }>) ?? [];
+  const MOSS   = "#2f4a3a";
+  const MOSSD  = "#243a2e";
+  const SAGE   = "#5c8a6a";
+  const IVORY  = "#faf7f2";
+  const IVORY82 = "rgba(250,247,242,0.82)";
+  const INK    = "#2a1a0a";
+  const INK70  = "rgba(42,26,10,0.72)";
+  const GOLD   = "#c9b78a";
+  const GOLDBRIGHT = "#e5cd8d";
+  const BLUSH  = "#e8c5c0";
+  const GEORGIA = "Georgia, 'Times New Roman', serif";
+  const INTER   = "Inter, system-ui, sans-serif";
 
-  const FONT = "'Arimo', Arial, sans-serif";
+  const eyebrow    = String(content.eyebrow    ?? "05 · RECENZE");
+  const title      = String(content.title      ?? "Slova od těch, kteří u nás objednávají");
+  const kicker     = String(content.kicker     ?? "Přes 220 hodnocení na Googlu za posledních 12 měsíců. Několik z nich čtete níže.");
+  const rating     = String(content.rating     ?? "4,9");
+  const ratingMax  = String(content.ratingMax  ?? "/ 5");
+  const ratingText = String(content.ratingText ?? "220+ ověřených recenzí na Google");
+  const trustCta   = String(content.trustCta   ?? "Zobrazit všechny recenze");
+  const trustHref  = String(content.trustHref  ?? "https://google.com");
 
-  const StarRow = () => (
-    <div style={{ display: "flex", gap: 2, marginBottom: 14 }}>
-      {[1,2,3,4,5].map(n => (
-        <svg key={n} width="16" height="16" viewBox="0 0 24 24" fill="#121212">
-          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-        </svg>
-      ))}
-    </div>
+  const rawItems = (content.items as Array<{ text: string; author: string; location?: string; date?: string; initials?: string }>) ?? [];
+  const items = rawItems.length > 0 ? rawItems : [
+    { text: "Nádherné kytice, vždy čerstvé a doručené přesně na čas. Objednávám opakovaně a vždy je to zážitek — od otevření krabice po první pohled toho, kdo kytici dostane.", author: "Veronika H.", initials: "VH", location: "Brno-střed",       date: "leden 2026" },
+    { text: "Objednala jsem kytici pro sestru k výročí. Přijela krásná, voněla celý byt a foto předem mi dodalo klid. Petala je moje první volba, kdykoliv chci potěšit někoho blízkého.", author: "Markéta S.", initials: "MS", location: "Brno-Královo Pole", date: "únor 2026" },
+    { text: "Sháněla jsem svatební kytici na poslední chvíli. Domluva byla rychlá, kytice absolutně nádherná a všichni si mysleli, že jsem ji plánovala měsíce. Děkuji!", author: "Tereza K.",  initials: "TK", location: "Brno-Žabovřesky",    date: "duben 2026" },
+  ];
+
+  const showHeader = !!(eyebrow.trim() || title.trim());
+
+  const Star = () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill={GOLDBRIGHT} aria-hidden><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
   );
 
   return (
-    <section style={{ backgroundColor: "#fff", padding: "72px 0", fontFamily: FONT }}>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&display=swap" />
-      <style>{`        .f01-rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-        @media (max-width: 900px) { .f01-rev-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 560px) { .f01-rev-grid { grid-template-columns: 1fr; } }
-        .f01-rev-card { background: #f9f9f9; padding: 28px 24px; display: flex; flex-direction: column; }
-        .f01-rev-text { font-size: 14px; color: #121212; line-height: 1.7; flex: 1; margin-bottom: 20px; font-family: 'Arimo', Arial, sans-serif; }
-        .f01-rev-author { font-size: 13px; font-weight: 700; color: #121212; font-family: 'Arimo', Arial, sans-serif; }
-        .f01-rev-meta { font-size: 12px; color: rgba(18,18,18,0.5); font-family: 'Arimo', Arial, sans-serif; margin-top: 2px; }
-        .f01-rev-header { text-align: center; margin-bottom: 48px; }
-        .f01-rev-title { font-size: 28px; font-weight: 700; color: #121212; margin-bottom: 8px; font-family: 'Arimo', Arial, sans-serif; }
-        .f01-rev-rating { font-size: 13px; color: rgba(18,18,18,0.55); font-family: 'Arimo', Arial, sans-serif; }
-        @media (max-width: 600px) { .f01-rev-title { font-size: 22px; } .f01-rev-header { margin-bottom: 32px; } }
+    <section id="recenze" data-template="florist-01" className="f01test" style={{ background: MOSS, fontFamily: INTER, padding: "104px 24px 116px", color: IVORY, position: "relative", overflow: "hidden" }}>
+      <style>{`
+        .f01test::before, .f01test::after { content:""; position:absolute; width:220px; height:220px; border:1px solid ${GOLD}; opacity:0.14; pointer-events:none; }
+        .f01test::before { top:-110px; left:-110px; transform: rotate(45deg); }
+        .f01test::after  { bottom:-110px; right:-110px; transform: rotate(45deg); }
+
+        .f01test-inner { max-width: 1280px; margin: 0 auto; position:relative; z-index:1; }
+        .f01test-head { text-align:center; display:flex; flex-direction:column; align-items:center; gap:16px; margin-bottom: 64px; }
+        .f01test-eye { display:inline-flex; align-items:center; gap:14px; font-family:${INTER}; font-weight:500; font-size:11px; letter-spacing:0.34em; text-transform:uppercase; color:${GOLDBRIGHT}; }
+        .f01test-eye i { width:26px; height:1px; background:${GOLD}; display:inline-block; }
+        .f01test-eye em { color:${GOLD}; font-style:normal; font-size:10px; }
+        .f01test-h { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:clamp(30px, 3.6vw, 48px); line-height:1.12; color:${IVORY}; margin:0; letter-spacing:-0.012em; max-width:820px; }
+        .f01test-k { font-family:${INTER}; font-weight:300; font-size:15px; line-height:1.7; color:${IVORY82}; max-width:640px; margin:0; }
+
+        .f01test-grid { display:grid; grid-template-columns: minmax(0, 380px) 1fr; gap: 56px; align-items:flex-start; }
+
+        /* LEFT sticky aggregate */
+        .f01test-agg { position: sticky; top: 100px; background: ${MOSSD}; border: 1px solid ${GOLD}; padding: 44px 36px 40px; position:relative; }
+        .f01test-agg::before, .f01test-agg::after { content:""; position:absolute; width:32px; height:32px; border:0 solid ${GOLD}; }
+        .f01test-agg::before { top:-1px; left:-1px; border-top-width:2px; border-left-width:2px; }
+        .f01test-agg::after  { bottom:-1px; right:-1px; border-bottom-width:2px; border-right-width:2px; }
+        .f01test-agg-eye { font-family:${INTER}; font-weight:500; font-size:10.5px; letter-spacing:0.32em; text-transform:uppercase; color:${GOLDBRIGHT}; margin-bottom: 22px; display:inline-flex; align-items:center; gap:10px; }
+        .f01test-agg-eye i { width: 18px; height:1px; background:${GOLDBRIGHT}; display:inline-block; }
+        .f01test-rating { display:flex; align-items:flex-start; gap:6px; margin-bottom: 14px; }
+        .f01test-rating-num { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:96px; line-height:0.9; color:${IVORY}; letter-spacing:-0.02em; }
+        .f01test-rating-max { font-family:${GEORGIA}; font-style:italic; font-size:22px; color:${GOLDBRIGHT}; margin-top: 30px; letter-spacing:-0.01em; }
+        .f01test-stars { display:flex; gap:4px; margin-bottom: 14px; }
+        .f01test-agg-txt { font-family:${INTER}; font-weight:300; font-size:14px; line-height:1.6; color:${IVORY82}; margin: 0 0 22px; }
+        .f01test-agg-hr { height:1px; background:${GOLD}; opacity:0.4; margin: 22px 0; }
+        .f01test-google { display:flex; align-items:center; gap:12px; margin-bottom: 22px; font-family:${INTER}; font-size:12px; color:${IVORY82}; letter-spacing:0.14em; text-transform:uppercase; }
+        .f01test-google-badge { display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border:1px solid ${GOLD}; }
+        .f01test-agg-cta { display:inline-flex; align-items:center; gap:10px; font-family:${INTER}; font-weight:500; font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:${GOLDBRIGHT}; text-decoration:none; padding: 8px 0; position:relative; }
+        .f01test-agg-cta::after { content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:${GOLDBRIGHT}; transform: scaleX(0.35); transform-origin: left; transition: transform 0.5s cubic-bezier(.6,.05,.35,1); }
+        .f01test-agg-cta:hover::after { transform: scaleX(1); }
+        .f01test-agg-cta:hover .arr { transform: translateX(4px); }
+        .f01test-agg-cta .arr { transition: transform 0.4s ease; }
+
+        /* RIGHT list */
+        .f01test-list { display:flex; flex-direction:column; gap: 0; }
+        .f01test-card { position:relative; padding: 34px 34px 34px; background: ${IVORY}; color:${INK}; }
+        .f01test-card + .f01test-card { margin-top: 24px; }
+        .f01test-card::before { content:""; position:absolute; top:-1px; left:-1px; width:36px; height:36px; border-top:1px solid ${GOLD}; border-left:1px solid ${GOLD}; }
+        .f01test-card::after  { content:""; position:absolute; bottom:-1px; right:-1px; width:36px; height:36px; border-bottom:1px solid ${GOLD}; border-right:1px solid ${GOLD}; }
+        .f01test-quote-mark { position:absolute; top:16px; right:26px; font-family:${GEORGIA}; font-style:italic; font-size:80px; line-height:1; color:${GOLD}; opacity:0.4; pointer-events:none; }
+        .f01test-card-stars { display:flex; gap:3px; margin-bottom: 18px; }
+        .f01test-card-stars svg { fill:${SAGE}; }
+        .f01test-text { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:clamp(16px, 1.4vw, 19px); line-height:1.65; color:${INK}; margin: 0 0 26px; letter-spacing:-0.005em; }
+        .f01test-foot { display:flex; align-items:center; gap:14px; padding-top: 22px; border-top: 1px dotted ${GOLD}; }
+        .f01test-ava { width:48px; height:48px; border-radius:50%; background:${MOSS}; color:${IVORY}; display:flex; align-items:center; justify-content:center; font-family:${GEORGIA}; font-style:italic; font-size:16px; letter-spacing:0.02em; flex-shrink:0; border: 1px solid ${GOLD}; }
+        .f01test-author { display:flex; flex-direction:column; gap:2px; }
+        .f01test-author-name { font-family:${GEORGIA}; font-style:italic; font-size:17px; color:${INK}; letter-spacing:-0.005em; }
+        .f01test-author-meta { font-family:${INTER}; font-weight:400; font-size:11.5px; letter-spacing:0.2em; text-transform:uppercase; color:${INK70}; }
+
+        @media(max-width:1024px){
+          .f01test-grid { grid-template-columns: 1fr; gap: 40px; }
+          .f01test-agg { position: static; max-width: 460px; }
+        }
+        @media(max-width:600px){
+          .f01test { padding: 68px 20px 76px; }
+          .f01test-agg { padding: 32px 26px 30px; }
+          .f01test-rating-num { font-size: 78px; }
+          .f01test-card { padding: 26px 24px 26px; }
+          .f01test-quote-mark { font-size: 60px; top: 8px; right: 18px; }
+        }
       `}</style>
 
-      <div style={{ maxWidth: 1280, margin: "0 auto", paddingLeft: 24, paddingRight: 24 }}>
-        <div className="f01-rev-header">
-          <div className="f01-rev-title">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </div>
-          <div className="f01-rev-rating">
-            <GenericEditableText sectionId={sectionId} field="ratingText" value={ratingText} tag="span" />
-          </div>
-        </div>
+      <div className="f01test-inner">
+        {showHeader && (
+          <header className="f01test-head">
+            <span className="f01test-eye"><i /><em>✿</em>
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              <em>✿</em><i />
+            </span>
+            <h2 className="f01test-h">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            <p className="f01test-k">
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+            </p>
+          </header>
+        )}
 
-        <div className="f01-rev-grid">
-          {items.map((item, i) => (
-            <div key={i} className="f01-rev-card">
-              <StarRow />
-              <div className="f01-rev-text">
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span" />
-              </div>
-              <div>
-                <div className="f01-rev-author">
-                  <GenericEditableText sectionId={sectionId} field={`items.${i}.author`} value={item.author} tag="span" />
-                </div>
-                {(item.location || item.date) && (
-                  <div className="f01-rev-meta">
-                    {item.location && <GenericEditableText sectionId={sectionId} field={`items.${i}.location`} value={item.location} tag="span" />}
-                    {item.location && item.date && " · "}
-                    {item.date && <GenericEditableText sectionId={sectionId} field={`items.${i}.date`} value={item.date} tag="span" />}
-                  </div>
-                )}
-              </div>
+        <div className="f01test-grid">
+          <aside className="f01test-agg">
+            <span className="f01test-agg-eye"><i /> HODNOCENÍ</span>
+            <div className="f01test-rating">
+              <span className="f01test-rating-num">
+                <GenericEditableText sectionId={sectionId} field="rating" value={rating} tag="span" />
+              </span>
+              <span className="f01test-rating-max">
+                <GenericEditableText sectionId={sectionId} field="ratingMax" value={ratingMax} tag="span" />
+              </span>
             </div>
-          ))}
+            <div className="f01test-stars"><Star /><Star /><Star /><Star /><Star /></div>
+            <p className="f01test-agg-txt">
+              <GenericEditableText sectionId={sectionId} field="ratingText" value={ratingText} tag="span" />
+            </p>
+            <div className="f01test-agg-hr" aria-hidden />
+            <div className="f01test-google">
+              <span className="f01test-google-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden>
+                  <path fill="#4285F4" d="M22.5 12.2c0-.8-.1-1.6-.2-2.4H12v4.5h5.9c-.3 1.4-1.1 2.6-2.3 3.4v2.8h3.7c2.2-2 3.4-4.9 3.4-8.3z"/>
+                  <path fill="#34A853" d="M12 23c3.1 0 5.7-1 7.6-2.7l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.8H1.8v2.9C3.7 20.4 7.6 23 12 23z"/>
+                  <path fill="#FBBC04" d="M5.6 13.7c-.2-.6-.4-1.3-.4-2s.1-1.4.4-2V6.7H1.8C1 8.3.5 10.1.5 12s.5 3.7 1.3 5.3l3.8-2.9z"/>
+                  <path fill="#EA4335" d="M12 5.4c1.7 0 3.2.6 4.4 1.7l3.3-3.3C17.7 2 15.1 1 12 1 7.6 1 3.7 3.6 1.8 6.7l3.8 2.9C6.5 6.9 9 5.4 12 5.4z"/>
+                </svg>
+                <span>Google Reviews</span>
+              </span>
+            </div>
+            <a href={trustHref} className="f01test-agg-cta" target="_blank" rel="noopener noreferrer">
+              <GenericEditableText sectionId={sectionId} field="trustCta" value={trustCta} tag="span" />
+              <span className="arr" aria-hidden>→</span>
+            </a>
+          </aside>
+
+          <div className="f01test-list">
+            {items.map((item, i) => (
+              <article key={i} className="f01test-card">
+                <span className="f01test-quote-mark" aria-hidden>&ldquo;</span>
+                <div className="f01test-card-stars"><Star /><Star /><Star /><Star /><Star /></div>
+                <p className="f01test-text">
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span" />
+                </p>
+                <footer className="f01test-foot">
+                  <span className="f01test-ava" aria-hidden>{item.initials ?? (item.author?.split(" ").map(w=>w[0]).slice(0,2).join("") || "")}</span>
+                  <div className="f01test-author">
+                    <span className="f01test-author-name">
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.author`} value={item.author} tag="span" />
+                    </span>
+                    {(item.location || item.date) && (
+                      <span className="f01test-author-meta">
+                        {item.location && <GenericEditableText sectionId={sectionId} field={`items.${i}.location`} value={item.location} tag="span" />}
+                        {item.location && item.date && <span aria-hidden> · </span>}
+                        {item.date && <GenericEditableText sectionId={sectionId} field={`items.${i}.date`} value={item.date} tag="span" />}
+                      </span>
+                    )}
+                  </div>
+                </footer>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -25,6 +25,7 @@ export function FaqSection({ content, variant, sectionId }: Props) {
   if (variant === "floors-01-faq")    return <FaqFloors01 content={content} sectionId={sectionId} />;
   if (variant === "malir-01-faq")     return <FaqMalir01  content={content} sectionId={sectionId} />;
   if (variant === "ananda-01-faq")    return <FaqAnanda01 content={content} sectionId={sectionId} />;
+  if (variant === "florist-01-faq")   return <FaqFlorist01 content={content} sectionId={sectionId} />;
 
   // Support both field name conventions: faq[]{question,answer} and items[]{q,a} (generator)
   const faq = (
@@ -867,5 +868,172 @@ function FaqAnanda01({ content, sectionId }: { content: Record<string, unknown>;
         </div>
       </section>
     </>
+  );
+}
+
+// ── florist-01-faq ────────────────────────────────────────────────────────────
+// Botanical Atelier Editorial luxe FAQ:
+// - Warm ivory bg + editorial 2-col split
+// - LEFT sticky header: eyebrow + Georgia italic H2 + Inter kicker + CTA card
+//   "Nenašli jste odpověď?" s tel/mail + Georgia italic note
+// - RIGHT accordion Q&A list: dotted olive-gold separators, Georgia italic questions
+//   + expand icon (+/–) v gold, Inter 300 answer s slide-down transition
+// - Corner brackets olive-gold na CTA card
+function FaqFlorist01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const MOSS   = "#2f4a3a";
+  const SAGE   = "#5c8a6a";
+  const IVORY  = "#faf7f2";
+  const IVORY2 = "#f4efe6";
+  const INK    = "#2a1a0a";
+  const INK70  = "rgba(42,26,10,0.72)";
+  const GOLD   = "#c9b78a";
+  const BLUSH  = "#e8c5c0";
+  const GEORGIA = "Georgia, 'Times New Roman', serif";
+  const INTER   = "Inter, system-ui, sans-serif";
+
+  const eyebrow  = String(content.eyebrow  ?? "07 · ČASTÉ DOTAZY");
+  const title    = String(content.title    ?? "Otázky, které nejčastěji dostáváme");
+  const kicker   = String(content.kicker   ?? "Odpovědi na dotazy o doručení, objednávkách, péči o květiny a firemních zakázkách. Cokoli dalšího vám rádi vysvětlíme telefonicky.");
+  const helpTitle = String(content.helpTitle ?? "Nenašli jste odpověď?");
+  const helpCopy  = String(content.helpCopy  ?? "Zavolejte nebo napište. Odpovídáme obvykle do jedné hodiny.");
+  const phone     = String(content.phone     ?? "+420 731 456 789");
+  const phoneHref = String(content.phoneHref ?? "tel:+420731456789");
+  const email     = String(content.email     ?? "atelier@petala.cz");
+  const emailHref = String(content.emailHref ?? "mailto:atelier@petala.cz");
+
+  const rawItems = (content.items as Array<{ question?: string; answer?: string }>) ?? (content.faq as Array<{ question?: string; answer?: string }>) ?? [];
+  const items = rawItems.length > 0 ? rawItems : [
+    { question: "Do kdy si mám objednat, aby kytice dorazila ještě dnes?", answer: "Objednávky přijaté do 15:00 doručujeme týž den mezi 17. a 21. hodinou. Po 15:00 automaticky přesouváme na následující den — v košíku si můžete vybrat konkrétní čas doručení." },
+    { question: "Kam všude doručujete?",                                     answer: "Doručujeme po celém Brně a do vzdálenosti 15 km od centra. Doprava je zdarma při objednávce nad 1 500 Kč, jinak 149 Kč. Do vzdálenějších obcí domlouváme individuálně." },
+    { question: "Jak poznám, co obdarovaný převezme?",                       answer: "Před odjezdem řidiče vám pošleme foto vaší kytice na e-mail nebo Instagram — vždy vidíte, co bude doručeno. Pokud vám něco nesedí, ještě to stihneme upravit." },
+    { question: "Jak dlouho kytice vydrží?",                                 answer: "Používáme jen sezónní čerstvé květiny přímo od pěstitelů. Při běžné péči (voda každé 2 dny, chladno) vydrží 5—10 dnů. K objednávce přikládáme malou kartičku s péčí o konkrétní květiny." },
+    { question: "Můžu k objednávce přidat osobní vzkaz?",                   answer: "Ano. Do každé kytice vkládáme ručně malovanou kartičku Petala s vaším vzkazem — až 300 znaků. Vzkaz můžete napsat při objednávce v košíku." },
+    { question: "Připravujete i svatební floristiku a firemní zakázky?",   answer: "Ano. Svatební kytice, výzdobu obřadu i sálů děláme podle individuálního brief-u. Pro firmy zajišťujeme týdenní dodávky do kanceláří i eventovou floristiku. Napište nám a domluvíme schůzku v ateliéru." }
+  ];
+
+  const [open, setOpen] = useState<number | null>(0);
+
+  const showHeader = !!(eyebrow.trim() || title.trim());
+
+  return (
+    <section id="faq" data-template="florist-01" className="f01faq" style={{ background: IVORY, fontFamily: INTER, padding: "96px 24px 108px" }}>
+      <style>{`
+        .f01faq-inner { max-width: 1280px; margin: 0 auto; }
+        .f01faq-grid { display: grid; grid-template-columns: minmax(0, 420px) 1fr; gap: 72px; align-items: flex-start; }
+
+        /* LEFT sticky */
+        .f01faq-left { position: sticky; top: 100px; display: flex; flex-direction: column; gap: 24px; }
+        .f01faq-eye { display: inline-flex; align-items: center; gap: 14px; font-family: ${INTER}; font-weight: 500; font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: ${MOSS}; }
+        .f01faq-eye i { width: 26px; height: 1px; background: ${GOLD}; display: inline-block; }
+        .f01faq-eye em { color: ${GOLD}; font-style: normal; font-size: 10px; }
+        .f01faq-h { font-family: ${GEORGIA}; font-style: italic; font-weight: 400; font-size: clamp(30px, 3.6vw, 44px); line-height: 1.1; color: ${INK}; margin: 0; letter-spacing: -0.012em; }
+        .f01faq-k { font-family: ${INTER}; font-weight: 300; font-size: 15px; line-height: 1.7; color: ${INK70}; margin: 0; max-width: 380px; }
+
+        .f01faq-help { position: relative; margin-top: 8px; padding: 30px 28px 28px; background: ${IVORY2}; border: 1px solid ${GOLD}; }
+        .f01faq-help::before { content: ""; position: absolute; top: -1px; left: -1px; width: 32px; height: 32px; border-top: 2px solid ${MOSS}; border-left: 2px solid ${MOSS}; }
+        .f01faq-help::after { content: ""; position: absolute; bottom: -1px; right: -1px; width: 32px; height: 32px; border-bottom: 2px solid ${MOSS}; border-right: 2px solid ${MOSS}; }
+        .f01faq-help-eye { font-family: ${INTER}; font-weight: 500; font-size: 10.5px; letter-spacing: 0.3em; text-transform: uppercase; color: ${MOSS}; }
+        .f01faq-help-h { font-family: ${GEORGIA}; font-style: italic; font-size: 22px; color: ${INK}; margin: 8px 0 12px; letter-spacing: -0.005em; }
+        .f01faq-help-p { font-family: ${INTER}; font-weight: 300; font-size: 13.5px; line-height: 1.6; color: ${INK70}; margin: 0 0 18px; }
+        .f01faq-help-row { display: flex; flex-direction: column; gap: 10px; }
+        .f01faq-help-row a { display: inline-flex; align-items: center; gap: 10px; font-family: ${GEORGIA}; font-style: italic; font-size: 16px; color: ${INK}; text-decoration: none; transition: color 0.3s ease; letter-spacing: -0.005em; }
+        .f01faq-help-row a:hover { color: ${MOSS}; }
+        .f01faq-help-row a svg { color: ${GOLD}; }
+
+        /* RIGHT accordion */
+        .f01faq-list { display: flex; flex-direction: column; gap: 0; border-top: 1px solid ${GOLD}; }
+        .f01faq-item { border-bottom: 1px dotted ${GOLD}; padding: 6px 0; }
+        .f01faq-btn { width: 100%; background: transparent; border: none; padding: 26px 0; display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: baseline; text-align: left; cursor: pointer; color: ${INK}; }
+        .f01faq-num { font-family: ${GEORGIA}; font-style: italic; font-size: 14px; color: ${GOLD}; letter-spacing: 0.06em; }
+        .f01faq-q { font-family: ${GEORGIA}; font-style: italic; font-weight: 400; font-size: clamp(18px, 1.6vw, 22px); line-height: 1.3; color: ${INK}; margin: 0; letter-spacing: -0.008em; transition: color 0.35s ease; }
+        .f01faq-btn:hover .f01faq-q { color: ${MOSS}; }
+        .f01faq-btn:hover .f01faq-icon { color: ${MOSS}; border-color: ${MOSS}; }
+        .f01faq-icon { width: 34px; height: 34px; border-radius: 50%; border: 1px solid ${GOLD}; display: inline-flex; align-items: center; justify-content: center; color: ${INK70}; transition: color 0.35s ease, border-color 0.35s ease, transform 0.4s cubic-bezier(.6,.05,.35,1); position: relative; }
+        .f01faq-icon::before, .f01faq-icon::after { content: ""; position: absolute; background: currentColor; }
+        .f01faq-icon::before { width: 12px; height: 1px; }
+        .f01faq-icon::after { width: 1px; height: 12px; transition: transform 0.4s cubic-bezier(.6,.05,.35,1); }
+        .f01faq-item.open .f01faq-icon { transform: rotate(180deg); background: ${MOSS}; color: ${IVORY}; border-color: ${MOSS}; }
+        .f01faq-item.open .f01faq-icon::after { transform: scaleY(0); }
+
+        .f01faq-panel { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(.6,.05,.35,1); }
+        .f01faq-item.open .f01faq-panel { max-height: 500px; }
+        .f01faq-a { padding: 0 44px 30px 62px; font-family: ${INTER}; font-weight: 300; font-size: 15px; line-height: 1.75; color: ${INK70}; margin: 0; max-width: 720px; }
+
+        @media(max-width:960px){
+          .f01faq-grid { grid-template-columns: 1fr; gap: 40px; }
+          .f01faq-left { position: static; }
+        }
+        @media(max-width:600px){
+          .f01faq { padding: 64px 20px 76px; }
+          .f01faq-btn { padding: 22px 0; grid-template-columns: 1fr auto; gap: 14px; }
+          .f01faq-num { display: none; }
+          .f01faq-a { padding: 0 8px 26px 0; }
+          .f01faq-help { padding: 24px 22px 22px; }
+        }
+      `}</style>
+
+      <div className="f01faq-inner">
+        <div className="f01faq-grid">
+          <div className="f01faq-left">
+            {showHeader && (
+              <>
+                <span className="f01faq-eye"><i /><em>✿</em>
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                  <em>✿</em><i />
+                </span>
+                <h2 className="f01faq-h">
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+                <p className="f01faq-k">
+                  <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+                </p>
+              </>
+            )}
+
+            <aside className="f01faq-help">
+              <span className="f01faq-help-eye">POMOC · KDYKOLIV</span>
+              <h3 className="f01faq-help-h">
+                <GenericEditableText sectionId={sectionId} field="helpTitle" value={helpTitle} tag="span" />
+              </h3>
+              <p className="f01faq-help-p">
+                <GenericEditableText sectionId={sectionId} field="helpCopy" value={helpCopy} tag="span" />
+              </p>
+              <div className="f01faq-help-row">
+                <a href={phoneHref}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z" stroke="currentColor" strokeWidth="1.4"/></svg>
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                </a>
+                <a href={emailHref}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4z M4 6l8 6 8-6" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/></svg>
+                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                </a>
+              </div>
+            </aside>
+          </div>
+
+          <div className="f01faq-list">
+            {items.map((item, i) => {
+              const isOpen = open === i;
+              return (
+                <div key={i} className={`f01faq-item ${isOpen ? "open" : ""}`}>
+                  <button className="f01faq-btn" onClick={() => setOpen(isOpen ? null : i)} aria-expanded={isOpen}>
+                    <span className="f01faq-num">0{i + 1}</span>
+                    <h3 className="f01faq-q">
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={item.question ?? ""} tag="span" />
+                    </h3>
+                    <span className="f01faq-icon" aria-hidden />
+                  </button>
+                  <div className="f01faq-panel">
+                    <p className="f01faq-a">
+                      <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={item.answer ?? ""} tag="span" />
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

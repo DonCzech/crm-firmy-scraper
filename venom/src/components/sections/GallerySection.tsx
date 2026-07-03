@@ -1827,11 +1827,48 @@ function GalleryNails02({ content, sectionId, images }: { content: Record<string
   const WINE  = "#6b3f38";
   const TAUPE = "#d4a080";
   const CREAM = "#f6efe9";
+  const INK   = "#3a2a25";
+  const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
+  const SANS  = "'Helvetica Neue', Arial, sans-serif";
 
+  const numberPrefix = String(content.numberPrefix ?? "(bonus)");
   const title    = String(content.title    ?? "Galerie");
   const kicker   = String(content.kicker   ?? "Naše práce v detailu");
-  const igText   = String(content.igText   ?? "Sledujte nás na Instagramu");
-  const igHref   = String(content.igHref   ?? "https://instagram.com/demo");
+  const lead     = String(content.lead     ?? "Výběr z podpisové kolekce — manikúra, pedikúra i originální nail design pro pravidelné klientky studia.");
+  const igText   = String(content.igText   ?? "Sledujte @premiumnails.demo");
+  const igHref   = String(content.igHref   ?? "https://instagram.com/premiumnails.demo");
+  const zoomLabel = String(content.zoomLabel ?? "Zvětšit");
+
+  const displayImages = images.slice(0, 6);
+
+  const [lightbox, setLightbox] = useState<number | null>(null);
+  useEffect(() => {
+    if (lightbox === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightbox(null);
+      if (e.key === "ArrowLeft") setLightbox(v => (v === null ? null : (v - 1 + displayImages.length) % displayImages.length));
+      if (e.key === "ArrowRight") setLightbox(v => (v === null ? null : (v + 1) % displayImages.length));
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [lightbox, displayImages.length]);
+
+  // Bento layout — item 0 spans wide (2 cols), item 1 tall right column
+  // Row 2: items 2, 3, 4, 5 — 3-4 cells depending on count
+  const bentoStyle = (i: number): React.CSSProperties => {
+    if (displayImages.length >= 6) {
+      const bento: Record<number, React.CSSProperties> = {
+        0: { gridColumn: "1 / span 2", gridRow: "1 / span 2", aspectRatio: "16 / 11" },
+        1: { gridColumn: "3 / span 1", gridRow: "1 / span 1", aspectRatio: "3 / 4" },
+        2: { gridColumn: "3 / span 1", gridRow: "2 / span 1", aspectRatio: "3 / 4" },
+        3: { gridColumn: "1 / span 1", gridRow: "3 / span 1", aspectRatio: "1 / 1" },
+        4: { gridColumn: "2 / span 1", gridRow: "3 / span 1", aspectRatio: "1 / 1" },
+        5: { gridColumn: "3 / span 1", gridRow: "3 / span 1", aspectRatio: "1 / 1" },
+      };
+      return bento[i] ?? { aspectRatio: "3 / 4" };
+    }
+    return { aspectRatio: "3 / 4" };
+  };
 
   return (
     <section
@@ -1841,118 +1878,399 @@ function GalleryNails02({ content, sectionId, images }: { content: Record<string
       data-template="nails-02"
       style={{
         backgroundColor: CREAM,
-        padding: "clamp(80px, 12vw, 160px) clamp(24px, 6vw, 72px)",
+        padding: "clamp(90px, 12vw, 160px) clamp(24px, 6vw, 72px)",
+        position: "relative",
       }}
     >
-      <div style={{ maxWidth: 1320, margin: "0 auto" }}>
-        <div style={{ marginBottom: "clamp(56px, 7vw, 88px)", textAlign: "left" }}>
-          <h2
-            style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
+      {/* Section eyebrow */}
+      <div
+        className="n02-gal-eyebrow"
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "clamp(40px, 6vw, 80px)",
+          right: "clamp(24px, 6vw, 72px)",
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+          fontFamily: SANS,
+          fontSize: "0.7rem",
+          fontWeight: 500,
+          color: TAUPE,
+          letterSpacing: "0.32em",
+          textTransform: "uppercase",
+          opacity: 0.75,
+        }}
+      >
+        <span>Kapitola · 04</span>
+        <span style={{ display: "block", width: 42, height: 1, backgroundColor: TAUPE, opacity: 0.6 }} />
+      </div>
+
+      <div style={{ maxWidth: 1360, margin: "0 auto" }}>
+        {/* Header */}
+        <div style={{ marginBottom: "clamp(64px, 8vw, 108px)", maxWidth: 720 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 40 }}>
+            <span aria-hidden style={{ display: "block", width: 1, height: 32, backgroundColor: TAUPE }} />
+            <span style={{
+              fontFamily: SERIF,
               fontStyle: "italic",
               fontWeight: 400,
-              fontSize: "clamp(3rem, 6vw, 5.6rem)",
+              fontSize: "clamp(1.5rem, 1.9vw, 1.9rem)",
+              color: TAUPE,
               lineHeight: 1,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="numberPrefix" value={numberPrefix} tag="span" />
+            </span>
+          </div>
+          <h2
+            style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: "clamp(3.2rem, 7vw, 6.6rem)",
+              lineHeight: 0.95,
               color: WINE,
               margin: 0,
-              letterSpacing: "-0.01em",
+              letterSpacing: "-0.015em",
             }}
           >
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
-          <div aria-hidden="true" style={{ width: 64, height: 1, backgroundColor: TAUPE, margin: "32px 0 24px" }} />
-          <p
-            style={{
-              fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-              fontSize: "0.78rem",
-              fontWeight: 500,
-              color: TAUPE,
-              textTransform: "uppercase",
-              letterSpacing: "0.32em",
-              margin: 0,
-            }}
-          >
+          <div aria-hidden="true" style={{ width: 88, height: 1, backgroundColor: TAUPE, margin: "48px 0 28px" }} />
+          <p style={{
+            fontFamily: SANS,
+            fontSize: "0.76rem",
+            fontWeight: 600,
+            color: TAUPE,
+            textTransform: "uppercase",
+            letterSpacing: "0.32em",
+            margin: 0,
+          }}>
             <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+          </p>
+          <p style={{
+            marginTop: 24,
+            fontFamily: SANS,
+            fontSize: "1rem",
+            fontWeight: 300,
+            lineHeight: 1.8,
+            color: INK,
+            maxWidth: 540,
+          }}>
+            <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
           </p>
         </div>
 
+        {/* Bento grid */}
         <div
           className="nails02-gallery-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-            gap: "clamp(14px, 1.6vw, 22px)",
+            gridAutoRows: "minmax(160px, auto)",
+            gap: "clamp(14px, 1.8vw, 24px)",
           }}
         >
-          {images.slice(0, 6).map((img, i) => (
-            <GenericEditableImage
-              key={`g-${i}`}
-              sectionId={sectionId}
-              field={`images.${i}.url`}
-              src={img.url ?? ""}
-              alt={img.alt ?? `Galerie ${i + 1}`}
-              style={{
-                position: "relative",
-                aspectRatio: "3 / 4",
-                overflow: "hidden",
-                display: "block",
-                cursor: "default",
-              }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={img.fullUrl || img.url || ""}
-                alt={img.alt ?? `Galerie ${i + 1}`}
-                loading="lazy"
+          {displayImages.map((img, i) => {
+            const nStr = String(i + 1).padStart(2, "0");
+            const gridStyle = bentoStyle(i);
+            return (
+              <div
+                key={`g-${i}`}
+                className="n02-gal-cell"
+                onClick={() => setLightbox(i)}
+                onKeyDown={(e) => { if (e.key === "Enter") setLightbox(i); }}
+                tabIndex={0}
+                role="button"
+                aria-label={`Otevřít ${img.alt ?? `foto ${i + 1}`}`}
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                  display: "block",
-                  transition: "transform 0.6s ease",
+                  position: "relative",
+                  overflow: "hidden",
+                  cursor: "zoom-in",
+                  outline: "none",
+                  ...gridStyle,
                 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1.06)"; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLImageElement).style.transform = "scale(1)"; }}
-              />
-            </GenericEditableImage>
-          ))}
+              >
+                <GenericEditableImage
+                  sectionId={sectionId}
+                  field={`images.${i}.url`}
+                  src={img.url ?? ""}
+                  alt={img.alt ?? `Galerie ${i + 1}`}
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    display: "block",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={img.fullUrl || img.url || ""}
+                    alt={img.alt ?? `Galerie ${i + 1}`}
+                    loading="lazy"
+                    className="n02-gal-img"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      display: "block",
+                      transition: "transform 0.9s cubic-bezier(0.22,1,0.36,1)",
+                    }}
+                  />
+                </GenericEditableImage>
+
+                {/* Corner label N° */}
+                <span
+                  aria-hidden="true"
+                  className="n02-gal-numeral"
+                  style={{
+                    position: "absolute",
+                    top: 14,
+                    left: 14,
+                    zIndex: 3,
+                    fontFamily: SERIF,
+                    fontStyle: "italic",
+                    fontWeight: 400,
+                    fontSize: "1.1rem",
+                    color: CREAM,
+                    letterSpacing: "0.02em",
+                    textShadow: "0 1px 6px rgba(0,0,0,0.4)",
+                    opacity: 0.85,
+                    transition: "opacity 0.4s ease",
+                  }}
+                >
+                  N°{nStr}
+                </span>
+
+                {/* Wine hover overlay */}
+                <div
+                  aria-hidden="true"
+                  className="n02-gal-overlay"
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    zIndex: 2,
+                    background: `linear-gradient(180deg, rgba(31,20,17,0.05) 0%, rgba(107,63,56,0.55) 100%)`,
+                    opacity: 0,
+                    transition: "opacity 0.45s ease",
+                    pointerEvents: "none",
+                    display: "flex",
+                    alignItems: "flex-end",
+                    justifyContent: "flex-start",
+                    padding: 22,
+                  }}
+                >
+                  <span style={{
+                    fontFamily: SERIF,
+                    fontStyle: "italic",
+                    fontWeight: 400,
+                    fontSize: "1.1rem",
+                    color: CREAM,
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                  }}>
+                    <GenericEditableText sectionId={sectionId} field="zoomLabel" value={zoomLabel} tag="span" />
+                    <span aria-hidden="true">↗</span>
+                  </span>
+                </div>
+
+                {/* Corner brackets on hover */}
+                {[
+                  { top: 6, left: 6, rotate: 0 },
+                  { top: 6, right: 6, rotate: 90 },
+                  { bottom: 6, right: 6, rotate: 180 },
+                  { bottom: 6, left: 6, rotate: 270 },
+                ].map(({ rotate, ...pos }, bi) => (
+                  <span
+                    key={`gbrk-${bi}`}
+                    aria-hidden="true"
+                    className="n02-gal-bracket"
+                    style={{
+                      position: "absolute",
+                      ...pos,
+                      width: 20,
+                      height: 20,
+                      transform: `rotate(${rotate}deg)`,
+                      transformOrigin: "center",
+                      pointerEvents: "none",
+                      zIndex: 3,
+                      opacity: 0,
+                      transition: "opacity 0.45s ease",
+                    }}
+                  >
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M20 0 H4 A4 4 0 0 0 0 4 V20" stroke={CREAM} strokeWidth="1" fill="none"/>
+                    </svg>
+                  </span>
+                ))}
+              </div>
+            );
+          })}
         </div>
 
-        <div style={{ marginTop: "clamp(48px, 6vw, 72px)", textAlign: "center" }}>
+        {/* IG footer */}
+        <div style={{
+          marginTop: "clamp(48px, 6vw, 72px)",
+          display: "flex",
+          justifyContent: "center",
+        }}>
           <a
             href={igHref}
             target="_blank"
             rel="noopener noreferrer"
+            className="n02-gal-ig"
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: 10,
-              fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-              fontSize: "0.84rem",
-              fontWeight: 500,
+              gap: 14,
+              fontFamily: SANS,
+              fontSize: "0.82rem",
+              fontWeight: 600,
               color: WINE,
               textTransform: "uppercase",
               letterSpacing: "0.28em",
               textDecoration: "none",
-              paddingBottom: 4,
+              paddingBottom: 6,
               borderBottom: `1px solid ${WINE}`,
-              transition: "color 0.2s, border-color 0.2s",
+              transition: "color 0.3s ease, border-color 0.3s ease, gap 0.3s ease",
             }}
-            onMouseEnter={e => { e.currentTarget.style.color = TAUPE; e.currentTarget.style.borderBottomColor = TAUPE; }}
-            onMouseLeave={e => { e.currentTarget.style.color = WINE; e.currentTarget.style.borderBottomColor = WINE; }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <rect x="3" y="3" width="18" height="18" rx="5"/>
               <circle cx="12" cy="12" r="4"/>
               <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/>
             </svg>
             <GenericEditableText sectionId={sectionId} field="igText" value={igText} tag="span" />
+            <span aria-hidden="true">→</span>
           </a>
         </div>
       </div>
+
+      {/* Lightbox */}
+      {lightbox !== null && displayImages[lightbox] && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setLightbox(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 90,
+            backgroundColor: "rgba(15,8,7,0.92)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "clamp(24px, 5vw, 80px)",
+          }}
+        >
+          {/* Close */}
+          <button
+            onClick={(e) => { e.stopPropagation(); setLightbox(null); }}
+            aria-label="Zavřít"
+            style={{
+              position: "absolute",
+              top: 24, right: 24,
+              background: "transparent",
+              border: `1px solid ${CREAM}55`,
+              color: CREAM,
+              width: 44, height: 44,
+              borderRadius: 999,
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+          </button>
+          {/* Prev */}
+          <button
+            onClick={(e) => { e.stopPropagation(); setLightbox(v => (v === null ? null : (v - 1 + displayImages.length) % displayImages.length)); }}
+            aria-label="Předchozí"
+            style={{
+              position: "absolute",
+              left: "clamp(12px, 3vw, 40px)",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "transparent",
+              border: `1px solid ${CREAM}55`,
+              color: CREAM,
+              width: 48, height: 48,
+              borderRadius: 999,
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
+          {/* Next */}
+          <button
+            onClick={(e) => { e.stopPropagation(); setLightbox(v => (v === null ? null : (v + 1) % displayImages.length)); }}
+            aria-label="Další"
+            style={{
+              position: "absolute",
+              right: "clamp(12px, 3vw, 40px)",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "transparent",
+              border: `1px solid ${CREAM}55`,
+              color: CREAM,
+              width: 48, height: 48,
+              borderRadius: 999,
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
+          {/* Counter */}
+          <div style={{
+            position: "absolute",
+            bottom: 28,
+            left: "50%",
+            transform: "translateX(-50%)",
+            fontFamily: SERIF,
+            fontStyle: "italic",
+            fontSize: "1.1rem",
+            color: TAUPE,
+            letterSpacing: "0.05em",
+          }}>
+            N°{String(lightbox + 1).padStart(2, "0")} <span style={{ opacity: 0.55 }}>/ {String(displayImages.length).padStart(2, "0")}</span>
+          </div>
+          {/* Image */}
+          <div onClick={(e) => e.stopPropagation()} style={{
+            maxWidth: "min(1200px, 92vw)",
+            maxHeight: "82vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={displayImages[lightbox].fullUrl || displayImages[lightbox].url || ""}
+              alt={displayImages[lightbox].alt ?? `Galerie ${lightbox + 1}`}
+              style={{ maxWidth: "100%", maxHeight: "82vh", objectFit: "contain", display: "block" }}
+            />
+          </div>
+        </div>
+      )}
+
       <style>{`
-        @media (max-width: 768px) {
+        .n02-gal-cell:hover .n02-gal-img { transform: scale(1.06); }
+        .n02-gal-cell:hover .n02-gal-overlay { opacity: 1; }
+        .n02-gal-cell:hover .n02-gal-bracket { opacity: 1; }
+        .n02-gal-cell:hover .n02-gal-numeral { opacity: 0; }
+        .n02-gal-ig:hover { color: ${TAUPE}; border-bottom-color: ${TAUPE}; gap: 18px; }
+        @media (max-width: 900px) {
           .nails02-gallery-grid { grid-template-columns: repeat(2, 1fr) !important; }
+          .nails02-gallery-grid > .n02-gal-cell { grid-column: auto !important; grid-row: auto !important; aspect-ratio: 3 / 4 !important; }
+          .n02-gal-eyebrow { display: none !important; }
         }
       `}</style>
     </section>
@@ -3312,61 +3630,168 @@ function GalleryStavba03({ content, sectionId, tenantSlug, isAdmin }: { content:
 }
 
 // ── florist-01-collections ───────────────────────────────────────────────────
-// 1:1 freja.cz collection list: 5-col grid, square cards, zoom hover, left title
+// Botanical Atelier Editorial mosaic:
+// - Warm ivory bg, editorial header (moss eyebrow + Georgia italic H2 + Inter subtitle)
+// - 5 unequal cells v magazine mosaic gridu (large hero-left + 2 stacked right + 2 bottom wide)
+// - Cell: image + moss overlay (opacity 0→38 on hover) + Georgia italic "01" number badge
+//   + label chip warm ivory s italic name + slide-in arrow → + olive-gold corner brackets on hover
+// - Custom luxe cursor (sprig) na cells, bottom hairline + "Zobrazit celý katalog →" CTA link
 function GalleryFlorist01Collections({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const ARIMO = "Arimo, Arial, sans-serif";
-  const FG = "#1c1f28";
+  const MOSS   = "#2f4a3a";
+  const SAGE   = "#5c8a6a";
+  const IVORY  = "#faf7f2";
+  const INK    = "#2a1a0a";
+  const INK70  = "rgba(42,26,10,0.72)";
+  const GOLD   = "#c9b78a";
+  const GEORGIA = "Georgia, 'Times New Roman', serif";
+  const INTER   = "Inter, system-ui, sans-serif";
 
-  interface CollItem { name?: string; href?: string; image?: string; }
-  const title = String(content.title ?? "Naše kolekce");
-  const items = (content.items as CollItem[]) ?? [];
+  interface CollItem { name?: string; href?: string; image?: string; count?: string; }
+  const rawItems = (content.items as CollItem[]) ?? [];
+  const items: CollItem[] = (rawItems.length >= 5 ? rawItems : [
+    { name: "Kytice růží",       count: "24 variant",  href: "/katalog", image: "https://images.unsplash.com/photo-1494972308805-463bc619d34e?auto=format&fit=crop&w=1400&q=85" },
+    { name: "Pivoňky & růže",    count: "12 variant",  href: "/katalog", image: "https://images.unsplash.com/photo-1509281373149-e957c6296406?auto=format&fit=crop&w=1200&q=85" },
+    { name: "Mono kytice",       count: "9 variant",   href: "/katalog", image: "https://images.unsplash.com/photo-1487070183336-b863922373d4?auto=format&fit=crop&w=1200&q=85" },
+    { name: "Svatební kolekce",  count: "6 variant",   href: "/katalog", image: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=1200&q=85" },
+    { name: "Sušené & floristika","count": "18 variant","href": "/katalog","image": "https://images.unsplash.com/photo-1508610048659-a06b669e3321?auto=format&fit=crop&w=1200&q=85" }
+  ]).slice(0, 5);
+
+  const eyebrow = String(content.eyebrow ?? "02 · KOLEKCE");
+  const title   = String(content.title   ?? "Sezónní kolekce, které milujeme");
+  const kicker  = String(content.kicker  ?? "Pět kurátorských linií — od klasických růží po sušenou floristiku. Ručně vybíráme z každé sezónní dodávky.");
+  const ctaText = String(content.ctaText ?? "Zobrazit celý katalog");
+  const ctaHref = String(content.ctaHref ?? "/katalog");
 
   const resolveHref = (href: string) => {
-    if (!href || href.startsWith("#")) return href ?? "#";
-    if (isAdmin) return `/demo/${tenantSlug}/admin`;
+    if (!href) return "#";
+    if (href.startsWith("http") || href.startsWith("#") || href.startsWith("tel") || href.startsWith("mailto")) return href;
+    if (isAdmin) return `/demo/${tenantSlug}/admin${href}`;
+    if (tenantSlug) return `/demo/${tenantSlug}${href}`;
     return href;
   };
 
+  const cursorSvg = "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'><circle cx='18' cy='18' r='16' fill='%23faf7f2' stroke='%232f4a3a' stroke-width='1'/><path d='M18 26 V14 M18 22 Q14 20 12 16 M18 19 Q22 17 24 13' stroke='%232f4a3a' stroke-width='1' fill='none' stroke-linecap='round'/><circle cx='18' cy='13' r='1.4' fill='%232f4a3a'/></svg>\") 18 18, pointer";
+
   return (
-    <section style={{ background: "#ffffff", fontFamily: ARIMO }}>
+    <section id="katalog" data-template="florist-01" className="f01coll" style={{ background: IVORY, fontFamily: INTER, padding: "96px 24px 108px" }}>
       <style>{`
-        .f01-coll-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
-        .f01-coll-img { overflow: hidden; aspect-ratio: 1; }
-        .f01-coll-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; display: block; }
-        .f01-coll-card:hover .f01-coll-img img { transform: scale(1.06); }
-        @media (max-width: 749px) { .f01-coll-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+        .f01coll-inner { max-width: 1280px; margin: 0 auto; }
+        .f01coll-head { text-align:center; display:flex; flex-direction:column; align-items:center; gap:16px; margin-bottom: 56px; }
+        .f01coll-eye { display:inline-flex; align-items:center; gap:14px; font-family:${INTER}; font-weight:500; font-size:11px; letter-spacing:0.34em; text-transform:uppercase; color:${MOSS}; }
+        .f01coll-eye i { width:26px; height:1px; background:${GOLD}; display:inline-block; }
+        .f01coll-eye em { color:${GOLD}; font-style:normal; font-size:10px; }
+        .f01coll-h { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:clamp(30px, 3.6vw, 46px); line-height:1.12; color:${INK}; margin:0; letter-spacing:-0.012em; max-width: 760px; }
+        .f01coll-k { font-family:${INTER}; font-weight:300; font-size:15px; line-height:1.7; color:${INK70}; max-width: 620px; margin:0; }
+
+        /* Editorial mosaic: 4 cols × 4 rows */
+        .f01coll-grid { display:grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: 20px; }
+        .f01coll-cell { position:relative; overflow:hidden; text-decoration:none; color:inherit; background:${MOSS}; cursor: ${cursorSvg}; }
+        .f01coll-cell:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+        .f01coll-cell:nth-child(2) { grid-column: span 2; grid-row: span 1; }
+        .f01coll-cell:nth-child(3) { grid-column: span 2; grid-row: span 1; }
+        .f01coll-cell:nth-child(4) { grid-column: span 2; grid-row: span 2; }
+        .f01coll-cell:nth-child(5) { grid-column: span 2; grid-row: span 2; }
+
+        .f01coll-cell img { width:100%; height:100%; object-fit:cover; display:block; transition: transform 1.1s cubic-bezier(.2,.7,.2,1), filter 0.6s ease; filter: brightness(0.96) saturate(0.98); }
+        .f01coll-cell:hover img { transform: scale(1.07); filter: brightness(1) saturate(1.08); }
+
+        /* Moss veil, subtle by default, stronger on hover */
+        .f01coll-veil { position:absolute; inset:0; background: linear-gradient(180deg, rgba(47,74,58,0.10) 0%, rgba(47,74,58,0.55) 100%); transition: background 0.5s ease; pointer-events:none; }
+        .f01coll-cell:hover .f01coll-veil { background: linear-gradient(180deg, rgba(47,74,58,0.20) 0%, rgba(47,74,58,0.72) 100%); }
+
+        /* Corner brackets olive-gold — fade in on hover */
+        .f01coll-brk { position:absolute; pointer-events:none; }
+        .f01coll-brk::before, .f01coll-brk::after,
+        .f01coll-brk span::before, .f01coll-brk span::after {
+          content:""; position:absolute; width:32px; height:32px; opacity:0; transition: opacity 0.5s ease, transform 0.5s cubic-bezier(.6,.05,.35,1); transform: scale(0.85);
+          border: 0 solid ${GOLD};
+        }
+        .f01coll-brk::before { top:14px; left:14px; border-top-width:1px; border-left-width:1px; }
+        .f01coll-brk::after  { top:14px; right:14px; border-top-width:1px; border-right-width:1px; }
+        .f01coll-brk span::before { bottom:14px; left:14px; border-bottom-width:1px; border-left-width:1px; }
+        .f01coll-brk span::after  { bottom:14px; right:14px; border-bottom-width:1px; border-right-width:1px; }
+        .f01coll-cell:hover .f01coll-brk::before,
+        .f01coll-cell:hover .f01coll-brk::after,
+        .f01coll-cell:hover .f01coll-brk span::before,
+        .f01coll-cell:hover .f01coll-brk span::after { opacity: 1; transform: scale(1); }
+
+        .f01coll-num { position:absolute; top:22px; left:24px; font-family:${GEORGIA}; font-style:italic; font-size:14px; color:${IVORY}; letter-spacing:0.14em; opacity:0.9; }
+        .f01coll-label { position:absolute; left:24px; right:24px; bottom:24px; display:flex; align-items:flex-end; justify-content:space-between; gap:14px; color:${IVORY}; }
+        .f01coll-label-l { display:flex; flex-direction:column; gap:6px; }
+        .f01coll-name { font-family:${GEORGIA}; font-style:italic; font-size:clamp(20px, 2vw, 28px); line-height:1.15; margin:0; letter-spacing:-0.008em; }
+        .f01coll-count { font-family:${INTER}; font-weight:400; font-size:11.5px; letter-spacing:0.24em; text-transform:uppercase; color:${IVORY}; opacity:0.72; }
+        .f01coll-arrow { width:48px; height:48px; border:1px solid rgba(250,247,242,0.6); border-radius:50%; display:inline-flex; align-items:center; justify-content:center; color:${IVORY};
+          background: rgba(47,74,58,0.4); backdrop-filter: blur(4px); transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, transform 0.5s cubic-bezier(.6,.05,.35,1); flex-shrink:0; }
+        .f01coll-cell:hover .f01coll-arrow { background:${IVORY}; color:${MOSS}; border-color:${IVORY}; transform: translate(4px,-4px); }
+
+        .f01coll-foot { display:flex; align-items:center; justify-content:center; gap:20px; margin-top: 56px; padding-top: 34px; border-top:1px solid ${GOLD}; }
+        .f01coll-cta { position:relative; display:inline-flex; align-items:center; gap:12px; padding:14px 26px; background:transparent; color:${MOSS}; font-family:${INTER}; font-weight:500; font-size:13px; letter-spacing:0.24em; text-transform:uppercase;
+          text-decoration:none; border:1px solid ${MOSS}; transition:color 0.4s ease, background 0.4s ease; }
+        .f01coll-cta:hover { background:${MOSS}; color:${IVORY}; }
+        .f01coll-cta span.arrow { transition: transform 0.4s ease; }
+        .f01coll-cta:hover span.arrow { transform: translateX(4px); }
+
+        @media(max-width:900px){
+          .f01coll { padding: 64px 20px 76px; }
+          .f01coll-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 220px; gap: 14px; }
+          .f01coll-cell:nth-child(1),
+          .f01coll-cell:nth-child(4),
+          .f01coll-cell:nth-child(5) { grid-column: span 2; grid-row: span 1; }
+          .f01coll-cell:nth-child(2),
+          .f01coll-cell:nth-child(3) { grid-column: span 1; grid-row: span 1; }
+          .f01coll-name { font-size: 20px; }
+          .f01coll-arrow { width:40px; height:40px; }
+        }
       `}</style>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "36px 3rem 18px" }}>
-        {title && (
-          <h2 style={{ fontSize: 22, fontWeight: 600, color: FG, margin: "0 0 24px", letterSpacing: "-0.01em" }}>
+
+      <div className="f01coll-inner">
+        <header className="f01coll-head">
+          <span className="f01coll-eye"><i /><em>✿</em>
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            <em>✿</em><i />
+          </span>
+          <h2 className="f01coll-h">
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h2>
-        )}
-        <ul className="f01-coll-grid" style={{ listStyle: "none", padding: 0, margin: 0 }}>
+          <p className="f01coll-k">
+            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+          </p>
+        </header>
+
+        <div className="f01coll-grid">
           {items.map((item, i) => (
-            <li key={i} className="f01-coll-card">
-              <a href={resolveHref(item.href ?? "#")} style={{ textDecoration: "none", display: "block" }}>
-                <div className="f01-coll-img">
-                  {item.image && (
-                    <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={item.name ?? ""} style={{ display: "block", width: "100%", height: "100%" }}>
-                      <img
-                        src={item.image}
-                        alt={item.name ?? ""}
-                        loading={i < 3 ? "eager" : "lazy"}
-                        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                      />
-                    </GenericEditableImage>
-                  )}
-                </div>
-                <div style={{ paddingTop: 10 }}>
-                  <span style={{ fontSize: 14, fontWeight: 600, color: FG, lineHeight: 1.3 }}>
-                    <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name ?? ""} tag="span" />
+            <a key={i} className="f01coll-cell" href={resolveHref(item.href ?? "/katalog")} aria-label={item.name}>
+              {item.image && (
+                <GenericEditableImage sectionId={sectionId} field={`items.${i}.image`} src={item.image} alt={item.name ?? ""} style={{ display: "block", width: "100%", height: "100%" }}>
+                  <img src={item.image} alt={item.name ?? ""} loading={i < 2 ? "eager" : "lazy"} />
+                </GenericEditableImage>
+              )}
+              <span className="f01coll-veil" aria-hidden />
+              <span className="f01coll-brk" aria-hidden><span /></span>
+              <span className="f01coll-num">0{i + 1}</span>
+              <div className="f01coll-label">
+                <div className="f01coll-label-l">
+                  <span className="f01coll-count">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.count`} value={item.count ?? ""} tag="span" />
                   </span>
+                  <h3 className="f01coll-name">
+                    <GenericEditableText sectionId={sectionId} field={`items.${i}.name`} value={item.name ?? ""} tag="span" />
+                  </h3>
                 </div>
-              </a>
-            </li>
+                <span className="f01coll-arrow" aria-hidden>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                </span>
+              </div>
+            </a>
           ))}
-        </ul>
+        </div>
+
+        <div className="f01coll-foot">
+          <a href={resolveHref(ctaHref)} className="f01coll-cta">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <span className="arrow" aria-hidden>→</span>
+          </a>
+        </div>
       </div>
     </section>
   );

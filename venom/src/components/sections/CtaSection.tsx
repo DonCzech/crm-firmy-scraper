@@ -903,66 +903,169 @@ function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
   return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
 }
 
-// nails-01: burgundy bg, centered H2 + cream CTA button — 1:1 soho-nails.cz section_16
+// nails-01 · Kyoto Wabi-Sabi Beauty CTA — burgundy rituál
+// Burgundy bg s subtle noir gradient + cream corner brackets + ghost Georgia italic word
+// Eyebrow "04 · REZERVACE" + Georgia H2 italic accent + 2 CTAs (cream fill / cream outline phone)
+// Bottom trust strip: Reservio · adresa · hodiny
 function CtaNails01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const BURGUNDY = "#79142b";
   const CREAM    = "#f4f1e9";
   const SERIF    = "Georgia, 'Times New Roman', serif";
-  const SANS     = "'Helvetica Neue', Arial, sans-serif";
+  const SANS     = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
 
-  const title   = (content.title   as string) ?? "Rezervujte si svou návštěvu ještě dnes";
-  const ctaText = (content.ctaText as string) ?? "Objednat se online";
-  const ctaHref = (content.ctaHref as string) ?? "#kontakt";
+  const eyebrow     = String(content.eyebrow     ?? "04 · REZERVACE");
+  const title       = String(content.title       ?? "Vaše chvíle klidu");
+  const titleAccent = String(content.titleAccent ?? "začíná právě teď");
+  const subtitle    = String(content.subtitle    ?? "Rezervujte si termín online 24/7 nebo nám zavolejte. Odpovíme každý pracovní den do hodiny.");
+  const ctaText     = String(content.ctaText     ?? "Objednat online");
+  const ctaHref     = String(content.ctaHref     ?? "/kontakt");
+  const phoneText   = String(content.phoneText   ?? "+420 777 123 456");
+  const phoneHref   = String(content.phoneHref   ?? "tel:+420777123456");
+  const trust       = String(content.trust       ?? "Reservio · Vinohradská 26, Praha 1 · Po–Ne 9:00–19:00");
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolvedCta = (() => {
+    if (!ctaHref) return "#";
+    const base = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "";
+    if (siteMode === "onepage") {
+      if (ctaHref.startsWith("/") && ctaHref !== "/") return `${base}#${ctaHref.slice(1)}`;
+      if (ctaHref.startsWith("#")) return `${base}${ctaHref}`;
+      return ctaHref;
+    }
+    if (ctaHref.startsWith("#")) return `${base}/${ctaHref.slice(1)}`;
+    if (ctaHref.startsWith("/")) return `${base}${ctaHref}`;
+    return ctaHref;
+  })();
 
   return (
     <section
       id="rezervace"
       data-template="nails-01"
+      data-section-type="cta"
+      data-variant="nails-01-cta"
+      className="n01-cta-section"
       style={{
         backgroundColor: BURGUNDY,
-        padding: "clamp(60px, 9vh, 100px) clamp(24px, 6vw, 80px)",
+        padding: "clamp(90px, 13vh, 150px) clamp(24px, 6vw, 80px)",
+        position: "relative",
+        overflow: "hidden",
         textAlign: "center",
       }}
     >
-      <h2 style={{
+      {/* Deep noir gradient overlay */}
+      <div aria-hidden="true" style={{
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse at 30% 10%, rgba(0,0,0,0.28) 0%, transparent 55%), radial-gradient(ellipse at 70% 90%, rgba(0,0,0,0.32) 0%, transparent 60%)",
+      }} />
+
+      {/* Corner brackets — cream */}
+      <span aria-hidden="true" className="n01-cta-frame n01-cta-frame-tl" />
+      <span aria-hidden="true" className="n01-cta-frame n01-cta-frame-tr" />
+      <span aria-hidden="true" className="n01-cta-frame n01-cta-frame-bl" />
+      <span aria-hidden="true" className="n01-cta-frame n01-cta-frame-br" />
+
+      {/* Ghost italic word */}
+      <div aria-hidden="true" className="hidden lg:block" style={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        fontSize: "clamp(180px, 28vw, 380px)",
         fontFamily: SERIF,
-        fontSize: "clamp(24px, 3vw, 42px)",
-        fontWeight: 400,
+        fontStyle: "italic",
         color: CREAM,
-        margin: "0 0 clamp(28px, 4vh, 48px)",
-        lineHeight: 1.25,
-        maxWidth: 700,
-        marginLeft: "auto",
-        marginRight: "auto",
+        opacity: 0.045,
+        whiteSpace: "nowrap",
+        userSelect: "none",
+        pointerEvents: "none",
+        lineHeight: 1,
+        letterSpacing: "-0.02em",
       }}>
-        <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-      </h2>
-      <a
-        href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
-        data-btn="inverse"
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 8,
-          border: `1.5px solid ${CREAM}`,
-          color: CREAM,
-          backgroundColor: "transparent",
-          fontFamily: SANS,
-          fontSize: "0.9rem",
-          fontWeight: 600,
-          letterSpacing: "0.1em",
-          textTransform: "uppercase",
-          textDecoration: "none",
-          padding: "14px 40px",
-          borderRadius: 999,
-          transition: "background 0.2s, color 0.2s",
-        }}
-        onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = CREAM; (e.currentTarget as HTMLAnchorElement).style.color = BURGUNDY; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent"; (e.currentTarget as HTMLAnchorElement).style.color = CREAM; }}
-      >
-        <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-        <span style={{ fontSize: "0.85em" }}>↗</span>
-      </a>
+        rituál
+      </div>
+
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 820, margin: "0 auto" }}>
+        {/* Eyebrow */}
+        <div style={{
+          display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 26,
+          fontFamily: SANS, fontSize: "0.7rem", fontWeight: 300,
+          letterSpacing: "0.36em", textTransform: "uppercase", color: CREAM, opacity: 0.85,
+        }}>
+          <span aria-hidden="true" style={{ width: 60, height: 1, background: CREAM, opacity: 0.55 }} />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          <span aria-hidden="true" style={{ width: 60, height: 1, background: CREAM, opacity: 0.55 }} />
+        </div>
+
+        {/* Title */}
+        <h2 style={{
+          fontFamily: SERIF, fontSize: "clamp(36px, 4.6vw, 68px)",
+          fontWeight: 400, color: CREAM, lineHeight: 1.08,
+          margin: "0 0 26px", letterSpacing: "-0.005em",
+        }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          <br />
+          <em style={{ fontStyle: "italic" }}>
+            <GenericEditableText sectionId={sectionId} field="titleAccent" value={titleAccent} tag="span" />
+          </em>
+        </h2>
+
+        {/* Subtitle */}
+        <p style={{
+          fontFamily: SANS, fontSize: "clamp(15px, 1.15vw, 17px)",
+          fontWeight: 300, color: CREAM, opacity: 0.82,
+          margin: "0 auto clamp(40px, 5vh, 56px)",
+          maxWidth: 560, lineHeight: 1.75,
+        }}>
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+        </p>
+
+        {/* CTAs — cream fill + phone outline */}
+        <div className="n01-cta-buttons" style={{
+          display: "flex", justifyContent: "center", alignItems: "center",
+          gap: 20, flexWrap: "wrap",
+        }}>
+          <a
+            href={resolvedCta}
+            data-btn="inverse"
+            className="n01-cta-primary"
+          >
+            <span className="n01-cta-primary-label">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </span>
+            <span aria-hidden="true" className="n01-cta-primary-arrow">→</span>
+          </a>
+          <a
+            href={phoneHref}
+            className="n01-cta-phone"
+          >
+            <span aria-hidden="true" style={{ opacity: 0.7, marginRight: 8 }}>Nebo</span>
+            <GenericEditableText sectionId={sectionId} field="phoneText" value={phoneText} tag="span" />
+          </a>
+        </div>
+
+        {/* Diamond divider */}
+        <div aria-hidden="true" style={{
+          margin: "clamp(48px, 6vh, 68px) auto 24px",
+          width: 220, height: 1,
+          background: `linear-gradient(90deg, transparent, ${CREAM}70, transparent)`,
+          position: "relative",
+        }}>
+          <span style={{
+            position: "absolute", left: "50%", top: "50%",
+            transform: "translate(-50%, -50%) rotate(45deg)",
+            width: 6, height: 6, background: BURGUNDY,
+            border: `1px solid ${CREAM}`,
+          }} />
+        </div>
+
+        {/* Trust caption */}
+        <div style={{
+          fontFamily: SANS, fontSize: "0.68rem", fontWeight: 300,
+          letterSpacing: "0.32em", textTransform: "uppercase",
+          color: CREAM, opacity: 0.7,
+        }}>
+          <GenericEditableText sectionId={sectionId} field="trust" value={trust} tag="span" />
+        </div>
+      </div>
     </section>
   );
 }

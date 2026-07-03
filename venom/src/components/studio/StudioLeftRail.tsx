@@ -152,7 +152,38 @@ function AccountDropdown({ onClose }: { onClose: () => void }) {
               />
             </Tooltip>
           ))}
+          {/* Vlastní barva — color picker, paleta se odvodí z vybrané barvy */}
+          <Tooltip side="top" label="Vlastní barva">
+            <label
+              aria-label="Téma Vlastní barva"
+              className={clsx(
+                "relative h-7 w-7 cursor-pointer rounded-full ring-2 transition-[transform,box-shadow] duration-100 hover:scale-110",
+                studio.editorTheme === "custom"
+                  ? "ring-[var(--vs-accent-hi)] shadow-[0_0_10px_var(--vs-accent-ring)]"
+                  : "ring-[var(--vs-border-strong)] hover:ring-[var(--vs-text-dim)]"
+              )}
+              style={{
+                background: studio.editorTheme === "custom"
+                  ? studio.customThemeColor
+                  : "conic-gradient(#f43f5e, #f59e0b, #84cc16, #14b8a6, #3b82f6, #a855f7, #f43f5e)",
+              }}
+            >
+              <input
+                type="color"
+                value={studio.customThemeColor}
+                onChange={(e) => studio.setCustomThemeColor(e.target.value)}
+                onClick={() => { if (studio.editorTheme !== "custom") studio.setEditorTheme("custom"); }}
+                className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+                aria-label="Vybrat vlastní barvu editoru"
+              />
+            </label>
+          </Tooltip>
         </div>
+        {studio.editorTheme === "custom" && (
+          <p className="mt-1.5 text-[10px] text-[var(--vs-text-dim)]">
+            Vlastní paleta z barvy <span className="font-mono text-[var(--vs-accent-hi)]">{studio.customThemeColor}</span>
+          </p>
+        )}
       </div>
 
       {/* Sign out */}

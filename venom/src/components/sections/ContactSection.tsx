@@ -137,7 +137,240 @@ export function ContactSection({ content, variant, isAdmin, tenantSlug, sectionI
   if (variant === "barber-04-contact")    return <ContactBarber04 content={content} sectionId={sectionId} />;
   if (variant === "contact-peak-cut")     return <ContactPeakCut content={content} sectionId={sectionId} />;
   if (variant === "arch-01-contact")      return <ContactArch01   content={content} sectionId={sectionId} />;
+  if (variant === "nails-01-contact")     return <ContactNails01  content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   return <ContactSectionForm content={content} isAdmin={isAdmin} tenantSlug={tenantSlug} sectionId={sectionId} />;
+}
+
+// ── nails-01-contact ─────────────────────────────────────────────────────────
+// Kyoto Wabi-Sabi Beauty · white bg s cream card · 2-col: info + Reservio panel
+// Adresa · phone · email · hodiny s dotted-leader · Reservio online CTA
+// ─────────────────────────────────────────────────────────────────────────────
+function ContactNails01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const BURGUNDY = "#79142b";
+  const CREAM    = "#f4f1e9";
+  const SERIF    = "Georgia, 'Times New Roman', serif";
+  const SANS     = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+
+  const eyebrow    = String(content.eyebrow    ?? "STUDIO · KONTAKT");
+  const title      = String(content.title      ?? "Najdete nás v srdci Prahy");
+  const address    = String(content.address    ?? "Vinohradská 26, 110 00 Praha 1");
+  const addressNote= String(content.addressNote?? "Přízemí · 2 minuty od metra Muzeum");
+  const phone      = String(content.phone      ?? "+420 777 123 456");
+  const email      = String(content.email      ?? "studio@sohonails.cz");
+  const mapText    = String(content.mapText    ?? "Otevřít v mapách");
+  const mapHref    = String(content.mapHref    ?? "https://maps.google.com/?q=Vinohradsk%C3%A1+26+Praha");
+  const hours      = (content.hours as Array<{ days: string; time: string }>) ?? [
+    { days: "Pondělí – Pátek", time: "9:00 — 19:00" },
+    { days: "Sobota – Neděle", time: "10:00 — 18:00" },
+  ];
+  const bookTitle  = String(content.bookTitle  ?? "Rezervace online");
+  const bookNote   = String(content.bookNote   ?? "Přes Reservio si vyberete termín, službu i pracovnici — potvrzení dorazí do minuty.");
+  const bookCta    = String(content.bookCta    ?? "Rezervovat termín");
+  const bookHref   = String(content.bookHref   ?? "https://reservio.com/");
+  const socialsIg  = String(content.socialsIg  ?? "https://instagram.com/demo");
+  const socialsFb  = String(content.socialsFb  ?? "https://facebook.com/demo");
+
+  void tenantSlug; void isAdmin;
+
+  return (
+    <section
+      data-template="nails-01"
+      data-section-type="contact"
+      data-variant="nails-01-contact"
+      className="n01-contact"
+      style={{
+        backgroundColor: "#ffffff",
+        padding: "clamp(80px, 12vh, 140px) clamp(24px, 6vw, 80px)",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <div aria-hidden="true" style={{
+        position: "absolute", inset: 0, pointerEvents: "none",
+        background: "radial-gradient(ellipse at 90% 5%, rgba(121,20,43,0.03), transparent 55%), radial-gradient(ellipse at 5% 95%, rgba(121,20,43,0.03), transparent 55%)",
+      }} />
+
+      <div style={{ maxWidth: 1240, margin: "0 auto", position: "relative" }}>
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: "clamp(48px, 6vh, 76px)" }}>
+          <div style={{
+            display: "inline-flex", alignItems: "center", gap: 14, marginBottom: 20,
+            fontFamily: SANS, fontSize: "0.7rem", fontWeight: 300,
+            letterSpacing: "0.36em", textTransform: "uppercase", color: BURGUNDY,
+          }}>
+            <span aria-hidden="true" style={{ width: 60, height: 1, background: BURGUNDY, opacity: 0.5 }} />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            <span aria-hidden="true" style={{ width: 60, height: 1, background: BURGUNDY, opacity: 0.5 }} />
+          </div>
+          <h2 style={{
+            fontFamily: SERIF, fontStyle: "italic",
+            fontSize: "clamp(32px, 3.8vw, 54px)",
+            fontWeight: 400, color: BURGUNDY, lineHeight: 1.1,
+            margin: 0, letterSpacing: "-0.005em",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h2>
+        </div>
+
+        {/* 2-col — info left · Reservio card right */}
+        <div className="n01-contact-grid" style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "clamp(40px, 5vw, 72px)",
+        }}>
+          {/* Info left */}
+          <div>
+            {/* Address block */}
+            <div style={{ marginBottom: 44 }}>
+              <div style={{
+                fontFamily: SANS, fontSize: "0.66rem", fontWeight: 300,
+                letterSpacing: "0.32em", textTransform: "uppercase",
+                color: BURGUNDY, opacity: 0.65, marginBottom: 12,
+              }}>Adresa</div>
+              <div style={{
+                fontFamily: SERIF, fontSize: "1.4rem", fontWeight: 400,
+                color: BURGUNDY, lineHeight: 1.4, marginBottom: 6,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+              </div>
+              <div style={{
+                fontFamily: SERIF, fontStyle: "italic",
+                fontSize: "0.98rem", color: BURGUNDY, opacity: 0.7, marginBottom: 14,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="addressNote" value={addressNote} tag="span" />
+              </div>
+              <a href={mapHref} target="_blank" rel="noopener noreferrer" className="n01-contact-map" style={{
+                display: "inline-flex", alignItems: "center", gap: 8,
+                fontFamily: SANS, fontSize: "0.72rem", fontWeight: 400,
+                letterSpacing: "0.28em", textTransform: "uppercase",
+                color: BURGUNDY, textDecoration: "none",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="mapText" value={mapText} tag="span" />
+                <span aria-hidden="true" className="n01-contact-map-arrow">→</span>
+              </a>
+            </div>
+
+            {/* Contact block */}
+            <div style={{ marginBottom: 44 }}>
+              <div style={{
+                fontFamily: SANS, fontSize: "0.66rem", fontWeight: 300,
+                letterSpacing: "0.32em", textTransform: "uppercase",
+                color: BURGUNDY, opacity: 0.65, marginBottom: 14,
+              }}>Kontakt</div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                <a href={`tel:${phone.replace(/\s/g, "")}`} className="n01-contact-line" style={{
+                  fontFamily: SERIF, fontSize: "1.1rem", color: BURGUNDY,
+                  textDecoration: "none", opacity: 0.9,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                </a>
+                <a href={`mailto:${email}`} className="n01-contact-line" style={{
+                  fontFamily: SERIF, fontStyle: "italic",
+                  fontSize: "1.05rem", color: BURGUNDY,
+                  textDecoration: "none", opacity: 0.9,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+                </a>
+              </div>
+            </div>
+
+            {/* Hours */}
+            <div>
+              <div style={{
+                fontFamily: SANS, fontSize: "0.66rem", fontWeight: 300,
+                letterSpacing: "0.32em", textTransform: "uppercase",
+                color: BURGUNDY, opacity: 0.65, marginBottom: 14,
+              }}>Otevřeno</div>
+              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+                {hours.map((h, i) => (
+                  <li key={`n01-ch-${i}`} style={{
+                    display: "flex", alignItems: "baseline", gap: 10,
+                    fontFamily: SANS, fontSize: "0.94rem", color: BURGUNDY,
+                  }}>
+                    <span style={{
+                      fontFamily: SERIF, fontStyle: "italic",
+                      fontSize: "1.02rem", opacity: 0.85, flexShrink: 0,
+                    }}>{h.days}</span>
+                    <span aria-hidden="true" style={{
+                      flex: 1, height: 0,
+                      borderBottom: `1px dotted rgba(121,20,43,0.35)`,
+                      transform: "translateY(-4px)",
+                    }} />
+                    <span style={{ opacity: 0.9, flexShrink: 0 }}>
+                      <GenericEditableText sectionId={sectionId} field={`hours.${i}.time`} value={h.time} tag="span" />
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Reservio card right — cream s corner brackets */}
+          <div style={{ position: "relative" }}>
+            <div className="n01-contact-card" style={{
+              position: "relative",
+              backgroundColor: CREAM,
+              padding: "clamp(36px, 5vw, 56px)",
+            }}>
+              <span aria-hidden="true" className="n01-about-frame n01-about-frame-tl" />
+              <span aria-hidden="true" className="n01-about-frame n01-about-frame-tr" />
+              <span aria-hidden="true" className="n01-about-frame n01-about-frame-bl" />
+              <span aria-hidden="true" className="n01-about-frame n01-about-frame-br" />
+
+              <div style={{
+                fontFamily: SANS, fontSize: "0.66rem", fontWeight: 300,
+                letterSpacing: "0.36em", textTransform: "uppercase",
+                color: BURGUNDY, opacity: 0.65, marginBottom: 18,
+              }}>Reservio · online 24/7</div>
+
+              <h3 style={{
+                fontFamily: SERIF, fontStyle: "italic",
+                fontSize: "clamp(28px, 3vw, 40px)",
+                fontWeight: 400, color: BURGUNDY,
+                lineHeight: 1.15, margin: "0 0 20px",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="bookTitle" value={bookTitle} tag="span" />
+              </h3>
+
+              <p style={{
+                fontFamily: SANS, fontSize: "0.95rem", fontWeight: 300,
+                color: BURGUNDY, opacity: 0.8, lineHeight: 1.7,
+                margin: "0 0 32px",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="bookNote" value={bookNote} tag="span" />
+              </p>
+
+              <a href={bookHref} target="_blank" rel="noopener noreferrer" className="n01-about-cta">
+                <span className="n01-about-cta-label">
+                  <GenericEditableText sectionId={sectionId} field="bookCta" value={bookCta} tag="span" />
+                </span>
+                <span aria-hidden="true" className="n01-about-cta-arrow">→</span>
+              </a>
+
+              <div style={{
+                marginTop: 40,
+                paddingTop: 24,
+                borderTop: `1px solid rgba(121,20,43,0.2)`,
+                display: "flex", gap: 14, alignItems: "center",
+              }}>
+                <span style={{
+                  fontFamily: SANS, fontSize: "0.62rem", fontWeight: 300,
+                  letterSpacing: "0.32em", textTransform: "uppercase",
+                  color: BURGUNDY, opacity: 0.6,
+                }}>Sledujte nás</span>
+                <a href={socialsIg} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="n01-contact-social">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+                </a>
+                <a href={socialsFb} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="n01-contact-social">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }
 
 // ── contact-massage-01 ───────────────────────────────────────────────────────
@@ -1704,18 +1937,21 @@ function ContactTattoo03({ content, sectionId }: { content: Record<string, unkno
 // ─────────────────────────────────────────────────────────────────────────────
 function ContactNails02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const DARK  = "#1f1411";
+  const WINE  = "#6b3f38";
   const TAUPE = "#d4a080";
   const CREAM = "#f6efe9";
+  const SERIF = "'Cormorant Garamond', Georgia, 'Times New Roman', serif";
+  const SANS  = "'Helvetica Neue', Arial, sans-serif";
 
   const numberPrefix = String(content.numberPrefix ?? "(04)");
   const title        = String(content.title        ?? "Kontakty");
   const kicker       = String(content.kicker       ?? "Těšíme se na vás");
-  const address      = String(content.address      ?? "Ukázková 123, 110 00 Praha 1");
-  const email        = String(content.email        ?? "email@demo.cz");
+  const address      = String(content.address      ?? "Melantrichova 15, 110 00 Praha 1");
+  const email        = String(content.email        ?? "studio@premiumnails.cz");
   const phone        = String(content.phone        ?? "+420 704 123 456");
-  const hours        = String(content.hours        ?? "Po–Pá 9:00–18:00, So 9:00–14:00");
-  const mapEmbedUrl  = String(content.mapEmbedUrl  ?? "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2559.96!2d14.4378!3d50.0755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDA0JzMxLjgiTiAxNMKwMjYnMTYuMSJF!5e0!3m2!1scs!2scz!4v1");
-  const igHref       = String(content.igHref       ?? "https://instagram.com/demo");
+  const hours        = String(content.hours        ?? "Po–Pá 9:00–20:00 · So 9:00–15:00");
+  const mapEmbedUrl  = String(content.mapEmbedUrl  ?? "https://www.google.com/maps?q=Melantrichova+15,+Praha&output=embed");
+  const igHref       = String(content.igHref       ?? "https://instagram.com/premiumnails.demo");
   const waHref       = String(content.waHref       ?? "https://wa.me/420704123456");
 
   type InfoItem = { label: string; value: string; href?: string; icon: React.ReactNode };
@@ -1746,54 +1982,82 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
       data-template="nails-02"
       style={{
         backgroundColor: DARK,
-        padding: "clamp(80px, 12vw, 160px) clamp(24px, 6vw, 72px)",
+        padding: "clamp(90px, 12vw, 160px) clamp(24px, 6vw, 72px)",
+        position: "relative",
       }}
     >
-      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      {/* Section eyebrow top-right */}
+      <div
+        className="n02-contact-eyebrow"
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "clamp(40px, 6vw, 80px)",
+          right: "clamp(24px, 6vw, 72px)",
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+          fontFamily: SANS,
+          fontSize: "0.7rem",
+          fontWeight: 500,
+          color: TAUPE,
+          letterSpacing: "0.32em",
+          textTransform: "uppercase",
+          opacity: 0.75,
+        }}
+      >
+        <span>Kapitola · 05</span>
+        <span style={{ display: "block", width: 42, height: 1, backgroundColor: TAUPE, opacity: 0.6 }} />
+      </div>
+
+      <div style={{ maxWidth: 1320, margin: "0 auto" }}>
         <div
           className="nails02-contact-grid"
           style={{
             display: "grid",
             gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1.05fr)",
-            gap: "clamp(48px, 6vw, 88px)",
+            gap: "clamp(48px, 6vw, 96px)",
             alignItems: "stretch",
           }}
         >
           {/* Left: text + info */}
           <div>
-            <div
-              style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
-                fontStyle: "italic",
-                fontSize: "clamp(1.5rem, 2vw, 2rem)",
-                color: TAUPE,
-                letterSpacing: "0.06em",
-                marginBottom: 28,
-                opacity: 0.9,
-              }}
-            >
-              <GenericEditableText sectionId={sectionId} field="numberPrefix" value={numberPrefix} tag="span" />
-            </div>
-            <h2
-              style={{
-                fontFamily: "'Cormorant Garamond', Georgia, serif",
+            {/* (04) with vertical hairline */}
+            <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 40 }}>
+              <span aria-hidden style={{ display: "block", width: 1, height: 32, backgroundColor: TAUPE }} />
+              <span style={{
+                fontFamily: SERIF,
                 fontStyle: "italic",
                 fontWeight: 400,
-                fontSize: "clamp(3rem, 6vw, 5.6rem)",
+                fontSize: "clamp(1.5rem, 1.9vw, 1.9rem)",
+                color: TAUPE,
                 lineHeight: 1,
+                opacity: 0.9,
+              }}>
+                <GenericEditableText sectionId={sectionId} field="numberPrefix" value={numberPrefix} tag="span" />
+              </span>
+            </div>
+
+            <h2
+              style={{
+                fontFamily: SERIF,
+                fontStyle: "italic",
+                fontWeight: 400,
+                fontSize: "clamp(3.2rem, 7vw, 6.6rem)",
+                lineHeight: 0.95,
                 color: CREAM,
                 margin: 0,
-                letterSpacing: "-0.01em",
+                letterSpacing: "-0.015em",
               }}
             >
               <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
             </h2>
-            <div aria-hidden="true" style={{ width: 64, height: 1, backgroundColor: TAUPE, margin: "32px 0 24px" }} />
+            <div aria-hidden="true" style={{ width: 88, height: 1, backgroundColor: TAUPE, margin: "48px 0 28px" }} />
             <p
               style={{
-                fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-                fontSize: "0.78rem",
-                fontWeight: 500,
+                fontFamily: SANS,
+                fontSize: "0.76rem",
+                fontWeight: 600,
                 color: TAUPE,
                 textTransform: "uppercase",
                 letterSpacing: "0.32em",
@@ -1803,14 +2067,63 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
               <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
             </p>
 
-            <ul style={{ listStyle: "none", margin: "44px 0 0", padding: 0, display: "flex", flexDirection: "column", gap: 28 }}>
+            {/* Prominent tel display */}
+            <a
+              href={`tel:${phone.replace(/\s/g, "")}`}
+              className="n02-contact-tel"
+              style={{
+                display: "inline-flex",
+                alignItems: "baseline",
+                gap: 16,
+                marginTop: 44,
+                fontFamily: SERIF,
+                fontStyle: "italic",
+                fontWeight: 400,
+                fontSize: "clamp(2.2rem, 3.5vw, 3.2rem)",
+                color: TAUPE,
+                textDecoration: "none",
+                letterSpacing: "-0.005em",
+                lineHeight: 1,
+                paddingBottom: 8,
+                borderBottom: `1px solid transparent`,
+                transition: "border-color 0.35s ease, color 0.35s ease",
+              }}
+            >
+              <span style={{ fontSize: "0.6em", opacity: 0.6, letterSpacing: "0.3em", textTransform: "uppercase", fontFamily: SANS, fontStyle: "normal", fontWeight: 500 }}>Tel</span>
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+
+            <ul style={{ listStyle: "none", margin: "44px 0 0", padding: 0, display: "flex", flexDirection: "column", gap: 6 }}>
               {items.map((item, i) => (
-                <li key={`ci-${i}`} style={{ display: "flex", alignItems: "flex-start", gap: 18 }}>
+                <li
+                  key={`ci-${i}`}
+                  className="n02-contact-row"
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: 20,
+                    padding: "18px 16px 18px 8px",
+                    borderTop: i === 0 ? `1px solid rgba(212,160,128,0.18)` : "none",
+                    borderBottom: `1px solid rgba(212,160,128,0.18)`,
+                    position: "relative",
+                    transition: "padding-left 0.4s ease, background-color 0.4s ease",
+                  }}
+                >
+                  <span aria-hidden className="n02-contact-row-mark" style={{
+                    position: "absolute",
+                    left: 0,
+                    top: "50%",
+                    width: 0,
+                    height: 20,
+                    backgroundColor: TAUPE,
+                    transform: "translateY(-50%)",
+                    transition: "width 0.4s ease",
+                  }} />
                   <span
                     aria-hidden="true"
                     style={{
                       flexShrink: 0,
-                      width: 40, height: 40,
+                      width: 36, height: 36,
                       display: "inline-flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -1822,15 +2135,16 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
                   >
                     {item.icon}
                   </span>
-                  <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 4, flex: 1 }}>
                     <span
                       style={{
-                        fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-                        fontSize: "0.72rem",
-                        fontWeight: 600,
+                        fontFamily: SERIF,
+                        fontStyle: "italic",
+                        fontSize: "0.98rem",
+                        fontWeight: 400,
                         color: TAUPE,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.32em",
+                        letterSpacing: "0.02em",
+                        opacity: 0.85,
                       }}
                     >
                       {item.label}
@@ -1839,13 +2153,13 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
                       <a
                         href={item.href}
                         style={{
-                          fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-                          fontSize: "1.05rem",
+                          fontFamily: SANS,
+                          fontSize: "1.02rem",
                           fontWeight: 300,
                           color: CREAM,
                           textDecoration: "none",
                           letterSpacing: "0.01em",
-                          transition: "color 0.2s",
+                          transition: "color 0.25s",
                         }}
                         onMouseEnter={e => (e.currentTarget.style.color = TAUPE)}
                         onMouseLeave={e => (e.currentTarget.style.color = CREAM)}
@@ -1854,8 +2168,8 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
                       </a>
                     ) : (
                       <span style={{
-                        fontFamily: "'Poppins', 'Helvetica Neue', Arial, sans-serif",
-                        fontSize: "1.05rem",
+                        fontFamily: SANS,
+                        fontSize: "1.02rem",
                         fontWeight: 300,
                         color: CREAM,
                         letterSpacing: "0.01em",
@@ -1868,52 +2182,52 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
               ))}
             </ul>
 
-            {/* Social pills */}
-            <div style={{ display: "flex", gap: 12, marginTop: 44 }}>
+            {/* Social pills — luxe outline with sweep */}
+            <div style={{ display: "flex", gap: 14, marginTop: 44, flexWrap: "wrap" }}>
               <a
                 href={igHref}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="n02-contact-social n02-contact-social-outline"
                 style={{
-                  display: "inline-flex", alignItems: "center", gap: 10,
-                  padding: "10px 20px",
-                  borderRadius: 999,
+                  position: "relative",
+                  display: "inline-flex", alignItems: "center", gap: 12,
+                  padding: "13px 26px",
                   border: `1px solid ${TAUPE}`,
                   color: TAUPE,
-                  fontFamily: "'Poppins', Arial, sans-serif",
-                  fontSize: "0.78rem",
-                  fontWeight: 500,
-                  letterSpacing: "0.18em",
+                  fontFamily: SANS,
+                  fontSize: "0.76rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.22em",
                   textTransform: "uppercase",
                   textDecoration: "none",
-                  transition: "background 0.2s, color 0.2s",
+                  overflow: "hidden",
+                  transition: "color 0.35s ease",
                 }}
-                onMouseEnter={e => { e.currentTarget.style.backgroundColor = TAUPE; e.currentTarget.style.color = DARK; }}
-                onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = TAUPE; }}
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
-                Instagram
+                <span style={{ position: "relative", zIndex: 2, display: "inline-flex", alignItems: "center", gap: 12 }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none"/></svg>
+                  Instagram
+                </span>
               </a>
               <a
                 href={waHref}
                 target="_blank"
                 rel="noopener noreferrer"
+                className="n02-contact-social n02-contact-social-filled"
                 style={{
-                  display: "inline-flex", alignItems: "center", gap: 10,
-                  padding: "10px 20px",
-                  borderRadius: 999,
+                  display: "inline-flex", alignItems: "center", gap: 12,
+                  padding: "13px 26px",
                   backgroundColor: TAUPE,
                   color: DARK,
-                  fontFamily: "'Poppins', Arial, sans-serif",
-                  fontSize: "0.78rem",
-                  fontWeight: 500,
-                  letterSpacing: "0.18em",
+                  fontFamily: SANS,
+                  fontSize: "0.76rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.22em",
                   textTransform: "uppercase",
                   textDecoration: "none",
-                  transition: "background 0.2s",
+                  transition: "background-color 0.3s, transform 0.3s ease",
                 }}
-                onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#c08e6e"; }}
-                onMouseLeave={e => { e.currentTarget.style.backgroundColor = TAUPE; }}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 14.3c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.2-.7.1-.2.3-.8.9-1 1.1-.2.2-.4.2-.7.1-.3-.1-1.2-.4-2.4-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.7.1-.1.3-.3.5-.5.1-.2.2-.3.3-.5.1-.2.1-.4 0-.5-.1-.1-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .2.2 2 3.1 4.9 4.4 1.7.7 2.4.8 3.3.7.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3z"/></svg>
                 WhatsApp
@@ -1921,14 +2235,15 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
             </div>
           </div>
 
-          {/* Right: map */}
+          {/* Right: map with wine corner brackets */}
           <div
             className="nails02-contact-map"
             style={{
               position: "relative",
-              minHeight: 480,
+              minHeight: 520,
               border: `1px solid rgba(212,160,128,0.22)`,
               overflow: "hidden",
+              alignSelf: "stretch",
             }}
           >
             <iframe
@@ -1940,19 +2255,61 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
                 width: "100%",
                 height: "100%",
                 border: 0,
-                filter: "grayscale(0.6) contrast(0.95) brightness(0.85)",
+                filter: "grayscale(0.75) contrast(0.9) brightness(0.85)",
               }}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               allowFullScreen
             />
+            {/* Corner brackets */}
+            {[
+              { top: -1, left: -1, rotate: 0 },
+              { top: -1, right: -1, rotate: 90 },
+              { bottom: -1, right: -1, rotate: 180 },
+              { bottom: -1, left: -1, rotate: 270 },
+            ].map(({ rotate, ...pos }, bi) => (
+              <span
+                key={`mapbrk-${bi}`}
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  ...pos,
+                  width: 32,
+                  height: 32,
+                  transform: `rotate(${rotate}deg)`,
+                  transformOrigin: "center",
+                  zIndex: 3,
+                  pointerEvents: "none",
+                }}
+              >
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                  <path d="M32 0 H8 A8 8 0 0 0 0 8 V32" stroke={TAUPE} strokeWidth="1.5" fill="none"/>
+                </svg>
+              </span>
+            ))}
           </div>
         </div>
       </div>
       <style>{`
+        .n02-contact-tel:hover { color: ${CREAM}; border-bottom-color: ${TAUPE}; }
+        .n02-contact-row:hover { background-color: rgba(212,160,128,0.05); padding-left: 20px !important; }
+        .n02-contact-row:hover .n02-contact-row-mark { width: 3px; }
+        .n02-contact-social-outline::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background-color: ${TAUPE};
+          transform: translateX(-101%);
+          transition: transform 0.45s cubic-bezier(0.65,0,0.35,1);
+          z-index: 1;
+        }
+        .n02-contact-social-outline:hover::before { transform: translateX(0); }
+        .n02-contact-social-outline:hover { color: ${DARK}; }
+        .n02-contact-social-filled:hover { background-color: #c08e6e; transform: translateY(-2px); }
         @media (max-width: 900px) {
           .nails02-contact-grid { grid-template-columns: 1fr !important; }
-          .nails02-contact-map { min-height: 360px !important; }
+          .nails02-contact-map { min-height: 380px !important; }
+          .n02-contact-eyebrow { display: none !important; }
         }
       `}</style>
     </section>
@@ -6180,91 +6537,246 @@ function ContactInstala01({ content, sectionId }: { content: Record<string, unkn
 }
 
 // ─── florist-01 Contact ──────────────────────────────────────────────────────
+// ── florist-01-contact ────────────────────────────────────────────────────────
+// Botanical Atelier Editorial luxe contact:
+// - Warm ivory bg + editorial centered header (conditional)
+// - 2-col split: LEFT 3 store cards s Georgia italic name + dotted-leader rows
+//   (Adresa / Otevřeno / Telefon / E-mail) s olive-gold pulsating pin badge
+// - RIGHT sticky Google Maps embed s olive-gold corner brackets frame
+//   + Georgia italic caption "Náš hlavní ateliér — Veveří"
+// - Bottom trust strip: dual CTA (call + write) s Georgia italic note
 function ContactFlorist01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title       = (content.title       as string) ?? "Navštivte nás";
-  const stores      = (content.stores      as Array<{ name: string; address: string; city: string; hours: string; phone: string; mapsUrl?: string; mapsLabel?: string }>) ?? [];
-  const mapEmbedUrl = (content.mapEmbedUrl as string) ?? "";
+  const MOSS   = "#2f4a3a";
+  const SAGE   = "#5c8a6a";
+  const IVORY  = "#faf7f2";
+  const IVORY2 = "#f4efe6";
+  const INK    = "#2a1a0a";
+  const INK70  = "rgba(42,26,10,0.72)";
+  const GOLD   = "#c9b78a";
+  const BLUSH  = "#e8c5c0";
+  const GEORGIA = "Georgia, 'Times New Roman', serif";
+  const INTER   = "Inter, system-ui, sans-serif";
 
-  const FONT = "'Arimo', Arial, sans-serif";
+  interface Store { name: string; address?: string; city?: string; hours?: string; phone?: string; email?: string; mapsUrl?: string; mapsLabel?: string; }
+
+  const eyebrow    = String(content.eyebrow    ?? "06 · NAVŠTIVTE NÁS");
+  const title      = String(content.title      ?? "Ateliér a dva showroomy v Brně");
+  const kicker     = String(content.kicker     ?? "Přijďte si vybrat kytici osobně nebo si nechte poradit s jejím složením. Rádi vám otevřeme dveře ateliéru.");
+  const mapCaption = String(content.mapCaption ?? "Náš hlavní ateliér — Veveří 42");
+  const mapEyebrow = String(content.mapEyebrow ?? "OTEVŘENO PO–NE 8—20 H");
+  const ctaCall    = String(content.ctaCall    ?? "+420 731 456 789");
+  const ctaCallHref = String(content.ctaCallHref ?? "tel:+420731456789");
+  const ctaWrite   = String(content.ctaWrite   ?? "atelier@petala.cz");
+  const ctaWriteHref = String(content.ctaWriteHref ?? "mailto:atelier@petala.cz");
+  const trustNote  = String(content.trustNote  ?? "Odpovídáme obvykle do jedné hodiny.");
+  const mapEmbedUrl = String(content.mapEmbedUrl ?? "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d41861.90!2d16.5748!3d49.1951!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4712943ac03f5111%3A0x400af0f6614b1b0!2sBrno!5e0!3m2!1scs!2scz!4v1718000000001");
+  const rawStores = (content.stores as Store[]) ?? [];
+  const stores: Store[] = rawStores.length > 0 ? rawStores : [
+    { name: "Atelier Petala — Veveří",        address: "Veveří 42",         city: "602 00 Brno-střed",   hours: "Po–Pá 8—20 · So–Ne 9—18", phone: "+420 731 456 789", email: "veveri@petala.cz",   mapsUrl: "https://maps.google.com/?q=Veveri+Brno" },
+    { name: "Showroom Královo Pole",          address: "Palackého třída 55", city: "612 00 Brno 12",      hours: "Po–Pá 9—19 · So 9—14",    phone: "+420 732 456 780", email: "kralovopole@petala.cz", mapsUrl: "https://maps.google.com/?q=Palackeho+Kralovo+Pole+Brno" },
+    { name: "Showroom Žabovřesky",            address: "Minská 12",          city: "616 00 Brno 16",      hours: "Po–Pá 9—19 · So 9—14",    phone: "+420 733 456 781", email: "zabovresky@petala.cz", mapsUrl: "https://maps.google.com/?q=Minska+Zabovresky+Brno" },
+  ];
+
+  const showHeader = !!(eyebrow.trim() || title.trim());
 
   return (
-    <section id="kontakt" style={{ backgroundColor: "#fff", padding: "72px 0", fontFamily: FONT }}>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;700&display=swap" />
-      <style>{`        .f01-ct-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-        @media (max-width: 860px) { .f01-ct-layout { grid-template-columns: 1fr; gap: 40px; } }
-        .f01-ct-stores { display: flex; flex-direction: column; gap: 32px; }
-        .f01-ct-store { border-top: 1px solid rgba(18,18,18,0.12); padding-top: 24px; }
-        .f01-ct-store:first-child { border-top: none; padding-top: 0; }
-        .f01-ct-store-name { font-size: 16px; font-weight: 700; color: #121212; margin-bottom: 10px; font-family: 'Arimo', Arial, sans-serif; }
-        .f01-ct-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
-        .f01-ct-row-label { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(18,18,18,0.45); font-family: 'Arimo', Arial, sans-serif; min-width: 70px; padding-top: 1px; }
-        .f01-ct-row-val { font-size: 14px; color: #121212; font-family: 'Arimo', Arial, sans-serif; line-height: 1.5; }
-        .f01-ct-maps-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 13px; font-weight: 600; color: #121212; text-decoration: none; border-bottom: 1px solid #121212; padding-bottom: 1px; font-family: 'Arimo', Arial, sans-serif; }
-        .f01-ct-maps-link:hover { opacity: 0.65; }
-        .f01-ct-map { width: 100%; aspect-ratio: 4/3; border: none; display: block; }
-        @media (max-width: 860px) { .f01-ct-map { aspect-ratio: 16/9; } }
-        .f01-ct-title { font-size: 28px; font-weight: 700; color: #121212; margin-bottom: 36px; font-family: 'Arimo', Arial, sans-serif; }
-        @media (max-width: 600px) { .f01-ct-title { font-size: 22px; margin-bottom: 28px; } }
+    <section id="kontakt" data-template="florist-01" className="f01ct" style={{ background: IVORY, fontFamily: INTER, padding: "96px 24px 108px" }}>
+      <style>{`
+        .f01ct-inner { max-width: 1280px; margin: 0 auto; }
+        .f01ct-head { text-align:center; display:flex; flex-direction:column; align-items:center; gap:16px; margin-bottom: 64px; }
+        .f01ct-eye { display:inline-flex; align-items:center; gap:14px; font-family:${INTER}; font-weight:500; font-size:11px; letter-spacing:0.34em; text-transform:uppercase; color:${MOSS}; }
+        .f01ct-eye i { width:26px; height:1px; background:${GOLD}; display:inline-block; }
+        .f01ct-eye em { color:${GOLD}; font-style:normal; font-size:10px; }
+        .f01ct-h { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:clamp(30px, 3.6vw, 46px); line-height:1.12; color:${INK}; margin:0; letter-spacing:-0.012em; max-width:760px; }
+        .f01ct-k { font-family:${INTER}; font-weight:300; font-size:15px; line-height:1.7; color:${INK70}; max-width:600px; margin:0; }
+
+        .f01ct-grid { display:grid; grid-template-columns: minmax(0, 1.05fr) 1fr; gap: 56px; align-items:flex-start; }
+
+        /* LEFT stores */
+        .f01ct-stores { display:flex; flex-direction:column; gap: 0; }
+        .f01ct-store { padding: 32px 0; position:relative; }
+        .f01ct-store + .f01ct-store { border-top: 1px solid ${GOLD}; }
+        .f01ct-store:first-child { padding-top: 0; }
+        .f01ct-store-head { display:flex; align-items:center; gap:16px; margin-bottom: 20px; }
+        .f01ct-pin { position:relative; width:36px; height:36px; border-radius:50%; background:${IVORY2}; border:1px solid ${GOLD}; display:flex; align-items:center; justify-content:center; color:${MOSS}; flex-shrink:0; }
+        .f01ct-pin::after { content:""; position:absolute; inset:-6px; border:1px solid ${GOLD}; border-radius:50%; opacity:0.5; animation: f01ctPulse 2.8s ease-out infinite; }
+        @keyframes f01ctPulse { 0% { transform: scale(0.8); opacity: 0.6; } 100% { transform: scale(1.3); opacity: 0; } }
+        .f01ct-store-name { font-family:${GEORGIA}; font-style:italic; font-weight:400; font-size:26px; color:${INK}; margin:0; letter-spacing:-0.008em; line-height:1.2; }
+
+        .f01ct-rows { display:flex; flex-direction:column; gap: 12px; }
+        .f01ct-row { display:grid; grid-template-columns: 96px 1fr auto; align-items:baseline; gap: 8px; }
+        .f01ct-row-lbl { font-family:${INTER}; font-weight:500; font-size:10.5px; letter-spacing:0.28em; text-transform:uppercase; color:${INK70}; }
+        .f01ct-row-dots { border-bottom: 1px dotted ${GOLD}; opacity:0.7; transform: translateY(-4px); }
+        .f01ct-row-val { font-family:${GEORGIA}; font-style:italic; font-size:16px; color:${INK}; letter-spacing:-0.005em; text-align:right; text-decoration:none; transition: color 0.35s ease; }
+        a.f01ct-row-val:hover { color:${MOSS}; }
+        .f01ct-row-val em { font-style:normal; font-family:${INTER}; font-size:13px; color:${INK70}; margin-left: 6px; }
+
+        .f01ct-nav { display:inline-flex; align-items:center; gap:10px; margin-top: 18px; padding: 8px 0; font-family:${INTER}; font-weight:500; font-size:12px; letter-spacing:0.24em; text-transform:uppercase; color:${MOSS}; text-decoration:none; position:relative; }
+        .f01ct-nav::after { content:""; position:absolute; left:0; right:0; bottom:0; height:1px; background:${MOSS}; transform: scaleX(0.35); transform-origin: left; transition: transform 0.5s cubic-bezier(.6,.05,.35,1); }
+        .f01ct-nav:hover::after { transform: scaleX(1); }
+        .f01ct-nav .arr { transition: transform 0.4s ease; }
+        .f01ct-nav:hover .arr { transform: translateX(4px); }
+
+        /* RIGHT sticky map */
+        .f01ct-map-wrap { position:sticky; top: 100px; }
+        .f01ct-map-frame { position:relative; aspect-ratio: 4/5; overflow:hidden; background:${IVORY2}; }
+        .f01ct-map-frame::before, .f01ct-map-frame::after,
+        .f01ct-map-brk::before, .f01ct-map-brk::after {
+          content:""; position:absolute; width:48px; height:48px; pointer-events:none; z-index:3;
+          border: 0 solid ${GOLD};
+        }
+        .f01ct-map-frame::before { top:14px; left:14px; border-top-width:1px; border-left-width:1px; }
+        .f01ct-map-frame::after  { bottom:14px; right:14px; border-bottom-width:1px; border-right-width:1px; }
+        .f01ct-map-brk::before { top:14px; right:14px; border-top-width:1px; border-right-width:1px; }
+        .f01ct-map-brk::after  { bottom:14px; left:14px; border-bottom-width:1px; border-left-width:1px; }
+        .f01ct-map-frame iframe { width:100%; height:100%; border:0; display:block; filter: saturate(0.85) contrast(1.02); }
+        .f01ct-map-cap { position:absolute; left:24px; right:24px; bottom:22px; z-index:2; display:flex; flex-direction:column; gap:6px; color:${IVORY}; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(47,74,58,0.75) 100%); padding: 46px 20px 18px; margin: 0 -20px -22px; pointer-events:none; }
+        .f01ct-map-cap-eye { font-family:${INTER}; font-weight:500; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(250,247,242,0.8); }
+        .f01ct-map-cap-txt { font-family:${GEORGIA}; font-style:italic; font-size:17px; letter-spacing:-0.005em; }
+
+        /* Bottom trust strip */
+        .f01ct-strip { margin-top: 64px; padding: 36px 40px; background: ${IVORY2}; border: 1px solid ${GOLD}; display:grid; grid-template-columns: 1fr auto auto; align-items:center; gap: 32px; position:relative; }
+        .f01ct-strip::before { content:""; position:absolute; top:-1px; left:-1px; width:34px; height:34px; border-top: 2px solid ${MOSS}; border-left: 2px solid ${MOSS}; }
+        .f01ct-strip::after { content:""; position:absolute; bottom:-1px; right:-1px; width:34px; height:34px; border-bottom: 2px solid ${MOSS}; border-right: 2px solid ${MOSS}; }
+        .f01ct-strip-l { display:flex; flex-direction:column; gap: 6px; }
+        .f01ct-strip-eye { font-family:${INTER}; font-weight:500; font-size:10.5px; letter-spacing:0.3em; text-transform:uppercase; color:${MOSS}; }
+        .f01ct-strip-txt { font-family:${GEORGIA}; font-style:italic; font-size:20px; color:${INK}; letter-spacing:-0.005em; }
+        .f01ct-strip-cta { position:relative; overflow:hidden; display:inline-flex; align-items:center; gap:10px; padding:13px 22px;
+          background:${MOSS}; color:${IVORY}; font-family:${INTER}; font-weight:500; font-size:12.5px; letter-spacing:0.22em; text-transform:uppercase;
+          text-decoration:none; border:1px solid ${MOSS}; transition:color 0.4s ease; }
+        .f01ct-strip-cta::before { content:""; position:absolute; inset:0; background:${BLUSH}; transform:translateY(101%); transition:transform 0.5s cubic-bezier(.6,.05,.35,1); }
+        .f01ct-strip-cta:hover { color:${MOSS}; }
+        .f01ct-strip-cta:hover::before { transform:translateY(0); }
+        .f01ct-strip-cta > * { position:relative; z-index:1; }
+        .f01ct-strip-cta.alt { background:transparent; color:${MOSS}; }
+        .f01ct-strip-cta.alt::before { background:${MOSS}; }
+        .f01ct-strip-cta.alt:hover { color:${IVORY}; }
+
+        @media(max-width:1024px){
+          .f01ct-grid { grid-template-columns: 1fr; gap: 40px; }
+          .f01ct-map-wrap { position: static; }
+          .f01ct-map-frame { aspect-ratio: 16/10; max-width: 640px; margin: 0 auto; }
+          .f01ct-strip { grid-template-columns: 1fr; text-align: left; }
+        }
+        @media(max-width:600px){
+          .f01ct { padding: 64px 20px 76px; }
+          .f01ct-row { grid-template-columns: 78px 1fr auto; }
+          .f01ct-row-val { font-size: 14px; }
+          .f01ct-store-name { font-size: 22px; }
+          .f01ct-strip { padding: 26px 22px; }
+          .f01ct-strip-txt { font-size: 17px; }
+        }
       `}</style>
 
-      <div style={{ maxWidth: 1280, margin: "0 auto", paddingLeft: 24, paddingRight: 24 }}>
-        <div className="f01-ct-title">
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </div>
+      <div className="f01ct-inner">
+        {showHeader && (
+          <header className="f01ct-head">
+            <span className="f01ct-eye"><i /><em>✿</em>
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              <em>✿</em><i />
+            </span>
+            <h2 className="f01ct-h">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h2>
+            <p className="f01ct-k">
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+            </p>
+          </header>
+        )}
 
-        <div className="f01-ct-layout">
-          {/* Stores */}
-          <div className="f01-ct-stores">
+        <div className="f01ct-grid">
+          <div className="f01ct-stores">
             {stores.map((store, i) => (
-              <div key={i} className="f01-ct-store">
-                <div className="f01-ct-store-name">
-                  <GenericEditableText sectionId={sectionId} field={`stores.${i}.name`} value={store.name} tag="span" />
-                </div>
-                <div className="f01-ct-row">
-                  <span className="f01-ct-row-label">Adresa</span>
-                  <span className="f01-ct-row-val">
-                    <GenericEditableText sectionId={sectionId} field={`stores.${i}.address`} value={store.address} tag="span" />
-                    {store.city && <><br /><GenericEditableText sectionId={sectionId} field={`stores.${i}.city`} value={store.city} tag="span" /></>}
-                  </span>
-                </div>
-                <div className="f01-ct-row">
-                  <span className="f01-ct-row-label">Hodiny</span>
-                  <span className="f01-ct-row-val">
-                    <GenericEditableText sectionId={sectionId} field={`stores.${i}.hours`} value={store.hours} tag="span" />
-                  </span>
-                </div>
-                <div className="f01-ct-row">
-                  <span className="f01-ct-row-label">Telefon</span>
-                  <span className="f01-ct-row-val">
-                    <a href={`tel:${store.phone}`} style={{ color: "#121212", textDecoration: "none" }}>
-                      <GenericEditableText sectionId={sectionId} field={`stores.${i}.phone`} value={store.phone} tag="span" />
-                    </a>
-                  </span>
-                </div>
-                {store.mapsUrl && (
-                  <a href={store.mapsUrl} target="_blank" rel="noopener noreferrer" className="f01-ct-maps-link">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+              <article key={i} className="f01ct-store">
+                <header className="f01ct-store-head">
+                  <span className="f01ct-pin" aria-hidden>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" strokeWidth="1.3"/>
+                      <circle cx="12" cy="10" r="3" stroke="currentColor" strokeWidth="1.3"/>
                     </svg>
-                    {store.mapsLabel ?? "Navigace"}
+                  </span>
+                  <h3 className="f01ct-store-name">
+                    <GenericEditableText sectionId={sectionId} field={`stores.${i}.name`} value={store.name} tag="span" />
+                  </h3>
+                </header>
+
+                <div className="f01ct-rows">
+                  <div className="f01ct-row">
+                    <span className="f01ct-row-lbl">Adresa</span>
+                    <span className="f01ct-row-dots" aria-hidden />
+                    <span className="f01ct-row-val">
+                      <GenericEditableText sectionId={sectionId} field={`stores.${i}.address`} value={store.address ?? ""} tag="span" />
+                      {store.city && <em><GenericEditableText sectionId={sectionId} field={`stores.${i}.city`} value={store.city} tag="span" /></em>}
+                    </span>
+                  </div>
+                  <div className="f01ct-row">
+                    <span className="f01ct-row-lbl">Otevřeno</span>
+                    <span className="f01ct-row-dots" aria-hidden />
+                    <span className="f01ct-row-val">
+                      <GenericEditableText sectionId={sectionId} field={`stores.${i}.hours`} value={store.hours ?? ""} tag="span" />
+                    </span>
+                  </div>
+                  <div className="f01ct-row">
+                    <span className="f01ct-row-lbl">Telefon</span>
+                    <span className="f01ct-row-dots" aria-hidden />
+                    <a className="f01ct-row-val" href={`tel:${(store.phone ?? "").replace(/\s+/g,"")}`}>
+                      <GenericEditableText sectionId={sectionId} field={`stores.${i}.phone`} value={store.phone ?? ""} tag="span" />
+                    </a>
+                  </div>
+                  {store.email && (
+                    <div className="f01ct-row">
+                      <span className="f01ct-row-lbl">E-mail</span>
+                      <span className="f01ct-row-dots" aria-hidden />
+                      <a className="f01ct-row-val" href={`mailto:${store.email}`}>
+                        <GenericEditableText sectionId={sectionId} field={`stores.${i}.email`} value={store.email} tag="span" />
+                      </a>
+                    </div>
+                  )}
+                </div>
+
+                {store.mapsUrl && (
+                  <a href={store.mapsUrl} target="_blank" rel="noopener noreferrer" className="f01ct-nav">
+                    <GenericEditableText sectionId={sectionId} field={`stores.${i}.mapsLabel`} value={store.mapsLabel ?? "Otevřít v Mapách"} tag="span" />
+                    <span className="arr" aria-hidden>→</span>
                   </a>
                 )}
-              </div>
+              </article>
             ))}
           </div>
 
-          {/* Map */}
-          {mapEmbedUrl && (
-            <iframe
-              src={mapEmbedUrl}
-              className="f01-ct-map"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          )}
+          <div className="f01ct-map-wrap">
+            <div className="f01ct-map-frame">
+              <span className="f01ct-map-brk" aria-hidden />
+              {mapEmbedUrl && (
+                <iframe src={mapEmbedUrl} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Mapa" />
+              )}
+              <figcaption className="f01ct-map-cap">
+                <span className="f01ct-map-cap-eye">
+                  <GenericEditableText sectionId={sectionId} field="mapEyebrow" value={mapEyebrow} tag="span" />
+                </span>
+                <span className="f01ct-map-cap-txt">
+                  <GenericEditableText sectionId={sectionId} field="mapCaption" value={mapCaption} tag="span" />
+                </span>
+              </figcaption>
+            </div>
+          </div>
+        </div>
+
+        <div className="f01ct-strip">
+          <div className="f01ct-strip-l">
+            <span className="f01ct-strip-eye">RÁDI VÁM ODPOVÍME</span>
+            <span className="f01ct-strip-txt">
+              <GenericEditableText sectionId={sectionId} field="trustNote" value={trustNote} tag="span" />
+            </span>
+          </div>
+          <a href={ctaCallHref} className="f01ct-strip-cta alt">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>
+            <GenericEditableText sectionId={sectionId} field="ctaCall" value={ctaCall} tag="span" />
+          </a>
+          <a href={ctaWriteHref} className="f01ct-strip-cta">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4z M4 6l8 6 8-6" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/></svg>
+            <GenericEditableText sectionId={sectionId} field="ctaWrite" value={ctaWrite} tag="span" />
+          </a>
         </div>
       </div>
     </section>

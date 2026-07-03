@@ -166,11 +166,16 @@ export interface StudioContextValue {
   /** Barevné téma editoru (violet = default, viz design-tokens.css data-vs-theme) */
   editorTheme: EditorTheme;
   setEditorTheme: (t: EditorTheme) => void;
+  /** Základní barva custom tématu (#rrggbb) — paleta se z ní odvozuje (editor-theme.ts) */
+  customThemeColor: string;
+  setCustomThemeColor: (hex: string) => void;
 }
 
-export type EditorTheme = "violet" | "silver" | "indigo";
+export type EditorTheme = "violet" | "silver" | "indigo" | "custom";
 const EDITOR_THEME_KEY = "venom-studio.editor-theme";
-const EDITOR_THEMES: EditorTheme[] = ["violet", "silver", "indigo"];
+const EDITOR_THEME_COLOR_KEY = "venom-studio.editor-theme-color";
+const EDITOR_THEMES: EditorTheme[] = ["violet", "silver", "indigo", "custom"];
+const DEFAULT_CUSTOM_COLOR = "#e91e63";
 
 export type CloneCommand =
   | { type: "setStyle"; editId: string; patch: Partial<CloneSelection["style"]> }
@@ -225,6 +230,7 @@ export function StudioProvider({ children }: { children: ReactNode }) {
   const [aiPanelOpen, setAiPanelOpen] = useState<boolean>(false);
   const [historyPanelOpen, setHistoryPanelOpen] = useState<boolean>(false);
   const [editorTheme, setEditorThemeState] = useState<EditorTheme>("violet");
+  const [customThemeColor, setCustomThemeColorState] = useState<string>(DEFAULT_CUSTOM_COLOR);
   const [pendingAddEl, setPendingAddEl] = useState<{ sectionId: number; elementType: string } | null>(null);
 
   // Téma editoru: načíst z localStorage po mountu (SSR-safe) a aplikovat na <html>
@@ -232,17 +238,42 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     try {
       const stored = window.localStorage.getItem(EDITOR_THEME_KEY) as EditorTheme | null;
       if (stored && EDITOR_THEMES.includes(stored)) setEditorThemeState(stored);
+      const storedColor = window.localStorage.getItem(EDITOR_THEME_COLOR_KEY);
+      if (storedColor && /^#[0-9a-f]{6}$/i.test(storedColor)) setCustomThemeColorState(storedColor);
     } catch { /* ignore */ }
   }, []);
   useEffect(() => {
     const root = document.documentElement;
     if (editorTheme === "violet") root.removeAttribute("data-vs-theme");
     else root.setAttribute("data-vs-theme", editorTheme);
+    // Custom téma = dynamicky generovaný <style> blok (stejné selektory jako
+    // silver/indigo v design-tokens.css, jen hodnoty odvozené z vybrané barvy)
+    const existing = document.getElementById("vs-custom-theme");
+    if (editorTheme === "custom") {
+      void import("./editor-theme").then(({ buildCustomThemeCss }) => {
+        const css = buildCustomThemeCss(customThemeColor);
+        if (!css) return;
+        const styleEl = existing ?? document.createElement("style");
+        styleEl.id = "vs-custom-theme";
+        styleEl.textContent = css;
+        if (!existing) document.head.appendChild(styleEl);
+      });
+    } else if (existing) {
+      existing.remove();
+    }
     return () => { root.removeAttribute("data-vs-theme"); };
-  }, [editorTheme]);
+  }, [editorTheme, customThemeColor]);
   const setEditorTheme = (t: EditorTheme) => {
     setEditorThemeState(t);
     try { window.localStorage.setItem(EDITOR_THEME_KEY, t); } catch { /* ignore */ }
+  };
+  const setCustomThemeColor = (hex: string) => {
+    setCustomThemeColorState(hex);
+    setEditorThemeState("custom");
+    try {
+      window.localStorage.setItem(EDITOR_THEME_COLOR_KEY, hex);
+      window.localStorage.setItem(EDITOR_THEME_KEY, "custom");
+    } catch { /* ignore */ }
   };
   const [selectedOverlayEl, setSelectedOverlayEl] = useState<{ sectionId: number; elementId: string } | null>(null);
   const [overlayZOrderCmd, setOverlayZOrderCmd] = useState<{ sectionId: number; cmd: "front" | "back" | "forward" | "backward" } | null>(null);
@@ -376,6 +407,8 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     setHistoryPanelOpen,
     editorTheme,
     setEditorTheme,
+    customThemeColor,
+    setCustomThemeColor,
     pendingAddEl,
     setPendingAddEl,
     selectedOverlayEl,
@@ -383,7 +416,7 @@ export function StudioProvider({ children }: { children: ReactNode }) {
     overlayZOrderCmd,
     setOverlayZOrderCmd,
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride, transientPadding, heroSlideIdx, sidebarOpen, mobileRailCollapsed, shortcutsOpen, notificationsOpen, helpPanelOpen, commandPaletteOpen, checklistOpen, aiPanelOpen, historyPanelOpen, editorTheme, pendingAddEl, selectedOverlayEl, overlayZOrderCmd, zoom]);
+  }), [selectedSectionId, selectedField, breakpoint, leftPanel, panelHistory, rightPanel, hoverSectionId, cloneScrollTarget, cloneSelected, cloneCommand, settingsView, assetsOpen, modulesView, articleMode, currentArticleId, imagePanel, heroOverride, transientPadding, heroSlideIdx, sidebarOpen, mobileRailCollapsed, shortcutsOpen, notificationsOpen, helpPanelOpen, commandPaletteOpen, checklistOpen, aiPanelOpen, historyPanelOpen, editorTheme, customThemeColor, pendingAddEl, selectedOverlayEl, overlayZOrderCmd, zoom]);
 
   return <StudioContext.Provider value={value}>{children}</StudioContext.Provider>;
 }
