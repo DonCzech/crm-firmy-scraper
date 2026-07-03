@@ -7,14 +7,23 @@ import {
   AlignLeft, AlignCenter, AlignRight,
   Copy, ClipboardPaste, RotateCcw, Check, X,
 } from "@/components/studio/icons";
-import { useGenericInlineEditor } from "./GenericInlineEditorContext";
+import { useGenericInlineEditor, type GenericNamedTextStyle } from "./GenericInlineEditorContext";
 import { useStudioOptional } from "@/components/studio/StudioContext";
+
+/** Pojmenované globální styly — vzhled definují design tokeny (DesignOverrides). */
+const NAMED_STYLES: Array<{ v: GenericNamedTextStyle; l: string }> = [
+  { v: "h1",   l: "Nadpis 1" },
+  { v: "h2",   l: "Nadpis 2" },
+  { v: "h3",   l: "Nadpis 3" },
+  { v: "h4",   l: "Nadpis 4" },
+  { v: "body", l: "Odstavec" },
+];
 
 // ─── Toolbar geometry + palette. The portal renders outside [data-studio],
 //     but design-tokens.css defines --vs-* variables on :root too, so we can
 //     consume them directly; hex fallbacks cover non-studio surfaces where
 //     the stylesheet isn't loaded. ──────────────────────────────────────────
-const TB_W = 516;           // fixed toolbar width — keeps clamping exact
+const TB_W = 600;           // fixed toolbar width — keeps clamping exact (516 + Styl dropdown)
 const TB_H = 92;            // estimated height incl. grip row
 const TB_TOP_SAFE = 100;    // studio top bar (48) + secondary bar (42) + gap
 const TB = {
@@ -178,6 +187,18 @@ export function GenericEditableText({
     updateStyleLocal(sectionId, field, {});
   }
 
+  /** Naváže prvek na globální styl — smaže inline typografické overrides,
+   *  aby vzhled plně řídily design tokeny. Zachovává zarovnání a pozici. */
+  function applyNamedStyle(v: GenericNamedTextStyle | "") {
+    const { textAlign, translateX, translateY } = draftRef.current;
+    const next: import("./GenericInlineEditorContext").GenericTextStyle = v
+      ? { textAlign, translateX, translateY, textStyle: v }
+      : { textAlign, translateX, translateY };
+    (Object.keys(next) as Array<keyof typeof next>).forEach(k => { if (next[k] === undefined) delete next[k]; });
+    setDraft(next);
+    updateStyleLocal(sectionId, field, next);
+  }
+
   function copyStyle() {
     _styleClipboard = { ...draft };
     setClipboardHas(true);
@@ -336,16 +357,21 @@ export function GenericEditableText({
   }
 
   if (!isAdmin) {
-    const { translateX: fTx, translateY: fTy, ...publicCss } = fieldStyle;
+    const { translateX: fTx, translateY: fTy, textStyle: fNamed, ...publicCss } = fieldStyle;
     const fTxV = parseFloat(fTx ?? "0") || 0;
     const fTyV = parseFloat(fTy ?? "0") || 0;
     const pubOffset: React.CSSProperties = (fTxV || fTyV) ? { position: "relative", left: fTxV, top: fTyV } : {};
-    return <El className={className} style={{ ...style, ...publicCss, ...alignStyle, ...pubOffset }}>{children ?? value}</El>;
+    return (
+      <El className={className} data-text-style={fNamed} style={{ ...style, ...publicCss, ...alignStyle, ...pubOffset }}>
+        {children ?? value}
+      </El>
+    );
   }
 
   // Extract translateX/translateY — stored as strings ("Xpx"), applied as position:relative left/top
   // (position:relative left/top is NOT affected by CSS animations unlike transform)
-  const { translateX: txProp, translateY: tyProp, ...pureCssStyle } = displayStyle;
+  // textStyle není CSS — renderuje se jako data-text-style atribut.
+  const { translateX: txProp, translateY: tyProp, textStyle: namedStyle, ...pureCssStyle } = displayStyle;
   const txVal = parseFloat(txProp ?? "0") || 0;
   const tyVal = parseFloat(tyProp ?? "0") || 0;
   const offsetStyle: React.CSSProperties = (txVal || tyVal) ? { position: "relative", left: txVal, top: tyVal } : {};
@@ -473,6 +499,19 @@ export function GenericEditableText({
           <div style={{ display: "flex", flexDirection: "column", gap: 0, padding: "6px 8px", minWidth: 0, flex: 1 }}>
             {/* Row 1: formatting */}
             <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
+              <select
+                className="vs-tb-input"
+                title="Globální textový styl — vzhled řídí Design panel, změna se propíše všude"
+                value={draft.textStyle ?? ""}
+                onChange={(e) => applyNamedStyle(e.target.value as GenericNamedTextStyle | "")}
+                style={{ width: 84, fontWeight: draft.textStyle ? 600 : 400 }}
+              >
+                <option value="">Vlastní</option>
+                {NAMED_STYLES.map(s => <option key={s.v} value={s.v}>{s.l}</option>)}
+              </select>
+
+              <div className="vs-tb-sep" />
+
               <button type="button" className="vs-tb-btn" data-active={isBold} title="Tučně"
                 onMouseDown={(e) => { e.preventDefault(); applyDraft({ fontWeight: isBold ? "400" : "700" }); }}>
                 <Bold size={14} strokeWidth={2.2} />
@@ -659,6 +698,7 @@ export function GenericEditableText({
       <El
         ref={ref}
         className={className}
+        data-text-style={namedStyle}
         style={{
           ...style,
           ...pureCssStyle,

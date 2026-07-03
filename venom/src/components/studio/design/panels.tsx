@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { BorderField, BreakpointTabs, ColorField, PadField, SelectField, ShadowField, SliderField, SubGroup, TextField, ToggleField, type Bp } from "./controls";
+import { useDesignTokens } from "./DesignTokensContext";
 
 /**
  * Concrete sub-panels for the Studio Design section.
@@ -264,6 +265,82 @@ export const TypografieNadpis1 = makeHeadingPanel(1, { size: 56, weight: "700", 
 export const TypografieNadpis2 = makeHeadingPanel(2, { size: 40, weight: "700", lineHeight: 1.15 });
 export const TypografieNadpis3 = makeHeadingPanel(3, { size: 28, weight: "600", lineHeight: 1.2 });
 export const TypografieNadpis4 = makeHeadingPanel(4, { size: 20, weight: "600", lineHeight: 1.3 });
+
+/* ── Textové styly (3c) — živý přehled globálních stylů ─────────────────── */
+
+/** Přehled pojmenovaných textových stylů s náhledem z aktuálních tokenů.
+ *  Prvky se na styl navazují v textovém toolbaru (dropdown „Styl"). */
+export function TypografieStyly() {
+  const { get } = useDesignTokens();
+  const heading = String(get("fontHeading", "Roboto"));
+  const body = String(get("fontBody", "Roboto"));
+
+  const rows = [
+    { key: "h1",   label: "Nadpis 1", defaults: { size: 56, weight: "700", lh: 1.1 } },
+    { key: "h2",   label: "Nadpis 2", defaults: { size: 40, weight: "700", lh: 1.15 } },
+    { key: "h3",   label: "Nadpis 3", defaults: { size: 28, weight: "600", lh: 1.2 } },
+    { key: "h4",   label: "Nadpis 4", defaults: { size: 20, weight: "600", lh: 1.3 } },
+  ] as const;
+  // Náhled je zmenšený, ať se velké nadpisy vejdou do panelu
+  const PREVIEW_SCALE = 0.5;
+  // Podklad náhledu = skutečné pozadí webu (tmavé šablony mají světlý text)
+  const previewBg = String(get("colorBackground", "#ffffff"));
+  const isDarkBg = (() => {
+    const m = /^#?([0-9a-f]{6})$/i.exec(previewBg.trim());
+    if (!m) return false;
+    const n = parseInt(m[1], 16);
+    const lum = 0.299 * ((n >> 16) & 255) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255);
+    return lum < 128;
+  })();
+  const fallbackText = isDarkBg ? "#f5f5f5" : "#111111";
+  const fallbackBody = isDarkBg ? "#d5d5d5" : "#333333";
+
+  return (
+    <>
+      <SubGroup label="Textové styly">
+        <div className="rounded-lg px-3.5 py-2 space-y-0.5 ring-1 ring-[var(--vs-border-strong)]" style={{ background: previewBg }}>
+          {rows.map((r) => {
+            const size = Number(get(`${r.key}.size.desktop`, get(`${r.key}.size`, r.defaults.size)));
+            const weight = String(get(`${r.key}.weight`, r.defaults.weight));
+            const color = String(get(`${r.key}.color`, get("heading.color", fallbackText)));
+            const ff = String(get(`${r.key}.fontFamily`, heading));
+            const lh = Number(get(`${r.key}.lineHeight`, r.defaults.lh));
+            return (
+              <div key={r.key} className="flex items-baseline justify-between gap-3 border-b border-[rgba(128,128,128,0.2)] py-2 last:border-b-0">
+                <span
+                  className="truncate"
+                  style={{ fontSize: Math.max(13, size * PREVIEW_SCALE), fontWeight: Number(weight), color, fontFamily: ff, lineHeight: lh }}
+                >
+                  {r.label}
+                </span>
+                <span className="shrink-0 font-mono text-[10px] text-[#999]">{size}px · {weight}</span>
+              </div>
+            );
+          })}
+          {(() => {
+            const size = Number(get("typography.size.desktop", get("typography.size", 16)));
+            const weight = String(get("typography.weight", "400"));
+            const color = String(get("colorText", fallbackBody));
+            const lh = Number(get("typography.lineHeight", 1.6));
+            return (
+              <div className="flex items-baseline justify-between gap-3 py-2">
+                <span className="truncate" style={{ fontSize: Math.max(12, size * 0.85), fontWeight: Number(weight), color, fontFamily: body, lineHeight: lh }}>
+                  Odstavec — běžný text webu
+                </span>
+                <span className="shrink-0 font-mono text-[10px] text-[#999]">{size}px · {weight}</span>
+              </div>
+            );
+          })()}
+        </div>
+        <p className="mt-2 text-[10.5px] leading-snug text-[var(--vs-text-muted)]">
+          Styly upravíš v sekcích Nadpis 1–4 a Obecné. Libovolný text na webu
+          navážeš na styl v textovém toolbaru (rozbalovací pole „Styl") — změna
+          stylu se pak propíše všude najednou.
+        </p>
+      </SubGroup>
+    </>
+  );
+}
 
 /* ── Patička ─────────────────────────────────────────────────────────────── */
 

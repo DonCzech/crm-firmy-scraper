@@ -58,6 +58,7 @@ export const DESIGN_TREE: DesignGroup[] = [
       },
       {
         id: "typografie", label: "Typografie", children: [
+          { id: "typografie.styly",   label: "Textové styly", panel: P.TypografieStyly, prefixes: [] },
           { id: "typografie.obecne",  label: "Obecné",   panel: P.TypografieObecne,  prefixes: ["fontBody", "typography.", "colorText", "bullet.", "link."] },
           { id: "typografie.nadpisy", label: "Nadpisy",  panel: P.TypografieNadpisy, prefixes: ["fontHeading", "heading."] },
           { id: "typografie.h1",      label: "Nadpis 1", panel: P.TypografieNadpis1, prefixes: ["h1."] },

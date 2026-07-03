@@ -42,6 +42,19 @@ function buildOverrideCss(tokens: Record<string, TokenValue> | undefined, host: 
   };
   const out: string[] = [];
 
+  /* ── Globální textové styly (3c) — baseline pro prvky navázané přes
+     data-text-style (toolbar → „Styl"). Cílí JEN na navázané prvky, ne na
+     skutečné h1–h4 tagy šablon, takže šablony zůstávají netknuté. Token
+     overridy (h1.size, …) se aplikují níže a baseline přebijí. ───────────── */
+  out.push(
+    `${host} [data-text-style]{display:inline-block}`,
+    `${host} [data-text-style="h1"]{font-size:clamp(2.1rem,5vw,3.4rem) !important;font-weight:700;line-height:1.12}`,
+    `${host} [data-text-style="h2"]{font-size:clamp(1.65rem,3.5vw,2.4rem) !important;font-weight:700;line-height:1.18}`,
+    `${host} [data-text-style="h3"]{font-size:clamp(1.3rem,2.5vw,1.8rem) !important;font-weight:600;line-height:1.25}`,
+    `${host} [data-text-style="h4"]{font-size:1.15rem !important;font-weight:600;line-height:1.3}`,
+    `${host} [data-text-style="body"]{font-size:1rem !important;font-weight:400;line-height:1.6}`,
+  );
+
   // Header scope: only the page-level header. Renderers (StudioCanvas + Tenant
   // PublicView) wrap the navbar section in `<div data-design-scope="header">`,
   // so all Hlavička edits stay contained — nested <nav> elements inside other
@@ -124,8 +137,8 @@ function buildOverrideCss(tokens: Record<string, TokenValue> | undefined, host: 
     if (bodyColor) decls.push(`color:${bodyColor} !important`);
     // Target text-semantic containers only — not generic spans, which inherit
     // from their parent (e.g. nav link with style="color:#fff") and don't
-    // need their own color override.
-    out.push(`${host} p,${host} li,${host} blockquote{${decls.join(";")}}`);
+    // need their own color override. + prvky navázané na styl „Odstavec" (3c).
+    out.push(`${host} p,${host} li,${host} blockquote,${host} [data-text-style="body"]{${decls.join(";")}}`);
   }
   // Page bg from `colorBackground` is already applied via the wrapper's inline
   // style in TenantPublicView/StudioCanvas. Emitting another !important rule
@@ -160,7 +173,7 @@ function buildOverrideCss(tokens: Record<string, TokenValue> | undefined, host: 
     const decls: string[] = [];
     if (headingFont)  decls.push(`font-family:${headingFont} !important`);
     if (headingColor) decls.push(`color:${headingColor} !important`);
-    out.push(`${host} h1,${host} h2,${host} h3,${host} h4,${host} h5,${host} h6{${decls.join(";")}}`);
+    out.push(`${host} h1,${host} h2,${host} h3,${host} h4,${host} h5,${host} h6,${host} [data-text-style^="h"]{${decls.join(";")}}`);
   }
   for (const lvl of [1, 2, 3, 4] as const) {
     const prefix = `h${lvl}`;
@@ -181,7 +194,8 @@ function buildOverrideCss(tokens: Record<string, TokenValue> | undefined, host: 
     if (lh) decls.push(`line-height:${lh} !important`);
     if (mb) decls.push(`margin-bottom:${mb} !important`);
     if (color) decls.push(`color:${color} !important`);
-    out.push(`${host} ${prefix}{${decls.join(";")}}`);
+    // Kromě skutečných tagů i prvky navázané přes globální textový styl (3c)
+    out.push(`${host} ${prefix},${host} [data-text-style="${prefix}"]{${decls.join(";")}}`);
   }
 
   /* ── Footer ───────────────────────────────────────────────────────────── */

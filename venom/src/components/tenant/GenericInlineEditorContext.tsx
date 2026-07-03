@@ -8,6 +8,9 @@ export interface GenericHighlightChange {
   snippets: string[];
 }
 
+/** Pojmenované globální textové styly (3c) — navázání na design tokeny h1.–h4./typography. */
+export type GenericNamedTextStyle = "h1" | "h2" | "h3" | "h4" | "body";
+
 export interface GenericTextStyle {
   color?: string;
   fontSize?: string;
@@ -21,6 +24,9 @@ export interface GenericTextStyle {
   /** Visual position offset — stored as "Xpx", converted to transform:translate in render. */
   translateX?: string;
   translateY?: string;
+  /** Vazba na globální textový styl — renderuje se jako data-text-style atribut,
+   *  vzhled dodává DesignOverrides (změna tokenů se propíše všude). */
+  textStyle?: GenericNamedTextStyle;
 }
 
 interface GenericInlineEditorContextValue {
