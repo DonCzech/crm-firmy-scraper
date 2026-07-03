@@ -221,7 +221,7 @@ export function StudioLeftRail() {
                     if (isAssets) {
                       studio.setAssetsOpen(!studio.assetsOpen);
                     } else {
-                      studio.setLeftPanel(active ? null : item.id);
+                      studio.setLeftPanel(active && studio.sidebarOpen ? null : item.id);
                     }
                   }}
                   className={clsx(

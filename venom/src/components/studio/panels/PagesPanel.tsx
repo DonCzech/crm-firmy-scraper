@@ -762,15 +762,42 @@ function PageItem({
   navigating?: boolean;
 }) {
   const [hover, setHover] = useState(false);
+  const touchNavigatedRef = useRef(false);
+
+  function shouldIgnoreTarget(target: EventTarget) {
+    return target instanceof HTMLElement && !!target.closest("button");
+  }
+
+  function navigateFromTouch(target: EventTarget) {
+    if (shouldIgnoreTarget(target)) return;
+    touchNavigatedRef.current = true;
+    onNavigate();
+    window.setTimeout(() => { touchNavigatedRef.current = false; }, 450);
+  }
 
   return (
     <div
+      role="button"
+      tabIndex={0}
       className={`group relative flex items-center px-2 py-[6px] cursor-pointer select-none transition-colors duration-100 ${
         active ? "bg-[var(--vs-surface-2)]" : "hover:bg-[var(--vs-surface-2)]"
       }`}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={onNavigate}
+      onPointerUp={(e) => {
+        if (e.pointerType !== "touch") return;
+        e.preventDefault();
+        navigateFromTouch(e.target);
+      }}
+      onClick={(e) => {
+        if (touchNavigatedRef.current || shouldIgnoreTarget(e.target)) return;
+        onNavigate();
+      }}
+      onKeyDown={(e) => {
+        if (e.key !== "Enter" && e.key !== " ") return;
+        e.preventDefault();
+        onNavigate();
+      }}
     >
       {/* Drag handle */}
       <div className={`shrink-0 mr-1 transition-opacity duration-100 ${hover ? "opacity-100" : "opacity-0"}`}>

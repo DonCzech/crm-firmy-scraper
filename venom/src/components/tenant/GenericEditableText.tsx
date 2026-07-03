@@ -27,7 +27,7 @@ const TB_W = 600;           // fixed toolbar width — keeps clamping exact (516
 const TB_H = 92;            // estimated height incl. grip row
 const TB_TOP_SAFE = 100;    // studio top bar (48) + secondary bar (42) + gap
 const TB = {
-  bg:          "rgba(20,21,34,0.97)",
+  bg:          "var(--vs-toolbar-bg, rgba(20,21,34,0.97))",
   border:      "var(--vs-border-strong, #2d3048)",
   surface:     "var(--vs-surface-2, #1f2131)",
   surfaceHi:   "var(--vs-surface-3, #272a3d)",

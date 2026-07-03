@@ -52,6 +52,14 @@
   --vs-cta-text:      #a78bfa;             /* textové akcenty (AI sparkle apod.)          */
   --vs-cta-text-hi:   #ddd6fe;             /* zvýrazněný text na cta podkladu             */
 
+  /* Plochy závislé na tématu (glass popovery, canvas podklady, text toolbar) */
+  --vs-glass-bg:         rgba(18,18,20,0.86);
+  --vs-toolbar-bg:       rgba(20,21,34,0.97);
+  --vs-canvas-glow-rgb:  220, 220, 228;    /* radial glow nad canvasem            */
+  --vs-canvas-dot-rgb:   255, 255, 255;    /* tečkovaná mřížka canvasu            */
+  --vs-canvas-deep-from: rgba(12,12,14,0.92);  /* gradient canvasu Nastavení/Články */
+  --vs-canvas-deep-to:   rgba(18,18,20,0.86);
+
   /* ── Typography scale ─────────────────────────────────────────────────── */
   --vs-font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --vs-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
@@ -207,7 +215,7 @@
 
 /* Frosted-glass surface for floating chrome (popovers, dropdowns, bars) */
 .vs-glass {
-  background: rgba(18,18,20,0.86);
+  background: var(--vs-glass-bg);
   backdrop-filter: blur(16px) saturate(1.5);
   -webkit-backdrop-filter: blur(16px) saturate(1.5);
 }
@@ -217,9 +225,16 @@
 .vs-canvas-bg {
   background-color: var(--vs-bg);
   background-image:
-    radial-gradient(900px 420px at 50% -80px, rgba(220,220,228,0.07), transparent 65%),
-    radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1.2px);
+    radial-gradient(900px 420px at 50% -80px, rgba(var(--vs-canvas-glow-rgb), 0.07), transparent 65%),
+    radial-gradient(rgba(var(--vs-canvas-dot-rgb), 0.06) 1px, transparent 1.2px);
   background-size: auto, 22px 22px;
+}
+
+/* Hlubší canvas podklad (Nastavení / Články / Moduly) — radial cta glow + vertikální gradient */
+.vs-canvas-deep {
+  background:
+    radial-gradient(900px 420px at 50% -80px, rgba(var(--vs-cta-rgb), 0.10), transparent 65%),
+    linear-gradient(180deg, var(--vs-canvas-deep-from) 0%, var(--vs-canvas-deep-to) 100%);
 }
 
 /* Popover entrance — slight scale + fade, anchored to top */
@@ -233,21 +248,64 @@
 }
 
 /* ── Editor themes (data-vs-theme na <html>) ────────────────────────────────
-   Default (bez atributu / "violet") = hodnoty výše. Témata přebarvují jen
-   akcentovou rodinu — shell, plátno i layout zůstávají. Selektor cílí :root
-   i [data-studio], protože [data-studio] si tokeny redefinuje. */
+   Default (bez atributu / "violet") = hodnoty výše. Každé téma je KOMPLETNÍ
+   paleta — shell, povrchy, bordery, akcenty, CTA, canvas, glass i toolbar.
+   Selektor cílí :root i [data-studio], protože [data-studio] si tokeny
+   redefinuje (portály čtou :root, shell čte [data-studio]). */
 
+/* Stříbrná — čistý monochrom, všechny akcenty i CTA metalicky stříbrné */
 :root[data-vs-theme="silver"],
 :root[data-vs-theme="silver"] [data-studio] {
+  --vs-bg:            #0c0c0e;
+  --vs-bg-soft:       #121214;
+  --vs-surface:       #18181b;
+  --vs-surface-2:     #1f1f23;
+  --vs-surface-3:     #28282d;
+  --vs-border:        rgba(255,255,255,0.08);
+  --vs-border-strong: #333338;
+  --vs-accent:        #d4d4d8;
+  --vs-accent-hi:     #f4f4f5;
+  --vs-accent-bg:     rgba(212,212,216,0.10);
+  --vs-accent-ring:   rgba(212,212,216,0.35);
+  --vs-accent-solid:    #4b4b53;
+  --vs-accent-solid-hi: #5c5c65;
+  --vs-grad-brand:    linear-gradient(135deg, #47474f 0%, #6a6a74 55%, #8e8e99 100%);
+  --vs-grad-brand-hi: linear-gradient(135deg, #55555e 0%, #7c7c87 55%, #a5a5b0 100%);
+  --vs-glow-accent:
+    0 0 0 1px rgba(212,212,216,0.35),
+    0 8px 24px rgba(212,212,216,0.14);
+  --vs-glow-brand:
+    0 1px 0 0 rgba(255,255,255,0.22) inset,
+    0 2px 10px rgba(160,160,172,0.35),
+    0 6px 22px rgba(120,120,132,0.22);
   --vs-cta-grad:      linear-gradient(135deg, #47474f 0%, #6a6a74 55%, #8e8e99 100%);
   --vs-cta-rgb:       148, 148, 160;
   --vs-cta-soft-rgb:  212, 212, 216;
   --vs-cta-text:      #d4d4d8;
   --vs-cta-text-hi:   #f4f4f5;
+  --vs-glass-bg:         rgba(18,18,20,0.86);
+  --vs-toolbar-bg:       rgba(19,19,22,0.97);
+  --vs-canvas-glow-rgb:  220, 220, 228;
+  --vs-canvas-dot-rgb:   255, 255, 255;
+  --vs-canvas-deep-from: rgba(12,12,14,0.92);
+  --vs-canvas-deep-to:   rgba(18,18,20,0.86);
 }
 
+/* Indigo — původní deep indigo-navy shell (POLISH-2 éra) */
 :root[data-vs-theme="indigo"],
 :root[data-vs-theme="indigo"] [data-studio] {
+  --vs-bg:            #0b0c14;
+  --vs-bg-soft:       #12131e;
+  --vs-surface:       #191a29;
+  --vs-surface-2:     #1f2131;
+  --vs-surface-3:     #272a3d;
+  --vs-border:        rgba(148,156,255,0.08);
+  --vs-border-strong: #2d3048;
+  --vs-text:          #f5f5f9;
+  --vs-text-soft:     #d3d4de;
+  --vs-text-muted:    #8b8d9e;
+  --vs-text-dim:      #5c5e6e;
+  --vs-text-disabled: #3a3c4a;
   --vs-accent:        #818cf8;
   --vs-accent-hi:     #a5b4fc;
   --vs-accent-bg:     rgba(129,140,248,0.13);
@@ -268,6 +326,12 @@
   --vs-cta-soft-rgb:  129, 140, 248;
   --vs-cta-text:      #818cf8;
   --vs-cta-text-hi:   #a5b4fc;
+  --vs-glass-bg:         rgba(18,19,30,0.86);
+  --vs-toolbar-bg:       rgba(20,21,34,0.97);
+  --vs-canvas-glow-rgb:  99, 102, 241;
+  --vs-canvas-dot-rgb:   148, 156, 255;
+  --vs-canvas-deep-from: rgba(11,12,20,0.92);
+  --vs-canvas-deep-to:   rgba(18,19,30,0.86);
 }
 
 /* Per-breakpoint section visibility — set by ElementMicroRail's

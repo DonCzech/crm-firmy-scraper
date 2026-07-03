@@ -22,7 +22,7 @@ export function StudioTopBar({
   isMobile?: boolean;
 }) {
   const studio = useStudio();
-  const { sidebarOpen, toggleSidebar } = studio;
+  const { sidebarOpen } = studio;
 
   useHotkey("1", () => studio.setBreakpoint("desktop"));
   useHotkey("2", () => studio.setBreakpoint("tablet"));
@@ -94,13 +94,14 @@ export function StudioTopBar({
         {isMobile && (
           <button
             type="button"
-            aria-label={studio.mobileRailCollapsed ? "Zobrazit nástroje" : sidebarOpen ? "Skrýt panel" : "Zobrazit panel"}
+            aria-label={studio.mobileRailCollapsed ? "Zobrazit nástroje" : "Skrýt nástroje"}
             onClick={() => {
               if (studio.mobileRailCollapsed) {
                 studio.setMobileRailCollapsed(false);
                 return;
               }
-              toggleSidebar();
+              studio.setSidebarOpen(false);
+              studio.setMobileRailCollapsed(true);
             }}
             className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface-2)] hover:text-[var(--vs-text)] transition-colors"
           >

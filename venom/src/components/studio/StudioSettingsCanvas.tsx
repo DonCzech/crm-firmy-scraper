@@ -1668,7 +1668,7 @@ export function StudioSettingsCanvas({ state }: { state: StudioState }) {
   const props = { tenant, onBack };
 
   return (
-    <div className="h-full overflow-x-hidden overflow-y-auto bg-[radial-gradient(900px_420px_at_50%_-80px,rgba(var(--vs-cta-rgb),0.10),transparent_65%),linear-gradient(180deg,rgba(12,12,14,0.92)_0%,rgba(18,18,20,0.86)_100%)]">
+    <div className="h-full overflow-x-hidden overflow-y-auto vs-canvas-deep">
       {view === "identita"  && <IdentitaView  {...props} />}
       {view === "web"       && <WebView       {...props} />}
       {view === "domain"    && <DomainView    {...props} />}
