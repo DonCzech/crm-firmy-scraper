@@ -21,7 +21,7 @@ import {
   AlignCenterVertical as PhAlignCenterVertical, AlignLeft as PhAlignLeft, AlignRight as PhAlignRight,
   Anchor as PhAnchor,
   ArrowDown as PhArrowDown, ArrowLeft as PhArrowLeft, ArrowRight as PhArrowRight, ArrowUp as PhArrowUp,
-  ArrowsDownUp, ChartBar, Bell as PhBell, TextB, BookOpen as PhBookOpen, Cube,
+  ArrowsDownUp, ChartBar, Bell as PhBell, TextB, BookOpen as PhBookOpen, BookmarkSimple, Cube,
   Briefcase as PhBriefcase, Buildings, Calendar as PhCalendar, TextAa,
   Check as PhCheck, CheckSquare as PhCheckSquare,
   CaretDown, CaretLeft, CaretRight, CaretUp, CaretDoubleDown, CaretDoubleUp,
@@ -83,6 +83,7 @@ export const BarChart2 = wrap(ChartBar);
 export const Bell = wrap(PhBell);
 export const Bold = wrap(TextB);
 export const BookOpen = wrap(PhBookOpen);
+export const Bookmark = wrap(BookmarkSimple);
 export const Boxes = wrap(Cube);
 export const Briefcase = wrap(PhBriefcase);
 export const Building2 = wrap(Buildings);

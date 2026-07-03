@@ -107,7 +107,7 @@ export interface StudioState {
   reorderSections: (ids: number[]) => Promise<void>;
   duplicateSection: (id: number) => Promise<void>;
   deleteSection: (id: number) => Promise<void>;
-  addSection: (type: string, variant: string, insertAtIndex?: number) => Promise<void>;
+  addSection: (type: string, variant: string, insertAtIndex?: number, settings?: Record<string, unknown>) => Promise<void>;
   updateSectionLocal: (id: number, patch: Partial<Section>) => void;
 }
 
@@ -463,7 +463,7 @@ function InnerStudio({
     }
   }, [tenant.slug, saveSectionsBatch, studio, markStatus]);
 
-  const addSection = useCallback(async (type: string, variant: string, insertAtIndex?: number) => {
+  const addSection = useCallback(async (type: string, variant: string, insertAtIndex?: number, settings?: Record<string, unknown>) => {
     // Negative temp id signals "new section" to the API (which assigns a real
     // serial id and returns it in idMap). Must fit in 32-bit signed INTEGER.
     const tempId = -(Date.now() & 0x7fffffff);
@@ -475,7 +475,8 @@ function InnerStudio({
       section_variant: variant,
       order_index: 0,
       is_visible: true,
-      settings: { content: {} },
+      // settings = snapshot z „Moje sekce" nebo section clipboardu (⌘V)
+      settings: settings ?? { content: {} },
     };
     const current = [...sectionsRef.current].sort((a, b) => a.order_index - b.order_index);
     let insertAt: number;
@@ -556,6 +557,42 @@ function InnerStudio({
       if (mod && e.key.toLowerCase() === "s") {
         e.preventDefault(); void flushGenericSave(); return;
       }
+      // 3d — copy/paste celé sekce (⌘C/⌘V). Neblokuje kopírování textu:
+      // přeskočí se, když je fokus v editovatelném poli nebo existuje výběr textu.
+      if (mod && e.key.toLowerCase() === "c" && !e.shiftKey && !inEditable) {
+        if (window.getSelection()?.toString()) return; // uživatel kopíruje text
+        const sel = studio.selectedSectionId;
+        const section = sel !== null ? sectionsRef.current.find(s => s.id === sel) : undefined;
+        if (!section || section.section_type === "navbar" || section.section_type === "footer") return;
+        e.preventDefault();
+        try {
+          window.localStorage.setItem("venom-studio.section-clipboard", JSON.stringify({
+            type: section.section_type,
+            variant: section.section_variant,
+            settings: section.settings ?? {},
+            ts: Date.now(),
+          }));
+          window.dispatchEvent(new CustomEvent("venom-studio:toast", { detail: { text: "Sekce zkopírována — vlož ji ⌘V (i na jiné stránce)" } }));
+        } catch { /* storage full */ }
+        return;
+      }
+      if (mod && e.key.toLowerCase() === "v" && !e.shiftKey && !inEditable) {
+        let raw: string | null = null;
+        try { raw = window.localStorage.getItem("venom-studio.section-clipboard"); } catch { /* ignore */ }
+        if (!raw) return;
+        e.preventDefault();
+        try {
+          const clip = JSON.parse(raw) as { type: string; variant: string; settings: Record<string, unknown> };
+          // Vlož pod aktuálně vybranou sekci, jinak na konec (před footer)
+          const sel = studio.selectedSectionId;
+          const sorted = [...sectionsRef.current].sort((a, b) => a.order_index - b.order_index);
+          const selIdx = sel !== null ? sorted.findIndex(s => s.id === sel) : -1;
+          const insertAt = selIdx >= 0 ? selIdx + 1 : undefined;
+          void addSection(clip.type, clip.variant, insertAt, clip.settings);
+          window.dispatchEvent(new CustomEvent("venom-studio:toast", { detail: { text: "Sekce vložena" } }));
+        } catch { /* corrupt clipboard */ }
+        return;
+      }
       if (!inEditable && !mod) {
         if (e.key === "1") { studio.setBreakpoint("desktop"); return; }
         if (e.key === "2") { studio.setBreakpoint("tablet"); return; }
@@ -564,7 +601,7 @@ function InnerStudio({
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [undo, redo, flushGenericSave, studio]);
+  }, [undo, redo, flushGenericSave, studio, addSection]);
 
   // Suppress unused historyTick warning while still triggering rerenders
   void historyTick;

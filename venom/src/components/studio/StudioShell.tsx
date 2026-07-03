@@ -28,6 +28,35 @@ import { useHotkey } from "./ui";
 import "./design-tokens.css";
 import type { StudioState } from "./TenantStudioView";
 
+/** Miniaturní toast — posluchač custom eventu `venom-studio:toast` ({ detail: { text } }).
+ *  Používá ho section copy/paste, uložení šablony apod. */
+function StudioToast() {
+  const [msg, setMsg] = useState<string | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    function onToast(e: Event) {
+      const text = (e as CustomEvent<{ text?: string }>).detail?.text;
+      if (!text) return;
+      setMsg(text);
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => setMsg(null), 2600);
+    }
+    window.addEventListener("venom-studio:toast", onToast);
+    return () => {
+      window.removeEventListener("venom-studio:toast", onToast);
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+  if (!msg) return null;
+  return (
+    <div className="vs-enter pointer-events-none fixed bottom-16 left-1/2 z-[400] -translate-x-1/2">
+      <div className="vs-glass rounded-full border border-[var(--vs-border-strong)] px-4 py-2 text-[12.5px] font-medium text-[var(--vs-text)] shadow-[var(--vs-shadow-lg)]">
+        {msg}
+      </div>
+    </div>
+  );
+}
+
 function useIsMobile(bp = 768) {
   const [mobile, setMobile] = useState(false);
   useEffect(() => {
@@ -189,6 +218,7 @@ export function StudioShell({ state }: { state: StudioState }) {
       <NotificationsPanel />
       <HelpPanel tenantSlug={state.tenant.slug} />
       <HistoryPanel state={state} />
+      <StudioToast />
       <OnboardingTour tenantSlug={state.tenant.slug} />
 
       {studio.assetsOpen && (

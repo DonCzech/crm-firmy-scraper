@@ -1,7 +1,7 @@
 "use client";
 
 import { useStudio } from "./StudioContext";
-import { ArrowUp, ArrowDown, Copy, Trash2, Eye, EyeOff, GripVertical, Plus, Type, AlignLeft, MousePointer, Image as ImageIcon, Minus, Square } from "@/components/studio/icons";
+import { ArrowUp, ArrowDown, Copy, Trash2, Eye, EyeOff, GripVertical, Plus, Type, AlignLeft, MousePointer, Image as ImageIcon, Minus, Square, Bookmark, Check, Loader2 } from "@/components/studio/icons";
 import clsx from "clsx";
 import { getSectionLabel } from "./studio-icons";
 import { SectionResizeHandle } from "./SectionResizeHandle";
@@ -12,6 +12,7 @@ import {
   type CSSProperties,
   type Ref,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { findFieldBySrc, readFocus } from "@/lib/studio-focus";
@@ -56,8 +57,40 @@ export function SectionFrame({
     });
   }, [section.settings, section.id]);
   const [addOpen, setAddOpen] = useState(false);
+  const [saveOpen, setSaveOpen] = useState(false);
 
+  // Toolbar sekce sedí vpravo nahoře — pravý inspektor (overlay 260px) ho ale
+  // překrývá a canvas zoom vytváří stacking context, takže z-index nepomůže.
+  // Měříme skutečný překryv a toolbar o něj posouváme doleva (v canvas px).
+  const [toolbarRight, setToolbarRight] = useState(8);
   const selected = studio.selectedSectionId === section.id;
+  useEffect(() => {
+    if (!selected) return;
+    function measure() {
+      const el = document.querySelector(`[data-section-id="${section.id}"]`);
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const inspectorW = studio.rightPanel ? 262 : 0;
+      const overlapViewport = Math.max(0, rect.right - (window.innerWidth - inspectorW));
+      if (overlapViewport === 0) { setToolbarRight(8); return; }
+      // viewport px → canvas px (CSS zoom na canvas wrapperu)
+      let zoom = 1;
+      let p: HTMLElement | null = el as HTMLElement;
+      while (p) {
+        if (p.hasAttribute("data-studio-canvas-preview")) {
+          const z = parseFloat(window.getComputedStyle(p).zoom || "1");
+          zoom = isNaN(z) || z <= 0 ? 1 : z;
+          break;
+        }
+        p = p.parentElement;
+      }
+      setToolbarRight(8 + overlapViewport / zoom);
+    }
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [selected, studio.rightPanel, section.id]);
+
   const hover = studio.hoverSectionId === section.id;
   const label = getSectionLabel(section.section_type, section.section_variant);
 
@@ -311,7 +344,10 @@ export function SectionFrame({
         <SectionResizeHandle section={section} state={state} />
       )}
       {selected && (
-        <div className="absolute right-2 top-2 z-[60] flex items-center gap-0.5 rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)]/95 p-0.5 shadow-lg backdrop-blur">
+        <div
+          className="absolute top-2 z-[60] flex items-center gap-0.5 rounded-md border border-[var(--vs-surface-2)] bg-[var(--vs-surface)]/95 p-0.5 shadow-lg backdrop-blur"
+          style={{ right: toolbarRight }}
+        >
           <FrameBtn label="Posunout nahoru" disabled={!canUp} onClick={() => move(-1)}>
             <ArrowUp className="h-3.5 w-3.5" strokeWidth={1.75} />
           </FrameBtn>
@@ -330,6 +366,20 @@ export function SectionFrame({
           <FrameBtn label="Duplikovat" onClick={() => void state.duplicateSection(section.id)}>
             <Copy className="h-3.5 w-3.5" strokeWidth={1.75} />
           </FrameBtn>
+          {sortable && (
+            <div className="relative">
+              <FrameBtn label="Uložit jako šablonu (Moje sekce)" onClick={() => setSaveOpen(o => !o)} active={saveOpen}>
+                <Bookmark className="h-3.5 w-3.5" weight={saveOpen ? "duotone" : "regular"} />
+              </FrameBtn>
+              {saveOpen && (
+                <SaveTemplatePopover
+                  section={section}
+                  tenantSlug={state.tenant.slug}
+                  onClose={() => setSaveOpen(false)}
+                />
+              )}
+            </div>
+          )}
           {overlayEnabled && (
             <>
               <div className="mx-0.5 h-4 w-px bg-[var(--vs-surface-2)]" />
@@ -359,6 +409,83 @@ export function SectionFrame({
           </FrameBtn>
         </div>
       )}
+    </div>
+  );
+}
+
+/** Popover „Uložit jako šablonu" — pojmenuje snapshot sekce do Moje sekce (3d). */
+function SaveTemplatePopover({
+  section, tenantSlug, onClose,
+}: {
+  section: Section;
+  tenantSlug: string;
+  onClose: () => void;
+}) {
+  const [label, setLabel] = useState(getSectionLabel(section.section_type, section.section_variant));
+  const [busy, setBusy] = useState(false);
+  const [done, setDone] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function onDown(e: MouseEvent) {
+      if (!rootRef.current?.contains(e.target as Node)) onClose();
+    }
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, [onClose]);
+
+  async function save() {
+    if (!label.trim() || busy) return;
+    setBusy(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/demo/${tenantSlug}/saved-sections`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sectionId: section.id, label: label.trim() }),
+      });
+      if (!res.ok) {
+        const j = (await res.json().catch(() => ({}))) as { error?: string };
+        throw new Error(j.error ?? `HTTP ${res.status}`);
+      }
+      setDone(true);
+      window.dispatchEvent(new CustomEvent("venom-studio:toast", { detail: { text: "Uloženo do Moje sekce (+ Přidat → Sekce)" } }));
+      setTimeout(onClose, 900);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Uložení selhalo");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <div
+      ref={rootRef}
+      className="vs-glass vs-pop absolute right-0 top-[calc(100%+6px)] z-[70] w-[240px] rounded-xl border border-[var(--vs-border-strong)] p-3 shadow-[var(--vs-shadow-xl)]"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-[var(--vs-text-muted)]">Uložit jako šablonu</p>
+      <input
+        type="text"
+        value={label}
+        autoFocus
+        onChange={(e) => setLabel(e.target.value)}
+        onKeyDown={(e) => { if (e.key === "Enter") void save(); if (e.key === "Escape") onClose(); }}
+        placeholder="Název šablony"
+        className="mb-2 h-8 w-full rounded-md border border-[var(--vs-border-strong)] bg-[var(--vs-surface)] px-2.5 text-[12.5px] text-[var(--vs-text)] outline-none focus:border-[var(--vs-accent)]"
+      />
+      {error && <p className="mb-2 text-[11px] text-[var(--vs-danger)]">{error}</p>}
+      <button
+        type="button"
+        onClick={() => void save()}
+        disabled={busy || !label.trim()}
+        className="flex w-full items-center justify-center gap-1.5 rounded-md py-1.5 text-[12px] font-semibold text-white transition-[filter] hover:brightness-110 disabled:opacity-60"
+        style={{ background: "var(--vs-cta-grad)" }}
+      >
+        {busy ? <Loader2 className="h-3 w-3 animate-spin" /> : done ? <Check className="h-3 w-3" /> : <Bookmark className="h-3 w-3" />}
+        {done ? "Uloženo" : "Uložit do Moje sekce"}
+      </button>
     </div>
   );
 }

@@ -21,7 +21,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Plus, X, Search, Upload, Sparkles, Image as ImageIcon, FileText, ArrowRight, Layers, Type, MousePointer2, Minus, Square, Shapes } from "@/components/studio/icons";
+import { Plus, X, Search, Upload, Sparkles, Image as ImageIcon, FileText, ArrowRight, Layers, Type, MousePointer2, Minus, Square, Shapes, Trash2 } from "@/components/studio/icons";
 import clsx from "clsx";
 import type { StudioState } from "../TenantStudioView";
 import {
@@ -258,11 +258,42 @@ function ReplaceModeBadge() {
 
 /* ── Sections panel (the main attraction) ──────────────────────────────── */
 
+/** Uživatelská šablona sekce z „Moje sekce" (saved_sections API, 3d). */
+interface SavedSectionRow {
+  id: number;
+  label: string;
+  section_type: string;
+  section_variant: string;
+  settings: Record<string, unknown>;
+  created_at: string;
+}
+
 function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => void }) {
   const opts = useWixAddOptions();
   const replaceMode = typeof opts.replaceSectionId === "number";
   const lib = useMemo(() => buildRichLibrary(), []);
   const grouped = useMemo(() => groupByCategory(lib), [lib]);
+
+  // Moje sekce — uživatelské šablony (3d)
+  const [saved, setSaved] = useState<SavedSectionRow[]>([]);
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/demo/${state.tenant.slug}/saved-sections`, { cache: "no-store" })
+      .then(r => r.ok ? r.json() : { saved: [] })
+      .then((d: { saved?: SavedSectionRow[] }) => { if (!cancelled) setSaved(d.saved ?? []); })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [state.tenant.slug]);
+
+  async function addSaved(row: SavedSectionRow) {
+    await state.addSection(row.section_type, row.section_variant, undefined, row.settings);
+    onClose();
+  }
+
+  async function deleteSaved(id: number) {
+    setSaved(prev => prev.filter(s => s.id !== id));
+    await fetch(`/api/demo/${state.tenant.slug}/saved-sections?id=${id}`, { method: "DELETE" }).catch(() => {});
+  }
 
   // In replace mode, lock the category to the matching type's home category
   // so the user can only browse compatible variants. We resolve the
@@ -273,13 +304,14 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
     return found?.id ?? "welcome";
   }, [opts.filterType]);
 
-  const [cat, setCat] = useState<CategoryId>(initialCat);
+  const [cat, setCat] = useState<CategoryId | "saved">(initialCat);
   const [q, setQ] = useState("");
   const [tag, setTag] = useState<StyleTag | null>(null);
 
   const tenantIndustry = (state.tenant as { industry?: string }).industry || "*";
 
   const list = useMemo(() => {
+    if (cat === "saved") return [];
     let items = grouped[cat] ?? [];
     if (opts.filterType) items = items.filter(e => e.type === opts.filterType);
     if (tag) items = items.filter(e => e.tags.includes(tag));
@@ -298,6 +330,7 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
 
   // Tag chips available in current category
   const tagsAvailable = useMemo(() => {
+    if (cat === "saved") return [];
     const set = new Set<StyleTag>();
     for (const e of grouped[cat] ?? []) for (const t of e.tags) set.add(t);
     return [...set];
@@ -345,6 +378,19 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
           </button>
         </div>
         <nav className="px-2 pb-4">
+          {saved.length > 0 && !replaceMode && (
+            <button
+              type="button"
+              onClick={() => { setCat("saved"); setTag(null); }}
+              className={clsx(
+                "flex w-full items-center justify-between rounded-lg px-3 py-[7px] text-left text-[14px] transition-colors mb-1",
+                cat === "saved" ? "bg-[#111827] text-white" : "text-[#334155] hover:bg-[#f1f5f9]",
+              )}
+            >
+              <span className="font-semibold">★ Moje sekce</span>
+              <span className={clsx("text-[11px]", cat === "saved" ? "text-white/60" : "text-[#94a3b8]")}>{saved.length}</span>
+            </button>
+          )}
           {LIBRARY_CATEGORIES.map(c => {
             const count = grouped[c.id]?.length ?? 0;
             if (count === 0) return null;
@@ -403,7 +449,17 @@ function SectionsPanel({ state, onClose }: { state: StudioState; onClose: () => 
         </div>
 
         <div className="flex-1 overflow-y-auto px-6 py-5">
-          {list.length === 0 ? (
+          {cat === "saved" ? (
+            saved.length === 0 ? (
+              <Empty />
+            ) : (
+              <div className="grid grid-cols-3 gap-5">
+                {saved.map(row => (
+                  <SavedSectionCard key={row.id} row={row} onInsert={() => void addSaved(row)} onDelete={() => void deleteSaved(row.id)} />
+                ))}
+              </div>
+            )
+          ) : list.length === 0 ? (
             <Empty />
           ) : (
             <div className="grid grid-cols-3 gap-5">
@@ -425,6 +481,43 @@ const TAG_LABELS: Record<string, string> = {
   slider: "Slider", video: "Video", image: "Obrázek",
   minimal: "Minimal", luxury: "Luxus",
 };
+
+/** Karta uživatelské šablony v „Moje sekce" — thumbnail varianty + smazání. */
+function SavedSectionCard({
+  row, onInsert, onDelete,
+}: { row: SavedSectionRow; onInsert: () => void; onDelete: () => void }) {
+  const [imgFailed, setImgFailed] = useState(false);
+  const thumbUrl = `/section-thumbs/${row.section_type}/${row.section_variant}.webp`;
+  return (
+    <div className="group relative flex flex-col text-left rounded-xl border border-[#e5e7eb] bg-white overflow-hidden hover:border-[#3f3f46] hover:shadow-[0_10px_30px_rgba(63,63,70,0.15)] transition-all duration-150">
+      <button type="button" onClick={onInsert} className="text-left">
+        <div className="aspect-[16/10] w-full overflow-hidden bg-[#f8fafc]">
+          {imgFailed ? (
+            <div className="flex h-full w-full items-center justify-center text-[28px]">★</div>
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={thumbUrl} alt="" loading="lazy" onError={() => setImgFailed(true)} className="h-full w-full object-cover object-top" />
+          )}
+        </div>
+        <div className="px-3.5 py-2.5">
+          <p className="truncate text-[13.5px] font-semibold text-[#0f172a]">{row.label}</p>
+          <p className="text-[11px] text-[#94a3b8]">
+            {row.section_type} · {new Date(row.created_at).toLocaleDateString("cs-CZ")}
+          </p>
+        </div>
+      </button>
+      <button
+        type="button"
+        aria-label="Smazat šablonu"
+        title="Smazat šablonu"
+        onClick={(e) => { e.stopPropagation(); onDelete(); }}
+        className="absolute right-2 top-2 hidden h-7 w-7 items-center justify-center rounded-lg bg-white/90 text-[#dc2626] shadow ring-1 ring-[#e5e7eb] hover:bg-[#fef2f2] group-hover:flex"
+      >
+        <Trash2 size={14} />
+      </button>
+    </div>
+  );
+}
 
 function VariantCard({
   entry, onClick,
