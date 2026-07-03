@@ -4597,7 +4597,7 @@ function HeroNails01({
   const CREAM    = "#f4f1e9";
   const BURGUNDY = "#79142b";
 
-  const eyebrow     = String(content.eyebrow     ?? "SOHO PRAHA · WABI-SABI BEAUTY");
+  const eyebrow     = String(content.eyebrow     ?? "NOIR PRAHA · WABI-SABI BEAUTY");
   const title       = String(content.title       ?? "Krása je");
   const titleAccent = String(content.titleAccent ?? "opravdový pocit");
   const body        = String(content.body        ?? "Prémiové nehtové studio a beauty salon v srdci Prahy. Manikúra, pedikúra, řasy, kadeřnictví a masáže — kompletní péče inspirovaná japonským wabi-sabi.");
@@ -5493,17 +5493,10 @@ function HeroNails02({
           from { transform: scale(1.02); }
           to   { transform: scale(1.12); }
         }
-        .n02-hero-cta::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background-color: ${CREAM};
-          transform: translateX(-101%);
-          transition: transform 0.45s cubic-bezier(0.65,0,0.35,1);
-          z-index: 1;
+        .n02-hero-cta {
+          transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
         }
-        .n02-hero-cta:hover::before { transform: translateX(0); }
-        .n02-hero-cta:hover { color: ${WINE}; border-color: ${CREAM}; }
+        .n02-hero-cta:hover { background-color: ${CREAM}; color: ${WINE}; border-color: ${CREAM}; }
         .n02-hero-cta:hover .n02-hero-cta-arrow { transform: translateX(4px); transition: transform 0.35s ease; }
         .n02-hero-tel:hover { border-bottom-color: ${TAUPE}; color: ${TAUPE}; }
         .n02-hero-scroll-line {

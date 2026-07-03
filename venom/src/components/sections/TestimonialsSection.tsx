@@ -1893,11 +1893,12 @@ function TestimonialsNails02({ content, sectionId }: { content: Record<string, u
       data-template="nails-02"
       style={{
         backgroundColor: DARK,
-        padding: "clamp(90px, 12vw, 160px) clamp(24px, 6vw, 72px)",
+        padding: (title || kicker || numberPrefix) ? "clamp(90px, 12vw, 160px) clamp(24px, 6vw, 72px)" : "clamp(48px, 6vw, 72px) clamp(24px, 6vw, 72px)",
         position: "relative",
       }}
     >
-      {/* Section eyebrow */}
+      {/* Section eyebrow — hidden on subpages */}
+      {(title || kicker || numberPrefix) && (
       <div
         className="n02-rev-eyebrow"
         aria-hidden="true"
@@ -1920,9 +1921,11 @@ function TestimonialsNails02({ content, sectionId }: { content: Record<string, u
         <span>Kapitola · 03</span>
         <span style={{ display: "block", width: 42, height: 1, backgroundColor: TAUPE, opacity: 0.6 }} />
       </div>
+      )}
 
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        {/* Header */}
+        {/* Header — hidden on subpages where title+kicker are empty */}
+        {(title || kicker || numberPrefix) && (
         <div style={{ marginBottom: "clamp(72px, 9vw, 120px)", maxWidth: 720 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 40 }}>
             <span aria-hidden style={{ display: "block", width: 1, height: 32, backgroundColor: TAUPE }} />
@@ -1968,6 +1971,7 @@ function TestimonialsNails02({ content, sectionId }: { content: Record<string, u
             <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
           </p>
         </div>
+        )}
 
         {/* 3-card grid */}
         <div

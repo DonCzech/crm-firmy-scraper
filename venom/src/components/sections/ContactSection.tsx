@@ -156,7 +156,7 @@ function ContactNails01({ content, sectionId, tenantSlug, isAdmin }: { content: 
   const address    = String(content.address    ?? "Vinohradská 26, 110 00 Praha 1");
   const addressNote= String(content.addressNote?? "Přízemí · 2 minuty od metra Muzeum");
   const phone      = String(content.phone      ?? "+420 777 123 456");
-  const email      = String(content.email      ?? "studio@sohonails.cz");
+  const email      = String(content.email      ?? "studio@noirnails.cz");
   const mapText    = String(content.mapText    ?? "Otevřít v mapách");
   const mapHref    = String(content.mapHref    ?? "https://maps.google.com/?q=Vinohradsk%C3%A1+26+Praha");
   const hours      = (content.hours as Array<{ days: string; time: string }>) ?? [
@@ -1982,11 +1982,12 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
       data-template="nails-02"
       style={{
         backgroundColor: DARK,
-        padding: "clamp(90px, 12vw, 160px) clamp(24px, 6vw, 72px)",
+        padding: (title || kicker || numberPrefix) ? "clamp(90px, 12vw, 160px) clamp(24px, 6vw, 72px)" : "clamp(48px, 6vw, 72px) clamp(24px, 6vw, 72px)",
         position: "relative",
       }}
     >
-      {/* Section eyebrow top-right */}
+      {/* Section eyebrow — hidden on subpages */}
+      {(title || kicker || numberPrefix) && (
       <div
         className="n02-contact-eyebrow"
         aria-hidden="true"
@@ -2009,6 +2010,7 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
         <span>Kapitola · 05</span>
         <span style={{ display: "block", width: 42, height: 1, backgroundColor: TAUPE, opacity: 0.6 }} />
       </div>
+      )}
 
       <div style={{ maxWidth: 1320, margin: "0 auto" }}>
         <div
@@ -2022,7 +2024,8 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
         >
           {/* Left: text + info */}
           <div>
-            {/* (04) with vertical hairline */}
+            {/* (04) with vertical hairline — hidden on subpage */}
+            {numberPrefix && (
             <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 40 }}>
               <span aria-hidden style={{ display: "block", width: 1, height: 32, backgroundColor: TAUPE }} />
               <span style={{
@@ -2037,7 +2040,9 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
                 <GenericEditableText sectionId={sectionId} field="numberPrefix" value={numberPrefix} tag="span" />
               </span>
             </div>
+            )}
 
+            {title && (
             <h2
               style={{
                 fontFamily: SERIF,
@@ -2052,7 +2057,11 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
             >
               <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
             </h2>
+            )}
+            {(title || kicker) && (
             <div aria-hidden="true" style={{ width: 88, height: 1, backgroundColor: TAUPE, margin: "48px 0 28px" }} />
+            )}
+            {kicker && (
             <p
               style={{
                 fontFamily: SANS,
@@ -2066,6 +2075,7 @@ function ContactNails02({ content, sectionId }: { content: Record<string, unknow
             >
               <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
             </p>
+            )}
 
             {/* Prominent tel display */}
             <a

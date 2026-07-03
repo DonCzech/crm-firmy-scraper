@@ -5438,7 +5438,7 @@ function NavbarNails01(props: Props) {
     return () => document.removeEventListener("keydown", handler);
   }, [open]);
 
-  const siteName = String(content.siteName ?? "Demo Soho Nails & Spa");
+  const siteName = String(content.siteName ?? "Demo Noir Nails & Spa");
   const ctaText  = String(content.ctaText  ?? "Objednat se");
   const ctaHref  = String(content.ctaHref  ?? "/kontakt");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
@@ -5447,7 +5447,7 @@ function NavbarNails01(props: Props) {
 
   const topHours = String(content.topHours ?? "Po – Ne · 9:00 — 19:00");
   const topPhone = String(content.topPhone ?? "+420 776 421 018");
-  const wordmark = String(content.wordmark ?? "SOHO NAILS");
+  const wordmark = String(content.wordmark ?? "NOIR NAILS");
   const subtitle = String(content.subtitle ?? "Beauty · Spa · Praha");
 
   const CREAM    = "#f4f1e9";
@@ -5642,6 +5642,28 @@ function NavbarNails01(props: Props) {
             zIndex: 49,
           }}
         >
+          <button
+            aria-label="Zavřít menu"
+            onClick={() => setOpen(false)}
+            style={{
+              position: "absolute", top: 22, right: 22,
+              background: "none", border: "none", cursor: "pointer",
+              width: 40, height: 40,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              zIndex: 2,
+            }}
+          >
+            <span style={{
+              position: "absolute", width: 26, height: 1.5,
+              backgroundColor: BURGUNDY,
+              transform: "rotate(45deg)",
+            }} />
+            <span style={{
+              position: "absolute", width: 26, height: 1.5,
+              backgroundColor: BURGUNDY,
+              transform: "rotate(-45deg)",
+            }} />
+          </button>
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
             <HankoSeal size={58} />
           </div>
@@ -6209,17 +6231,10 @@ function NavbarNails02(props: Props) {
         }
         .n02-navlink:hover::after { width: 100%; left: 0; }
         .n02-navlink:hover { color: ${WINE}; }
-        .n02-cta::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background-color: ${WINE};
-          transform: translateX(-101%);
-          transition: transform 0.4s cubic-bezier(0.65,0,0.35,1);
-          z-index: 1;
+        .n02-cta {
+          transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
         }
-        .n02-cta:hover::before { transform: translateX(0); }
-        .n02-cta:hover { color: #ffffff; }
+        .n02-cta:hover { background-color: ${WINE}; color: #ffffff; border-color: ${WINE}; }
         .n02-cta:hover .n02-cta-arrow { transform: translateX(4px); }
       `}</style>
 
@@ -6293,10 +6308,6 @@ function NavbarNails02(props: Props) {
 }
 
 // ── nails-03-navbar ──────────────────────────────────────────────────────────
-// maidenstudio.cz — fixed cream #FCF9F0 navbar, near-black uppercase Manrope
-// wordmark vlevo, dark nav linky uprostřed, brown #806248 pill CTA vpravo.
-// Na scroll: lehký box-shadow. Mobile: hamburger + fullscreen cream overlay.
-// ─────────────────────────────────────────────────────────────────────────────
 function NavbarNails03(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
   const [open, setOpen] = useState(false);
@@ -6304,9 +6315,10 @@ function NavbarNails03(props: Props) {
 
   useEffect(() => {
     if (!open) return;
+    document.body.style.overflow = "hidden";
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
     document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
+    return () => { document.body.style.overflow = ""; document.removeEventListener("keydown", handler); };
   }, [open]);
 
   useEffect(() => {
@@ -6316,39 +6328,41 @@ function NavbarNails03(props: Props) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const siteName = String(content.siteName ?? "Demo Maiden Studio");
+  const siteName = String(content.siteName ?? "Studio Krásy");
   const ctaText  = String(content.ctaText  ?? "Objednat se");
-  const ctaHref  = String(content.ctaHref  ?? "#kontakt");
+  const ctaHref  = String(content.ctaHref  ?? "/kontakt");
   const igHref   = String(content.igHref   ?? "https://instagram.com/demo");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const CREAM  = "#FCF9F0";
   const DARK   = "#0B090C";
   const BROWN  = "#806248";
   const MUTED  = "#5a5047";
-  const NAV_H  = 80;
+  const NAV_H  = 72;
   const FONT   = "'Manrope', 'Helvetica Neue', Arial, sans-serif";
 
   return (
     <>
       <header
         data-template="nails-03"
+        className="n03-header"
         style={{
           position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
+          top: 0, left: 0, right: 0,
           zIndex: 50,
           height: NAV_H,
           backgroundColor: CREAM,
-          boxShadow: scrolled ? "0 2px 16px rgba(11,9,12,0.10)" : "0 1px 0 rgba(11,9,12,0.06)",
-          transition: "box-shadow 0.3s ease",
+          borderBottom: scrolled ? "none" : `1px solid rgba(128,98,72,0.10)`,
+          boxShadow: scrolled ? "0 4px 24px rgba(11,9,12,0.08)" : "none",
+          transition: "box-shadow 0.4s ease, border-bottom 0.4s ease",
         }}
       >
         <div style={{
-          maxWidth: 1280,
+          maxWidth: 1200,
           margin: "0 auto",
-          padding: "0 32px",
+          padding: "0 40px",
           height: "100%",
           display: "flex",
           alignItems: "center",
@@ -6363,76 +6377,80 @@ function NavbarNails03(props: Props) {
               color: DARK,
               fontFamily: FONT,
               fontWeight: 800,
-              fontSize: "1.15rem",
-              letterSpacing: "0.18em",
+              fontSize: "1.05rem",
+              letterSpacing: "0.22em",
               textTransform: "uppercase",
               lineHeight: 1,
+              position: "relative",
             }}
           >
             <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
           </a>
 
           {/* Desktop nav */}
-          <nav style={{ display: "flex", alignItems: "center", gap: 32 }} className="n03-nav-desktop">
+          <nav style={{ display: "flex", alignItems: "center", gap: 36 }} className="n03-nav-desktop">
             {links.map((l, i) => (
               <a
                 key={`n03-${i}`}
-                href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
+                href={resolve(l.href)}
+                className="n03-nav-link"
                 style={{
                   textDecoration: "none",
                   color: MUTED,
                   fontFamily: FONT,
-                  fontSize: "0.88rem",
-                  fontWeight: 500,
-                  letterSpacing: "0.06em",
-                  transition: "color 0.2s",
+                  fontSize: "0.82rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  position: "relative",
+                  paddingBottom: 4,
+                  transition: "color 0.25s ease",
                 }}
-                onMouseEnter={e => { e.currentTarget.style.color = DARK; }}
-                onMouseLeave={e => { e.currentTarget.style.color = MUTED; }}
               >
                 {l.label}
               </a>
             ))}
           </nav>
 
-          {/* Right: IG icon + CTA */}
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }} className="n03-nav-desktop">
+          {/* Right: IG icon + CTA pill */}
+          <div style={{ display: "flex", alignItems: "center", gap: 18 }} className="n03-nav-desktop">
             <a
               href={igHref}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
-              style={{ color: MUTED, display: "flex", alignItems: "center", transition: "color 0.2s" }}
-              onMouseEnter={e => { e.currentTarget.style.color = BROWN; }}
-              onMouseLeave={e => { e.currentTarget.style.color = MUTED; }}
+              className="n03-ig-icon"
+              style={{ color: MUTED, display: "flex", alignItems: "center", transition: "color 0.25s ease" }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
               </svg>
             </a>
             <a
-              href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+              href={resolve(ctaHref)}
               data-btn="primary"
+              className="n03-cta-pill"
               style={{
-                padding: "10px 24px",
+                padding: "9px 26px",
                 backgroundColor: BROWN,
                 color: CREAM,
                 fontFamily: FONT,
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                letterSpacing: "0.04em",
+                fontSize: "0.78rem",
+                fontWeight: 700,
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
                 textDecoration: "none",
                 borderRadius: 999,
-                transition: "background 0.2s",
+                transition: "background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease",
+                position: "relative",
+                overflow: "hidden",
               }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#6e5238"; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = BROWN; }}
             >
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
           </div>
 
-          {/* Hamburger */}
+          {/* Hamburger — animated 3-line → X */}
           <button
             aria-label={open ? "Zavřít menu" : "Otevřít menu"}
             onClick={() => setOpen(!open)}
@@ -6444,13 +6462,24 @@ function NavbarNails03(props: Props) {
               cursor: "pointer",
               padding: 8,
               color: DARK,
+              position: "relative",
+              width: 32,
+              height: 32,
+              zIndex: 52,
             }}
           >
-            {open ? (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            ) : (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
-            )}
+            <span className="n03-burger-bar" style={{
+              position: "absolute", left: 4, width: 24, height: 2, backgroundColor: DARK, borderRadius: 1,
+              top: open ? 15 : 8, transform: open ? "rotate(45deg)" : "none", transition: "all 0.3s ease",
+            }} />
+            <span className="n03-burger-bar" style={{
+              position: "absolute", left: 4, width: 24, height: 2, backgroundColor: DARK, borderRadius: 1,
+              top: 15, opacity: open ? 0 : 1, transition: "opacity 0.2s ease",
+            }} />
+            <span className="n03-burger-bar" style={{
+              position: "absolute", left: 4, width: 24, height: 2, backgroundColor: DARK, borderRadius: 1,
+              top: open ? 15 : 22, transform: open ? "rotate(-45deg)" : "none", transition: "all 0.3s ease",
+            }} />
           </button>
         </div>
       </header>
@@ -6458,66 +6487,107 @@ function NavbarNails03(props: Props) {
       {/* Spacer */}
       <div style={{ height: NAV_H }} />
 
-      {/* Mobile overlay */}
-      <style>{`
-        @media (max-width: 900px) {
-          .n03-nav-desktop { display: none !important; }
-          .n03-hamburger   { display: flex !important; }
-        }
-      `}</style>
-
+      {/* Mobile overlay — close button INSIDE overlay */}
       {open && (
-        <div style={{
-          position: "fixed",
-          inset: 0,
-          zIndex: 49,
-          backgroundColor: CREAM,
-          display: "flex",
-          flexDirection: "column",
-          padding: "100px 32px 40px",
-          overflowY: "auto",
-        }}>
-          {links.map((l, i) => (
-            <a
-              key={`n03-mob-${i}`}
-              href={resolveDemoHref(l.href, tenantSlug, isAdmin)}
-              onClick={() => setOpen(false)}
-              style={{
-                display: "block",
-                padding: "18px 0",
-                fontSize: "1.5rem",
-                fontFamily: FONT,
-                fontWeight: 700,
-                color: DARK,
-                textDecoration: "none",
-                borderBottom: `1px solid rgba(11,9,12,0.08)`,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-              }}
-            >
-              {l.label}
-            </a>
-          ))}
+        <div
+          className="n03-mobile-overlay"
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 51,
+            backgroundColor: CREAM,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "80px 32px 40px",
+            overflowY: "auto",
+          }}
+        >
+          <button
+            aria-label="Zavřít menu"
+            onClick={() => setOpen(false)}
+            style={{
+              position: "absolute", top: 20, right: 24,
+              background: "none", border: "none", cursor: "pointer",
+              color: DARK, padding: 8, zIndex: 52,
+            }}
+          >
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+
+          <nav style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 0, width: "100%", maxWidth: 320 }}>
+            {links.map((l, i) => (
+              <a
+                key={`n03-mob-${i}`}
+                href={resolve(l.href)}
+                onClick={() => setOpen(false)}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  textAlign: "center",
+                  padding: "20px 0",
+                  fontSize: "1.3rem",
+                  fontFamily: FONT,
+                  fontWeight: 700,
+                  color: DARK,
+                  textDecoration: "none",
+                  borderBottom: `1px solid rgba(128,98,72,0.12)`,
+                  letterSpacing: "0.10em",
+                  textTransform: "uppercase",
+                  transition: "color 0.2s ease",
+                }}
+              >
+                {l.label}
+              </a>
+            ))}
+          </nav>
+
           <a
-            href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+            href={resolve(ctaHref)}
             data-btn="primary"
             onClick={() => setOpen(false)}
             style={{
-              marginTop: 40,
+              marginTop: 36,
               display: "inline-flex",
-              alignSelf: "flex-start",
-              padding: "14px 32px",
+              padding: "14px 40px",
               backgroundColor: BROWN,
               color: CREAM,
               fontFamily: FONT,
-              fontSize: "0.95rem",
-              fontWeight: 600,
-              letterSpacing: "0.04em",
+              fontSize: "0.88rem",
+              fontWeight: 700,
+              letterSpacing: "0.06em",
+              textTransform: "uppercase",
               textDecoration: "none",
               borderRadius: 999,
             }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+
+          <a
+            href={igHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              marginTop: 24,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              color: MUTED,
+              fontFamily: FONT,
+              fontSize: "0.82rem",
+              fontWeight: 500,
+              letterSpacing: "0.04em",
+              textDecoration: "none",
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+            </svg>
+            @studio_krasy
           </a>
         </div>
       )}
@@ -12779,27 +12849,43 @@ function NavbarInstala01(props: Props) {
 }
 
 // ── sweet-01-navbar ───────────────────────────────────────────────────────────
-// Ref: ovocnysvetozor.cz (Joomla + Gantry e-shop, cukrárna & pekárna)
-// #fefefe sticky navbar, box-shadow 0 1px 8px rgba(0,0,0,0.06)
-// Logo vlevo (SVG), nav linky (Roboto 12px uppercase), hamburger vpravo
-// Primary red: #E2001A for hover/active
+// Parisian Pâtisserie Boutique — Cukrárna Eliška
+// Two-tier: utility strip (cream, cocoa) + main nav (white, gold hairline, scalloped festoon)
+// Cherry red #E2001A DNA, Fraunces italic wordmark, Inter uppercase links, gold #c8a568 hairline
 // ─────────────────────────────────────────────────────────────────────────────
 function NavbarSweet01({ content, isAdmin, tenantSlug, sectionId }: Props) {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const siteName = String(content.siteName ?? "Demo Světozor");
-  const logoUrl  = String(content.logoUrl  ?? "/templates/sweet-01/logo.svg");
+  const siteName = String(content.siteName ?? "Cukrárna Eliška");
+  const wordmark = String(content.wordmark ?? "Eliška");
+  const tagline  = String(content.tagline  ?? "PÂTISSERIE · PRAHA");
+  const logoUrl  = String(content.logoUrl  ?? "");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
-  const ctaText  = String(content.ctaText  ?? "Přejít do e-shopu");
-  const ctaHref  = String(content.ctaHref  ?? "#eshop");
+  const ctaText  = String(content.ctaText  ?? "Objednat online");
+  const ctaHref  = String(content.ctaHref  ?? "/objednat");
+  const phone    = String(content.phone    ?? "+420 704 123 456");
+  const hours    = String(content.hours    ?? "Otevřeno denně 8:00–20:00");
+  const location = String(content.location ?? "Vinohradská 42, Praha 2");
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  const BG      = "#fefefe";
-  const RED     = "#E2001A";
-  const DARK    = "#0a0a0a";
-  const BORDER  = "#e8e8e8";
-  const FONT    = "'Roboto', 'Helvetica Neue', Arial, sans-serif";
+  const CREAM    = "#fdf6ee";
+  const RED      = "#E2001A";
+  const COCOA    = "#2b1810";
+  const GOLD     = "#c8a568";
+  const WHITE    = "#ffffff";
+  const BORDER   = "#eadfd0";
+  const FONT_D   = "'Fraunces', 'Playfair Display', Georgia, serif";
+  const FONT_B   = "'Inter', 'Helvetica Neue', Arial, sans-serif";
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -12816,113 +12902,195 @@ function NavbarSweet01({ content, isAdmin, tenantSlug, sectionId }: Props) {
   return (
     <>
       <style>{`
-        .sw01-nav a:hover { color: ${RED} !important; }
-        .sw01-cta:hover { background: ${RED} !important; color: #fff !important; }
-        @media (min-width: 900px) { .sw01-ham { display: none !important; } }
-        @media (max-width: 899px) { .sw01-desktop-nav { display: none !important; } .sw01-cta { display: none !important; } }
+        .sw01-nav-link { position: relative; }
+        .sw01-nav-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 1.5px; background: ${RED}; transform: scaleX(0); transform-origin: center; transition: transform 0.35s cubic-bezier(.4,0,.2,1); }
+        .sw01-nav-link:hover::after { transform: scaleX(1); }
+        .sw01-nav-link:hover { color: ${RED} !important; }
+        .sw01-cta { position: relative; overflow: hidden; }
+        .sw01-cta::before { content: ""; position: absolute; inset: 0; background: ${COCOA}; transform: translateY(101%); transition: transform 0.42s cubic-bezier(.4,0,.2,1); z-index: 0; }
+        .sw01-cta:hover::before { transform: translateY(0); }
+        .sw01-cta-inner { position: relative; z-index: 1; }
+        .sw01-util a:hover { color: ${RED} !important; }
+        .sw01-ham-line { transition: transform 0.32s cubic-bezier(.4,0,.2,1), opacity 0.2s; }
+        .sw01-ham:hover .sw01-ham-line { background: ${RED} !important; }
+        .sw01-mob-link { position: relative; }
+        .sw01-mob-link::before { content: "❋"; position: absolute; left: 20px; top: 50%; transform: translateY(-50%) scale(0); color: ${RED}; transition: transform 0.3s; font-size: 10px; }
+        .sw01-mob-link:hover::before, .sw01-mob-link:focus::before { transform: translateY(-50%) scale(1); }
+        .sw01-mob-link:hover { color: ${RED} !important; padding-left: 44px !important; }
+        @media (min-width: 960px) { .sw01-ham-wrap { display: none !important; } }
+        @media (max-width: 959px) { .sw01-desktop-nav, .sw01-cta-wrap, .sw01-utility { display: none !important; } }
       `}</style>
 
-      {/* ── Sticky navbar ── */}
       <header
         className="sticky top-0 z-50 w-full"
-        style={{ backgroundColor: BG, boxShadow: "0 1px 8px rgba(0,0,0,0.06)", fontFamily: FONT }}
+        style={{ backgroundColor: WHITE, fontFamily: FONT_B, transition: "box-shadow 0.3s ease" }}
         data-template="sweet-01"
+        data-scrolled={scrolled ? "y" : "n"}
       >
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px, 4vw, 60px)", height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
+        {/* Utility strip */}
+        <div
+          className="sw01-utility sw01-util"
+          style={{ backgroundColor: CREAM, borderBottom: `1px solid ${BORDER}`, color: COCOA, fontSize: 12, letterSpacing: "0.06em" }}
+        >
+          <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 clamp(20px, 4vw, 60px)", height: 38, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 24 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+              <span style={{ display: "flex", alignItems: "center", gap: 7 }}>
+                <span style={{ width: 5, height: 5, borderRadius: "50%", background: RED, display: "inline-block" }} />
+                <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
+              </span>
+              <span style={{ opacity: 0.35 }}>·</span>
+              <span style={{ fontFamily: FONT_D, fontStyle: "italic", color: GOLD, fontSize: 13 }}>Depuis 1984</span>
+              <span style={{ opacity: 0.35 }}>·</span>
+              <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+                <GenericEditableText sectionId={sectionId} field="location" value={location} tag="span" />
+              </span>
+            </div>
+            <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ color: COCOA, textDecoration: "none", display: "flex", alignItems: "center", gap: 6, fontWeight: 500, transition: "color 0.2s" }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12.25 19.79 19.79 0 0 1 1.17 3.63 2 2 0 0 1 3.15 1.45h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+          </div>
+        </div>
 
-          {/* Logo */}
-          <a href={resolve("/")} aria-label={siteName} style={{ textDecoration: "none", flexShrink: 0, display: "flex", alignItems: "center" }}>
-            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "flex" }}>
-              <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 56, width: "auto", display: "block" }} />
-            </GenericEditableImage>
-          </a>
+        {/* Main navbar */}
+        <div style={{ borderBottom: `1px solid ${scrolled ? BORDER : "transparent"}`, boxShadow: scrolled ? "0 6px 24px rgba(43, 24, 16, 0.06)" : "none", transition: "all 0.3s ease", position: "relative" }}>
+          <div style={{ maxWidth: 1320, margin: "0 auto", padding: "0 clamp(20px, 4vw, 60px)", height: 82, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 32 }}>
 
-          {/* Desktop nav */}
-          <nav className="sw01-desktop-nav sw01-nav" style={{ display: "flex", alignItems: "center", gap: 32, flex: 1, justifyContent: "center" }}>
-            {links.map((l, i) => (
-              <a
-                key={`sw01-${i}`}
-                href={resolve(l.href)}
-                style={{ fontFamily: FONT, fontSize: 12, fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", color: DARK, textDecoration: "none", transition: "color 0.2s" }}
-              >
-                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-              </a>
-            ))}
-          </nav>
-
-          {/* Right: CTA + cart + hamburger */}
-          <div style={{ display: "flex", alignItems: "center", gap: 16, flexShrink: 0 }}>
-            <a
-              href={resolve(ctaHref)}
-              data-btn="primary"
-              className="sw01-cta"
-              style={{ display: "inline-block", padding: "8px 18px", border: `2px solid ${RED}`, color: RED, fontSize: 12, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", textDecoration: "none", transition: "background 0.2s, color 0.2s", whiteSpace: "nowrap", fontFamily: FONT }}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            {/* Logo */}
+            <a href={resolve("/")} aria-label={siteName} style={{ textDecoration: "none", flexShrink: 0, display: "flex", alignItems: "center", gap: 12 }}>
+              {logoUrl ? (
+                <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "flex" }}>
+                  <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 52, width: "auto", display: "block" }} />
+                </GenericEditableImage>
+              ) : (
+                <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <span aria-hidden style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 46, height: 46, borderRadius: "50%", background: RED, position: "relative" }}>
+                    <span style={{ fontFamily: FONT_D, fontStyle: "italic", fontWeight: 600, color: WHITE, fontSize: 26, lineHeight: 1, letterSpacing: "-0.02em" }}>E</span>
+                    <svg viewBox="0 0 46 46" width="46" height="46" style={{ position: "absolute", inset: 0, pointerEvents: "none" }} aria-hidden>
+                      <circle cx="23" cy="23" r="21" fill="none" stroke={GOLD} strokeWidth="0.75" strokeDasharray="1.5 2.5" />
+                    </svg>
+                  </span>
+                  <span style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
+                    <span style={{ fontFamily: FONT_D, fontStyle: "italic", fontWeight: 500, fontSize: 26, color: COCOA, letterSpacing: "-0.01em" }}>
+                      <GenericEditableText sectionId={sectionId} field="wordmark" value={wordmark} tag="span" />
+                    </span>
+                    <span style={{ fontFamily: FONT_B, fontSize: 9.5, fontWeight: 600, letterSpacing: "0.28em", color: GOLD, marginTop: 5 }}>
+                      <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+                    </span>
+                  </span>
+                </span>
+              )}
             </a>
 
-            <button aria-label="Košík" style={{ background: "none", border: "none", cursor: "pointer", padding: 4, color: DARK, lineHeight: 0 }}>
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
-                <line x1="3" y1="6" x2="21" y2="6"/>
-                <path d="M16 10a4 4 0 01-8 0"/>
-              </svg>
-            </button>
+            {/* Desktop nav */}
+            <nav className="sw01-desktop-nav" style={{ display: "flex", alignItems: "center", gap: 38, flex: 1, justifyContent: "center" }}>
+              {links.map((l, i) => (
+                <a
+                  key={`sw01-${i}`}
+                  href={resolve(l.href)}
+                  className="sw01-nav-link"
+                  style={{ fontFamily: FONT_B, fontSize: 11.5, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: COCOA, textDecoration: "none", transition: "color 0.25s", padding: "6px 0" }}
+                >
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                </a>
+              ))}
+            </nav>
 
-            <button
-              className="sw01-ham"
-              onClick={() => setOpen(true)}
-              aria-label="Otevřít menu"
-              aria-expanded={open}
-              style={{ background: "none", border: "none", cursor: "pointer", padding: "6px 0", display: "flex", flexDirection: "column", gap: 5 }}
-            >
-              <span style={{ display: "block", width: 24, height: 1.5, backgroundColor: DARK }} />
-              <span style={{ display: "block", width: 24, height: 1.5, backgroundColor: DARK }} />
-              <span style={{ display: "block", width: 24, height: 1.5, backgroundColor: DARK }} />
-            </button>
+            {/* CTA + hamburger */}
+            <div style={{ display: "flex", alignItems: "center", gap: 18, flexShrink: 0 }}>
+              <div className="sw01-cta-wrap">
+                <a
+                  href={resolve(ctaHref)}
+                  data-btn="primary"
+                  className="sw01-cta"
+                  style={{ display: "inline-block", padding: "13px 26px", background: RED, color: WHITE, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", textDecoration: "none", whiteSpace: "nowrap", fontFamily: FONT_B, borderRadius: 999, border: `1px solid ${RED}`, boxShadow: `0 0 0 3px ${WHITE}, 0 0 0 4px ${GOLD}55` }}
+                >
+                  <span className="sw01-cta-inner">
+                    <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                  </span>
+                </a>
+              </div>
+
+              <div className="sw01-ham-wrap">
+                <button
+                  className="sw01-ham"
+                  onClick={() => setOpen(true)}
+                  aria-label="Otevřít menu"
+                  aria-expanded={open}
+                  style={{ background: "none", border: `1px solid ${BORDER}`, cursor: "pointer", padding: "10px 12px", display: "flex", flexDirection: "column", gap: 5, borderRadius: 4 }}
+                >
+                  <span className="sw01-ham-line" style={{ display: "block", width: 22, height: 1.5, backgroundColor: COCOA }} />
+                  <span className="sw01-ham-line" style={{ display: "block", width: 22, height: 1.5, backgroundColor: COCOA }} />
+                  <span className="sw01-ham-line" style={{ display: "block", width: 22, height: 1.5, backgroundColor: COCOA }} />
+                </button>
+              </div>
+            </div>
           </div>
+
+          {/* Scalloped gold festoon bottom edge */}
+          <svg
+            aria-hidden
+            viewBox="0 0 1320 8"
+            preserveAspectRatio="none"
+            style={{ position: "absolute", left: 0, right: 0, bottom: -1, width: "100%", height: 8, pointerEvents: "none" }}
+          >
+            <path d="M0 0 Q 12.5 8 25 0 T 50 0 T 75 0 T 100 0 T 125 0 T 150 0 T 175 0 T 200 0 T 225 0 T 250 0 T 275 0 T 300 0 T 325 0 T 350 0 T 375 0 T 400 0 T 425 0 T 450 0 T 475 0 T 500 0 T 525 0 T 550 0 T 575 0 T 600 0 T 625 0 T 650 0 T 675 0 T 700 0 T 725 0 T 750 0 T 775 0 T 800 0 T 825 0 T 850 0 T 875 0 T 900 0 T 925 0 T 950 0 T 975 0 T 1000 0 T 1025 0 T 1050 0 T 1075 0 T 1100 0 T 1125 0 T 1150 0 T 1175 0 T 1200 0 T 1225 0 T 1250 0 T 1275 0 T 1300 0 T 1320 0" fill="none" stroke={GOLD} strokeWidth="0.75" opacity="0.55" />
+          </svg>
         </div>
       </header>
 
-      {/* Mobile overlay */}
+      {/* Mobile overlay backdrop */}
       <div
         onClick={() => setOpen(false)}
-        style={{ position: "fixed", inset: 0, zIndex: 200, backgroundColor: "rgba(0,0,0,0.45)", opacity: open ? 1 : 0, pointerEvents: open ? "auto" : "none", transition: "opacity 0.3s ease" }}
+        style={{ position: "fixed", inset: 0, zIndex: 1099, backgroundColor: "rgba(43, 24, 16, 0.55)", opacity: open ? 1 : 0, pointerEvents: open ? "auto" : "none", transition: "opacity 0.3s ease" }}
         aria-hidden
       />
 
       {/* Mobile sidebar */}
-      <div style={{ position: "fixed", top: 0, right: 0, bottom: 0, zIndex: 201, width: "clamp(260px, 75vw, 320px)", backgroundColor: BG, transform: open ? "translateX(0)" : "translateX(100%)", transition: "transform 0.32s cubic-bezier(0.4,0,0.2,1)", display: "flex", flexDirection: "column", overflowY: "auto", boxShadow: open ? "-4px 0 24px rgba(0,0,0,0.12)" : "none" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 24px", borderBottom: `1px solid ${BORDER}` }}>
-          <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 40, display: "block" }} />
-          <button onClick={() => setOpen(false)} aria-label="Zavřít menu" style={{ background: "none", border: "none", cursor: "pointer", color: DARK, padding: 4 }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <div style={{ position: "fixed", top: 0, right: 0, bottom: 0, zIndex: 1100, width: "clamp(280px, 82vw, 360px)", backgroundColor: CREAM, transform: open ? "translateX(0)" : "translateX(100%)", transition: "transform 0.4s cubic-bezier(0.4,0,0.2,1)", display: "flex", flexDirection: "column", overflowY: "auto", boxShadow: open ? "-8px 0 32px rgba(43,24,16,0.18)" : "none", fontFamily: FONT_B }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "22px 26px", borderBottom: `1px solid ${BORDER}` }}>
+          <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <span aria-hidden style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 38, height: 38, borderRadius: "50%", background: RED }}>
+              <span style={{ fontFamily: FONT_D, fontStyle: "italic", fontWeight: 600, color: WHITE, fontSize: 20, lineHeight: 1 }}>E</span>
+            </span>
+            <span style={{ fontFamily: FONT_D, fontStyle: "italic", fontSize: 21, color: COCOA, lineHeight: 1 }}>{wordmark}</span>
+          </span>
+          <button onClick={() => setOpen(false)} aria-label="Zavřít menu" style={{ background: "none", border: `1px solid ${BORDER}`, cursor: "pointer", color: COCOA, padding: "8px 10px", borderRadius: 4 }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
           </button>
         </div>
-        <nav style={{ flex: 1, padding: "16px 0" }}>
+
+        <div style={{ padding: "18px 26px 8px", fontFamily: FONT_D, fontStyle: "italic", fontSize: 12, color: GOLD, letterSpacing: "0.14em" }}>— Menu —</div>
+
+        <nav style={{ flex: 1, padding: "4px 0" }}>
           {links.map((l, i) => (
             <a
               key={`sw01-mob-${i}`}
               href={resolve(l.href)}
               onClick={() => setOpen(false)}
-              style={{ display: "block", padding: "14px 24px", fontFamily: FONT, fontSize: 14, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase", color: DARK, textDecoration: "none", borderBottom: `1px solid ${BORDER}` }}
-              onMouseEnter={e => { e.currentTarget.style.color = RED; e.currentTarget.style.backgroundColor = "#fef5f5"; }}
-              onMouseLeave={e => { e.currentTarget.style.color = DARK; e.currentTarget.style.backgroundColor = "transparent"; }}
+              className="sw01-mob-link"
+              style={{ display: "block", padding: "16px 26px", fontFamily: FONT_D, fontStyle: "italic", fontSize: 22, fontWeight: 400, color: COCOA, textDecoration: "none", borderBottom: `1px dashed ${BORDER}`, transition: "color 0.25s, padding-left 0.3s" }}
             >
               <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
             </a>
           ))}
         </nav>
-        <div style={{ padding: "20px 24px", borderTop: `1px solid ${BORDER}` }}>
+
+        <div style={{ padding: "20px 26px", borderTop: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: 14 }}>
           <a
             href={resolve(ctaHref)}
             data-btn="primary"
             onClick={() => setOpen(false)}
-            style={{ display: "block", padding: "12px 0", backgroundColor: RED, color: "#fff", fontSize: 13, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", textDecoration: "none", textAlign: "center", fontFamily: FONT }}
+            style={{ display: "block", padding: "14px 0", background: RED, color: WHITE, fontSize: 12, fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", textDecoration: "none", textAlign: "center", fontFamily: FONT_B, borderRadius: 999 }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+          <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: COCOA, fontSize: 13, textDecoration: "none", fontWeight: 500 }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12.25 19.79 19.79 0 0 1 1.17 3.63 2 2 0 0 1 3.15 1.45h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/></svg>
+            {phone}
           </a>
         </div>
       </div>

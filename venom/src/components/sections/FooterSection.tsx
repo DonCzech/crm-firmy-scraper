@@ -3093,17 +3093,17 @@ function FooterNails01({ content, sectionId, tenantSlug, isAdmin }: { content: R
   const SERIF    = "Georgia, 'Times New Roman', serif";
   const SANS     = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
 
-  const wordmark  = String(content.wordmark  ?? "SOHO NAILS");
+  const wordmark  = String(content.wordmark  ?? "NOIR NAILS");
   const subtitle  = String(content.subtitle  ?? "Beauty · Spa · Praha");
   const tagline   = String(content.tagline   ?? "Prémiové nehtové studio a beauty salon inspirované japonským wabi-sabi.");
   const nav       = (content.nav as Array<{ label: string; href: string }>) ?? [];
   const hours     = (content.hours as Array<{ days: string; time: string }>) ?? [];
   const address   = String(content.address   ?? "Vinohradská 26, 110 00 Praha 1");
   const phone     = String(content.phone     ?? "+420 777 123 456");
-  const email     = String(content.email     ?? "studio@sohonails.cz");
+  const email     = String(content.email     ?? "studio@noirnails.cz");
   const instagram = String(content.instagram ?? "https://instagram.com/demo");
   const facebook  = String(content.facebook  ?? "https://facebook.com/demo");
-  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} Demo Soho Nails & Spa · Všechna práva vyhrazena`);
+  const copyright = String(content.copyright ?? `© ${new Date().getFullYear()} Demo Noir Nails & Spa · Všechna práva vyhrazena`);
   const legalText = String(content.legalText ?? "Ochrana údajů · Obchodní podmínky");
   const legalHref = String(content.legalHref ?? "/kontakt");
   const siteMode  = String(content.siteMode ?? "multipage");
@@ -3642,17 +3642,10 @@ function FooterNails02({ content, sectionId }: { content: Record<string, unknown
         </div>
       </div>
       <style>{`
-        .n02-footer-cta::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background-color: ${CREAM};
-          transform: translateX(-101%);
-          transition: transform 0.45s cubic-bezier(0.65,0,0.35,1);
-          z-index: 1;
+        .n02-footer-cta {
+          transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
         }
-        .n02-footer-cta:hover::before { transform: translateX(0); }
-        .n02-footer-cta:hover { color: ${DARK}; }
+        .n02-footer-cta:hover { background-color: ${CREAM}; color: ${DARK}; border-color: ${CREAM}; }
         .n02-footer-cta:hover .n02-footer-cta-arrow { transform: translateX(4px); transition: transform 0.3s ease; }
         .n02-footer-navlink:hover { color: ${CREAM}; transform: translateX(4px); }
         .n02-footer-social:hover { background-color: ${TAUPE}; color: ${DARK}; transform: translateY(-2px); }

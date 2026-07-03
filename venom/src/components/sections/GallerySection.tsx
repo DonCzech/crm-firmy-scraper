@@ -1853,19 +1853,19 @@ function GalleryNails02({ content, sectionId, images }: { content: Record<string
     return () => document.removeEventListener("keydown", handler);
   }, [lightbox, displayImages.length]);
 
-  // Bento layout — item 0 spans wide (2 cols), item 1 tall right column
-  // Row 2: items 2, 3, 4, 5 — 3-4 cells depending on count
   const bentoStyle = (i: number): React.CSSProperties => {
     if (displayImages.length >= 6) {
+      // Row 1: wide hero (2 cols) + square
+      // Row 2: 3 equal squares
       const bento: Record<number, React.CSSProperties> = {
-        0: { gridColumn: "1 / span 2", gridRow: "1 / span 2", aspectRatio: "16 / 11" },
-        1: { gridColumn: "3 / span 1", gridRow: "1 / span 1", aspectRatio: "3 / 4" },
-        2: { gridColumn: "3 / span 1", gridRow: "2 / span 1", aspectRatio: "3 / 4" },
-        3: { gridColumn: "1 / span 1", gridRow: "3 / span 1", aspectRatio: "1 / 1" },
-        4: { gridColumn: "2 / span 1", gridRow: "3 / span 1", aspectRatio: "1 / 1" },
-        5: { gridColumn: "3 / span 1", gridRow: "3 / span 1", aspectRatio: "1 / 1" },
+        0: { gridColumn: "1 / span 2", aspectRatio: "2 / 1" },
+        1: { aspectRatio: "1 / 1" },
+        2: { aspectRatio: "1 / 1" },
+        3: { aspectRatio: "1 / 1" },
+        4: { aspectRatio: "1 / 1" },
+        5: { aspectRatio: "1 / 1" },
       };
-      return bento[i] ?? { aspectRatio: "3 / 4" };
+      return bento[i] ?? {};
     }
     return { aspectRatio: "3 / 4" };
   };
@@ -1967,7 +1967,7 @@ function GalleryNails02({ content, sectionId, images }: { content: Record<string
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-            gridAutoRows: "minmax(160px, auto)",
+            gridAutoRows: "auto",
             gap: "clamp(14px, 1.8vw, 24px)",
           }}
         >
@@ -1986,7 +1986,7 @@ function GalleryNails02({ content, sectionId, images }: { content: Record<string
                 style={{
                   position: "relative",
                   overflow: "hidden",
-                  cursor: "zoom-in",
+                  cursor: `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'><circle cx='18' cy='18' r='15' fill='rgba(107,63,56,0.88)' stroke='%23d4a080' stroke-width='1.2'/><path d='M11 11 L11 14.5 M11 11 L14.5 11 M25 11 L25 14.5 M25 11 L21.5 11 M11 25 L11 21.5 M11 25 L14.5 25 M25 25 L25 21.5 M25 25 L21.5 25' stroke='%23f6efe9' stroke-width='1.6' stroke-linecap='round' fill='none'/></svg>") 18 18, pointer`,
                   outline: "none",
                   ...gridStyle,
                 }}
@@ -2051,7 +2051,7 @@ function GalleryNails02({ content, sectionId, images }: { content: Record<string
                     position: "absolute",
                     inset: 0,
                     zIndex: 2,
-                    background: `linear-gradient(180deg, rgba(31,20,17,0.05) 0%, rgba(107,63,56,0.55) 100%)`,
+                    background: `linear-gradient(180deg, rgba(31,20,17,0.02) 0%, rgba(107,63,56,0.35) 100%)`,
                     opacity: 0,
                     transition: "opacity 0.45s ease",
                     pointerEvents: "none",

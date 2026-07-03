@@ -4241,12 +4241,12 @@ function AboutNails01({ content, sectionId }: { content: Record<string, unknown>
 
   const eyebrow      = String(content.eyebrow      ?? "01 · FILOZOFIE");
   const title        = String(content.title        ?? "The One and Only —");
-  const titleAccent  = String(content.titleAccent  ?? "filozofie SOHO");
+  const titleAccent  = String(content.titleAccent  ?? "filozofie NOIR");
   const hideHeader   = content.hideHeader === true;
-  const lead         = String(content.lead         ?? "SOHO vzniklo z inspirace ikonickými čtvrtěmi ve světových metropolích — místy, kde se potkává umění, styl a osobitost.");
+  const lead         = String(content.lead         ?? "NOIR vzniklo z inspirace ikonickými čtvrtěmi ve světových metropolích — místy, kde se potkává umění, styl a osobitost.");
   const body         = String(content.body         ?? "Filozofie čerpá z principů japonského wabi-sabi — z jednoduchosti, klidu a přijetí přirozené nedokonalosti. Každý detail, dotek a vůně v prostoru byly vytvořeny tak, aby přinesly harmonii a pocit opravdového luxusu.");
   const quote        = String(content.quote        ?? "Krása není jen vzhled. Je to zážitek. Detail. Vůně. Klidný dotek, který zůstane s vámi celý den.");
-  const signature    = String(content.signature    ?? "— Studio SOHO, Praha");
+  const signature    = String(content.signature    ?? "— Studio NOIR, Praha");
   const ctaText      = String(content.ctaText      ?? "Naše služby");
   const ctaHref      = String(content.ctaHref      ?? "/sluzby");
   const imageUrl     = String(content.imageUrl     ?? "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=1120&h=1400&fit=crop&q=88&fm=webp");
@@ -4550,7 +4550,8 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
         overflow: "hidden",
       }}
     >
-      {/* Section eyebrow — top-right editorial numeral */}
+      {/* Section eyebrow — hidden on subpages */}
+      {(title || kicker || numberPrefix) && (
       <div
         className="n02-about-eyebrow"
         aria-hidden="true"
@@ -4573,6 +4574,7 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
         <span>Kapitola · 01</span>
         <span style={{ display: "block", width: 42, height: 1, backgroundColor: TAUPE, opacity: 0.6 }} />
       </div>
+      )}
 
       <div
         className="nails02-about-grid"
@@ -4587,7 +4589,8 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
       >
         {/* Left: editorial text column */}
         <div style={{ maxWidth: 640 }}>
-          {/* (01) prefix with vertical hairline */}
+          {/* (01) prefix with vertical hairline — hidden on subpage */}
+          {numberPrefix && (
           <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 44 }}>
             <span aria-hidden style={{ display: "block", width: 1, height: 32, backgroundColor: TAUPE }} />
             <span style={{
@@ -4602,8 +4605,10 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
               <GenericEditableText sectionId={sectionId} field="numberPrefix" value={numberPrefix} tag="span" />
             </span>
           </div>
+          )}
 
           {/* Display H2 — italic serif with ampersand ornament */}
+          {title && (
           <h2
             className="n02-about-title"
             style={{
@@ -4645,11 +4650,15 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
               </span>
             </span>
           </h2>
+          )}
 
           {/* Terracotta hairline */}
+          {(title || kicker) && (
           <div aria-hidden="true" style={{ width: 88, height: 1, backgroundColor: TAUPE, margin: "56px 0 32px" }} />
+          )}
 
           {/* Kicker eyebrow */}
+          {kicker && (
           <p style={{
             fontFamily: SANS,
             fontSize: "0.76rem",
@@ -4661,6 +4670,7 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
           }}>
             <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
           </p>
+          )}
 
           {/* Body with drop-cap */}
           <div style={{ marginTop: 28, maxWidth: 540, position: "relative" }}>
@@ -4847,6 +4857,7 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
               boxShadow: "0 12px 28px rgba(107,63,56,0.22)",
               zIndex: 4,
               minWidth: 110,
+              transition: "transform 0.45s cubic-bezier(0.22,1,0.36,1), box-shadow 0.45s ease",
             }}
           >
             <div style={{
@@ -4856,6 +4867,7 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
               fontSize: "1.4rem",
               lineHeight: 1.1,
               color: TAUPE,
+              textAlign: "center",
             }}>
               <GenericEditableText sectionId={sectionId} field="polaroidLine1" value={polaroidLine1} tag="span" />
             </div>
@@ -4868,6 +4880,7 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
               textTransform: "uppercase",
               color: CREAM,
               opacity: 0.85,
+              textAlign: "center",
             }}>
               <GenericEditableText sectionId={sectionId} field="polaroidLine2" value={polaroidLine2} tag="span" />
             </div>
@@ -4875,14 +4888,16 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
 
           {/* Caption below photo */}
           <div
+            className="n02-about-caption"
             style={{
-              marginTop: 40,
+              marginTop: 28,
               display: "flex",
               alignItems: "center",
+              justifyContent: "flex-end",
               gap: 14,
             }}
           >
-            <span aria-hidden style={{ display: "block", width: 40, height: 1, backgroundColor: TAUPE, opacity: 0.7 }} />
+            <span aria-hidden style={{ display: "block", width: 40, height: 1, backgroundColor: TAUPE, opacity: 0.7, transition: "width 0.4s ease" }} className="n02-about-caption-line" />
             <span style={{
               fontFamily: SERIF,
               fontStyle: "italic",
@@ -4891,6 +4906,7 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
               color: WINE,
               opacity: 0.85,
               letterSpacing: "0.02em",
+              transition: "color 0.3s ease",
             }}>
               <GenericEditableText sectionId={sectionId} field="caption" value={caption} tag="span" />
             </span>
@@ -4901,6 +4917,9 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
       <style>{`
         .n02-about-photo-group:hover .n02-about-photo-img { transform: scale(1.05); }
         .n02-about-photo-group:hover .n02-about-bracket svg path { stroke: ${WINE}; }
+        .n02-about-photo-group:hover .n02-about-polaroid { transform: rotate(-1deg) translateY(-4px); box-shadow: 0 18px 36px rgba(107,63,56,0.32); }
+        .n02-about-photo-group:hover .n02-about-caption-line { width: 64px !important; }
+        .n02-about-photo-group:hover .n02-about-caption span { color: ${TAUPE}; }
         .n02-about-bracket svg path { transition: stroke 0.45s ease; }
         .n02-about-stat { transition: background-color 0.35s ease; }
         .n02-about-stat:hover { background-color: rgba(212,160,128,0.08); }

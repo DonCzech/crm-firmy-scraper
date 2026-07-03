@@ -2800,11 +2800,12 @@ function PricingNails02({ content, sectionId }: { content: Record<string, unknow
       data-template="nails-02"
       style={{
         backgroundColor: CREAM,
-        padding: "clamp(90px, 12vw, 160px) clamp(24px, 6vw, 72px)",
+        padding: (title || lead || numberPrefix) ? "clamp(90px, 12vw, 160px) clamp(24px, 6vw, 72px)" : "clamp(48px, 6vw, 72px) clamp(24px, 6vw, 72px)",
         position: "relative",
       }}
     >
-      {/* Section eyebrow */}
+      {/* Section eyebrow — hidden on subpages */}
+      {(title || lead || numberPrefix) && (
       <div
         className="n02-price-eyebrow"
         aria-hidden="true"
@@ -2827,9 +2828,11 @@ function PricingNails02({ content, sectionId }: { content: Record<string, unknow
         <span>Kapitola · 02</span>
         <span style={{ display: "block", width: 42, height: 1, backgroundColor: TAUPE, opacity: 0.6 }} />
       </div>
+      )}
 
       <div style={{ maxWidth: 1120, margin: "0 auto" }}>
-        {/* Header */}
+        {/* Header — hidden on subpages where title+lead are empty */}
+        {(title || lead || numberPrefix) && (
         <div style={{ marginBottom: "clamp(72px, 9vw, 120px)", maxWidth: 720 }}>
           {/* (02) with vertical hairline */}
           <div style={{ display: "flex", alignItems: "center", gap: 20, marginBottom: 40 }}>
@@ -2889,6 +2892,7 @@ function PricingNails02({ content, sectionId }: { content: Record<string, unknow
             <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
           </p>
         </div>
+        )}
 
         {/* Pricing groups — 2-col on desktop */}
         <div
@@ -2921,7 +2925,7 @@ function PricingNails02({ content, sectionId }: { content: Record<string, unknow
                     fontSize: "1.05rem",
                     color: WINE,
                     letterSpacing: "0.02em",
-                    transition: "background-color 0.4s ease, color 0.4s ease",
+                    transition: "border-color 0.4s ease, transform 0.4s ease",
                   }}
                 >
                   {roman[gi] ?? String(gi + 1)}
@@ -3137,18 +3141,11 @@ function PricingNails02({ content, sectionId }: { content: Record<string, unknow
           padding-left: 12px !important;
         }
         .n02-price-row:hover .n02-price-name { color: ${WINE}; }
-        .n02-price-group:hover .n02-price-roman { background-color: ${WINE}; color: ${CREAM}; border-color: ${WINE}; }
-        .n02-price-cta::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background-color: ${WINE};
-          transform: translateX(-101%);
-          transition: transform 0.45s cubic-bezier(0.65,0,0.35,1);
-          z-index: 1;
+        .n02-price-group:hover .n02-price-roman { border-color: ${WINE}; transform: scale(1.08); }
+        .n02-price-cta {
+          transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
         }
-        .n02-price-cta:hover::before { transform: translateX(0); }
-        .n02-price-cta:hover { color: ${CREAM}; }
+        .n02-price-cta:hover { background-color: ${WINE}; color: ${CREAM}; border-color: ${WINE}; }
         .n02-price-cta:hover .n02-price-cta-arrow { transform: translateX(4px); transition: transform 0.3s ease; }
         .n02-price-secondary:hover { opacity: 1; border-bottom-color: ${WINE}; }
         @media (max-width: 768px) {
