@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 import { GenericEditableImage } from "@/components/tenant/GenericEditableImage";
@@ -34,24 +34,34 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "florist-01-hero") return <HeroFlorist01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-florist-01-page") return <HeroFlorist01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "sweet-01-hero") return <HeroSweet01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-sweet-01-page") return <HeroSweet01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "rekonstrukce-01-hero") return <HeroRekonstrukce01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "rekonstrukce-01-page") return <HeroRekonstrukce01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "stavba-01-hero") return <HeroStavba01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "stavba-02-hero") return <HeroStavba02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-stavba-02-page") return <HeroStavba02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "stavba-03-hero") return <HeroStavba03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-stavba-03-page") return <HeroStavba03Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "elektro-01-hero") return <HeroElektro01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-elektro-01-page") return <HeroElektro01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "catering-01-hero") return <HeroCatering01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-catering-01-page") return <HeroCatering01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-peak-cut-page") return <HeroPeakCutPage content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-clinic-03-page") return <HeroClinic03Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "hero-solar-03-page")  return <HeroSolar03Page  content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "instala-01-hero") return <HeroInstala01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-instala-01-page") return <HeroInstala01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "grooming-01-hero") return <HeroGrooming01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "vet-01-hero") return <HeroVet01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "clean-01-hero") return <HeroClean01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-clean-01-page") return <HeroClean01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "garden-01-hero") return <HeroGarden01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-garden-01-page") return <HeroGarden01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "garden-02-hero") return <HeroGarden02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "arbo-01-hero")   return <HeroArbo01   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "clean-02-hero") return <HeroClean02 content={content as Record<string, unknown>} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "ddd-01-hero")   return <HeroDdd01   content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  if (variant === "hero-ddd-01-page") return <HeroDdd01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
 
   // Shared focus override — injected by StudioCanvas when user moves focus picker in HeroInspectorPanel.
   // Applies to all inline hero variants that use BackgroundEditableImage.
@@ -2753,6 +2763,9 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "nails-03-hero") {
     return <HeroNails03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-nails-03-page") {
+    return <HeroNails03Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "clinic-02-hero") {
     return <HeroClinic02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
@@ -2780,6 +2793,9 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
 
   if (variant === "hero-fyzio-01-fullbleed") {
     return <HeroFyzio01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-fyzio-01-page") {
+    return <HeroFyzio01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "hero-fyzio-02-split") {
     return <HeroFyzio02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -2827,6 +2843,9 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "reality-02-hero") {
     return <HeroReality02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-reality-02-page") {
+    return <HeroReality02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "hero-reality-03-video") {
     return <HeroReality03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
@@ -2842,11 +2861,20 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "autoservis-01-hero") {
     return <HeroAutoservis01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-autoservis-01-page") {
+    return <HeroAutoservis01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "autoservis-02-hero") {
     return <HeroAutoservis02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-autoservis-02-page") {
+    return <HeroAutoservis02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "autoservis-03-hero") {
     return <HeroAutoservis03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-autoservis-03-page") {
+    return <HeroAutoservis03Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "dental-01-hero") {
     return <HeroDental01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -2866,11 +2894,17 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "autoskola-01-hero") {
     return <HeroAutoskola01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-autoskola-01-page") {
+    return <HeroAutoskola01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "lang-01-hero") {
     return <HeroLang01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "edu-01-hero") {
     return <HeroEdu01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-edu-01-page") {
+    return <HeroEdu01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "kids-01-hero") {
     return <HeroKids01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -2878,20 +2912,35 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "pethotel-01-hero") {
     return <HeroPethotel01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-pethotel-01-page") {
+    return <HeroPethotel01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "ucetni-01-hero") {
     return <HeroUcetni01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "ucetni-02-hero") {
     return <HeroUcetni02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-ucetni-02-page") {
+    return <HeroUcetni02Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "ucetni-03-hero") {
     return <HeroUcetni03 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-ucetni-03-page") {
+    return <HeroUcetni03Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "ucetni-04-hero") {
     return <HeroUcetni04 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-ucetni-04-page") {
+    return <HeroUcetni04Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
   if (variant === "arch-01-hero") {
     return <HeroArch01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+  if (variant === "hero-arch-01-page" || variant === "arch-01-hero-page") {
+    return <HeroArch01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
   if (variant === "solar-01-hero") {
     return <HeroSolar01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -2938,9 +2987,16 @@ export function HeroSection({ content, variant, tenantSlug, isAdmin, sectionId }
   if (variant === "chalet-01-hero") {
     return <HeroChalet01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
+  if (variant === "hero-chalet-01-page") {
+    return <HeroChalet01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
 
   if (variant === "photo-01-hero") {
     return <HeroPhoto01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
+  }
+
+  if (variant === "hero-photo-01-page") {
+    return <HeroPhoto01Page content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   }
 
   if (variant === "events-01-hero") {
@@ -3826,13 +3882,11 @@ function HeroHair02Slider({ content, sectionId }: { content: Record<string, unkn
   );
 }
 
-function BackgroundEditableImage({ sectionId, src, overlayColor, priority, isAdmin, focusStyle, focusMobileStyle }: { sectionId: number; src: string; overlayColor?: string; priority?: boolean; isAdmin?: boolean; focusStyle?: string; focusMobileStyle?: string }) {
+function BackgroundEditableImage({ sectionId, src, overlayColor, priority, isAdmin, focusStyle, focusMobileStyle, className: extraClassName }: { sectionId: number; src: string; overlayColor?: string; priority?: boolean; isAdmin?: boolean; focusStyle?: string; focusMobileStyle?: string; className?: string }) {
   const bgId = `hbg-${sectionId}`;
-  // Public view with priority: use plain <img> so the URL stays clean (no ?dpl= added by Next.js Image).
-  // This makes the src match the static <link rel="preload"> emitted by the server component → cache hit.
   if (!isAdmin && priority && src) {
     return (
-      <div id={bgId} className="absolute inset-0 z-0" style={{ position: "absolute" }}>
+      <div id={bgId} className={`absolute inset-0 z-0${extraClassName ? ` ${extraClassName}` : ""}`} style={{ position: "absolute" }}>
         {focusMobileStyle && (
           <style>{`@media(max-width:767px){#${bgId} img{object-position:${focusMobileStyle}!important}}`}</style>
         )}
@@ -5078,9 +5132,6 @@ function HeroNails01Page({
 }
 
 // ── nails-03-hero ────────────────────────────────────────────────────────────
-// maidenstudio.cz — 100vh full-bleed bg foto, dark overlay; centrovaný layout:
-// velký uppercase H1 = název studia, menší italic tagline pod ním, brown CTA.
-// ─────────────────────────────────────────────────────────────────────────────
 function HeroNails03({
   content,
   sectionId,
@@ -5094,12 +5145,15 @@ function HeroNails03({
 }) {
   const CREAM = "#FCF9F0";
   const BROWN = "#806248";
+  const FONT  = "'Manrope', 'Helvetica Neue', Arial, sans-serif";
 
   const title   = String(content.title   ?? "Studio Krásy");
   const tagline = String(content.tagline ?? "Kde krása začíná péčí.");
   const bgImage = String(content.bgImage ?? "/templates/nails-03/hero-bg.webp");
   const ctaText = String(content.ctaText ?? "Objednat se");
-  const ctaHref = String(content.ctaHref ?? "#kontakt");
+  const ctaHref = String(content.ctaHref ?? "/kontakt");
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
   const _nails03Focus = content.__heroBgFocus as { x: number; y: number } | undefined;
   const bgFocusStyle  = _nails03Focus ? `${_nails03Focus.x}% ${_nails03Focus.y}%` : undefined;
   const _nails03FocusMobile = content.__heroBgFocusMobile as { x: number; y: number } | undefined;
@@ -5109,95 +5163,214 @@ function HeroNails03({
     <section
       id="hero"
       data-section-type="hero"
+      data-template="nails-03"
       data-variant="nails-03-hero"
+      className="n03-hero"
       style={{
         position: "relative",
         width: "100%",
-        minHeight: "calc(100vh - 80px)",
+        minHeight: "calc(100vh - 72px)",
         overflow: "hidden",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
       }}
     >
-      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} focusMobileStyle={bgFocusMobileStyle} />
-      {/* Dark overlay */}
+      <BackgroundEditableImage sectionId={sectionId} src={bgImage} priority={true} isAdmin={isAdmin} focusStyle={bgFocusStyle} focusMobileStyle={bgFocusMobileStyle} className="n03-hero-bg" />
+
+      {/* Gradient overlay */}
       <div
         aria-hidden="true"
         style={{
           position: "absolute",
           inset: 0,
           zIndex: 10,
-          background: "linear-gradient(180deg, rgba(11,9,12,0.55) 0%, rgba(11,9,12,0.40) 50%, rgba(11,9,12,0.68) 100%)",
+          background: "linear-gradient(180deg, rgba(11,9,12,0.50) 0%, rgba(11,9,12,0.30) 40%, rgba(11,9,12,0.55) 80%, rgba(11,9,12,0.72) 100%)",
         }}
       />
+
+      {/* Brown corner brackets — decorative frame */}
+      <div aria-hidden="true" style={{ position: "absolute", inset: 40, zIndex: 15, pointerEvents: "none" }} className="n03-hero-brackets">
+        <span style={{ position: "absolute", top: 0, left: 0, width: 40, height: 40, borderTop: `1.5px solid rgba(128,98,72,0.45)`, borderLeft: `1.5px solid rgba(128,98,72,0.45)` }} />
+        <span style={{ position: "absolute", top: 0, right: 0, width: 40, height: 40, borderTop: `1.5px solid rgba(128,98,72,0.45)`, borderRight: `1.5px solid rgba(128,98,72,0.45)` }} />
+        <span style={{ position: "absolute", bottom: 0, left: 0, width: 40, height: 40, borderBottom: `1.5px solid rgba(128,98,72,0.45)`, borderLeft: `1.5px solid rgba(128,98,72,0.45)` }} />
+        <span style={{ position: "absolute", bottom: 0, right: 0, width: 40, height: 40, borderBottom: `1.5px solid rgba(128,98,72,0.45)`, borderRight: `1.5px solid rgba(128,98,72,0.45)` }} />
+      </div>
+
       <div
         style={{
           position: "relative",
           zIndex: 20,
-          maxWidth: 860,
+          maxWidth: 820,
           width: "100%",
-          padding: "80px 24px 80px",
+          padding: "100px 24px 100px",
           textAlign: "center",
           color: CREAM,
         }}
       >
-        {/* Hlavní název studia — velký, uppercase */}
+        {/* Decorative eyebrow hairline */}
+        <div aria-hidden="true" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 32 }}>
+          <span style={{ width: 48, height: "1px", background: `rgba(128,98,72,0.6)` }} />
+          <span style={{ fontFamily: FONT, fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.25em", textTransform: "uppercase", color: "rgba(252,249,240,0.65)" }}>Beauty &amp; Care</span>
+          <span style={{ width: 48, height: "1px", background: `rgba(128,98,72,0.6)` }} />
+        </div>
+
         <h1
+          className="n03-hero-title"
           style={{
-            fontFamily: "'Manrope', 'Helvetica Neue', Arial, sans-serif",
+            fontFamily: FONT,
             fontWeight: 800,
-            fontSize: "clamp(3rem, 7.5vw, 6.5rem)",
-            lineHeight: 1.0,
-            letterSpacing: "0.12em",
+            fontSize: "clamp(2.8rem, 7vw, 6rem)",
+            lineHeight: 0.95,
+            letterSpacing: "0.14em",
             textTransform: "uppercase",
             margin: 0,
             color: CREAM,
-            textShadow: "0 2px 32px rgba(0,0,0,0.45)",
+            textShadow: "0 4px 40px rgba(0,0,0,0.35)",
           }}
         >
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h1>
-        {/* Tagline — italic, menší */}
+
         <p
+          className="n03-hero-tagline"
           style={{
-            margin: "28px auto 0",
-            maxWidth: 560,
-            fontFamily: "'Manrope', 'Helvetica Neue', Arial, sans-serif",
+            margin: "32px auto 0",
+            maxWidth: 480,
+            fontFamily: FONT,
             fontStyle: "italic",
-            fontSize: "clamp(1rem, 1.6vw, 1.25rem)",
+            fontSize: "clamp(1rem, 1.5vw, 1.2rem)",
             fontWeight: 300,
-            lineHeight: 1.55,
-            color: "rgba(252,249,240,0.88)",
-            letterSpacing: "0.03em",
+            lineHeight: 1.6,
+            color: "rgba(252,249,240,0.82)",
+            letterSpacing: "0.04em",
           }}
         >
           <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
         </p>
+
         <a
-          href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
+          href={resolve(ctaHref)}
           data-btn="primary"
+          className="n03-hero-cta"
           style={{
             display: "inline-flex",
-            marginTop: 52,
-            padding: "16px 52px",
+            marginTop: 48,
+            padding: "14px 48px",
             backgroundColor: BROWN,
             color: CREAM,
-            fontFamily: "'Manrope', 'Helvetica Neue', Arial, sans-serif",
-            fontSize: "0.88rem",
+            fontFamily: FONT,
+            fontSize: "0.82rem",
             fontWeight: 700,
-            letterSpacing: "0.10em",
+            letterSpacing: "0.12em",
             textDecoration: "none",
             textTransform: "uppercase",
             borderRadius: 999,
-            transition: "background 0.22s, transform 0.18s",
+            transition: "background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease",
+            position: "relative",
+            overflow: "hidden",
           }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#6e5238"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = BROWN; e.currentTarget.style.transform = "translateY(0)"; }}
         >
           <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
         </a>
       </div>
+
+      {/* Scroll indicator */}
+      <div
+        aria-hidden="true"
+        className="n03-scroll-indicator"
+        style={{
+          position: "absolute",
+          bottom: 32,
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 20,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <span style={{ fontFamily: FONT, fontSize: "0.65rem", fontWeight: 500, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(252,249,240,0.5)" }}>Scroll</span>
+        <span style={{ width: 1, height: 28, background: "linear-gradient(180deg, rgba(128,98,72,0.6), transparent)" }} />
+      </div>
+    </section>
+  );
+}
+
+// ── nails-03-hero-page (slim banner for subpages) ───────────────────────────
+function HeroNails03Page({
+  content,
+  sectionId,
+}: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const CREAM = "#FCF9F0";
+  const DARK  = "#0B090C";
+  const BROWN = "#806248";
+  const FONT  = "'Manrope', 'Helvetica Neue', Arial, sans-serif";
+
+  const title      = String(content.title ?? "Studio Krásy");
+  const breadcrumb = String(content.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+
+  return (
+    <section
+      data-section-type="hero"
+      data-template="nails-03"
+      data-variant="hero-nails-03-page"
+      style={{
+        position: "relative",
+        width: "100%",
+        background: DARK,
+        padding: "80px 24px 60px",
+        textAlign: "center",
+        overflow: "hidden",
+      }}
+    >
+      {/* Decorative corner brackets */}
+      <div aria-hidden="true" style={{ position: "absolute", inset: 20, pointerEvents: "none" }}>
+        <span style={{ position: "absolute", top: 0, left: 0, width: 28, height: 28, borderTop: `1px solid rgba(128,98,72,0.3)`, borderLeft: `1px solid rgba(128,98,72,0.3)` }} />
+        <span style={{ position: "absolute", top: 0, right: 0, width: 28, height: 28, borderTop: `1px solid rgba(128,98,72,0.3)`, borderRight: `1px solid rgba(128,98,72,0.3)` }} />
+        <span style={{ position: "absolute", bottom: 0, left: 0, width: 28, height: 28, borderBottom: `1px solid rgba(128,98,72,0.3)`, borderLeft: `1px solid rgba(128,98,72,0.3)` }} />
+        <span style={{ position: "absolute", bottom: 0, right: 0, width: 28, height: 28, borderBottom: `1px solid rgba(128,98,72,0.3)`, borderRight: `1px solid rgba(128,98,72,0.3)` }} />
+      </div>
+
+      {/* Breadcrumb */}
+      <nav style={{ marginBottom: 20, fontFamily: FONT, fontSize: "0.75rem", fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase" }}>
+        <a href={breadcrumbHref} style={{ color: "rgba(252,249,240,0.5)", textDecoration: "none", transition: "color 0.2s" }}
+          onMouseEnter={e => { e.currentTarget.style.color = CREAM; }}
+          onMouseLeave={e => { e.currentTarget.style.color = "rgba(252,249,240,0.5)"; }}
+        >
+          <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+        </a>
+        <span style={{ margin: "0 10px", color: "rgba(128,98,72,0.5)" }}>/</span>
+        <span style={{ color: CREAM }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </span>
+      </nav>
+
+      <h1 style={{
+        fontFamily: FONT,
+        fontWeight: 800,
+        fontSize: "clamp(2rem, 4.5vw, 3.2rem)",
+        letterSpacing: "0.14em",
+        textTransform: "uppercase",
+        color: CREAM,
+        margin: 0,
+        lineHeight: 1.1,
+      }}>
+        <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+      </h1>
+
+      {/* Decorative brown rule */}
+      <div aria-hidden="true" style={{
+        width: 48, height: "1.5px", background: BROWN,
+        margin: "24px auto 0",
+      }} />
     </section>
   );
 }
@@ -6777,14 +6950,185 @@ function HeroFitness02Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Pro
 function HeroFyzio01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = content as Record<string, unknown>;
 
-  const title       = String(c.title       ?? "Fyzioterapie\nv centru Prahy");
+  const eyebrow     = String(c.eyebrow     ?? "Fyzioterapie Praha");
+  const title       = String(c.title       ?? "Vrátíme vás\nzpět do pohybu");
   const tagline     = String(c.tagline     ?? "Pomáháme lidem ke kvalitnějšímu životu");
   const body        = String(c.body        ?? "");
-  const ctaText     = String(c.ctaText     ?? "Jak na první návštěvu");
-  const ctaHref     = String(c.ctaHref     ?? "#kontakt");
+  const ctaText     = String(c.ctaText     ?? "Objednat se online");
+  const ctaHref     = String(c.ctaHref     ?? "/kontakt");
   const ctaSecText  = String(c.ctaSecondaryText ?? "Naše služby");
-  const ctaSecHref  = String(c.ctaSecondaryHref ?? "#sluzby");
-  const image       = String(c.image       ?? "/clones/fyziovsem/wp-content/uploads/2024/10/DSC03515-1.jpg");
+  const ctaSecHref  = String(c.ctaSecondaryHref ?? "/sluzby");
+  const image       = String(c.image       ?? "/templates/fyzio-01/hero.webp");
+
+  const ratingValue = String(c.ratingValue ?? "4,9");
+  const ratingLabel = String(c.ratingLabel ?? "Hodnocení pacientů");
+  const stats = (c.stats as Array<{ value: string; label: string }>) ?? [
+    { value: "15+",     label: "let praxe" },
+    { value: "12 000+", label: "spokojených pacientů" },
+    { value: "6",       label: "specializací" },
+  ];
+
+  const NAVY  = "#1f2d69";
+  const GREEN = "#10d15d";
+  const WHITE = "#ffffff";
+  const MONT  = "'Montserrat', sans-serif";
+  const SANS  = "'Open Sans', sans-serif";
+
+  const navResolve = (href: string) => resolveNavHref(href, String(c.siteMode ?? "multipage"), tenantSlug, isAdmin);
+
+  const titleLines = title.split("\n");
+
+  return (
+    <section
+      id="uvod"
+      data-template="fyzio-01"
+      className="fyzio01-hero"
+      style={{ backgroundColor: NAVY, overflow: "hidden", position: "relative", fontFamily: SANS, display: "flex", alignItems: "center" }}
+    >
+      {/* ── Dekorativní pozadí: měkké glowy + pulse line ── */}
+      <div className="fyzio01-hero-glow" aria-hidden="true" />
+      <svg className="fyzio01-hero-ecg" viewBox="0 0 1200 200" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,100 L360,100 L385,100 L400,55 L420,150 L438,40 L456,140 L474,100 L520,100 L1200,100"
+          fill="none" stroke="#10d15d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+
+      {/* ── Obrázek — fullbleed vpravo ── */}
+      <div className="fyzio01-hero-img" style={{ position: "absolute", top: 0, right: 0, bottom: 0, width: "52%", overflow: "hidden" }}>
+        <GenericEditableImage
+          sectionId={sectionId}
+          field="image"
+          src={image}
+          alt="Fyzioterapeutická péče"
+          className="absolute inset-0 w-full h-full fyzio01-hero-imgel"
+        >
+          <Image
+            src={image}
+            alt="Fyzioterapeutická péče"
+            fill
+            priority
+            className="object-cover object-center"
+            unoptimized={shouldSkipNextImageOptimization(image)}
+          />
+        </GenericEditableImage>
+
+        {/* Gradient — navy blend na levém okraji obrázku */}
+        <div style={{
+          position: "absolute", inset: 0,
+          background: `linear-gradient(to right, ${NAVY} 0%, rgba(31,45,105,0.55) 14%, rgba(31,45,105,0.12) 28%, transparent 42%)`,
+          pointerEvents: "none",
+        }} aria-hidden="true" />
+
+        {/* Floating rating card */}
+        <div className="fyzio01-hero-rating">
+          <div className="fyzio01-hero-rating-stars" aria-hidden="true">
+            {[0,1,2,3,4].map(i => (
+              <svg key={i} width="15" height="15" viewBox="0 0 24 24" fill="#10d15d" aria-hidden="true">
+                <path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z" />
+              </svg>
+            ))}
+          </div>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+            <GenericEditableText sectionId={sectionId} field="ratingValue" value={ratingValue} tag="span"
+              style={{ fontFamily: MONT, fontSize: 26, fontWeight: 800, color: NAVY, lineHeight: 1 }} />
+            <GenericEditableText sectionId={sectionId} field="ratingLabel" value={ratingLabel} tag="span"
+              style={{ fontFamily: SANS, fontSize: 12, color: "#6b7280", lineHeight: 1.3, maxWidth: 96, display: "inline-block" }} />
+          </div>
+        </div>
+      </div>
+
+      {/* ── Textový obsah ── */}
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", width: "100%", position: "relative", zIndex: 2 }}>
+        <div className="fyzio01-hero-text" style={{ maxWidth: 560, paddingBlock: "clamp(60px, 7vw, 104px)" }}>
+          {/* Zelený kicker s pulse dash */}
+          <div className="fyzio01-hero-kicker">
+            <span className="fyzio01-hero-kicker-dash" aria-hidden="true" />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+              style={{ fontFamily: MONT, fontSize: 11, fontWeight: 700, color: GREEN, letterSpacing: "0.18em", textTransform: "uppercase" }} />
+          </div>
+
+          {/* H1 */}
+          <h1 className="fyzio01-hero-h1" style={{
+            fontFamily: MONT, fontSize: "clamp(38px, 4.8vw, 62px)", fontWeight: 800,
+            color: WHITE, lineHeight: 1.08, margin: "18px 0 20px", letterSpacing: "-0.015em",
+          }}>
+            {titleLines.map((line, i) => (
+              <span key={i} className="fyzio01-hero-h1-line" style={{ display: "block", animationDelay: `${0.1 + i * 0.09}s` }}>
+                <GenericEditableText sectionId={sectionId} field={`title_line_${i}`} value={line} tag="span" />
+              </span>
+            ))}
+          </h1>
+
+          {/* Tagline — kurzíva */}
+          <p style={{
+            fontFamily: SANS, fontSize: "clamp(15px, 1.4vw, 18px)", fontStyle: "italic",
+            color: "rgba(255,255,255,0.85)", lineHeight: 1.55, margin: "0 0 14px",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+          </p>
+
+          {/* Body text */}
+          {body && (
+            <p style={{
+              fontFamily: SANS, fontSize: "clamp(14px, 1.1vw, 15px)", color: "rgba(255,255,255,0.70)",
+              lineHeight: 1.75, margin: "0 0 36px", maxWidth: 480,
+            }}>
+              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+            </p>
+          )}
+
+          {/* CTA tlačítka */}
+          <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+            <a href={navResolve(ctaHref)} data-btn="primary" className="fyzio01-hero-cta"
+              style={{
+                backgroundColor: GREEN, color: WHITE, fontFamily: MONT, fontSize: 14, fontWeight: 700,
+                letterSpacing: "0.03em", padding: "15px 30px", borderRadius: 999, textDecoration: "none",
+                whiteSpace: "nowrap", display: "inline-flex", alignItems: "center", gap: 10,
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg className="fyzio01-hero-cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+              </svg>
+            </a>
+
+            <a href={navResolve(ctaSecHref)} className="fyzio01-hero-cta-ghost"
+              style={{
+                border: `2px solid rgba(255,255,255,0.32)`, color: WHITE, fontFamily: MONT, fontSize: 14,
+                fontWeight: 600, letterSpacing: "0.03em", padding: "13px 28px", borderRadius: 999,
+                textDecoration: "none", whiteSpace: "nowrap",
+              }}
+            >
+              <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
+            </a>
+          </div>
+
+          {/* Trust stats row */}
+          <div className="fyzio01-hero-stats">
+            {stats.map((s, i) => (
+              <div key={i} className="fyzio01-hero-stat">
+                <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value} tag="span"
+                  style={{ fontFamily: MONT, fontSize: 26, fontWeight: 800, color: WHITE, lineHeight: 1 }} />
+                <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span"
+                  style={{ fontFamily: SANS, fontSize: 12.5, color: "rgba(255,255,255,0.62)", lineHeight: 1.35, display: "inline-block" }} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── hero-fyzio-01-page ────────────────────────────────────────────────────────
+// Slim banner (~360px) pro podstránky: navy overlay + breadcrumb + H1 + green rule
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroFyzio01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const title          = String(c.title          ?? "Stránka");
+  const breadcrumb     = String(c.breadcrumb     ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const subtitle       = String(c.subtitle       ?? "");
+  const image          = String(c.image          ?? "/templates/fyzio-01/hero.webp");
 
   const NAVY  = "#1f2d69";
   const GREEN = "#10d15d";
@@ -6794,182 +7138,42 @@ function HeroFyzio01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
 
   const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
-  const titleLines = title.split("\n");
-
   return (
-    <section
-      id="uvod"
-      data-template="fyzio-01"
-      style={{ backgroundColor: NAVY, overflow: "hidden", position: "relative", fontFamily: SANS, minHeight: "clamp(480px, 58vw, 660px)", display: "flex", alignItems: "center" }}
-    >
-      {/* ── Obrázek — přímo v section, fullbleed vpravo ── */}
-      <div className="fyzio01-hero-img" style={{
-        position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        width: "55%",
-        overflow: "hidden",
-      }}>
-        <GenericEditableImage
-          sectionId={sectionId}
-          field="image"
-          src={image}
-          alt="Fyzioterapie"
-          className="absolute inset-0 w-full h-full"
-        >
-          <Image
-            src={image}
-            alt="Fyzioterapie"
-            fill
-            priority
-            className="object-cover object-top"
-            unoptimized={shouldSkipNextImageOptimization(image)}
-          />
+    <section id="uvod" data-template="fyzio-01" className="fyzio01-pagehero" style={{ backgroundColor: NAVY, position: "relative", overflow: "hidden", fontFamily: SANS }}>
+      {/* bg image */}
+      <div className="fyzio01-pagehero-bg" aria-hidden="true">
+        <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="" className="absolute inset-0 w-full h-full" style={{ width: "100%", height: "100%" }}>
+          <Image src={image} alt="" fill priority className="object-cover object-center" unoptimized={shouldSkipNextImageOptimization(image)} />
         </GenericEditableImage>
-
-        {/* Gradient — plný navy vlevo od zelené čáry, ostrý přechod těsně za ní */}
-        <div style={{
-          position: "absolute",
-          inset: 0,
-          background: `linear-gradient(to right, ${NAVY} 0%, ${NAVY} 17%, rgba(31,45,105,0.15) 22%, transparent 32%)`,
-          pointerEvents: "none",
-        }} aria-hidden="true" />
-
       </div>
+      {/* overlays */}
+      <div className="fyzio01-pagehero-overlay" aria-hidden="true" />
+      <svg className="fyzio01-pagehero-ecg" viewBox="0 0 1200 200" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,100 L420,100 L440,100 L456,52 L474,150 L492,34 L510,146 L528,100 L580,100 L1200,100" fill="none" stroke="#10d15d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
 
-      {/* ── Textový obsah ── */}
-      <div style={{
-        maxWidth: 1280,
-        margin: "0 auto",
-        padding: "0 32px",
-        width: "100%",
-        position: "relative",
-        zIndex: 2,
-      }}>
-        {/* ── Levý textový sloupec ── */}
-        <div className="fyzio01-hero-text" style={{
-          flex: "0 0 50%",
-          maxWidth: 540,
-          paddingBlock: "clamp(48px, 6vw, 80px)",
-        }}>
-          {/* Zelená linka / kicker */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
-            <span style={{ width: 32, height: 3, backgroundColor: GREEN, borderRadius: 2, display: "inline-block" }} />
-            <span style={{ fontFamily: MONT, fontSize: 11, fontWeight: 700, color: GREEN, letterSpacing: "0.18em", textTransform: "uppercase" }}>
-              Fyzioterapie Praha
-            </span>
-          </div>
-
-          {/* H1 */}
-          <h1 style={{
-            fontFamily: MONT,
-            fontSize: "clamp(36px, 4.5vw, 58px)",
-            fontWeight: 800,
-            color: WHITE,
-            lineHeight: 1.1,
-            margin: 0,
-            marginBottom: 20,
-            letterSpacing: "-0.01em",
-          }}>
-            {titleLines.map((line, i) => (
-              <span key={i} style={{ display: "block" }}>
-                <GenericEditableText sectionId={sectionId} field={`title_line_${i}`} value={line} tag="span" />
-              </span>
-            ))}
-          </h1>
-
-          {/* Tagline — kurzíva */}
-          <p style={{
-            fontFamily: SANS,
-            fontSize: "clamp(15px, 1.4vw, 18px)",
-            fontStyle: "italic",
-            color: "rgba(255,255,255,0.82)",
-            lineHeight: 1.55,
-            margin: 0,
-            marginBottom: 16,
-          }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={`"${tagline}"`} tag="span" />
-          </p>
-
-          {/* Body text */}
-          {body && (
-            <p style={{
-              fontFamily: SANS,
-              fontSize: "clamp(13px, 1.1vw, 15px)",
-              color: "rgba(255,255,255,0.68)",
-              lineHeight: 1.7,
-              margin: 0,
-              marginBottom: 36,
-              maxWidth: 460,
-            }}>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-            </p>
-          )}
-
-          {/* CTA tlačítka */}
-          <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
-            <a
-              href={resolve(ctaHref)}
-              data-btn="primary"
-              style={{
-                backgroundColor: GREEN,
-                color: WHITE,
-                fontFamily: MONT,
-                fontSize: 14,
-                fontWeight: 700,
-                letterSpacing: "0.06em",
-                textTransform: "uppercase",
-                padding: "13px 32px",
-                borderRadius: 3,
-                textDecoration: "none",
-                transition: "background 0.2s",
-                whiteSpace: "nowrap",
-              }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#0dbc4f")}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = GREEN)}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
-
-            <a
-              href={resolve(ctaSecHref)}
-              style={{
-                border: `2px solid rgba(255,255,255,0.45)`,
-                color: WHITE,
-                fontFamily: MONT,
-                fontSize: 14,
-                fontWeight: 600,
-                letterSpacing: "0.05em",
-                padding: "11px 28px",
-                borderRadius: 3,
-                textDecoration: "none",
-                transition: "border-color 0.2s, background 0.2s",
-                whiteSpace: "nowrap",
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = WHITE; e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.1)"; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.45)"; e.currentTarget.style.backgroundColor = "transparent"; }}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
-            </a>
-          </div>
+      <div className="fyzio01-pagehero-inner" style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", position: "relative", zIndex: 2 }}>
+        {/* breadcrumb */}
+        <div className="fyzio01-pagehero-crumb">
+          <a href={resolve(breadcrumbHref)} style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none", fontFamily: SANS, fontSize: 13 }}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden="true" style={{ color: "rgba(255,255,255,0.4)", margin: "0 8px" }}>/</span>
+          <span style={{ color: GREEN, fontFamily: MONT, fontSize: 13, fontWeight: 600 }}>
+            <GenericEditableText sectionId={sectionId} field="titleCrumb" value={title} tag="span" />
+          </span>
         </div>
+        {/* rule + title */}
+        <div className="fyzio01-pagehero-rule" aria-hidden="true" />
+        <h1 style={{ fontFamily: MONT, fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 800, color: WHITE, margin: "12px 0 0", lineHeight: 1.12, letterSpacing: "-0.015em" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        {subtitle.trim() && (
+          <p style={{ fontFamily: SANS, fontSize: "clamp(14px,1.3vw,16px)", color: "rgba(255,255,255,0.78)", lineHeight: 1.65, margin: "12px 0 0", maxWidth: 560 }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
       </div>
-
-      <style>{`
-        @media (max-width: 768px) {
-          #uvod[data-template="fyzio-01"] .fyzio01-hero-img {
-            position: relative !important; width: 100% !important; height: 280px !important;
-            top: auto !important; bottom: auto !important; right: auto !important; left: auto !important;
-          }
-          #uvod[data-template="fyzio-01"] .fyzio01-hero-text {
-            max-width: 100% !important; padding-bottom: 32px !important;
-          }
-          #uvod[data-template="fyzio-01"] {
-            flex-direction: column !important; min-height: auto !important;
-          }
-        }
-      `}</style>
     </section>
   );
 }
@@ -8282,49 +8486,29 @@ function HeroBakery01({ content, sectionId }: { content: Record<string, unknown>
 // 4 property-type karty: Byt / Dům / Pozemek / Jiné — zelené CTA
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroReality02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const title          = String(content.title         ?? "PRODEJTE SVOU NEMOVITOST\nZA NEJVYŠŠÍ CENU NA TRHU");
-  const titleHighlight = String(content.titleHighlight ?? "NEJVYŠŠÍ CENU");
-  const subtitle       = String(content.subtitle      ?? "Stačí pár kliknutí a doporučíme ověřeného makléře pro prodej vaší nemovitosti.");
+  const title          = String(content.title         ?? "Prodejte svou nemovitost\nza nejlepší cenu na trhu");
+  const titleHighlight = String(content.titleHighlight ?? "nejlepší cenu");
+  const subtitle       = String(content.subtitle      ?? "Spojíme vás s prověřeným odborníkem, který zná váš region a dokáže vyjednat podmínky, na kterých záleží. Celý proces zvládnete bez stresu a s plnou kontrolou.");
   const propertyLabel  = String(content.propertyLabel ?? "Jakou nemovitost prodáváte?");
-  const ctaText        = String(content.ctaText       ?? "Najít makléře");
-  const ctaHref        = String(content.ctaHref       ?? "#kontakt");
+  const ctaText        = String(content.ctaText       ?? "Začít nezávazně");
+  const ctaHref        = String(content.ctaHref       ?? "/kontakt");
+  const trustBadge     = String(content.trustBadge    ?? "Více než 1 200 úspěšných prodejů");
   const propertyTypes  = (content.propertyTypes as Array<{ label: string; icon: string }>) ?? [
-    { label: "BYT", icon: "apartment" },
-    { label: "DŮM", icon: "house" },
-    { label: "POZEMEK", icon: "land" },
-    { label: "JINÉ", icon: "other" },
+    { label: "Byt", icon: "apartment" },
+    { label: "Dům", icon: "house" },
+    { label: "Pozemek", icon: "land" },
+    { label: "Jiné", icon: "other" },
   ];
 
   const DARK  = "#05303a";
   const GREEN = "#3DCE78";
-  const WHITE = "#ffffff";
   const FONT  = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const BODY  = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
 
-  const resolve = (href: string) => {
-    if (!tenantSlug) return href;
-    if (href === "/") return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}`;
-    if (href.startsWith("#")) return href;
-    return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
-  };
-
-  // Render title with highlighted portion in green
-  const renderTitle = () => {
-    if (!titleHighlight || !title.includes(titleHighlight)) {
-      return <span style={{ whiteSpace: "pre-line" }}>{title}</span>;
-    }
-    const parts = title.split(titleHighlight);
-    return (
-      <span style={{ whiteSpace: "pre-line" }}>
-        {parts[0]}
-        <span style={{ color: GREEN }}>{titleHighlight}</span>
-        {parts[1]}
-      </span>
-    );
-  };
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   const heroImage = String(content.heroImage ?? "");
 
-  // Render title: bold words highlighted, "nejvyšší cenu" gets green underline
   const renderTitleR02 = () => {
     const boldWords = (content.titleBold as string[]) ?? [titleHighlight];
     const highlight = titleHighlight;
@@ -8342,7 +8526,7 @@ function HeroReality02({ content, sectionId, tenantSlug, isAdmin }: { content: R
               if (pos === 0) {
                 const isHL = word.toLowerCase() === highlight.toLowerCase();
                 parts.push(
-                  <strong key={`b-${li}-${idx++}`} style={isHL ? { fontWeight: 700, background: "rgba(61,206,120,0.18)", borderRadius: 4, padding: "0 2px" } : { fontWeight: 700 }}>
+                  <strong key={`b-${li}-${idx++}`} style={isHL ? { fontWeight: 700, color: GREEN } : { fontWeight: 700 }}>
                     {remaining.slice(0, word.length)}
                   </strong>
                 );
@@ -8372,25 +8556,22 @@ function HeroReality02({ content, sectionId, tenantSlug, isAdmin }: { content: R
   };
 
   const PropertyIcon = ({ type }: { type: string }) => {
-    const s = 64;
-    const stroke = "#3a6a74";
-    const sw = "1.6";
+    const s = 48;
+    const stroke = DARK;
+    const sw = "1.4";
     switch (type) {
       case "apartment":
         return (
           <svg width={s} height={s} viewBox="0 0 64 64" fill="none" aria-hidden>
             <rect x="14" y="20" width="36" height="34" rx="2" stroke={stroke} strokeWidth={sw}/>
             <path d="M14 30 H50" stroke={stroke} strokeWidth={sw}/>
-            <rect x="20" y="36" width="7" height="7" rx="1" stroke={stroke} strokeWidth="1.2"/>
-            <rect x="29" y="36" width="7" height="7" rx="1" stroke={stroke} strokeWidth="1.2"/>
-            <rect x="38" y="36" width="7" height="7" rx="1" stroke={stroke} strokeWidth="1.2"/>
-            <rect x="20" y="23" width="7" height="5" rx="1" stroke={stroke} strokeWidth="1.2"/>
-            <rect x="29" y="23" width="7" height="5" rx="1" stroke={stroke} strokeWidth="1.2"/>
-            <rect x="38" y="23" width="7" height="5" rx="1" stroke={stroke} strokeWidth="1.2"/>
-            <rect x="26" y="43" width="12" height="11" rx="1" stroke={stroke} strokeWidth="1.2"/>
-            <path d="M6 60 H58" stroke={stroke} strokeWidth={sw} strokeLinecap="round"/>
-            <path d="M6 54 Q10 46 14 48" stroke={GREEN} strokeWidth="1.4" strokeLinecap="round"/>
-            <path d="M50 54 Q54 46 58 48" stroke={GREEN} strokeWidth="1.4" strokeLinecap="round"/>
+            <rect x="20" y="36" width="7" height="7" rx="1" stroke={stroke} strokeWidth="1.1"/>
+            <rect x="29" y="36" width="7" height="7" rx="1" stroke={stroke} strokeWidth="1.1"/>
+            <rect x="38" y="36" width="7" height="7" rx="1" stroke={stroke} strokeWidth="1.1"/>
+            <rect x="20" y="23" width="7" height="5" rx="1" stroke={stroke} strokeWidth="1.1"/>
+            <rect x="29" y="23" width="7" height="5" rx="1" stroke={stroke} strokeWidth="1.1"/>
+            <rect x="38" y="23" width="7" height="5" rx="1" stroke={stroke} strokeWidth="1.1"/>
+            <rect x="26" y="43" width="12" height="11" rx="1" stroke={stroke} strokeWidth="1.1"/>
           </svg>
         );
       case "house":
@@ -8398,21 +8579,17 @@ function HeroReality02({ content, sectionId, tenantSlug, isAdmin }: { content: R
           <svg width={s} height={s} viewBox="0 0 64 64" fill="none" aria-hidden>
             <path d="M8 30 L32 10 L56 30" stroke={stroke} strokeWidth={sw} strokeLinecap="round" strokeLinejoin="round"/>
             <path d="M14 26 L14 52 L50 52 L50 26" stroke={stroke} strokeWidth={sw} strokeLinejoin="round"/>
-            <rect x="24" y="38" width="16" height="14" rx="1" stroke={stroke} strokeWidth="1.4"/>
-            <rect x="18" y="30" width="10" height="9" rx="1" stroke={stroke} strokeWidth="1.2"/>
-            <rect x="36" y="30" width="10" height="9" rx="1" stroke={stroke} strokeWidth="1.2"/>
-            <path d="M44 26 L44 16 L50 16 L50 26" stroke={stroke} strokeWidth="1.4" strokeLinejoin="round"/>
-            <circle cx="52" cy="44" r="5" stroke={GREEN} strokeWidth="1.4"/>
-            <path d="M52 40 L52 44 L55 44" stroke={GREEN} strokeWidth="1.4" strokeLinecap="round"/>
+            <rect x="24" y="38" width="16" height="14" rx="1" stroke={stroke} strokeWidth="1.2"/>
+            <rect x="18" y="30" width="10" height="9" rx="1" stroke={stroke} strokeWidth="1.1"/>
+            <rect x="36" y="30" width="10" height="9" rx="1" stroke={stroke} strokeWidth="1.1"/>
           </svg>
         );
       case "land":
         return (
           <svg width={s} height={s} viewBox="0 0 64 64" fill="none" aria-hidden>
             <path d="M32 10 C24 10 18 16 18 24 C18 36 32 52 32 52 C32 52 46 36 46 24 C46 16 40 10 32 10 Z" stroke={stroke} strokeWidth={sw}/>
-            <circle cx="32" cy="24" r="6" stroke={stroke} strokeWidth="1.4"/>
+            <circle cx="32" cy="24" r="6" stroke={stroke} strokeWidth="1.2"/>
             <path d="M8 56 H56" stroke={stroke} strokeWidth={sw} strokeLinecap="round"/>
-            <path d="M8 56 Q14 48 20 50 Q26 52 32 48 Q38 44 44 46 Q50 48 56 44" stroke={GREEN} strokeWidth="1.4" fill="none" strokeLinecap="round"/>
           </svg>
         );
       default:
@@ -8421,92 +8598,132 @@ function HeroReality02({ content, sectionId, tenantSlug, isAdmin }: { content: R
             <rect x="8" y="22" width="48" height="30" rx="2" stroke={stroke} strokeWidth={sw}/>
             <path d="M8 34 H56" stroke={stroke} strokeWidth={sw}/>
             <path d="M20 22 L20 14 L44 14 L44 22" stroke={stroke} strokeWidth={sw} strokeLinejoin="round"/>
-            <rect x="16" y="38" width="12" height="10" rx="1" stroke={stroke} strokeWidth="1.2"/>
-            <rect x="36" y="38" width="12" height="10" rx="1" stroke={stroke} strokeWidth="1.2"/>
-            <circle cx="22" cy="24" r="2.5" fill={GREEN}/>
-            <circle cx="42" cy="24" r="2.5" fill={GREEN}/>
+            <rect x="16" y="38" width="12" height="10" rx="1" stroke={stroke} strokeWidth="1.1"/>
+            <rect x="36" y="38" width="12" height="10" rx="1" stroke={stroke} strokeWidth="1.1"/>
           </svg>
         );
     }
   };
 
-  const imgSrc = heroImage || "/templates/reality-02/hero.jpg";
+  const imgSrc = heroImage || "/templates/reality-02/hero.webp";
 
   return (
     <section
       id="prodej"
-      style={{ background: "#ffffff", fontFamily: FONT, padding: "clamp(40px,5vw,72px) clamp(16px,5vw,48px)" }}
+      data-template="reality-02"
+      style={{ background: "linear-gradient(168deg, #f0faf4 0%, #ffffff 55%, #f7fbf9 100%)", fontFamily: FONT, padding: "clamp(48px,6vw,88px) clamp(16px,5vw,48px) clamp(40px,5vw,72px)" }}
     >
-      {/*
-        Přesný layout fermakleri.cz:
-          col 1 (56%) row 1: nadpis + subtitle
-          col 1 (56%) row 2: 4 property karty
-          col 2 (44%) row 1+2: foto (grid-row 1/3, plná výška)
-      */}
-      <div data-r02-hero-grid="" style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "56% 44%", gridTemplateRows: "1fr auto", columnGap: "clamp(24px,4vw,52px)", rowGap: "clamp(20px,3vw,32px)" }}>
+      <div data-r02-hero-grid="" style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "55% 45%", gridTemplateRows: "1fr auto", columnGap: "clamp(28px,4vw,56px)", rowGap: "clamp(24px,3vw,36px)" }}>
 
-        {/* Col 1 / Row 1: nadpis + subtitle */}
         <div style={{ gridColumn: 1, gridRow: 1, alignSelf: "center" }}>
-          <h1 style={{ fontSize: "clamp(28px, 3.4vw, 50px)", fontWeight: 400, color: DARK, lineHeight: 1.18, marginBottom: 20 }}>
+          <h1 style={{ fontSize: "clamp(30px, 3.6vw, 52px)", fontWeight: 300, color: DARK, lineHeight: 1.15, marginBottom: 24, letterSpacing: "-0.02em" }}>
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span">
               {renderTitleR02()}
             </GenericEditableText>
           </h1>
-          <p style={{ fontSize: "clamp(14px, 1.5vw, 16px)", color: DARK, opacity: 0.72, lineHeight: 1.72, margin: 0 }}>
+          <p style={{ fontFamily: BODY, fontSize: "clamp(15px, 1.4vw, 17px)", color: DARK, opacity: 0.65, lineHeight: 1.75, margin: "0 0 28px", maxWidth: 480 }}>
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+            <a href={resolve(ctaHref)} className="r02-hero-cta" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 32px", backgroundColor: GREEN, color: "#fff", fontSize: 14, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", textDecoration: "none", borderRadius: 32 }}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+            </a>
+            <span style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="2" strokeLinecap="round" aria-hidden><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              <GenericEditableText sectionId={sectionId} field="trustBadge" value={trustBadge} tag="span" style={{ fontFamily: BODY, fontSize: 13, color: DARK, opacity: 0.5 }} />
+            </span>
+          </div>
         </div>
 
-        {/* Col 2 / Row 1+2: foto přes oba řádky */}
         <div
           data-r02-hero-img=""
-          style={{ gridColumn: 2, gridRow: "1 / 3", borderRadius: 20, overflow: "hidden", minHeight: 400 }}
+          className="r02-hero-photo"
+          style={{ gridColumn: 2, gridRow: "1 / 3", borderRadius: 24, overflow: "hidden", minHeight: 420, position: "relative" }}
         >
           <GenericEditableImage sectionId={sectionId} field="heroImage" src={imgSrc} alt="Prodej nemovitosti" style={{ width: "100%", height: "100%", objectFit: "cover" }}>
             <img loading="eager" src={imgSrc} alt="Prodej nemovitosti" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
           </GenericEditableImage>
         </div>
 
-        {/* Col 1 / Row 2: 4 property karty */}
-        <div style={{ gridColumn: 1, gridRow: 2, display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12 }}>
-          {propertyTypes.map((pt, i) => (
-            <a
-              key={`r02-pt-${i}`}
-              href={resolve(ctaHref)}
-              data-btn="primary"
-              style={{ borderRadius: 14, overflow: "hidden", border: "1px solid #ddeae8", textDecoration: "none", display: "flex", flexDirection: "column", background: WHITE, transition: "box-shadow 0.18s, transform 0.18s" }}
-              onMouseEnter={e => { e.currentTarget.style.boxShadow = "0 8px 24px rgba(5,48,58,0.12)"; e.currentTarget.style.transform = "translateY(-3px)"; }}
-              onMouseLeave={e => { e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.transform = "none"; }}
-            >
-              <div style={{ padding: "28px 12px 22px", display: "flex", justifyContent: "center", alignItems: "center", flex: 1 }}>
-                <PropertyIcon type={pt.icon} />
-              </div>
-              <div style={{ background: "#6dd5a0", padding: "11px 0", textAlign: "center" }}>
-                <span style={{ color: WHITE, fontWeight: 600, fontSize: 16, letterSpacing: "0.01em" }}>
-                  <GenericEditableText sectionId={sectionId} field={`propertyTypes.${i}.label`} value={pt.label} tag="span" />
-                </span>
-              </div>
-            </a>
-          ))}
+        <div style={{ gridColumn: 1, gridRow: 2 }}>
+          <div style={{ marginBottom: 12 }}>
+            <GenericEditableText sectionId={sectionId} field="propertyLabel" value={propertyLabel} tag="span" style={{ fontFamily: BODY, fontSize: 13, fontWeight: 600, color: DARK, opacity: 0.45, textTransform: "uppercase", letterSpacing: "0.08em" }} />
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 14 }} className="r02-prop-grid">
+            {propertyTypes.map((pt, i) => (
+              <a
+                key={`r02-pt-${i}`}
+                href={resolve(ctaHref)}
+                className="r02-prop-card"
+                style={{ borderRadius: 16, overflow: "hidden", border: "1px solid rgba(5,48,58,0.1)", textDecoration: "none", display: "flex", flexDirection: "column", background: "#fff" }}
+              >
+                <div style={{ padding: "22px 12px 16px", display: "flex", justifyContent: "center", alignItems: "center", flex: 1 }}>
+                  <PropertyIcon type={pt.icon} />
+                </div>
+                <div style={{ background: GREEN, padding: "10px 0", textAlign: "center" }}>
+                  <GenericEditableText sectionId={sectionId} field={`propertyTypes.${i}.label`} value={pt.label} tag="span" style={{ color: "#fff", fontWeight: 600, fontSize: 14, letterSpacing: "0.02em" }} />
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
 
       </div>
-
-      <style>{`
-        @media (max-width: 767px) {
-          [data-r02-hero-grid] {
-            grid-template-columns: 1fr !important;
-            grid-template-rows: auto auto auto !important;
-          }
-          [data-r02-hero-grid] > *:nth-child(1) { grid-column: 1 !important; grid-row: 1 !important; }
-          [data-r02-hero-img]                   { grid-column: 1 !important; grid-row: 2 !important; min-height: 220px !important; }
-          [data-r02-hero-grid] > *:nth-child(3) { grid-column: 1 !important; grid-row: 3 !important; }
-        }
-      `}</style>
     </section>
   );
 }
 
+
+// ── hero-reality-02-page ──────────────────────────────────────────────────────
+function HeroReality02Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const DARK  = "#05303a";
+  const GREEN = "#3DCE78";
+  const WHITE = "#ffffff";
+  const FONT_H = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+
+  const title          = String(c.title ?? c.headline ?? "Stránka");
+  const breadcrumb     = String(c.breadcrumb ?? "Úvod");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const bg             = String(c.backgroundImage ?? "/templates/reality-02/hero-page.webp");
+
+  function resolve(href: string) {
+    if (!href || href.startsWith("http") || href.startsWith("#")) return href;
+    if (tenantSlug) {
+      const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
+      return base + (href === "/" ? "" : href.startsWith("/") ? href : "/" + href);
+    }
+    return href;
+  }
+
+  return (
+    <section style={{ position: "relative", minHeight: 280, display: "flex", alignItems: "center", fontFamily: FONT_H, overflow: "hidden" }} data-template="reality-02">
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt={title} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
+          <Image src={bg} alt={title} fill className="object-cover" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} priority />
+        </GenericEditableImage>
+        <div style={{ position: "absolute", inset: 0, background: `linear-gradient(135deg, ${DARK}e6 0%, ${DARK}99 60%, ${DARK}66 100%)` }} aria-hidden="true" />
+      </div>
+
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1200, width: "100%", margin: "0 auto", padding: "100px 32px 44px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.06em" }}>
+          <a href={resolve(breadcrumbHref)} className="r02-footer-link" style={{ color: "rgba(255,255,255,0.65)", textDecoration: "none" }}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden="true" style={{ color: GREEN, fontSize: 11 }}>/</span>
+          <span style={{ color: GREEN, fontSize: "0.78rem", fontWeight: 700 }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </div>
+        <h1 style={{ fontFamily: FONT_H, color: WHITE, fontSize: "clamp(1.8rem, 3.4vw, 2.7rem)", fontWeight: 700, letterSpacing: "-0.01em", lineHeight: 1.15, margin: 0 }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <span aria-hidden="true" style={{ display: "block", width: 56, height: 3, background: GREEN, borderRadius: 2, marginTop: 18 }} />
+      </div>
+    </section>
+  );
+}
 
 // ── reality-04-split-hero ─────────────────────────────────────────────────────
 // Ref: quantumreality.cz — welcome-wrapper sekce
@@ -9113,13 +9330,16 @@ function HeroReality06Agent({ content, sectionId, tenantSlug, isAdmin }: { conte
 // 1:1 reference: bestdrive.cz — stage sekce s customercentricity.jpg
 // ──────────────────────────────────────────────────────────────────────────
 function HeroAutoservis01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const eyebrow  = String((content.eyebrow as string | undefined) ?? "Autoservis · Pneuservis · Klimatizace");
   const title    = String(content.title    ?? "Prémiový autoservis\npro Vaši bezpečnou jízdu");
   const subtitle = String(content.subtitle ?? "Vy jezdíte, my se staráme");
   const ctaText  = String(content.ctaText  ?? "Objednat servis");
   const ctaHref  = String(content.ctaHref  ?? "#kontakt");
   const ctaSecText = String((content.ctaSecondaryText as string | undefined) ?? "Naše služby");
   const ctaSecHref = String((content.ctaSecondaryHref as string | undefined) ?? "/sluzby");
-  const image    = String(content.image    ?? "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=1200&h=900&fit=crop&fm=webp&q=85");
+  const image    = String(content.image    ?? "/templates/autoservis-01/hero-servis.webp");
+  const statValue = String((content.statValue as string | undefined) ?? "18 let");
+  const statLabel = String((content.statLabel as string | undefined) ?? "zkušeností s péčí o vozy");
   const bullets  = (content.bullets as string[] | undefined) ?? [
     "Nejširší síť autoservisů a pneuservisů",
     "Komplexní péče o Vaše vozidlo",
@@ -9134,12 +9354,8 @@ function HeroAutoservis01({ content, sectionId, tenantSlug, isAdmin }: { content
   const MUTED   = "#6b7280";
   const SANS    = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-  const resolve = (href: string) => {
-    if (!tenantSlug || href.startsWith("http") || href.startsWith("mailto") || href.startsWith("tel")) return href;
-    const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
-    if (href === "/") return base;
-    return base + href;
-  };
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
     <section
@@ -9147,66 +9363,96 @@ function HeroAutoservis01({ content, sectionId, tenantSlug, isAdmin }: { content
       data-template="autoservis-01-hero"
     >
       {/* Left panel — text */}
-      <div style={{ flex: "0 0 50%", display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(40px, 8vh, 100px) clamp(24px, 5vw, 80px) clamp(40px, 8vh, 100px) clamp(24px, 6vw, 100px)", zIndex: 1 }}>
+      <div style={{ flex: "0 0 50%", position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(40px, 8vh, 100px) clamp(24px, 5vw, 80px) clamp(40px, 8vh, 100px) clamp(24px, 6vw, 100px)", zIndex: 1, overflow: "hidden" }}>
 
-        {/* H1 */}
-        <h1 style={{ fontFamily: SANS, fontSize: "clamp(32px, 3.6vw, 56px)", fontWeight: 800, color: DARK, lineHeight: 1.1, letterSpacing: "-0.02em", margin: "0 0 16px 0", whiteSpace: "pre-line" }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h1>
+        {/* Faint technical grid backdrop */}
+        <span aria-hidden="true" className="a01h-grid" style={{ position: "absolute", inset: 0, backgroundImage: `linear-gradient(${SURFACE} 1px, transparent 1px), linear-gradient(90deg, ${SURFACE} 1px, transparent 1px)`, backgroundSize: "56px 56px", opacity: 0.55, maskImage: "radial-gradient(120% 90% at 20% 30%, #000 30%, transparent 75%)", WebkitMaskImage: "radial-gradient(120% 90% at 20% 30%, #000 30%, transparent 75%)", zIndex: 0 }} />
 
-        {/* Subtitle — orange italic */}
-        <p style={{ fontFamily: SANS, fontSize: "clamp(16px, 1.6vw, 22px)", fontWeight: 500, fontStyle: "italic", color: ORANGE, margin: "0 0 20px 0", lineHeight: 1.4 }}>
-          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-        </p>
+        <div style={{ position: "relative", zIndex: 1 }}>
+          {/* Eyebrow — orange keyline + label */}
+          <div className="a01h-reveal" style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20, animationDelay: "0.02s" }}>
+            <span aria-hidden="true" style={{ width: 34, height: 3, background: ORANGE, borderRadius: 2, flexShrink: 0 }} />
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span"
+              style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: MUTED }} />
+          </div>
 
-        {/* Bullet list */}
-        <ul style={{ listStyle: "none", margin: "0 0 32px 0", padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-          {bullets.map((b, i) => (
-            <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10, fontFamily: SANS, fontSize: "clamp(14px, 1.2vw, 16px)", color: MUTED, lineHeight: 1.4 }}>
-              <span style={{ flexShrink: 0, marginTop: 3, width: 18, height: 18, borderRadius: "50%", backgroundColor: ORANGE, display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
-                <svg width="10" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true">
-                  <path d="M1 5 L4.5 8.5 L11 1.5" stroke={DARK} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+          {/* H1 */}
+          <h1 className="a01h-reveal" style={{ fontFamily: SANS, fontSize: "clamp(34px, 3.9vw, 58px)", fontWeight: 800, color: DARK, lineHeight: 1.08, letterSpacing: "-0.025em", margin: "0 0 16px 0", whiteSpace: "pre-line", animationDelay: "0.08s" }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+
+          {/* Subtitle — orange italic */}
+          <p className="a01h-reveal" style={{ fontFamily: SANS, fontSize: "clamp(16px, 1.6vw, 22px)", fontWeight: 500, fontStyle: "italic", color: ORANGE, margin: "0 0 26px 0", lineHeight: 1.4, animationDelay: "0.14s" }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+
+          {/* Bullet list */}
+          <ul style={{ listStyle: "none", margin: "0 0 34px 0", padding: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+            {bullets.map((b, i) => (
+              <li key={i} className="a01h-bullet a01h-reveal" style={{ display: "flex", alignItems: "center", gap: 12, fontFamily: SANS, fontSize: "clamp(14px, 1.2vw, 16px)", fontWeight: 500, color: DARK, lineHeight: 1.4, padding: "7px 10px", borderRadius: 8, animationDelay: `${0.18 + i * 0.06}s` }}>
+                <span className="a01h-check" style={{ flexShrink: 0, width: 20, height: 20, borderRadius: "50%", backgroundColor: ORANGE, display: "inline-flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 6px rgba(255,165,0,0.3)" }}>
+                  <svg width="10" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true">
+                    <path d="M1 5 L4.5 8.5 L11 1.5" stroke={DARK} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+                <GenericEditableText sectionId={sectionId} field={`bullets.${i}`} value={b} tag="span" />
+              </li>
+            ))}
+          </ul>
+
+          {/* CTA buttons */}
+          <div className="a01h-reveal" style={{ display: "flex", flexWrap: "wrap", gap: 12, animationDelay: "0.44s" }}>
+            <a
+              href={resolve(ctaHref)}
+              data-btn="primary"
+              className="a01h-cta-primary"
+              style={{ display: "inline-flex", alignItems: "center", gap: 9, padding: "15px 30px", backgroundColor: ORANGE, color: DARK, fontFamily: SANS, fontSize: 15, fontWeight: 700, textDecoration: "none", borderRadius: 6, boxShadow: "0 6px 18px rgba(255,165,0,0.3)" }}
+            >
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg className="a01h-cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+            <a
+              href={resolve(ctaSecHref)}
+              className="a01h-cta-secondary"
+              style={{ position: "relative", display: "inline-flex", alignItems: "center", padding: "15px 30px", color: DARK, fontFamily: SANS, fontSize: 15, fontWeight: 600, textDecoration: "none", borderRadius: 6, border: `2px solid ${DARK}`, overflow: "hidden" }}
+            >
+              <span style={{ position: "relative", zIndex: 1 }}>
+                <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
               </span>
-              <GenericEditableText sectionId={sectionId} field={`bullets.${i}`} value={b} tag="span" />
-            </li>
-          ))}
-        </ul>
-
-        {/* CTA buttons */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-          <a
-            href={resolve(ctaHref)}
-            data-btn="primary"
-            style={{ display: "inline-flex", alignItems: "center", padding: "14px 28px", backgroundColor: ORANGE, color: DARK, fontFamily: SANS, fontSize: 15, fontWeight: 700, textDecoration: "none", borderRadius: 6, transition: "opacity 0.18s" }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
-          <a
-            href={resolve(ctaSecHref)}
-            style={{ display: "inline-flex", alignItems: "center", padding: "14px 28px", backgroundColor: "transparent", color: DARK, fontFamily: SANS, fontSize: 15, fontWeight: 600, textDecoration: "none", borderRadius: 6, border: `2px solid ${DARK}`, transition: "background-color 0.18s, color 0.18s" }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = DARK; e.currentTarget.style.color = WHITE; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = DARK; }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
-          </a>
+            </a>
+          </div>
         </div>
       </div>
 
       {/* Right panel — image */}
       <div style={{ flex: "0 0 50%", position: "relative", overflow: "hidden" }}>
-        <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title.replace(/\n/g, " ")} style={{ position: "absolute", inset: 0 }}>
-          <img
-            src={image}
-            alt={title.replace(/\n/g, " ")}
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
-            loading="eager"
-          />
-        </GenericEditableImage>
-        {/* subtle orange accent strip */}
-        <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 4, backgroundColor: ORANGE, zIndex: 1 }} />
+        <div className="a01h-imgwrap" style={{ position: "absolute", inset: 0 }}>
+          <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title.replace(/\n/g, " ")} style={{ position: "absolute", inset: 0 }}>
+            <img
+              className="a01h-img"
+              src={image}
+              alt={title.replace(/\n/g, " ")}
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }}
+              loading="eager"
+            />
+          </GenericEditableImage>
+        </div>
+        {/* bottom scrim for legibility of floating card */}
+        <div aria-hidden="true" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "45%", background: "linear-gradient(to top, rgba(17,17,17,0.55), transparent)", zIndex: 1 }} />
+        {/* orange accent strip → gradient */}
+        <div aria-hidden="true" style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 5, background: `linear-gradient(to bottom, ${ORANGE}, rgba(255,165,0,0.35))`, zIndex: 2 }} />
+        {/* Floating stat card */}
+        <div className="a01h-statcard" style={{ position: "absolute", left: "clamp(20px, 3vw, 40px)", bottom: "clamp(20px, 3vw, 40px)", zIndex: 3, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", borderRadius: 12, padding: "16px 22px", boxShadow: "0 10px 30px rgba(0,0,0,0.22)", display: "flex", alignItems: "center", gap: 14, maxWidth: "78%" }}>
+          <span style={{ width: 4, alignSelf: "stretch", background: ORANGE, borderRadius: 2, flexShrink: 0 }} />
+          <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.15 }}>
+            <GenericEditableText sectionId={sectionId} field="statValue" value={statValue} tag="span"
+              style={{ fontFamily: SANS, fontSize: 24, fontWeight: 900, color: DARK, letterSpacing: "-0.02em" }} />
+            <GenericEditableText sectionId={sectionId} field="statLabel" value={statLabel} tag="span"
+              style={{ fontFamily: SANS, fontSize: 13, fontWeight: 500, color: MUTED, marginTop: 2 }} />
+          </span>
+        </div>
       </div>
 
       {/* Mobile stacking */}
@@ -9218,14 +9464,119 @@ function HeroAutoservis01({ content, sectionId, tenantSlug, isAdmin }: { content
           }
           [data-template="autoservis-01-hero"] > div:first-child {
             flex: unset !important;
-            padding: 40px 24px !important;
+            padding: 44px 24px !important;
           }
           [data-template="autoservis-01-hero"] > div:last-child {
             flex: unset !important;
-            height: 320px !important;
+            height: 360px !important;
           }
         }
       `}</style>
+    </section>
+  );
+}
+
+// ── hero-autoservis-01-page ──────────────────────────────────────────────────
+// Slim banner pro podstránky — tmavý #111 + subdued foto, oranžová keyline + breadcrumb
+function HeroAutoservis01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const c = content as Record<string, unknown>;
+  const DARK   = "#111111";
+  const ORANGE = "#FFA500";
+  const SANS   = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+  const bg            = String(c.backgroundImage ?? "/templates/autoservis-01/hero-servis.webp");
+  const breadcrumb    = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const title         = String(c.title ?? "Stránka");
+  const subtitle      = String(c.subtitle ?? "");
+
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section
+      style={{ position: "relative", overflow: "hidden", backgroundColor: DARK, minHeight: "clamp(300px, 42vh, 400px)", display: "flex", alignItems: "center" }}
+      data-template="autoservis-01-hero"
+      data-variant="hero-autoservis-01-page"
+    >
+      {bg && (
+        <div aria-hidden="true" style={{ position: "absolute", inset: 0, backgroundImage: `url(${bg})`, backgroundSize: "cover", backgroundPosition: "center", filter: "brightness(0.34) saturate(0.85) grayscale(0.15)", zIndex: 0 }} />
+      )}
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(180deg, rgba(17,17,17,0.55) 0%, rgba(17,17,17,0.78) 100%)" }} />
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, zIndex: 1, backgroundImage: "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "56px 56px", maskImage: "radial-gradient(120% 90% at 15% 40%, #000 25%, transparent 72%)", WebkitMaskImage: "radial-gradient(120% 90% at 15% 40%, #000 25%, transparent 72%)" }} />
+      <div aria-hidden="true" style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 5, background: `linear-gradient(to bottom, ${ORANGE}, rgba(255,165,0,0.35))`, zIndex: 2 }} />
+
+      <div style={{ position: "relative", zIndex: 3, maxWidth: 1200, width: "100%", margin: "0 auto", padding: "0 clamp(16px,4vw,48px)" }}>
+        <nav aria-label="Breadcrumb" style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: SANS, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: 16 }}>
+          <a href={resolve(breadcrumbHref)} style={{ color: "rgba(255,255,255,0.6)", textDecoration: "none", transition: "color .25s" }}
+            onMouseEnter={e => (e.currentTarget.style.color = ORANGE)}
+            onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.6)")}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden="true" style={{ width: 14, height: 2, background: ORANGE, borderRadius: 1 }} />
+          <span style={{ color: ORANGE }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+        <h1 style={{ fontFamily: SANS, fontSize: "clamp(30px,4.4vw,52px)", fontWeight: 800, color: "#fff", lineHeight: 1.08, letterSpacing: "-0.025em", margin: 0 }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        {subtitle.trim() && (
+          <p style={{ fontFamily: SANS, fontSize: "clamp(15px,1.5vw,18px)", fontWeight: 500, fontStyle: "italic", color: ORANGE, margin: "12px 0 0", lineHeight: 1.4 }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+        <div aria-hidden="true" style={{ width: 48, height: 3, backgroundColor: ORANGE, borderRadius: 2, marginTop: 20 }} />
+      </div>
+    </section>
+  );
+}
+
+// ── hero-autoservis-02-page (slim banner pro podstránky) ─────────────────────
+// Dark #1a1a1a + subdued hero foto, red keyline left, breadcrumb + title, Open Sans
+function HeroAutoservis02Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const RED  = "#d82a2a";
+  const DARK = "#1a1a1a";
+  const SANS = "'Open Sans', Arial, sans-serif";
+  const bg            = String(content.backgroundImage ?? "/templates/autoservis-02/hero-servis.webp");
+  const breadcrumb    = String(content.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const title         = String(content.title ?? "Stránka");
+  const subtitle      = String(content.subtitle ?? "");
+  const siteMode      = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section
+      style={{ position: "relative", overflow: "hidden", backgroundColor: DARK, minHeight: "clamp(280px, 38vh, 380px)", display: "flex", alignItems: "center" }}
+      data-template="autoservis-02"
+      data-variant="hero-autoservis-02-page"
+    >
+      {bg && (
+        <div aria-hidden="true" style={{ position: "absolute", inset: 0, backgroundImage: `url(${bg})`, backgroundSize: "cover", backgroundPosition: "center 35%", filter: "brightness(0.3) saturate(0.8) grayscale(0.2)", zIndex: 0 }} />
+      )}
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(180deg, rgba(26,26,26,0.5) 0%, rgba(26,26,26,0.82) 100%)" }} />
+      <div aria-hidden="true" style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 5, background: `linear-gradient(to bottom, ${RED}, rgba(216,42,42,0.3))`, zIndex: 2 }} />
+
+      <div style={{ position: "relative", zIndex: 3, maxWidth: 1200, width: "100%", margin: "0 auto", padding: "0 clamp(16px,4vw,48px)" }}>
+        <nav aria-label="Breadcrumb" style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: SANS, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", marginBottom: 14 }}>
+          <a href={resolve(breadcrumbHref)} className="a02p-bc-link" style={{ color: "rgba(255,255,255,0.55)", textDecoration: "none", transition: "color .25s" }}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden="true" style={{ width: 14, height: 2, background: RED, borderRadius: 1 }} />
+          <span style={{ color: RED }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+        <h1 style={{ fontFamily: SANS, fontSize: "clamp(28px, 4.2vw, 48px)", fontWeight: 800, color: "#fff", lineHeight: 1.1, letterSpacing: "-0.02em", margin: 0 }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        {subtitle.trim() && (
+          <p style={{ fontFamily: SANS, fontSize: "clamp(14px, 1.4vw, 17px)", fontWeight: 500, color: "rgba(255,255,255,0.55)", margin: "10px 0 0", lineHeight: 1.5 }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+        <div aria-hidden="true" style={{ width: 42, height: 3, backgroundColor: RED, borderRadius: 2, marginTop: 18 }} />
+      </div>
     </section>
   );
 }
@@ -9241,10 +9592,13 @@ function HeroAutoservis03({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
   const titleRaw   = String(content.title      ?? "AUTOSERVIS\nPNEUSERVIS");
   const subtitle   = String(content.subtitle   ?? "Moderní technologie");
   const phone      = String(content.phone      ?? "704 123 456");
+  const phoneLabel = String(content.phoneLabel ?? "Objednejte se telefonicky");
   const ctaText    = String(content.ctaText    ?? "Naše služby");
   const ctaHref    = String(content.ctaHref    ?? "#sluzby");
   const cta2Text   = String(content.ctaSecondaryText ?? "Naše práce");
   const cta2Href   = String(content.ctaSecondaryHref ?? "#prace");
+  const scrollLabel = String(content.scrollLabel ?? "Prohlédnout");
+  const bgImage    = String(content.backgroundImage ?? "/templates/autoservis-03/hero-bg.webp");
 
   const BLACK  = "#000000";
   const WHITE  = "#ffffff";
@@ -9258,6 +9612,7 @@ function HeroAutoservis03({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
 
   return (
     <section
+      className="a03-hero"
       style={{
         position: "relative",
         minHeight: "100vh",
@@ -9269,56 +9624,78 @@ function HeroAutoservis03({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
         backgroundColor: BLACK,
       }}
       data-section-id={sectionId}
+      data-template="autoservis-03"
     >
-      {/* Dark diagonal gradient background */}
+      {/* Real cinematic garage photo — dark graded */}
+      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{ position: "absolute", inset: "0" as unknown as number, zIndex: 0 }}>
+        <img loading="eager" src={bgImage} alt="" className="a03-hero-img" style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%",
+          objectFit: "cover", objectPosition: "center",
+          filter: "brightness(0.42) saturate(1.05) contrast(1.05)",
+        }} />
+      </GenericEditableImage>
+
+      {/* Dark diagonal gradient overlay */}
       <div aria-hidden="true" style={{
-        position: "absolute", inset: 0,
-        background: "linear-gradient(135deg, #0f0f0f 0%, #000000 40%, #1a1a1a 100%)",
-        zIndex: 0,
+        position: "absolute", inset: 0, zIndex: 1,
+        background: "linear-gradient(135deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 42%, rgba(10,10,10,0.8) 100%)",
+      }} />
+
+      {/* Orange radial glow behind headline */}
+      <div aria-hidden="true" style={{
+        position: "absolute", inset: 0, zIndex: 2,
+        background: "radial-gradient(ellipse 60% 45% at 50% 44%, rgba(249,115,22,0.18) 0%, transparent 70%)",
       }} />
 
       {/* Subtle grid/dot pattern overlay */}
       <div aria-hidden="true" style={{
-        position: "absolute", inset: 0, zIndex: 1,
-        backgroundImage: "radial-gradient(circle, rgba(249,115,22,0.08) 1px, transparent 1px)",
-        backgroundSize: "40px 40px",
+        position: "absolute", inset: 0, zIndex: 3,
+        backgroundImage: "radial-gradient(circle, rgba(249,115,22,0.06) 1px, transparent 1px)",
+        backgroundSize: "42px 42px",
       }} />
 
       {/* Bottom fade to black */}
       <div aria-hidden="true" style={{
-        position: "absolute", bottom: 0, left: 0, right: 0, height: "30%", zIndex: 2,
+        position: "absolute", bottom: 0, left: 0, right: 0, height: "34%", zIndex: 4,
         background: "linear-gradient(to top, #000000 0%, transparent 100%)",
       }} />
 
-      {/* Content — centrovano, padding-top 64px kvůli fixed navbaru */}
-      <div style={{
+      {/* Content — centrovano, padding-top kvůli fixed navbaru */}
+      <div className="a03-hero-content" style={{
         position: "relative", zIndex: 10,
         display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center",
-        paddingTop: 64, paddingBottom: 80,
+        paddingTop: 78, paddingBottom: 96,
         paddingLeft: "clamp(20px,5vw,60px)", paddingRight: "clamp(20px,5vw,60px)",
-        maxWidth: 900, margin: "0 auto",
+        maxWidth: 960, margin: "0 auto",
       }}>
 
-        {/* Tagline */}
-        <p style={{
-          fontFamily: SANS, fontSize: 13, fontWeight: 500, color: ORANGE,
-          letterSpacing: "3px", textTransform: "uppercase", marginBottom: 24,
+        {/* Tagline pill */}
+        <span className="a03-hero-tag" style={{
+          display: "inline-flex", alignItems: "center", gap: 9,
+          padding: "8px 18px", marginBottom: 30,
+          border: "1px solid rgba(249,115,22,0.35)", borderRadius: 999,
+          background: "rgba(249,115,22,0.08)", backdropFilter: "blur(4px)",
         }}>
-          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-        </p>
+          <span aria-hidden="true" style={{ width: 7, height: 7, borderRadius: "50%", background: ORANGE, boxShadow: `0 0 10px ${ORANGE}`, flexShrink: 0 }} />
+          <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" style={{
+            fontFamily: SANS, fontSize: 12.5, fontWeight: 600, color: "#fdba74",
+            letterSpacing: "2.4px", textTransform: "uppercase",
+          }} />
+        </span>
 
         {/* Main heading — 2 lines, very large */}
-        <h1 style={{ margin: 0, lineHeight: 1.0 }}>
+        <h1 style={{ margin: 0, lineHeight: 0.94 }}>
           <span style={{
             display: "block", fontFamily: SANS, fontWeight: 900, color: WHITE,
-            fontSize: "clamp(56px, 10vw, 120px)", letterSpacing: "-2px", textTransform: "uppercase",
+            fontSize: "clamp(52px, 9.4vw, 128px)", letterSpacing: "-3px", textTransform: "uppercase",
+            textShadow: "0 8px 40px rgba(0,0,0,0.6)",
           }}>
             <GenericEditableText sectionId={sectionId} field="title" value={line1 ?? titleRaw} tag="span" />
           </span>
           {line2 && (
-            <span style={{
+            <span className="a03-hero-outline" style={{
               display: "block", fontFamily: SANS, fontWeight: 900,
-              fontSize: "clamp(56px, 10vw, 120px)", letterSpacing: "-2px", textTransform: "uppercase",
+              fontSize: "clamp(52px, 9.4vw, 128px)", letterSpacing: "-3px", textTransform: "uppercase",
               color: "transparent",
               WebkitTextStroke: `2px ${ORANGE}`,
             }}>
@@ -9329,59 +9706,54 @@ function HeroAutoservis03({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
 
         {/* Subtitle */}
         <p style={{
-          fontFamily: SANS, fontSize: "clamp(14px,1.6vw,18px)", fontWeight: 400, color: MUTED,
-          marginTop: 24, marginBottom: 48, letterSpacing: "1px",
+          fontFamily: SANS, fontSize: "clamp(15px,1.7vw,19px)", fontWeight: 400, color: "#d1d5db",
+          marginTop: 26, marginBottom: 44, letterSpacing: "0.6px", maxWidth: 560, lineHeight: 1.6,
         }}>
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
         </p>
 
-        {/* Phone — prominent */}
-        <a href={`tel:${phone.replace(/\s/g, "")}`} style={{
-          display: "inline-flex", alignItems: "center", gap: 10,
-          fontFamily: SANS, fontSize: "clamp(22px,3vw,36px)", fontWeight: 700, color: WHITE,
-          textDecoration: "none", marginBottom: 40, transition: "color 0.18s",
-        }}
-          onMouseEnter={e => (e.currentTarget.style.color = ORANGE)}
-          onMouseLeave={e => (e.currentTarget.style.color = WHITE)}
-        >
-          <span style={{
-            width: 42, height: 42, borderRadius: "50%",
-            border: `2px solid ${ORANGE}`, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+        {/* Phone — prominent s labelem */}
+        <a href={`tel:${phone.replace(/\s/g, "")}`} className="a03-hero-phone" style={{
+          display: "inline-flex", alignItems: "center", gap: 14,
+          textDecoration: "none", marginBottom: 40,
+        }}>
+          <span className="a03-hero-phone-ic" style={{
+            width: 52, height: 52, borderRadius: "50%",
+            border: `1.5px solid rgba(249,115,22,0.55)`, display: "inline-flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+            transition: "background-color .3s, border-color .3s, transform .3s",
           }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={ORANGE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={ORANGE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
           </span>
-          <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+          <span style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", lineHeight: 1.2 }}>
+            <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" style={{ fontFamily: SANS, fontSize: 11.5, fontWeight: 600, color: MUTED, letterSpacing: "0.16em", textTransform: "uppercase", marginBottom: 3 }} />
+            <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" style={{ fontFamily: SANS, fontSize: "clamp(24px,3vw,34px)", fontWeight: 800, color: WHITE, letterSpacing: "0.4px" }} />
+          </span>
         </a>
 
         {/* CTA buttons */}
         <div style={{ display: "flex", gap: 16, flexWrap: "wrap", justifyContent: "center" }}>
-          <a href={resolve(ctaHref)} data-btn="primary" style={{
+          <a href={resolve(ctaHref)} data-btn="primary" className="a03-hero-cta" style={{
             display: "inline-flex", alignItems: "center", gap: 8,
-            padding: "14px 32px",
+            padding: "15px 34px",
             background: "linear-gradient(to right, #f97316, #ea6c08)",
-            color: WHITE, fontFamily: SANS, fontSize: 15, fontWeight: 700,
-            textDecoration: "none", borderRadius: 12, transition: "opacity 0.18s",
-            boxShadow: "0 4px 20px rgba(249,115,22,0.35)",
-          }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            color: WHITE, fontFamily: SANS, fontSize: 15, fontWeight: 800,
+            textDecoration: "none", borderRadius: 12,
+            boxShadow: "0 6px 24px rgba(249,115,22,0.4)", position: "relative", overflow: "hidden",
+            letterSpacing: "0.3px",
+          }}>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" style={{ position: "relative", zIndex: 1 }} />
+            <svg className="a03-cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ position: "relative", zIndex: 1 }}><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
-          <a href={resolve(cta2Href)} style={{
+          <a href={resolve(cta2Href)} className="a03-hero-cta2" style={{
             display: "inline-flex", alignItems: "center", gap: 8,
-            padding: "14px 32px",
-            border: `2px solid rgba(255,255,255,0.3)`,
+            padding: "15px 34px",
+            border: `1.5px solid rgba(255,255,255,0.28)`,
             color: WHITE, fontFamily: SANS, fontSize: 15, fontWeight: 600,
-            textDecoration: "none", borderRadius: 12, transition: "all 0.18s",
-            backgroundColor: "transparent",
-          }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = ORANGE; e.currentTarget.style.color = ORANGE; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.3)"; e.currentTarget.style.color = WHITE; }}
-          >
+            textDecoration: "none", borderRadius: 12, transition: "border-color .25s, color .25s, background-color .25s",
+            backgroundColor: "rgba(255,255,255,0.02)", backdropFilter: "blur(4px)",
+          }}>
             <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={cta2Text} tag="span" />
           </a>
         </div>
@@ -9389,74 +9761,126 @@ function HeroAutoservis03({ content, sectionId, tenantSlug, isAdmin }: Omit<Prop
       </div>
 
       {/* Scroll indicator */}
-      <div style={{
-        position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)",
-        zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 6,
+      <a href="#statistiky" aria-label={scrollLabel} className="a03-hero-scroll" style={{
+        position: "absolute", bottom: 26, left: "50%", transform: "translateX(-50%)",
+        zIndex: 10, display: "flex", flexDirection: "column", alignItems: "center", gap: 8, textDecoration: "none",
       }}>
-        <div style={{ width: 1, height: 40, background: `linear-gradient(to bottom, ${ORANGE}, transparent)` }} />
-      </div>
+        <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span" style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, color: MUTED, letterSpacing: "0.22em", textTransform: "uppercase" }} />
+        <span aria-hidden="true" className="a03-hero-scroll-line" style={{ width: 1, height: 42, background: `linear-gradient(to bottom, ${ORANGE}, transparent)` }} />
+      </a>
+    </section>
+  );
+}
 
-      <style>{`
-        @media (max-width: 640px) {
-          [data-section-id="${sectionId}"] h1 span { letter-spacing: -1px !important; }
-        }
-      `}</style>
+// ── hero-autoservis-03-page (slim banner pro podstránky) ──────────────────────
+function HeroAutoservis03Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const SANS   = "'Inter','Helvetica Neue',Helvetica,Arial,sans-serif";
+  const ORANGE = "#f97316";
+  const WHITE  = "#ffffff";
+  const MUTED  = "#9ca3af";
+
+  const title      = String(content.title      ?? "Stránka");
+  const breadcrumb = String(content.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const bgImage    = String(content.backgroundImage ?? "/templates/autoservis-03/hero-bg.webp");
+  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+
+  return (
+    <section className="a03-pagehero" data-template="autoservis-03" data-section-id={sectionId}>
+      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{ position: "absolute", inset: "0" as unknown as number, zIndex: 0 }}>
+        <img loading="eager" src={bgImage} alt="" className="a03-pagehero-img" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+      </GenericEditableImage>
+      <div aria-hidden="true" className="a03-pagehero-veil" />
+      <div aria-hidden="true" className="a03-pagehero-grid" />
+      <div className="a03-pagehero-inner">
+        <nav className="a03-pagehero-crumb" aria-label="Drobečková navigace">
+          <a href={resolve(breadcrumbHref)} className="a03-pagehero-crumb-home">
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden="true" className="a03-pagehero-crumb-sep">/</span>
+          <span className="a03-pagehero-crumb-cur">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+        <h1 className="a03-pagehero-h1">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <span aria-hidden="true" className="a03-pagehero-rule" />
+      </div>
     </section>
   );
 }
 
 // ── autoservis-02-hero ───────────────────────────────────────────────────────
-// Fullbleed bg foto + rgba(0,0,0,0.62) overlay; bílý H1 + subtitle + 4 bullet
-// (červená tečka #d82a2a) + červený filled CTA + bílý outline CTA; Open Sans
-// 1:1 referencia: autoservis-garant.cz — expres autoservis Praha
+// Cinematic fullbleed bg + gradient overlay (two-tone) + eyebrow badge + H1 +
+// subtitle + 4 USP bullets (red chevrons) + red CTA + outline CTA.
+// Open Sans, #d82a2a red, garant DNA luxe upgrade. Reveal animations on inner
+// elements only (anti-flash). resolveNavHref for one-page/multi-page.
 // ────────────────────────────────────────────────────────────────────────────
 function HeroAutoservis02({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const title   = String(content.title   ?? "Expres autoservis\nbez čekání");
-  const subtitle = String(content.subtitle ?? "Přijeďte klidně hned — opravíme vaše auto rychle, kvalitně a za fér cenu");
-  const ctaText  = String(content.ctaText  ?? "Objednat servis");
-  const ctaHref  = String(content.ctaHref  ?? "#kontakt");
-  const ctaSecondaryText = String(content.ctaSecondaryText ?? "Naše služby");
+  const title   = String(content.title   ?? "Profesionální servis\nvašeho vozu");
+  const subtitle = String(content.subtitle ?? "Jsme tu pro vás každý den — moderní vybavení, zkušení mechanici a transparentní ceny bez skrytých poplatků.");
+  const eyebrow = String(content.eyebrow ?? "Váš spolehlivý autoservis");
+  const ctaText  = String(content.ctaText  ?? "Domluvit termín");
+  const ctaHref  = String(content.ctaHref  ?? "/kontakt");
+  const ctaSecondaryText = String(content.ctaSecondaryText ?? "Prohlédnout služby");
   const ctaSecondaryHref = String(content.ctaSecondaryHref ?? "/sluzby");
-  const bullets  = (content.bullets as string[] | undefined) ?? [];
-  const bgImage  = String(content.backgroundImage ?? "https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=1600&h=900&fit=crop&fm=webp&q=85");
+  const bullets  = (content.bullets as string[] | undefined) ?? [
+    "Otevřeno pondělí až sobota",
+    "Kompletní servis všech značek",
+    "Garanční prohlídky s plnou zárukou",
+    "Transparentní kalkulace předem"
+  ];
+  const bgImage  = String(content.backgroundImage ?? "/templates/autoservis-02/hero-servis.webp");
+  const siteMode = String(content.siteMode ?? "multipage");
 
   const RED  = "#d82a2a";
   const SANS = "'Open Sans', Arial, sans-serif";
 
-  const resolve = (href: string) => {
-    if (!tenantSlug || href.startsWith("#") || href.startsWith("http")) return href;
-    if (isAdmin) return `/demo/${tenantSlug}/admin`;
-    return `/demo/${tenantSlug}${href === "/" ? "" : href}`;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    <section style={{ position: "relative", width: "100%", minHeight: 560, display: "flex", alignItems: "center" }} data-template="autoservis-02-hero">
-      {/* Background image */}
+    <section id="hero" style={{ position: "relative", width: "100%", minHeight: 620, display: "flex", alignItems: "center", overflow: "hidden" }} data-template="autoservis-02">
+      {/* Background image — cinematic */}
       <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{ position: "absolute", inset: "0" as unknown as number }}>
-        <img loading="eager" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+        <img loading="eager" src={bgImage} alt="" className="a02h-bg" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }} />
       </GenericEditableImage>
 
-      {/* Dark overlay */}
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.62)" }} aria-hidden />
+      {/* Gradient overlay — two-tone: left dark → right transparent red tint */}
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(105deg, rgba(10,10,10,0.82) 0%, rgba(10,10,10,0.68) 50%, rgba(216,42,42,0.18) 100%)" }} aria-hidden="true" />
+      {/* Bottom vignette */}
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 160, background: "linear-gradient(to top, rgba(0,0,0,0.5), transparent)" }} aria-hidden="true" />
+
+      {/* Red accent line — top edge */}
+      <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: 4, background: `linear-gradient(90deg, ${RED} 0%, ${RED} 35%, transparent 100%)` }} aria-hidden="true" />
 
       {/* Content */}
-      <div style={{ position: "relative", zIndex: 2, maxWidth: 1200, margin: "0 auto", padding: "clamp(60px,10vw,100px) clamp(20px,5vw,48px)" }}>
-        {/* H1 */}
-        <h1 style={{ fontFamily: SANS, fontSize: "clamp(32px,5vw,56px)", fontWeight: 900, color: "#ffffff", lineHeight: 1.15, whiteSpace: "pre-line", margin: "0 0 16px", letterSpacing: "-0.5px" }}>
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1280, width: "100%", margin: "0 auto", padding: "clamp(80px,12vw,140px) clamp(20px,5vw,56px) clamp(60px,8vw,100px)" }}>
+
+        {/* Eyebrow badge */}
+        <div className="a02h-reveal" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
+          <span style={{ width: 36, height: 2, background: RED, display: "inline-block", borderRadius: 1 }} aria-hidden="true" />
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, color: RED, textTransform: "uppercase", letterSpacing: "2.5px" }} />
+        </div>
+
+        {/* H1 — large bold */}
+        <h1 className="a02h-reveal" style={{ fontFamily: SANS, fontSize: "clamp(34px,5.5vw,62px)", fontWeight: 900, color: "#ffffff", lineHeight: 1.1, whiteSpace: "pre-line", margin: "0 0 20px", letterSpacing: "-0.6px", maxWidth: 680 }}>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h1>
 
         {/* Subtitle */}
-        <p style={{ fontFamily: SANS, fontSize: "clamp(15px,2vw,18px)", fontWeight: 400, color: "rgba(255,255,255,0.85)", margin: "0 0 28px", maxWidth: 560, lineHeight: 1.6 }}>
+        <p className="a02h-reveal" style={{ fontFamily: SANS, fontSize: "clamp(15px,2vw,18px)", fontWeight: 400, color: "rgba(255,255,255,0.88)", margin: "0 0 32px", maxWidth: 560, lineHeight: 1.65 }}>
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
         </p>
 
-        {/* Bullet USP */}
+        {/* Bullet USP — red chevrons */}
         {bullets.length > 0 && (
-          <ul style={{ listStyle: "none", margin: "0 0 36px", padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+          <ul className="a02h-reveal" style={{ listStyle: "none", margin: "0 0 40px", padding: 0, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "10px 32px", maxWidth: 600 }}>
             {bullets.map((b, i) => (
-              <li key={i} style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: SANS, fontSize: "clamp(13px,1.6vw,15px)", fontWeight: 600, color: "#ffffff" }}>
-                <span style={{ width: 8, height: 8, borderRadius: "50%", backgroundColor: RED, flexShrink: 0, display: "inline-block" }} aria-hidden />
+              <li key={i} style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: SANS, fontSize: "clamp(13px,1.5vw,15px)", fontWeight: 600, color: "#fff" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={RED} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0 }}>
+                  <polyline points="9 18 15 12 9 6"/>
+                </svg>
                 <GenericEditableText sectionId={sectionId} field={`bullets.${i}`} value={b} tag="span" />
               </li>
             ))}
@@ -9464,18 +9888,17 @@ function HeroAutoservis02({ content, sectionId, tenantSlug, isAdmin }: { content
         )}
 
         {/* CTAs */}
-        <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-          <a href={resolve(ctaHref)} data-btn="primary"
-            style={{ display: "inline-flex", alignItems: "center", padding: "14px 28px", backgroundColor: RED, color: "#ffffff", fontFamily: SANS, fontSize: 15, fontWeight: 700, textDecoration: "none", borderRadius: 4, transition: "opacity 0.18s", whiteSpace: "nowrap" }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+        <div className="a02h-reveal" style={{ display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center" }}>
+          <a href={resolve(ctaHref)} className="a02h-cta-primary"
+            style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "16px 32px", backgroundColor: RED, color: "#ffffff", fontFamily: SANS, fontSize: 15, fontWeight: 800, textDecoration: "none", borderRadius: 8, whiteSpace: "nowrap", boxShadow: "0 8px 24px rgba(216,42,42,0.35)", letterSpacing: ".2px" }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg className="a02h-cta-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
           </a>
-          <a href={resolve(ctaSecondaryHref)}
-            style={{ display: "inline-flex", alignItems: "center", padding: "14px 28px", backgroundColor: "transparent", color: "#ffffff", fontFamily: SANS, fontSize: 15, fontWeight: 600, textDecoration: "none", border: "2px solid rgba(255,255,255,0.7)", borderRadius: 4, transition: "border-color 0.18s", whiteSpace: "nowrap" }}
-            onMouseEnter={e => (e.currentTarget.style.borderColor = "#ffffff")}
-            onMouseLeave={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.7)")}
+          <a href={resolve(ctaSecondaryHref)} className="a02h-cta-secondary"
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 28px", backgroundColor: "rgba(255,255,255,0.08)", color: "#ffffff", fontFamily: SANS, fontSize: 15, fontWeight: 600, textDecoration: "none", border: "2px solid rgba(255,255,255,0.45)", borderRadius: 8, whiteSpace: "nowrap", backdropFilter: "blur(4px)" }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
           </a>
@@ -9983,6 +10406,176 @@ function HeroLawyer01({ content, sectionId, tenantSlug, isAdmin }: HeroProps) {
 }
 
 // ── stavba-01-hero ────────────────────────────────────────────────────────────
+// ── rekonstrukce-01-hero ──────────────────────────────────────────────────────
+// Fullbleed realizační foto + warm graphite gradient, left-aligned obsah.
+// Eyebrow s amber hairline, velký H1, 2 CTA, plovoucí 25-let ring badge, review odkaz.
+// Reveal animace jen na inner elementech (section vždy opacity:1 → anti-flash).
+// ──────────────────────────────────────────────────────────────────────────────
+function HeroRekonstrukce01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+
+  const AMBER  = "#C2622B";
+  const AMBER2 = "#A24E1F";
+  const WHITE  = "#ffffff";
+  const FONT   = "'Inter', sans-serif";
+
+  const eyebrow    = String(c.eyebrow    ?? "Rekonstrukce na klíč · Praha a okolí");
+  const title      = String(c.title      ?? "Rekonstrukce bytů, bytových jader a domů na klíč");
+  const subtitle   = String(c.subtitle   ?? "Rychlá, kvalitní a spolehlivá realizace od prvního návrhu po předání hotového díla.");
+  const ctaText    = String(c.ctaText    ?? "Nezávazná poptávka");
+  const ctaHref    = String(c.ctaHref    ?? "/kontakt");
+  const ctaSecText = String(c.ctaSecondaryText ?? "Zobrazit realizace");
+  const ctaSecHref = String(c.ctaSecondaryHref ?? "/reference");
+  const image      = String(c.image ?? "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1800&h=1200&fit=crop&q=88");
+  const badgeNum   = String(c.badgeNumber ?? "25");
+  const badgeLabel = String(c.badgeLabel  ?? "let zkušeností");
+  const reviewLbl  = String(c.reviewLabel ?? "Přečtěte si reference zákazníků");
+  const siteMode   = String(c.siteMode ?? "multipage");
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const Star = () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill={AMBER} aria-hidden="true">
+      <path d="M12 2l2.9 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 7.1-1.01L12 2z"/>
+    </svg>
+  );
+
+  return (
+    <section
+      id="uvod"
+      style={{ position: "relative", minHeight: "100svh", fontFamily: FONT, display: "flex", flexDirection: "column", overflow: "hidden", opacity: 1 }}
+      data-template="rekonstrukce-01"
+    >
+      <style>{`
+        @keyframes rk01heroUp{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes rk01heroZoom{from{transform:scale(1.08);}to{transform:scale(1);}}
+        @keyframes rk01badgeIn{from{opacity:0;transform:scale(.82) rotate(-8deg);}to{opacity:1;transform:scale(1) rotate(0);}}
+        .rk01hero-img{animation:rk01heroZoom 8s cubic-bezier(.2,0,.2,1) both;}
+        .rk01hero-rise{opacity:0;animation:rk01heroUp .8s cubic-bezier(.2,.7,.2,1) both;}
+        .rk01hero-badge{animation:rk01badgeIn .9s cubic-bezier(.34,1.56,.64,1) .5s both;}
+        .rk01hero-cta{position:relative;overflow:hidden;transition:transform .22s ease,box-shadow .25s ease;}
+        .rk01hero-cta::before{content:"";position:absolute;inset:0;background:linear-gradient(140deg,${AMBER2},#8a3f16);opacity:0;transition:opacity .28s ease;z-index:0;}
+        .rk01hero-cta > span{position:relative;z-index:1;}
+        .rk01hero-cta:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(194,98,43,.5);}
+        .rk01hero-cta:hover::before{opacity:1;}
+        .rk01hero-ghost{transition:background .2s ease,border-color .2s ease,transform .2s ease;}
+        .rk01hero-ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.55);transform:translateY(-2px);}
+        .rk01hero-ghost svg{transition:transform .25s ease;}
+        .rk01hero-ghost:hover svg{transform:translateX(4px);}
+        .rk01hero-review{transition:color .2s ease;}
+        .rk01hero-review:hover{color:#fff;}
+        @media(max-width:640px){.rk01hero-badge{display:none!important;}}
+      `}</style>
+
+      {/* Background image + warm gradient */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Rekonstrukce interiéru" className="absolute inset-0 w-full h-full" style={{ height: "100%" }}>
+          <Image src={image} alt="Rekonstrukce interiéru" fill className="object-cover rk01hero-img" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(image)} priority />
+        </GenericEditableImage>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(102deg, rgba(28,22,16,0.90) 0%, rgba(28,22,16,0.64) 46%, rgba(28,22,16,0.30) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(20,16,12,0.42) 0%, transparent 26%, transparent 72%, rgba(20,16,12,0.5) 100%)" }} />
+      </div>
+
+      {/* Content */}
+      <div style={{ position: "relative", zIndex: 1, flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", maxWidth: 1240, margin: "0 auto", padding: "150px 32px 90px", width: "100%" }}>
+        <div className="rk01hero-rise" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 26, width: "fit-content", animationDelay: ".05s" }}>
+          <span style={{ display: "block", width: 38, height: 2, background: AMBER, borderRadius: 2 }} />
+          <span style={{ color: "#F0D8C4", fontSize: "0.8rem", fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase" }}>
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+          </span>
+        </div>
+
+        <h1 className="rk01hero-rise" style={{ color: WHITE, fontSize: "clamp(38px, 5.6vw, 76px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.03em", margin: "0 0 22px", maxWidth: 860, animationDelay: ".15s" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        <p className="rk01hero-rise" style={{ color: "rgba(255,255,255,0.78)", fontSize: "clamp(16px, 1.5vw, 20px)", fontWeight: 400, lineHeight: 1.65, margin: "0 0 40px", maxWidth: 560, animationDelay: ".25s" }}>
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+        </p>
+
+        <div className="rk01hero-rise" style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", animationDelay: ".35s" }}>
+          <a href={resolve(ctaHref)} data-btn="primary" className="rk01hero-cta" style={{ display: "inline-flex", alignItems: "center", background: `linear-gradient(140deg, ${AMBER}, ${AMBER2})`, color: WHITE, fontSize: "0.98rem", fontWeight: 700, padding: "17px 38px", borderRadius: 999, textDecoration: "none", boxShadow: "0 8px 24px rgba(194,98,43,0.42)" }}>
+            <span><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></span>
+          </a>
+          <a href={resolve(ctaSecHref)} className="rk01hero-ghost" style={{ display: "inline-flex", alignItems: "center", gap: 9, color: "rgba(255,255,255,0.9)", fontSize: "0.98rem", fontWeight: 600, padding: "16px 28px", borderRadius: 999, textDecoration: "none", border: "1px solid rgba(255,255,255,0.3)" }}>
+            <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        {/* Review link */}
+        <a href={resolve("/reference")} className="rk01hero-rise rk01hero-review" style={{ display: "inline-flex", alignItems: "center", gap: 10, marginTop: 34, color: "rgba(255,255,255,0.68)", fontSize: "0.9rem", fontWeight: 500, textDecoration: "none", width: "fit-content", animationDelay: ".45s" }}>
+          <span style={{ display: "inline-flex", gap: 2 }}><Star /><Star /><Star /><Star /><Star /></span>
+          <GenericEditableText sectionId={sectionId} field="reviewLabel" value={reviewLbl} tag="span" />
+        </a>
+      </div>
+
+      {/* Floating 25-year ring badge */}
+      <div className="rk01hero-badge" style={{ position: "absolute", right: "clamp(24px, 5vw, 88px)", bottom: "clamp(40px, 8vw, 96px)", zIndex: 2 }}>
+        <div style={{ position: "relative", width: 132, height: 132, borderRadius: "50%", background: "rgba(28,22,16,0.55)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", border: `1.5px solid ${AMBER}`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", boxShadow: "0 18px 44px rgba(20,14,8,0.5)" }}>
+          <span style={{ fontSize: 46, fontWeight: 800, color: WHITE, lineHeight: 1, letterSpacing: "-0.03em" }}>
+            <GenericEditableText sectionId={sectionId} field="badgeNumber" value={badgeNum} tag="span" />
+            <span style={{ color: AMBER, fontSize: 26 }}>+</span>
+          </span>
+          <span style={{ marginTop: 6, fontSize: 11, fontWeight: 600, color: "rgba(255,255,255,0.72)", textTransform: "uppercase", letterSpacing: "0.1em", textAlign: "center", maxWidth: 96, lineHeight: 1.3 }}>
+            <GenericEditableText sectionId={sectionId} field="badgeLabel" value={badgeLabel} tag="span" />
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── rekonstrukce-01-page (slim banner pro podstránky) ─────────────────────────
+// ~340px banner: subdued foto + warm graphite gradient, breadcrumb + H1 + amber rule.
+// ──────────────────────────────────────────────────────────────────────────────
+function HeroRekonstrukce01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const AMBER  = "#C2622B";
+  const WHITE  = "#ffffff";
+  const FONT   = "'Inter', sans-serif";
+
+  const title      = String(c.title ?? "Stránka");
+  const breadcrumb = String(c.breadcrumb ?? "Domů");
+  const bcHref     = String(c.breadcrumbHref ?? "/");
+  const subtitle   = c.subtitle === undefined ? "" : String(c.subtitle);
+  const image      = String(c.backgroundImage ?? c.image ?? "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1800&h=700&fit=crop&q=85");
+  const siteMode   = String(c.siteMode ?? "multipage");
+  const resolve    = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section style={{ position: "relative", fontFamily: FONT, minHeight: "clamp(300px, 42vw, 400px)", display: "flex", alignItems: "flex-end", overflow: "hidden", opacity: 1 }} data-template="rekonstrukce-01">
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={image} alt={title} className="absolute inset-0 w-full h-full" style={{ height: "100%" }}>
+          <Image src={image} alt={title} fill className="object-cover" sizes="100vw" style={{ filter: "brightness(0.62) saturate(0.9)" }} unoptimized={shouldSkipNextImageOptimization(image)} priority />
+        </GenericEditableImage>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(25,21,16,0.72) 0%, rgba(25,21,16,0.55) 45%, rgba(25,21,16,0.82) 100%)" }} />
+      </div>
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1240, margin: "0 auto", padding: "0 32px clamp(38px,5vw,58px)", width: "100%" }}>
+        <nav style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 16, fontSize: "0.86rem", fontWeight: 500 }} aria-label="Drobečková navigace">
+          <a href={resolve(bcHref)} style={{ color: "rgba(255,255,255,0.68)", textDecoration: "none", transition: "color .2s ease" }}
+             onMouseEnter={e => (e.currentTarget.style.color = WHITE)} onMouseLeave={e => (e.currentTarget.style.color = "rgba(255,255,255,0.68)")}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span style={{ color: AMBER }} aria-hidden="true">/</span>
+          <span style={{ color: "rgba(255,255,255,0.92)" }}>{title}</span>
+        </nav>
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <span style={{ display: "block", width: 40, height: 3, background: AMBER, borderRadius: 2, flexShrink: 0 }} />
+          <h1 style={{ color: WHITE, fontSize: "clamp(30px,5vw,52px)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.025em", margin: 0 }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+        </div>
+        {subtitle.trim() && (
+          <p style={{ color: "rgba(255,255,255,0.74)", fontSize: "1.02rem", lineHeight: 1.6, margin: "16px 0 0", maxWidth: 560, paddingLeft: 54 }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
+
 function HeroStavba01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = content as Record<string, unknown>;
 
@@ -10128,9 +10721,9 @@ function HeroStavba01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
   );
 }
 
-function S02StatItem({ end, suffix, label, format, run, font, brown, white, sectionId, fieldPrefix }: {
+function S02StatItem({ end, suffix, label, format, run, font, numColor, labelColor, sectionId, fieldPrefix }: {
   end: number; suffix: string; label: string; format?: (n: number) => string;
-  run: boolean; isLast?: boolean; font: string; brown: string; white: string;
+  run: boolean; isLast?: boolean; font: string; numColor: string; labelColor: string;
   sectionId: number; fieldPrefix: string;
 }) {
   const [val, setVal] = useState(0);
@@ -10148,16 +10741,15 @@ function S02StatItem({ end, suffix, label, format, run, font, brown, white, sect
   }, [run, end]);
   const display = format ? format(val) : val.toString();
   return (
-    <div style={{ textAlign: "left", padding: "0 24px 0 0" }}>
-      <div style={{ fontFamily: font, fontSize: "clamp(32px, 3.8vw, 48px)", fontWeight: 800, color: brown, lineHeight: 1, letterSpacing: "-0.02em" }}>
+    <div style={{ textAlign: "center", padding: "4px 12px" }}>
+      <div style={{ fontFamily: font, fontSize: "clamp(34px, 4vw, 52px)", fontWeight: 800, color: numColor, lineHeight: 1, letterSpacing: "-0.02em" }}>
         {display}<GenericEditableText sectionId={sectionId} field={`${fieldPrefix}.suffix`} value={suffix} tag="span" />
       </div>
-      <div style={{ fontFamily: font, fontSize: "0.75rem", color: "rgba(255,255,255,0.52)", marginTop: 6, lineHeight: 1.4, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+      <div style={{ fontFamily: font, fontSize: "0.72rem", fontWeight: 600, color: labelColor, marginTop: 9, lineHeight: 1.4, textTransform: "uppercase", letterSpacing: "0.1em" }}>
         <GenericEditableText sectionId={sectionId} field={`${fieldPrefix}.label`} value={label} tag="span" />
       </div>
     </div>
   );
-  void white;
 }
 
 // ── stavba-02-hero ────────────────────────────────────────────────────────────
@@ -10169,75 +10761,77 @@ function HeroStavba02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
   const [slide, setSlide] = useState(0);
 
   const BROWN  = "#674832";
+  const DARKBR = "#3D2516";
   const WHITE  = "#ffffff";
   const CREAM  = "#F8F5F0";
-  const DARK   = "#2D1A0F";
+  const MUTED  = "#7A6454";
   const FONT   = "'Roboto', sans-serif";
 
+  const eyebrow     = String(c.eyebrow     ?? "Rekonstrukce bytů · jádra · koupelny");
   const title       = String(c.title       ?? "Profesionální rekonstrukce bytů, bytových jader a domů na klíč");
   const subtitle    = String(c.subtitle    ?? "Rychlá, kvalitní a spolehlivá realizace.");
   const ctaText     = String(c.ctaText     ?? "Nezávazná poptávka");
-  const ctaHref     = String(c.ctaHref     ?? "#kontakt");
+  const ctaHref     = String(c.ctaHref     ?? "/poptavka");
   const ctaSecText  = String(c.ctaSecondaryText  ?? "Zobrazit realizace");
   const ctaSecHref  = String(c.ctaSecondaryHref  ?? "/fotogalerie");
   const refLinkText = String(c.refLinkText ?? "Přečtěte si reference zákazníků");
   const refLinkHref = String(c.refLinkHref ?? "/reference");
+  const siteMode    = String(c.siteMode ?? "multipage");
 
   const defaultImages = [
-    "https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?w=1800&h=1000&fit=crop&fm=webp&q=90",
-    "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1800&h=1000&fit=crop&fm=webp&q=90",
-    "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=1800&h=1000&fit=crop&fm=webp&q=90",
+    "/templates/stavba-02/hero-1.webp",
+    "/templates/stavba-02/hero-2.webp",
+    "/templates/stavba-02/hero-3.webp",
   ];
   const images = ((c.images as string[]) ?? []).filter(Boolean).length >= 2
     ? (c.images as string[])
     : defaultImages;
 
   const uspItems = (c.uspItems as Array<{ icon: string; title: string; text?: string }>) ?? [
-    { icon: "clock",  title: "Dlouholeté zkušenosti",       text: "Více než 25 let praxe v oblasti rekonstrukcí bytů a jader." },
-    { icon: "shield", title: "Profesionální servis",         text: "Garantujeme vysoký standard práce a dodržení termínů." },
-    { icon: "check",  title: "Kvalitní a ověřené materiály", text: "Používáme pouze prověřené materiály od spolehlivých dodavatelů." },
+    { icon: "clock",  title: "Více než dekáda zkušeností",  text: "Od roku 2013 realizujeme rekonstrukce bytů, jader a domů po celé Praze a okolí." },
+    { icon: "shield", title: "Záruky a smluvní jistota",    text: "Na veškeré provedené práce poskytujeme záruku a pracujeme výhradně se smlouvou." },
+    { icon: "check",  title: "Ověřené materiály a postupy", text: "Spolupracujeme jen s důvěryhodnými dodavateli a používáme certifikované materiály." },
   ];
 
-  const resolve = (href: string) => {
-    if (!href || href.startsWith("http") || href.startsWith("#")) return href;
-    if (tenantSlug) {
-      const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
-      return base + (href.startsWith("/") ? href : "/" + href);
-    }
-    return href;
-  };
+  const statsRaw = (c.stats as Array<{ end?: number; suffix?: string; label?: string }>) ?? [
+    { end: 38,   suffix: "+",    label: "Dokončených realizací" },
+    { end: 9400, suffix: " m²",  label: "Zrekonstruované plochy" },
+    { end: 11,   suffix: " let", label: "Zkušeností v oboru" },
+  ];
 
-  const statsRef = useRef<HTMLDivElement>(null);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const rootRef = useRef<HTMLDivElement>(null);
   const [statsVisible, setStatsVisible] = useState(false);
 
   useEffect(() => {
     if (images.length < 2) return;
-    const t = setInterval(() => setSlide(s => (s + 1) % images.length), 3500);
+    const t = setInterval(() => setSlide(s => (s + 1) % images.length), 5000);
     return () => clearInterval(t);
   }, [images.length]);
 
   useEffect(() => {
-    const el = statsRef.current;
+    const el = rootRef.current;
     if (!el) return;
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setStatsVisible(true); obs.disconnect(); } }, { threshold: 0.3 });
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
 
-  const UspIcon = ({ icon, size = 28 }: { icon: string; size?: number }) => {
+  const UspIcon = ({ icon, size = 26 }: { icon: string; size?: number }) => {
     const s = { width: size, height: size };
     if (icon === "clock") return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={s}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={s}>
         <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
       </svg>
     );
     if (icon === "shield") return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={s}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={s}>
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
       </svg>
     );
     return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={s}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={s}>
         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/>
       </svg>
     );
@@ -10246,78 +10840,108 @@ function HeroStavba02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
   return (
     <section
       id="uvod"
-      ref={statsRef}
-      style={{ position: "relative", minHeight: "clamp(520px, 48vw, 640px)", display: "flex", flexDirection: "column", fontFamily: FONT, isolation: "isolate", overflow: "hidden" }}
+      ref={rootRef}
+      style={{ position: "relative", backgroundColor: CREAM, fontFamily: FONT, paddingBottom: "clamp(56px, 6vw, 88px)" }}
       data-template="stavba-02"
     >
-      {/* Slides */}
-      {images.map((src, i) => (
-        <div key={i} style={{ position: "absolute", inset: 0, opacity: i === slide ? 1 : 0, transition: "opacity 0.8s ease", animation: i === slide ? "s02HeroZoom 4s ease-out forwards" : "none" }}>
-          <GenericEditableImage sectionId={sectionId} field={`images.${i}`} src={src} alt={`Rekonstrukce realizace ${i + 1}`} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
-            <Image src={src} alt={`Rekonstrukce realizace ${i + 1}`} fill className="object-cover" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(src)} priority={i === 0} />
-          </GenericEditableImage>
+      {/* ── Photo hero ─────────────────────────────────────────────── */}
+      <div style={{ position: "relative", minHeight: "clamp(540px, 52vw, 700px)", display: "flex", alignItems: "center", overflow: "hidden", isolation: "isolate" }}>
+        {/* Slides */}
+        {images.map((src, i) => (
+          <div key={i} style={{ position: "absolute", inset: 0, opacity: i === slide ? 1 : 0, transition: "opacity 1s ease", zIndex: 0 }}>
+            <GenericEditableImage sectionId={sectionId} field={`images.${i}`} src={src} alt={`Rekonstrukce realizace ${i + 1}`} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
+              <div style={{ position: "absolute", inset: 0, animation: i === slide ? "s02HeroZoom 6s ease-out forwards" : "none" }}>
+                <Image src={src} alt={`Rekonstrukce realizace ${i + 1}`} fill className="object-cover" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(src)} priority={i === 0} />
+              </div>
+            </GenericEditableImage>
+          </div>
+        ))}
+
+        {/* Cinematic left-weighted overlay */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(100deg, rgba(30,17,8,0.82) 0%, rgba(30,17,8,0.55) 42%, rgba(30,17,8,0.18) 72%, rgba(30,17,8,0.05) 100%)", zIndex: 1 }} aria-hidden="true" />
+        <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "35%", background: "linear-gradient(to bottom, transparent, rgba(30,17,8,0.4))", zIndex: 1, pointerEvents: "none" }} aria-hidden="true" />
+
+        {/* Content */}
+        <div style={{ position: "relative", zIndex: 3, maxWidth: 1220, margin: "0 auto", padding: "clamp(40px,6vw,72px) clamp(16px,4vw,36px)", width: "100%" }}>
+          <div style={{ maxWidth: 720 }}>
+            {/* Eyebrow */}
+            <div className="s02-hero-eyebrow" style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 22 }}>
+              <span style={{ width: 34, height: 2, background: "#C4956A", borderRadius: 2, flexShrink: 0 }} aria-hidden="true" />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" style={{ fontFamily: FONT, fontSize: "0.72rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "#E4C9A8" }} />
+            </div>
+            <h1 style={{ fontFamily: FONT, color: WHITE, fontSize: "clamp(30px, 4.4vw, 58px)", fontWeight: 700, lineHeight: 1.13, letterSpacing: "-0.022em", margin: "0 0 20px", textShadow: "0 2px 22px rgba(0,0,0,0.4)" }}>
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </h1>
+            <p style={{ color: "rgba(255,255,255,0.86)", fontSize: "clamp(15px, 1.5vw, 18px)", lineHeight: 1.68, margin: "0 0 32px", maxWidth: 520 }}>
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+            <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+              <a href={resolve(ctaHref)} data-btn="primary" className="s02-hero-cta" style={{ display: "inline-flex", alignItems: "center", gap: 9, backgroundColor: BROWN, color: WHITE, fontFamily: FONT, fontSize: "0.9rem", fontWeight: 600, padding: "14px 30px", borderRadius: 8, textDecoration: "none", whiteSpace: "nowrap", boxShadow: "0 10px 26px rgba(61,37,22,0.42)" }}>
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <svg className="s02-hero-cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+              <a href={resolve(ctaSecHref)} className="s02-hero-cta-ghost" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(255,255,255,0.08)", color: WHITE, border: "1px solid rgba(255,255,255,0.42)", fontFamily: FONT, fontSize: "0.9rem", fontWeight: 600, padding: "14px 30px", borderRadius: 8, textDecoration: "none", whiteSpace: "nowrap", backdropFilter: "blur(4px)", transition: "background-color .22s, border-color .22s" }}>
+                <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
+              </a>
+            </div>
+            <div style={{ marginTop: 20 }}>
+              <a href={resolve(refLinkHref)} className="s02-hero-reflink" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "rgba(255,255,255,0.72)", fontFamily: FONT, fontSize: "0.84rem", fontWeight: 500, textDecoration: "none" }}>
+                <GenericEditableText sectionId={sectionId} field="refLinkText" value={refLinkText} tag="span" />
+                <span className="s02-hero-reflink-arrow" aria-hidden="true" style={{ display: "inline-block" }}>→</span>
+              </a>
+            </div>
+          </div>
         </div>
-      ))}
 
-      {/* Uniform overlay */}
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.28)", zIndex: 1 }} />
-
-      {/* Bottom gradient — fades to dark where stats live */}
-      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "45%", background: "linear-gradient(to bottom, transparent 0%, rgba(20,8,2,0.82) 100%)", zIndex: 2, pointerEvents: "none" }} />
-
-      {/* Main content — upper area */}
-      <div style={{ position: "relative", zIndex: 3, flex: 1, display: "flex", alignItems: "center", maxWidth: 1200, margin: "0 auto", padding: "48px clamp(16px, 4vw, 32px) 20px", width: "100%" }}>
-        <div style={{ maxWidth: 700 }}>
-          <h1 style={{ color: WHITE, fontSize: "clamp(28px, 4vw, 56px)", fontWeight: 700, lineHeight: 1.15, letterSpacing: "-0.02em", margin: "0 0 18px", textShadow: "0 2px 16px rgba(0,0,0,0.45)" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h1>
-          <p style={{ color: "rgba(255,255,255,0.85)", fontSize: "clamp(14px, 1.4vw, 17px)", lineHeight: 1.65, margin: "0 0 28px", maxWidth: 480 }}>
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-          </p>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-            <a href={resolve(ctaHref)} data-btn="primary" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", backgroundColor: BROWN, color: WHITE, fontFamily: FONT, fontSize: "0.88rem", fontWeight: 600, padding: "12px 28px", borderRadius: 6, textDecoration: "none", whiteSpace: "nowrap", transition: "opacity 0.18s" }} onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; }} onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}>
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
-            <a href={resolve(ctaSecHref)} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", backgroundColor: WHITE, color: BROWN, fontFamily: FONT, fontSize: "0.88rem", fontWeight: 600, padding: "12px 28px", borderRadius: 8, textDecoration: "none", whiteSpace: "nowrap", boxShadow: "0 2px 10px rgba(0,0,0,0.2)", transition: "opacity 0.18s" }} onMouseEnter={e => { e.currentTarget.style.opacity = "0.9"; }} onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}>
-              <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
-            </a>
+        {/* Slide dots */}
+        {images.length > 1 && (
+          <div style={{ position: "absolute", bottom: 18, right: "clamp(16px,4vw,36px)", zIndex: 4, display: "flex", gap: 7 }}>
+            {images.map((_, i) => (
+              <button key={i} onClick={() => setSlide(i)} aria-label={`Slide ${i + 1}`} style={{ width: i === slide ? 26 : 8, height: 8, borderRadius: 4, border: "none", cursor: "pointer", backgroundColor: i === slide ? "#E4C9A8" : "rgba(255,255,255,0.4)", padding: 0, transition: "width 0.35s cubic-bezier(.4,0,.2,1), background-color 0.35s" }} />
+            ))}
           </div>
-          <div style={{ marginTop: 16 }}>
-            <a href={resolve(refLinkHref)} style={{ color: "rgba(255,255,255,0.7)", fontFamily: FONT, fontSize: "0.82rem", fontWeight: 500, textDecoration: "underline", textUnderlineOffset: 4, transition: "color 0.15s" }} onMouseEnter={e => { e.currentTarget.style.color = WHITE; }} onMouseLeave={e => { e.currentTarget.style.color = "rgba(255,255,255,0.7)"; }}>
-              <GenericEditableText sectionId={sectionId} field="refLinkText" value={refLinkText} tag="span" />
-            </a>
-          </div>
+        )}
+      </div>
+
+      {/* ── USP overlap cards ──────────────────────────────────────── */}
+      <div style={{ position: "relative", zIndex: 5, maxWidth: 1220, margin: "0 auto", padding: "0 clamp(16px,4vw,36px)", marginTop: "clamp(-56px, -5vw, -76px)" }}>
+        <div className="s02-usp-grid">
+          {uspItems.slice(0, 3).map((u, i) => (
+            <div key={i} className="s02-usp-card" style={{ background: WHITE, borderRadius: 14, border: "1px solid rgba(103,72,50,0.10)", boxShadow: "0 16px 44px rgba(61,37,22,0.13)", padding: "26px 26px 28px" }}>
+              <span className="s02-usp-badge" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 52, height: 52, borderRadius: 12, backgroundColor: "rgba(103,72,50,0.09)", color: BROWN, marginBottom: 18 }}>
+                <UspIcon icon={u.icon} />
+              </span>
+              <h3 style={{ fontFamily: FONT, fontSize: "1.06rem", fontWeight: 700, color: DARKBR, margin: "0 0 8px", letterSpacing: "-0.01em" }}>
+                <GenericEditableText sectionId={sectionId} field={`uspItems.${i}.title`} value={String(u.title ?? "")} tag="span" />
+              </h3>
+              <p style={{ fontFamily: FONT, fontSize: "0.9rem", lineHeight: 1.62, color: MUTED, margin: 0 }}>
+                <GenericEditableText sectionId={sectionId} field={`uspItems.${i}.text`} value={String(u.text ?? "")} tag="span" />
+              </p>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Stats — overlaid on the bottom gradient, inside the hero */}
-      <div style={{ position: "relative", zIndex: 3, maxWidth: 1200, margin: "0 auto", width: "100%", padding: "0 clamp(16px, 4vw, 32px) 28px" }}>
+      {/* ── Stats row ──────────────────────────────────────────────── */}
+      <div style={{ position: "relative", zIndex: 5, maxWidth: 1000, margin: "clamp(40px,5vw,60px) auto 0", padding: "0 clamp(16px,4vw,36px)" }}>
         <div className="s02-stats-row">
-          {(([
-            { end: 46,    suffix: "+",    label: "Realizovaných projektů",      key: "stats.0" },
-            { end: 12860, suffix: " m²",  label: "Postaveno a zrekonstruováno", key: "stats.1", fmt: (n: number) => n.toLocaleString("cs-CZ") },
-            { end: 15,    suffix: " let", label: "Zkušeností na trhu",          key: "stats.2" },
-          ]) as Array<{ end: number; suffix: string; label: string; key: string; fmt?: (n: number) => string }>).map((stat, i) => (
-            <S02StatItem key={i} end={stat.end} suffix={stat.suffix} label={stat.label} format={stat.fmt} run={statsVisible} isLast={i === 2} font={FONT} brown={"#C4956A"} white={WHITE} sectionId={sectionId} fieldPrefix={stat.key} />
+          {statsRaw.slice(0, 3).map((stat, i) => (
+            <S02StatItem
+              key={i}
+              end={Number(stat.end ?? 0)}
+              suffix={String(stat.suffix ?? "")}
+              label={String(stat.label ?? "")}
+              format={Number(stat.end ?? 0) >= 1000 ? (n: number) => n.toLocaleString("cs-CZ") : undefined}
+              run={statsVisible}
+              font={FONT}
+              numColor={BROWN}
+              labelColor={MUTED}
+              sectionId={sectionId}
+              fieldPrefix={`stats.${i}`}
+            />
           ))}
         </div>
       </div>
-
-      {/* Slide dots */}
-      {images.length > 1 && (
-        <div style={{ position: "absolute", bottom: 10, right: 32, zIndex: 4, display: "flex", gap: 6 }}>
-          {images.map((_, i) => (
-            <button key={i} onClick={() => setSlide(i)} aria-label={`Slide ${i + 1}`} style={{ width: i === slide ? 20 : 6, height: 6, borderRadius: 3, border: "none", cursor: "pointer", backgroundColor: i === slide ? WHITE : "rgba(255,255,255,0.35)", padding: 0, transition: "width 0.3s, background-color 0.3s" }} />
-          ))}
-        </div>
-      )}
-
-      <style>{`
-        @keyframes s02HeroZoom { from { transform: scale(1); } to { transform: scale(1.07); } }
-        .s02-stats-row { display: flex; gap: 0; }
-        .s02-stats-row > * { flex: 1; }
-        @media (max-width: 600px) { .s02-stats-row { flex-direction: column; gap: 8px; } }
-      `}</style>
     </section>
   );
 }
@@ -10346,9 +10970,9 @@ function HeroStavba03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
   const ctaSecHref  = String(c.ctaSecondaryHref  ?? "#reference");
 
   const defaultImages = [
-    "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1800&h=1000&fit=crop&fm=webp&q=85",
-    "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1800&h=1000&fit=crop&fm=webp&q=85",
-    "https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1800&h=1000&fit=crop&fm=webp&q=85",
+    "/templates/stavba-03/hero-1.webp",
+    "/templates/stavba-03/hero-2.webp",
+    "/templates/stavba-03/hero-3.webp",
   ];
   const rawImages = ((c.images as string[]) ?? []).filter(Boolean);
   const images = rawImages.length >= 2 ? rawImages : defaultImages;
@@ -10478,8 +11102,9 @@ function HeroStavba03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
             </div>
           );
         })}
-        {/* Overlay */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.22) 60%, rgba(0,0,0,0.42) 100%)", zIndex: 3 }} />
+        {/* Overlay — left-weighted vignette for cinematic text readability */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(15,13,12,0.72) 0%, rgba(15,13,12,0.42) 42%, rgba(15,13,12,0.12) 75%, rgba(15,13,12,0.05) 100%)", zIndex: 3 }} aria-hidden="true" />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.0) 45%, rgba(0,0,0,0.35) 100%)", zIndex: 3 }} aria-hidden="true" />
       </div>
 
       {/* Slider arrows */}
@@ -10543,7 +11168,7 @@ function HeroStavba03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
         </div>
 
         {/* H1 */}
-        <h1 style={{ color: WHITE, fontSize: "clamp(2rem, 4.5vw, 3.6rem)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.01em", margin: "0 0 20px", maxWidth: 780 }}>
+        <h1 style={{ fontFamily: FONT, color: WHITE, fontSize: "clamp(2.1rem, 4.7vw, 3.85rem)", fontWeight: 800, lineHeight: 1.08, letterSpacing: "-0.015em", margin: "0 0 22px", maxWidth: 820, textShadow: "0 2px 30px rgba(0,0,0,0.35)" }}>
           <GenericEditableText sectionId={sectionId} field="headline" value={headline} tag="span" />
         </h1>
 
@@ -10557,12 +11182,13 @@ function HeroStavba03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           <a
             href={resolve(ctaHref)}
             data-btn="primary"
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, backgroundColor: ORANGE, color: WHITE, fontFamily: FONT, fontSize: "0.9rem", fontWeight: 600, padding: "14px 30px", borderRadius: 3, textDecoration: "none", letterSpacing: "0.02em", boxShadow: "0 4px 20px rgba(250,125,25,0.40)", transition: "opacity 0.18s, transform 0.18s" }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = "0.9"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
+            className="st03-hero-cta"
+            style={{ display: "inline-flex", alignItems: "center", gap: 9, backgroundColor: ORANGE, color: WHITE, fontFamily: FONT, fontSize: "0.92rem", fontWeight: 700, padding: "15px 32px", borderRadius: 3, textDecoration: "none", letterSpacing: "0.02em", boxShadow: "0 8px 26px rgba(250,125,25,0.42)", transition: "background-color 0.2s, transform 0.2s, box-shadow 0.2s" }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#e86f0e"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 12px 32px rgba(250,125,25,0.52)"; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = ORANGE; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 8px 26px rgba(250,125,25,0.42)"; }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            <svg className="st03-hero-cta-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
           <a
             href={resolve(ctaSecHref)}
@@ -10597,10 +11223,10 @@ function HeroStavba03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
                   display: "flex", flexDirection: "column", alignItems: "center", gap: 4, textAlign: "center",
                 }}
               >
-                <div style={{ fontFamily: FONT, fontSize: "clamp(28px,3.5vw,40px)", fontWeight: 700, color: ORANGE, lineHeight: 1 }}>
-                  {displayNum}<span style={{ fontSize: "0.55em", fontWeight: 600, color: DARK, opacity: 0.7 }}>{stat.suffix}</span>
+                <div style={{ fontFamily: FONT, fontSize: "clamp(28px,3.5vw,42px)", fontWeight: 800, color: ORANGE, lineHeight: 1, letterSpacing: "-0.02em" }}>
+                  {displayNum}<GenericEditableText sectionId={sectionId} field={`statsItems.${i}.suffix`} value={stat.suffix} tag="span" style={{ fontSize: "0.55em", fontWeight: 600, color: DARK, opacity: 0.7 }} />
                 </div>
-                <div style={{ fontFamily: FONT, fontSize: "0.85rem", color: "#555", fontWeight: 400 }}>{stat.label}</div>
+                <GenericEditableText sectionId={sectionId} field={`statsItems.${i}.label`} value={stat.label} tag="div" style={{ fontFamily: FONT, fontSize: "0.85rem", color: "#555", fontWeight: 400 }} />
               </div>
             );
           })}
@@ -10619,6 +11245,112 @@ function HeroStavba03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
   );
 }
 
+// ── hero-stavba-03-page ───────────────────────────────────────────────────────
+// Slim banner pro podstránky: tmavé bg foto + overlay, breadcrumb + H1 + orange rule
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroStavba03Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const ORANGE = "#fa7d19";
+  const WHITE  = "#ffffff";
+  const FONT   = "'Roboto', sans-serif";
+
+  const title          = String(c.title ?? c.headline ?? "Stránka");
+  const breadcrumb     = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const bg             = String(c.backgroundImage ?? "/templates/stavba-03/hero-2.webp");
+
+  function resolve(href: string) {
+    if (!href || href.startsWith("http") || href.startsWith("#")) return href;
+    if (tenantSlug) {
+      const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
+      return base + (href === "/" ? "" : href.startsWith("/") ? href : "/" + href);
+    }
+    return href;
+  }
+
+  return (
+    <section
+      style={{ position: "relative", minHeight: 340, display: "flex", alignItems: "center", fontFamily: FONT, overflow: "hidden" }}
+      data-template="stavba-03"
+    >
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt={title} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
+          <Image src={bg} alt={title} fill className="object-cover" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} priority />
+        </GenericEditableImage>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(15,13,12,0.86) 0%, rgba(15,13,12,0.62) 55%, rgba(15,13,12,0.42) 100%)" }} aria-hidden="true" />
+      </div>
+
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1200, width: "100%", margin: "0 auto", padding: "96px 32px 40px" }}>
+        {/* Breadcrumb */}
+        <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 14, fontSize: "0.8rem", fontWeight: 600, letterSpacing: "0.04em" }}>
+          <a href={resolve(breadcrumbHref)} className="st03-crumb" style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none" }}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden="true" style={{ color: ORANGE }}>/</span>
+          <span style={{ color: ORANGE }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </div>
+        {/* Title */}
+        <h1 style={{ fontFamily: FONT, color: WHITE, fontSize: "clamp(1.9rem, 3.6vw, 2.9rem)", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.12, margin: 0, textShadow: "0 2px 24px rgba(0,0,0,0.4)" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <span aria-hidden="true" style={{ display: "block", width: 60, height: 4, background: ORANGE, borderRadius: 2, marginTop: 20 }} />
+      </div>
+    </section>
+  );
+}
+
+// ── hero-stavba-02-page ───────────────────────────────────────────────────────
+// Slim subpage banner — subdued reconstruction photo + warm brown gradient,
+// breadcrumb (Domů / Stránka) + Roboto H1 + gold rule. Cream/brown character.
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroStavba02Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const GOLD  = "#C4956A";
+  const WHITE = "#ffffff";
+  const FONT  = "'Roboto', sans-serif";
+
+  const title          = String(c.title ?? c.headline ?? "Stránka");
+  const breadcrumb     = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const bg             = String(c.backgroundImage ?? "/templates/stavba-02/hero-2.webp");
+  const siteMode       = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section
+      style={{ position: "relative", minHeight: 360, display: "flex", alignItems: "center", fontFamily: FONT, overflow: "hidden" }}
+      data-template="stavba-02"
+    >
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt={title} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
+          <Image src={bg} alt={title} fill className="object-cover" sizes="100vw" style={{ filter: "saturate(0.92)" }} unoptimized={shouldSkipNextImageOptimization(bg)} priority />
+        </GenericEditableImage>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(96deg, rgba(30,17,8,0.9) 0%, rgba(30,17,8,0.7) 52%, rgba(30,17,8,0.5) 100%)" }} aria-hidden="true" />
+      </div>
+
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1220, width: "100%", margin: "0 auto", padding: "104px clamp(16px,4vw,36px) 44px" }}>
+        {/* Breadcrumb */}
+        <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 15, fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.05em" }}>
+          <a href={resolve(breadcrumbHref)} className="s02-crumb" style={{ color: "rgba(255,255,255,0.72)", textDecoration: "none", transition: "color .2s" }}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden="true" style={{ color: GOLD }}>/</span>
+          <span style={{ color: GOLD }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </div>
+        {/* Title */}
+        <h1 style={{ fontFamily: FONT, color: WHITE, fontSize: "clamp(1.9rem, 3.6vw, 3rem)", fontWeight: 700, letterSpacing: "-0.022em", lineHeight: 1.12, margin: 0, textShadow: "0 2px 24px rgba(0,0,0,0.4)" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <span aria-hidden="true" style={{ display: "block", width: 60, height: 4, background: "linear-gradient(90deg, #674832, #C4956A)", borderRadius: 2, marginTop: 20 }} />
+      </div>
+    </section>
+  );
+}
+
 // ── elektro-01-hero ───────────────────────────────────────────────────────────
 // 1:1 elektro-bohacek.cz: full-bleed foto, tmavý+červený gradient, navbar fixed overlay
 // H1 uppercase, 1 CTA "KONTAKTUJTE NÁS", SVG wave dole
@@ -10626,26 +11358,24 @@ function HeroStavba03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
 function HeroElektro01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = content as Record<string, unknown>;
 
-  const RED  = "#dd0808";
+  const RED   = "#dd0808";
   const WHITE = "#ffffff";
   const FONT  = "'Montserrat', sans-serif";
+  const BODY  = "'Roboto', sans-serif";
 
-  const title    = String(c.title    ?? "ELEKTROINSTALACE\nHROMOSVODY");
-  const subtitle = String(c.subtitle ?? "Kvalitně odvedená práce, spokojený zákazník.");
-  const ctaText  = String(c.ctaText  ?? "KONTAKTUJTE NÁS");
-  const ctaHref  = String(c.ctaHref  ?? "#kontakt");
-  const image    = String(c.backgroundImage ?? "");
+  const title       = String(c.title       ?? "PROFESIONÁLNÍ\nELEKTROINSTALACE");
+  const subtitle    = String(c.subtitle    ?? "Spolehlivé elektro práce a hromosvody pro rodinné domy, byty i komerční objekty v Praze a okolí.");
+  const ctaText     = String(c.ctaText     ?? "ZASLAT POPTÁVKU");
+  const ctaHref     = String(c.ctaHref     ?? "/kontakt");
+  const cta2Text    = String(c.cta2Text    ?? "Naše služby");
+  const cta2Href    = String(c.cta2Href    ?? "/sluzby");
+  const image       = String(c.backgroundImage ?? "");
 
-  /* elektrikář při práci — tmavé prostředí, helma, podobné elektro-bohacek.cz */
-  const heroImg = image || "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=1800&h=1000&fit=crop&crop=right&fm=webp&q=90";
+  const heroImg = image || "/templates/elektro-01/hero-bg.webp";
 
+  const siteMode = String(c.siteMode ?? "multipage");
   function resolve(href: string) {
-    if (!href || href.startsWith("http") || href.startsWith("#")) return href;
-    if (tenantSlug) {
-      const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
-      return base + (href.startsWith("/") ? href : "/" + href);
-    }
-    return href;
+    return resolveNavHref(href, siteMode, tenantSlug, isAdmin);
   }
 
   return (
@@ -10654,7 +11384,6 @@ function HeroElektro01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
       style={{ position: "relative", minHeight: "100svh", fontFamily: FONT, display: "flex", flexDirection: "column" }}
       data-template="elektro-01"
     >
-      {/* Background photo */}
       <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
         <GenericEditableImage
           sectionId={sectionId} field="backgroundImage" src={heroImg}
@@ -10666,77 +11395,136 @@ function HeroElektro01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
             style={{ objectPosition: "right center" }}
             unoptimized={shouldSkipNextImageOptimization(heroImg)} priority />
         </GenericEditableImage>
-        {/* tmavý gradient vlevo → červený vpravo — jako na referenci */}
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(80deg, rgba(0,0,0,0.88) 45%, rgba(120,0,0,0.78) 100%)" }} aria-hidden />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(75deg, rgba(0,0,0,0.92) 40%, rgba(100,0,0,0.75) 100%)" }} aria-hidden />
       </div>
 
-      {/* Text content — vertikálně centrované, padding pro výšku navbaru */}
       <div style={{
         position: "relative", zIndex: 1, flex: 1,
         display: "flex", flexDirection: "column", justifyContent: "center",
         maxWidth: 1280, margin: "0 auto",
-        padding: "clamp(100px,14vw,140px) clamp(16px,5vw,40px) clamp(60px,9vw,100px)", width: "100%",
+        padding: "clamp(110px,14vw,150px) clamp(20px,5vw,40px) clamp(80px,10vw,120px)", width: "100%",
       }}>
 
-        {/* H1 — uppercase, bold, velký */}
+        <div className="e01-hero-accent" style={{ width: 48, height: 3, background: RED, marginBottom: 28 }} />
+
         <h1 style={{
           color: WHITE,
-          fontSize: "clamp(26px, 3.75vw, 52px)",
+          fontSize: "clamp(28px, 4vw, 56px)",
           fontWeight: 900,
-          lineHeight: 1.05,
-          letterSpacing: "0.01em",
+          lineHeight: 1.06,
+          letterSpacing: "-0.01em",
           textTransform: "uppercase",
-          margin: "0 0 24px",
-          maxWidth: 680,
+          margin: "0 0 28px",
+          maxWidth: 700,
           whiteSpace: "pre-line",
           fontFamily: FONT,
         }}>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h1>
 
-        {/* Subtitle */}
         <p style={{
-          color: "rgba(255,255,255,0.75)",
-          fontSize: "clamp(15px, 1.4vw, 18px)",
+          color: "rgba(255,255,255,0.72)",
+          fontSize: "clamp(15px, 1.3vw, 18px)",
           fontWeight: 400,
-          lineHeight: 1.7,
-          margin: "0 0 44px",
-          maxWidth: 460,
-          fontFamily: "'Roboto', sans-serif",
+          lineHeight: 1.75,
+          margin: "0 0 48px",
+          maxWidth: 500,
+          fontFamily: BODY,
         }}>
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
         </p>
 
-        {/* Jediné CTA tlačítko — jako na referenci */}
-        <div>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: 16, alignItems: "center" }}>
           <a
             href={resolve(ctaHref)}
-            data-btn="primary"
+            className="e01-hero-cta"
             style={{
-              display: "inline-flex", alignItems: "center",
+              display: "inline-flex", alignItems: "center", gap: 8,
               backgroundColor: RED, color: WHITE,
-              fontFamily: FONT, fontSize: "0.82rem", fontWeight: 800,
-              padding: "17px 44px", borderRadius: 0,
+              fontFamily: FONT, fontSize: "0.8rem", fontWeight: 800,
+              padding: "16px 40px", borderRadius: 0,
               textDecoration: "none", textTransform: "uppercase",
-              letterSpacing: "0.12em",
-              boxShadow: "0 4px 24px rgba(221,8,8,0.45)",
-              transition: "opacity 0.18s, transform 0.18s",
+              letterSpacing: "0.10em",
+              transition: "background 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease",
             }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = "0.87"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0 }}>
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
+
+          <a
+            href={resolve(cta2Href)}
+            className="e01-hero-cta2"
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 6,
+              background: "transparent",
+              color: WHITE,
+              fontFamily: FONT, fontSize: "0.78rem", fontWeight: 700,
+              padding: "15px 28px",
+              border: "1px solid rgba(255,255,255,0.35)",
+              textDecoration: "none", textTransform: "uppercase",
+              letterSpacing: "0.10em",
+              transition: "border-color 0.25s ease, background 0.25s ease, color 0.25s ease",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
           </a>
         </div>
       </div>
 
-      {/* SVG wave divider na spodní hraně — přechod do bílé sekce */}
       <div style={{ position: "relative", zIndex: 1, lineHeight: 0 }} aria-hidden>
         <svg viewBox="0 0 1440 72" xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
           style={{ display: "block", width: "calc(100% + 1px)", height: 72 }}>
           <path d="M0,36 C480,72 960,0 1440,36 L1440,72 L0,72 Z" fill={WHITE}/>
         </svg>
+      </div>
+    </section>
+  );
+}
+
+// ── hero-elektro-01-page ─────────────────────────────────────────────────────
+function HeroElektro01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c    = content as Record<string, unknown>;
+  const RED  = "#dd0808";
+  const DARK = "#1b1b1b";
+  const WHITE = "#ffffff";
+  const FONT = "'Montserrat', Arial, sans-serif";
+  const BODY = "'Roboto', sans-serif";
+
+  const title          = String(c.title ?? c.headline ?? "Stránka");
+  const breadcrumb     = String(c.breadcrumb ?? "Úvod");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const bg             = String(c.backgroundImage ?? "/templates/elektro-01/hero-bg.webp");
+
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section data-template="elektro-01" style={{ position: "relative", minHeight: 300, display: "flex", alignItems: "center", fontFamily: FONT, overflow: "hidden" }}>
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt={title} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
+          <Image src={bg} alt={title} fill className="object-cover" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} priority />
+        </GenericEditableImage>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg, rgba(15,12,12,0.90) 0%, rgba(15,12,12,0.68) 55%, rgba(15,12,12,0.45) 100%)" }} aria-hidden="true" />
+      </div>
+
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 1200, width: "100%", margin: "0 auto", padding: "100px 32px 44px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 14, fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.05em", fontFamily: BODY }}>
+          <a href={resolve(breadcrumbHref)} className="e01-footer-link" style={{ color: "rgba(255,255,255,0.65)", textDecoration: "none", transition: "color 0.22s" }}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span aria-hidden="true" style={{ color: RED }}>/</span>
+          <span style={{ color: RED, fontWeight: 700 }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </div>
+        <h1 style={{ fontFamily: FONT, color: WHITE, fontSize: "clamp(1.8rem, 3.4vw, 2.8rem)", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.12, margin: 0, textShadow: "0 2px 20px rgba(0,0,0,0.35)" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <span aria-hidden="true" style={{ display: "block", width: 56, height: 3, background: RED, marginTop: 18 }} />
       </div>
     </section>
   );
@@ -11136,14 +11924,17 @@ function HeroInstala01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
   const WHITE  = "#ffffff";
   const FONT   = "'Outfit', sans-serif";
 
-  const title      = String(c.title       ?? "Instalatérské, topenářské\na plynařské práce");
-  const label      = String(c.label       ?? "Praha a okolí • Ihned k dispozici");
-  const subtitle   = String(c.subtitle    ?? "Čeští řemeslníci s 20letou praxí. Sídlíme v Praze, práce provádíme po celé Praze a okolí. Práce menšího rozsahu řešíme nejlépe ihned.");
-  const ctaText    = String(c.ctaText     ?? "Zjistit více");
-  const ctaHref    = String(c.ctaHref     ?? "#sluzby");
-  const ctaSecText = String(c.ctaSecondaryText ?? "Nabídka služeb");
-  const ctaSecHref = String(c.ctaSecondaryHref ?? "#sluzby");
-  const bgImage    = String(c.backgroundImage  ?? "/clones/instalateritopenari/wp-content/uploads/2025/07/H1-slider-01.webp");
+  const title      = String(c.title       ?? "Profesionální instalace\na servis rozvodů");
+  const label      = String(c.label       ?? "Vaše město a okolí · Příjezd do 60 minut");
+  const subtitle   = String(c.subtitle    ?? "Zkušený tým řemeslníků se specializací na vodoinstalace, topné systémy a plynové rozvody. Řešíme havárie i plánované rekonstrukce — rychle, čistě a s písemnou zárukou.");
+  const ctaText    = String(c.ctaText     ?? "Poptat zakázku");
+  const ctaHref    = String(c.ctaHref     ?? "/kontakt");
+  const ctaSecText = String(c.ctaSecondaryText ?? "Přehled služeb");
+  const ctaSecHref = String(c.ctaSecondaryHref ?? "/sluzby");
+  const bgImage    = String(c.backgroundImage  ?? "/assets/instala-01/hero-bg.webp");
+  const statsValue = String(c.statsValue  ?? "1 200+");
+  const statsLabel = String(c.statsLabel  ?? "dokončených zakázek");
+  const scrollLabel = String(c.scrollLabel ?? "Více informací");
 
   function resolveHref(href: string) {
     if (!href || href.startsWith("http") || href.startsWith("#")) return href;
@@ -11157,68 +11948,100 @@ function HeroInstala01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, 
   return (
     <section
       id="uvod"
-      style={{ position: "relative", minHeight: "90vh", fontFamily: FONT, display: "flex", flexDirection: "column", justifyContent: "center" }}
+      style={{ position: "relative", minHeight: "92vh", fontFamily: FONT, display: "flex", flexDirection: "column", justifyContent: "center" }}
       data-template="instala-01-hero"
     >
-      {/* BG + radial overlay */}
+      {/* BG + multi-layer overlay */}
       <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
         <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="Hero" className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
-          <Image src={bgImage} alt="Instalatérské práce Praha" fill className="object-cover" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bgImage)} priority />
+          <Image src={bgImage} alt="Instalatérské práce" fill className="object-cover" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bgImage)} priority />
         </GenericEditableImage>
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(at center center, #00000000 50%, #000000 70%)" }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, transparent 28%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, rgba(30,41,59,0.82) 0%, rgba(30,41,59,0.48) 50%, rgba(30,41,59,0.68) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.45) 100%)" }} />
       </div>
 
       {/* Content */}
-      <div className="i01-hero-content" style={{ position: "relative", zIndex: 1, maxWidth: 1280, width: "100%", margin: "0 auto", padding: "140px 40px 80px" }}>
+      <div className="i01-hero-content" style={{ position: "relative", zIndex: 1, maxWidth: 1280, width: "100%", margin: "0 auto", padding: "160px 40px 100px" }}>
         {/* Kicker */}
-        <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 20 }}>
-          <span style={{ display: "block", width: 36, height: 2, backgroundColor: YELLOW, borderRadius: 2, flexShrink: 0 }} />
-          <span style={{ color: YELLOW, fontSize: "15px", fontWeight: 300, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
+          <span style={{ display: "block", width: 40, height: 2, backgroundColor: YELLOW, borderRadius: 2, flexShrink: 0 }} />
+          <span style={{ color: YELLOW, fontSize: "14px", fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase" }}>
             <GenericEditableText sectionId={sectionId} field="label" value={label} tag="span" />
           </span>
         </div>
 
         {/* H1 */}
-        <h1 style={{ color: WHITE, fontSize: "clamp(40px, 5.5vw, 72px)", fontWeight: 600, lineHeight: 1.1, letterSpacing: "-0.02em", margin: "0 0 24px", maxWidth: 800, whiteSpace: "pre-line", textTransform: "capitalize" }}>
+        <h1 style={{ color: WHITE, fontSize: "clamp(38px, 5.2vw, 68px)", fontWeight: 700, lineHeight: 1.08, letterSpacing: "-0.025em", margin: "0 0 26px", maxWidth: 780, whiteSpace: "pre-line" }}>
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h1>
 
         {/* Paragraph */}
-        <p style={{ color: "rgba(255,255,255,0.85)", fontSize: "18px", fontWeight: 400, lineHeight: 1.65, margin: "0 0 44px", maxWidth: 650 }}>
+        <p style={{ color: "rgba(255,255,255,0.88)", fontSize: "18px", fontWeight: 400, lineHeight: 1.7, margin: "0 0 44px", maxWidth: 620 }}>
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
         </p>
 
         {/* CTAs */}
-        <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
-          <a
-            href={resolveHref(ctaHref)}
-            data-btn="primary"
-            style={{ display: "inline-flex", alignItems: "center", backgroundColor: YELLOW, color: DARK, fontSize: "17px", fontWeight: 400, padding: "14px 36px", borderRadius: 50, textDecoration: "none", whiteSpace: "nowrap", transition: "opacity 0.18s, transform 0.18s" }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
-          >
+        <div style={{ display: "flex", gap: 16, flexWrap: "wrap", alignItems: "center" }}>
+          <a href={resolveHref(ctaHref)} data-btn="primary" className="i01-hero-cta-primary">
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="i01-hero-cta-arrow"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
-          <a
-            href={resolveHref(ctaSecHref)}
-            style={{ display: "inline-flex", alignItems: "center", backgroundColor: "transparent", color: WHITE, border: "1px solid rgba(255,255,255,0.75)", fontSize: "17px", fontWeight: 400, padding: "14px 36px", borderRadius: 50, textDecoration: "none", whiteSpace: "nowrap", transition: "background-color 0.2s, color 0.2s" }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = WHITE; e.currentTarget.style.color = DARK; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = WHITE; }}
-          >
+          <a href={resolveHref(ctaSecHref)} className="i01-hero-cta-outline">
             <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecText} tag="span" />
           </a>
         </div>
+
+        {/* Stats badge */}
+        <div className="i01-hero-stats" style={{ display: "inline-flex", alignItems: "center", gap: 16, marginTop: 48, padding: "16px 28px", background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", borderRadius: 8, border: "1px solid rgba(255,255,255,0.12)" }}>
+          <span style={{ fontSize: "clamp(28px,3vw,36px)", fontWeight: 800, color: YELLOW, lineHeight: 1 }}>
+            <GenericEditableText sectionId={sectionId} field="statsValue" value={statsValue} tag="span" />
+          </span>
+          <span style={{ fontSize: "14px", fontWeight: 500, color: "rgba(255,255,255,0.75)", textTransform: "uppercase", letterSpacing: "0.08em", lineHeight: 1.3 }}>
+            <GenericEditableText sectionId={sectionId} field="statsLabel" value={statsLabel} tag="span" />
+          </span>
+        </div>
       </div>
 
-      <style>{`
-        @media (max-width: 768px) {
-          .i01-hero-content { padding: 100px 24px 60px !important; }
-        }
-        @media (max-width: 480px) {
-          .i01-hero-content { padding: 90px 20px 48px !important; }
-        }
-      `}</style>
+      {/* Scroll-down indicator */}
+      <div className="i01-hero-scroll" style={{ position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+        <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span" style={{ color: "rgba(255,255,255,0.55)", fontSize: "11px", fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase" }} />
+        <svg className="i01-hero-bounce" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </div>
+    </section>
+  );
+}
+
+function HeroInstala01Page({ content, sectionId }: Omit<Props, "variant">) {
+  const c      = content as Record<string, unknown>;
+  const YELLOW = "#FFC527";
+  const FONT   = "'Outfit', sans-serif";
+
+  const title    = String(c.title ?? c.headline ?? "Stránka");
+  const subtitle = String(c.subtitle ?? "");
+  const bg       = String(c.backgroundImage ?? "/assets/instala-01/hero-bg.webp");
+
+  return (
+    <section data-template="instala-01-page" style={{ position: "relative", minHeight: 340, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: FONT, overflow: "hidden", textAlign: "center" }}>
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt={title} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
+          <Image src={bg} alt={title} fill className="object-cover" sizes="100vw" unoptimized={shouldSkipNextImageOptimization(bg)} priority />
+        </GenericEditableImage>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(30,41,59,0.85) 0%, rgba(30,41,59,0.70) 100%)" }} aria-hidden="true" />
+      </div>
+
+      <div style={{ position: "relative", zIndex: 1, maxWidth: 800, width: "100%", margin: "0 auto", padding: "120px 32px 60px" }}>
+        <span aria-hidden="true" style={{ display: "block", width: 48, height: 3, background: YELLOW, borderRadius: 2, margin: "0 auto 20px" }} />
+        <h1 style={{ fontFamily: FONT, color: "#ffffff", fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 700, letterSpacing: "-0.02em", lineHeight: 1.15, margin: 0, textShadow: "0 2px 20px rgba(0,0,0,0.3)" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        {subtitle && (
+          <p style={{ fontSize: "17px", color: "rgba(255,255,255,0.65)", lineHeight: 1.6, margin: "16px auto 0", maxWidth: 560 }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
+      </div>
     </section>
   );
 }
@@ -11588,55 +12411,298 @@ function HeroFlorist01Page({ content, sectionId, tenantSlug, isAdmin }: { conten
 }
 
 // ── sweet-01-hero ─────────────────────────────────────────────────────────────
-// Ref: ovocnysvetozor.cz — fullscreen showcase.jpg bg
-// rgba(0,0,0,0.38) overlay; centrovaný bílý Roboto H2; červené (#e30613) filled CTA
+// AWWWARDS-LEVEL: Fullscreen cinematic Ken-Burns + oversized kinetic Fraunces
+// headline overlapping image, floating glass card, vertical scroll indicator,
+// marquee trust strip, layered depth composition, dramatic viewport presence
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroSweet01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const title    = String(content.title    ?? "Místo pro váš sladký život!");
-  const subtitle = String(content.subtitle ?? "");
-  const ctaText  = String(content.ctaText  ?? "Naše produkty");
-  const ctaHref  = String(content.ctaHref  ?? "#produkty");
-  const bgImage  = String(content.bgImage  ?? "/clones/ovocnysvetozor/img/showcase.jpg");
+  const kicker   = String(content.kicker   ?? "PÂTISSERIE ARTISANALE");
+  const title    = String(content.title    ?? "Sladké chvíle začínají tady");
+  const subtitle = String(content.subtitle ?? "Ručně vyráběné dezerty, čerstvé croissanty a domácí limonády — každý den od rána s láskou.");
+  const ctaText  = String(content.ctaText  ?? "Prohlédnout nabídku");
+  const ctaHref  = String(content.ctaHref  ?? "/nabidka");
+  const cta2Text = String(content.cta2Text ?? "Objednat dort");
+  const cta2Href = String(content.cta2Href ?? "/objednat");
+  const badge    = String(content.badge    ?? "Od roku 1984");
+  const marquee  = String(content.marquee  ?? "Dorty na míru · Čerstvé croissanty · Domácí limonády · Zákusky · Pralinky · Makronky · Svatební dorty");
+  const slides   = (content.slides as Array<{ image: string; alt?: string }>) ?? [
+    { image: "https://images.unsplash.com/photo-1558301211-0d8c8ddee6ec?w=1920&q=90&auto=format", alt: "Dorty a dezerty" },
+    { image: "https://images.unsplash.com/photo-1486427944544-d2c246c4df4a?w=1920&q=90&auto=format", alt: "Croissanty" },
+    { image: "https://images.unsplash.com/photo-1612203985729-70726954388c?w=1920&q=90&auto=format", alt: "Zákusky" },
+  ];
+  const count = slides.length;
 
-  const RED  = "#e30613";
-  const FONT = "'Roboto', 'Helvetica Neue', Arial, sans-serif";
+  const RED    = "#E2001A";
+  const CREAM  = "#fdf6ee";
+  const COCOA  = "#2b1810";
+  const GOLD   = "#c8a568";
+  const FONT_D = "'Fraunces', 'Playfair Display', Georgia, serif";
+  const FONT_B = "'Inter', 'Helvetica Neue', Arial, sans-serif";
 
-  const resolve = (href: string) => isAdmin ? href : (tenantSlug ? href : href);
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    if (count < 2) return;
+    const t = setInterval(() => setIdx(i => (i + 1) % count), 5500);
+    return () => clearInterval(t);
+  }, [count]);
+
+  const resolve = (href: string) => {
+    if (!href || href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto") || href.startsWith("tel")) return href;
+    if (isAdmin) return `/demo/${tenantSlug}/admin${href}`;
+    if (tenantSlug) return `/demo/${tenantSlug}${href}`;
+    return href;
+  };
 
   return (
-    <section
-      id={String(sectionId)}
-      style={{ position: "relative", width: "100%", height: "100vh", minHeight: 400, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", backgroundColor: "#1a1a1a" }}
-    >
-      {/* Background image */}
-      <GenericEditableImage sectionId={sectionId} field="bgImage" src={bgImage} alt={title} style={{ position: "absolute", inset: 0, zIndex: 1, display: "block" }}>
-        <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${bgImage})`, backgroundSize: "cover", backgroundPosition: "center" }} />
-      </GenericEditableImage>
+    <section data-template="sweet-01" style={{ position: "relative", width: "100%", height: "calc(100vh - 80px)", height: "calc(100svh - 80px)" as any, minHeight: 560, overflow: "hidden", backgroundColor: COCOA }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,900&family=Inter:wght@300;400;500;600;700&display=swap" />
+      <style>{`
+        @keyframes sw01HeroKen { 0% { transform: scale(1.02); } 100% { transform: scale(1.12); } }
+        @keyframes sw01HeroFade { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+        @keyframes sw01Marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        @keyframes sw01Scroll { 0%,100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(8px); opacity: 0.4; } }
+        @keyframes sw01Pulse { 0%,100% { opacity: 0.6; } 50% { opacity: 1; } }
 
-      {/* Overlay */}
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.38)", zIndex: 2 }} />
+        .sw01h-slides { position: absolute; inset: 0; z-index: 1; }
+        .sw01h-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.6s cubic-bezier(.4,0,.2,1); }
+        .sw01h-slide[data-active="y"] { opacity: 1; }
+        .sw01h-slide img { width: 100%; height: 100%; object-fit: cover; animation: sw01HeroKen 7s ease-out forwards; will-change: transform; }
+        .sw01h-slide[data-active="n"] img { animation: none; }
 
-      {/* Content */}
-      <div style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "0 clamp(24px, 6vw, 80px)", display: "flex", flexDirection: "column", alignItems: "center", gap: 28 }}>
-        <h2
-          style={{ fontFamily: FONT, fontWeight: 700, fontSize: "clamp(1.8rem, 4vw, 3.2rem)", color: "#ffffff", margin: 0, lineHeight: 1.2, textShadow: "0 2px 12px rgba(0,0,0,0.3)" }}
-        >
+        .sw01h-overlay { position: absolute; inset: 0; z-index: 2; background: linear-gradient(135deg, rgba(43,24,16,0.82) 0%, rgba(43,24,16,0.45) 50%, rgba(43,24,16,0.2) 100%); }
+        .sw01h-vignette { position: absolute; inset: 0; z-index: 3; background: radial-gradient(ellipse 70% 60% at 70% 50%, transparent 0%, rgba(43,24,16,0.5) 100%); pointer-events: none; }
+
+        .sw01h-content { position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; justify-content: center; max-width: 1400px; margin: 0 auto; padding: 0 clamp(32px, 6vw, 100px); }
+
+        .sw01h-kicker { font-family: ${FONT_B}; font-weight: 600; font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: ${GOLD}; margin: 0 0 16px; display: flex; align-items: center; gap: 16px; animation: sw01HeroFade 0.8s ease-out both; animation-delay: 0.2s; }
+        .sw01h-kicker::before { content: ""; width: 40px; height: 1px; background: ${GOLD}; }
+
+        .sw01h-title { font-family: ${FONT_D}; font-style: italic; font-weight: 400; font-size: clamp(40px, 6.5vw, 88px); line-height: 0.95; color: ${CREAM}; margin: 0 0 20px; letter-spacing: -0.03em; max-width: 800px; animation: sw01HeroFade 1s ease-out both; animation-delay: 0.4s; }
+        .sw01h-title-accent { color: ${RED}; font-weight: 500; }
+
+        .sw01h-sub { font-family: ${FONT_B}; font-weight: 300; font-size: clamp(14px, 1.5vw, 16px); line-height: 1.7; color: rgba(253,246,238,0.7); margin: 0 0 28px; max-width: 480px; animation: sw01HeroFade 1s ease-out both; animation-delay: 0.6s; }
+
+        .sw01h-ctas { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; animation: sw01HeroFade 1s ease-out both; animation-delay: 0.8s; }
+        .sw01h-cta1 { display: inline-flex; align-items: center; gap: 10px; padding: 15px 32px; background: ${RED}; color: #fff; font-family: ${FONT_B}; font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none; border-radius: 0; border: none; position: relative; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s; }
+        .sw01h-cta1::before { content: ""; position: absolute; inset: 0; background: #fff; transform: translateX(-101%); transition: transform 0.5s cubic-bezier(.4,0,.2,1); z-index: 0; }
+        .sw01h-cta1:hover::before { transform: translateX(0); }
+        .sw01h-cta1:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(226,0,26,0.35); color: ${RED}; }
+        .sw01h-cta1 span { position: relative; z-index: 1; }
+        .sw01h-cta1 svg { position: relative; z-index: 1; transition: transform 0.3s; }
+        .sw01h-cta1:hover svg { transform: translateX(4px); }
+
+        .sw01h-cta2 { display: inline-block; padding: 14px 28px; background: transparent; color: ${CREAM}; font-family: ${FONT_B}; font-size: 12px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; border: 1px solid rgba(253,246,238,0.3); transition: all 0.35s; }
+        .sw01h-cta2:hover { border-color: ${CREAM}; background: rgba(253,246,238,0.08); }
+
+        .sw01h-glass { position: absolute; top: 50%; right: clamp(32px, 6vw, 100px); z-index: 12; transform: translateY(-50%); background: rgba(253,246,238,0.06); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(253,246,238,0.12); padding: 24px 28px; width: 240px; animation: sw01HeroFade 1.2s ease-out both; animation-delay: 1s; }
+        .sw01h-glass-badge { font-family: ${FONT_D}; font-style: italic; font-weight: 300; font-size: 36px; color: ${CREAM}; line-height: 1; margin: 0 0 6px; }
+        .sw01h-glass-label { font-family: ${FONT_B}; font-weight: 500; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: ${GOLD}; margin: 0 0 12px; }
+        .sw01h-glass-divider { width: 28px; height: 1px; background: ${GOLD}; margin: 0 0 12px; opacity: 0.5; }
+        .sw01h-glass-stat { font-family: ${FONT_B}; font-weight: 300; font-size: 12px; color: rgba(253,246,238,0.6); line-height: 1.5; margin: 0; }
+
+        .sw01h-marquee { position: absolute; bottom: 0; left: 0; right: 0; z-index: 11; overflow: hidden; padding: 16px 0; border-top: 1px solid rgba(200,165,104,0.15); background: rgba(43,24,16,0.6); backdrop-filter: blur(8px); }
+        .sw01h-marquee-track { display: flex; white-space: nowrap; animation: sw01Marquee 35s linear infinite; }
+        .sw01h-marquee-item { font-family: ${FONT_B}; font-weight: 400; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(253,246,238,0.45); padding: 0 24px; flex-shrink: 0; }
+        .sw01h-marquee-dot { color: ${RED}; font-size: 8px; padding: 0 12px; flex-shrink: 0; display: inline-flex; align-items: center; }
+
+        .sw01h-scroll { position: absolute; bottom: 52px; left: clamp(32px, 6vw, 100px); z-index: 12; display: flex; flex-direction: column; align-items: center; gap: 6px; animation: sw01HeroFade 1s ease-out both; animation-delay: 1.2s; }
+        .sw01h-scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, ${GOLD}, transparent); }
+        .sw01h-scroll-dot { width: 6px; height: 6px; border-radius: 50%; background: ${GOLD}; animation: sw01Scroll 2s ease infinite; }
+        .sw01h-scroll-text { font-family: ${FONT_B}; font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: ${GOLD}; writing-mode: vertical-lr; transform: rotate(180deg); margin-top: 8px; animation: sw01Pulse 3s ease infinite; }
+
+        .sw01h-counter { position: absolute; top: 50%; right: clamp(32px, 6vw, 100px); z-index: 12; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .sw01h-counter-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid rgba(253,246,238,0.35); background: transparent; cursor: pointer; transition: all 0.4s; padding: 0; }
+        .sw01h-counter-dot[data-on="y"] { background: ${RED}; border-color: ${RED}; box-shadow: 0 0 12px rgba(226,0,26,0.5); transform: scale(1.3); }
+        .sw01h-counter-num { font-family: ${FONT_D}; font-style: italic; font-size: 13px; color: rgba(253,246,238,0.4); margin-top: 8px; }
+
+        @media(max-width: 900px) {
+          .sw01h-title { font-size: clamp(32px, 9vw, 52px); max-width: 100%; margin-bottom: 14px; }
+          .sw01h-kicker { margin-bottom: 12px; }
+          .sw01h-sub { margin-bottom: 20px; font-size: 14px; }
+          .sw01h-glass { position: absolute; top: auto; bottom: 56px; right: 20px; transform: none; width: 200px; padding: 16px 18px; }
+          .sw01h-glass-badge { font-size: 28px; }
+          .sw01h-glass-label { font-size: 9px; margin-bottom: 8px; }
+          .sw01h-glass-divider { margin-bottom: 8px; }
+          .sw01h-glass-stat { font-size: 11px; }
+          .sw01h-scroll { display: none; }
+          .sw01h-counter { right: 20px; top: auto; bottom: 56px; transform: none; flex-direction: row; }
+          .sw01h-counter-num { display: none; }
+          .sw01h-overlay { background: linear-gradient(180deg, rgba(43,24,16,0.6) 0%, rgba(43,24,16,0.35) 40%, rgba(43,24,16,0.75) 100%); }
+          .sw01h-content { justify-content: center; padding: 0 24px; }
+          .sw01h-ctas { gap: 12px; }
+          .sw01h-cta1 { padding: 13px 24px; font-size: 11px; }
+          .sw01h-cta2 { padding: 12px 20px; font-size: 11px; }
+        }
+        @media(max-width: 500px) {
+          .sw01h-glass { display: none; }
+          .sw01h-ctas { flex-direction: row; flex-wrap: wrap; }
+        }
+      `}</style>
+
+      {/* Fullscreen Ken-Burns slides */}
+      <div className="sw01h-slides">
+        {slides.map((s, i) => (
+          <div key={`sw01h-${i}`} className="sw01h-slide" data-active={i === idx ? "y" : "n"}>
+            <GenericEditableImage sectionId={sectionId} field={`slides.${i}.image`} src={s.image} alt={s.alt || title} style={{ width: "100%", height: "100%" }}>
+              <img loading={i === 0 ? "eager" : "lazy"} src={s.image} alt={s.alt || title} />
+            </GenericEditableImage>
+          </div>
+        ))}
+      </div>
+
+      {/* Cinematic overlays */}
+      <div className="sw01h-overlay" />
+      <div className="sw01h-vignette" />
+
+      {/* Main content */}
+      <div className="sw01h-content">
+        <p className="sw01h-kicker">
+          <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+        </p>
+
+        <h1 className="sw01h-title">
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
-        {subtitle && (
-          <p style={{ fontFamily: FONT, fontSize: "clamp(1rem, 2vw, 1.25rem)", color: "rgba(255,255,255,0.88)", margin: 0, maxWidth: 600, lineHeight: 1.5, textShadow: "0 1px 6px rgba(0,0,0,0.3)" }}>
-            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-          </p>
-        )}
-        <a
-          href={resolve(ctaHref)}
-          data-btn="primary"
-          style={{ display: "inline-block", padding: "13px 32px", backgroundColor: RED, color: "#fff", fontFamily: FONT, fontSize: 14, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", textDecoration: "none", transition: "background 0.2s" }}
-          onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#f90a18"; }}
-          onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = RED; }}
-        >
-          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-        </a>
+        </h1>
+
+        <p className="sw01h-sub">
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+        </p>
+
+        <div className="sw01h-ctas">
+          <a href={resolve(ctaHref)} data-btn="primary" className="sw01h-cta1">
+            <span><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a href={resolve(cta2Href)} className="sw01h-cta2">
+            <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
+          </a>
+        </div>
+      </div>
+
+      {/* Frosted glass info card */}
+      <div className="sw01h-glass">
+        <p className="sw01h-glass-badge">
+          <GenericEditableText sectionId={sectionId} field="badge" value={badge} tag="span" />
+        </p>
+        <p className="sw01h-glass-label">Rodinná tradice</p>
+        <div className="sw01h-glass-divider" />
+        <p className="sw01h-glass-stat">3 pobočky v Praze<br/>12 000+ spokojených zákazníků</p>
+      </div>
+
+      {/* Vertical scroll indicator */}
+      <div className="sw01h-scroll" aria-hidden>
+        <span className="sw01h-scroll-text">Scroll</span>
+        <span className="sw01h-scroll-line" />
+        <span className="sw01h-scroll-dot" />
+      </div>
+
+      {/* Vertical slide counter */}
+      {count > 1 && (
+        <div className="sw01h-counter">
+          {slides.map((_, i) => (
+            <button key={`sw01d-${i}`} className="sw01h-counter-dot" data-on={i === idx ? "y" : "n"} onClick={() => setIdx(i)} aria-label={`Slide ${i + 1}`} />
+          ))}
+          <span className="sw01h-counter-num">0{idx + 1}</span>
+        </div>
+      )}
+
+      {/* Marquee trust strip */}
+      <div className="sw01h-marquee">
+        <div className="sw01h-marquee-track">
+          {[...Array(2)].map((_, rep) => (
+            <Fragment key={rep}>
+              {marquee.split("·").map((item, i) => (
+                <Fragment key={`${rep}-${i}`}>
+                  <span className="sw01h-marquee-item">{item.trim()}</span>
+                  <span className="sw01h-marquee-dot">●</span>
+                </Fragment>
+              ))}
+            </Fragment>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── hero-sweet-01-page (slim subpage banner) ─────────────────────────────────
+// Pâtisserie cream slim banner (~340px): breadcrumb, Fraunces italic H1,
+// scalloped gold ornament, cherry red accent, candy-stripe bottom
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroSweet01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const CREAM  = "#fdf6ee";
+  const COCOA  = "#2b1810";
+  const RED    = "#E2001A";
+  const GOLD   = "#c8a568";
+  const FONT_D = "'Fraunces', 'Playfair Display', Georgia, serif";
+  const FONT_B = "'Inter', 'Helvetica Neue', Arial, sans-serif";
+
+  const title         = String(content.title         ?? "Stránka");
+  const subtitle      = String(content.subtitle      ?? "");
+  const breadcrumb    = String(content.breadcrumb    ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const currentLabel  = String(content.currentLabel  ?? title);
+
+  const resolve = (href: string) => {
+    if (!href || href.startsWith("http") || href.startsWith("#")) return href;
+    if (isAdmin) return `/demo/${tenantSlug}/admin${href}`;
+    if (tenantSlug) return `/demo/${tenantSlug}${href}`;
+    return href;
+  };
+
+  return (
+    <section data-template="sweet-01" style={{ background: CREAM, fontFamily: FONT_B, position: "relative", overflow: "hidden" }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&display=swap" />
+      <style>{`
+        .sw01-banner { padding: 80px 24px 72px; min-height: 320px; display: flex; align-items: center; justify-content: center; position: relative; }
+        .sw01-banner-inner { position: relative; z-index: 2; max-width: 800px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        .sw01-banner-crumb { display: inline-flex; align-items: center; gap: 12px; font-family: ${FONT_B}; font-weight: 600; font-size: 10.5px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(43,24,16,0.5); }
+        .sw01-banner-crumb a { color: rgba(43,24,16,0.5); text-decoration: none; transition: color 0.3s; }
+        .sw01-banner-crumb a:hover { color: ${RED}; }
+        .sw01-banner-crumb em { color: ${GOLD}; font-style: normal; font-size: 10px; }
+        .sw01-banner-crumb b { color: ${COCOA}; font-weight: 600; }
+        .sw01-banner-h { font-family: ${FONT_D}; font-style: italic; font-weight: 500; font-size: clamp(34px, 5vw, 56px); line-height: 1.08; color: ${COCOA}; margin: 6px 0 0; letter-spacing: -0.015em; }
+        .sw01-banner-rule { display: inline-flex; align-items: center; gap: 12px; margin-top: 4px; }
+        .sw01-banner-rule i { width: 36px; height: 1px; display: inline-block; }
+        .sw01-banner-sub { font-family: ${FONT_B}; font-weight: 400; font-size: 15px; line-height: 1.7; color: rgba(43,24,16,0.55); margin: 2px 0 0; max-width: 520px; }
+        .sw01-banner-stripe { position: absolute; bottom: 0; left: 0; right: 0; height: 6px; z-index: 5; background: repeating-linear-gradient(45deg, ${RED}, ${RED} 4px, ${CREAM} 4px, ${CREAM} 8px); }
+        @media(max-width: 640px) {
+          .sw01-banner { padding: 64px 20px 60px; min-height: 280px; }
+          .sw01-banner-h { font-size: clamp(28px, 8vw, 40px); }
+        }
+      `}</style>
+
+      <div className="sw01-banner">
+        <div className="sw01-banner-inner">
+          <div className="sw01-banner-crumb">
+            <a href={resolve(breadcrumbHref)}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <em>❋</em>
+            <b>
+              <GenericEditableText sectionId={sectionId} field="currentLabel" value={currentLabel} tag="span" />
+            </b>
+          </div>
+
+          <h1 className="sw01-banner-h">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+
+          <span className="sw01-banner-rule" aria-hidden>
+            <svg viewBox="0 0 80 10" style={{ width: 60, height: 8 }}>
+              <path d="M0 5 Q 4 0 8 5 T 16 5 T 24 5 T 32 5 T 40 5 T 48 5 T 56 5 T 64 5 T 72 5 T 80 5" fill="none" stroke={GOLD} strokeWidth="0.8" opacity="0.6" />
+            </svg>
+          </span>
+
+          {subtitle && (
+            <p className="sw01-banner-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
+
+        {/* Candy stripe bottom */}
+        <div className="sw01-banner-stripe" aria-hidden />
       </div>
     </section>
   );
@@ -11809,15 +12875,34 @@ function HeroBakery02Hero({ content, sectionId }: { content: Record<string, unkn
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroEdu01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = content as Record<string, unknown>;
-  const heading    = String(c.heading    ?? "Doučování na míru");
-  const subheading = String(c.subheading ?? "Individuální přístup pro každého studenta. Matematika, jazyky, přijímačky a maturita.");
-  const ctaHref    = String(c.ctaHref    ?? "/sluzby");
+  const heading       = String(c.heading       ?? "Doučování, které");
+  const headingAccent = String(c.headingAccent ?? "posouvá dál");
+  const subheading    = String(c.subheading    ?? "Spojíme studenta s lektorem, který rozumí jeho tempu. Připravíme na přijímačky, maturitu i jazykové zkoušky — krok za krokem.");
+  const badge         = String(c.badge         ?? "Individuální doučování online i osobně");
+  const ctaHref       = String(c.ctaHref       ?? "/sluzby");
+  const searchPlaceholder  = String(c.searchPlaceholder  ?? "Jaký předmět chcete doučit?");
+  const searchButtonText   = String(c.searchButtonText   ?? "Najít lektora");
+  const testimonialStars   = String(c.testimonialStars   ?? "★★★★★");
+  const testimonialText    = String(c.testimonialText    ?? "Dcera se z matematiky zlepšila o dvě známky za jediný měsíc.");
+  const testimonialAuthor  = String(c.testimonialAuthor  ?? "Petra K. — maminka studentky");
+  const countValue    = String(c.countValue    ?? "12 000+");
+  const countLabel    = String(c.countLabel    ?? "spokojených studentů");
+  const siteMode      = String(c.siteMode      ?? "multipage");
 
   const heroImages = (c.heroImages as string[] | undefined) ?? [
-    "/clones/skolapopulo/img/large_virtual_classroom_study_space_23_2149178644_1ac594bc94.jpg",
-    "/clones/skolapopulo/img/large_SP_3_2023_806_9058ffa96d.jpg",
-    "/clones/skolapopulo/img/large_portrait_smiling_beautiful_blond_woman_writing_down_notes_doing_homework_studying_from_home_doing_1258_254363_5e6344dc8c.jpg",
-    "/clones/skolapopulo/img/large_Skola_Populo_10_2022_Socials_741_4_7afe053e0a.jpg",
+    "/templates/edu-01/hero-1.webp",
+    "/templates/edu-01/hero-2.webp",
+    "/templates/edu-01/hero-3.webp",
+    "/templates/edu-01/hero-4.webp",
+  ];
+
+  const subjects = (c.subjects as string[] | undefined) ?? [
+    "Matematika", "Čeština", "Angličtina", "Fyzika", "Chemie", "Němčina",
+  ];
+  const stats = (c.stats as Array<{ value: string; label: string }> | undefined) ?? [
+    { value: "12 000+", label: "studentů" },
+    { value: "94 %",    label: "úspěšnost" },
+    { value: "850+",    label: "lektorů" },
   ];
 
   const NAVY  = "#132339";
@@ -11825,64 +12910,74 @@ function HeroEdu01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "var
   const LIGHT = "#91bae4";
   const FONT  = "'Libre Franklin', Arial, sans-serif";
 
-  const resolve = (href: string) => (tenantSlug && !isAdmin) ? `/demo/${tenantSlug}${href}` : href;
-
-  const subjects = ["Matematika", "Angličtina", "Fyzika", "Chemie", "Maturita", "Přijímačky"];
-  const stats = [
-    { value: "34 000+", label: "studentů" },
-    { value: "96 %",    label: "úspěšnost" },
-    { value: "1 300+",  label: "lektorů" },
-  ];
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
     <>
       <style>{`
         .edu01h{position:relative;width:100%;min-height:680px;background:linear-gradient(135deg,${NAVY} 0%,#0d1b2e 100%);overflow:hidden;font-family:${FONT};display:flex;align-items:center;}
-        /* dekorativní kruhy */
-        .edu01h::before{content:'';position:absolute;top:-120px;left:-120px;width:500px;height:500px;border-radius:50%;border:80px solid rgba(0,89,223,0.07);pointer-events:none;}
+        /* dekorativní kruhy + jemná mřížka */
+        .edu01h::before{content:'';position:absolute;top:-120px;left:-120px;width:500px;height:500px;border-radius:50%;border:80px solid rgba(0,89,223,0.07);pointer-events:none;animation:edu01hspin 60s linear infinite;}
         .edu01h::after{content:'';position:absolute;bottom:-80px;left:38%;width:320px;height:320px;border-radius:50%;border:50px solid rgba(0,89,223,0.05);pointer-events:none;}
-        .edu01h-dot1{position:absolute;top:15%;right:46%;width:10px;height:10px;border-radius:50%;background:${BLUE};opacity:0.4;}
-        .edu01h-dot2{position:absolute;top:60%;left:2%;width:6px;height:6px;border-radius:50%;background:${LIGHT};opacity:0.5;}
+        @keyframes edu01hspin{from{transform:rotate(0);}to{transform:rotate(360deg);}}
+        .edu01h-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.028) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 70% 60% at 30% 40%,#000 0%,transparent 75%);pointer-events:none;z-index:1;}
+        .edu01h-dot1{position:absolute;top:15%;right:46%;width:10px;height:10px;border-radius:50%;background:${BLUE};opacity:0.4;animation:edu01hfloat 6s ease-in-out infinite;}
+        .edu01h-dot2{position:absolute;top:60%;left:2%;width:6px;height:6px;border-radius:50%;background:${LIGHT};opacity:0.5;animation:edu01hfloat 7s ease-in-out infinite 1s;}
+        @keyframes edu01hfloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
         .edu01h-inner{position:relative;z-index:2;width:100%;max-width:1280px;margin:0 auto;padding:80px 48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+        /* entrance rise */
+        .edu01h-rise{opacity:0;animation:edu01hrise .7s cubic-bezier(.2,.7,.2,1) forwards;}
+        @keyframes edu01hrise{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
         /* LEFT */
-        .edu01h-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,89,223,0.15);border:1px solid rgba(0,89,223,0.3);color:${LIGHT};font-size:12px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;padding:6px 14px;border-radius:40px;margin-bottom:24px;}
-        .edu01h-badge-dot{width:7px;height:7px;border-radius:50%;background:#34df51;animation:edu01hpulse 2s ease-in-out infinite;}
-        @keyframes edu01hpulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(1.4);}}
+        .edu01h-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,89,223,0.15);border:1px solid rgba(0,89,223,0.3);color:${LIGHT};font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;padding:7px 16px;border-radius:40px;margin-bottom:24px;transition:border-color .25s ease,background .25s ease;}
+        .edu01h-badge:hover{background:rgba(0,89,223,0.22);border-color:rgba(0,89,223,0.55);}
+        .edu01h-badge-dot{width:7px;height:7px;border-radius:50%;background:#34df51;box-shadow:0 0 0 0 rgba(52,223,81,.6);animation:edu01hpulse 2s ease-in-out infinite;}
+        @keyframes edu01hpulse{0%,100%{opacity:1;transform:scale(1);box-shadow:0 0 0 0 rgba(52,223,81,.5);}50%{opacity:0.6;transform:scale(1.35);box-shadow:0 0 0 5px rgba(52,223,81,0);}}
         .edu01h h1{font-family:${FONT};font-weight:800;font-size:clamp(2.2rem,4vw,3.4rem);color:#fff;margin:0 0 16px;line-height:1.1;letter-spacing:-0.04em;}
-        .edu01h-accent{color:${BLUE};}
+        .edu01h-accent{color:${BLUE};position:relative;white-space:nowrap;}
+        .edu01h-accent::after{content:'';position:absolute;left:0;right:0;bottom:2px;height:8px;background:rgba(0,89,223,.18);border-radius:4px;z-index:-1;}
         .edu01h-sub{font-size:clamp(1rem,1.4vw,1.1rem);color:rgba(255,255,255,0.7);line-height:1.7;margin:0 0 32px;max-width:460px;}
         /* SEARCH CARD */
-        .edu01h-search{background:#fff;border-radius:16px;padding:8px 8px 8px 20px;display:flex;align-items:center;gap:8px;box-shadow:0 20px 60px rgba(0,0,0,0.3);margin-bottom:20px;}
+        .edu01h-search{background:#fff;border-radius:16px;padding:8px 8px 8px 20px;display:flex;align-items:center;gap:8px;box-shadow:0 20px 60px rgba(0,0,0,0.3);margin-bottom:20px;transition:box-shadow .3s ease,transform .3s ease;}
+        .edu01h-search:focus-within{box-shadow:0 24px 70px rgba(0,89,223,0.35);transform:translateY(-2px);}
         .edu01h-search-icon{flex-shrink:0;color:#9ca3af;}
         .edu01h-search input{flex:1;border:none;outline:none;font-family:${FONT};font-size:15px;color:#1a1a1a;background:transparent;min-width:0;}
         .edu01h-search input::placeholder{color:#9ca3af;}
-        .edu01h-search-btn{flex-shrink:0;padding:12px 28px;background:${BLUE};color:#fff;font-family:${FONT};font-weight:700;font-size:15px;border:none;border-radius:10px;cursor:pointer;white-space:nowrap;transition:background 0.15s,transform 0.15s;text-decoration:none;display:inline-block;}
-        .edu01h-search-btn:hover{background:#0032b2;transform:scale(1.02);}
+        .edu01h-search-btn{flex-shrink:0;padding:12px 28px;background:${BLUE};color:#fff;font-family:${FONT};font-weight:700;font-size:15px;border:none;border-radius:10px;cursor:pointer;white-space:nowrap;transition:background 0.2s,transform 0.15s,box-shadow .25s;text-decoration:none;display:inline-block;}
+        .edu01h-search-btn:hover{background:#0032b2;transform:translateY(-1px) scale(1.02);box-shadow:0 10px 24px rgba(0,89,223,.45);}
         /* CHIPS */
         .edu01h-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px;}
-        .edu01h-chip{display:inline-block;padding:6px 14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);font-size:13px;font-weight:500;border-radius:40px;text-decoration:none;transition:background 0.15s,border-color 0.15s;}
-        .edu01h-chip:hover{background:rgba(0,89,223,0.2);border-color:rgba(0,89,223,0.5);color:#fff;}
+        .edu01h-chip{display:inline-block;padding:7px 16px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);font-size:13px;font-weight:500;border-radius:40px;text-decoration:none;transition:background 0.2s,border-color 0.2s,transform 0.2s,color .2s;}
+        .edu01h-chip:hover{background:rgba(0,89,223,0.22);border-color:rgba(0,89,223,0.6);color:#fff;transform:translateY(-2px);}
         /* TRUST */
         .edu01h-trust{display:flex;gap:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.1);}
+        .edu01h-stat{transition:transform .25s ease;}
+        .edu01h-stat:hover{transform:translateY(-3px);}
         .edu01h-stat-val{font-size:1.5rem;font-weight:800;color:#fff;line-height:1;}
-        .edu01h-stat-lbl{font-size:12px;color:rgba(255,255,255,0.55);margin-top:2px;}
+        .edu01h-stat-lbl{font-size:12px;color:rgba(255,255,255,0.55);margin-top:4px;}
         /* RIGHT — 4-photo 2×2 mosaic */
         .edu01h-right{position:relative;}
         .edu01h-glow{position:absolute;top:-60px;right:-60px;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(0,89,223,0.18) 0%,transparent 65%);pointer-events:none;z-index:0;}
-        .edu01h-photos{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:54% 46%;gap:10px;height:560px;}
-        .edu01h-img-a,.edu01h-img-b,.edu01h-img-c,.edu01h-img-d{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.45);}
-        .edu01h-img-a img,.edu01h-img-b img,.edu01h-img-c img,.edu01h-img-d img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.55s ease;}
+        .edu01h-photos{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:54% 46%;gap:12px;height:560px;}
+        .edu01h-img-a,.edu01h-img-b,.edu01h-img-c,.edu01h-img-d{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.45);animation:edu01hbob 8s ease-in-out infinite;}
+        .edu01h-img-b{animation-delay:.6s;}
+        .edu01h-img-c{animation-delay:1.2s;}
+        .edu01h-img-d{animation-delay:1.8s;}
+        @keyframes edu01hbob{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+        .edu01h-img-a::before,.edu01h-img-b::before,.edu01h-img-c::before,.edu01h-img-d::before{content:'';position:absolute;inset:0;z-index:2;background:linear-gradient(160deg,transparent 55%,rgba(19,35,57,.35) 100%);pointer-events:none;opacity:.7;transition:opacity .4s ease;}
+        .edu01h-img-a:hover::before,.edu01h-img-b:hover::before,.edu01h-img-c:hover::before,.edu01h-img-d:hover::before{opacity:.25;}
+        .edu01h-img-a img,.edu01h-img-b img,.edu01h-img-c img,.edu01h-img-d img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s cubic-bezier(.2,.7,.2,1),filter .5s ease;filter:saturate(.94);}
         .edu01h-img-a>*,.edu01h-img-b>*,.edu01h-img-c>*,.edu01h-img-d>*{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;}
-        .edu01h-img-a:hover img,.edu01h-img-b:hover img,.edu01h-img-c:hover img,.edu01h-img-d:hover img{transform:scale(1.06);}
-        /* subtle dark overlay on bottom-right for card legibility */
-        .edu01h-img-d::after{content:'';position:absolute;inset:0;background:rgba(13,27,46,0.18);pointer-events:none;}
+        .edu01h-img-a:hover img,.edu01h-img-b:hover img,.edu01h-img-c:hover img,.edu01h-img-d:hover img{transform:scale(1.07);filter:saturate(1.05);}
         /* floating testimonial card — overlaps grid center-bottom */
-        .edu01h-card{position:absolute;bottom:56px;left:50%;transform:translateX(-50%);z-index:4;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);border-radius:14px;padding:14px 20px;box-shadow:0 16px 48px rgba(0,0,0,0.3);width:230px;}
+        .edu01h-card{position:absolute;bottom:56px;left:50%;transform:translateX(-50%);z-index:4;background:rgba(255,255,255,0.97);backdrop-filter:blur(10px);border-radius:14px;padding:14px 20px;box-shadow:0 16px 48px rgba(0,0,0,0.3);width:238px;transition:transform .35s ease,box-shadow .35s ease;}
+        .edu01h-card:hover{transform:translateX(-50%) translateY(-4px);box-shadow:0 22px 60px rgba(0,0,0,0.38);}
         .edu01h-card-stars{color:#f59e0b;font-size:13px;letter-spacing:2px;margin-bottom:5px;}
         .edu01h-card-text{font-size:12px;color:#374151;line-height:1.5;margin-bottom:6px;font-style:italic;}
         .edu01h-card-author{font-size:11px;font-weight:700;color:${NAVY};}
-        /* count badge — top-right corner of mosaic */
-        .edu01h-count{position:absolute;top:50%;right:-4px;transform:translateY(-50%);z-index:4;background:${BLUE};color:#fff;border-radius:50px;padding:10px 16px;box-shadow:0 8px 28px rgba(0,89,223,0.5);display:flex;align-items:center;gap:8px;white-space:nowrap;}
+        /* count badge — right edge of mosaic */
+        .edu01h-count{position:absolute;top:50%;right:-4px;transform:translateY(-50%);z-index:4;background:${BLUE};color:#fff;border-radius:50px;padding:10px 18px;box-shadow:0 8px 28px rgba(0,89,223,0.5);display:flex;align-items:center;gap:8px;white-space:nowrap;transition:transform .3s ease,box-shadow .3s ease;}
+        .edu01h-count:hover{transform:translateY(-50%) scale(1.04);box-shadow:0 12px 34px rgba(0,89,223,0.65);}
         .edu01h-count-icon{font-size:16px;}
         .edu01h-count-text{font-size:11px;font-weight:700;line-height:1.3;}
         /* RESPONSIVE */
@@ -11895,91 +12990,115 @@ function HeroEdu01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "var
           .edu01h h1{font-size:2rem;}
           .edu01h-search{flex-wrap:wrap;padding:12px;}
           .edu01h-search-btn{width:100%;}
+          .edu01h-trust{flex-wrap:wrap;gap:16px 28px;}
+        }
+        @media(prefers-reduced-motion:reduce){
+          .edu01h::before,.edu01h-dot1,.edu01h-dot2,.edu01h-img-a,.edu01h-img-b,.edu01h-img-c,.edu01h-img-d,.edu01h-rise{animation:none!important;}
+          .edu01h-rise{opacity:1;}
         }
       `}</style>
 
       <section id={String(sectionId)} className="edu01h" data-template="edu-01-hero">
+        <span className="edu01h-grid" aria-hidden="true" />
         <span className="edu01h-dot1" aria-hidden="true" />
         <span className="edu01h-dot2" aria-hidden="true" />
         <div className="edu01h-inner">
           {/* LEFT */}
           <div>
-            <div className="edu01h-badge">
+            <div className="edu01h-badge edu01h-rise" style={{ animationDelay: "0.05s" }}>
               <span className="edu01h-badge-dot" />
-              Individuální doučování
+              <GenericEditableText sectionId={sectionId} field="badge" value={badge} tag="span" />
             </div>
-            <h1>
-              <GenericEditableText sectionId={sectionId} field="heading" value={heading.replace("na míru", "")} tag="span" />
-              {" "}<span className="edu01h-accent">na míru</span>
+            <h1 className="edu01h-rise" style={{ animationDelay: "0.12s" }}>
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+              {" "}<span className="edu01h-accent"><GenericEditableText sectionId={sectionId} field="headingAccent" value={headingAccent} tag="span" /></span>
             </h1>
-            <p className="edu01h-sub">
+            <p className="edu01h-sub edu01h-rise" style={{ animationDelay: "0.2s" }}>
               <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
             </p>
 
             {/* Search widget */}
-            <div className="edu01h-search">
+            <div className="edu01h-search edu01h-rise" style={{ animationDelay: "0.28s" }}>
               <svg className="edu01h-search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
                 <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
               </svg>
-              <input type="text" placeholder="Co potřebujete doučit?" aria-label="Hledat předmět" />
-              <a href={resolve(ctaHref)} data-btn="primary" className="edu01h-search-btn">Vyhledat</a>
+              <input type="text" placeholder={searchPlaceholder} aria-label={searchPlaceholder} />
+              <a href={resolve(ctaHref)} data-btn="primary" className="edu01h-search-btn">
+                <GenericEditableText sectionId={sectionId} field="searchButtonText" value={searchButtonText} tag="span" />
+              </a>
             </div>
 
             {/* Quick subject chips */}
-            <div className="edu01h-chips">
-              {subjects.map(s => (
-                <a key={s} href={resolve(ctaHref)} data-btn="primary" className="edu01h-chip">{s}</a>
+            <div className="edu01h-chips edu01h-rise" style={{ animationDelay: "0.34s" }}>
+              {subjects.map((s, i) => (
+                <a key={i} href={resolve(ctaHref)} data-btn="primary" className="edu01h-chip">
+                  <GenericEditableText sectionId={sectionId} field={`subjects.${i}`} value={s} tag="span" />
+                </a>
               ))}
             </div>
 
             {/* Trust stats */}
-            <div className="edu01h-trust">
-              {stats.map(st => (
-                <div key={st.label}>
-                  <div className="edu01h-stat-val">{st.value}</div>
-                  <div className="edu01h-stat-lbl">{st.label}</div>
+            <div className="edu01h-trust edu01h-rise" style={{ animationDelay: "0.4s" }}>
+              {stats.map((st, i) => (
+                <div key={i} className="edu01h-stat">
+                  <div className="edu01h-stat-val">
+                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={st.value} tag="span" />
+                  </div>
+                  <div className="edu01h-stat-lbl">
+                    <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={st.label} tag="span" />
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* RIGHT — 3-photo mosaic */}
+          {/* RIGHT — 4-photo mosaic */}
           <div className="edu01h-right">
             <span className="edu01h-glow" aria-hidden="true" />
             <div className="edu01h-photos">
               <div className="edu01h-img-a">
-                <GenericEditableImage sectionId={sectionId} field="heroImages.0" src={heroImages[0]} alt="">
-                  <img src={heroImages[0]} alt="" loading="eager" />
+                <GenericEditableImage sectionId={sectionId} field="heroImages.0" src={heroImages[0]} alt="Studenti při doučování">
+                  <img src={heroImages[0]} alt="Studenti při doučování" loading="eager" />
                 </GenericEditableImage>
               </div>
               <div className="edu01h-img-b">
-                <GenericEditableImage sectionId={sectionId} field="heroImages.1" src={heroImages[1]} alt="">
-                  <img src={heroImages[1]} alt="" loading="eager" />
+                <GenericEditableImage sectionId={sectionId} field="heroImages.1" src={heroImages[1]} alt="Lektor pomáhá studentovi">
+                  <img src={heroImages[1]} alt="Lektor pomáhá studentovi" loading="eager" />
                 </GenericEditableImage>
               </div>
               <div className="edu01h-img-c">
-                <GenericEditableImage sectionId={sectionId} field="heroImages.2" src={heroImages[2]} alt="">
-                  <img src={heroImages[2]} alt="" loading="lazy" />
+                <GenericEditableImage sectionId={sectionId} field="heroImages.2" src={heroImages[2]} alt="Student při psaní poznámek">
+                  <img src={heroImages[2]} alt="Student při psaní poznámek" loading="lazy" />
                 </GenericEditableImage>
               </div>
               <div className="edu01h-img-d">
-                <GenericEditableImage sectionId={sectionId} field="heroImages.3" src={heroImages[3]} alt="">
-                  <img src={heroImages[3]} alt="" loading="lazy" />
+                <GenericEditableImage sectionId={sectionId} field="heroImages.3" src={heroImages[3]} alt="Studium v knihovně">
+                  <img src={heroImages[3]} alt="Studium v knihovně" loading="lazy" />
                 </GenericEditableImage>
               </div>
             </div>
 
             {/* Floating testimonial card */}
-            <div className="edu01h-card" aria-hidden="true">
-              <div className="edu01h-card-stars">★★★★★</div>
-              <div className="edu01h-card-text">"Syn udělal maturitu z matiky na výbornou!"</div>
-              <div className="edu01h-card-author">Jana N. — matka studenta</div>
+            <div className="edu01h-card">
+              <div className="edu01h-card-stars">
+                <GenericEditableText sectionId={sectionId} field="testimonialStars" value={testimonialStars} tag="span" />
+              </div>
+              <div className="edu01h-card-text">
+                <GenericEditableText sectionId={sectionId} field="testimonialText" value={testimonialText} tag="span" />
+              </div>
+              <div className="edu01h-card-author">
+                <GenericEditableText sectionId={sectionId} field="testimonialAuthor" value={testimonialAuthor} tag="span" />
+              </div>
             </div>
 
             {/* Count badge */}
-            <div className="edu01h-count" aria-hidden="true">
-              <span className="edu01h-count-icon">🎓</span>
-              <div className="edu01h-count-text">34 000+<br/>studentů</div>
+            <div className="edu01h-count">
+              <span className="edu01h-count-icon" aria-hidden="true">🎓</span>
+              <div className="edu01h-count-text">
+                <GenericEditableText sectionId={sectionId} field="countValue" value={countValue} tag="span" />
+                <br/>
+                <GenericEditableText sectionId={sectionId} field="countLabel" value={countLabel} tag="span" />
+              </div>
             </div>
           </div>
         </div>
@@ -11988,57 +13107,244 @@ function HeroEdu01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "var
   );
 }
 
+
+// ── hero-edu-01-page — slim subpage banner ───────────────────────────────────
+// Navy gradient banner (~340px), breadcrumb + H1 + modrá decorative rule.
+// Volitelný bg obrázek s navy overlay. Stejné téma jako edu-01 navbar/hero.
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroEdu01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const NAVY  = "#132339";
+  const BLUE  = "#0059df";
+  const LIGHT = "#91bae4";
+  const FONT  = "'Libre Franklin', Arial, sans-serif";
+
+  const title          = String(c.title ?? "Podstránka");
+  const subtitle       = String(c.subtitle ?? "");
+  const breadcrumb     = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const backgroundImage = c.backgroundImage ? String(c.backgroundImage) : "";
+  const siteMode       = String(c.siteMode ?? "multipage");
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <>
+      <style>{`
+        .edu01hp{position:relative;background:linear-gradient(135deg,${NAVY} 0%,#0d1b2e 100%);font-family:${FONT};overflow:hidden;padding:96px 40px 68px;}
+        .edu01hp::before{content:'';position:absolute;top:-120px;right:-100px;width:400px;height:400px;border-radius:50%;border:70px solid rgba(0,89,223,0.08);pointer-events:none;}
+        .edu01hp-bgimg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.18;filter:saturate(.7);pointer-events:none;}
+        .edu01hp-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse 60% 70% at 30% 50%,#000,transparent 78%);pointer-events:none;}
+        .edu01hp-inner{position:relative;z-index:2;max-width:1280px;margin:0 auto;}
+        .edu01hp-crumb{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:rgba(255,255,255,.6);margin-bottom:16px;}
+        .edu01hp-crumb a{color:${LIGHT};text-decoration:none;transition:color .2s;}
+        .edu01hp-crumb a:hover{color:#fff;}
+        .edu01hp-crumb-sep{opacity:.5;}
+        .edu01hp-crumb-cur{color:rgba(255,255,255,.85);}
+        .edu01hp h1{font-family:${FONT};font-weight:800;font-size:clamp(2rem,4vw,3rem);color:#fff;margin:0;letter-spacing:-0.04em;line-height:1.1;}
+        .edu01hp-rule{width:56px;height:4px;border-radius:4px;background:linear-gradient(90deg,${BLUE},${LIGHT});margin-top:20px;}
+        .edu01hp-sub{font-size:clamp(1rem,1.4vw,1.1rem);color:rgba(255,255,255,0.65);line-height:1.65;margin:18px 0 0;max-width:560px;}
+        @media(max-width:600px){.edu01hp{padding:72px 24px 52px;}}
+      `}</style>
+
+      <section id={String(sectionId)} className="edu01hp" data-template="edu-01-hero-page">
+        {backgroundImage && <span className="edu01hp-bgimg" style={{ backgroundImage: `url(${backgroundImage})` }} aria-hidden="true" />}
+        <span className="edu01hp-grid" aria-hidden="true" />
+        <div className="edu01hp-inner">
+          <div className="edu01hp-crumb">
+            <a href={resolve(breadcrumbHref)}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span className="edu01hp-crumb-sep" aria-hidden="true">/</span>
+            <span className="edu01hp-crumb-cur">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </span>
+          </div>
+          <h1>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+          <div className="edu01hp-rule" aria-hidden="true" />
+          {subtitle.trim() && (
+            <p className="edu01hp-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
+      </section>
+    </>
+  );
+}
+
 // ─── autoskola-01 Hero ────────────────────────────────────────────────────────
+// Road Editorial Motion — cinematic viewport hero
+// Ken-Burns bg, midnight gradient overlay, left-aligned editorial, speedometer arc,
+// dashed road-lane eyebrow, kinetic marquee strip, JBM Mono stats
+// ─────────────────────────────────────────────────────────────────────────────
 function HeroAutoskola01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = content as Record<string, string>;
-  const heading = c.heading ?? "Nejlépe hodnocená autoškola v ČR";
-  const subheading = c.subheading ?? "Kurzy na míru vašim potřebám s možností splátek od 850 Kč měsíčně.";
-  const ctaText = c.ctaText ?? "Chci se přihlásit";
-  const ctaHref = c.ctaHref ?? "/prihlaseni";
-  const ctaSecondaryText = c.ctaSecondaryText ?? "Zobrazit kurzy";
+  const heading = c.heading ?? "Řidičák skupiny B — rychle, bezpečně, s přehledem";
+  const subheading = c.subheading ?? "Zahajujeme nové kurzy každý měsíc. Vyberte si termín a začněte ještě tento týden.";
+  const ctaText = c.ctaText ?? "Vybrat termín";
+  const ctaHref = c.ctaHref ?? "/zapis";
+  const ctaSecondaryText = c.ctaSecondaryText ?? "Prohlédnout kurzy";
   const ctaSecondaryHref = c.ctaSecondaryHref ?? "/kurzy";
-  const bgImage = c.backgroundImage ?? "/clones/nobe/img/ridicak-450x275.jpg";
+  const bgImage = c.backgroundImage ?? "/assets/autoskola-01/hero-road.webp";
 
+  const INK    = "#0f172a";
+  const BONE   = "#fafaf7";
   const ORANGE = "#f16823";
-  const FONT = "'Roboto', sans-serif";
+  const YELLOW = "#ffce00";
+  const SLATE  = "#94a3b8";
+  const FONT_D = "'Space Grotesk', 'Inter', sans-serif";
+  const FONT_B = "'Inter Tight', 'Inter', sans-serif";
 
   const resolve = (href: string) => (tenantSlug && !isAdmin) ? `/demo/${tenantSlug}${href}` : href;
 
   return (
     <section
+      data-template="autoskola-01"
       id={String(sectionId)}
-      style={{ position: "relative", width: "100%", height: "100vh", minHeight: 480, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden", backgroundColor: "#333" }}
+      style={{ position: "relative", width: "100%", height: "100vh", minHeight: 600, display: "flex", alignItems: "center", overflow: "hidden", backgroundColor: INK }}
     >
+      {/* Ken-Burns BG */}
       <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt={heading} style={{ position: "absolute", inset: 0, zIndex: 1, display: "block" }}>
-        <div style={{ position: "absolute", inset: 0, backgroundImage: `url(${bgImage})`, backgroundSize: "cover", backgroundPosition: "center top" }} />
+        <div className="as01-hero-bg" style={{ position: "absolute", inset: "-5%", backgroundImage: `url(${bgImage})`, backgroundSize: "cover", backgroundPosition: "center" }} />
       </GenericEditableImage>
-      <div style={{ position: "absolute", inset: 0, backgroundColor: "rgba(0,0,0,0.52)", zIndex: 2 }} aria-hidden />
-      <div style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "0 clamp(24px, 6vw, 80px)", display: "flex", flexDirection: "column", alignItems: "center", gap: 24, maxWidth: 820 }}>
-        <h1 style={{ fontFamily: FONT, fontWeight: 700, fontSize: "clamp(2rem, 5vw, 3.8rem)", color: "#ffffff", margin: 0, lineHeight: 1.15, textShadow: "0 2px 16px rgba(0,0,0,0.4)" }}>
-          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-        </h1>
-        <p style={{ fontFamily: FONT, fontWeight: 400, fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "rgba(255,255,255,0.88)", margin: 0, maxWidth: 560, lineHeight: 1.55 }}>
-          <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-        </p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center", marginTop: 8 }}>
-          <a
-            href={resolve(ctaHref)}
-            data-btn="primary"
-            style={{ display: "inline-block", padding: "14px 36px", backgroundColor: ORANGE, color: "#fff", fontFamily: FONT, fontSize: 15, fontWeight: 600, letterSpacing: "0.04em", textDecoration: "none", borderRadius: 4, transition: "background 0.2s, transform 0.15s" }}
-            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#d85710"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-1px)"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = ORANGE; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)"; }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
-          <a
-            href={resolve(ctaSecondaryHref)}
-            style={{ display: "inline-block", padding: "13px 34px", backgroundColor: "transparent", color: "#fff", fontFamily: FONT, fontSize: 15, fontWeight: 600, letterSpacing: "0.04em", textDecoration: "none", borderRadius: 4, border: "2px solid rgba(255,255,255,0.8)", transition: "border-color 0.2s, transform 0.15s" }}
-            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = "#fff"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(-1px)"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(255,255,255,0.8)"; (e.currentTarget as HTMLAnchorElement).style.transform = "translateY(0)"; }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
-          </a>
+
+      {/* Gradient overlay — left-heavy for text readability */}
+      <div style={{ position: "absolute", inset: 0, zIndex: 2, background: `linear-gradient(105deg, ${INK}e8 0%, ${INK}b0 40%, ${INK}40 70%, transparent 100%)` }} aria-hidden="true" />
+
+      {/* Decorative speedometer arc — top right */}
+      <svg className="hidden md:block" viewBox="0 0 200 200" fill="none" aria-hidden="true"
+        style={{ position: "absolute", top: "10%", right: "8%", width: 180, height: 180, zIndex: 3, opacity: 0.08 }}>
+        <circle cx="100" cy="100" r="90" stroke={ORANGE} strokeWidth="3" />
+        <path d="M30 150 A85 85 0 0 1 170 150" stroke={YELLOW} strokeWidth="2.5" strokeLinecap="round" fill="none" />
+        <line x1="100" y1="100" x2="145" y2="45" stroke={BONE} strokeWidth="3" strokeLinecap="round" />
+        <circle cx="100" cy="100" r="6" fill={ORANGE} />
+      </svg>
+
+      {/* Content — left-aligned editorial */}
+      <div style={{ position: "relative", zIndex: 4, maxWidth: 1280, margin: "0 auto", padding: "0 clamp(24px, 6vw, 80px)", width: "100%" }}>
+        <div className="as01-hero-content" style={{ maxWidth: 640, display: "flex", flexDirection: "column", gap: 24 }}>
+          {/* Eyebrow — dashed road-lane */}
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <span style={{ width: 40, height: 0, borderTop: `2px dashed ${ORANGE}` }} aria-hidden="true" />
+            <span style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: ORANGE }}>Autoškola DRIVE</span>
+          </div>
+
+          <h1 style={{ fontFamily: FONT_D, fontWeight: 700, fontSize: "clamp(2.2rem, 5vw, 3.6rem)", color: BONE, margin: 0, lineHeight: 1.08, letterSpacing: "-0.01em" }}>
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+          </h1>
+
+          <p style={{ fontFamily: FONT_B, fontWeight: 400, fontSize: "clamp(1rem, 1.8vw, 1.15rem)", color: SLATE, margin: 0, maxWidth: 520, lineHeight: 1.6 }}>
+            <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
+          </p>
+
+          {/* CTA row */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 8 }}>
+            <a href={resolve(ctaHref)} data-btn="primary" className="as01-hero-cta"
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 32px", backgroundColor: YELLOW, color: INK, fontFamily: FONT_D, fontSize: 14, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", textDecoration: "none", transition: "background-color 0.2s, transform 0.15s, box-shadow 0.2s" }}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+              </svg>
+            </a>
+            <a href={resolve(ctaSecondaryHref)} className="as01-hero-cta-sec"
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "13px 30px", backgroundColor: "transparent", color: BONE, fontFamily: FONT_D, fontSize: 14, fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", textDecoration: "none", border: `2px solid ${SLATE}50`, transition: "border-color 0.2s, color 0.2s, transform 0.15s" }}>
+              <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
+            </a>
+          </div>
+
+          {/* Stats mini-bar */}
+          <div style={{ display: "flex", gap: 32, marginTop: 16 }}>
+            {[
+              { val: "98%", lab: "úspěšnost" },
+              { val: "8 000+", lab: "absolventů" },
+              { val: "8", lab: "poboček" },
+            ].map((s, i) => (
+              <div key={i} style={{ display: "flex", flexDirection: "column" }}>
+                <span style={{ fontFamily: "'JetBrains Mono', 'SF Mono', monospace", fontSize: "clamp(1.2rem, 2.5vw, 1.6rem)", fontWeight: 700, color: YELLOW, lineHeight: 1 }}>{s.val}</span>
+                <span style={{ fontFamily: FONT_B, fontSize: 11, color: SLATE, marginTop: 4, letterSpacing: "0.05em", textTransform: "uppercase" }}>{s.lab}</span>
+              </div>
+            ))}
+          </div>
         </div>
+      </div>
+
+    </section>
+  );
+}
+// ── hero-autoskola-01-page — slim subpage banner ─────────────────────────────
+// Midnight ink bg, dashed road-lane eyebrow, Space Grotesk H1, breadcrumb,
+// yellow corner brackets, JBM Mono page indicator
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroAutoskola01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const title          = String(c.title ?? "Podstránka");
+  const subtitle       = String(c.subtitle ?? "");
+  const breadcrumb     = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+
+  const resolvedHref = tenantSlug && breadcrumbHref.startsWith("/")
+    ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${breadcrumbHref === "/" ? "" : breadcrumbHref}`
+    : breadcrumbHref;
+
+  const INK    = "#0f172a";
+  const INK2   = "#1a2540";
+  const BONE   = "#fafaf7";
+  const ORANGE = "#f16823";
+  const YELLOW = "#ffce00";
+  const SLATE  = "#94a3b8";
+  const FONT_D = "'Space Grotesk', 'Inter', sans-serif";
+  const FONT_B = "'Inter Tight', 'Inter', sans-serif";
+  const FONT_M = "'JetBrains Mono', 'Fira Code', monospace";
+
+  return (
+    <section data-template="autoskola-01" id={String(sectionId)}
+      style={{ backgroundColor: INK, padding: "120px clamp(24px, 6vw, 80px) 56px", position: "relative", overflow: "hidden" }}>
+
+      {/* Yellow corner brackets */}
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ position: "absolute", top: 24, left: 24, opacity: 0.2 }}>
+        <path d="M0 24 V8 M0 24 H16" stroke={YELLOW} strokeWidth="1.5"/>
+      </svg>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ position: "absolute", bottom: 24, right: 24, opacity: 0.2 }}>
+        <path d="M24 0 V16 M24 0 H8" stroke={YELLOW} strokeWidth="1.5"/>
+      </svg>
+
+      {/* Dashed road-lane top accent */}
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 0, borderBottom: `2px dashed ${ORANGE}30` }} aria-hidden="true" />
+
+      <div style={{ maxWidth: 1100, margin: "0 auto", textAlign: "center" }}>
+        {/* Breadcrumb */}
+        <nav aria-label="Drobečková navigace" style={{ marginBottom: 20, display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+          <a href={resolvedHref} style={{ fontFamily: FONT_B, fontSize: 13, color: SLATE, textDecoration: "none", transition: "color 0.2s" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.color = BONE; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.color = SLATE; }}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span style={{ fontFamily: FONT_M, fontSize: 11, color: `${SLATE}50` }}>/</span>
+          <span style={{ fontFamily: FONT_B, fontSize: 13, color: ORANGE }}>
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </nav>
+
+        {/* Dashed eyebrow */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 16 }}>
+          <span style={{ width: 32, height: 0, borderTop: `2px dashed ${ORANGE}` }} aria-hidden="true" />
+          <span style={{ fontFamily: FONT_M, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: ORANGE }}>DRIVE CZ</span>
+          <span style={{ width: 32, height: 0, borderTop: `2px dashed ${ORANGE}` }} aria-hidden="true" />
+        </div>
+
+        {/* Title */}
+        <h1 style={{ fontFamily: FONT_D, fontWeight: 700, fontSize: "clamp(1.8rem, 4vw, 2.8rem)", color: BONE, margin: "0 0 8px", letterSpacing: "-0.02em" }}>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+
+        {subtitle && (
+          <p style={{ fontFamily: FONT_B, fontSize: "1rem", color: SLATE, margin: 0, maxWidth: 520, marginInline: "auto" }}>
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
       </div>
     </section>
   );
@@ -12521,11 +13827,7 @@ function HeroGrooming01({ content, sectionId, tenantSlug, isAdmin }: { content: 
 
 
 // ── pethotel-01-hero ──────────────────────────────────────────────────────────
-// Fullscreen hero 100vh — skolkapropejska.cz inspired, upgraded:
-// - bg foto main-box.jpg + gradient overlay (left dark → right transparent)
-// - vlevo: velký bílý H1 90px + subtitle + 2 CTA tlačítka
-// - vpravo: maskot pes PNG, absolutně umístěný, fade-in s lehkým float efektem
-// - Quicksand font, červená #D6123D primary CTA, tmavá #712419 secondary
+// Fullscreen hero — cream→warm gradient, large H1, 2 pill CTAs, mascot floating
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroPethotel01({
   content,
@@ -12540,17 +13842,17 @@ function HeroPethotel01({
 }) {
   const RED    = "#D6123D";
   const DARK   = "#712419";
+  const ACCENT = "#F9C93D";
   const WHITE  = "#ffffff";
   const FONT   = "'Quicksand', Arial, sans-serif";
 
-  const heading    = String(content.heading    ?? "Nenechávejte svého pejska doma samotného!");
-  const subheading = String(content.subheading ?? "V naší psí školce nebo hotelu si užije legraci s ostatními psími kamarády.");
-  const cta1Text   = String(content.cta1Text   ?? "Psí školka");
+  const heading    = String(content.heading    ?? "Kde se pejsci cítí jako doma");
+  const subheading = String(content.subheading ?? "Hlídáme, hrajeme si a staráme se o vašeho čtyřnohého parťáka s láskou — ať už na den, nebo na celý týden.");
+  const cta1Text   = String(content.cta1Text   ?? "Denní školka");
   const cta1Href   = String(content.cta1Href   ?? "/sluzby");
   const cta2Text   = String(content.cta2Text   ?? "Psí hotel");
   const cta2Href   = String(content.cta2Href   ?? "/sluzby");
-  const imageUrl   = String(content.imageUrl   ?? "/clones/skolkapropejska/img/pes-maskot.png");
-  const bgUrl      = "/clones/skolkapropejska/img/main-box.jpg";
+  const bgUrl      = String(content.backgroundImage ?? "/templates/pethotel-01/hero-bg.webp");
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => { const t = setTimeout(() => setMounted(true), 80); return () => clearTimeout(t); }, []);
@@ -12565,48 +13867,65 @@ function HeroPethotel01({
   return (
     <>
       <style>{`
-        @keyframes ph01-float {
-          0%,100% { transform: translateY(0px); }
-          50%      { transform: translateY(-14px); }
-        }
-        .ph01hero { position:relative; min-height:100vh; display:flex; align-items:center; overflow:hidden; font-family:${FONT}; padding-top:72px; }
+        @keyframes ph01HeroKen { 0% { transform:scale(1); } 100% { transform:scale(1.08); } }
+        .ph01hero { position:relative; min-height:100vh; min-height:100svh; display:flex; align-items:center; overflow:hidden; font-family:${FONT}; }
         .ph01hero-bg { position:absolute; inset:0; z-index:1; }
-        .ph01hero-bg img { width:100%; height:100%; object-fit:cover; object-position:center 40%; }
-        .ph01hero-overlay { position:absolute; inset:0; z-index:2; background:linear-gradient(105deg, rgba(20,6,6,0.72) 0%, rgba(20,6,6,0.48) 52%, rgba(20,6,6,0.08) 100%); }
-        .ph01hero-inner { position:relative; z-index:3; max-width:1200px; margin:0 auto; width:100%; padding:60px 48px 80px; display:grid; grid-template-columns:1fr 420px; align-items:center; gap:40px; }
-        .ph01hero-text { display:flex; flex-direction:column; gap:28px; }
-        .ph01hero-h1 { font-family:${FONT}; font-size:clamp(39px,4.7vw,75px); font-weight:800; color:${WHITE}; line-height:1.1; margin:0; text-shadow:0 2px 20px rgba(0,0,0,0.4); letter-spacing:-0.5px; }
-        .ph01hero-sub { font-family:${FONT}; font-size:clamp(15px,1.5vw,19px); font-weight:600; color:rgba(255,255,255,0.92); line-height:1.55; margin:0; text-shadow:0 1px 8px rgba(0,0,0,0.3); max-width:580px; }
-        .ph01hero-ctas { display:flex; gap:16px; flex-wrap:wrap; margin-top:8px; }
-        .ph01hero-cta1 { display:inline-block; padding:16px 38px; background:${RED}; color:${WHITE}; font-family:${FONT}; font-size:18px; font-weight:700; text-decoration:none; border-radius:4px; border:2px solid ${RED}; transition:background .2s,transform .2s,box-shadow .2s; box-shadow:0 4px 18px rgba(214,18,61,0.45); }
-        .ph01hero-cta1:hover { background:#b80d32; border-color:#b80d32; transform:translateY(-3px); box-shadow:0 8px 28px rgba(214,18,61,0.5); }
-        .ph01hero-cta2 { display:inline-block; padding:16px 38px; background:transparent; color:${WHITE}; font-family:${FONT}; font-size:18px; font-weight:700; text-decoration:none; border-radius:4px; border:2px solid rgba(255,255,255,0.7); transition:background .2s,border-color .2s,transform .2s; backdrop-filter:blur(4px); }
-        .ph01hero-cta2:hover { background:rgba(255,255,255,0.15); border-color:${WHITE}; transform:translateY(-3px); }
-        .ph01hero-mascot { position:relative; display:flex; justify-content:center; align-items:flex-end; }
-        .ph01hero-mascot img { width:100%; max-width:480px; object-fit:contain; filter:drop-shadow(0 12px 40px rgba(0,0,0,0.5)); animation:ph01-float 4s ease-in-out infinite; }
-        @media(max-width:900px){
-          .ph01hero-inner { grid-template-columns:1fr; padding:48px 24px 60px; }
-          .ph01hero-mascot { display:none; }
-          .ph01hero-h1 { font-size:clamp(38px,8vw,60px); }
+        .ph01hero-bg > div { height:100%; }
+        .ph01hero-bg img { width:100%; height:100%; object-fit:cover; object-position:center 35%; animation:ph01HeroKen 18s ease-in-out alternate infinite; }
+        .ph01hero-overlay { position:absolute; inset:0; z-index:2; background:linear-gradient(105deg, rgba(113,36,25,0.88) 0%, rgba(113,36,25,0.6) 40%, rgba(113,36,25,0.18) 75%, transparent 100%); }
+        .ph01hero-inner { position:relative; z-index:3; max-width:1200px; margin:0 auto; width:100%; padding:140px 48px 100px; }
+        .ph01hero-text { max-width:620px; display:flex; flex-direction:column; gap:22px; }
+        .ph01hero-eyebrow { display:inline-flex; align-items:center; gap:10px; font-family:${FONT}; font-size:13px; font-weight:700; color:${ACCENT}; text-transform:uppercase; letter-spacing:0.14em; margin:0; }
+        .ph01hero-eyebrow-paw { width:20px; height:20px; flex-shrink:0; }
+        .ph01hero-h1 { font-family:${FONT}; font-size:clamp(38px,5vw,72px); font-weight:800; color:${WHITE}; line-height:1.06; margin:0; text-shadow:0 2px 24px rgba(0,0,0,0.35); letter-spacing:-0.5px; }
+        .ph01hero-sub { font-family:${FONT}; font-size:clamp(15px,1.4vw,19px); font-weight:500; color:rgba(255,255,255,0.9); line-height:1.65; margin:0; text-shadow:0 1px 8px rgba(0,0,0,0.2); }
+        .ph01hero-ctas { display:flex; gap:14px; flex-wrap:wrap; margin-top:8px; }
+        .ph01hero-cta1 { display:inline-flex; align-items:center; gap:8px; padding:16px 38px; background:${RED}; color:${WHITE}; font-family:${FONT}; font-size:17px; font-weight:700; text-decoration:none; border-radius:50px; border:2px solid ${RED}; transition:background .28s ease,transform .32s cubic-bezier(.34,1.56,.64,1),box-shadow .28s ease; box-shadow:0 6px 22px rgba(214,18,61,0.4); }
+        .ph01hero-cta1:hover { background:#b80d32; border-color:#b80d32; transform:translateY(-3px); box-shadow:0 12px 32px rgba(214,18,61,0.5); }
+        .ph01hero-cta2 { display:inline-flex; align-items:center; gap:8px; padding:16px 38px; background:rgba(255,255,255,0.1); color:${WHITE}; font-family:${FONT}; font-size:17px; font-weight:700; text-decoration:none; border-radius:50px; border:2px solid rgba(255,255,255,0.45); transition:background .28s ease,border-color .28s ease,transform .32s cubic-bezier(.34,1.56,.64,1); backdrop-filter:blur(8px); }
+        .ph01hero-cta2:hover { background:rgba(255,255,255,0.2); border-color:${WHITE}; transform:translateY(-3px); }
+        .ph01hero-scroll { position:absolute; bottom:32px; left:50%; transform:translateX(-50%); z-index:4; display:flex; flex-direction:column; align-items:center; gap:6px; color:rgba(255,255,255,0.5); font-size:11px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; }
+        .ph01hero-scroll-line { width:1px; height:40px; background:linear-gradient(180deg,rgba(255,255,255,0.4),transparent); }
+        @media(max-width:768px){
+          .ph01hero { min-height:100svh; min-height:100vh; }
+          .ph01hero-overlay { background:linear-gradient(180deg, rgba(113,36,25,0.92) 0%, rgba(113,36,25,0.7) 55%, rgba(113,36,25,0.4) 100%); }
+          .ph01hero-bg img { object-position:60% center; }
+          .ph01hero-inner { padding:110px 20px 72px; display:flex; align-items:center; justify-content:center; min-height:inherit; box-sizing:border-box; }
+          .ph01hero-text { max-width:100%; gap:18px; text-align:center; align-items:center; }
+          .ph01hero-eyebrow { font-size:12px; }
+          .ph01hero-h1 { font-size:clamp(30px,8.5vw,44px); line-height:1.1; }
+          .ph01hero-sub { font-size:15px; line-height:1.55; }
+          .ph01hero-sub { margin:0 auto; }
+          .ph01hero-ctas { gap:10px; justify-content:center; }
+          .ph01hero-cta1,.ph01hero-cta2 { justify-content:center; padding:14px 24px; font-size:15px; text-align:center; }
+          .ph01hero-scroll { display:none; }
         }
       `}</style>
 
       <section className="ph01hero" data-template="pethotel-01-hero">
         <div className="ph01hero-bg">
-          <img loading="eager" src={bgUrl} alt="" aria-hidden="true" />
+          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgUrl} alt="">
+            <img loading="eager" src={bgUrl} alt="" aria-hidden="true" />
+          </GenericEditableImage>
         </div>
         <div className="ph01hero-overlay" aria-hidden="true" />
 
         <div className="ph01hero-inner">
-          {/* Text vlevo */}
           <div
             className="ph01hero-text"
             style={{
               opacity: mounted ? 1 : 0,
-              transform: mounted ? "none" : "translateY(32px)",
-              transition: "opacity .85s ease, transform .85s ease",
+              transform: mounted ? "none" : "translateY(28px)",
+              transition: "opacity .9s ease, transform .9s ease",
             }}
           >
+            <p className="ph01hero-eyebrow">
+              <svg className="ph01hero-eyebrow-paw" viewBox="0 0 60 60" fill={ACCENT} aria-hidden="true">
+                <circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/>
+                <ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="44" r="5"/><circle cx="37" cy="44" r="5"/>
+              </svg>
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={String(content.eyebrow ?? "Psí hotel & denní školka")} tag="span" />
+            </p>
             <h1 className="ph01hero-h1">
               <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
             </h1>
@@ -12616,37 +13935,81 @@ function HeroPethotel01({
             <div className="ph01hero-ctas">
               <a href={resolve(cta1Href)} className="ph01hero-cta1">
                 <GenericEditableText sectionId={sectionId} field="cta1Text" value={cta1Text} tag="span" />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </a>
               <a href={resolve(cta2Href)} className="ph01hero-cta2">
                 <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
               </a>
             </div>
           </div>
+        </div>
 
-          {/* Maskot vpravo */}
-          <div
-            className="ph01hero-mascot"
-            style={{
-              opacity: mounted ? 1 : 0,
-              transform: mounted ? "none" : "translateX(40px)",
-              transition: "opacity 1s ease .2s, transform 1s ease .2s",
-            }}
-          >
-            {imageUrl && (
-              <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt="Maskot">
-                <img loading="eager" src={imageUrl} alt="Maskot psí školky" />
-              </GenericEditableImage>
-            )}
-          </div>
+        <div className="ph01hero-scroll" aria-hidden="true">
+          <span className="ph01hero-scroll-line" />
         </div>
       </section>
     </>
   );
 }
 
-// ── vet-01-hero ───────────────────────────────────────────────────────────────
-// 1:1 veterinafenix.cz:
-// - 499px výška, autoplay 4s, fade transition
+
+// ── hero-pethotel-01-page (slim banner for subpages) ─────────────────────────
+function HeroPethotel01Page({
+  content,
+  sectionId,
+}: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin?: boolean;
+}) {
+  const heading  = String(content.heading  ?? content.title ?? "");
+  const subtitle = String(content.subtitle ?? content.subheading ?? "");
+
+  const BROWN = "#712419";
+  const RED   = "#D6123D";
+  const CREAM = "#fff5ee";
+  const YELLOW= "#F9C93D";
+  const FONT  = "'Quicksand', Arial, sans-serif";
+
+  return (
+    <>
+      <style>{`
+        .ph01hp { background:${BROWN}; padding:8.5rem 2rem 3.5rem; position:relative; overflow:hidden; }
+        .ph01hp::after { content:""; position:absolute; bottom:0; left:0; right:0; height:4px; background:linear-gradient(90deg,${YELLOW},${RED},${YELLOW}); }
+        .ph01hp-inner { max-width:1100px; margin:0 auto; position:relative; z-index:1; }
+        .ph01hp-h1 { font-family:${FONT}; font-size:clamp(1.8rem,3.4vw,2.8rem); font-weight:800; color:${CREAM}; margin:0 0 10px; line-height:1.18; }
+        .ph01hp-sub { font-family:${FONT}; font-size:1rem; color:rgba(255,245,238,0.6); font-weight:500; margin:0; line-height:1.6; }
+        .ph01hp-paw { position:absolute; opacity:0.06; pointer-events:none; }
+        .ph01hp-paw--1 { top:30px; right:60px; width:80px; height:80px; transform:rotate(20deg); }
+        .ph01hp-paw--2 { bottom:20px; left:40px; width:55px; height:55px; transform:rotate(-15deg); }
+      `}</style>
+      <section className="ph01hp" data-template="hero-pethotel-01-page">
+        <svg className="ph01hp-paw ph01hp-paw--1" viewBox="0 0 60 60" fill={CREAM} aria-hidden="true">
+          <circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/>
+          <ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="44" r="5"/><circle cx="37" cy="44" r="5"/>
+        </svg>
+        <svg className="ph01hp-paw ph01hp-paw--2" viewBox="0 0 60 60" fill={CREAM} aria-hidden="true">
+          <circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/>
+          <ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="44" r="5"/><circle cx="37" cy="44" r="5"/>
+        </svg>
+        <div className="ph01hp-inner">
+          {heading && (
+            <h1 className="ph01hp-h1">
+              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+            </h1>
+          )}
+          {subtitle && (
+            <p className="ph01hp-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
+      </section>
+    </>
+  );
+}
+
 // - 3 slides: teal+psi.jpg / blue+cat.jpg / purple+savci.jpg
 // - Žádný text overlay na slidech — čisté fullbleed fotky
 // - Šipky vlevo/vpravo (bílé) + tečky dole uprostřed
@@ -13013,6 +14376,7 @@ function HeroUcetni02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
   const FONT_H = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
   const FONT_B = "'Open Sans', Arial, sans-serif";
 
+  const overline   = String(content.overline           ?? "Daňové poradenství & účetnictví");
   const title      = String(content.title              ?? "Jsme vaším partnerem");
   const subtitle   = String(content.subtitle           ?? "Přinášíme vám znalosti, finance a příležitosti. Snižujeme náklady, rizika a přebíráme administrativu, abyste se mohli naplno věnovat strategickému řízení vašeho podniku.");
   const ctaText    = String(content.ctaText            ?? "Opřete se o tým odborníků");
@@ -13020,6 +14384,13 @@ function HeroUcetni02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
   const ctaSecText = String(content.ctaSecondaryText   ?? "Naše služby");
   const ctaSecHref = String(content.ctaSecondaryHref   ?? "#sluzby");
   const imageUrl   = String(content.bgImage            ?? "");
+  const badgeValue = String(content.badgeValue         ?? "15+");
+  const badgeLabel = String(content.badgeLabel         ?? "let na trhu");
+
+  const rawTrust = content.trustBadges as Array<{ label: string }> | string[] | undefined;
+  const trust: string[] = Array.isArray(rawTrust) && rawTrust.length > 0
+    ? rawTrust.map((t) => (typeof t === "string" ? t : String((t as { label?: string }).label ?? "")))
+    : ["Certifikovaní poradci", "2 200+ spokojených klientů", "První konzultace zdarma"];
 
   const resolveHref = (href: string) => {
     if (!tenantSlug) return href;
@@ -13032,59 +14403,131 @@ function HeroUcetni02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
       <style>{`
         .ucn02hero-wrap {
           position: relative;
-          min-height: 640px;
+          min-height: 660px;
           display: flex;
           overflow: hidden;
           font-family: ${FONT_B};
+          background: ${GREEN};
         }
         /* Left green column */
         .ucn02hero-left {
           position: relative;
           z-index: 2;
-          flex: 0 0 58%;
-          background: ${GREEN};
+          flex: 0 0 57%;
+          background:
+            radial-gradient(120% 90% at 12% 20%, #016047 0%, ${GREEN} 46%, ${GREEN2} 100%);
           display: flex;
           align-items: center;
-          padding: 80px 0 80px 0;
-          /* Diagonal right edge via clip-path */
-          clip-path: polygon(0 0, 100% 0, calc(100% - 80px) 100%, 0 100%);
+          padding: 96px 0;
+          clip-path: polygon(0 0, 100% 0, calc(100% - 90px) 100%, 0 100%);
+        }
+        /* faint gold hairline grid + ghost glyph for depth */
+        .ucn02hero-left::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background-image:
+            linear-gradient(rgba(188,161,96,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(188,161,96,0.05) 1px, transparent 1px);
+          background-size: 60px 60px;
+          pointer-events: none;
+        }
+        .ucn02hero-glyph {
+          position: absolute;
+          right: 8%;
+          bottom: -6%;
+          font-family: ${FONT_H};
+          font-size: 340px;
+          font-weight: 800;
+          line-height: 1;
+          color: rgba(188,161,96,0.06);
+          pointer-events: none;
+          user-select: none;
+          z-index: 0;
         }
         .ucn02hero-content {
-          max-width: 560px;
-          padding: 0 80px 0 clamp(24px, 6vw, 96px);
+          position: relative;
+          z-index: 2;
+          max-width: 580px;
+          padding: 0 80px 0 clamp(24px, 6vw, 100px);
           width: 100%;
         }
         /* Right photo column */
         .ucn02hero-right {
           position: absolute;
-          inset: 0 0 0 50%;
+          inset: 0 0 0 49%;
           z-index: 1;
           background: ${GREEN2};
+          overflow: hidden;
         }
+        .ucn02hero-photo-wrap { width: 100%; height: 100%; }
         .ucn02hero-photo {
           width: 100%;
           height: 100%;
           object-fit: cover;
           object-position: center top;
           display: block;
-          filter: brightness(0.88);
+          filter: brightness(0.9) saturate(1.02);
+          animation: ucn02PhotoIn 1.1s cubic-bezier(.22,.61,.36,1) both;
+        }
+        /* green depth veil on photo (blends into diagonal) */
+        .ucn02hero-right::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(105deg, rgba(0,72,53,0.55) 0%, rgba(0,72,53,0.12) 34%, rgba(0,56,40,0.28) 100%);
+          pointer-events: none;
+        }
+        /* floating stat card */
+        .ucn02hero-statcard {
+          position: absolute;
+          left: 8%;
+          bottom: 12%;
+          z-index: 3;
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          background: rgba(255,255,255,0.96);
+          backdrop-filter: blur(6px);
+          border-left: 3px solid ${GOLD};
+          border-radius: 4px;
+          padding: 18px 24px;
+          box-shadow: 0 24px 50px rgba(0,32,24,0.35);
+          animation: ucn02Up 0.9s cubic-bezier(.22,.61,.36,1) 0.5s both;
+        }
+        .ucn02hero-statcard-val {
+          font-family: ${FONT_H};
+          font-size: 2.4rem;
+          font-weight: 800;
+          color: ${GREEN};
+          line-height: 1;
+        }
+        .ucn02hero-statcard-lbl {
+          font-family: ${FONT_H};
+          font-size: 0.78rem;
+          font-weight: 600;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          color: ${GOLD};
+          max-width: 96px;
         }
         /* Overline */
         .ucn02hero-overline {
           display: inline-flex;
           align-items: center;
-          gap: 10px;
+          gap: 12px;
           font-family: ${FONT_H};
-          font-size: 11px;
-          font-weight: 600;
+          font-size: 11.5px;
+          font-weight: 700;
           letter-spacing: 3px;
           text-transform: uppercase;
           color: ${GOLD};
-          margin-bottom: 22px;
+          margin-bottom: 26px;
+          animation: ucn02Up 0.7s cubic-bezier(.22,.61,.36,1) both;
         }
         .ucn02hero-overline-bar {
           display: inline-block;
-          width: 32px;
+          width: 38px;
           height: 2px;
           background: ${GOLD};
           flex-shrink: 0;
@@ -13092,95 +14535,108 @@ function HeroUcetni02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
         /* H1 */
         .ucn02hero-h1 {
           font-family: ${FONT_H};
-          font-size: clamp(38px, 3.8vw, 60px);
-          font-weight: 700;
-          line-height: 1.12;
+          font-size: clamp(40px, 4vw, 64px);
+          font-weight: 800;
+          line-height: 1.1;
           color: ${WHITE};
-          margin: 0 0 24px 0;
-          letter-spacing: -0.5px;
+          margin: 0 0 26px 0;
+          letter-spacing: -0.8px;
+          animation: ucn02Up 0.75s cubic-bezier(.22,.61,.36,1) 0.08s both;
         }
         /* Subtitle */
         .ucn02hero-subtitle {
-          font-size: 1rem;
+          font-size: 1.05rem;
           line-height: 1.75;
-          color: rgba(255,255,255,0.78);
-          margin: 0 0 44px 0;
-          max-width: 460px;
+          color: rgba(255,255,255,0.8);
+          margin: 0 0 42px 0;
+          max-width: 480px;
+          animation: ucn02Up 0.8s cubic-bezier(.22,.61,.36,1) 0.16s both;
         }
         /* CTA buttons */
         .ucn02hero-ctas {
           display: flex;
-          gap: 14px;
+          gap: 16px;
           flex-wrap: wrap;
-          margin-bottom: 44px;
+          margin-bottom: 46px;
+          animation: ucn02Up 0.85s cubic-bezier(.22,.61,.36,1) 0.24s both;
         }
         .ucn02hero-cta-primary {
+          position: relative;
           display: inline-flex;
           align-items: center;
-          gap: 10px;
-          padding: 15px 30px;
+          gap: 11px;
+          padding: 16px 32px;
           background: ${GOLD};
           color: ${WHITE};
           font-family: ${FONT_H};
           font-size: 0.875rem;
-          font-weight: 600;
-          letter-spacing: 0.5px;
+          font-weight: 700;
+          letter-spacing: 0.6px;
           text-decoration: none;
-          border-radius: 4px;
-          border: 2px solid ${GOLD};
-          transition: background 0.2s, border-color 0.2s, transform 0.15s;
+          border-radius: 3px;
+          overflow: hidden;
+          box-shadow: 0 10px 26px rgba(188,161,96,0.3);
+          transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease, background 0.3s ease;
           white-space: nowrap;
           text-transform: uppercase;
         }
+        .ucn02hero-cta-primary::before {
+          content: "";
+          position: absolute;
+          top: 0; left: -120%;
+          width: 55%; height: 100%;
+          background: linear-gradient(100deg, transparent, rgba(255,255,255,0.5), transparent);
+          transition: left 0.65s ease;
+        }
+        .ucn02hero-cta-primary svg { flex-shrink: 0; transition: transform 0.3s ease; }
         .ucn02hero-cta-primary:hover {
           background: #a9904d;
-          border-color: #a9904d;
-          transform: translateY(-1px);
+          transform: translateY(-2px);
+          box-shadow: 0 16px 34px rgba(188,161,96,0.42);
         }
-        .ucn02hero-cta-primary svg { flex-shrink: 0; }
+        .ucn02hero-cta-primary:hover::before { left: 130%; }
+        .ucn02hero-cta-primary:hover svg { transform: translateX(4px); }
         .ucn02hero-cta-secondary {
+          position: relative;
           display: inline-flex;
           align-items: center;
           gap: 10px;
-          padding: 15px 30px;
+          padding: 16px 32px;
           background: transparent;
-          color: rgba(255,255,255,0.9);
+          color: rgba(255,255,255,0.92);
           font-family: ${FONT_H};
           font-size: 0.875rem;
-          font-weight: 600;
-          letter-spacing: 0.5px;
+          font-weight: 700;
+          letter-spacing: 0.6px;
           text-decoration: none;
-          border-radius: 4px;
-          border: 2px solid rgba(255,255,255,0.35);
-          transition: border-color 0.2s, background 0.2s;
+          border-radius: 3px;
+          border: 1.5px solid rgba(255,255,255,0.32);
+          transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
           white-space: nowrap;
           text-transform: uppercase;
         }
         .ucn02hero-cta-secondary:hover {
-          border-color: ${WHITE};
-          background: rgba(255,255,255,0.07);
+          border-color: ${GOLD};
+          background: rgba(188,161,96,0.12);
+          color: ${WHITE};
         }
         /* Trust badges */
         .ucn02hero-trust {
           display: flex;
           flex-wrap: wrap;
-          gap: 20px;
+          gap: 12px 26px;
+          animation: ucn02Fade 1s ease 0.4s both;
         }
         .ucn02hero-badge {
           display: flex;
           align-items: center;
-          gap: 7px;
-          font-size: 0.82rem;
-          color: rgba(255,255,255,0.65);
+          gap: 9px;
+          font-size: 0.85rem;
+          color: rgba(255,255,255,0.72);
           font-family: ${FONT_H};
+          font-weight: 500;
         }
-        .ucn02hero-badge-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: ${GOLD};
-          flex-shrink: 0;
-        }
+        .ucn02hero-badge svg { color: ${GOLD}; flex-shrink: 0; }
         /* Responsive */
         @media (max-width: 960px) {
           .ucn02hero-wrap { flex-direction: column; min-height: unset; }
@@ -13188,32 +14644,37 @@ function HeroUcetni02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
             flex: none;
             width: 100%;
             clip-path: none;
-            padding: 64px 24px 48px;
+            padding: 72px 24px 56px;
           }
           .ucn02hero-content { max-width: 100%; padding: 0; }
+          .ucn02hero-glyph { font-size: 220px; right: -4%; bottom: -8%; }
           .ucn02hero-right {
             position: relative;
             inset: unset;
             width: 100%;
-            height: 300px;
+            height: 340px;
           }
-          .ucn02hero-trust { display: none; }
+          .ucn02hero-statcard { left: 24px; bottom: 24px; padding: 14px 18px; }
+          .ucn02hero-statcard-val { font-size: 1.9rem; }
         }
         @media (max-width: 600px) {
-          .ucn02hero-left { padding: 48px 20px 40px; }
-          .ucn02hero-h1 { font-size: 2.1rem; }
+          .ucn02hero-left { padding: 56px 20px 44px; }
+          .ucn02hero-h1 { font-size: 2.2rem; }
           .ucn02hero-ctas { flex-direction: column; }
           .ucn02hero-cta-primary, .ucn02hero-cta-secondary { justify-content: center; }
+          .ucn02hero-right { height: 280px; }
+          .ucn02hero-statcard-lbl { font-size: 0.68rem; }
         }
       `}</style>
 
       <section className="ucn02hero-wrap" data-template="ucetni-02-hero">
         {/* Left: content */}
         <div className="ucn02hero-left">
+          <span className="ucn02hero-glyph" aria-hidden="true">§</span>
           <div className="ucn02hero-content">
             <div className="ucn02hero-overline">
               <span className="ucn02hero-overline-bar" />
-              Daňové poradenství
+              <GenericEditableText sectionId={sectionId} field="overline" value={overline} tag="span" />
             </div>
 
             <h1 className="ucn02hero-h1">
@@ -13228,7 +14689,7 @@ function HeroUcetni02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
               <a href={resolveHref(ctaHref)} data-btn="primary" className="ucn02hero-cta-primary">
                 <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                  <path d="M3 8h10M9 4l4 4-4 4" stroke={WHITE} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M3 8h10M9 4l4 4-4 4" stroke={WHITE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </a>
               <a href={resolveHref(ctaSecHref)} className="ucn02hero-cta-secondary">
@@ -13237,19 +14698,169 @@ function HeroUcetni02({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
             </div>
 
             <div className="ucn02hero-trust">
-              <span className="ucn02hero-badge"><span className="ucn02hero-badge-dot"/>10+ let zkušeností</span>
-              <span className="ucn02hero-badge"><span className="ucn02hero-badge-dot"/>1 600+ spokojených klientů</span>
-              <span className="ucn02hero-badge"><span className="ucn02hero-badge-dot"/>Certifikovaní poradci</span>
+              {trust.map((label, i) => (
+                <span className="ucn02hero-badge" key={i}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                  <GenericEditableText sectionId={sectionId} field={`trustBadges.${i}.label`} value={label} tag="span" />
+                </span>
+              ))}
             </div>
           </div>
         </div>
 
         {/* Right: photo */}
         <div className="ucn02hero-right">
-          {imageUrl ? (
-            <img src={imageUrl} alt="" className="ucn02hero-photo" loading="eager" />
-          ) : (
-            <div style={{ width: "100%", height: "100%", background: GREEN2 }} />
+          <GenericEditableImage sectionId={sectionId} field="bgImage" src={imageUrl} alt="" className="ucn02hero-photo-wrap" priority>
+            {imageUrl ? (
+              <img src={imageUrl} alt="" className="ucn02hero-photo" />
+            ) : (
+              <div style={{ width: "100%", height: "100%", background: GREEN2 }} />
+            )}
+          </GenericEditableImage>
+          <div className="ucn02hero-statcard">
+            <span className="ucn02hero-statcard-val">
+              <GenericEditableText sectionId={sectionId} field="badgeValue" value={badgeValue} tag="span" />
+            </span>
+            <span className="ucn02hero-statcard-lbl">
+              <GenericEditableText sectionId={sectionId} field="badgeLabel" value={badgeLabel} tag="span" />
+            </span>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ── hero-ucetni-02-page ───────────────────────────────────────────────────────
+// Slim page banner: deep green gradient + gold hairline grid + breadcrumb + H1
+// ~340px, subdued mood photo optional, dual hairlines — for subpages
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroUcetni02Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const GREEN  = "#004835";
+  const GREEN2 = "#003828";
+  const GOLD   = "#bca160";
+  const WHITE  = "#ffffff";
+  const FONT_H = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const FONT_B = "'Open Sans', Arial, sans-serif";
+
+  const title          = String(content.title          ?? "Stránka");
+  const breadcrumb     = String(content.breadcrumb     ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const subtitle       = String(content.subtitle       ?? "");
+  const bgImage        = String(content.bgImage        ?? "");
+
+  const resolveHref = (href: string) => {
+    if (!tenantSlug) return href;
+    if (href.startsWith("#") || href.startsWith("http")) return href;
+    return `/${isAdmin ? "admin/" : ""}${tenantSlug}${href.startsWith("/") ? href : "/" + href}`;
+  };
+
+  return (
+    <>
+      <style>{`
+        .ucn02pg {
+          position: relative;
+          background:
+            radial-gradient(120% 140% at 82% 12%, #016047 0%, ${GREEN} 52%, ${GREEN2} 100%);
+          padding: 96px 24px 76px;
+          overflow: hidden;
+          font-family: ${FONT_B};
+          border-bottom: 3px solid ${GOLD};
+        }
+        .ucn02pg::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background-image:
+            linear-gradient(rgba(188,161,96,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(188,161,96,0.05) 1px, transparent 1px);
+          background-size: 60px 60px;
+          pointer-events: none;
+        }
+        .ucn02pg-photo {
+          position: absolute;
+          inset: 0;
+          object-fit: cover;
+          width: 100%; height: 100%;
+          opacity: 0.14;
+          filter: grayscale(0.3);
+          pointer-events: none;
+        }
+        .ucn02pg-glyph {
+          position: absolute;
+          right: 5%;
+          top: 50%;
+          transform: translateY(-50%);
+          font-family: ${FONT_H};
+          font-size: 200px;
+          font-weight: 800;
+          color: rgba(188,161,96,0.07);
+          line-height: 1;
+          pointer-events: none;
+          user-select: none;
+        }
+        .ucn02pg-inner {
+          position: relative;
+          z-index: 1;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+        .ucn02pg-crumb {
+          display: inline-flex;
+          align-items: center;
+          gap: 9px;
+          font-family: ${FONT_H};
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.6);
+          margin-bottom: 20px;
+        }
+        .ucn02pg-crumb a { color: ${GOLD}; text-decoration: none; transition: color 0.2s ease; }
+        .ucn02pg-crumb a:hover { color: ${WHITE}; }
+        .ucn02pg-crumb-sep { color: rgba(255,255,255,0.35); }
+        .ucn02pg-bar { width: 46px; height: 3px; background: ${GOLD}; margin-bottom: 22px; }
+        .ucn02pg-h1 {
+          font-family: ${FONT_H};
+          font-size: clamp(2rem, 4vw, 3.1rem);
+          font-weight: 800;
+          color: ${WHITE};
+          margin: 0;
+          letter-spacing: -0.6px;
+          line-height: 1.1;
+        }
+        .ucn02pg-sub {
+          font-size: 1.02rem;
+          color: rgba(255,255,255,0.75);
+          line-height: 1.7;
+          margin: 16px 0 0;
+          max-width: 560px;
+        }
+        @media (max-width: 600px) {
+          .ucn02pg { padding: 64px 20px 52px; }
+          .ucn02pg-glyph { font-size: 130px; right: -2%; }
+        }
+      `}</style>
+      <section className="ucn02pg" data-template="ucetni-02-hero">
+        {bgImage && <img src={bgImage} alt="" className="ucn02pg-photo" loading="eager" />}
+        <span className="ucn02pg-glyph" aria-hidden="true">§</span>
+        <div className="ucn02pg-inner">
+          <div className="ucn02pg-crumb">
+            <a href={resolveHref(breadcrumbHref)}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span className="ucn02pg-crumb-sep">/</span>
+            <span>{title}</span>
+          </div>
+          <div className="ucn02pg-bar" aria-hidden />
+          <h1 className="ucn02pg-h1">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+          {subtitle.trim() && (
+            <p className="ucn02pg-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
           )}
         </div>
       </section>
@@ -13292,6 +14903,8 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
   const [loanAmount,    setLoanAmount]    = useState(3200000);
   const [loanTerm,      setLoanTerm]      = useState(30);
   const [rate,          setRate]          = useState(5.29);
+  const [editField,     setEditField]     = useState<string | null>(null);
+  const [editBuf,       setEditBuf]       = useState("");
 
   const monthlyPayment = (() => {
     const r = rate / 100 / 12;
@@ -13300,24 +14913,88 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
     return Math.round((loanAmount * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1));
   })();
 
+  const totalPaid    = monthlyPayment * loanTerm * 12;
+  const totalInterest = totalPaid - loanAmount;
+  const ltv           = Math.round(loanAmount / propertyValue * 100);
+
   const fmt = (v: number) => v.toLocaleString("cs-CZ");
+
+  const startEdit = (field: string, value: number) => {
+    setEditField(field);
+    setEditBuf(String(field === "rate" ? value.toFixed(2) : value));
+  };
+  const commitEdit = () => {
+    if (!editField) return;
+    const v = editField === "rate" ? parseFloat(editBuf) : parseInt(editBuf.replace(/\s/g, ""), 10);
+    if (isNaN(v)) { setEditField(null); return; }
+    if (editField === "property") setPropertyValue(Math.max(500000, Math.min(20000000, v)));
+    if (editField === "loan") setLoanAmount(Math.max(200000, Math.min(18000000, v)));
+    if (editField === "term") setLoanTerm(Math.max(5, Math.min(30, v)));
+    if (editField === "rate") setRate(Math.max(2, Math.min(10, v)));
+    setEditField(null);
+  };
+
+  // Editovatelné texty kalkulačky + tag
+  const tagText        = String(content.tagText        ?? "Bezplatné hypoteční poradenství");
+  const calcTitle      = String(content.calcTitle      ?? "Hypoteční kalkulačka");
+  const calcSubtitle   = String(content.calcSubtitle   ?? "Orientační výpočet měsíční splátky");
+  const calcLabelProp  = String(content.calcLabelProp  ?? "Cena nemovitosti");
+  const calcLabelLoan  = String(content.calcLabelLoan  ?? "Výše hypotéky");
+  const calcLabelTerm  = String(content.calcLabelTerm  ?? "Doba splatnosti");
+  const calcLabelRate  = String(content.calcLabelRate  ?? "Úroková sazba:");
+  const calcResultLbl  = String(content.calcResultLbl  ?? "Měsíční splátka");
+  const calcDisclaimer = String(content.calcDisclaimer ?? "Výpočet je orientační a nezahrnuje pojištění ani poplatky. Pro přesnou nabídku kontaktujte poradce.");
+
+  // Zelený vyplněný track pod thumb (progress) — dynamický gradient
+  const trackFill = (value: number, min: number, max: number): React.CSSProperties => {
+    const pct = Math.max(0, Math.min(100, ((value - min) / (max - min)) * 100));
+    return { background: `linear-gradient(90deg, ${GREEN} 0%, ${GREEN} ${pct}%, #e4e4e4 ${pct}%, #e4e4e4 100%)` };
+  };
 
   return (
     <>
       <style>{`
         .ucn03hero-section {
           position: relative;
-          background: ${DARK};
+          background:
+            radial-gradient(900px 520px at 78% 30%, rgba(142,198,63,0.14), transparent 60%),
+            radial-gradient(700px 500px at 10% 90%, rgba(0,70,0,0.55), transparent 60%),
+            ${DARK};
           overflow: hidden;
           font-family: ${FONT_B};
+        }
+        /* jemná finanční mřížka (precision motiv) */
+        .ucn03hero-section::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image:
+            linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+          background-size: 64px 64px;
+          mask-image: radial-gradient(1000px 600px at 70% 20%, #000 0%, transparent 75%);
+          -webkit-mask-image: radial-gradient(1000px 600px at 70% 20%, #000 0%, transparent 75%);
+          pointer-events: none;
+          z-index: 0;
         }
         .ucn03hero-bg {
           position: absolute;
           inset: 0;
           background-size: cover;
           background-position: center;
-          opacity: 0.18;
+          opacity: 0.16;
           pointer-events: none;
+          z-index: 0;
+        }
+        .ucn03hero-bg::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, ${DARK} 0%, rgba(0,32,0,0.4) 55%, rgba(0,32,0,0.75) 100%);
+        }
+        @keyframes ucn03heroUp {
+          from { opacity: 0; transform: translateY(22px); }
+          to   { opacity: 1; transform: translateY(0); }
         }
         .ucn03hero-inner {
           position: relative;
@@ -13329,7 +15006,7 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           align-items: center;
           gap: 60px;
         }
-        .ucn03hero-left { flex: 0 0 52%; min-width: 0; }
+        .ucn03hero-left { flex: 0 0 52%; min-width: 0; animation: ucn03heroUp 0.7s cubic-bezier(.22,.68,0,1) both; }
         .ucn03hero-tag {
           display: inline-flex;
           align-items: center;
@@ -13368,6 +15045,9 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
         }
         .ucn03hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
         .ucn03hero-cta-primary {
+          position: relative;
+          overflow: hidden;
+          isolation: isolate;
           display: inline-flex;
           align-items: center;
           gap: 8px;
@@ -13379,10 +15059,23 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           font-weight: 700;
           text-decoration: none;
           border-radius: 6px;
-          transition: background 0.2s, transform 0.15s;
+          transition: transform 0.35s cubic-bezier(.22,.68,0,1), box-shadow 0.35s ease, background 0.2s;
           white-space: nowrap;
         }
-        .ucn03hero-cta-primary:hover { background: #9dd44a; transform: translateY(-1px); }
+        .ucn03hero-cta-primary > * { position: relative; z-index: 2; }
+        .ucn03hero-cta-primary::before {
+          content: '';
+          position: absolute; top: 0; left: -130%;
+          width: 55%; height: 100%; z-index: 1;
+          background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent);
+          transform: skewX(-18deg);
+          transition: left 0.6s cubic-bezier(.22,.68,0,1);
+          pointer-events: none;
+        }
+        .ucn03hero-cta-primary:hover::before { left: 135%; }
+        .ucn03hero-cta-primary:hover { background: #9dd44a; transform: translateY(-2px); box-shadow: 0 14px 30px -10px rgba(142,198,63,0.65); }
+        .ucn03hero-cta-primary svg { transition: transform 0.3s cubic-bezier(.22,.68,0,1); }
+        .ucn03hero-cta-primary:hover svg { transform: translateX(4px); }
         .ucn03hero-cta-secondary {
           display: inline-flex;
           align-items: center;
@@ -13423,12 +15116,19 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           justify-content: center;
           flex-shrink: 0;
         }
-        .ucn03hero-right { flex: 0 0 44%; min-width: 0; }
+        .ucn03hero-right { flex: 0 0 44%; min-width: 0; animation: ucn03heroUp 0.7s cubic-bezier(.22,.68,0,1) 0.12s both; }
         .ucn03hero-calc {
+          position: relative;
           background: ${WHITE};
           border-radius: 16px;
           padding: 36px 32px;
           box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+          border: 1px solid rgba(142,198,63,0.18);
+          transition: box-shadow 0.4s ease, transform 0.4s cubic-bezier(.22,.68,0,1);
+        }
+        .ucn03hero-calc:hover {
+          box-shadow: 0 30px 72px rgba(0,0,0,0.42), 0 0 0 1px rgba(142,198,63,0.35);
+          transform: translateY(-3px);
         }
         .ucn03hero-calc-title {
           font-family: ${FONT_H};
@@ -13471,7 +15171,13 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           cursor: pointer;
           border: 2px solid ${WHITE};
           box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+          transition: transform 0.15s ease, box-shadow 0.2s ease;
         }
+        .ucn03hero-range::-webkit-slider-thumb:hover {
+          transform: scale(1.18);
+          box-shadow: 0 0 0 6px rgba(142,198,63,0.18), 0 2px 6px rgba(0,0,0,0.25);
+        }
+        .ucn03hero-range:active::-webkit-slider-thumb { transform: scale(1.24); }
         .ucn03hero-range::-moz-range-thumb {
           width: 20px; height: 20px;
           border-radius: 50%;
@@ -13479,7 +15185,9 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           cursor: pointer;
           border: 2px solid ${WHITE};
           box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+          transition: transform 0.15s ease;
         }
+        .ucn03hero-range::-moz-range-thumb:hover { transform: scale(1.18); }
         .ucn03hero-rate-row {
           display: flex;
           align-items: center;
@@ -13523,6 +15231,58 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           color: rgba(255,255,255,0.4);
           margin-top: 6px;
         }
+        .ucn03hero-result-breakdown {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+          margin-top: 14px;
+          padding-top: 14px;
+          border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .ucn03hero-result-stat { text-align: center; }
+        .ucn03hero-result-stat-label {
+          font-size: 0.7rem;
+          color: rgba(255,255,255,0.45);
+          letter-spacing: 0.3px;
+          margin-bottom: 2px;
+        }
+        .ucn03hero-result-stat-val {
+          font-family: ${FONT_H};
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: rgba(255,255,255,0.85);
+        }
+        .ucn03hero-ltv-warn {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          margin-top: 10px;
+          padding: 6px 10px;
+          background: rgba(255,180,0,0.12);
+          border: 1px solid rgba(255,180,0,0.25);
+          border-radius: 6px;
+          font-size: 0.72rem;
+          color: #ffb400;
+        }
+        .ucn03hero-editable-val {
+          cursor: pointer;
+          border-bottom: 1px dashed rgba(0,0,0,0.25);
+          transition: color 0.2s;
+        }
+        .ucn03hero-editable-val:hover { color: ${GREEN}; }
+        .ucn03hero-edit-input {
+          width: 120px;
+          padding: 2px 6px;
+          font-family: ${FONT_B};
+          font-size: inherit;
+          font-weight: inherit;
+          color: inherit;
+          border: 1.5px solid ${GREEN};
+          border-radius: 4px;
+          background: #f0f7e6;
+          outline: none;
+          text-align: right;
+        }
         .ucn03hero-disclaimer {
           font-size: 0.72rem;
           color: #aaa;
@@ -13558,7 +15318,7 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           <div className="ucn03hero-left">
             <div className="ucn03hero-tag">
               <span className="ucn03hero-tag-dot" aria-hidden="true" />
-              Bezplatné hypoteční poradenství
+              <GenericEditableText sectionId={sectionId} field="tagText" value={tagText} tag="span" />
             </div>
 
             <h1 className="ucn03hero-h1">
@@ -13596,46 +15356,76 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
           {/* ── Right column: calculator ── */}
           <div className="ucn03hero-right">
             <div className="ucn03hero-calc">
-              <div className="ucn03hero-calc-title">Hypoteční kalkulačka</div>
-              <div className="ucn03hero-calc-sub">Orientační výpočet měsíční splátky</div>
+              <div className="ucn03hero-calc-title">
+                <GenericEditableText sectionId={sectionId} field="calcTitle" value={calcTitle} tag="span" />
+              </div>
+              <div className="ucn03hero-calc-sub">
+                <GenericEditableText sectionId={sectionId} field="calcSubtitle" value={calcSubtitle} tag="span" />
+              </div>
 
               <div className="ucn03hero-field">
                 <div className="ucn03hero-label">
-                  Cena nemovitosti <span>{fmt(propertyValue)} Kč</span>
+                  <GenericEditableText sectionId={sectionId} field="calcLabelProp" value={calcLabelProp} tag="span" />
+                  {editField === "property" ? (
+                    <input className="ucn03hero-edit-input" autoFocus value={editBuf}
+                      onChange={e => setEditBuf(e.target.value)}
+                      onBlur={commitEdit}
+                      onKeyDown={e => { if (e.key === "Enter") commitEdit(); if (e.key === "Escape") setEditField(null); }}
+                    />
+                  ) : (
+                    <span className="ucn03hero-editable-val" onClick={() => startEdit("property", propertyValue)}>{fmt(propertyValue)} Kč</span>
+                  )}
                 </div>
                 <input
                   type="range"
                   className="ucn03hero-range"
+                  style={trackFill(propertyValue, 500000, 20000000)}
                   min={500000} max={20000000} step={100000}
                   value={propertyValue}
-                  onChange={e => {
-                    const v = Number(e.target.value);
-                    setPropertyValue(v);
-                    if (loanAmount > v * 0.9) setLoanAmount(Math.round(v * 0.8));
-                  }}
+                  onChange={e => setPropertyValue(Number(e.target.value))}
                 />
               </div>
 
               <div className="ucn03hero-field">
                 <div className="ucn03hero-label">
-                  Výše hypotéky <span>{fmt(loanAmount)} Kč</span>
+                  <GenericEditableText sectionId={sectionId} field="calcLabelLoan" value={calcLabelLoan} tag="span" />
+                  {editField === "loan" ? (
+                    <input className="ucn03hero-edit-input" autoFocus value={editBuf}
+                      onChange={e => setEditBuf(e.target.value)}
+                      onBlur={commitEdit}
+                      onKeyDown={e => { if (e.key === "Enter") commitEdit(); if (e.key === "Escape") setEditField(null); }}
+                    />
+                  ) : (
+                    <span className="ucn03hero-editable-val" onClick={() => startEdit("loan", loanAmount)}>{fmt(loanAmount)} Kč</span>
+                  )}
                 </div>
                 <input
                   type="range"
                   className="ucn03hero-range"
-                  min={200000} max={Math.round(propertyValue * 0.9)} step={50000}
-                  value={Math.min(loanAmount, Math.round(propertyValue * 0.9))}
+                  style={trackFill(loanAmount, 200000, 18000000)}
+                  min={200000} max={18000000} step={50000}
+                  value={loanAmount}
                   onChange={e => setLoanAmount(Number(e.target.value))}
                 />
               </div>
 
               <div className="ucn03hero-field">
                 <div className="ucn03hero-label">
-                  Doba splatnosti <span>{loanTerm} let</span>
+                  <GenericEditableText sectionId={sectionId} field="calcLabelTerm" value={calcLabelTerm} tag="span" />
+                  {editField === "term" ? (
+                    <input className="ucn03hero-edit-input" autoFocus value={editBuf}
+                      onChange={e => setEditBuf(e.target.value)}
+                      onBlur={commitEdit}
+                      onKeyDown={e => { if (e.key === "Enter") commitEdit(); if (e.key === "Escape") setEditField(null); }}
+                    />
+                  ) : (
+                    <span className="ucn03hero-editable-val" onClick={() => startEdit("term", loanTerm)}>{loanTerm} let</span>
+                  )}
                 </div>
                 <input
                   type="range"
                   className="ucn03hero-range"
+                  style={trackFill(loanTerm, 5, 30)}
                   min={5} max={30} step={1}
                   value={loanTerm}
                   onChange={e => setLoanTerm(Number(e.target.value))}
@@ -13643,12 +15433,21 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
               </div>
 
               <div className="ucn03hero-rate-row">
-                <span>Úroková sazba:</span>
-                <span className="ucn03hero-rate-badge">{rate.toFixed(2)} % p.a.</span>
+                <GenericEditableText sectionId={sectionId} field="calcLabelRate" value={calcLabelRate} tag="span" />
+                {editField === "rate" ? (
+                  <input className="ucn03hero-edit-input" autoFocus value={editBuf}
+                    style={{ width: 70 }}
+                    onChange={e => setEditBuf(e.target.value)}
+                    onBlur={commitEdit}
+                    onKeyDown={e => { if (e.key === "Enter") commitEdit(); if (e.key === "Escape") setEditField(null); }}
+                  />
+                ) : (
+                  <span className="ucn03hero-rate-badge ucn03hero-editable-val" onClick={() => startEdit("rate", rate)}>{rate.toFixed(2)} % p.a.</span>
+                )}
                 <input
                   type="range"
                   className="ucn03hero-range"
-                  style={{ flex: 1, minWidth: 60 }}
+                  style={{ flex: 1, minWidth: 60, ...trackFill(rate, 2, 10) }}
                   min={2} max={10} step={0.1}
                   value={rate}
                   onChange={e => setRate(Number(e.target.value))}
@@ -13656,13 +15455,33 @@ function HeroUcetni03({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "
               </div>
 
               <div className="ucn03hero-result">
-                <div className="ucn03hero-result-label">Měsíční splátka</div>
+                <div className="ucn03hero-result-label">
+                  <GenericEditableText sectionId={sectionId} field="calcResultLbl" value={calcResultLbl} tag="span" />
+                </div>
                 <div className="ucn03hero-result-value">{fmt(monthlyPayment)} Kč</div>
-                <div className="ucn03hero-result-note">LTV {Math.round(loanAmount / propertyValue * 100)} % · {loanTerm} let · {rate.toFixed(2)} % p.a.</div>
+                <div className="ucn03hero-result-note">LTV {ltv} % · {loanTerm} let · {rate.toFixed(2)} % p.a.</div>
+
+                <div className="ucn03hero-result-breakdown">
+                  <div className="ucn03hero-result-stat">
+                    <div className="ucn03hero-result-stat-label">Celkem zaplaceno</div>
+                    <div className="ucn03hero-result-stat-val">{fmt(totalPaid)} Kč</div>
+                  </div>
+                  <div className="ucn03hero-result-stat">
+                    <div className="ucn03hero-result-stat-label">Z toho úroky</div>
+                    <div className="ucn03hero-result-stat-val">{fmt(totalInterest)} Kč</div>
+                  </div>
+                </div>
+
+                {ltv > 80 && (
+                  <div className="ucn03hero-ltv-warn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    LTV nad 80 % — banka může požadovat vyšší sazbu nebo pojištění
+                  </div>
+                )}
               </div>
 
               <div className="ucn03hero-disclaimer">
-                Výpočet je orientační a nezahrnuje pojištění ani poplatky. Pro přesnou nabídku kontaktujte poradce.
+                <GenericEditableText sectionId={sectionId} field="calcDisclaimer" value={calcDisclaimer} tag="span" />
               </div>
             </div>
           </div>
@@ -13764,6 +15583,18 @@ function HeroArch01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
       object-position: 50% 50%;
       display: block;
     }
+    /* Ken Burns — cinematic slow zoom na aktivním fotoslide (ne na videu) */
+    .a01hero-slide img.a01hero-media { transform: scale(1.02); }
+    .a01hero-slide.a01-active img.a01hero-media {
+      animation: a01KenBurns 7s ease-out both;
+    }
+    @keyframes a01KenBurns {
+      from { transform: scale(1.02); }
+      to   { transform: scale(1.12); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .a01hero-slide.a01-active img.a01hero-media { animation: none; }
+    }
     /* Exact gradient from karesarch: dark top (0.458) → transparent 47% → dark bottom (0.655) */
     .a01hero-grad {
       position: absolute;
@@ -13799,6 +15630,19 @@ function HeroArch01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
       color: #fff;
       margin: 0 0 24px;
       line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+    /* Content reveal — titulek + CTA nabíhají zdola při každém přechodu slidu */
+    .a01hero-content > * {
+      animation: a01ContentIn 0.9s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .a01hero-content > *:nth-child(2) { animation-delay: 0.12s; }
+    @keyframes a01ContentIn {
+      from { opacity: 0; transform: translateY(26px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .a01hero-content > * { animation: none; }
     }
     /* CTA buttons — bordered outline style */
     .a01hero-btns {
@@ -13849,6 +15693,90 @@ function HeroArch01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
     @media (max-width: 575px) {
       .a01hero-arrow { display: none; }
     }
+    /* Slide progress dashes — funkční indikátor + jump-to-slide (nahrazuje dots) */
+    .a01hero-dashes {
+      position: absolute;
+      z-index: 5;
+      bottom: 34px;
+      left: 52%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    @media (max-width: 991px) { .a01hero-dashes { left: 50%; } }
+    .a01hero-dash {
+      position: relative;
+      width: 42px;
+      height: 2px;
+      background: rgba(255,255,255,0.32);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+    @media (max-width: 575px) { .a01hero-dash { width: 26px; } }
+    .a01hero-dash::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    .a01hero-dash:hover { background: rgba(255,255,255,0.6); }
+    .a01hero-dash.a01-dash-active::after {
+      animation: a01DashFill 5s linear both;
+    }
+    @keyframes a01DashFill {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .a01hero-dash.a01-dash-active::after { animation: none; transform: scaleX(1); }
+    }
+    /* Scroll cue — jemný animovaný svislý vlas dole na střed */
+    .a01hero-scroll {
+      position: absolute;
+      z-index: 5;
+      bottom: 30px;
+      right: 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+    @media (max-width: 991px) { .a01hero-scroll { display: none; } }
+    .a01hero-scroll-label {
+      font-family: ${FONT};
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      writing-mode: vertical-rl;
+    }
+    .a01hero-scroll-line {
+      position: relative;
+      width: 1px;
+      height: 46px;
+      background: rgba(255,255,255,0.28);
+      overflow: hidden;
+    }
+    .a01hero-scroll-line::after {
+      content: "";
+      position: absolute;
+      left: 0; top: 0;
+      width: 1px;
+      height: 40%;
+      background: #fff;
+      animation: a01ScrollCue 2s cubic-bezier(0.4,0,0.2,1) infinite;
+    }
+    @keyframes a01ScrollCue {
+      0%   { transform: translateY(-100%); }
+      100% { transform: translateY(250%); }
+    }
   `;
 
   const currentSlide = slides[idx];
@@ -13891,7 +15819,7 @@ function HeroArch01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
 
         <div className="a01hero-grad" aria-hidden="true" />
 
-        <div className="a01hero-content">
+        <div className="a01hero-content" key={idx}>
           {currentSlide?.title && (
             <h1 className="a01hero-title">
               <GenericEditableText sectionId={sectionId} field={`slides.${idx}.title`} value={currentSlide.title} tag="span" />
@@ -13915,20 +15843,259 @@ function HeroArch01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
             <button className="a01hero-arrow a01hero-arrow-next" onClick={() => go(idx + 1)} aria-label="Další slide">
               <ArrowRight />
             </button>
+
+            <div className="a01hero-dashes" role="tablist" aria-label="Přepínač snímků">
+              {slides.map((_, i) => (
+                <button
+                  key={i}
+                  className={`a01hero-dash${i === idx ? " a01-dash-active" : ""}`}
+                  onClick={() => go(i)}
+                  role="tab"
+                  aria-selected={i === idx}
+                  aria-label={`Snímek ${i + 1}`}
+                />
+              ))}
+            </div>
           </>
         )}
+
+        <div className="a01hero-scroll" aria-hidden="true">
+          <GenericEditableText sectionId={sectionId} field="scrollLabel" value={String(content.scrollLabel ?? "Scroll")} tag="span" className="a01hero-scroll-label" />
+          <span className="a01hero-scroll-line" />
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ── hero-arch-01-page ─────────────────────────────────────────────────────────
+// Slim page banner pro podstránky arch-01:
+// - černé pozadí (volitelně bg foto s heavy dark grade), ~340px
+// - breadcrumb (Domů / Stránka) + velký H1 (Helvetica light, wide track) + subtitle
+// - decorative hairline pod titulkem, dual hairlines top/bottom
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroArch01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = content as Record<string, unknown>;
+  const title      = String(c.title      ?? "Stránka");
+  const subtitle   = String(c.subtitle   ?? "");
+  const breadcrumb = String(c.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const bg         = c.backgroundImage ? String(c.backgroundImage) : "";
+
+  const FONT  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
+  const resolvedCrumb = resolveDemoHref(breadcrumbHref, tenantSlug, isAdmin);
+
+  const styles = `
+    .a01pg {
+      position: relative;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .a01pg-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: 50% 50%;
+      filter: grayscale(0.3) brightness(0.42);
+      transform: scale(1.04);
+    }
+    /* Gradient overlay — garantuje kontrast bílého textu i nad světlou fotkou */
+    .a01pg-grad {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(90deg, rgba(0,0,0,0.74) 0%, rgba(0,0,0,0.45) 48%, rgba(0,0,0,0.22) 100%),
+                  linear-gradient(0deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 62%);
+      pointer-events: none;
+    }
+    .a01pg-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: clamp(150px, 20vh, 200px) clamp(24px, 5vw, 80px) clamp(56px, 8vh, 80px);
+    }
+    .a01pg-crumb {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: ${FONT};
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 26px;
+    }
+    .a01pg-crumb a {
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .a01pg-crumb a:hover { color: #fff; }
+    .a01pg-crumb-sep { color: rgba(255,255,255,0.3); }
+    .a01pg-crumb-cur { color: rgba(255,255,255,0.85); }
+    .a01pg-title {
+      font-family: ${FONT};
+      font-size: clamp(32px, 5vw, 60px);
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      line-height: 1.08;
+      margin: 0;
+      color: #fff;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: a01pgIn 0.9s cubic-bezier(0.16,1,0.3,1) 0.1s both;
+    }
+    .a01pg-rule {
+      width: 56px;
+      height: 1px;
+      background: rgba(255,255,255,0.55);
+      margin: 26px 0 0;
+      opacity: 0;
+      transform: scaleX(0);
+      transform-origin: left;
+      animation: a01pgRule 1s cubic-bezier(0.16,1,0.3,1) 0.45s both;
+    }
+    .a01pg-sub {
+      font-family: ${FONT};
+      font-size: clamp(14px, 1.5vw, 17px);
+      font-weight: 300;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.7;
+      max-width: 620px;
+      margin: 24px 0 0;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: a01pgIn 0.9s cubic-bezier(0.16,1,0.3,1) 0.3s both;
+    }
+    @keyframes a01pgIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes a01pgRule {
+      to { opacity: 1; transform: scaleX(1); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .a01pg-title, .a01pg-sub { opacity: 1; transform: none; animation: none; }
+      .a01pg-rule { opacity: 1; transform: scaleX(1); animation: none; }
+    }
+  `;
+
+  return (
+    <>
+      <style>{styles}</style>
+      <section className="a01pg" data-template="arch-01-hero-page">
+        {bg && (
+          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bg} alt={title} style={{ position: "absolute", inset: 0 }}>
+            <div className="a01pg-bg" style={{ backgroundImage: `url(${bg})` }} aria-hidden="true" />
+          </GenericEditableImage>
+        )}
+        {bg && <div className="a01pg-grad" aria-hidden="true" />}
+        <div className="a01pg-inner">
+          <div className="a01pg-crumb">
+            <a href={resolvedCrumb}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span className="a01pg-crumb-sep" aria-hidden="true">/</span>
+            <span className="a01pg-crumb-cur">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </span>
+          </div>
+          <h1 className="a01pg-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+          <div className="a01pg-rule" aria-hidden="true" />
+          {subtitle && (
+            <p className="a01pg-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ── hero-ucetni-03-page (slim banner pro podstránky) ─────────────────────────
+// „FinHypotéky" — slim ~320px dark green banner: breadcrumb + H1 + green rule
+// nad decentní financial grid texturou. #002000 + #8ec63f + Montserrat/Open Sans.
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroUcetni03Page({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const DARK   = "#002000";
+  const GREEN  = "#8ec63f";
+  const GREEN2 = "#4caf50";
+  const FONT_H = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const FONT_B = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
+  const siteMode = String((content as Record<string, unknown>).siteMode ?? "multipage");
+
+  const title       = String(content.title ?? content.headline ?? "Stránka");
+  const subtitle    = String(content.subtitle ?? "");
+  const breadcrumb  = String(content.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <>
+      <style>{`
+        .ucn03pb { position: relative; overflow: hidden; font-family: ${FONT_B};
+          background: radial-gradient(120% 160% at 80% 0%, #003a00 0%, ${DARK} 46%, #001200 100%); }
+        .ucn03pb-grid { position: absolute; inset: 0; pointer-events: none; opacity: .4;
+          background-image: linear-gradient(rgba(142,198,63,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(142,198,63,0.05) 1px, transparent 1px);
+          background-size: 64px 64px; mask-image: radial-gradient(70% 90% at 60% 20%, #000, transparent 100%);
+          -webkit-mask-image: radial-gradient(70% 90% at 60% 20%, #000, transparent 100%); }
+        .ucn03pb-glow { position: absolute; top: -160px; right: -120px; width: 460px; height: 460px; border-radius: 50%; pointer-events: none;
+          background: radial-gradient(circle, rgba(142,198,63,0.12), transparent 68%); }
+        .ucn03pb-inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto;
+          padding: clamp(112px,15vw,150px) 24px clamp(44px,6vw,60px); }
+        .ucn03pb-crumb { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600;
+          letter-spacing: .04em; color: rgba(255,255,255,0.6); margin-bottom: 16px; font-family: ${FONT_B}; }
+        .ucn03pb-crumb a { color: ${GREEN}; text-decoration: none; transition: opacity .2s; }
+        .ucn03pb-crumb a:hover { opacity: .78; }
+        .ucn03pb-crumb .sep { color: rgba(255,255,255,0.3); }
+        .ucn03pb-title { font-family: ${FONT_H}; font-size: clamp(30px,4.4vw,50px); font-weight: 800; color: #fff; letter-spacing: -0.02em; line-height: 1.08; margin: 0; }
+        .ucn03pb-rule { width: 56px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, ${GREEN}, ${GREEN2}); margin: 18px 0 0; }
+        .ucn03pb-sub { font-size: clamp(15px,1.6vw,17px); color: rgba(255,255,255,0.72); line-height: 1.6; margin: 16px 0 0; max-width: 40em; font-family: ${FONT_B}; }
+      `}</style>
+      <section className="ucn03pb" data-template="hero-ucetni-03-page" id="page-banner">
+        <div className="ucn03pb-grid" aria-hidden="true" />
+        <div className="ucn03pb-glow" aria-hidden="true" />
+        <div className="ucn03pb-inner">
+          <nav className="ucn03pb-crumb" aria-label="Drobečková navigace">
+            <a href={resolve(breadcrumbHref)}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span className="sep">/</span>
+            <span>{title}</span>
+          </nav>
+          <h1 className="ucn03pb-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+          <div className="ucn03pb-rule" aria-hidden="true" />
+          {subtitle.trim() && (
+            <p className="ucn03pb-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
       </section>
     </>
   );
 }
 
 // ── ucetni-04-hero ────────────────────────────────────────────────────────────
-// 1:1 bcas.cz (Broker Consulting):
-// - bílý (#ffffff) bg, padding-top clamp(124px,10vw,160px)
-// - outer grid: 1fr 1.1fr (text + mosaic)
-// - mosaic: imgs1 (velký h1.webp aspect 396/340 + double row h4+h3) | imgs2 (h2+h5 stacked)
-// - phImg1 aspect-ratio 396/340; phImg2-5 aspect-ratio 1:1; filter: saturate(80%)
-// - mobile: 1-col stacked, foto schovaná
+// „Prosperita Finance" — cinematic tmavě navy hero (per template.json: navy bg 2-col)
+// LUXE: navy gradient #1B3A6B→#14294d + zlatý hairline grid + soft glow.
+//   Vlevo: pill eyebrow, H1 (gold em), subtitle, gold CTA shimmer + ghost, trust checks.
+//   Vpravo: advisory foto v gold-accent rámu + floating stat karta + roky badge.
+//   Staggered reveal, scroll indicator. Inter font. resolveNavHref + siteMode.
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroUcetni04({ content, sectionId, tenantSlug, isAdmin }: {
   content: Record<string, unknown>;
@@ -13936,26 +16103,31 @@ function HeroUcetni04({ content, sectionId, tenantSlug, isAdmin }: {
   tenantSlug?: string;
   isAdmin: boolean;
 }) {
-  const NAVY  = "#003366";
-  const WHITE = "#ffffff";
-  const FONT  = "'Plus Jakarta Sans', Arial, 'Helvetica Neue', sans-serif";
+  const NAVY   = "#1B3A6B";
+  const GOLD   = "#C8923A";
+  const FONT   = "'Inter', 'Helvetica Neue', Arial, sans-serif";
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  const headline    = String(content.headline    ?? "S námi proměníte své plány v realitu");
-  const headlineEm  = String(content.headlineEm  ?? "své plány v realitu");
-  const subheadline = String(content.subheadline ?? "Dopřejte si i vy péči konzultantů z oboru financí a realit s nejvyšší spokojeností klientů na trhu.");
-  const cta1Text    = String(content.ctaPrimaryText    ?? "Zjistěte více");
-  const cta1Href    = String(content.ctaPrimaryHref    ?? "#kontakt");
-  const cta2Text    = String(content.ctaSecondaryText  ?? "Naše služby");
-  const cta2Href    = String(content.ctaSecondaryHref  ?? "#sluzby");
-  // mosaic: left col = big(h1) + double(h4,h3) | right col = big(h2) + double(h5,h6)
-  const img1 = String(content.img1Url ?? "/templates/ucetni-04/hero/h1.webp");
-  const img2 = String(content.img2Url ?? "/templates/ucetni-04/hero/h4.webp");
-  const img3 = String(content.img3Url ?? "/templates/ucetni-04/hero/h3.webp");
-  const img4 = String(content.img4Url ?? "/templates/ucetni-04/hero/h2.webp");
-  const img5 = String(content.img5Url ?? "/templates/ucetni-04/hero/h5.webp");
-  const img6 = String(content.img6Url ?? "/templates/ucetni-04/hero/h6.webp");
+  const eyebrow     = String(content.eyebrow     ?? "Nezávislé finanční poradenství");
+  const headline    = String(content.headline    ?? "Vaše budoucnost si zaslouží chytrá rozhodnutí");
+  const headlineEm  = String(content.headlineEm  ?? "chytrá rozhodnutí");
+  const subheadline = String(content.subheadline ?? "Spojte se s nezávislými finančními poradci, kteří staví vaše zájmy na první místo. Bez skrytých provizí, bez zbytečných kompromisů.");
+  const cta1Text    = String(content.ctaPrimaryText    ?? "Domluvit konzultaci");
+  const cta1Href    = String(content.ctaPrimaryHref    ?? "/kontakt");
+  const cta2Text    = String(content.ctaSecondaryText  ?? "Co nabízíme");
+  const cta2Href    = String(content.ctaSecondaryHref  ?? "/sluzby");
+  const trust1      = String(content.trust1 ?? "Bez skrytých provizí");
+  const trust2      = String(content.trust2 ?? "Licence ČNB");
+  const trust3      = String(content.trust3 ?? "Poradenství zdarma");
+  const heroImage   = String(content.heroImage ?? "/templates/ucetni-04/hero.webp");
+  const heroImageAlt = String(content.heroImageAlt ?? "Finanční poradce při konzultaci s klientem");
+  const statValue   = String(content.statValue ?? "12 400+");
+  const statLabel   = String(content.statLabel ?? "spokojených klientů");
+  const badgeValue  = String(content.badgeValue ?? "15 let");
+  const badgeLabel  = String(content.badgeLabel ?? "na trhu");
+  const scrollLabel = String(content.scrollLabel ?? "Objevte více");
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const headlineBeforeEm = headlineEm && headline.includes(headlineEm)
     ? headline.slice(0, headline.indexOf(headlineEm))
@@ -13964,143 +16136,149 @@ function HeroUcetni04({ content, sectionId, tenantSlug, isAdmin }: {
     ? headline.slice(headline.indexOf(headlineEm) + headlineEm.length)
     : "";
 
+  const IconArrow = () => (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  );
+  const IconCheck = () => (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+  );
+
   const styles = `
     .ucn04hero {
-      background: ${WHITE};
+      position: relative; overflow: hidden;
+      background: radial-gradient(120% 120% at 82% 8%, #26518f 0%, ${NAVY} 42%, #14294d 100%);
       font-family: ${FONT};
-      overflow: hidden;
     }
+    .ucn04hero-grid {
+      position: absolute; inset: 0; pointer-events: none; opacity: .5;
+      background-image: linear-gradient(rgba(200,146,58,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(200,146,58,0.06) 1px, transparent 1px);
+      background-size: 62px 62px;
+      mask-image: radial-gradient(80% 70% at 60% 30%, #000 30%, transparent 100%);
+      -webkit-mask-image: radial-gradient(80% 70% at 60% 30%, #000 30%, transparent 100%);
+    }
+    .ucn04hero-glow { position: absolute; width: 620px; height: 620px; border-radius: 50%; pointer-events: none;
+      background: radial-gradient(circle, rgba(200,146,58,0.16), transparent 68%); filter: blur(10px); }
+    .ucn04hero-glow.g1 { top: -220px; right: -120px; }
+    .ucn04hero-glow.g2 { bottom: -300px; left: -180px; background: radial-gradient(circle, rgba(38,81,143,0.5), transparent 68%); }
     .ucn04hero-inner {
-      max-width: 1296px;
-      margin: 0 auto;
-      padding: clamp(124px,10vw,160px) 24px clamp(56px,10vw,120px);
-      display: grid;
-      grid-template-columns: 1fr 1.1fr;
-      gap: 16px 48px;
-      align-items: start;
+      position: relative; z-index: 2; max-width: 1240px; margin: 0 auto;
+      padding: clamp(120px,13vw,168px) 24px clamp(72px,9vw,112px);
+      display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(40px,5vw,72px); align-items: center;
     }
-    /* ── Text column ── */
-    .ucn04hero-cont {
-      display: flex;
-      flex-direction: column;
-      justify-self: end;
-      width: 100%;
-      max-width: 36em;
+    /* Text column */
+    .ucn04hero-cont { display: flex; flex-direction: column; max-width: 40em; }
+    .ucn04hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; align-self: flex-start;
+      padding: 8px 16px; border-radius: 999px; margin-bottom: 26px;
+      background: rgba(200,146,58,0.12); border: 1px solid rgba(200,146,58,0.34);
+      color: #e9d3ac; font-size: 12.5px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase;
+      opacity: 0; animation: ucn04HeroUp .7s cubic-bezier(.22,.68,0,1) .05s forwards;
     }
+    .ucn04hero-eyebrow-dot { width: 7px; height: 7px; border-radius: 50%; background: ${GOLD}; box-shadow: 0 0 10px rgba(200,146,58,0.8); }
     .ucn04hero-h1 {
-      font-size: clamp(26px, 3.2vw, 52px);
-      font-weight: 400;
-      color: #1a1a1a;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin: 0 0 20px;
+      font-family: ${FONT}; font-size: clamp(32px, 4.4vw, 60px); font-weight: 800; color: #fff;
+      line-height: 1.08; letter-spacing: -0.025em; margin: 0 0 22px;
+      opacity: 0; animation: ucn04HeroUp .8s cubic-bezier(.22,.68,0,1) .16s forwards;
     }
-    .ucn04hero-h1 strong {
-      font-weight: 700;
-      color: ${NAVY};
-    }
+    .ucn04hero-h1 .em { font-family: ${FONT}; color: ${GOLD}; position: relative; white-space: nowrap; }
+    .ucn04hero-h1 .em::after { content: ""; position: absolute; left: 0; right: 0; bottom: 3px; height: 3px; border-radius: 3px;
+      background: linear-gradient(90deg, ${GOLD}, transparent); opacity: .55; }
     .ucn04hero-sub {
-      font-size: 16px;
-      color: #555555;
-      line-height: 1.65;
-      margin: 0 0 32px;
+      font-size: clamp(15.5px,1.5vw,18px); color: rgba(255,255,255,0.76); line-height: 1.7; margin: 0 0 34px; max-width: 34em;
+      opacity: 0; animation: ucn04HeroUp .8s cubic-bezier(.22,.68,0,1) .28s forwards;
     }
-    .ucn04hero-btns {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
+    .ucn04hero-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 34px;
+      opacity: 0; animation: ucn04HeroUp .8s cubic-bezier(.22,.68,0,1) .38s forwards; }
+    .ucn04hero-btn { display: inline-flex; align-items: center; gap: 9px; padding: 15px 30px; border-radius: 999px;
+      font-size: 15px; font-weight: 700; text-decoration: none; letter-spacing: .01em; transition: transform .3s cubic-bezier(.34,1.4,.5,1), box-shadow .3s, background .3s, color .3s; }
+    .ucn04hero-btn-primary { position: relative; overflow: hidden; background: ${GOLD}; color: #fff; box-shadow: 0 10px 26px rgba(200,146,58,0.32); }
+    .ucn04hero-btn-primary::before { content: ""; position: absolute; top: 0; left: -120%; width: 70%; height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.5), transparent); transform: skewX(-18deg); }
+    .ucn04hero-btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(200,146,58,0.46); }
+    .ucn04hero-btn-primary:hover::before { left: 130%; transition: left .7s ease; }
+    .ucn04hero-btn-primary svg { transition: transform .3s; }
+    .ucn04hero-btn-primary:hover svg { transform: translateX(4px); }
+    .ucn04hero-btn-ghost { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.32); }
+    .ucn04hero-btn-ghost:hover { border-color: ${GOLD}; color: #f0dcb8; transform: translateY(-3px); }
+    .ucn04hero-trust { display: flex; flex-wrap: wrap; gap: 12px 24px;
+      opacity: 0; animation: ucn04HeroUp .8s cubic-bezier(.22,.68,0,1) .48s forwards; }
+    .ucn04hero-trust-item { display: inline-flex; align-items: center; gap: 9px; color: rgba(255,255,255,0.82); font-size: 14px; font-weight: 500; }
+    .ucn04hero-trust-check { width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+      background: rgba(200,146,58,0.16); color: ${GOLD}; flex-shrink: 0; }
+    /* Visual column */
+    .ucn04hero-visual { position: relative; opacity: 0; animation: ucn04HeroFade 1s ease .3s forwards; }
+    .ucn04hero-frame { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/5;
+      box-shadow: 0 40px 80px -24px rgba(0,0,0,0.6); }
+    .ucn04hero-frame::after { content: ""; position: absolute; inset: 0; border-radius: 20px; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+      background: linear-gradient(180deg, transparent 55%, rgba(20,41,77,0.55)); }
+    .ucn04hero-frame img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.2s cubic-bezier(.22,.68,0,1); }
+    .ucn04hero-visual:hover .ucn04hero-frame img { transform: scale(1.05); }
+    .ucn04hero-frame-corner { position: absolute; top: -10px; right: -10px; width: 78px; height: 78px; border-radius: 20px;
+      border-top: 2px solid ${GOLD}; border-right: 2px solid ${GOLD}; opacity: .8; pointer-events: none; }
+    .ucn04hero-stat {
+      position: absolute; left: -22px; bottom: 40px; z-index: 3;
+      background: #fff; border-radius: 16px; padding: 18px 22px; display: flex; align-items: center; gap: 14px;
+      box-shadow: 0 24px 48px -12px rgba(0,0,0,0.4); border-left: 3px solid ${GOLD};
+      animation: ucn04HeroFloat 5s ease-in-out infinite;
     }
-    .ucn04hero-btn-primary {
-      display: inline-flex;
-      align-items: center;
-      padding: 14px 30px;
-      background: ${NAVY};
-      color: ${WHITE};
-      font-size: 15px;
-      font-weight: 600;
-      font-family: ${FONT};
-      border-radius: 4px;
-      text-decoration: none;
-      transition: background 0.15s;
+    .ucn04hero-stat-ic { width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      background: rgba(200,146,58,0.14); color: ${GOLD}; }
+    .ucn04hero-stat-val { font-size: 24px; font-weight: 800; color: ${NAVY}; line-height: 1; letter-spacing: -0.02em; }
+    .ucn04hero-stat-lbl { font-size: 12.5px; color: #6b7280; margin-top: 4px; }
+    .ucn04hero-badge {
+      position: absolute; top: 26px; right: -14px; z-index: 3;
+      background: linear-gradient(140deg, ${NAVY}, #14294d); color: #fff; border-radius: 14px; padding: 14px 18px; text-align: center;
+      box-shadow: 0 18px 40px -12px rgba(0,0,0,0.5); border: 1px solid rgba(200,146,58,0.4);
+      animation: ucn04HeroFloat 6s ease-in-out infinite reverse;
     }
-    .ucn04hero-btn-primary:hover { background: #002244; }
-    .ucn04hero-btn-outline {
-      display: inline-flex;
-      align-items: center;
-      padding: 14px 30px;
-      background: transparent;
-      color: ${NAVY};
-      font-size: 15px;
-      font-weight: 600;
-      font-family: ${FONT};
-      border: 2px solid ${NAVY};
-      border-radius: 4px;
-      text-decoration: none;
-      transition: background 0.15s, color 0.15s;
+    .ucn04hero-badge-val { font-size: 22px; font-weight: 800; color: ${GOLD}; line-height: 1; }
+    .ucn04hero-badge-lbl { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,0.72); margin-top: 4px; }
+    /* Scroll indicator */
+    .ucn04hero-scroll { position: absolute; left: 50%; transform: translateX(-50%); bottom: 22px; z-index: 3;
+      display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.5); font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+      opacity: 0; animation: ucn04HeroFade 1s ease .8s forwards; }
+    .ucn04hero-scroll-line { width: 1px; height: 26px; background: linear-gradient(${GOLD}, transparent); animation: ucn04HeroScroll 1.8s ease-in-out infinite; transform-origin: top; }
+    @keyframes ucn04HeroUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes ucn04HeroFade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes ucn04HeroFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
+    @keyframes ucn04HeroScroll { 0%,100% { transform: scaleY(0.4); opacity: .4; } 50% { transform: scaleY(1); opacity: 1; } }
+    @media (max-width: 940px) {
+      .ucn04hero-inner { grid-template-columns: 1fr; gap: 48px; padding-top: clamp(104px,20vw,132px); }
+      .ucn04hero-visual { max-width: 460px; margin: 0 auto; width: 100%; }
+      .ucn04hero-scroll { display: none; }
     }
-    .ucn04hero-btn-outline:hover { background: ${NAVY}; color: ${WHITE}; }
-    /* ── Mosaic: flat 4-col × 2-row grid — dokonalé zarovnání ── */
-    .ucn04hero-imgs {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: auto auto;
-      gap: clamp(8px,1.2vw,14px);
-      width: 100%;
-      margin-top: -clamp(124px,10vw,160px);
+    @media (max-width: 560px) {
+      .ucn04hero-frame { aspect-ratio: 4/4.4; }
+      .ucn04hero-stat { left: 8px; bottom: 12px; padding: 14px 16px; }
+      .ucn04hero-badge { right: 8px; }
+      .ucn04hero-trust { gap: 10px 16px; }
     }
-    /* Velké obrázky: každý span 2 sloupce, řada 1 */
-    .ucn04hero-ph1 { grid-column: 1 / 3; grid-row: 1; aspect-ratio: 396 / 340; width: 100%; overflow: hidden; border-radius: 8px; position: relative; }
-    .ucn04hero-ph4 { grid-column: 3 / 5; grid-row: 1; aspect-ratio: 396 / 340; width: 100%; overflow: hidden; border-radius: 8px; position: relative; }
-    /* Malé obrázky: každý 1 sloupec, řada 2 */
-    .ucn04hero-ph2 { grid-column: 1; grid-row: 2; aspect-ratio: 1; overflow: hidden; border-radius: 8px; position: relative; }
-    .ucn04hero-ph3 { grid-column: 2; grid-row: 2; aspect-ratio: 1; overflow: hidden; border-radius: 8px; position: relative; }
-    .ucn04hero-ph5 { grid-column: 3; grid-row: 2; aspect-ratio: 1; overflow: hidden; border-radius: 8px; position: relative; }
-    .ucn04hero-ph6 { grid-column: 4; grid-row: 2; aspect-ratio: 1; overflow: hidden; border-radius: 8px; position: relative; }
-    @media (max-width: 900px) {
-      .ucn04hero-inner {
-        grid-template-columns: 1fr;
-        padding-top: 100px;
-        padding-bottom: 48px;
-        gap: 40px;
-      }
-      .ucn04hero-cont { justify-self: start; max-width: 100%; }
-      .ucn04hero-imgs { display: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .ucn04hero-eyebrow, .ucn04hero-h1, .ucn04hero-sub, .ucn04hero-btns, .ucn04hero-trust, .ucn04hero-visual, .ucn04hero-scroll { animation: none; opacity: 1; }
+      .ucn04hero-stat, .ucn04hero-badge, .ucn04hero-scroll-line { animation: none; }
     }
   `;
 
-  const Img = ({ cls, src, field }: { cls: string; src: string; field: string }) => (
-    <GenericEditableImage
-      sectionId={sectionId}
-      field={field}
-      src={src}
-      alt=""
-      className={cls}
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt=""
-        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", filter: "saturate(80%)" }}
-      />
-    </GenericEditableImage>
-  );
-
   return (
     <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" />
       <style>{styles}</style>
-      <section className="ucn04hero" data-template="ucetni-04-hero">
+      <section className="ucn04hero" data-template="ucetni-04-hero" id="uvod">
+        <div className="ucn04hero-grid" aria-hidden="true" />
+        <div className="ucn04hero-glow g1" aria-hidden="true" />
+        <div className="ucn04hero-glow g2" aria-hidden="true" />
         <div className="ucn04hero-inner">
           {/* Text column */}
           <div className="ucn04hero-cont">
+            <span className="ucn04hero-eyebrow">
+              <span className="ucn04hero-eyebrow-dot" />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </span>
             <h1 className="ucn04hero-h1">
               {headlineBeforeEm && <span>{headlineBeforeEm}</span>}
               {headlineEm && (
-                <strong>
+                <span className="em">
                   <GenericEditableText sectionId={sectionId} field="headlineEm" value={headlineEm} tag="span" />
-                </strong>
+                </span>
               )}
               {headlineAfterEm && <span>{headlineAfterEm}</span>}
             </h1>
@@ -14108,25 +16286,125 @@ function HeroUcetni04({ content, sectionId, tenantSlug, isAdmin }: {
               <GenericEditableText sectionId={sectionId} field="subheadline" value={subheadline} tag="span" />
             </p>
             <div className="ucn04hero-btns">
-              <a href={resolve(cta1Href)} className="ucn04hero-btn-primary">
+              <a href={resolve(cta1Href)} data-btn="primary" className="ucn04hero-btn ucn04hero-btn-primary">
                 <GenericEditableText sectionId={sectionId} field="ctaPrimaryText" value={cta1Text} tag="span" />
+                <IconArrow />
               </a>
-              <a href={resolve(cta2Href)} className="ucn04hero-btn-outline">
+              <a href={resolve(cta2Href)} className="ucn04hero-btn ucn04hero-btn-ghost">
                 <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={cta2Text} tag="span" />
               </a>
             </div>
+            <div className="ucn04hero-trust">
+              {([["trust1", trust1], ["trust2", trust2], ["trust3", trust3]] as [string, string][]).map(([field, val]) => (
+                <div className="ucn04hero-trust-item" key={field}>
+                  <span className="ucn04hero-trust-check"><IconCheck /></span>
+                  <GenericEditableText sectionId={sectionId} field={field} value={val} tag="span" />
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Photo mosaic */}
-          {/* Flat 4-col grid: ph1+ph4 = řada 1 (span 2), ph2+ph3+ph5+ph6 = řada 2 */}
-          <div className="ucn04hero-imgs">
-            <Img cls="ucn04hero-ph1" src={img1} field="img1Url" />
-            <Img cls="ucn04hero-ph4" src={img4} field="img4Url" />
-            <Img cls="ucn04hero-ph2" src={img2} field="img2Url" />
-            <Img cls="ucn04hero-ph3" src={img3} field="img3Url" />
-            <Img cls="ucn04hero-ph5" src={img5} field="img5Url" />
-            <Img cls="ucn04hero-ph6" src={img6} field="img6Url" />
+          {/* Visual column */}
+          <div className="ucn04hero-visual">
+            <div className="ucn04hero-frame">
+              <GenericEditableImage sectionId={sectionId} field="heroImage" src={heroImage} alt={heroImageAlt} style={{ display: "block", width: "100%", height: "100%" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={heroImage} alt={heroImageAlt} />
+              </GenericEditableImage>
+            </div>
+            <div className="ucn04hero-frame-corner" aria-hidden="true" />
+            <div className="ucn04hero-badge">
+              <div className="ucn04hero-badge-val"><GenericEditableText sectionId={sectionId} field="badgeValue" value={badgeValue} tag="span" /></div>
+              <div className="ucn04hero-badge-lbl"><GenericEditableText sectionId={sectionId} field="badgeLabel" value={badgeLabel} tag="span" /></div>
+            </div>
+            <div className="ucn04hero-stat">
+              <span className="ucn04hero-stat-ic">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </span>
+              <div>
+                <div className="ucn04hero-stat-val"><GenericEditableText sectionId={sectionId} field="statValue" value={statValue} tag="span" /></div>
+                <div className="ucn04hero-stat-lbl"><GenericEditableText sectionId={sectionId} field="statLabel" value={statLabel} tag="span" /></div>
+              </div>
+            </div>
           </div>
+        </div>
+        <span className="ucn04hero-scroll">
+          <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span" />
+          <span className="ucn04hero-scroll-line" aria-hidden="true" />
+        </span>
+      </section>
+    </>
+  );
+}
+
+// ── hero-ucetni-04-page (slim banner pro podstránky) ──────────────────────────
+// „Prosperita Finance" — slim ~340px navy banner: breadcrumb + H1 + gold rule
+// nad decentním gold gridem. navy #1B3A6B + gold #C8923A + Inter.
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroUcetni04Page({ content, sectionId, tenantSlug, isAdmin }: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const NAVY   = "#1B3A6B";
+  const NAVYDK = "#14294d";
+  const GOLD   = "#C8923A";
+  const FONT   = "'Inter', 'Helvetica Neue', Arial, sans-serif";
+  const siteMode = String((content as Record<string, unknown>).siteMode ?? "multipage");
+
+  const title       = String(content.title ?? content.headline ?? "Stránka");
+  const subtitle    = String(content.subtitle ?? "");
+  const breadcrumb  = String(content.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const bgImage     = content.backgroundImage ? String(content.backgroundImage) : "";
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <>
+      <style>{`
+        .ucn04pb { position: relative; overflow: hidden; font-family: ${FONT};
+          background: radial-gradient(120% 160% at 80% 0%, #26518f 0%, ${NAVY} 46%, ${NAVYDK} 100%); }
+        .ucn04pb-grid { position: absolute; inset: 0; pointer-events: none; opacity: .5;
+          background-image: linear-gradient(rgba(200,146,58,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(200,146,58,0.06) 1px, transparent 1px);
+          background-size: 58px 58px; mask-image: radial-gradient(70% 90% at 60% 20%, #000, transparent 100%);
+          -webkit-mask-image: radial-gradient(70% 90% at 60% 20%, #000, transparent 100%); }
+        .ucn04pb-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: .16; }
+        .ucn04pb-glow { position: absolute; top: -160px; right: -120px; width: 460px; height: 460px; border-radius: 50%; pointer-events: none;
+          background: radial-gradient(circle, rgba(200,146,58,0.16), transparent 68%); }
+        .ucn04pb-inner { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto;
+          padding: clamp(112px,15vw,150px) 24px clamp(44px,6vw,60px); }
+        .ucn04pb-crumb { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600;
+          letter-spacing: .04em; color: rgba(255,255,255,0.6); margin-bottom: 16px; }
+        .ucn04pb-crumb a { color: ${GOLD}; text-decoration: none; transition: opacity .2s; }
+        .ucn04pb-crumb a:hover { opacity: .78; }
+        .ucn04pb-crumb .sep { color: rgba(255,255,255,0.3); }
+        .ucn04pb-title { font-family: ${FONT}; font-size: clamp(30px,4.4vw,50px); font-weight: 800; color: #fff; letter-spacing: -0.03em; line-height: 1.08; margin: 0; }
+        .ucn04pb-rule { width: 56px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, ${GOLD}, transparent); margin: 18px 0 0; }
+        .ucn04pb-sub { font-size: clamp(15px,1.6vw,17px); color: rgba(255,255,255,0.72); line-height: 1.6; margin: 16px 0 0; max-width: 40em; }
+      `}</style>
+      <section className="ucn04pb" data-template="ucetni-04-hero" id="page-banner">
+        <div className="ucn04pb-grid" aria-hidden="true" />
+        {bgImage && <div className="ucn04pb-bg" style={{ backgroundImage: `url(${bgImage})` }} aria-hidden="true" />}
+        <div className="ucn04pb-glow" aria-hidden="true" />
+        <div className="ucn04pb-inner">
+          <nav className="ucn04pb-crumb" aria-label="Drobečková navigace">
+            <a href={resolve(breadcrumbHref)}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span className="sep">/</span>
+            <span>{title}</span>
+          </nav>
+          <h1 className="ucn04pb-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+          <div className="ucn04pb-rule" aria-hidden="true" />
+          {subtitle.trim() && (
+            <p className="ucn04pb-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
         </div>
       </section>
     </>
@@ -14718,15 +16996,21 @@ function HeroKlima01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
 // 100vh foto hero (service-nav-bg.webp), tmavý overlay (~55% opacity),
 // bílý uppercase H1 uprostřed, zelené CTA tlačítko, šipka dolů
 // ─────────────────────────────────────────────────────────────────────────────
-function HeroClean01({ content, sectionId, tenantSlug: _ts, isAdmin: _ia }: Omit<Props, "variant">) {
+function HeroClean01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const GREEN = "#69be28";
   const FONT  = "Arial, Helvetica, sans-serif";
 
-  const title    = String(content.title    ?? "Partner pro čistotu");
-  const subtitle = String(content.subtitle ?? "Jsme významným dodavatelem komplexních úklidových a dalších doplňkových služeb.");
-  const ctaText  = String(content.ctaText  ?? "Zjistit více");
-  const ctaHref  = String(content.ctaHref  ?? "#sluzby");
-  const bgImage  = String(content.backgroundImage ?? "/clones/cleancat/img/service-nav-bg.webp");
+  const eyebrow   = String(content.eyebrow  ?? "Úklidové & facility služby · Celá ČR");
+  const title     = String(content.title    ?? "Partner pro čistotu");
+  const subtitle  = String(content.subtitle ?? "Jsme významným dodavatelem komplexních úklidových a dalších doplňkových služeb.");
+  const ctaText   = String(content.ctaText  ?? "Zjistit více");
+  const ctaHref   = String(content.ctaHref  ?? "#sluzby");
+  const cta2Text  = String(content.cta2Text ?? "Nezávazná poptávka");
+  const cta2Href  = String(content.cta2Href ?? "/kontakt");
+  const trustText = String(content.trustText ?? "Přes 20 let na trhu · Certifikace ISO 9001 · Ekologické přípravky");
+  const bgImage   = String(content.backgroundImage ?? "/assets/clean-01/hero-clean.webp");
+  const siteMode  = String(content.siteMode ?? "multipage");
+  const resolve   = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const styles = `
     .c01h-wrap {
@@ -14738,6 +17022,7 @@ function HeroClean01({ content, sectionId, tenantSlug: _ts, isAdmin: _ia }: Omit
       justify-content: center;
       overflow: hidden;
       font-family: ${FONT};
+      text-align: center;
     }
     .c01h-bg {
       position: absolute;
@@ -14745,86 +17030,311 @@ function HeroClean01({ content, sectionId, tenantSlug: _ts, isAdmin: _ia }: Omit
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
+      transform: scale(1.08);
+      animation: c01hKen 18s ease-out both;
+    }
+    @keyframes c01hKen {
+      from { transform: scale(1.16); }
+      to   { transform: scale(1.02); }
     }
     .c01h-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(0,0,0,0.55);
+      background:
+        linear-gradient(180deg, rgba(10,20,26,0.72) 0%, rgba(10,20,26,0.42) 38%, rgba(10,20,26,0.58) 78%, rgba(10,20,26,0.86) 100%),
+        radial-gradient(120% 80% at 50% 0%, rgba(105,190,40,0.14), transparent 55%);
     }
     .c01h-inner {
       position: relative;
       z-index: 2;
-      text-align: center;
-      padding: 2rem 1.5rem;
-      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 7rem clamp(1.5rem, 6vw, 4rem) 8rem;
+      max-width: 940px;
       width: 100%;
+      margin: 0 auto;
     }
+    .c01h-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-size: clamp(0.72rem, 1.4vw, 0.82rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: ${GREEN};
+      margin: 0 0 1.6rem;
+      opacity: 0;
+      animation: c01hUp 0.8s cubic-bezier(.2,.7,.2,1) 0.1s forwards;
+    }
+    .c01h-eyebrow::before, .c01h-eyebrow::after { content: ""; width: 2.4rem; height: 2px; background: ${GREEN}; }
     .c01h-title {
-      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-family: ${FONT};
+      font-size: clamp(2.1rem, 5.4vw, 4rem);
       font-weight: 700;
       color: #ffffff;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      line-height: 1.15;
-      margin: 0 0 1.2rem;
+      letter-spacing: 0.005em;
+      line-height: 1.1;
+      margin: 0 0 1.4rem;
+      max-width: 20ch;
+      text-shadow: 0 2px 30px rgba(0,0,0,0.35);
+      opacity: 0;
+      animation: c01hUp 0.8s cubic-bezier(.2,.7,.2,1) 0.22s forwards;
     }
+    .c01h-title .c01h-accent { color: ${GREEN}; }
     .c01h-subtitle {
-      font-size: clamp(0.95rem, 2vw, 1.15rem);
-      color: rgba(255,255,255,0.85);
+      font-size: clamp(1rem, 2vw, 1.22rem);
+      color: rgba(255,255,255,0.86);
       line-height: 1.65;
-      margin: 0 auto 2.4rem;
-      max-width: 680px;
+      margin: 0 auto 2.6rem;
+      max-width: 52ch;
+      opacity: 0;
+      animation: c01hUp 0.8s cubic-bezier(.2,.7,.2,1) 0.34s forwards;
+    }
+    .c01h-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.9rem;
+      margin-bottom: 2.6rem;
+      opacity: 0;
+      animation: c01hUp 0.8s cubic-bezier(.2,.7,.2,1) 0.46s forwards;
     }
     .c01h-cta {
-      display: inline-block;
-      background: ${GREEN};
-      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
       text-decoration: none;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.95rem;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 0.9rem 2.6rem;
-      border-radius: 4px;
-      transition: background 0.18s;
+      letter-spacing: 0.05em;
+      padding: 1rem 2rem;
+      border-radius: 9999px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.35s cubic-bezier(.2,.7,.2,1), box-shadow 0.35s ease, background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
-    .c01h-cta:hover { background: #5aa020; }
-    .c01h-arrow {
+    .c01h-cta > span, .c01h-cta > svg { position: relative; z-index: 1; }
+    .c01h-cta svg { transition: transform 0.35s ease; }
+    .c01h-cta:hover svg { transform: translateX(4px); }
+    .c01h-cta-primary { background: ${GREEN}; color: #ffffff; box-shadow: 0 14px 30px -14px rgba(105,190,40,0.95); }
+    .c01h-cta-primary::before {
+      content: ""; position: absolute; inset: 0; background: #5aa020;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s cubic-bezier(.2,.7,.2,1);
+    }
+    .c01h-cta-primary:hover { transform: translateY(-2px); box-shadow: 0 20px 36px -14px rgba(105,190,40,1); }
+    .c01h-cta-primary:hover::before { transform: scaleX(1); }
+    .c01h-cta-ghost {
+      background: rgba(255,255,255,0.06);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.3);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .c01h-cta-ghost:hover { transform: translateY(-2px); border-color: ${GREEN}; background: rgba(105,190,40,0.14); }
+    .c01h-trust {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.66);
+      line-height: 1.5;
+      max-width: 52ch;
+      opacity: 0;
+      animation: c01hUp 0.8s cubic-bezier(.2,.7,.2,1) 0.58s forwards;
+    }
+    .c01h-trust svg { flex-shrink: 0; color: ${GREEN}; }
+    .c01h-scroll {
       position: absolute;
-      bottom: 2rem;
+      bottom: 1.8rem;
       left: 50%;
       transform: translateX(-50%);
       z-index: 2;
-      animation: c01hBounce 1.6s infinite;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      transition: color 0.3s ease;
+      opacity: 0;
+      animation: c01hUp 0.8s cubic-bezier(.2,.7,.2,1) 0.7s forwards;
     }
-    @keyframes c01hBounce {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50%       { transform: translateX(-50%) translateY(8px); }
+    .c01h-scroll:hover { color: ${GREEN}; }
+    .c01h-scroll-line { position: relative; width: 1px; height: 40px; background: rgba(255,255,255,0.3); overflow: hidden; }
+    .c01h-scroll-line::after {
+      content: ""; position: absolute; inset: 0; background: ${GREEN};
+      transform: translateY(-100%); animation: c01hSweep 1.9s ease-in-out infinite;
+    }
+    @keyframes c01hSweep { 0% { transform: translateY(-100%); } 60%,100% { transform: translateY(100%); } }
+    @keyframes c01hUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 30rem) {
+      .c01h-inner { padding-top: 6rem; padding-bottom: 6.5rem; }
+      .c01h-cta { flex: 1 1 auto; justify-content: center; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .c01h-bg { animation: none; transform: scale(1.02); }
+      .c01h-eyebrow, .c01h-title, .c01h-subtitle, .c01h-ctas, .c01h-trust, .c01h-scroll { animation: none; opacity: 1; }
+      .c01h-scroll-line::after { animation: none; }
     }
   `;
 
   return (
-    <section id="uvod" className="c01h-wrap">
+    <section id="uvod" className="c01h-wrap" data-template="clean-01">
       <style>{styles}</style>
-      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="Hero pozadí" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}>
+      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="Profesionální úklid" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}>
         <div className="c01h-bg" style={{ backgroundImage: `url(${bgImage})` }} />
       </GenericEditableImage>
       <div className="c01h-overlay" />
       <div className="c01h-inner">
+        <span className="c01h-eyebrow">
+          <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+        </span>
         <h1 className="c01h-title">
           <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
         </h1>
         <p className="c01h-subtitle">
           <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
         </p>
-        <a href={ctaHref} data-btn="primary" className="c01h-cta">
-          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-        </a>
+        <div className="c01h-ctas">
+          <a href={resolve(ctaHref)} data-btn="primary" className="c01h-cta c01h-cta-primary">
+            <span><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M5 12h14" /><path d="m13 6 6 6-6 6" />
+            </svg>
+          </a>
+          <a href={resolve(cta2Href)} className="c01h-cta c01h-cta-ghost">
+            <span><GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" /></span>
+          </a>
+        </div>
+        <div className="c01h-trust">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
+          <GenericEditableText sectionId={sectionId} field="trustText" value={trustText} tag="span" />
+        </div>
       </div>
-      <div className="c01h-arrow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M6 9l6 6 6-6"/>
-        </svg>
+      <a href={resolve(ctaHref)} className="c01h-scroll" aria-label="Přejít na obsah">
+        <GenericEditableText sectionId={sectionId} field="scrollLabel" value={String(content.scrollLabel ?? "Objevte více")} tag="span" />
+        <span className="c01h-scroll-line" aria-hidden="true" />
+      </a>
+    </section>
+  );
+}
+
+// ── hero-clean-01-page (slim banner pro podstránky) ──────────────────────────
+function HeroClean01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const GREEN = "#69be28";
+  const FONT  = "Arial, Helvetica, sans-serif";
+
+  const title          = String(content.title          ?? "Stránka");
+  const breadcrumb     = String(content.breadcrumb     ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const subtitle       = String(content.subtitle       ?? "");
+  const bgImage        = String(content.backgroundImage ?? "/assets/clean-01/hero-clean.webp");
+  const siteMode       = String(content.siteMode ?? "multipage");
+  const resolve        = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const styles = `
+    .c01pg-wrap {
+      position: relative;
+      font-family: ${FONT};
+      background: #0d1a20;
+      overflow: hidden;
+      border-bottom: 3px solid ${GREEN};
+    }
+    .c01pg-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: grayscale(0.35) brightness(0.5);
+      transform: scale(1.05);
+    }
+    .c01pg-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(10,20,26,0.95) 0%, rgba(10,20,26,0.7) 55%, rgba(10,20,26,0.5) 100%),
+        radial-gradient(90% 140% at 92% 0%, rgba(105,190,40,0.18), transparent 55%);
+    }
+    .c01pg-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: clamp(4.5rem, 9vw, 7rem) clamp(1.5rem, 6vw, 6rem) clamp(3rem, 6vw, 4.5rem);
+    }
+    .c01pg-crumb {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 1.2rem;
+      color: rgba(255,255,255,0.55);
+    }
+    .c01pg-crumb a { color: rgba(255,255,255,0.55); text-decoration: none; transition: color 0.25s ease; }
+    .c01pg-crumb a:hover { color: ${GREEN}; }
+    .c01pg-crumb-sep { color: ${GREEN}; }
+    .c01pg-crumb-cur { color: #ffffff; }
+    .c01pg-rule { width: 3rem; height: 2px; background: ${GREEN}; margin-bottom: 1.1rem; }
+    .c01pg-title {
+      font-family: ${FONT};
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      line-height: 1.1;
+      margin: 0;
+    }
+    .c01pg-sub {
+      margin: 1rem 0 0;
+      font-size: clamp(0.98rem, 1.6vw, 1.1rem);
+      color: rgba(255,255,255,0.7);
+      line-height: 1.6;
+      max-width: 52ch;
+    }
+  `;
+
+  const showSub = !!subtitle.trim();
+
+  return (
+    <section className="c01pg-wrap" data-template="clean-01">
+      <style>{styles}</style>
+      <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}>
+        <div className="c01pg-bg" style={{ backgroundImage: `url(${bgImage})` }} />
+      </GenericEditableImage>
+      <div className="c01pg-overlay" />
+      <div className="c01pg-inner">
+        <div className="c01pg-crumb">
+          <a href={resolve(breadcrumbHref)}>
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span className="c01pg-crumb-sep" aria-hidden="true">/</span>
+          <span className="c01pg-crumb-cur">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </span>
+        </div>
+        <div className="c01pg-rule" aria-hidden="true" />
+        <h1 className="c01pg-title">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        {showSub && (
+          <p className="c01pg-sub">
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+          </p>
+        )}
       </div>
     </section>
   );
@@ -15677,6 +18187,12 @@ function HeroMalir01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "v
 }
 
 // ── garden-01-hero ──────────────────────────────────────────────────────────
+// VYLEPŠENO (luxe zahradní ateliér, gerberra.cz DNA zachována):
+// - Fullbleed 100vh + tmavý overlay gradient + zaoblený pravý dolní roh (signatura)
+// - Cardo serif 72px headline, Inter body, gold eyebrow s botanickým listem
+// - CTA zelená pill + telefon link, fade-up inner elementů
+// - GenericEditableBackground + GenericEditableText na všem
+// ─────────────────────────────────────────────────────────────────────────────
 function HeroGarden01({
   content,
   sectionId,
@@ -15694,17 +18210,36 @@ function HeroGarden01({
     subtitle?: string;
     ctaText?: string;
     ctaHref?: string;
+    secondaryCtaText?: string;
+    secondaryCtaHref?: string;
     phone?: string;
+    phoneLabel?: string;
     backgroundImage?: string;
   };
 
-  const bgImage = c.backgroundImage ?? "";
-  const eyebrow = c.eyebrow ?? "Praha a okolí";
-  const title = c.title ?? "Realizace a údržba zahrad";
-  const subtitle = c.subtitle ?? "Postaráme se o vaši zahradu tak, aby byla krásná po celý rok.";
-  const ctaText = c.ctaText ?? "Nezávazná poptávka";
-  const ctaHref = c.ctaHref ?? "#kontakt";
-  const phone = c.phone ?? "+420 704 123 456";
+  const bgImage = c.backgroundImage ?? "/templates/garden-01/hero-bg.webp";
+  const eyebrow = c.eyebrow ?? "Plzeň a Západní Čechy";
+  const title = c.title ?? "Zahrady, kterým se lidé zastaví obdivovat";
+  const subtitle = c.subtitle ?? "Tvoříme venkovní prostory plné harmonie — od prvního návrhu po celoroční péči o každý detail.";
+  const ctaText = c.ctaText ?? "Poptat zahradu";
+  const ctaHref = c.ctaHref ?? "/kontakt";
+  const secondaryCtaText = c.secondaryCtaText ?? "Naše realizace";
+  const secondaryCtaHref = c.secondaryCtaHref ?? "/galerie";
+  const phone = c.phone ?? "+420 602 841 773";
+  const phoneLabel = c.phoneLabel ?? "nebo zavolejte";
+
+  const DARK   = "#202714";
+  const GREEN  = "#6a961f";
+  const GOLD   = "#bcba63";
+  const WHITE  = "#ffffff";
+  const FONT_H = "'Cardo', Georgia, serif";
+  const FONT_B = "'Inter', Arial, sans-serif";
+
+  const resolve = (href: string) => {
+    if (!tenantSlug || href.startsWith("http") || href.startsWith("#") || href.startsWith("tel:") || href.startsWith("mailto:")) return href;
+    const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
+    return href === "/" ? base : `${base}${href}`;
+  };
 
   return (
     <>
@@ -15717,9 +18252,7 @@ function HeroGarden01({
           display: flex;
           flex-direction: column;
           justify-content: flex-end;
-          border-radius: 0 0 150px 0;
-          padding-top: 210px;
-          padding-bottom: 76px;
+          border-radius: 0 0 120px 0;
           box-sizing: border-box;
         }
         .g01h-bg {
@@ -15727,149 +18260,195 @@ function HeroGarden01({
           inset: 0;
           z-index: 0;
           background-size: cover;
-          background-position: center;
+          background-position: center 40%;
           background-repeat: no-repeat;
+          transform: scale(1.04);
+          transition: transform 12s ease-out;
         }
+        .g01h-section:hover .g01h-bg { transform: scale(1.0); }
         .g01h-overlay {
           position: absolute;
           inset: 0;
           z-index: 1;
-          background: rgba(32, 39, 20, 0.64);
+          background: linear-gradient(180deg, rgba(32,39,20,0.35) 0%, rgba(32,39,20,0.72) 55%, rgba(32,39,20,0.88) 100%);
         }
         .g01h-inner {
           position: relative;
           z-index: 2;
-          padding-left: 35%;
-          padding-right: 48px;
+          max-width: 1280px;
+          margin: 0 auto;
+          width: 100%;
+          padding: 0 2.5rem 5.5rem 2.5rem;
           box-sizing: border-box;
+          display: flex;
+          flex-direction: column;
+          gap: 0;
         }
         .g01h-eyebrow {
-          display: block;
-          color: #ffffff;
-          font-family: 'Lato', Arial, sans-serif;
-          font-size: 24px;
-          font-weight: 100;
-          line-height: 1.2;
-          letter-spacing: 0.02em;
-          margin-bottom: 16px;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.65rem;
+          color: ${GOLD};
+          font-family: ${FONT_B};
+          font-size: 0.82rem;
+          font-weight: 600;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          margin-bottom: 1.25rem;
+          opacity: 0; animation: g01hUp 0.7s ease forwards 0.2s;
+        }
+        .g01h-eyebrow-line {
+          width: 40px; height: 1.5px;
+          background: ${GOLD};
         }
         .g01h-title {
-          color: #ffffff;
-          font-family: 'Cardo', Georgia, serif;
-          font-size: 64px;
-          font-weight: 100;
-          line-height: 1.2;
-          margin: 0 0 20px 0;
+          color: ${WHITE};
+          font-family: ${FONT_H};
+          font-size: clamp(2.4rem, 5vw, 4.2rem);
+          font-weight: 400;
+          line-height: 1.15;
+          margin: 0 0 1.5rem 0;
+          max-width: 680px;
+          opacity: 0; animation: g01hUp 0.7s ease forwards 0.35s;
         }
         .g01h-subtitle {
-          color: #ffffff;
-          font-family: 'Inter', Arial, sans-serif;
-          font-size: 19px;
+          color: rgba(255,255,255,0.88);
+          font-family: ${FONT_B};
+          font-size: 1.1rem;
           font-weight: 400;
-          line-height: 1.6;
-          margin: 0 180px 32px 0;
+          line-height: 1.75;
+          margin: 0 0 2.2rem 0;
+          max-width: 520px;
+          opacity: 0; animation: g01hUp 0.7s ease forwards 0.5s;
         }
-        .g01h-phone {
+        .g01h-actions {
           display: flex;
           align-items: center;
-          gap: 10px;
-          color: #ffffff;
-          font-family: 'Lato', Arial, sans-serif;
-          font-size: 18px;
-          font-weight: 400;
+          gap: 1.25rem;
+          flex-wrap: wrap;
+          opacity: 0; animation: g01hUp 0.7s ease forwards 0.65s;
+        }
+        .g01h-cta-primary {
+          display: inline-flex; align-items: center; gap: 0.55rem;
+          background: ${GREEN};
+          color: ${WHITE};
+          font-family: ${FONT_B};
+          font-size: 0.92rem; font-weight: 600;
           text-decoration: none;
-          margin-bottom: 0;
+          padding: 0.9rem 2rem;
+          border-radius: 9999px;
+          box-shadow: 0 8px 24px rgba(106,150,31,0.35);
+          transition: background 0.3s ease, transform 0.3s cubic-bezier(.22,.68,0,1.1), box-shadow 0.3s ease;
+          letter-spacing: 0.01em;
         }
-        .g01h-phone:hover {
-          color: #e0e0e0;
+        .g01h-cta-primary:hover {
+          background: #5a7e18;
+          transform: translateY(-3px);
+          box-shadow: 0 14px 32px rgba(106,150,31,0.5);
         }
-        .g01h-phone svg {
-          flex-shrink: 0;
+        .g01h-cta-primary svg { transition: transform 0.4s cubic-bezier(.22,.68,0,1.1); }
+        .g01h-cta-primary:hover svg { transform: rotate(-14deg) scale(1.12); }
+        .g01h-cta-secondary {
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          color: ${WHITE};
+          font-family: ${FONT_B};
+          font-size: 0.9rem; font-weight: 500;
+          text-decoration: none;
+          padding: 0.85rem 1.6rem;
+          border: 1.5px solid rgba(255,255,255,0.3);
+          border-radius: 9999px;
+          transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+          letter-spacing: 0.01em;
         }
-        .g01h-cta-mobile {
-          display: none;
+        .g01h-cta-secondary:hover {
+          border-color: ${GOLD};
+          background: rgba(188,186,99,0.1);
+          transform: translateY(-2px);
+        }
+        .g01h-cta-secondary svg { transition: transform 0.3s ease; }
+        .g01h-cta-secondary:hover svg { transform: translateX(3px); }
+        .g01h-phone-row {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-top: 1.6rem;
+          opacity: 0; animation: g01hUp 0.7s ease forwards 0.8s;
+        }
+        .g01h-phone-label {
+          color: rgba(255,255,255,0.55);
+          font-family: ${FONT_B};
+          font-size: 0.82rem; font-weight: 400;
+        }
+        .g01h-phone-link {
+          display: inline-flex; align-items: center; gap: 0.4rem;
+          color: ${GOLD};
+          font-family: ${FONT_B};
+          font-size: 0.92rem; font-weight: 600;
+          text-decoration: none;
+          letter-spacing: 0.02em;
+          transition: color 0.2s ease;
+        }
+        .g01h-phone-link:hover { color: ${WHITE}; }
+        .g01h-scroll-hint {
+          position: absolute;
+          bottom: 2rem; left: 50%;
+          transform: translateX(-50%);
+          z-index: 3;
+          display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+          color: rgba(255,255,255,0.4);
+          font-family: ${FONT_B}; font-size: 0.65rem;
+          letter-spacing: 0.15em; text-transform: uppercase;
+          animation: g01hBounce 2.5s ease-in-out infinite;
+        }
+        @keyframes g01hUp {
+          from { opacity: 0; transform: translateY(24px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes g01hBounce {
+          0%, 100% { transform: translateX(-50%) translateY(0); }
+          50% { transform: translateX(-50%) translateY(6px); }
         }
 
         @media (max-width: 1023px) {
-          .g01h-section {
-            border-radius: 0 0 80px 0;
-            padding-top: 180px;
-            padding-bottom: 150px;
-          }
-          .g01h-inner {
-            padding-left: 60%;
-            padding-right: 32px;
-          }
-          .g01h-title {
-            font-size: 40px;
-          }
-          .g01h-subtitle {
-            margin-right: 64px;
-          }
+          .g01h-section { border-radius: 0 0 80px 0; }
+          .g01h-inner { padding: 0 2rem 4.5rem 2rem; }
+          .g01h-title { max-width: 560px; }
         }
 
         @media (max-width: 767px) {
           .g01h-section {
-            border-radius: 0 0 40px 0;
-            padding: 120px 24px 80px 24px;
+            border-radius: 0 0 48px 0;
             min-height: 100svh;
           }
-          .g01h-inner {
-            padding-left: 0;
-            padding-right: 0;
-          }
-          .g01h-eyebrow {
-            font-size: 18px;
-            margin-bottom: 12px;
-          }
-          .g01h-title {
-            font-size: 20px;
-            margin-bottom: 28px;
-          }
-          .g01h-subtitle {
-            display: none;
-          }
-          .g01h-phone {
-            display: none;
-          }
-          .g01h-cta-mobile {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background: #6a961f;
-            color: #ffffff;
-            font-family: 'Lato', Arial, sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            padding: 16px 32px;
-            border-radius: 24px;
-            letter-spacing: 0.4px;
-            line-height: 1em;
-            text-transform: capitalize;
-          }
-          .g01h-cta-mobile:hover {
-            background: #5a7e18;
-          }
+          .g01h-inner { padding: 0 1.25rem 3.5rem 1.25rem; }
+          .g01h-title { font-size: 2rem; max-width: 100%; }
+          .g01h-subtitle { font-size: 0.95rem; max-width: 100%; }
+          .g01h-actions { gap: 0.75rem; }
+          .g01h-cta-primary { width: 100%; justify-content: center; }
+          .g01h-cta-secondary { width: 100%; justify-content: center; }
+          .g01h-phone-row { justify-content: center; }
+          .g01h-scroll-hint { display: none; }
         }
       `}</style>
 
-      <section id="uvod" className="g01h-section">
-        <GenericEditableBackground sectionId={sectionId} field="bgImage" value={bgImage}>
+      <section id="uvod" className="g01h-section" data-template="garden-01">
+        <GenericEditableBackground sectionId={sectionId} field="backgroundImage" value={bgImage}>
           <div
             className="g01h-bg"
-            style={bgImage ? { backgroundImage: `url(${bgImage})` } : { background: "#202714" }}
+            style={bgImage ? { backgroundImage: `url(${bgImage})` } : { background: DARK }}
           />
         </GenericEditableBackground>
         <div className="g01h-overlay" />
         <div className="g01h-inner">
-          <GenericEditableText
-            tag="span"
-            className="g01h-eyebrow"
-            value={eyebrow}
-            sectionId={sectionId}
-            field="eyebrow"
-          />
+          <div className="g01h-eyebrow">
+            <span className="g01h-eyebrow-line" aria-hidden="true" />
+            <GenericEditableText
+              tag="span"
+              value={eyebrow}
+              sectionId={sectionId}
+              field="eyebrow"
+            />
+          </div>
           <GenericEditableText
             tag="h1"
             className="g01h-title"
@@ -15884,18 +18463,160 @@ function HeroGarden01({
             sectionId={sectionId}
             field="subtitle"
           />
-          <a href={`tel:${phone.replace(/\s/g, "")}`} className="g01h-phone">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.7A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14v2.92z"/>
-            </svg>
-            <GenericEditableText
-              tag="span"
-              value={phone}
-              sectionId={sectionId}
-              field="phone"
-            />
-          </a>
-          <a href={ctaHref} data-btn="primary" className="g01h-cta-mobile">{ctaText}</a>
+          <div className="g01h-actions">
+            <a href={resolve(ctaHref)} data-btn="primary" className="g01h-cta-primary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+                <path d="M4 20C4 12 10 5 20 4C19 14 12 20 4 20Z" fill="currentColor"/>
+                <path d="M4 20C8 16 12 12 18 8" stroke={DARK} strokeWidth="1.3" strokeLinecap="round" opacity="0.55"/>
+              </svg>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </a>
+            <a href={resolve(secondaryCtaHref)} className="g01h-cta-secondary">
+              <GenericEditableText sectionId={sectionId} field="secondaryCtaText" value={secondaryCtaText} tag="span" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+          <div className="g01h-phone-row">
+            <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" className="g01h-phone-label" />
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="g01h-phone-link">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.7A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14v2.92z"/>
+              </svg>
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+          </div>
+        </div>
+        <div className="g01h-scroll-hint" aria-hidden="true">
+          <svg width="16" height="24" viewBox="0 0 16 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <rect x="1" y="1" width="14" height="22" rx="7" />
+            <line x1="8" y1="6" x2="8" y2="10" strokeLinecap="round" />
+          </svg>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ── hero-garden-01-page ─────────────────────────────────────────────────────
+// Slim subpage banner: dark #202714, gold eyebrow, Cardo title, botanical leaf
+// ─────────────────────────────────────────────────────────────────────────────
+function HeroGarden01Page({
+  content,
+  sectionId,
+  tenantSlug,
+  isAdmin,
+}: {
+  content: Record<string, unknown>;
+  sectionId: number;
+  tenantSlug?: string;
+  isAdmin: boolean;
+}) {
+  const eyebrow  = String(content.eyebrow  ?? "");
+  const title    = String(content.title    ?? "");
+  const subtitle = String(content.subtitle ?? "");
+
+  const DARK   = "#202714";
+  const GREEN  = "#6a961f";
+  const GOLD   = "#bcba63";
+  const WHITE  = "#ffffff";
+  const FONT_H = "'Cardo', Georgia, serif";
+  const FONT_B = "'Inter', Arial, sans-serif";
+
+  return (
+    <>
+      <style>{`
+        .g01hp-section {
+          background: ${DARK};
+          padding: 8.5rem 2.5rem 3.5rem;
+          position: relative;
+          overflow: hidden;
+        }
+        .g01hp-section::before {
+          content: ""; position: absolute;
+          top: -100px; right: -100px;
+          width: 400px; height: 400px;
+          background: radial-gradient(circle, ${GREEN}0c 0%, transparent 70%);
+          pointer-events: none;
+        }
+        .g01hp-section::after {
+          content: ""; position: absolute;
+          bottom: 0; left: 0; right: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, ${GOLD}25, transparent);
+        }
+        .g01hp-inner {
+          max-width: 1200px;
+          margin: 0 auto;
+          position: relative;
+          z-index: 1;
+        }
+        .g01hp-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.6rem;
+          font-family: ${FONT_B};
+          font-size: 0.75rem;
+          font-weight: 600;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: ${GOLD};
+          margin-bottom: 0.85rem;
+        }
+        .g01hp-eyebrow-line {
+          width: 28px; height: 1.5px;
+          background: ${GOLD};
+        }
+        .g01hp-title {
+          font-family: ${FONT_H};
+          font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+          font-weight: 400;
+          color: ${WHITE};
+          margin: 0 0 0.75rem 0;
+          line-height: 1.2;
+        }
+        .g01hp-subtitle {
+          font-family: ${FONT_B};
+          font-size: 1rem;
+          color: rgba(255,255,255,0.55);
+          margin: 0;
+          line-height: 1.7;
+          max-width: 560px;
+        }
+        .g01hp-leaf {
+          position: absolute;
+          right: 0; top: 50%;
+          transform: translateY(-50%);
+          opacity: 0.06;
+          pointer-events: none;
+        }
+        @media (max-width: 767px) {
+          .g01hp-section { padding: 7rem 1.25rem 2.5rem; }
+          .g01hp-leaf { display: none; }
+        }
+      `}</style>
+
+      <section className="g01hp-section" data-template="garden-01">
+        <div className="g01hp-inner">
+          {eyebrow.trim() && (
+            <div className="g01hp-eyebrow">
+              <span className="g01hp-eyebrow-line" aria-hidden="true" />
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </div>
+          )}
+          {title.trim() && (
+            <GenericEditableText tag="h1" className="g01hp-title" value={title} sectionId={sectionId} field="title" />
+          )}
+          {subtitle.trim() && (
+            <GenericEditableText tag="p" className="g01hp-subtitle" value={subtitle} sectionId={sectionId} field="subtitle" />
+          )}
+          <svg className="g01hp-leaf" width="180" height="260" viewBox="0 0 180 260" fill="none" aria-hidden="true">
+            <path d="M90 250C90 250 90 160 90 120C90 60 90 10 90 10" stroke={GREEN} strokeWidth="2.5" strokeLinecap="round"/>
+            <path d="M90 160C90 160 30 155 15 100C55 90 90 115 90 160Z" fill={GREEN}/>
+            <path d="M90 110C90 110 150 115 165 60C125 50 90 75 90 110Z" fill={GOLD}/>
+            <path d="M90 70C90 70 130 55 125 20C95 25 88 50 90 70Z" fill={GREEN}/>
+          </svg>
         </div>
       </section>
     </>
@@ -16508,181 +19229,103 @@ function HeroArbo01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "va
 // - Scroll-down arrow: animovaný pill border s bílým dot
 // ─────────────────────────────────────────────────────────────────────────────
 function HeroDdd01({ content, sectionId }: Omit<Props, "variant">) {
-  const DARK    = "#064e86";
-  const DARKER  = "#07294a";
-  const FONT    = "'Figtree', system-ui, sans-serif";
-
-  const title              = String(content.title              ?? "Hubíme nežádoucí hlodavce a hmyz");
-  const subtitle           = String(content.subtitle           ?? "Zajišťujeme čistotu a bezpečí vašeho prostředí – profesionální deratizace, dezinsekce a dezinfekce pro váš klid a zdraví. Rychle a diskrétně.");
-  const ctaText            = String(content.ctaText            ?? "Nezávazná konzultace");
-  const ctaHref            = String(content.ctaHref            ?? "#kontakt");
-  const ctaSecondaryText   = String(content.ctaSecondaryText   ?? "Naše služby");
-  const ctaSecondaryHref   = String(content.ctaSecondaryHref   ?? "#sluzby");
-  const bgImage            = String(content.backgroundImage    ?? "/clones/deratizace/storage/promo/large/f7b3d8c58916308fb8b6e9f3d0cd5b1e.webp");
+  const title              = String(content.title              ?? "Profesionální ochrana před škůdci");
+  const subtitle           = String(content.subtitle           ?? "Certifikovaná deratizace, dezinsekce a dezinfekce s garancí výsledku. Přijedeme do 90 minut — pracujeme diskrétně a bez narušení provozu.");
+  const ctaText            = String(content.ctaText            ?? "Objednat zásah");
+  const ctaHref            = String(content.ctaHref            ?? "/kontakt");
+  const ctaSecondaryText   = String(content.ctaSecondaryText   ?? "Přehled služeb");
+  const ctaSecondaryHref   = String(content.ctaSecondaryHref   ?? "/sluzby");
+  const bgImage            = String(content.backgroundImage    ?? "/templates/ddd-01/hero-bg.webp");
+  const trustText          = String(content.trustText          ?? "Certifikováno dle vyhlášky č. 490/2000 Sb.");
 
   return (
-    <>
-      <style>{`
-        .ddd01h-wrap {
-          position: relative;
-          width: 100%;
-          min-height: 100svh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          background-color: ${DARK};
-          font-family: ${FONT};
-        }
-        .ddd01h-bg {
-          position: absolute;
-          inset: 0;
-          background-image: var(--ddd01h-bg);
-          background-size: cover;
-          background-position: center 50%;
-          background-repeat: no-repeat;
-        }
-        .ddd01h-overlay {
-          position: absolute;
-          inset: 0;
-          background-image: linear-gradient(180deg, ${DARKER}ed, ${DARK}96 48%, ${DARKER}ab);
-        }
-        .ddd01h-inner {
-          position: relative;
-          z-index: 2;
-          text-align: center;
-          padding: 6rem 1.5rem 5rem;
-          max-width: 100ch;
-          width: 100%;
-          margin: 0 auto;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        .ddd01h-h1 {
-          font-size: clamp(2rem, 2.14vw + 1.5714rem, 3.5rem);
-          font-weight: 700;
-          color: #ffffff;
-          text-shadow: 0 0 2px rgba(0,0,0,0.33);
-          line-height: 1.27;
-          margin: 0 0 1.75rem;
-        }
-        .ddd01h-text {
-          font-size: clamp(1rem, 1.5vw, 1.15rem);
-          color: rgba(255,255,255,0.92);
-          line-height: 1.65;
-          max-width: 640px;
-          margin: 0 0 2.5rem;
-        }
-        .ddd01h-btns {
-          display: flex;
-          gap: 12px;
-          flex-wrap: wrap;
-          justify-content: center;
-          margin-bottom: 3rem;
-        }
-        .ddd01h-cta {
-          display: inline-block;
-          background: #0c93eb;
-          color: #ffffff;
-          text-decoration: none;
-          font-weight: 600;
-          font-size: 1rem;
-          padding: 0.85rem 2.4rem;
-          border-radius: 4px;
-          transition: background 0.18s;
-        }
-        .ddd01h-cta:hover { background: #015ba3; }
-        .ddd01h-cta-secondary {
-          display: inline-block;
-          background: transparent;
-          color: #ffffff;
-          text-decoration: none;
-          font-weight: 600;
-          font-size: 1rem;
-          padding: 0.85rem 2.4rem;
-          border-radius: 4px;
-          border: 2px solid rgba(255,255,255,0.55);
-          transition: border-color 0.18s, background 0.18s;
-        }
-        .ddd01h-cta-secondary:hover { border-color: #fff; background: rgba(255,255,255,0.1); }
-        /* Editable bg image trigger */
-        .ddd01h-bg-edit {
-          position: absolute;
-          inset: 0;
-          z-index: 1;
-          pointer-events: none;
-        }
-        .ddd01h-bg-edit img { width: 100%; height: 100%; object-fit: cover; opacity: 0; }
-        @media (max-width: 640px) {
-          .ddd01h-inner { padding: 4rem 1.25rem 3.5rem; }
-          .ddd01h-btns { flex-direction: column; align-items: center; }
-          .ddd01h-cta, .ddd01h-cta-secondary { width: 100%; max-width: 300px; text-align: center; }
-        }
-        /* Animated scroll-down pill */
-        @keyframes ddd01h-scroll {
-          0%   { transform: translateY(0); opacity: 1; }
-          80%  { transform: translateY(16px); opacity: 0; }
-          100% { transform: translateY(0); opacity: 0; }
-        }
-        .ddd01h-arrow {
-          display: block;
-          width: 3px;
-          height: 35px;
-          border: 2px solid #ffffff;
-          border-radius: 25px;
-          padding: 10px 15px;
-          box-sizing: content-box;
-          opacity: 0.75;
-          text-decoration: none;
-          position: relative;
-        }
-        .ddd01h-arrow::before {
-          content: "";
-          display: block;
-          width: 3px;
-          height: 10px;
-          background: #ffffff;
-          border-radius: 25%;
-          animation: ddd01h-scroll 2s cubic-bezier(.15,.41,.69,.94) infinite;
-        }
-      `}</style>
+    <section
+      className="ddd01h-wrap"
+      id="uvod"
+      data-template="ddd-01"
+      style={{ "--ddd01h-bg": `url('${bgImage}')` } as React.CSSProperties}
+    >
+      <div className="ddd01h-bg" aria-hidden="true" />
+      <div className="ddd01h-overlay" aria-hidden="true" />
 
-      <section
-        className="ddd01h-wrap"
-        id="uvod"
-        data-template="ddd-01-hero"
-        style={{ "--ddd01h-bg": `url('${bgImage}')` } as React.CSSProperties}
-      >
-        <div className="ddd01h-bg" aria-hidden="true" />
-        <div className="ddd01h-overlay" aria-hidden="true" />
+      <div className="ddd01h-bg-edit" aria-hidden="true">
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{}}>
+          <img loading="eager" src={bgImage} alt="" />
+        </GenericEditableImage>
+      </div>
 
-        {/* Neviditelný img pro editovatelnost bg obrázku ve studiu */}
-        <div className="ddd01h-bg-edit" aria-hidden="true">
-          <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{}}>
-            <img loading="eager" src={bgImage} alt="" />
-          </GenericEditableImage>
+      <div className="ddd01h-inner">
+        <div className="ddd01h-trust">
+          <svg viewBox="0 0 20 20" width="16" height="16" fill="none" aria-hidden="true">
+            <path d="M10 1L2 5v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5L10 1z" fill="#0c93eb" fillOpacity="0.9"/>
+            <path d="M7 10l2.5 2.5L13 8" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          <GenericEditableText sectionId={sectionId} field="trustText" value={trustText} tag="span" />
         </div>
 
-        <div className="ddd01h-inner">
-          <h1 className="ddd01h-h1">
+        <h1 className="ddd01h-h1">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        <p className="ddd01h-text">
+          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+        </p>
+        <div className="ddd01h-btns">
+          <a href={ctaHref} className="ddd01h-cta">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+          <a href={ctaSecondaryHref} className="ddd01h-cta-secondary">
+            <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
+          </a>
+        </div>
+        <a className="ddd01h-arrow" href="#about" aria-label="Přejít dolů" />
+      </div>
+    </section>
+  );
+}
+
+// ── hero-ddd-01-page (slim banner) ────────────────────────────────────────────
+function HeroDdd01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const title          = String(content.title          ?? "Stránka");
+  const subtitle       = String(content.subtitle       ?? "");
+  const breadcrumb     = String(content.breadcrumb     ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const bgImage        = String(content.backgroundImage ?? "/templates/ddd-01/hero-bg.webp");
+  const siteMode       = String(content.siteMode ?? "multipage");
+  const resolve        = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <section
+      className="ddd01pg-wrap"
+      data-template="ddd-01"
+      style={{ "--ddd01pg-bg": `url('${bgImage}')` } as React.CSSProperties}
+    >
+      <div className="ddd01pg-bg" aria-hidden="true" />
+      <div className="ddd01pg-overlay" aria-hidden="true" />
+      <div className="ddd01pg-bg-edit" aria-hidden="true">
+        <GenericEditableImage sectionId={sectionId} field="backgroundImage" src={bgImage} alt="" style={{}}>
+          <img loading="eager" src={bgImage} alt="" />
+        </GenericEditableImage>
+      </div>
+      <div className="ddd01pg-inner">
+        <nav className="ddd01pg-bread" aria-label="Breadcrumb">
+          <a href={resolve(breadcrumbHref)} className="ddd01pg-bread-link">
+            <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+          </a>
+          <span className="ddd01pg-bread-sep" aria-hidden="true">/</span>
+          <span className="ddd01pg-bread-current">
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h1>
-          <p className="ddd01h-text">
+          </span>
+        </nav>
+        <h1 className="ddd01pg-h1">
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+        </h1>
+        {subtitle && (
+          <p className="ddd01pg-sub">
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
-          <div className="ddd01h-btns">
-            <a href={ctaHref} data-btn="primary" className="ddd01h-cta">
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
-            <a href={ctaSecondaryHref} className="ddd01h-cta-secondary">
-              <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={ctaSecondaryText} tag="span" />
-            </a>
-          </div>
-          <a className="ddd01h-arrow" href="#about" aria-label="Přejít dolů" />
-        </div>
-      </section>
-    </>
+        )}
+      </div>
+    </section>
   );
 }
 
@@ -17675,248 +20318,375 @@ function HeroHotel02Page({ content, sectionId }: { content: Record<string, unkno
 // ── chalet-01-hero ────────────────────────────────────────────────────────────
 function HeroChalet01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
   const c = (content ?? {}) as Record<string, any>;
-  const title    = String(c.title    ?? "PRONÁJEM CHATY DEMO CHALET V SRDCI KRKONOŠ");
-  const subtitle = String(c.subtitle ?? "Demo Chalet je stylová chalupa k pronájmu v Malé Úpě pro rodiny, skupiny i páry.");
-  const ctaText  = String(c.ctaText  ?? "VÍCE O UBYTOVÁNÍ");
-  const ctaHref  = String(c.ctaHref  ?? "#ubytovani");
-  const cta2Text = String(c.cta2Text ?? "REZERVACE");
-  const cta2Href = String(c.cta2Href ?? "#rezervace");
-  const phone    = String(c.phone    ?? "+420 704 123 456");
+  const siteMode = String(c.siteMode ?? "multipage");
+  const title    = String(c.title    ?? "BOUDA SNĚŽNÉ ÚDOLÍ");
+  const subtitle = String(c.subtitle ?? "Alpský klid v srdci Krkonoš — dřevěná chata s výhledem na zasněžené hřebeny, kam se budete chtít vracet.");
+  const ctaText  = String(c.ctaText  ?? "Prohlédnout pokoje");
+  const ctaHref  = String(c.ctaHref  ?? "/ubytovani");
+  const cta2Text = String(c.cta2Text ?? "Rezervovat pobyt");
+  const cta2Href = String(c.cta2Href ?? "/rezervace");
+  const scrollLabel = String(c.scrollLabel ?? "Poznejte nás");
   const slides: { url: string; alt: string }[] = Array.isArray(c.slides) && c.slides.length > 0
     ? c.slides
     : [
-        { url: "/clones/chaletmilada/images/slideshow/chalet-milada-slide-06.jpg", alt: "Horský chalet v zimě" },
-        { url: "/clones/chaletmilada/images/slideshow/chalet-milada-slide-07.jpg", alt: "Horský chalet — výhled na hory" },
+        { url: "/images/chalet-01/hero-01.webp", alt: "Horská chata v zasněžené krajině" },
+        { url: "/images/chalet-01/hero-02.webp", alt: "Útulný interiér horského chalupy" },
+        { url: "/images/chalet-01/hero-03.webp", alt: "Panorama Krkonoš za úsvitu" },
+        { url: "/images/chalet-01/hero-04.webp", alt: "Terasa s výhledem na hory" },
       ];
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const [current, setCurrent] = useState(0);
   const [prev, setPrev]       = useState<number | null>(null);
   const [fading, setFading]   = useState(false);
+  const [ready, setReady]     = useState(false);
   const timerRef              = useRef<ReturnType<typeof setInterval> | null>(null);
+  const DURATION = 7000;
 
-  const BEIGE = "#c0bbad";
-  const DARK  = "#1e2329";
+  const BEIGE  = "#c0bbad";
+  const DARK   = "#1e2329";
   const FONT_H = "'Josefin Sans', system-ui, sans-serif";
+  const FONT_B = "'Plus Jakarta Sans', system-ui, sans-serif";
 
   const goTo = useCallback((idx: number) => {
     if (fading) return;
     setPrev(current);
     setCurrent(idx);
     setFading(true);
-    setTimeout(() => { setPrev(null); setFading(false); }, 1000);
+    setTimeout(() => { setPrev(null); setFading(false); }, 1200);
   }, [current, fading]);
 
   useEffect(() => {
     if (slides.length <= 1) return;
     timerRef.current = setInterval(() => {
       goTo((current + 1) % slides.length);
-    }, 6000);
+    }, DURATION);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [current, slides.length, goTo]);
 
-  const resolve = (href: string) => {
-    if (isAdmin) return "#";
-    if (!tenantSlug || href.startsWith("http") || href.startsWith("#")) return href;
-    return `/demo/${tenantSlug}${href}`;
-  };
+  useEffect(() => { const t = setTimeout(() => setReady(true), 100); return () => clearTimeout(t); }, []);
 
   return (
     <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600;700&display=swap" />
-      <style>{`        .ch01hero {
+      <style>{`
+        .ch01hero {
           position: relative;
           width: 100%;
           height: 100vh;
-          min-height: 600px;
+          min-height: 640px;
           overflow: hidden;
           background: ${DARK};
         }
         .ch01hero-slide {
           position: absolute;
           inset: 0;
-          background-size: cover;
-          background-position: center center;
-          transition: opacity 1s ease;
+          opacity: 0;
+          transition: opacity 1.2s ease;
+          will-change: opacity, transform;
         }
-        .ch01hero-slide.active { opacity: 1; z-index: 1; }
-        .ch01hero-slide.prev   { opacity: 0; z-index: 2; }
-        .ch01hero-overlay {
-          position: absolute;
-          inset: 0;
-          z-index: 3;
+        .ch01hero-slide img {
+          width: 100%; height: 100%;
+          object-fit: cover;
+          animation: ch01KenBurns ${DURATION}ms ease-out both;
+        }
+        .ch01hero-slide.ch01s-active { opacity: 1; z-index: 1; }
+        .ch01hero-slide.ch01s-active img { animation-play-state: running; }
+        .ch01hero-slide.ch01s-prev   { opacity: 0; z-index: 2; }
+        .ch01hero-grad {
+          position: absolute; inset: 0; z-index: 3; pointer-events: none;
           background:
-            linear-gradient(to bottom,  rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.0) 30%),
-            linear-gradient(to top,     rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.0) 45%);
+            linear-gradient(180deg, rgba(30,35,41,0.55) 0%, transparent 35%),
+            linear-gradient(0deg,   rgba(30,35,41,0.78) 0%, transparent 50%),
+            radial-gradient(ellipse 120% 80% at 50% 100%, rgba(30,35,41,0.35) 0%, transparent 70%);
         }
         .ch01hero-content {
-          position: absolute;
-          inset: 0;
-          z-index: 4;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: flex-end;
-          padding-bottom: 10vh;
+          position: absolute; inset: 0; z-index: 4;
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: flex-end;
+          padding: 0 2rem 12vh;
           text-align: center;
-          padding-left: 1.5rem;
-          padding-right: 1.5rem;
         }
+        .ch01hero-eyebrow {
+          font-family: ${FONT_B};
+          font-size: 0.68rem; font-weight: 500;
+          letter-spacing: 0.28em; text-transform: uppercase;
+          color: ${BEIGE}; margin: 0 0 1.2rem;
+          opacity: 0;
+        }
+        .ch01hero-eyebrow.ch01-vis { animation: ch01FadeUp 0.9s 0.2s ease both; }
+        .ch01hero-hairline {
+          width: 48px; height: 1px;
+          background: ${BEIGE}; margin: 0 auto 1.6rem;
+          opacity: 0;
+        }
+        .ch01hero-hairline.ch01-vis { animation: ch01FadeIn 1s 0.35s ease both; }
         .ch01hero-title {
           font-family: ${FONT_H};
-          font-size: clamp(1.5rem, 4vw, 3rem);
-          font-weight: 300;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: #ffffff;
-          line-height: 1.25;
-          margin: 0 0 1rem;
-          max-width: 820px;
+          font-size: clamp(1.8rem, 4.5vw, 3.6rem);
+          font-weight: 300; letter-spacing: 0.22em;
+          text-transform: uppercase; color: #ffffff;
+          line-height: 1.18; margin: 0 0 1.2rem;
+          max-width: 860px; opacity: 0;
         }
-        .ch01hero-subtitle {
-          font-family: ${FONT_H};
-          font-size: clamp(0.8rem, 1.4vw, 1rem);
-          font-weight: 300;
-          letter-spacing: 0.06em;
-          color: rgba(255,255,255,0.82);
-          line-height: 1.6;
-          max-width: 580px;
-          margin: 0 0 2rem;
+        .ch01hero-title.ch01-vis { animation: ch01FadeUp 1s 0.45s ease both; }
+        .ch01hero-sub {
+          font-family: ${FONT_B};
+          font-size: clamp(0.82rem, 1.3vw, 1rem);
+          font-weight: 300; letter-spacing: 0.03em;
+          color: rgba(255,255,255,0.78); line-height: 1.7;
+          max-width: 540px; margin: 0 0 2.4rem; opacity: 0;
         }
+        .ch01hero-sub.ch01-vis { animation: ch01FadeUp 1s 0.65s ease both; }
         .ch01hero-ctas {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-          flex-wrap: wrap;
-          justify-content: center;
-          margin-bottom: 1.5rem;
+          display: flex; align-items: center;
+          gap: 1.2rem; flex-wrap: wrap;
+          justify-content: center; opacity: 0;
         }
-        .ch01hero-cta-primary {
-          display: inline-block;
-          padding: 0.75rem 2rem;
-          background: transparent;
-          border: 1.5px solid #ffffff;
-          color: #ffffff;
-          font-family: ${FONT_H};
-          font-size: 0.72rem;
-          font-weight: 600;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          text-decoration: none;
-          transition: background 0.25s, color 0.25s;
+        .ch01hero-ctas.ch01-vis { animation: ch01FadeUp 0.9s 0.85s ease both; }
+        .ch01hero-cta {
+          display: inline-block; padding: 0.82rem 2.4rem;
+          font-family: ${FONT_H}; font-size: 0.7rem; font-weight: 600;
+          letter-spacing: 0.22em; text-transform: uppercase;
+          text-decoration: none; position: relative; overflow: hidden;
+          transition: color 0.35s, border-color 0.35s;
         }
-        .ch01hero-cta-primary:hover {
-          background: rgba(255,255,255,0.15);
+        .ch01hero-cta::before {
+          content: ''; position: absolute; inset: 0;
+          transform: scaleX(0); transform-origin: left;
+          transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
         }
-        .ch01hero-cta-secondary {
-          display: inline-block;
-          padding: 0.75rem 2rem;
-          background: ${BEIGE};
+        .ch01hero-cta:hover::before { transform: scaleX(1); }
+        .ch01hero-cta span { position: relative; z-index: 1; }
+        .ch01hero-cta--outline {
+          border: 1.5px solid rgba(255,255,255,0.7);
+          color: #ffffff; background: transparent;
+        }
+        .ch01hero-cta--outline::before { background: rgba(255,255,255,0.12); }
+        .ch01hero-cta--outline:hover { border-color: #ffffff; }
+        .ch01hero-cta--filled {
           border: 1.5px solid ${BEIGE};
-          color: ${DARK};
-          font-family: ${FONT_H};
-          font-size: 0.72rem;
-          font-weight: 600;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          text-decoration: none;
-          transition: background 0.25s, color 0.25s;
+          background: ${BEIGE}; color: ${DARK};
         }
-        .ch01hero-cta-secondary:hover {
-          background: transparent;
-          color: ${BEIGE};
+        .ch01hero-cta--filled::before { background: rgba(0,0,0,0.1); }
+        .ch01hero-scroll {
+          position: absolute; bottom: 2.4rem; left: 50%;
+          transform: translateX(-50%); z-index: 5;
+          display: flex; flex-direction: column; align-items: center;
+          gap: 0.5rem; text-decoration: none;
+          opacity: 0;
         }
-        .ch01hero-phone {
-          font-family: ${FONT_H};
-          font-size: 0.78rem;
-          font-weight: 400;
-          letter-spacing: 0.1em;
-          color: rgba(255,255,255,0.7);
-          text-decoration: none;
-          transition: color 0.18s;
+        .ch01hero-scroll.ch01-vis { animation: ch01FadeIn 1s 1.2s ease both; }
+        .ch01hero-scroll-label {
+          font-family: ${FONT_B};
+          font-size: 0.6rem; font-weight: 500;
+          letter-spacing: 0.22em; text-transform: uppercase;
+          color: rgba(255,255,255,0.55);
         }
-        .ch01hero-phone:hover { color: #ffffff; }
-        .ch01hero-dots {
-          position: absolute;
-          bottom: 2rem;
-          right: 2.5rem;
-          z-index: 5;
-          display: flex;
-          gap: 0.4rem;
+        .ch01hero-scroll-track {
+          width: 1px; height: 28px; position: relative;
+          background: rgba(255,255,255,0.15); overflow: hidden;
         }
-        .ch01hero-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: rgba(255,255,255,0.4);
-          border: none;
-          cursor: pointer;
-          padding: 0;
-          transition: background 0.2s;
+        .ch01hero-scroll-dot {
+          position: absolute; left: 0; top: 0;
+          width: 1px; height: 8px;
+          background: ${BEIGE};
+          animation: ch01ScrollDot 2s ease-in-out infinite;
         }
-        .ch01hero-dot.active { background: #ffffff; }
+        .ch01hero-pag {
+          position: absolute; bottom: 2.4rem; right: 2.5rem;
+          z-index: 5; display: flex; align-items: center; gap: 0.5rem;
+        }
+        .ch01hero-pip {
+          width: 24px; height: 2px; border: none; padding: 0;
+          background: rgba(255,255,255,0.25); cursor: pointer;
+          position: relative; overflow: hidden;
+          transition: background 0.3s;
+        }
+        .ch01hero-pip.ch01pip-on { background: rgba(255,255,255,0.4); }
+        .ch01hero-pip-fill {
+          position: absolute; left: 0; top: 0; bottom: 0;
+          background: ${BEIGE};
+          transform: scaleX(0); transform-origin: left;
+        }
+        .ch01hero-pip.ch01pip-on .ch01hero-pip-fill {
+          animation: ch01SlideProgress ${DURATION}ms linear forwards;
+        }
         @media (max-width: 640px) {
+          .ch01hero-content { padding: 0 1.25rem 14vh; }
           .ch01hero-ctas { flex-direction: column; gap: 0.75rem; }
+          .ch01hero-cta { width: 100%; text-align: center; }
+          .ch01hero-scroll { display: none; }
+          .ch01hero-pag { right: 1.25rem; bottom: 1.5rem; }
         }
       `}</style>
 
       <section className="ch01hero" data-template="chalet-01-hero">
-        {/* Slides */}
         {slides.map((slide, i) => (
-          <GenericEditableImage
-            key={i}
-            sectionId={sectionId}
-            field={`slides.${i}.url`}
-            src={slide.url}
-            alt={slide.alt ?? ""}
-            style={{ position: "absolute", inset: 0 }}
+          <div
+            key={`s${i}-${current}`}
+            className={`ch01hero-slide${i === current ? " ch01s-active" : i === prev ? " ch01s-prev" : ""}`}
           >
-            <div
-              className={`ch01hero-slide${i === current ? " active" : i === prev ? " prev" : ""}`}
-              style={{ backgroundImage: `url(${slide.url})` }}
-              aria-hidden={i !== current}
-            />
-          </GenericEditableImage>
+            <GenericEditableImage
+              sectionId={sectionId}
+              field={`slides.${i}.url`}
+              src={slide.url}
+              alt={slide.alt ?? ""}
+              style={{ position: "absolute", inset: 0 }}
+            >
+              <img src={slide.url} alt={slide.alt ?? ""} loading={i === 0 ? "eager" : "lazy"} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </GenericEditableImage>
+          </div>
         ))}
 
-        {/* Gradient overlay */}
-        <div className="ch01hero-overlay" aria-hidden />
+        <div className="ch01hero-grad" aria-hidden="true" />
 
-        {/* Content */}
         <div className="ch01hero-content">
-          <h1 className="ch01hero-title">
+          <p className={`ch01hero-eyebrow${ready ? " ch01-vis" : ""}`}>
+            <GenericEditableText sectionId={sectionId} field="scrollLabel" value={scrollLabel} tag="span" />
+          </p>
+          <div className={`ch01hero-hairline${ready ? " ch01-vis" : ""}`} />
+          <h1 className={`ch01hero-title${ready ? " ch01-vis" : ""}`}>
             <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
           </h1>
-          <p className="ch01hero-subtitle">
+          <p className={`ch01hero-sub${ready ? " ch01-vis" : ""}`}>
             <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
           </p>
-          <div className="ch01hero-ctas">
-            <a href={resolve(ctaHref)} data-btn="primary" className="ch01hero-cta-primary">
+          <div className={`ch01hero-ctas${ready ? " ch01-vis" : ""}`}>
+            <a href={resolve(ctaHref)} className="ch01hero-cta ch01hero-cta--outline">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
-            <a href={resolve(cta2Href)} className="ch01hero-cta-secondary">
+            <a href={resolve(cta2Href)} className="ch01hero-cta ch01hero-cta--filled">
               <GenericEditableText sectionId={sectionId} field="cta2Text" value={cta2Text} tag="span" />
             </a>
           </div>
-          <a href={`tel:${phone.replace(/\s/g,"")}`} className="ch01hero-phone">
-            <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-          </a>
         </div>
 
-        {/* Slide dots */}
+        <a href="#o-nas" className={`ch01hero-scroll${ready ? " ch01-vis" : ""}`} aria-label="Scroll">
+          <span className="ch01hero-scroll-label">Objevte více</span>
+          <span className="ch01hero-scroll-track">
+            <span className="ch01hero-scroll-dot" />
+          </span>
+        </a>
+
         {slides.length > 1 && (
-          <div className="ch01hero-dots">
+          <div className="ch01hero-pag">
             {slides.map((_, i) => (
               <button
                 key={i}
-                className={`ch01hero-dot${i === current ? " active" : ""}`}
+                className={`ch01hero-pip${i === current ? " ch01pip-on" : ""}`}
                 onClick={() => goTo(i)}
                 aria-label={`Slide ${i + 1}`}
-              />
+              >
+                <span className="ch01hero-pip-fill" />
+              </button>
             ))}
           </div>
         )}
+      </section>
+    </>
+  );
+}
+
+// ── hero-chalet-01-page (slim banner pro podstránky) ─────────────────────────
+function HeroChalet01Page({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
+  const c = (content ?? {}) as Record<string, any>;
+  const siteMode       = String(c.siteMode       ?? "multipage");
+  const title          = String(c.title          ?? "Stránka");
+  const subtitle       = String(c.subtitle       ?? "");
+  const breadcrumb     = String(c.breadcrumb     ?? "Domů");
+  const breadcrumbHref = String(c.breadcrumbHref ?? "/");
+  const bgImage        = String(c.backgroundImage ?? "/images/chalet-01/hero-01.webp");
+
+  const BEIGE  = "#c0bbad";
+  const DARK   = "#1e2329";
+  const ACCENT = "#8a7e6e";
+  const FONT_H = "'Josefin Sans', system-ui, sans-serif";
+  const FONT_B = "'Plus Jakarta Sans', system-ui, sans-serif";
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <>
+      <style>{`
+        .ch01pg {
+          position: relative; overflow: hidden;
+          background: ${DARK};
+        }
+        .ch01pg-bg {
+          position: absolute; inset: 0;
+          background-size: cover; background-position: center;
+          filter: brightness(0.4) saturate(0.8);
+          transform: scale(1.05);
+        }
+        .ch01pg-grad {
+          position: absolute; inset: 0;
+          background:
+            linear-gradient(180deg, rgba(30,35,41,0.7) 0%, rgba(30,35,41,0.4) 50%, rgba(30,35,41,0.85) 100%);
+        }
+        .ch01pg-inner {
+          position: relative; z-index: 2;
+          max-width: 1200px; margin: 0 auto;
+          padding: clamp(5.5rem, 10vw, 8rem) 2rem clamp(3rem, 6vw, 4.5rem);
+          text-align: center;
+        }
+        .ch01pg-crumb {
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          font-family: ${FONT_B};
+          font-size: 0.68rem; font-weight: 500;
+          letter-spacing: 0.2em; text-transform: uppercase;
+          margin-bottom: 1.4rem;
+        }
+        .ch01pg-crumb a {
+          color: rgba(255,255,255,0.5);
+          text-decoration: none; transition: color 0.25s;
+        }
+        .ch01pg-crumb a:hover { color: ${BEIGE}; }
+        .ch01pg-crumb-sep { color: ${ACCENT}; font-size: 0.55rem; }
+        .ch01pg-crumb-cur { color: rgba(255,255,255,0.8); }
+        .ch01pg-rule {
+          width: 48px; height: 1px;
+          background: ${BEIGE}; margin: 0 auto 1.4rem;
+        }
+        .ch01pg-title {
+          font-family: ${FONT_H};
+          font-size: clamp(1.6rem, 4vw, 2.8rem);
+          font-weight: 300; letter-spacing: 0.18em;
+          text-transform: uppercase; color: #fff;
+          line-height: 1.2; margin: 0;
+        }
+        .ch01pg-sub {
+          font-family: ${FONT_B};
+          font-size: clamp(0.82rem, 1.4vw, 0.95rem);
+          color: rgba(255,255,255,0.55);
+          line-height: 1.7; margin: 1rem auto 0;
+          max-width: 520px;
+        }
+      `}</style>
+
+      <section className="ch01pg" data-template="hero-chalet-01-page">
+        <div className="ch01pg-bg" style={{ backgroundImage: `url(${bgImage})` }} aria-hidden="true" />
+        <div className="ch01pg-grad" aria-hidden="true" />
+        <div className="ch01pg-inner">
+          <nav className="ch01pg-crumb" aria-label="Breadcrumb">
+            <a href={resolve(breadcrumbHref)}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span className="ch01pg-crumb-sep">/</span>
+            <span className="ch01pg-crumb-cur">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </span>
+          </nav>
+          <div className="ch01pg-rule" />
+          <h1 className="ch01pg-title">
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+          </h1>
+          {subtitle.trim() && (
+            <p className="ch01pg-sub">
+              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+            </p>
+          )}
+        </div>
       </section>
     </>
   );
@@ -18585,9 +21355,13 @@ function HeroEvents01Page({ content, sectionId, tenantSlug, isAdmin }: { content
 // ── photo-01-hero ─────────────────────────────────────────────────────────────
 // 1:1 zbiralova.cz: 3-per-view centered loop slider + hover zoom/darken + mouse drag
 function HeroPhoto01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
-  const title      = String(content.title ?? "Focení, které si užijete");
+  const title      = String(content.title ?? "Okamžiky utkané ze světla");
+  const eyebrow    = String(content.eyebrow ?? "Svatební & rodinná fotografka");
+  const subtitle   = String(content.subtitle ?? "Fotím beze spěchu a pózování — jen skutečné okamžiky, jak přicházejí. Na Moravě i všude, kde začíná váš příběh.");
   const slides     = (content.slides     as Array<{ url: string; alt: string }>) ?? [];
   const categories = (content.categories as Array<{ name: string; description: string; href: string; imageUrl: string }>) ?? [];
+  const siteMode   = String(content.siteMode ?? "multipage");
+  const resolveNav = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const N        = slides.length;
   const extended = [...slides, ...slides, ...slides]; // 3 copies; start in middle copy
@@ -18673,20 +21447,54 @@ function HeroPhoto01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
     if (dragMoving.current) e.stopPropagation();
   }, []);
 
+  // Touch (swipe) handlers — mirror mouse drag for mobile
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    stopAutoplay();
+    setDragging(true);
+    dragStartX.current = e.touches[0].clientX;
+    dragMoving.current = false;
+    setDragOffset(0);
+  }, [stopAutoplay]);
+
+  const onTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!dragging) return;
+    const delta = e.touches[0].clientX - dragStartX.current;
+    if (Math.abs(delta) > 3) dragMoving.current = true;
+    setDragOffset(delta);
+  }, [dragging]);
+
+  const onTouchEnd = useCallback(() => {
+    if (!dragging) return;
+    const delta = dragOffset;
+    setDragging(false);
+    setDragOffset(0);
+    if (Math.abs(delta) > 40) {
+      setAnimated(true);
+      setIdx(i => delta < 0 ? i + 1 : i - 1);
+    }
+    startAutoplay();
+  }, [dragging, dragOffset, startAutoplay]);
+
   const tx = `calc(${-(idx - 1)} * var(--ph01s-w) + ${dragOffset}px)`;
 
   return (
     <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" />
       <style>{`
         :root { --ph01s-w: calc(100vw / 3); }
-        @media (max-width: 900px) { :root { --ph01s-w: calc(100vw / 2); } }
+        @media (max-width: 1024px) { :root { --ph01s-w: calc(100vw / 2); } }
+        @media (max-width: 767px) { :root { --ph01s-w: 100vw; } }
         .ph01s-outer {
           overflow: hidden;
           width: 100%;
-          height: 650px;
-          background: #111;
+          height: clamp(440px, 62vh, 720px);
+          background: #14100c;
           user-select: none;
+          touch-action: pan-y;
         }
+        @media (max-width: 767px) { .ph01s-outer { height: clamp(420px, 72vw, 560px); } }
         .ph01s-track {
           display: flex;
           height: 100%;
@@ -18704,47 +21512,74 @@ function HeroPhoto01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
           object-fit: cover;
           display: block;
           pointer-events: none;
-          transition: transform 0.45s ease;
+          transition: transform 0.75s cubic-bezier(.22,.61,.36,1);
         }
         .ph01s-slide::after {
           content: '';
           position: absolute;
           inset: 0;
-          background: rgba(0, 0, 0, 0);
-          transition: background 0.35s ease;
+          background: rgba(20, 16, 12, 0.14);
+          transition: background 0.5s ease;
           pointer-events: none;
         }
         .ph01s-outer:not(.ph01s-dragging) .ph01s-slide:hover img {
-          transform: scale(1.07);
+          transform: scale(1.055);
         }
         .ph01s-outer:not(.ph01s-dragging) .ph01s-slide:hover::after {
-          background: rgba(0, 0, 0, 0.22);
+          background: rgba(20, 16, 12, 0);
         }
         .ph01hero-band {
           background: #fff;
-          padding: 30px 0 0;
+          padding: clamp(52px, 7vw, 94px) 0 0;
         }
         .ph01hero-band-inner {
-          max-width: 1200px;
+          max-width: 840px;
           margin: 0 auto;
           padding: 0 24px;
           text-align: center;
         }
+        .ph01hero-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.9em;
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 12px;
+          font-weight: 500;
+          letter-spacing: 0.26em;
+          text-transform: uppercase;
+          color: #8b7355;
+          margin: 0 0 24px;
+        }
+        .ph01hero-eyebrow::before, .ph01hero-eyebrow::after {
+          content: '';
+          width: 34px; height: 1px;
+          background: #c0bbad;
+          display: inline-block;
+        }
         .ph01hero-h1 {
-          font-family: Georgia, 'Times New Roman', serif;
-          font-size: 35px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: clamp(32px, 5vw, 54px);
           font-weight: 400;
           color: #1a1a1a;
-          margin: 0 0 5px;
-          line-height: 1.3;
+          margin: 0 0 22px;
+          line-height: 1.12;
+          letter-spacing: -0.01em;
+        }
+        .ph01hero-sub {
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: clamp(15px, 1.5vw, 17px);
+          line-height: 1.78;
+          color: #6b6b6b;
+          margin: 0 auto;
+          max-width: 580px;
         }
         .ph01hero-cols {
           max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 24px 48px;
+          margin: clamp(48px, 6vw, 82px) auto 0;
+          padding: 0 24px clamp(56px, 6vw, 88px);
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          gap: 24px;
+          gap: clamp(20px, 2.6vw, 44px);
           background: #fff;
         }
         .ph01hero-col {
@@ -18758,53 +21593,64 @@ function HeroPhoto01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
           aspect-ratio: 2 / 3;
           overflow: hidden;
           display: block;
-          margin-bottom: 5px;
+          margin-bottom: 22px;
         }
         .ph01hero-col-img img {
           width: 100%;
           height: 100%;
           object-fit: cover;
           display: block;
-          transition: transform 0.45s ease;
+          transition: transform 0.9s cubic-bezier(.22,.61,.36,1);
         }
         .ph01hero-col-img::after {
           content: '';
           position: absolute;
           inset: 0;
-          background: rgba(0,0,0,0);
-          transition: background 0.35s ease;
+          background: linear-gradient(to top, rgba(20,16,12,0.30), rgba(20,16,12,0) 58%);
+          opacity: 0;
+          transition: opacity 0.6s ease;
           pointer-events: none;
         }
-        .ph01hero-col:hover .ph01hero-col-img img { transform: scale(1.07); }
-        .ph01hero-col:hover .ph01hero-col-img::after { background: rgba(0,0,0,0.18); }
+        .ph01hero-col:hover .ph01hero-col-img img { transform: scale(1.05); }
+        .ph01hero-col:hover .ph01hero-col-img::after { opacity: 1; }
         .ph01hero-col-name {
-          font-family: Georgia, 'Times New Roman', serif;
-          font-size: 30px;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: clamp(22px, 2.4vw, 28px);
           font-weight: 400;
           color: #1a1a1a;
-          margin: 0 0 8px;
+          margin: 0 0 12px;
           text-align: center;
-          line-height: 1.3;
+          line-height: 1.2;
         }
         .ph01hero-col-name a {
+          position: relative;
           color: inherit;
           text-decoration: none;
+          display: inline-block;
+          padding-bottom: 5px;
+          transition: color 0.3s ease;
         }
-        .ph01hero-col-name a:hover { text-decoration: underline; }
+        .ph01hero-col-name a::after {
+          content: '';
+          position: absolute;
+          left: 50%; right: 50%;
+          bottom: 0; height: 1px;
+          background: #8b7355;
+          transition: left 0.45s cubic-bezier(.32,.72,0,1), right 0.45s cubic-bezier(.32,.72,0,1);
+        }
+        .ph01hero-col:hover .ph01hero-col-name a { color: #8b7355; }
+        .ph01hero-col:hover .ph01hero-col-name a::after { left: 0; right: 0; }
         .ph01hero-col-desc {
           font-family: 'Inter', system-ui, sans-serif;
-          font-size: 13px;
-          line-height: 1.6;
-          color: #1a1a1a;
-          margin: 0;
+          font-size: 14px;
+          line-height: 1.72;
+          color: #6b6b6b;
+          margin: 0 auto;
           text-align: center;
+          max-width: 300px;
         }
         @media (max-width: 900px) {
-          .ph01s-outer { height: 420px; }
-          .ph01s-slide { flex: 0 0 calc(100vw / 2); }
-          .ph01hero-h1 { font-size: 24px; }
-          .ph01hero-cols { grid-template-columns: 1fr; gap: 32px; }
-          .ph01hero-col-name { font-size: 22px; }
+          .ph01hero-cols { grid-template-columns: 1fr; gap: 44px; max-width: 420px; }
         }
       `}</style>
 
@@ -18818,6 +21664,9 @@ function HeroPhoto01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
             onMouseUp={onMouseUp}
             onMouseLeave={onMouseLeave}
             onClickCapture={onClickCapture}
+            onTouchStart={onTouchStart}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
           >
             <div
               className="ph01s-track"
@@ -18841,32 +21690,124 @@ function HeroPhoto01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
           </div>
         )}
 
-        {/* H1 + 3-col category grid — white bg, 1:1 zbiralova.cz layout */}
+        {/* Eyebrow + H1 + lead, then 3-col category grid — white editorial band */}
         <div className="ph01hero-band" style={{ background: "#fff" }}>
           <div className="ph01hero-band-inner">
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1">
-              <h1 className="ph01hero-h1">{title}</h1>
-            </GenericEditableText>
+            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p" className="ph01hero-eyebrow" />
+            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1" className="ph01hero-h1" />
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" className="ph01hero-sub" />
           </div>
           <div className="ph01hero-cols">
             {categories.map((cat, i) => (
               <div key={i} className="ph01hero-col">
-                <div className="ph01hero-col-img">
+                <a className="ph01hero-col-img" href={resolveNav(cat.href)}>
                   <GenericEditableImage sectionId={sectionId} field={`categories.${i}.imageUrl`} src={cat.imageUrl} alt={cat.name}>
                     <img src={cat.imageUrl} alt={cat.name} loading="lazy" />
                   </GenericEditableImage>
-                </div>
-                <GenericEditableText sectionId={sectionId} field={`categories.${i}.name`} value={cat.name} tag="h3">
-                  <h3 className="ph01hero-col-name">
-                    <a href={resolveDemoHref(cat.href, tenantSlug, isAdmin)}>{cat.name}</a>
-                  </h3>
-                </GenericEditableText>
-                <GenericEditableText sectionId={sectionId} field={`categories.${i}.description`} value={cat.description} tag="p">
-                  <p className="ph01hero-col-desc">{cat.description}</p>
-                </GenericEditableText>
+                </a>
+                <h3 className="ph01hero-col-name">
+                  <a href={resolveNav(cat.href)}>
+                    <GenericEditableText sectionId={sectionId} field={`categories.${i}.name`} value={cat.name} tag="span" />
+                  </a>
+                </h3>
+                <GenericEditableText sectionId={sectionId} field={`categories.${i}.description`} value={cat.description} tag="p" className="ph01hero-col-desc" />
               </div>
             ))}
           </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+// ── hero-photo-01-page ────────────────────────────────────────────────────────
+// Slim banner pro podstránky: subdued foto bg + warm overlay, breadcrumb + Playfair H1 + taupe rule
+function HeroPhoto01Page({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const title          = String(content.title ?? "Stránka");
+  const subtitle       = String(content.subtitle ?? "");
+  const breadcrumb     = String(content.breadcrumb ?? "Domů");
+  const breadcrumbHref = String(content.breadcrumbHref ?? "/");
+  const bg             = String(content.backgroundImage ?? content.bgImage ?? "/assets/photo-01/u-1519689680058-324335c77eba.webp");
+  const siteMode       = String(content.siteMode ?? "multipage");
+  const crumbHref      = resolveNavHref(breadcrumbHref, siteMode, tenantSlug, isAdmin);
+
+  return (
+    <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" />
+      <style>{`        .ph01pg {
+          position: relative;
+          min-height: clamp(300px, 42vh, 430px);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          overflow: hidden;
+          background: #14100c;
+        }
+        .ph01pg-bg {
+          position: absolute; inset: 0;
+          background-size: cover; background-position: center;
+          filter: brightness(0.52) saturate(0.92);
+          transform: scale(1.04);
+        }
+        .ph01pg-veil {
+          position: absolute; inset: 0;
+          background: linear-gradient(to bottom, rgba(20,16,12,0.42), rgba(20,16,12,0.58));
+        }
+        .ph01pg-inner {
+          position: relative; z-index: 2;
+          padding: 40px 24px;
+          max-width: 800px;
+        }
+        .ph01pg-crumb {
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 11px; font-weight: 500;
+          letter-spacing: 0.2em; text-transform: uppercase;
+          color: rgba(255,255,255,0.72); margin: 0 0 18px;
+          display: flex; align-items: center; justify-content: center; gap: 0.6em;
+        }
+        .ph01pg-crumb a { color: #d9c9ae; text-decoration: none; transition: color 0.3s ease; }
+        .ph01pg-crumb a:hover { color: #fff; }
+        .ph01pg-crumb-sep { opacity: 0.5; }
+        .ph01pg-crumb-current { color: rgba(255,255,255,0.72); }
+        .ph01pg-title {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: clamp(30px, 5vw, 50px);
+          font-weight: 400; color: #fff; margin: 0;
+          line-height: 1.12; letter-spacing: -0.01em;
+        }
+        .ph01pg-rule {
+          width: 52px; height: 1px; background: #c2a878;
+          border: none; margin: 22px auto 0;
+        }
+        .ph01pg-sub {
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: clamp(14px, 1.5vw, 16px); font-weight: 300;
+          color: rgba(255,255,255,0.82); margin: 20px auto 0;
+          max-width: 540px; line-height: 1.7;
+        }
+      `}</style>
+
+      <section className="ph01pg" data-template="photo-01" id="uvod">
+        <BackgroundEditableImage sectionId={sectionId} src={bg} isAdmin={isAdmin} className="ph01pg-bg" />
+        <div className="ph01pg-veil" aria-hidden="true" />
+        <div className="ph01pg-inner">
+          <p className="ph01pg-crumb">
+            <a href={crumbHref}>
+              <GenericEditableText sectionId={sectionId} field="breadcrumb" value={breadcrumb} tag="span" />
+            </a>
+            <span className="ph01pg-crumb-sep" aria-hidden="true">/</span>
+            <span className="ph01pg-crumb-current">
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+            </span>
+          </p>
+          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h1" className="ph01pg-title" />
+          <hr className="ph01pg-rule" />
+          {subtitle && (
+            <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" className="ph01pg-sub" />
+          )}
         </div>
       </section>
     </>

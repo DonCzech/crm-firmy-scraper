@@ -13,6 +13,20 @@ function resolveDemoHref(href: string, tenantSlug?: string, isAdmin = false) {
   return `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}${href}`;
 }
 
+function resolveNavHref(href: string, siteMode: string, tenantSlug?: string, isAdmin = false) {
+  if (siteMode === "onepage") {
+    if (href.startsWith("/#")) return resolveDemoHref("/", tenantSlug, isAdmin) + href.slice(1);
+    if (href === "/" || href.startsWith("http") || href.startsWith("#") || href.startsWith("mailto:") || href.startsWith("tel:")) return resolveDemoHref(href, tenantSlug, isAdmin);
+    const slug = href.replace(/^\//, "");
+    return resolveDemoHref("/", tenantSlug, isAdmin) + "#" + slug;
+  }
+  if (href.startsWith("/#")) {
+    const anchor = href.slice(2);
+    return resolveDemoHref("/" + anchor, tenantSlug, isAdmin);
+  }
+  return resolveDemoHref(href, tenantSlug, isAdmin);
+}
+
 interface Props {
   content: Record<string, unknown>;
   variant: string;
@@ -23,6 +37,7 @@ interface Props {
 
 export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug }: Props) {
 
+  if (variant === "rekonstrukce-01-about")    return <AboutRekonstrukce01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "ananda-01-highlights")     return <HighlightsAnanda01 content={content} sectionId={sectionId} />;
   if (variant === "ananda-01-about-ayurveda") return <AboutAnanda01Ayurveda content={content} sectionId={sectionId} />;
   if (variant === "ananda-01-benefits")       return <BenefitsAnanda01 content={content} sectionId={sectionId} />;
@@ -65,7 +80,7 @@ export function AboutSection({ content, variant, sectionId, isAdmin, tenantSlug 
   if (variant === "about-fitness-01-benefits")  return null;
   if (variant === "about-fitness-01-trainer")   return <TrainerFitness01 content={content} sectionId={sectionId} />;
   if (variant === "about-fitness-02-studio")    return <AboutFitness02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
-  if (variant === "about-fyzio-01-2col")        return <AboutFyzio01 content={content} sectionId={sectionId} />;
+  if (variant === "about-fyzio-01-2col")        return <AboutFyzio01 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
   if (variant === "about-fyzio-02-features")    return <AboutFyzio02Features content={content} sectionId={sectionId} />;
   if (variant === "lawyer-01-about")            return <AboutLawyer01 content={content} sectionId={sectionId} />;
   if (variant === "legal-02-about")             return <AboutLegal02 content={content} sectionId={sectionId} tenantSlug={tenantSlug} isAdmin={isAdmin} />;
@@ -4941,10 +4956,6 @@ function AboutNails02({ content, sectionId }: { content: Record<string, unknown>
 }
 
 // ── nails-03-about ────────────────────────────────────────────────────────────
-// maidenstudio.cz — cream #FCF9F0 bg, 2-col: foto vlevo (3:4 portrait, žádný
-// rámeček), text vpravo: uppercase brown kicker "O NÁS" + velký Manrope bold
-// H2 + body + brown pill CTA "Zjistit více". Mobile: 1 col.
-// ─────────────────────────────────────────────────────────────────────────────
 function AboutNails03({
   content,
   sectionId,
@@ -4960,125 +4971,147 @@ function AboutNails03({
 
   const title    = String(content.title    ?? "O nás");
   const kicker   = String(content.kicker   ?? "Studio Krásy");
-  const body     = String(content.body     ?? "Studio krásy je místem, kde se krása a umění setkávají.");
-  const imageUrl = String(content.imageUrl ?? "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=1200&q=80");
+  const body     = String(content.body     ?? "Studio Krásy je místem, kde se krása a umění setkávají. Náš vášnivý a zkušený tým se zaměřuje na to, aby každá klientka odcházela s pocitem jedinečnosti a sebevědomí.");
+  const imageUrl = String(content.imageUrl ?? "/templates/nails-03/about-portrait.webp");
   const ctaText  = String(content.ctaText  ?? "Zjistit více");
-  const ctaHref  = String(content.ctaHref  ?? "#sluzby");
+  const ctaHref  = String(content.ctaHref  ?? "/sluzby");
+
+  const showHeader = content.title !== "" && content.kicker !== "";
 
   return (
     <section
       id="o-nas"
       data-section-type="about"
+      data-template="nails-03"
       data-variant="nails-03-about"
-      style={{ backgroundColor: CREAM, padding: "96px 0" }}
+      style={{ backgroundColor: CREAM, padding: "110px 0" }}
     >
       <div
-        className="nails03-about-grid"
+        className="n03-about-grid"
         style={{
-          maxWidth: 1200,
+          maxWidth: 1140,
           margin: "0 auto",
           padding: "0 40px",
           display: "grid",
           gridTemplateColumns: "5fr 7fr",
-          gap: 80,
+          gap: 72,
           alignItems: "center",
         }}
       >
-        {/* Foto vlevo */}
+        {/* Foto vlevo — brown corner bracket frame */}
         <div
-          className="nails03-about-photo"
-          style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden" }}
+          className="n03-about-photo-wrap"
+          style={{ position: "relative" }}
         >
-          <GenericEditableImage
-            sectionId={sectionId}
-            field="imageUrl"
-            src={imageUrl}
-            alt={kicker}
-            style={{ display: "block", width: "100%", height: "100%" }}
+          {/* Corner brackets around photo */}
+          <div aria-hidden="true" style={{ position: "absolute", inset: -12, pointerEvents: "none", zIndex: 2 }}>
+            <span style={{ position: "absolute", top: 0, left: 0, width: 32, height: 32, borderTop: `1.5px solid rgba(128,98,72,0.35)`, borderLeft: `1.5px solid rgba(128,98,72,0.35)` }} />
+            <span style={{ position: "absolute", top: 0, right: 0, width: 32, height: 32, borderTop: `1.5px solid rgba(128,98,72,0.35)`, borderRight: `1.5px solid rgba(128,98,72,0.35)` }} />
+            <span style={{ position: "absolute", bottom: 0, left: 0, width: 32, height: 32, borderBottom: `1.5px solid rgba(128,98,72,0.35)`, borderLeft: `1.5px solid rgba(128,98,72,0.35)` }} />
+            <span style={{ position: "absolute", bottom: 0, right: 0, width: 32, height: 32, borderBottom: `1.5px solid rgba(128,98,72,0.35)`, borderRight: `1.5px solid rgba(128,98,72,0.35)` }} />
+          </div>
+          <div
+            className="n03-about-photo"
+            style={{ position: "relative", aspectRatio: "3/4", overflow: "hidden" }}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <GenericEditableImage
+              sectionId={sectionId}
+              field="imageUrl"
               src={imageUrl}
               alt={kicker}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                objectPosition: "center top",
-                display: "block",
-                position: "absolute",
-                inset: 0,
-              }}
-            />
-          </GenericEditableImage>
+              style={{ display: "block", width: "100%", height: "100%" }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imageUrl}
+                alt={kicker}
+                className="n03-about-img"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center top",
+                  display: "block",
+                  position: "absolute",
+                  inset: 0,
+                  transition: "transform 0.6s ease",
+                }}
+              />
+            </GenericEditableImage>
+          </div>
         </div>
 
         {/* Text vpravo */}
         <div>
-          {/* Uppercase kicker */}
+          {showHeader && (
+            <>
+              {/* Eyebrow kicker */}
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 18 }}>
+                <span style={{ width: 32, height: "1px", background: BROWN, opacity: 0.5 }} />
+                <p style={{
+                  fontFamily: FONT,
+                  fontWeight: 700,
+                  fontSize: "0.72rem",
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: BROWN,
+                  margin: 0,
+                }}>
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </p>
+              </div>
+
+              <h2 style={{
+                fontFamily: FONT,
+                fontWeight: 800,
+                fontSize: "clamp(1.9rem, 3.2vw, 2.8rem)",
+                lineHeight: 1.08,
+                letterSpacing: "0.02em",
+                color: DARK,
+                margin: "0 0 24px",
+              }}>
+                <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+              </h2>
+
+              {/* Decorative brown rule */}
+              <div style={{ width: 48, height: "1.5px", backgroundColor: BROWN, marginBottom: 28, opacity: 0.5 }} />
+            </>
+          )}
+
           <p style={{
             fontFamily: FONT,
-            fontWeight: 700,
-            fontSize: "0.78rem",
-            letterSpacing: "0.22em",
-            textTransform: "uppercase",
-            color: BROWN,
-            margin: "0 0 20px",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </p>
-
-          {/* Nadpis — název studia */}
-          <h2 style={{
-            fontFamily: FONT,
-            fontWeight: 800,
-            fontSize: "clamp(2rem, 3.5vw, 3rem)",
-            lineHeight: 1.1,
-            letterSpacing: "0.01em",
-            color: DARK,
-            margin: "0 0 28px",
-          }}>
-            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-          </h2>
-
-          {/* Tenká brown linka */}
-          <div style={{ width: 56, height: 2, backgroundColor: BROWN, marginBottom: 28, opacity: 0.6 }} />
-
-          {/* Body */}
-          <p style={{
-            fontFamily: FONT,
-            fontSize: "1rem",
+            fontSize: "0.95rem",
             fontWeight: 400,
-            lineHeight: 1.75,
+            lineHeight: 1.8,
             color: MUTED,
             margin: "0 0 40px",
-            maxWidth: 520,
+            maxWidth: 500,
           }}>
             <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
           </p>
 
-          {/* CTA */}
           <a
             href={ctaHref}
             data-btn="primary"
+            className="n03-about-cta"
             style={{
               display: "inline-flex",
               alignItems: "center",
               gap: 10,
-              padding: "13px 36px",
+              padding: "12px 34px",
               backgroundColor: BROWN,
               color: CREAM,
               fontFamily: FONT,
-              fontSize: "0.88rem",
+              fontSize: "0.82rem",
               fontWeight: 700,
               letterSpacing: "0.08em",
               textTransform: "uppercase",
               textDecoration: "none",
               borderRadius: 999,
-              transition: "background 0.2s, transform 0.18s",
+              transition: "background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease",
+              position: "relative",
+              overflow: "hidden",
             }}
-            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#6e5238"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.backgroundColor = BROWN; e.currentTarget.style.transform = "translateY(0)"; }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
@@ -5087,13 +5120,6 @@ function AboutNails03({
           </a>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 860px) {
-          .nails03-about-grid { grid-template-columns: 1fr !important; gap: 48px !important; padding: 0 24px !important; }
-          .nails03-about-photo { aspect-ratio: 4/3 !important; }
-        }
-      `}</style>
     </section>
   );
 }
@@ -5878,62 +5904,118 @@ function AboutFitness02({ content, sectionId, tenantSlug, isAdmin }: { content: 
 // 2-col: vlevo navy kicker + Montserrat H2 + 2 body odstavce + zelené CTA
 // vpravo klinické foto s navy accent rámečkem — fyzio-01 Demo Fyzio Centrum
 // ─────────────────────────────────────────────────────────────────────────────
-function AboutFyzio01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const tagline = String(content.tagline ?? "O nás");
-  const title   = String(content.title   ?? "Rehabilitační lékařství a fyzioterapie");
+function AboutFyzio01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+  const taglineRaw = (content as Record<string, unknown>).tagline;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const tagline = taglineRaw === undefined ? "Kdo jsme" : String(taglineRaw);
+  const title   = titleRaw   === undefined ? "Péče, která skutečně funguje" : String(titleRaw);
+  const showHeader = !!(tagline.trim() || title.trim());
+
   const body    = String(content.body    ?? "");
   const body2   = String(content.body2   ?? "");
-  const ctaText = String(content.ctaText ?? "Více o nás");
-  const ctaHref = String(content.ctaHref ?? "#tym");
-  const image   = String(content.image   ?? "");
+  const ctaText = String(content.ctaText ?? "Poznejte náš tým");
+  const ctaHref = String(content.ctaHref ?? "/tym");
+  const image   = String(content.image   ?? "/templates/fyzio-01/about.webp");
   const id      = String(content.id      ?? "o-nas");
 
-  const WHITE = "#ffffff";
+  const badgeValue = String(content.badgeValue ?? "15");
+  const badgeLabel = String(content.badgeLabel ?? "let zkušeností v rehabilitaci");
+
+  const values = (content.values as Array<{ title: string; body: string }>) ?? [
+    { title: "Individuální plán péče", body: "Terapii stavíme na míru vaší diagnóze i životnímu stylu." },
+    { title: "Pod vedením lékaře",     body: "Tým pracuje pod dohledem rehabilitačního lékaře." },
+    { title: "Moderní metody",         body: "Manuální terapie i certifikované přístrojové postupy." },
+    { title: "Návrat k pohybu",        body: "Cílem není jen úleva, ale plnohodnotný aktivní život." },
+  ];
+
   const NAVY  = "#1f2d69";
   const GREEN = "#10d15d";
-  const TEAL  = "#6bbea1";
   const TEXT  = "#333333";
   const MUTED = "#666666";
   const SANS  = "'Open Sans', sans-serif";
   const MONT  = "'Montserrat', sans-serif";
 
+  const navResolve = (href: string) => resolveNavHref(href, String(content.siteMode ?? "multipage"), tenantSlug, isAdmin);
+
   return (
-    <section id={id} data-template="fyzio-01" style={{ backgroundColor: WHITE, padding: "80px 24px" }}>
-      <style>{`
-        @media (max-width: 768px) {
-          #${id}[data-template="fyzio-01"] > div { flex-direction: column !important; gap: 40px !important; padding: 0 !important; }
-          #${id}[data-template="fyzio-01"] > div > div:first-child { flex: none !important; }
-        }
-      `}</style>
-      <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", gap: 64, alignItems: "center", flexWrap: "wrap" }}>
-        <div style={{ flex: "1 1 420px", minWidth: 0 }}>
-          <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: TEAL, fontFamily: MONT, marginBottom: 12 }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+    <section id={id} data-template="fyzio-01" className="fyzio01-about">
+      <div className="fyzio01-about-inner">
+        {/* ── Media column ── */}
+        <div className="fyzio01-about-media">
+          <span className="fyzio01-about-dots" aria-hidden="true" />
+          <div className="fyzio01-about-frame">
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} className="fyzio01-about-imgwrap" style={{ display: "block", width: "100%", height: "100%" }}>
+              <img loading="lazy" src={image} alt={title} className="fyzio01-about-img" />
+            </GenericEditableImage>
           </div>
-          <h2 style={{ fontFamily: MONT, fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)", fontWeight: 700, color: NAVY, lineHeight: 1.25, marginBottom: 20 }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
+          {/* Floating experience badge */}
+          <div className="fyzio01-about-badge">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#10d15d" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+            </svg>
+            <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
+              <GenericEditableText sectionId={sectionId} field="badgeValue" value={badgeValue} tag="span"
+                style={{ fontFamily: MONT, fontSize: 28, fontWeight: 800, color: NAVY }} />
+              <GenericEditableText sectionId={sectionId} field="badgeLabel" value={badgeLabel} tag="span"
+                style={{ fontFamily: SANS, fontSize: 11.5, color: MUTED, maxWidth: 118, display: "inline-block" }} />
+            </div>
+          </div>
+        </div>
+
+        {/* ── Text column ── */}
+        <div className="fyzio01-about-text">
+          {showHeader && (
+            <>
+              {tagline.trim() && (
+                <div className="fyzio01-about-kicker">
+                  <span className="fyzio01-about-kicker-dash" aria-hidden="true" />
+                  <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span"
+                    style={{ fontFamily: MONT, fontSize: 12, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6bbea1" }} />
+                </div>
+              )}
+              {title.trim() && (
+                <h2 className="fyzio01-about-h2" style={{ fontFamily: MONT, fontSize: "clamp(1.7rem, 2.6vw, 2.35rem)", fontWeight: 800, color: NAVY, lineHeight: 1.22, margin: "14px 0 20px", letterSpacing: "-0.01em" }}>
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+              )}
+            </>
+          )}
           {body && (
-            <p style={{ fontFamily: SANS, fontSize: 15, color: TEXT, lineHeight: 1.7, marginBottom: 16 }}>
+            <p style={{ fontFamily: SANS, fontSize: 15.5, color: TEXT, lineHeight: 1.75, margin: "0 0 16px" }}>
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
           )}
           {body2 && (
-            <p style={{ fontFamily: SANS, fontSize: 15, color: MUTED, lineHeight: 1.7, marginBottom: 28 }}>
+            <p style={{ fontFamily: SANS, fontSize: 15, color: MUTED, lineHeight: 1.75, margin: "0 0 30px" }}>
               <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
             </p>
           )}
-          <a href={ctaHref} data-btn="primary" style={{ display: "inline-block", backgroundColor: GREEN, color: WHITE, fontFamily: MONT, fontSize: 14, fontWeight: 600, padding: "12px 28px", borderRadius: 4, textDecoration: "none" }}>
+
+          {/* Values checklist */}
+          <div className="fyzio01-about-values">
+            {values.map((v, i) => (
+              <div key={i} className="fyzio01-about-value">
+                <span className="fyzio01-about-check" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="3.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                </span>
+                <div>
+                  <GenericEditableText sectionId={sectionId} field={`values.${i}.title`} value={v.title} tag="span"
+                    style={{ fontFamily: MONT, fontSize: 14.5, fontWeight: 700, color: NAVY, display: "block", marginBottom: 3 }} />
+                  <GenericEditableText sectionId={sectionId} field={`values.${i}.body`} value={v.body} tag="span"
+                    style={{ fontFamily: SANS, fontSize: 13.5, color: MUTED, lineHeight: 1.55, display: "block" }} />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <a href={navResolve(ctaHref)} data-btn="primary" className="fyzio01-about-cta"
+            style={{ display: "inline-flex", alignItems: "center", gap: 10, backgroundColor: GREEN, color: "#fff", fontFamily: MONT, fontSize: 14, fontWeight: 700, letterSpacing: "0.02em", padding: "14px 30px", borderRadius: 999, textDecoration: "none" }}>
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg className="fyzio01-about-cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+            </svg>
           </a>
         </div>
-        {image && (
-          <div style={{ flex: "1 1 380px", position: "relative", minWidth: 0 }}>
-            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} style={{ display: "block", width: "100%", borderRadius: 4 }}>
-              <img loading="lazy" src={image} alt={title} style={{ width: "100%", height: 440, objectFit: "cover", borderRadius: 4, display: "block" }} />
-            </GenericEditableImage>
-          </div>
-        )}
       </div>
     </section>
   );
@@ -6776,10 +6858,14 @@ function AboutBakery01({ content, sectionId }: { content: Record<string, unknown
 }
 
 // ── reality-02-benefits ───────────────────────────────────────────────────────
-// Ref: fermakleri.cz "Proč je fajn prodávat nemovitost s námi?" — 4 benefit karty
-// ─────────────────────────────────────────────────────────────────────────────
 function AboutReality02Benefits({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const title = String(content.title ?? "Proč je fajn prodávat nemovitost s námi?");
+  const eyebrowRaw  = (content as Record<string,unknown>).eyebrow;
+  const titleRaw    = (content as Record<string,unknown>).title;
+  const subtitleRaw = (content as Record<string,unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Naše výhody" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Proč prodávat právě s námi?" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
   const items = (content.items as Array<{ icon: string; title: string; text: string }>) ?? [];
 
   const DARK  = "#05303a";
@@ -6837,34 +6923,22 @@ function AboutReality02Benefits({ content, sectionId }: { content: Record<string
     }
   };
 
+  const BODY = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
+
   return (
-    <section id="proc-s-nami" style={{ backgroundColor: "#ffffff", fontFamily: FONT }}>
-      <div style={{ width: 0, height: 0, borderLeft: "60px solid transparent", borderRight: "60px solid transparent", borderTop: "44px solid #f7faf9", margin: "0 auto" }} />
-      <style>{`
-        @keyframes r02-tickhand { to { transform: rotate(360deg); } }
-        @keyframes r02-bargrow  { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-        @keyframes r02-drawcheck { from { stroke-dashoffset: 20; } to { stroke-dashoffset: 0; } }
-        @keyframes r02-starspin { 0%,100% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(18deg) scale(1.14); } }
-        @keyframes r02-iconbounce { 0%,100% { transform: scale(1); } 50% { transform: scale(1.13) rotate(-5deg); } }
+    <section id="proc-s-nami" data-template="reality-02" style={{ backgroundColor: "#ffffff", fontFamily: FONT, padding: "clamp(56px,8vw,100px) clamp(16px,5vw,48px)" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
 
-        .r02-benefit-card { transition: transform 0.22s ease, box-shadow 0.22s ease; cursor: default; }
-        .r02-benefit-card:hover { transform: translateY(-6px); box-shadow: 0 16px 36px rgba(5,48,58,0.13); }
-        .r02-benefit-icon  { transition: transform 0.3s ease; }
-        .r02-benefit-card:hover .r02-benefit-icon { animation: r02-iconbounce 0.6s ease; }
-
-        .r02-benefit-card:hover .r02-ico-fast .r02-hand { animation: r02-tickhand 1.2s linear infinite; }
-        .r02-benefit-card:hover .r02-ico-price .r02-bar  { animation: r02-bargrow 0.45s ease-out both; }
-        .r02-benefit-card:hover .r02-ico-price .r02-bar2 { animation-delay: 0.07s; }
-        .r02-benefit-card:hover .r02-ico-price .r02-bar3 { animation-delay: 0.14s; }
-        .r02-benefit-card:hover .r02-ico-decision .r02-check { animation: r02-drawcheck 0.4s ease forwards; }
-        .r02-benefit-card:hover .r02-ico-service .r02-star  { animation: r02-starspin 0.7s ease-in-out; }
-        @media (max-width: 900px) { [data-r02-benefits-grid] { grid-template-columns: repeat(2,1fr) !important; } }
-        @media (max-width: 480px) { [data-r02-benefits-grid] { grid-template-columns: 1fr !important; } }
-      `}</style>
-      <div style={{ maxWidth: 1100, margin: "0 auto", padding: "clamp(48px,7vw,88px) clamp(16px,5vw,48px) clamp(56px,8vw,96px)" }}>
-        <h2 style={{ fontSize: "clamp(22px,3vw,34px)", fontWeight: 700, color: DARK, marginBottom: "clamp(40px,6vw,64px)", textAlign: "center" }}>
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
+        {showHeader && (
+          <div style={{ textAlign: "center", marginBottom: "clamp(40px,6vw,64px)" }}>
+            {eyebrow.trim() && <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p" style={{ fontSize: 12, fontWeight: 600, color: GREEN, letterSpacing: "0.14em", textTransform: "uppercase", margin: "0 0 12px" }} />}
+            {title.trim() && (
+              <h2 style={{ fontSize: "clamp(24px,3vw,38px)", fontWeight: 700, color: DARK, margin: 0, letterSpacing: "-0.01em" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+          </div>
+        )}
 
         <div data-r02-benefits-grid="" style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 24 }}>
           {items.map((item, i) => {
@@ -6873,18 +6947,18 @@ function AboutReality02Benefits({ content, sectionId }: { content: Record<string
               <div
                 key={`r02-ben-${i}`}
                 className="r02-benefit-card"
-                style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16, padding: "28px 24px", background: "#ffffff", borderRadius: 16, border: "1px solid #e4eeed", boxShadow: "0 2px 12px rgba(5,48,58,0.05)" }}
+                style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 14, padding: "28px 24px", background: "#ffffff", borderRadius: 18, border: "1px solid rgba(5,48,58,0.08)", boxShadow: "0 2px 12px rgba(5,48,58,0.04)" }}
               >
                 <div
                   className="r02-benefit-icon"
-                  style={{ width: 64, height: 64, borderRadius: "50%", backgroundColor: cfg.bg, border: `2px solid ${cfg.border}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
+                  style={{ width: 60, height: 60, borderRadius: "50%", backgroundColor: cfg.bg, border: `1.5px solid ${cfg.border}`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}
                 >
                   <BenefitIcon type={item.icon} />
                 </div>
                 <h3 style={{ fontSize: 15, fontWeight: 700, color: DARK, margin: 0, lineHeight: 1.3 }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title} tag="span" />
                 </h3>
-                <p style={{ fontSize: 14, color: DARK, opacity: 0.72, lineHeight: 1.68, margin: 0 }}>
+                <p style={{ fontFamily: BODY, fontSize: 14, color: DARK, opacity: 0.65, lineHeight: 1.72, margin: 0 }}>
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={item.text} tag="span" />
                 </p>
               </div>
@@ -7226,6 +7300,10 @@ function AboutReality06({ content, sectionId, tenantSlug, isAdmin }: { content: 
 }
 
 // ─── autoservis-02 About ────────────────────────────────────────────────────
+// Stats counter strip (dark bg) + 2-col (text + photo with red accent corner).
+// Conditional header (showHeader). Red checkmark bullets. resolveNavHref.
+// Open Sans, #d82a2a, garant DNA luxe upgrade.
+// ────────────────────────────────────────────────────────────────────────────
 function AboutAutoservis02({ content, sectionId, tenantSlug, isAdmin }: {
   content: Record<string, unknown>;
   sectionId: number;
@@ -7235,32 +7313,47 @@ function AboutAutoservis02({ content, sectionId, tenantSlug, isAdmin }: {
   const RED  = "#d82a2a";
   const DARK = "#1a1a1a";
   const SANS = "'Open Sans', Arial, sans-serif";
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  const tagline = (content.tagline as string) || "";
-  const title   = (content.title   as string) || "";
-  const body    = (content.body    as string) || "";
-  const ctaText = (content.ctaText as string) || "";
-  const ctaHref = (content.ctaHref as string) || "#";
-  const imageUrl = (content.image  as string) || "";
-  const stats   = (content.stats   as Array<{ number: string; label: string }>) || [];
-  const bullets = (content.bullets as string[]) || [];
+  const taglineRaw = content.tagline;
+  const titleRaw   = content.title;
+  const tagline = taglineRaw === undefined ? "Proč právě my" : String(taglineRaw);
+  const title   = titleRaw === undefined ? "Autoservis, kterému\nsvěříte svůj vůz" : String(titleRaw);
+  const showHeader = !!(tagline.trim() || title.trim());
+  const body    = String(content.body ?? "Naše dílna spojuje dlouholeté zkušenosti s moderním diagnostickým vybavením. Každý vůz, který k nám přijede, dostane stejnou péči — poctivou práci, kvalitní díly a srozumitelnou komunikaci o tom, co a proč opravujeme.");
+  const ctaText = String(content.ctaText ?? "Poznejte náš příběh");
+  const ctaHref = String(content.ctaHref ?? "/o-nas");
+  const imageUrl = String(content.image ?? "/templates/autoservis-02/about-dilna.webp");
+  const stats   = (content.stats as Array<{ number: string; label: string }>) ?? [
+    { number: "12+", label: "let zkušeností" },
+    { number: "6 500+", label: "spokojených klientů" },
+    { number: "2 800+", label: "oprav ročně" }
+  ];
+  const bullets = (content.bullets as string[]) ?? [
+    "Bez objednání — přijeďte kdykoliv",
+    "Servis vozů všech značek",
+    "Hybridní i elektrická vozidla",
+    "Férové ceny bez skrytých poplatků"
+  ];
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    <section id={(content.id as string) || "o-nas"} style={{ backgroundColor: "#f5f5f5", fontFamily: SANS }}>
-      {/* Stats bar */}
+    <section id={String(content.id ?? "o-nas")} style={{ backgroundColor: "#fff", fontFamily: SANS }} data-template="autoservis-02">
+      {/* Stats counter strip — dark bg */}
       {stats.length > 0 && (
-        <div style={{ backgroundColor: RED, padding: "20px 0" }}>
-          <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px", display: "flex", justifyContent: "center", gap: 48, flexWrap: "wrap" }}>
+        <div style={{ backgroundColor: DARK, padding: "clamp(24px,4vw,36px) 0" }}>
+          <div className="a02a-stats" style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(16px,4vw,48px)", display: "flex", justifyContent: "center", gap: "clamp(32px,6vw,72px)", flexWrap: "wrap" }}>
             {stats.map((s, i) => (
-              <div key={i} style={{ textAlign: "center" }}>
-                <div style={{ fontSize: 32, fontWeight: 900, color: "#fff", lineHeight: 1.1 }}>
+              <div key={i} style={{ textAlign: "center", minWidth: 120 }}>
+                <div className="a02a-stat-num" style={{ fontSize: "clamp(28px,4vw,44px)", fontWeight: 900, color: "#fff", lineHeight: 1.1 }}>
                   <GenericEditableText sectionId={sectionId} field={`stats.${i}.number`} value={s.number} tag="span" />
                 </div>
-                <div style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.85)", letterSpacing: 1, textTransform: "uppercase" }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: "rgba(255,255,255,0.6)", letterSpacing: "1.5px", textTransform: "uppercase", marginTop: 6 }}>
                   <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
                 </div>
+                {/* Red dot accent under stat */}
+                <div style={{ width: 6, height: 6, borderRadius: "50%", background: RED, margin: "10px auto 0" }} aria-hidden="true" />
               </div>
             ))}
           </div>
@@ -7268,56 +7361,61 @@ function AboutAutoservis02({ content, sectionId, tenantSlug, isAdmin }: {
       )}
 
       {/* 2-col content */}
-      <div className="a02-about-grid" style={{ maxWidth: 1100, margin: "0 auto", padding: "72px 24px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+      <div className="a02a-grid" style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(64px,10vw,104px) clamp(16px,4vw,48px)", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px,6vw,80px)", alignItems: "center" }}>
         {/* Left: text */}
         <div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: RED, letterSpacing: 3, textTransform: "uppercase", marginBottom: 12 }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </div>
-          <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 900, color: DARK, lineHeight: 1.15, marginBottom: 20, whiteSpace: "pre-line" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          <p style={{ fontSize: 16, lineHeight: 1.8, color: "#444", marginBottom: 28 }}>
+          {showHeader && (
+            <>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                <span style={{ width: 28, height: 2, background: RED, display: "inline-block", borderRadius: 1 }} aria-hidden="true" />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 700, color: RED, letterSpacing: "2.5px", textTransform: "uppercase" }} />
+              </div>
+              <h2 style={{ fontFamily: SANS, fontSize: "clamp(28px,4vw,42px)", fontWeight: 900, color: DARK, lineHeight: 1.15, margin: "0 0 24px", whiteSpace: "pre-line", letterSpacing: "-0.3px" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            </>
+          )}
+          <p style={{ fontFamily: SANS, fontSize: 16, lineHeight: 1.8, color: "#444", margin: "0 0 28px" }}>
             <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
           </p>
           {bullets.length > 0 && (
-            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px 0", display: "flex", flexDirection: "column", gap: 10 }}>
+            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: 12 }}>
               {bullets.map((b, i) => (
-                <li key={i} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 15, color: DARK, fontWeight: 600 }}>
-                  <span style={{ width: 20, height: 20, borderRadius: "50%", backgroundColor: RED, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    <svg width="11" height="9" viewBox="0 0 11 9" fill="none"><path d="M1 4.2L4 7.5L10 1" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                <li key={i} className="a02a-bullet" style={{ display: "flex", alignItems: "center", gap: 12, fontSize: 15, color: DARK, fontWeight: 600 }}>
+                  <span style={{ width: 22, height: 22, borderRadius: "50%", background: `linear-gradient(135deg, ${RED} 0%, #b21f1f 100%)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "0 3px 10px rgba(216,42,42,0.2)" }}>
+                    <svg width="12" height="10" viewBox="0 0 12 10" fill="none" aria-hidden="true"><path d="M1 5L4.5 8.5L11 1.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </span>
                   <GenericEditableText sectionId={sectionId} field={`bullets.${i}`} value={b} tag="span" />
                 </li>
               ))}
             </ul>
           )}
-          <a href={resolve(ctaHref)} data-btn="primary"
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, backgroundColor: RED, color: "#fff", fontFamily: SANS, fontSize: 15, fontWeight: 700, padding: "13px 30px", borderRadius: 4, textDecoration: "none", transition: "opacity 0.18s" }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+          <a href={resolve(ctaHref)} className="a02a-cta"
+            style={{ display: "inline-flex", alignItems: "center", gap: 10, backgroundColor: RED, color: "#fff", fontFamily: SANS, fontSize: 15, fontWeight: 800, padding: "15px 32px", borderRadius: 8, textDecoration: "none", boxShadow: "0 8px 22px rgba(216,42,42,0.28)", letterSpacing: ".2px" }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg className="a02a-cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </a>
         </div>
 
-        {/* Right: photo */}
-        <div style={{ borderRadius: 8, overflow: "hidden", aspectRatio: "4/3", position: "relative" }}>
-          <GenericEditableImage sectionId={sectionId} field="image" src={imageUrl} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", position: "absolute" }}>
-            <img
-              src={imageUrl}
-              alt={title}
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-            />
-          </GenericEditableImage>
+        {/* Right: photo with red accent corner */}
+        <div className="a02a-photo-wrap" style={{ position: "relative" }}>
+          {/* Red accent corner — top-right decorative */}
+          <div style={{ position: "absolute", top: -12, right: -12, width: 80, height: 80, borderTop: `4px solid ${RED}`, borderRight: `4px solid ${RED}`, borderRadius: "0 12px 0 0", zIndex: 2 }} aria-hidden="true" />
+          <div className="a02a-photo" style={{ borderRadius: 12, overflow: "hidden", aspectRatio: "4/3", position: "relative" }}>
+            <GenericEditableImage sectionId={sectionId} field="image" src={imageUrl} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", position: "absolute" }}>
+              <img
+                src={imageUrl}
+                alt={title}
+                className="a02a-img"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
+            </GenericEditableImage>
+          </div>
+          {/* Red accent corner — bottom-left decorative */}
+          <div style={{ position: "absolute", bottom: -12, left: -12, width: 80, height: 80, borderBottom: `4px solid ${RED}`, borderLeft: `4px solid ${RED}`, borderRadius: "0 0 0 12px", zIndex: 2 }} aria-hidden="true" />
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 759px) {
-          .a02-about-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </section>
   );
 }
@@ -7335,42 +7433,65 @@ function AboutAutoservis01({ content, sectionId, tenantSlug, isAdmin }: {
   const MUTED  = "#555555";
   const SANS   = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-  const tagline  = (content.tagline  as string) || "";
-  const title    = (content.title    as string) || "";
+  // Conditional header — na /o-nas subpage se vyprázdní → banner nese titulek
+  const taglineRaw = (content as Record<string, unknown>).tagline;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const tagline  = taglineRaw === undefined ? "Výhody členství" : String(taglineRaw);
+  const title    = titleRaw   === undefined ? "Věrnostní klub —\nvyužijte výhod" : String(titleRaw);
+  const showHeader = !!(tagline.trim() || title.trim());
   const body     = (content.body     as string) || "";
   const ctaText  = (content.ctaText  as string) || "";
   const ctaHref  = (content.ctaHref  as string) || "#";
   const imageUrl = (content.image    as string) || "";
   const bullets  = (content.bullets  as string[]) || [];
+  const statValue = String((content.statValue as string | undefined) ?? "12 000+");
+  const statLabel = String((content.statLabel as string | undefined) ?? "spokojených řidičů v klubu");
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
-    <section id={(content.id as string) || "o-nas"} style={{ backgroundColor: "#fff", padding: "96px 0" }} data-template="autoservis-01-about">
+    <section id={(content.id as string) || "o-nas"} style={{ backgroundColor: "#fff", padding: "clamp(64px,9vw,104px) 0" }} data-template="autoservis-01-about">
       <style>{`
         .a01-about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
         @media (max-width: 768px) { .a01-about-grid { grid-template-columns: 1fr; } .a01-about-img { order: -1; } }
+        .a01-about-bullet { display: flex; align-items: center; gap: 12px; padding: 6px 8px; border-radius: 8px; transition: background-color .25s ease, transform .25s cubic-bezier(.4,0,.2,1); }
+        .a01-about-bullet:hover { background-color: #F0F1F3; transform: translateX(4px); }
+        .a01-about-bullet .a01-about-check { transition: transform .3s cubic-bezier(.34,1.56,.64,1); }
+        .a01-about-bullet:hover .a01-about-check { transform: scale(1.14) rotate(-8deg); }
+        .a01-about-cta { transition: transform .25s cubic-bezier(.4,0,.2,1), box-shadow .25s ease, background-color .25s ease; }
+        .a01-about-cta svg { transition: transform .28s cubic-bezier(.34,1.56,.64,1); }
+        .a01-about-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(255,165,0,.4); background-color: #ffb42e; }
+        .a01-about-cta:hover svg { transform: translateX(4px); }
+        .a01-about-photo { transition: transform .6s cubic-bezier(.25,.46,.45,.94); }
+        .a01-about-img:hover .a01-about-photo { transform: scale(1.05); }
+        .a01-about-statcard { transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s ease; }
+        .a01-about-img:hover .a01-about-statcard { transform: translateY(-3px); box-shadow: 0 16px 40px rgba(0,0,0,.26); }
       `}</style>
 
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(16px,4vw,48px)" }}>
         <div className="a01-about-grid">
           {/* Left: text */}
           <div>
-            <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, letterSpacing: 2, textTransform: "uppercase", color: ORANGE, margin: "0 0 12px" }}>
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
-            <h2 style={{ fontFamily: SANS, fontSize: "clamp(26px,3.2vw,38px)", fontWeight: 800, color: DARK, margin: "0 0 8px", lineHeight: 1.2, whiteSpace: "pre-line" }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-            <div style={{ width: 48, height: 3, backgroundColor: ORANGE, borderRadius: 2, margin: "0 0 24px" }} />
-            <p style={{ fontFamily: SANS, fontSize: 16, lineHeight: 1.8, color: MUTED, margin: "0 0 28px" }}>
+            {showHeader && (
+              <>
+                <p style={{ display: "flex", alignItems: "center", gap: 12, fontFamily: SANS, fontSize: 13, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: ORANGE, margin: "0 0 14px" }}>
+                  <span aria-hidden="true" style={{ width: 30, height: 3, background: ORANGE, borderRadius: 2 }} />
+                  <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+                </p>
+                <h2 style={{ fontFamily: SANS, fontSize: "clamp(27px,3.4vw,40px)", fontWeight: 800, color: DARK, margin: "0 0 24px", lineHeight: 1.16, letterSpacing: "-0.02em", whiteSpace: "pre-line" }}>
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+              </>
+            )}
+            <p style={{ fontFamily: SANS, fontSize: 16.5, lineHeight: 1.8, color: MUTED, margin: "0 0 28px" }}>
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
             {bullets.length > 0 && (
-              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: 12 }}>
+              <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: 6 }}>
                 {bullets.map((b, i) => (
-                  <li key={i} style={{ display: "flex", alignItems: "center", gap: 12, fontFamily: SANS, fontSize: 15, color: DARK, fontWeight: 600 }}>
-                    <span style={{ width: 22, height: 22, borderRadius: "50%", backgroundColor: ORANGE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <li key={i} className="a01-about-bullet" style={{ fontFamily: SANS, fontSize: 15, color: DARK, fontWeight: 600 }}>
+                    <span className="a01-about-check" style={{ width: 22, height: 22, borderRadius: "50%", backgroundColor: ORANGE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "0 2px 6px rgba(255,165,0,.3)" }}>
                       <svg width="12" height="9" viewBox="0 0 12 9" fill="none"><path d="M1 4.5L4.5 8L11 1" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                     </span>
                     <GenericEditableText sectionId={sectionId} field={`bullets.${i}`} value={b} tag="span" />
@@ -7379,21 +7500,35 @@ function AboutAutoservis01({ content, sectionId, tenantSlug, isAdmin }: {
               </ul>
             )}
             {ctaText && (
-              <a href={resolve(ctaHref)} data-btn="primary"
-                style={{ display: "inline-flex", alignItems: "center", gap: 8, backgroundColor: ORANGE, color: "#fff", fontFamily: SANS, fontSize: 15, fontWeight: 700, padding: "13px 30px", borderRadius: 4, textDecoration: "none", transition: "opacity 0.18s" }}
-                onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-                onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+              <a href={resolve(ctaHref)} data-btn="primary" className="a01-about-cta"
+                style={{ display: "inline-flex", alignItems: "center", gap: 9, backgroundColor: ORANGE, color: DARK, fontFamily: SANS, fontSize: 15, fontWeight: 700, padding: "14px 32px", borderRadius: 6, textDecoration: "none", boxShadow: "0 6px 18px rgba(255,165,0,.3)" }}
               >
                 <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
               </a>
             )}
           </div>
 
           {/* Right: photo */}
-          <div className="a01-about-img" style={{ borderRadius: 12, overflow: "hidden", aspectRatio: "4/3", position: "relative", boxShadow: "0 12px 40px rgba(0,0,0,0.12)" }}>
-            <GenericEditableImage sectionId={sectionId} field="image" src={imageUrl} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}>
-              <img loading="lazy" src={imageUrl} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          <div className="a01-about-img" style={{ borderRadius: 14, overflow: "hidden", aspectRatio: "4/3", position: "relative", boxShadow: "0 16px 46px rgba(0,0,0,0.16)" }}>
+            <GenericEditableImage sectionId={sectionId} field="image" src={imageUrl} alt={title.replace(/\n/g, " ")} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}>
+              <img className="a01-about-photo" loading="lazy" src={imageUrl} alt={title.replace(/\n/g, " ")} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
             </GenericEditableImage>
+            {/* orange accent strip */}
+            <div aria-hidden="true" style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 5, background: `linear-gradient(to bottom, ${ORANGE}, rgba(255,165,0,0.35))`, zIndex: 2 }} />
+            {/* scrim + floating stat card */}
+            <div aria-hidden="true" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "45%", background: "linear-gradient(to top, rgba(17,17,17,0.5), transparent)", zIndex: 1 }} />
+            <div className="a01-about-statcard" style={{ position: "absolute", left: "clamp(16px,3vw,28px)", bottom: "clamp(16px,3vw,28px)", zIndex: 3, background: "rgba(255,255,255,0.92)", backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)", borderRadius: 12, padding: "14px 20px", boxShadow: "0 10px 30px rgba(0,0,0,0.22)", display: "flex", alignItems: "center", gap: 13, maxWidth: "82%" }}>
+              <span style={{ width: 4, alignSelf: "stretch", background: ORANGE, borderRadius: 2, flexShrink: 0 }} />
+              <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.15 }}>
+                <GenericEditableText sectionId={sectionId} field="statValue" value={statValue} tag="span"
+                  style={{ fontFamily: SANS, fontSize: 23, fontWeight: 900, color: DARK, letterSpacing: "-0.02em" }} />
+                <GenericEditableText sectionId={sectionId} field="statLabel" value={statLabel} tag="span"
+                  style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 500, color: MUTED, marginTop: 2 }} />
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -7403,32 +7538,41 @@ function AboutAutoservis01({ content, sectionId, tenantSlug, isAdmin }: {
 
 // ── autoservis-03-about ───────────────────────────────────────────────────────
 function AboutAutoservis03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  "use client";
-  const SANS = "'Inter', 'Helvetica Neue', sans-serif";
-  const ORANGE = "#f97316";
-
-  const tagline = (content.tagline as string) || "Proč si vybrat právě nás?";
-  const title = (content.title as string) || "Kvalita a spolehlivost\nna prvním místě";
+  const taglineRaw = (content as Record<string, unknown>).tagline;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const tagline = taglineRaw === undefined ? "Proč si vybrat právě nás?" : String(taglineRaw);
+  const title   = titleRaw   === undefined ? "Kvalita a spolehlivost\nna prvním místě" : String(titleRaw);
+  const showHeader = !!(tagline.trim() || title.trim());
   const items = (content.items as Array<{ icon: string; title: string; description: string }>) || [];
+
+  const secRef = useRef<HTMLElement | null>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver((e) => { if (e[0].isIntersecting) { setInView(true); io.disconnect(); } }, { threshold: 0.15 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const iconSvg: Record<string, React.ReactElement> = {
     user: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
       </svg>
     ),
     zap: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
       </svg>
     ),
     award: (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="9" r="7"/><path d="M8.56 17.01L7 22l5-3 5 3-1.56-4.99"/>
       </svg>
     ),
     "check-circle": (
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/>
       </svg>
     ),
@@ -7436,48 +7580,43 @@ function AboutAutoservis03({ content, sectionId }: { content: Record<string, unk
 
   return (
     <section
+      ref={secRef}
       id={(content.id as string) || "proc-my"}
-      data-template="autoservis-03-about"
-      style={{ backgroundColor: "#0a0a0a", padding: "100px 24px" }}
+      data-template="autoservis-03"
+      className={`a03-usp${inView ? " a03-in" : ""}`}
     >
-      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-        <div style={{ textAlign: "center", marginBottom: 64 }}>
-          <span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: ORANGE }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </span>
-          <h2 style={{ fontFamily: SANS, fontSize: "clamp(28px,3.5vw,42px)", fontWeight: 900, color: "#fff", margin: "12px 0 0", lineHeight: 1.2, whiteSpace: "pre-line" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-        </div>
+      <div aria-hidden="true" className="a03-usp-glow" />
+      <div className="a03-usp-wrap">
+        {showHeader && (
+          <div className="a03-usp-head">
+            {tagline.trim() && (
+              <span className="a03-eyebrow">
+                <span aria-hidden="true" className="a03-eyebrow-bar" />
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+              </span>
+            )}
+            {title.trim() && (
+              <h2 className="a03-usp-h2" style={{ whiteSpace: "pre-line" }}>
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+          </div>
+        )}
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: 24 }}>
+        <div className="a03-usp-grid">
           {items.map((item, i) => (
-            <div
-              key={i}
-              style={{
-                backgroundColor: "#111827",
-                border: "1px solid rgba(255,255,255,0.06)",
-                borderRadius: 12,
-                padding: "36px 28px",
-                display: "flex",
-                flexDirection: "column",
-                gap: 16,
-                transition: "border-color 0.2s, transform 0.2s",
-              }}
-              onMouseEnter={e => {
-                (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(249,115,22,0.5)";
-                (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)";
-              }}
-              onMouseLeave={e => {
-                (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.06)";
-                (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)";
-              }}
-            >
-              <div style={{ width: 52, height: 52, borderRadius: 10, background: `linear-gradient(135deg, ${ORANGE}, #ea6c08)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <div key={i} className="a03-usp-card" style={{ transitionDelay: `${i * 90}ms` }}>
+              <span aria-hidden="true" className="a03-usp-accent" />
+              <div className="a03-usp-icon">
+                <span aria-hidden="true" className="a03-usp-icon-glow" />
                 {iconSvg[item.icon] ?? iconSvg["check-circle"]}
               </div>
-              <h3 style={{ fontFamily: SANS, fontSize: 17, fontWeight: 700, color: "#fff", margin: 0 }}>{item.title}</h3>
-              <p style={{ fontFamily: SANS, fontSize: 14, lineHeight: 1.7, color: "#9ca3af", margin: 0 }}>{item.description}</p>
+              <h3 className="a03-usp-title">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title ?? ""} tag="span" />
+              </h3>
+              <p className="a03-usp-desc">
+                <GenericEditableText sectionId={sectionId} field={`items.${i}.description`} value={item.description ?? ""} tag="span" />
+              </p>
             </div>
           ))}
         </div>
@@ -7488,74 +7627,91 @@ function AboutAutoservis03({ content, sectionId }: { content: Record<string, unk
 
 // ── autoservis-03-about-story ─────────────────────────────────────────────────
 function AboutAutoservis03Story({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  "use client";
   const SANS = "'Inter', 'Helvetica Neue', sans-serif";
   const ORANGE = "#f97316";
 
-  const tagline  = (content.tagline as string)  || "O nás";
-  const title    = (content.title as string)    || "Váš spolehlivý partner";
+  const taglineRaw = (content as Record<string, unknown>).tagline;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const tagline  = taglineRaw === undefined ? "O nás" : String(taglineRaw);
+  const title    = titleRaw   === undefined ? "Váš spolehlivý partner" : String(titleRaw);
   const body     = (content.body as string)     || "";
   const bullets  = (content.bullets as string[]) || [];
   const ctaText  = (content.ctaText as string)  || "Objednat se";
   const ctaHref  = (content.ctaHref as string)  || "#kontakt";
-  const imageUrl = (content.image as string)    || "";
+  const imageUrl = (content.image as string)    || "/templates/autoservis-03/about-story.webp";
+  const showHeader = !!(tagline.trim() || title.trim());
+
+  const secRef = useRef<HTMLElement | null>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver((e) => { if (e[0].isIntersecting) { setInView(true); io.disconnect(); } }, { threshold: 0.2 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
     <section
+      ref={secRef}
       id={(content.id as string) || "o-nas"}
-      data-template="autoservis-03-about-story"
-      style={{ backgroundColor: "#000", padding: "100px 24px" }}
+      data-template="autoservis-03"
+      className={`a03-story${inView ? " a03-in" : ""}`}
     >
-      <style>{`
-        .a03-story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; max-width: 1100px; margin: 0 auto; }
-        @media (max-width: 768px) { .a03-story-grid { grid-template-columns: 1fr; gap: 40px; } }
-      `}</style>
+      <div aria-hidden="true" className="a03-story-glow" />
       <div className="a03-story-grid">
         {/* Left: text */}
-        <div>
-          <span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: ORANGE, display: "block", marginBottom: 12 }}>
-            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-          </span>
-          <h2 style={{ fontFamily: SANS, fontSize: "clamp(26px,3.2vw,40px)", fontWeight: 900, color: "#fff", margin: "0 0 20px", lineHeight: 1.2, whiteSpace: "pre-line" }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          <div style={{ width: 48, height: 3, backgroundColor: ORANGE, borderRadius: 2, marginBottom: 24 }} />
+        <div className="a03-story-text">
+          {showHeader && (
+            <>
+              {tagline.trim() && (
+                <span className="a03-eyebrow">
+                  <span aria-hidden="true" className="a03-eyebrow-bar" />
+                  <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+                </span>
+              )}
+              {title.trim() && (
+                <h2 className="a03-story-h2" style={{ whiteSpace: "pre-line" }}>
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+              )}
+            </>
+          )}
           {body && (
-            <p style={{ fontFamily: SANS, fontSize: 15, lineHeight: 1.8, color: "#9ca3af", margin: "0 0 28px" }}>
+            <p className="a03-story-body">
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
           )}
           {bullets.length > 0 && (
-            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 36px", display: "flex", flexDirection: "column", gap: 12 }}>
+            <ul className="a03-story-bullets">
               {bullets.map((b, i) => (
-                <li key={i} style={{ display: "flex", alignItems: "center", gap: 12, fontFamily: SANS, fontSize: 14, color: "#d1d5db" }}>
-                  <span style={{ width: 20, height: 20, borderRadius: "50%", background: `linear-gradient(135deg, ${ORANGE}, #ea6c08)`, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                <li key={i}>
+                  <span aria-hidden="true" className="a03-story-check">
+                    <svg width="11" height="9" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#0a0a0a" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </span>
-                  {b}
+                  <GenericEditableText sectionId={sectionId} field={`bullets.${i}`} value={b} tag="span" />
                 </li>
               ))}
             </ul>
           )}
           {ctaText && (
-            <a
-              href={ctaHref}
-              data-btn="primary"
-              style={{ display: "inline-flex", alignItems: "center", gap: 8, background: `linear-gradient(135deg, ${ORANGE}, #ea6c08)`, color: "#fff", fontFamily: SANS, fontSize: 14, fontWeight: 700, padding: "13px 28px", borderRadius: 10, textDecoration: "none", transition: "opacity 0.18s" }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-              onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
-            >
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <a href={ctaHref} data-btn="primary" className="a03-story-cta">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" style={{ position: "relative", zIndex: 1 }} />
+              <svg className="a03-cta-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ position: "relative", zIndex: 1 }}><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
           )}
         </div>
 
-        {/* Right: photo */}
-        {imageUrl && (
-          <div style={{ borderRadius: 16, overflow: "hidden", aspectRatio: "4/3", position: "relative", border: "1px solid rgba(249,115,22,0.15)" }}>
-            <img loading="lazy" src={imageUrl} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        {/* Right: photo s offset orange rámem */}
+        <div className="a03-story-media">
+          <span aria-hidden="true" className="a03-story-frame" />
+          <div className="a03-story-img">
+            <GenericEditableImage sectionId={sectionId} field="image" src={imageUrl} alt={title} style={{ display: "block", width: "100%", height: "100%" }}>
+              <img loading="lazy" src={imageUrl} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            </GenericEditableImage>
+            <span aria-hidden="true" className="a03-story-corner" />
           </div>
-        )}
+        </div>
       </div>
     </section>
   );
@@ -8112,11 +8268,11 @@ function AboutStavba03({ content, sectionId, tenantSlug, isAdmin }: Pick<Props, 
 
   const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
-  const defaultImg = "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=900&h=675&fit=crop&fm=webp&q=85";
+  const defaultImg = "/templates/stavba-03/about.webp";
   const imgSrc = imageUrl || defaultImg;
 
   return (
-    <section style={{ backgroundColor: "#f4f4f4", fontFamily: FONT, padding: "80px 0" }}>
+    <section id="o-nas" style={{ backgroundColor: "#f4f4f4", fontFamily: FONT, padding: "88px 0" }} data-template="stavba-03">
       <div
         className="stavba03-about-grid"
         style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}
@@ -8124,12 +8280,13 @@ function AboutStavba03({ content, sectionId, tenantSlug, isAdmin }: Pick<Props, 
         {/* Left: text */}
         <div>
           {/* Kicker */}
-          <div style={{ color: ORANGE, fontFamily: FONT, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", marginBottom: 14 }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 10, color: ORANGE, fontFamily: FONT, fontSize: "0.8rem", fontWeight: 700, letterSpacing: "2px", textTransform: "uppercase", marginBottom: 16 }}>
+            <span aria-hidden="true" style={{ width: 28, height: 2, background: ORANGE, display: "inline-block" }} />
             <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
           </div>
 
           {/* Heading */}
-          <h2 style={{ fontFamily: FONT, fontWeight: 700, fontSize: "clamp(1.6rem, 2.4vw, 2.1rem)", color: DARK, lineHeight: 1.25, margin: "0 0 20px" }}>
+          <h2 style={{ fontFamily: FONT, fontWeight: 800, fontSize: "clamp(1.7rem, 2.6vw, 2.3rem)", color: DARK, lineHeight: 1.2, letterSpacing: "-0.02em", margin: "0 0 20px" }}>
             <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
           </h2>
 
@@ -8162,22 +8319,26 @@ function AboutStavba03({ content, sectionId, tenantSlug, isAdmin }: Pick<Props, 
           <a
             href={resolve(ctaHref)}
             data-btn="primary"
-            style={{ display: "inline-flex", alignItems: "center", gap: 8, backgroundColor: ORANGE, color: "#fff", fontFamily: FONT, fontSize: "0.9rem", fontWeight: 700, padding: "13px 28px", textDecoration: "none", borderRadius: 2, letterSpacing: "0.3px", transition: "opacity 0.18s" }}
-            onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; }}
-            onMouseLeave={e => { e.currentTarget.style.opacity = "1"; }}
+            className="st03-about-cta"
+            style={{ display: "inline-flex", alignItems: "center", gap: 9, backgroundColor: ORANGE, color: "#fff", fontFamily: FONT, fontSize: "0.9rem", fontWeight: 700, padding: "14px 30px", textDecoration: "none", borderRadius: 2, letterSpacing: "0.3px", boxShadow: "0 6px 20px rgba(250,125,25,0.30)", transition: "background-color 0.2s, transform 0.2s, box-shadow 0.2s" }}
+            onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#e86f0e"; e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 10px 26px rgba(250,125,25,0.40)"; }}
+            onMouseLeave={e => { e.currentTarget.style.backgroundColor = ORANGE; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 6px 20px rgba(250,125,25,0.30)"; }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg className="st03-about-cta-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </a>
         </div>
 
-        {/* Right: photo */}
-        <div style={{ position: "relative", aspectRatio: "4/3", borderRadius: 3, overflow: "hidden", boxShadow: "0 8px 40px rgba(0,0,0,0.13)" }}>
-          <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imgSrc} alt={heading} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
-            <Image src={imgSrc} alt={heading} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" unoptimized={shouldSkipNextImageOptimization(imgSrc)} />
-          </GenericEditableImage>
+        {/* Right: photo with decorative orange offset frame */}
+        <div style={{ position: "relative" }}>
+          <span aria-hidden="true" style={{ position: "absolute", right: -18, bottom: -18, width: "72%", height: "72%", border: `3px solid ${ORANGE}`, borderRadius: 3, zIndex: 0 }} />
+          <div className="st03-about-photo" style={{ position: "relative", zIndex: 1, aspectRatio: "4/3", borderRadius: 3, overflow: "hidden", boxShadow: "0 14px 46px rgba(0,0,0,0.16)" }}>
+            <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imgSrc} alt={heading} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
+              <Image src={imgSrc} alt={heading} fill className="object-cover st03-about-img" sizes="(max-width: 768px) 100vw, 50vw" unoptimized={shouldSkipNextImageOptimization(imgSrc)} />
+            </GenericEditableImage>
+          </div>
         </div>
       </div>
 
@@ -8191,11 +8352,12 @@ function AboutStavba03({ content, sectionId, tenantSlug, isAdmin }: Pick<Props, 
 }
 
 // ── stavba-02-about ───────────────────────────────────────────────────────────
-// White bg, 2-col: left = kicker + H2 + text + 4 bullet checkmarks; right = photo
+// Luxe redesign — white bg, 2-col: left = eyebrow + H2 + lead + 2×2 bullet grid;
+// right = framed photo with offset brown decorative frame + hover zoom.
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutStavba02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const BROWN = "#674832";
-  const DARK  = "#2D1A0F";
+  const DARK  = "#3D2516";
   const MUTED = "#7A6454";
   const FONT  = "'Roboto', sans-serif";
 
@@ -8203,7 +8365,7 @@ function AboutStavba02({ content, sectionId }: { content: Record<string, unknown
   const kicker     = String(content.kicker  ?? "Proč si vybrat právě nás?");
   const title      = String(content.title   ?? "Jsme tým zkušených profesionálů");
   const text       = String(content.text    ?? "");
-  const image      = String(content.image   ?? "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&h=600&fit=crop&fm=webp&q=85");
+  const image      = String(content.image   ?? "/templates/stavba-02/about.webp");
   const bullets    = Array.isArray(content.bullets) ? (content.bullets as unknown[]).map(b => String(b)) : [
     "Rychlá a precizní realizace",
     "Transparentní ceny bez skrytých poplatků",
@@ -8212,40 +8374,40 @@ function AboutStavba02({ content, sectionId }: { content: Record<string, unknown
   ];
 
   return (
-    <section id={sectionId2} style={{ backgroundColor: "#fff", fontFamily: FONT, padding: "clamp(64px, 8vw, 100px) 0" }} data-template="stavba-02">
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px" }}>
-        <div className="s02-about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 80px)", alignItems: "center" }}>
+    <section id={sectionId2} style={{ backgroundColor: "#fff", fontFamily: FONT, padding: "clamp(64px, 8vw, 104px) 0" }} data-template="stavba-02">
+      <div style={{ maxWidth: 1220, margin: "0 auto", padding: "0 clamp(16px,4vw,36px)" }}>
+        <div className="s02-about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 84px)", alignItems: "center" }}>
 
           {/* Left — text */}
           <div>
-            {/* Kicker */}
-            <p style={{ color: BROWN, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", margin: "0 0 14px" }}>
-              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-            </p>
+            {/* Eyebrow */}
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 11, marginBottom: 16 }}>
+              <span aria-hidden="true" style={{ width: 26, height: 2, background: "#C4956A", borderRadius: 2 }} />
+              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" style={{ fontFamily: FONT, color: BROWN, fontSize: "0.74rem", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase" }} />
+            </div>
 
             {/* Title */}
-            <h2 style={{ color: DARK, fontSize: "clamp(24px, 3.2vw, 40px)", fontWeight: 700, lineHeight: 1.15, letterSpacing: "-0.02em", margin: "0 0 20px" }}>
+            <h2 style={{ fontFamily: FONT, color: DARK, fontSize: "clamp(25px, 3.2vw, 41px)", fontWeight: 700, lineHeight: 1.16, letterSpacing: "-0.02em", margin: "0 0 20px" }}>
               <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
             </h2>
 
             {/* Body text */}
             {text && (
-              <p style={{ color: MUTED, fontSize: "clamp(14px, 1.3vw, 16px)", lineHeight: 1.75, margin: "0 0 32px" }}>
+              <p style={{ fontFamily: FONT, color: MUTED, fontSize: "clamp(14px, 1.3vw, 16.5px)", lineHeight: 1.76, margin: "0 0 32px", maxWidth: 520 }}>
                 <GenericEditableText sectionId={sectionId} field="text" value={text} tag="span" />
               </p>
             )}
 
-            {/* Bullet list */}
-            <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 14 }}>
+            {/* Bullet grid */}
+            <ul className="s02-about-bullets" style={{ listStyle: "none", margin: 0, padding: 0 }}>
               {bullets.map((b, i) => (
-                <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                  {/* Checkmark circle */}
-                  <span style={{ flexShrink: 0, width: 22, height: 22, borderRadius: "50%", backgroundColor: BROWN, display: "inline-flex", alignItems: "center", justifyContent: "center", marginTop: 1 }}>
-                    <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <li key={i} className="s02-about-bullet" style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "10px 12px 10px 4px", borderRadius: 8 }}>
+                  <span className="s02-about-check" style={{ flexShrink: 0, width: 24, height: 24, borderRadius: "50%", backgroundColor: BROWN, display: "inline-flex", alignItems: "center", justifyContent: "center", marginTop: 1 }}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                       <path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </span>
-                  <span style={{ color: DARK, fontSize: "0.92rem", lineHeight: 1.55, fontWeight: 500 }}>
+                  <span style={{ fontFamily: FONT, color: DARK, fontSize: "0.93rem", lineHeight: 1.55, fontWeight: 500 }}>
                     <GenericEditableText sectionId={sectionId} field={`bullets.${i}`} value={b} tag="span" />
                   </span>
                 </li>
@@ -8253,20 +8415,25 @@ function AboutStavba02({ content, sectionId }: { content: Record<string, unknown
             </ul>
           </div>
 
-          {/* Right — photo */}
-          <div style={{ position: "relative", borderRadius: 14, overflow: "hidden", aspectRatio: "4/3", boxShadow: "0 10px 48px rgba(45,26,15,0.13)" }}>
-            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
-              <Image src={image} alt={title} fill className="object-cover" sizes="(max-width:768px) 100vw, 50vw" unoptimized={shouldSkipNextImageOptimization(image)} />
-            </GenericEditableImage>
-            {/* Brown accent bar */}
-            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 4, backgroundColor: BROWN }} />
+          {/* Right — photo with offset decorative frame */}
+          <div style={{ position: "relative" }}>
+            {/* Offset brown outline frame */}
+            <span aria-hidden="true" style={{ position: "absolute", inset: 0, transform: "translate(18px, 18px)", border: "2px solid rgba(103,72,50,0.28)", borderRadius: 16, pointerEvents: "none" }} />
+            <div className="s02-about-photo" style={{ position: "relative", borderRadius: 16, overflow: "hidden", aspectRatio: "4/3", boxShadow: "0 18px 54px rgba(45,26,15,0.18)" }}>
+              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
+                <Image src={image} alt={title} fill className="object-cover s02-about-img" sizes="(max-width:768px) 100vw, 50vw" unoptimized={shouldSkipNextImageOptimization(image)} />
+              </GenericEditableImage>
+              {/* Brown corner accent */}
+              <span aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, width: 64, height: 4, backgroundColor: "#C4956A" }} />
+              <span aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, width: 4, height: 64, backgroundColor: "#C4956A" }} />
+            </div>
           </div>
         </div>
       </div>
 
       <style>{`
         @media (max-width: 768px) {
-          .s02-about-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+          .s02-about-grid { grid-template-columns: 1fr !important; gap: 44px !important; }
           .s02-about-grid > div:last-child { order: -1; }
         }
       `}</style>
@@ -8287,25 +8454,34 @@ function AboutInstala01({ content, sectionId }: Pick<Props, "content" | "section
   const c = content as Record<string, unknown>;
 
   const YELLOW = "#FFC527";
+  const DARK   = "#1e293b";
   const WHITE  = "#ffffff";
   const FONT   = "'Outfit', sans-serif";
 
-  const kicker   = String(c.kicker   ?? "Pohotovostní služby");
-  const title    = String(c.title    ?? "Práce menšího rozsahu řešíme nejlépe ihned");
-  const body     = String(c.body     ?? "Zakládáme si na osobním přístupu a profesionalitě. Preferujeme kvalitní materiály. Práce menšího rozsahu řešíme nejlépe ihned, ještě tentýž den od nahlášení.");
-  const image    = String(c.image    ?? "/clones/instalateritopenari/wp-content/uploads/2025/05/h1-about-img-03.jpg");
+  const kickerRaw   = c.kicker;
+  const titleRaw    = c.title;
+  const subtitleRaw = c.subtitle;
+  const kicker   = kickerRaw   === undefined ? "Kdo jsme" : String(kickerRaw);
+  const title    = titleRaw    === undefined ? "Řemeslo, na které se můžete spolehnout" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const body     = String(c.body     ?? "Jsme parta zkušených techniků, kteří svůj obor milují. Každý den vyrážíme k zákazníkům s jedním cílem — odvést práci tak, aby vydržela roky. Používáme osvědčené materiály, dodržujeme normy a hlavně: přijedeme, kdy slíbíme.");
+  const image    = String(c.image    ?? "/assets/instala-01/about.webp");
+  const phone    = String(c.phone    ?? "+420 602 987 654");
+  const phoneLabel = String(c.phoneLabel ?? "Zavolejte kdykoliv — i o víkendu");
   const features = (c.features as Array<{ title: string; description: string; icon: string }>) ?? [];
   const stats    = (c.stats    as Array<{ value: string; label: string }>) ?? [];
 
+  const showHeader = !!(kicker.trim() || title.trim() || subtitle.trim());
+
   const IconBox = ({ icon }: { icon: string }) => {
     const d: Record<string, React.ReactNode> = {
-      star:     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill="#1e293b"/>,
-      shield:   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke="#1e293b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>,
-      settings: <><circle cx="12" cy="12" r="3" fill="none" stroke="#1e293b" strokeWidth="2"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" fill="none" stroke="#1e293b" strokeWidth="2"/></>,
-      clock:    <><circle cx="12" cy="12" r="10" fill="none" stroke="#1e293b" strokeWidth="2"/><polyline points="12 6 12 12 16 14" fill="none" stroke="#1e293b" strokeWidth="2" strokeLinecap="round"/></>,
+      star:     <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" fill={DARK}/>,
+      shield:   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke={DARK} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>,
+      settings: <><circle cx="12" cy="12" r="3" fill="none" stroke={DARK} strokeWidth="2"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" fill="none" stroke={DARK} strokeWidth="2"/></>,
+      clock:    <><circle cx="12" cy="12" r="10" fill="none" stroke={DARK} strokeWidth="2"/><polyline points="12 6 12 12 16 14" fill="none" stroke={DARK} strokeWidth="2" strokeLinecap="round"/></>,
     };
     return (
-      <div style={{ width: 48, height: 48, borderRadius: "50%", backgroundColor: "#EDEDED", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+      <div className="i01-about-icon" style={{ width: 52, height: 52, borderRadius: "50%", backgroundColor: "rgba(255,197,39,0.12)", border: "1.5px solid rgba(255,197,39,0.3)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "background-color 0.3s ease, border-color 0.3s ease" }}>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           {d[icon] ?? d.star}
         </svg>
@@ -8314,43 +8490,52 @@ function AboutInstala01({ content, sectionId }: Pick<Props, "content" | "section
   };
 
   return (
-    <section id="o-nas" style={{ backgroundColor: WHITE, fontFamily: FONT, padding: "80px 0" }} data-template="instala-01-about">
+    <section id="o-nas" style={{ backgroundColor: WHITE, fontFamily: FONT, padding: "100px 0" }} data-template="instala-01-about">
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 40px" }}>
-        <div className="i01-about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "60px", alignItems: "center" }}>
+        <div className="i01-about-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "64px", alignItems: "center" }}>
 
           {/* Left — image */}
-          <div style={{ borderRadius: 30, overflow: "hidden", minHeight: 600, position: "relative" }}>
-            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="O nás" className="relative overflow-hidden w-full h-full" style={{ height: "100%", minHeight: 600 }}>
+          <div className="i01-about-img-wrap" style={{ borderRadius: 16, overflow: "hidden", minHeight: 580, position: "relative" }}>
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="O nás" className="relative overflow-hidden w-full h-full" style={{ height: "100%", minHeight: 580 }}>
               <Image src={image} alt="Instalatérské práce" fill className="object-cover" sizes="50vw" unoptimized={shouldSkipNextImageOptimization(image)} />
             </GenericEditableImage>
+            {/* yellow accent corner */}
+            <div style={{ position: "absolute", top: 0, left: 0, width: 6, height: 80, background: YELLOW, borderRadius: "0 0 4px 0" }} aria-hidden="true" />
           </div>
 
           {/* Right — content */}
           <div>
-            {/* Kicker */}
-            <p style={{ fontSize: "24px", fontWeight: 300, textTransform: "uppercase", color: "#222222", margin: "0 0 8px", letterSpacing: "0.04em" }}>
-              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-            </p>
+            {showHeader && (
+              <>
+                {/* Kicker */}
+                <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                  <span style={{ width: 32, height: 2, backgroundColor: YELLOW, borderRadius: 2, display: "block", flexShrink: 0 }} />
+                  <span style={{ fontSize: "13px", fontWeight: 600, textTransform: "uppercase", color: YELLOW, letterSpacing: "0.14em" }}>
+                    <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+                  </span>
+                </div>
 
-            {/* H2 */}
-            <h2 style={{ fontSize: "clamp(26px,3vw,40px)", fontWeight: 600, textTransform: "capitalize", color: "#222222", lineHeight: 1.2, margin: "0 0 20px", maxWidth: 650 }}>
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
+                {/* H2 */}
+                <h2 style={{ fontSize: "clamp(28px,3.2vw,42px)", fontWeight: 700, color: DARK, lineHeight: 1.15, margin: "0 0 22px", maxWidth: 600, letterSpacing: "-0.02em" }}>
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+              </>
+            )}
 
             {/* Body */}
-            <p style={{ fontSize: "17px", fontWeight: 400, color: "#434343", lineHeight: 1.65, margin: "0 0 32px", maxWidth: 600 }}>
+            <p style={{ fontSize: "17px", fontWeight: 400, color: "#4b5563", lineHeight: 1.72, margin: "0 0 36px", maxWidth: 560 }}>
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
 
             {/* Stats */}
             {stats.length > 0 && (
-              <div style={{ display: "flex", gap: 32, margin: "0 0 28px", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: 40, margin: "0 0 32px", flexWrap: "wrap" }}>
                 {stats.map((s, i) => (
-                  <div key={i}>
-                    <div style={{ fontSize: "clamp(28px,3vw,40px)", fontWeight: 700, color: YELLOW, lineHeight: 1 }}>
+                  <div key={i} className="i01-about-stat">
+                    <div style={{ fontSize: "clamp(30px,3.2vw,42px)", fontWeight: 800, color: YELLOW, lineHeight: 1, letterSpacing: "-0.02em" }}>
                       <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value} tag="span" />
                     </div>
-                    <div style={{ fontSize: "14px", color: "#64748b", marginTop: 4 }}>
+                    <div style={{ fontSize: "13px", color: "#64748b", marginTop: 6, fontWeight: 500, textTransform: "uppercase", letterSpacing: "0.06em" }}>
                       <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
                     </div>
                   </div>
@@ -8358,33 +8543,44 @@ function AboutInstala01({ content, sectionId }: Pick<Props, "content" | "section
               </div>
             )}
 
-            <div style={{ width: "100%", height: 1, backgroundColor: "#e2e8f0", margin: "0 0 28px" }} />
+            <div style={{ width: "100%", height: 1, backgroundColor: "#e5e7eb", margin: "0 0 28px" }} />
 
             {/* Features */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {features.map((f, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 16 }}>
+                <div key={i} className="i01-about-feat" style={{ display: "flex", alignItems: "flex-start", gap: 16, padding: "14px 16px", borderRadius: 12, transition: "background-color 0.25s ease" }}>
                   <IconBox icon={f.icon} />
                   <div>
-                    <div style={{ fontSize: "18px", fontWeight: 600, color: "#222222", marginBottom: 4 }}>
+                    <div style={{ fontSize: "17px", fontWeight: 700, color: DARK, marginBottom: 3 }}>
                       <GenericEditableText sectionId={sectionId} field={`features.${i}.title`} value={f.title} tag="span" />
                     </div>
-                    <div style={{ fontSize: "16px", color: "#222222", lineHeight: 1.5 }}>
+                    <div style={{ fontSize: "15px", color: "#6b7280", lineHeight: 1.6 }}>
                       <GenericEditableText sectionId={sectionId} field={`features.${i}.description`} value={f.description} tag="span" />
                     </div>
                   </div>
                 </div>
               ))}
             </div>
+
+            {/* Phone callout */}
+            <div className="i01-about-phone" style={{ marginTop: 32, display: "flex", alignItems: "center", gap: 14, padding: "16px 22px", background: "rgba(255,197,39,0.08)", borderRadius: 12, border: "1px solid rgba(255,197,39,0.18)" }}>
+              <div style={{ width: 44, height: 44, borderRadius: "50%", background: YELLOW, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={DARK} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12.25 19.79 19.79 0 0 1 1.17 3.63 2 2 0 0 1 3.15 1.45h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/>
+                </svg>
+              </div>
+              <div>
+                <div style={{ fontSize: "13px", color: "#64748b", fontWeight: 500, marginBottom: 2 }}>
+                  <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" />
+                </div>
+                <a href={`tel:${phone.replace(/[^\d+]/g, "")}`} style={{ fontSize: "20px", fontWeight: 700, color: DARK, textDecoration: "none", letterSpacing: "-0.01em" }}>
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 900px) {
-          .i01-about-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
-        }
-      `}</style>
     </section>
   );
 }
@@ -8813,70 +9009,88 @@ function MosaicBakery02({ content, sectionId }: { content: Record<string, unknow
   );
 }
 
-// ─── autoskola-01 About — 2-col foto + text + stats bar ──────────────────────
+// ─── autoskola-01 About — Road Editorial Motion ─────────────────────────────
+// Bone bg, 2-col editorial: left photo with yellow corner brackets + orange
+// dashed accent; right text with dashed eyebrow + JBM Mono stats strip
+// ─────────────────────────────────────────────────────────────────────────────
 function AboutAutoskola01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const heading     = String(content.heading    ?? "O naší autoškole");
-  const subheading  = String(content.subheading ?? "Největší autoškola pro skupinu B v ČR");
-  const body        = String(content.body       ?? "");
-  const body2       = String(content.body2      ?? "");
-  const imageUrl    = String(content.imageUrl   ?? "/clones/nobe/img/office-620822_1920-1024x680.jpg");
-  const imageAlt    = String(content.imageAlt   ?? "O nás");
-  const ctaText     = String(content.ctaText    ?? "Více o nás");
+  const heading     = String(content.heading    ?? "Autoškola, které můžete věřit");
+  const subheading  = String(content.subheading ?? "Na moravském trhu od roku 2011");
+  const body        = String(content.body       ?? "Autoškola DRIVE vznikla v Brně s jediným cílem — připravit absolventy tak, aby za volantem zvládali skutečné silniční situace, ne jen projít zkouškou. Za tu dobu jsme vyškolili přes 8 000 řidičů a rozrostli se do 8 poboček.");
+  const body2       = String(content.body2      ?? "Každý žák má u nás přiděleného osobního instruktora od první hodiny až po závěrečné zkoušky. Věříme, že důvěra mezi žákem a instruktorem je základem bezpečné jízdy.");
+  const imageUrl    = String(content.imageUrl   ?? "/assets/autoskola-01/about-car.webp");
+  const imageAlt    = String(content.imageAlt   ?? "Výukové centrum autoškoly");
+  const ctaText     = String(content.ctaText    ?? "Zjistit více");
   const ctaHref     = String(content.ctaHref    ?? "/o-nas");
   const statsItems  = ((content.statsItems as { value?: string; label?: string }[]) ?? []);
 
+  const INK    = "#0f172a";
+  const BONE   = "#fafaf7";
   const ORANGE = "#f16823";
-  const DARK   = "#484848";
-  const FONT   = "'Roboto', sans-serif";
+  const YELLOW = "#ffce00";
+  const SLATE  = "#64748b";
+  const FONT_D = "'Space Grotesk', 'Inter', sans-serif";
+  const FONT_B = "'Inter Tight', 'Inter', sans-serif";
 
   const resolve = (href: string) => (tenantSlug && !isAdmin) ? `/demo/${tenantSlug}${href}` : href;
 
   return (
-    <section id={String(sectionId)} style={{ backgroundColor: "#fff", padding: "80px clamp(24px, 6vw, 80px)" }}>
-      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(32px, 5vw, 72px)", alignItems: "center" }}>
+    <section data-template="autoskola-01" id={String(sectionId)} className="as01-about" style={{ backgroundColor: BONE, padding: "96px clamp(24px, 6vw, 80px)" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(40px, 6vw, 80px)", alignItems: "center" }}>
 
-        {/* Foto vlevo */}
-        <div style={{ position: "relative", borderRadius: 4, overflow: "hidden", lineHeight: 0 }}>
-          <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={imageAlt} style={{ display: "block", width: "100%", aspectRatio: "4/3", objectFit: "cover" }}>
-            <img loading="lazy" src={imageUrl} alt={imageAlt} style={{ display: "block", width: "100%", aspectRatio: "4/3", objectFit: "cover" }} />
-          </GenericEditableImage>
-          {/* Oranžový akcent roh */}
-          <div style={{ position: "absolute", bottom: 0, left: 0, width: 60, height: 4, backgroundColor: ORANGE }} />
+        {/* Photo — yellow corner brackets frame */}
+        <div style={{ position: "relative" }}>
+          {/* Yellow corner brackets */}
+          <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" fill="none" aria-hidden="true"
+            style={{ position: "absolute", inset: -12, zIndex: 1, pointerEvents: "none", width: "calc(100% + 24px)", height: "calc(100% + 24px)" }}>
+            <path d="M0 15 V0 H15" stroke={YELLOW} strokeWidth="1.5" vectorEffect="non-scaling-stroke"/>
+            <path d="M85 0 H100 V15" stroke={YELLOW} strokeWidth="1.5" vectorEffect="non-scaling-stroke"/>
+            <path d="M100 85 V100 H85" stroke={YELLOW} strokeWidth="1.5" vectorEffect="non-scaling-stroke"/>
+            <path d="M15 100 H0 V85" stroke={YELLOW} strokeWidth="1.5" vectorEffect="non-scaling-stroke"/>
+          </svg>
+          <div className="as01-about-img" style={{ position: "relative", overflow: "hidden", lineHeight: 0 }}>
+            <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={imageAlt} style={{ display: "block", width: "100%", aspectRatio: "4/3", objectFit: "cover" }}>
+              <img loading="lazy" src={imageUrl} alt={imageAlt} style={{ display: "block", width: "100%", aspectRatio: "4/3", objectFit: "cover", transition: "transform 0.6s ease" }} />
+            </GenericEditableImage>
+          </div>
+          {/* Dashed road-lane accent — bottom */}
+          <div style={{ position: "absolute", bottom: -20, left: 24, right: 24, height: 0, borderTop: `2px dashed ${ORANGE}40` }} aria-hidden="true" />
         </div>
 
-        {/* Text vpravo */}
+        {/* Text */}
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div>
-            <p style={{ fontFamily: FONT, fontWeight: 400, fontSize: 13, letterSpacing: "0.14em", textTransform: "uppercase", color: ORANGE, margin: "0 0 8px" }}>
+          {/* Eyebrow */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <span style={{ width: 32, height: 0, borderTop: `2px dashed ${ORANGE}` }} aria-hidden="true" />
+            <span style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: ORANGE }}>
               <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-            </p>
-            <h2 style={{ fontFamily: FONT, fontWeight: 700, fontSize: "clamp(1.6rem, 2.5vw, 2.2rem)", color: DARK, margin: 0, lineHeight: 1.2 }}>
-              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-            </h2>
+            </span>
           </div>
 
-          <div style={{ width: 48, height: 3, backgroundColor: ORANGE, borderRadius: 2 }} />
+          <h2 style={{ fontFamily: FONT_D, fontWeight: 700, fontSize: "clamp(1.6rem, 3vw, 2.4rem)", color: INK, margin: 0, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+          </h2>
 
           {body && (
-            <p style={{ fontFamily: FONT, fontWeight: 400, fontSize: "clamp(0.9rem, 1.2vw, 1rem)", color: DARK, lineHeight: 1.75, margin: 0 }}>
+            <p style={{ fontFamily: FONT_B, fontWeight: 400, fontSize: "clamp(0.9rem, 1.2vw, 1rem)", color: SLATE, lineHeight: 1.75, margin: 0 }}>
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
             </p>
           )}
           {body2 && (
-            <p style={{ fontFamily: FONT, fontWeight: 400, fontSize: "clamp(0.9rem, 1.2vw, 1rem)", color: "#666", lineHeight: 1.75, margin: 0 }}>
+            <p style={{ fontFamily: FONT_B, fontWeight: 400, fontSize: "clamp(0.9rem, 1.2vw, 1rem)", color: `${SLATE}cc`, lineHeight: 1.75, margin: 0 }}>
               <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
             </p>
           )}
 
-          {/* Stats bar */}
+          {/* Stats strip — dashed top border */}
           {statsItems.length > 0 && (
-            <div style={{ display: "flex", gap: 0, borderTop: "1px solid #e8e8e8", marginTop: 8, paddingTop: 24 }}>
+            <div style={{ display: "flex", gap: 0, borderTop: `1px dashed ${INK}15`, marginTop: 12, paddingTop: 24 }}>
               {statsItems.map((item, i) => (
-                <div key={i} style={{ flex: 1, textAlign: "center", borderRight: i < statsItems.length - 1 ? "1px solid #e8e8e8" : "none", padding: "0 16px" }}>
-                  <div style={{ fontFamily: FONT, fontWeight: 700, fontSize: "clamp(1.3rem, 2vw, 1.7rem)", color: ORANGE, lineHeight: 1.1 }}>
+                <div key={i} style={{ flex: 1, textAlign: "center", borderRight: i < statsItems.length - 1 ? `1px dashed ${INK}12` : "none", padding: "0 12px" }}>
+                  <div style={{ fontFamily: "'JetBrains Mono', 'SF Mono', monospace", fontWeight: 700, fontSize: "clamp(1.3rem, 2vw, 1.7rem)", color: ORANGE, lineHeight: 1.1 }}>
                     <GenericEditableText sectionId={sectionId} field={`statsItems.${i}.value`} value={String(item.value ?? "")} tag="span" />
                   </div>
-                  <div style={{ fontFamily: FONT, fontWeight: 400, fontSize: 12, color: "#999", marginTop: 4, letterSpacing: "0.04em" }}>
+                  <div style={{ fontFamily: FONT_B, fontWeight: 400, fontSize: 11, color: SLATE, marginTop: 6, letterSpacing: "0.06em", textTransform: "uppercase" }}>
                     <GenericEditableText sectionId={sectionId} field={`statsItems.${i}.label`} value={String(item.label ?? "")} tag="span" />
                   </div>
                 </div>
@@ -8884,30 +9098,30 @@ function AboutAutoskola01({ content, sectionId, tenantSlug, isAdmin }: { content
             </div>
           )}
 
-          <a
-            href={resolve(ctaHref)}
-            data-btn="primary"
-            style={{ display: "inline-block", alignSelf: "flex-start", padding: "12px 28px", backgroundColor: ORANGE, color: "#fff", fontFamily: FONT, fontSize: 14, fontWeight: 600, letterSpacing: "0.04em", textDecoration: "none", borderRadius: 4, transition: "background 0.2s" }}
-            onMouseEnter={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#d85710"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLAnchorElement).style.backgroundColor = ORANGE; }}
-          >
+          {/* CTA */}
+          <a href={resolve(ctaHref)} data-btn="primary" className="as01-about-cta"
+            style={{ display: "inline-flex", alignItems: "center", alignSelf: "flex-start", gap: 8, padding: "12px 28px", backgroundColor: INK, color: BONE, fontFamily: FONT_D, fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", textDecoration: "none", transition: "background-color 0.2s, transform 0.15s" }}>
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
           </a>
         </div>
       </div>
 
-      {/* Mobile responsive */}
       <style>{`
         @media (max-width: 768px) {
-          [id="${sectionId}"] > div { grid-template-columns: 1fr !important; }
-          [id="${sectionId}"] > div > div:first-child { aspect-ratio: 4/3; width: 100%; }
+          .as01-about > div { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </section>
   );
 }
 
-// ─── sweet-01 About — 2-col text + image, white bg ───────────────────────────
+// ─── sweet-01 About — Parisian Pâtisserie editorial 2-col ───────────────────
+// Cream #fdf6ee bg, gold corner-bracket photo frame, Fraunces italic drop-cap E,
+// cherry red kicker, polaroid accent photo, stats mini-bar 40+ / 12000+ / 7/7
+// ─────────────────────────────────────────────────────────────────────────────
 function AboutSweet01({
   content,
   sectionId,
@@ -8919,86 +9133,163 @@ function AboutSweet01({
   tenantSlug?: string;
   isAdmin?: boolean;
 }) {
-  const kicker  = String(content.kicker  ?? "O NÁS");
-  const title   = String(content.title   ?? "Sladký svět Světozoru");
-  const body    = String(content.body    ?? "");
-  const ctaText = String(content.ctaText ?? "Zjistit více");
-  const ctaHref = String(content.ctaHref ?? "/o-nas");
-  const image   = String(content.image   ?? "/clones/ovocnysvetozor/img/ochutnejte.jpg");
-  const imageAlt = String(content.imageAlt ?? "");
+  const kicker   = String(content.kicker   ?? "NÁŠ PŘÍBĚH");
+  const title    = String(content.title    ?? "Cukrárna s duší rodinné tradice");
+  const body     = String(content.body     ?? "Cukrárna Eliška vznikla z lásky k poctivému řemeslu. Každý dort, každý koláček a každá pralinká se u nás vyrábí ručně podle receptur, které se v rodině předávají už přes čtyřicet let.\n\nVěříme, že správný dezert dokáže proměnit obyčejný den v nezapomenutelný. Přijďte si k nám sednout, dát si kávu a dopřát si chvíli jen pro sebe.");
+  const ctaText  = String(content.ctaText  ?? "Více o nás");
+  const ctaHref  = String(content.ctaHref  ?? "/o-nas");
+  const image    = String(content.image    ?? "https://images.unsplash.com/photo-1556217477-d325251ece38?w=900&q=88&auto=format");
+  const imageAlt = String(content.imageAlt ?? "Výroba dortů v cukrárně Eliška");
+  const image2   = String(content.image2   ?? "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400&q=88&auto=format");
+  const image2Alt = String(content.image2Alt ?? "Detail zákusku");
+  const signature = String(content.signature ?? "Eliška Dvořáková, zakladatelka");
+  const stats    = (content.stats as Array<{ value: string; label: string }>) ?? [
+    { value: "40+", label: "let tradice" },
+    { value: "12 000+", label: "spokojených zákazníků" },
+    { value: "7/7", label: "dní v týdnu" },
+  ];
 
-  const RED  = "#E2001A";
-  const DARK = "#0a0a0a";
-  const FONT = "'Roboto','Helvetica Neue',Arial,sans-serif";
+  const RED    = "#E2001A";
+  const CREAM  = "#fdf6ee";
+  const COCOA  = "#2b1810";
+  const GOLD   = "#c8a568";
+  const FONT_D = "'Fraunces', 'Playfair Display', Georgia, serif";
+  const FONT_B = "'Inter', 'Helvetica Neue', Arial, sans-serif";
 
-  const resolvedHref = resolveDemoHref(ctaHref, tenantSlug, isAdmin);
+  const resolve = (href: string) => {
+    if (!href || href.startsWith("http") || href.startsWith("#")) return href;
+    if (isAdmin) return `/demo/${tenantSlug}/admin${href}`;
+    if (tenantSlug) return `/demo/${tenantSlug}${href}`;
+    return href;
+  };
+
+  const showHeader = !!(kicker || title);
 
   return (
-    <section
-      data-variant="sweet-01-about"
-      style={{ background: "#fefefe", padding: "80px 0", overflow: "hidden" }}
-    >
+    <section data-template="sweet-01" style={{ background: CREAM, padding: "100px 0 0", overflow: "hidden", position: "relative" }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" />
       <style>{`
-        .sw01-about-grid { display: grid; grid-template-columns: 1fr 1fr; max-width: 1200px; margin: 0 auto; padding: 0 24px; gap: 64px; align-items: center; }
-        .sw01-about-text { display: flex; flex-direction: column; gap: 24px; }
-        .sw01-about-img-wrap { position: relative; width: 100%; min-height: 380px; border-radius: 4px; overflow: hidden; }
-        @media (max-width: 860px) {
-          .sw01-about-grid { grid-template-columns: 1fr; gap: 40px; }
-          .sw01-about-img-wrap { order: -1; }
+        .sw01-about-wrap { max-width: 1240px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 60px); }
+        .sw01-about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; }
+        .sw01-about-photo { position: relative; }
+        .sw01-about-main-img { position: relative; aspect-ratio: 4/5; overflow: hidden; }
+        .sw01-about-main-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .sw01-about-brackets { position: absolute; inset: -14px; pointer-events: none; z-index: 2; }
+        .sw01-about-brackets::before, .sw01-about-brackets::after { content: ""; position: absolute; width: 52px; height: 52px; border: 0 solid ${GOLD}; }
+        .sw01-about-brackets::before { top: 0; left: 0; border-top-width: 2px; border-left-width: 2px; }
+        .sw01-about-brackets::after  { bottom: 0; right: 0; border-bottom-width: 2px; border-right-width: 2px; }
+        .sw01-about-polaroid { position: absolute; bottom: -32px; right: -24px; width: 160px; background: #fff; padding: 8px 8px 28px; box-shadow: 0 8px 32px rgba(43,24,16,0.15); transform: rotate(4deg); z-index: 3; transition: transform 0.5s cubic-bezier(.4,0,.2,1); }
+        .sw01-about-polaroid:hover { transform: rotate(0deg) scale(1.04); }
+        .sw01-about-polaroid img { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; }
+        .sw01-about-polaroid-label { font-family: ${FONT_D}; font-style: italic; font-size: 10px; color: ${COCOA}; text-align: center; margin-top: 6px; opacity: 0.6; }
+        .sw01-about-text { display: flex; flex-direction: column; gap: 0; padding-top: 16px; }
+        .sw01-about-dropcap { float: left; font-family: ${FONT_D}; font-style: italic; font-weight: 500; font-size: 72px; line-height: 0.8; color: ${RED}; margin: 4px 14px 0 0; }
+        .sw01-about-body { font-family: ${FONT_B}; font-weight: 400; font-size: 15.5px; line-height: 1.8; color: rgba(43,24,16,0.75); white-space: pre-line; margin: 0 0 28px; }
+        .sw01-about-sig { font-family: ${FONT_D}; font-style: italic; font-weight: 400; font-size: 15px; color: ${GOLD}; margin: 0 0 32px; }
+        .sw01-about-cta { display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; background: ${RED}; color: #fff; font-family: ${FONT_B}; font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none; border-radius: 999px; border: 1px solid ${RED}; position: relative; overflow: hidden; transition: box-shadow 0.3s; align-self: flex-start; }
+        .sw01-about-cta::before { content: ""; position: absolute; inset: 0; background: ${COCOA}; transform: translateY(101%); transition: transform 0.42s cubic-bezier(.4,0,.2,1); z-index: 0; }
+        .sw01-about-cta:hover::before { transform: translateY(0); }
+        .sw01-about-cta:hover { box-shadow: 0 0 0 3px ${CREAM}, 0 0 0 4px ${GOLD}; }
+        .sw01-about-cta span { position: relative; z-index: 1; }
+        .sw01-about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 80px; padding: 42px 0; border-top: 1px solid ${GOLD}33; border-bottom: 1px solid ${GOLD}33; }
+        .sw01-about-stat { text-align: center; position: relative; }
+        .sw01-about-stat:not(:last-child)::after { content: ""; position: absolute; right: 0; top: 20%; height: 60%; width: 1px; background: ${GOLD}33; }
+        .sw01-about-stat-val { font-family: ${FONT_D}; font-style: italic; font-weight: 500; font-size: clamp(28px, 3.5vw, 42px); color: ${RED}; line-height: 1; margin: 0 0 8px; }
+        .sw01-about-stat-lbl { font-family: ${FONT_B}; font-weight: 500; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: ${COCOA}88; margin: 0; }
+        @media(max-width: 900px) {
+          .sw01-about-grid { grid-template-columns: 1fr; gap: 48px; }
+          .sw01-about-photo { order: -1; max-width: 500px; margin: 0 auto; }
+          .sw01-about-text { padding-top: 0; }
+          .sw01-about-polaroid { bottom: -20px; right: -12px; width: 120px; }
+          .sw01-about-stats { grid-template-columns: repeat(3, 1fr); }
+          .sw01-about-cta { align-self: center; }
+        }
+        @media(max-width: 480px) {
+          .sw01-about-stats { grid-template-columns: 1fr; gap: 24px; }
+          .sw01-about-stat:not(:last-child)::after { display: none; }
+          .sw01-about-stat:not(:last-child) { padding-bottom: 24px; border-bottom: 1px dashed ${GOLD}33; }
         }
       `}</style>
 
-      <div className="sw01-about-grid">
-        {/* Text column */}
-        <div className="sw01-about-text">
-          <p style={{ fontFamily: FONT, fontSize: "0.75rem", fontWeight: 700, letterSpacing: "3px", color: RED, textTransform: "uppercase", margin: 0 }}>
-            <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-          </p>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(1.8rem,3.5vw,2.8rem)", fontWeight: 700, color: DARK, margin: 0, lineHeight: 1.15 }}>
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-          </h2>
-          {body && (
-            <div style={{ fontFamily: FONT, fontSize: "1rem", color: "#444", lineHeight: 1.75, whiteSpace: "pre-line" }}>
-              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+      <div className="sw01-about-wrap">
+        <div className="sw01-about-grid">
+          {/* Photo column */}
+          <div className="sw01-about-photo">
+            <div className="sw01-about-main-img">
+              <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={imageAlt} style={{ width: "100%", height: "100%" }}>
+                <img loading="lazy" src={image} alt={imageAlt} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              </GenericEditableImage>
+              <div className="sw01-about-brackets" aria-hidden />
             </div>
-          )}
-          <a
-            href={resolvedHref}
-            style={{
-              display: "inline-block",
-              padding: "12px 32px",
-              background: RED,
-              color: "#fff",
-              fontFamily: FONT,
-              fontSize: "0.875rem",
-              fontWeight: 700,
-              letterSpacing: "1.5px",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              alignSelf: "flex-start",
-              borderRadius: 2,
-            }}
-          >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
+
+            {/* Polaroid accent */}
+            <div className="sw01-about-polaroid">
+              <GenericEditableImage sectionId={sectionId} field="image2" src={image2} alt={image2Alt} style={{ width: "100%" }}>
+                <img loading="lazy" src={image2} alt={image2Alt} />
+              </GenericEditableImage>
+              <div className="sw01-about-polaroid-label">détail</div>
+            </div>
+          </div>
+
+          {/* Text column */}
+          <div className="sw01-about-text">
+            {showHeader && (
+              <>
+                {kicker && (
+                  <p style={{ fontFamily: FONT_B, fontSize: 10.5, fontWeight: 700, letterSpacing: "0.32em", textTransform: "uppercase", color: RED, margin: "0 0 16px", display: "flex", alignItems: "center", gap: 12 }}>
+                    <span style={{ width: 24, height: 1.5, background: RED, display: "inline-block" }} />
+                    <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+                  </p>
+                )}
+                {title && (
+                  <h2 style={{ fontFamily: FONT_D, fontStyle: "italic", fontWeight: 500, fontSize: "clamp(30px, 3.8vw, 46px)", color: COCOA, margin: "0 0 28px", lineHeight: 1.12, letterSpacing: "-0.01em" }}>
+                    <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                  </h2>
+                )}
+              </>
+            )}
+
+            {/* Ornament rule */}
+            <svg aria-hidden viewBox="0 0 120 10" style={{ width: 90, height: 8, margin: "0 0 24px", display: "block" }}>
+              <path d="M0 5 Q 6 0 12 5 T 24 5 T 36 5 T 48 5 T 60 5 T 72 5 T 84 5 T 96 5 T 108 5 T 120 5" fill="none" stroke={GOLD} strokeWidth="0.8" opacity="0.6" />
+            </svg>
+
+            {body && (
+              <div className="sw01-about-body">
+                <span className="sw01-about-dropcap">{body.charAt(0)}</span>
+                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+              </div>
+            )}
+
+            {signature && (
+              <p className="sw01-about-sig">
+                — <GenericEditableText sectionId={sectionId} field="signature" value={signature} tag="span" />
+              </p>
+            )}
+
+            <a href={resolve(ctaHref)} data-btn="primary" className="sw01-about-cta">
+              <span><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></span>
+            </a>
+          </div>
         </div>
 
-        {/* Image column */}
-        <div className="sw01-about-img-wrap">
-          <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={imageAlt}
-            style={{ position: "absolute", inset: 0 }}
-          >
-            <Image
-              src={image}
-              alt={imageAlt}
-              fill
-              sizes="(max-width: 860px) 100vw, 50vw"
-              style={{ objectFit: "cover", objectPosition: "center" }}
-              unoptimized={shouldSkipNextImageOptimization(image)}
-            />
-          </GenericEditableImage>
+        {/* Stats mini-bar */}
+        <div className="sw01-about-stats">
+          {stats.map((s, i) => (
+            <div key={i} className="sw01-about-stat">
+              <p className="sw01-about-stat-val">
+                <GenericEditableText sectionId={sectionId} field={`stats.${i}.value`} value={s.value} tag="span" />
+              </p>
+              <p className="sw01-about-stat-lbl">
+                <GenericEditableText sectionId={sectionId} field={`stats.${i}.label`} value={s.label} tag="span" />
+              </p>
+            </div>
+          ))}
         </div>
       </div>
+
+      {/* Bottom padding */}
+      <div style={{ height: 80 }} />
     </section>
   );
 }
@@ -9120,23 +9411,37 @@ function AboutEdu01({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
   const BLUE = "#0059df";
   const FONT = "'Libre Franklin', Arial, sans-serif";
 
-  const heading    = String(content.heading    ?? "Vzdělávání, které funguje");
-  const subheading = String(content.subheading ?? "Jedno dítě, jeden lektor, individuální plán");
-  const body       = String(content.body       ?? "Demo Akademie stojí na jednoduché myšlence: každý student má svůj vlastní rytmus. Proto pracujeme výhradně v individuálním nebo malém skupinovém formátu.");
-  const body2      = String(content.body2      ?? "Na základě vstupního testu vytvoříme personalizovaný studijní plán. Doučování probíhá prezenčně v našich učebnách nebo online.");
-  const imageUrl   = String(content.imageUrl   ?? "/clones/skolapopulo/img/large_DSC_00123_42c323f1ab_1_fad7c99af9.jpeg");
+  const eyebrow    = String(content.eyebrow    ?? "O akademii");
+  const heading    = String(content.heading    ?? "Učíme tak, aby to zůstalo v hlavě");
+  const subheading = String(content.subheading ?? "Malé skupiny, ověření lektoři a plán šitý na míru.");
+  const body       = String(content.body       ?? "Naše akademie stojí na jednoduché myšlence: každý student má svůj rytmus. Proto učíme individuálně nebo v malých skupinkách do čtyř žáků, kde na nikoho nezbyde místo v pozadí.");
+  const body2      = String(content.body2      ?? "Každou spolupráci zahájíme krátkým vstupním testem a podle něj sestavíme studijní plán. Učíme v naší učebně v centru města i online — jak to studentovi vyhovuje.");
+  const imageUrl   = String(content.imageUrl   ?? "/templates/edu-01/about.webp");
   const imageAlt   = String(content.imageAlt   ?? "Lektor a student při individuálním doučování");
-  const ctaText    = String(content.ctaText    ?? "Zjistit více");
+  const ctaText    = String(content.ctaText    ?? "Více o akademii");
   const ctaHref    = String(content.ctaHref    ?? "/o-nas");
-
-  const resolve = (href: string) => (tenantSlug && !isAdmin) ? `/demo/${tenantSlug}${href}` : href;
-
-  const perks = [
-    { icon: "✓", label: "Vstupní diagnostický test zdarma" },
-    { icon: "✓", label: "Personalizovaný studijní plán" },
-    { icon: "✓", label: "Prezenčně i online — dle vaší preference" },
-    { icon: "✓", label: "Průběžný reporting výsledků" },
+  const badgeNumber = String(content.badgeNumber ?? "12");
+  const badgeTitle  = String(content.badgeTitle  ?? "let zkušeností");
+  const badgeText   = String(content.badgeText   ?? "ve vzdělávání");
+  const siteMode   = String(content.siteMode   ?? "multipage");
+  const perks = (content.perks as string[] | undefined) ?? [
+    "Vstupní diagnostický test zdarma",
+    "Studijní plán šitý na míru",
+    "Prezenčně i online dle preference",
+    "Pravidelný reporting pokroku",
   ];
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect(); } }, { threshold: 0.15 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <>
@@ -9145,37 +9450,47 @@ function AboutEdu01({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
         .edu01ab-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:stretch;}
         /* LEFT — photo */
         .edu01ab-photo{position:relative;display:flex;flex-direction:column;}
-        .edu01ab-img{flex:1;border-radius:20px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.15);min-height:480px;}
-        .edu01ab-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
+        .edu01ab-img{flex:1;border-radius:20px;overflow:hidden;box-shadow:0 32px 80px rgba(0,0,0,0.15);min-height:480px;position:relative;}
+        .edu01ab-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .7s cubic-bezier(.2,.7,.2,1);}
+        .edu01ab-img:hover img{transform:scale(1.05);}
+        .edu01ab-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 60%,rgba(19,35,57,.22) 100%);pointer-events:none;z-index:1;}
         .edu01ab-img>*{width:100%!important;height:100%!important;position:absolute!important;inset:0!important;}
-        .edu01ab-img{position:relative;}
         /* floating experience badge */
-        .edu01ab-badge{position:absolute;bottom:32px;right:-24px;background:#fff;border-radius:16px;padding:16px 22px;box-shadow:0 12px 40px rgba(0,0,0,0.12);display:flex;align-items:center;gap:14px;z-index:2;}
-        .edu01ab-badge-circle{width:52px;height:52px;border-radius:50%;background:${BLUE};color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;font-weight:800;line-height:1;}
+        .edu01ab-badge{position:absolute;bottom:32px;right:-24px;background:#fff;border-radius:16px;padding:16px 22px;box-shadow:0 12px 40px rgba(0,0,0,0.14);display:flex;align-items:center;gap:14px;z-index:3;transition:transform .35s ease,box-shadow .35s ease;}
+        .edu01ab-badge:hover{transform:translateY(-4px);box-shadow:0 20px 52px rgba(0,89,223,.2);}
+        .edu01ab-badge-circle{width:52px;height:52px;border-radius:50%;background:linear-gradient(140deg,${BLUE},#0042a8);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;font-weight:800;line-height:1;box-shadow:0 6px 16px rgba(0,89,223,.4);}
         .edu01ab-badge-text{font-size:13px;color:#6b7280;line-height:1.4;}
         .edu01ab-badge-text strong{display:block;font-size:16px;font-weight:800;color:${NAVY};}
         /* decorative dot pattern */
         .edu01ab-dots{position:absolute;top:-20px;left:-20px;width:100px;height:100px;background-image:radial-gradient(${BLUE} 1.5px,transparent 1.5px);background-size:14px 14px;opacity:0.18;border-radius:4px;pointer-events:none;z-index:0;}
         /* RIGHT — text */
-        .edu01ab-content{display:flex;flex-direction:column;justify-content:center;}
-        .edu01ab-eyebrow{display:inline-block;color:${BLUE};font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;}
-        .edu01ab-content h2{font-family:${FONT};font-size:clamp(1.8rem,3vw,2.6rem);font-weight:800;color:${NAVY};margin:0 0 8px;letter-spacing:-0.04em;line-height:1.15;}
+        .edu01ab-content{display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+        .edu01ab-content.in{opacity:1;transform:translateY(0);}
+        .edu01ab-eyebrow{display:inline-flex;align-items:center;gap:8px;color:${BLUE};font-size:12px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:12px;}
+        .edu01ab-eyebrow::before{content:'';width:22px;height:1.5px;background:${BLUE};opacity:.5;}
+        .edu01ab-content h2{font-family:${FONT};font-size:clamp(1.8rem,3vw,2.6rem);font-weight:800;color:${NAVY};margin:0 0 10px;letter-spacing:-0.04em;line-height:1.15;}
         .edu01ab-accent{color:${BLUE};}
         .edu01ab-kicker{font-size:16px;font-weight:600;color:#374151;margin:0 0 24px;font-style:italic;}
         .edu01ab-body{font-size:15px;color:#6b7280;line-height:1.75;margin:0 0 16px;}
         /* perks list */
         .edu01ab-perks{list-style:none;margin:24px 0 32px;padding:0;display:flex;flex-direction:column;gap:10px;}
-        .edu01ab-perk{display:flex;align-items:center;gap:12px;font-size:14px;color:#374151;font-weight:500;}
-        .edu01ab-perk-icon{width:22px;height:22px;border-radius:50%;background:rgba(0,89,223,0.1);color:${BLUE};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
+        .edu01ab-perk{display:flex;align-items:center;gap:12px;font-size:14px;color:#374151;font-weight:500;transition:transform .2s ease,color .2s ease;}
+        .edu01ab-perk:hover{transform:translateX(4px);color:${NAVY};}
+        .edu01ab-perk-icon{width:22px;height:22px;border-radius:50%;background:rgba(0,89,223,0.1);color:${BLUE};display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s ease,color .2s ease;}
+        .edu01ab-perk:hover .edu01ab-perk-icon{background:${BLUE};color:#fff;}
+        .edu01ab-perk-icon svg{width:12px;height:12px;}
         /* CTA */
-        .edu01ab-cta{display:inline-flex;align-items:center;gap:8px;padding:13px 32px;background:${NAVY};color:#fff;font-family:${FONT};font-size:15px;font-weight:700;border-radius:62px;text-decoration:none;transition:background 0.15s,transform 0.15s;}
-        .edu01ab-cta:hover{background:${BLUE};transform:translateY(-2px);}
+        .edu01ab-cta{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;padding:14px 34px;background:${NAVY};color:#fff;font-family:${FONT};font-size:15px;font-weight:700;border-radius:62px;text-decoration:none;transition:background 0.2s,transform 0.2s,box-shadow .25s;}
+        .edu01ab-cta svg{transition:transform .2s;}
+        .edu01ab-cta:hover{background:${BLUE};transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,89,223,.35);}
+        .edu01ab-cta:hover svg{transform:translateX(3px);}
         @media(max-width:900px){
           .edu01ab-inner{grid-template-columns:1fr;gap:48px;}
-          .edu01ab-photo{max-width:480px;margin:0 auto;}
+          .edu01ab-photo{max-width:480px;margin:0 auto;width:100%;}
           .edu01ab-badge{right:0;}
           .edu01ab{padding:72px 24px;}
         }
+        @media(prefers-reduced-motion:reduce){.edu01ab-content{opacity:1!important;transform:none!important;}}
       `}</style>
 
       <section id={String(sectionId)} className="edu01ab" data-template="edu-01-about">
@@ -9188,18 +9503,22 @@ function AboutEdu01({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
                 <img src={imageUrl} alt={imageAlt} loading="lazy" />
               </GenericEditableImage>
             </div>
-            <div className="edu01ab-badge" aria-hidden="true">
-              <div className="edu01ab-badge-circle">10+</div>
+            <div className="edu01ab-badge">
+              <div className="edu01ab-badge-circle">
+                <GenericEditableText sectionId={sectionId} field="badgeNumber" value={badgeNumber} tag="span" />
+              </div>
               <div className="edu01ab-badge-text">
-                <strong>let zkušeností</strong>
-                ve vzdělávání
+                <GenericEditableText sectionId={sectionId} field="badgeTitle" value={badgeTitle} tag="strong" />
+                <GenericEditableText sectionId={sectionId} field="badgeText" value={badgeText} tag="span" />
               </div>
             </div>
           </div>
 
           {/* RIGHT — content */}
-          <div className="edu01ab-content">
-            <span className="edu01ab-eyebrow">O nás</span>
+          <div className={`edu01ab-content${vis ? " in" : ""}`} ref={contentRef}>
+            <span className="edu01ab-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </span>
             <h2>
               <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
             </h2>
@@ -9216,8 +9535,10 @@ function AboutEdu01({ content, sectionId, tenantSlug, isAdmin }: { content: Reco
             <ul className="edu01ab-perks">
               {perks.map((p, i) => (
                 <li key={i} className="edu01ab-perk">
-                  <span className="edu01ab-perk-icon">{p.icon}</span>
-                  {p.label}
+                  <span className="edu01ab-perk-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  </span>
+                  <GenericEditableText sectionId={sectionId} field={`perks.${i}`} value={p} tag="span" />
                 </li>
               ))}
             </ul>
@@ -9463,9 +9784,7 @@ function AboutGrooming01({ content, sectionId, tenantSlug: _t, isAdmin: _a }: { 
 
 
 // ── pethotel-01-about ─────────────────────────────────────────────────────────
-// Cream bg, 2-col layout: left = dark decorative panel with big paw SVG,
-// right = H2 + body + CTA. Below: 4 stats in a row.
-// Anchor id from content.id (default "o-nas").
+// Cream bg, 2-col: left photo rounded + right text + pill CTA. Stats strip below.
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutPethotel01({
   content,
@@ -9478,18 +9797,26 @@ function AboutPethotel01({
   tenantSlug?: string;
   isAdmin: boolean;
 }) {
-  const id       = String(content.id      ?? "o-nas");
-  const heading  = String(content.heading ?? "I my jsme pejskaři!");
-  const body     = String(content.body    ?? "");
-  const ctaText  = String(content.ctaText ?? "Poznejte nás lépe!");
+  const id = String(content.id ?? "o-nas");
+
+  const eyebrowRaw  = (content as Record<string,unknown>).eyebrow;
+  const titleRaw    = (content as Record<string,unknown>).heading;
+  const eyebrow  = eyebrowRaw  === undefined ? "Náš příběh" : String(eyebrowRaw);
+  const heading  = titleRaw    === undefined ? "Dva lidé, jedno poslání — šťastní psi" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || heading.trim());
+
+  const body     = String(content.body    ?? "Založili jsme tento kout pro pejsky, protože jsme sami zažili, jak těžké je nechat mazlíčka bez péče. Dnes se tu o ně staráme s veškerou láskou a radostí — a jejich majitelé vědí, že k nám mohou přijít s klidným srdcem.");
+  const ctaText  = String(content.ctaText ?? "Napište nám");
   const ctaHref  = String(content.ctaHref ?? "/kontakt");
+  const imageUrl = String(content.imageUrl ?? "/templates/pethotel-01/about.webp");
   const stats    = (content.stats as Array<{ value: string; label: string }>) ?? [];
 
-  const BROWN = "#712419";
-  const RED   = "#D6123D";
-  const CREAM = "#fff5ee";
-  const BEIGE = "#EEDEC3";
-  const FONT  = "'Quicksand', Arial, sans-serif";
+  const BROWN  = "#712419";
+  const RED    = "#D6123D";
+  const ACCENT = "#F9C93D";
+  const CREAM  = "#fff5ee";
+  const BEIGE  = "#EEDEC3";
+  const FONT   = "'Quicksand', Arial, sans-serif";
 
   const [visible, setVisible] = useState(false);
   const ref = useRef<HTMLElement>(null);
@@ -9502,117 +9829,79 @@ function AboutPethotel01({
     return () => obs.disconnect();
   }, []);
 
-  const BigPawSvg = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 120 120" aria-hidden="true" style={{ opacity: 0.18 }}>
-      <circle cx="36" cy="26" r="12" fill="#fff"/>
-      <circle cx="60" cy="16" r="12" fill="#fff"/>
-      <circle cx="84" cy="26" r="12" fill="#fff"/>
-      <ellipse cx="60" cy="68" rx="26" ry="22" fill="#fff"/>
-      <circle cx="46" cy="88" r="10" fill="#fff"/>
-      <circle cx="74" cy="88" r="10" fill="#fff"/>
-    </svg>
-  );
-
-  const SmallPawSvg = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 120 120" aria-hidden="true" style={{ opacity: 0.22, flexShrink: 0 }}>
-      <circle cx="36" cy="26" r="12" fill={BROWN}/>
-      <circle cx="60" cy="16" r="12" fill={BROWN}/>
-      <circle cx="84" cy="26" r="12" fill={BROWN}/>
-      <ellipse cx="60" cy="68" rx="26" ry="22" fill={BROWN}/>
-      <circle cx="46" cy="88" r="10" fill={BROWN}/>
-      <circle cx="74" cy="88" r="10" fill={BROWN}/>
-    </svg>
-  );
-
   return (
     <>
       <style>{`
-        .ph01ab { background: ${CREAM}; padding: 110px 0 0; font-family: ${FONT}; }
-        .ph01ab-inner { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+        .ph01ab { background:${CREAM}; padding:100px 0 0; font-family:${FONT}; }
+        .ph01ab-inner { max-width:1100px; margin:0 auto; padding:0 32px; }
+        .ph01ab-cols { display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; }
+        @media(max-width:768px){ .ph01ab-cols { grid-template-columns:1fr; gap:36px; } }
 
-        /* 2-col */
-        .ph01ab-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-        @media(max-width:720px){ .ph01ab-cols { grid-template-columns:1fr; gap:40px; } }
+        .ph01ab-photo { border-radius:24px; overflow:hidden; position:relative; box-shadow:0 12px 40px rgba(113,36,25,0.12); }
+        .ph01ab-photo img { width:100%; height:auto; display:block; transition:transform .6s ease; }
+        .ph01ab-photo:hover img { transform:scale(1.03); }
+        .ph01ab-photo-badge { position:absolute; bottom:20px; right:20px; background:${ACCENT}; color:${BROWN}; font-family:${FONT}; font-weight:800; font-size:14px; padding:10px 18px; border-radius:50px; box-shadow:0 4px 16px rgba(0,0,0,0.15); display:flex; align-items:center; gap:6px; }
+        .ph01ab-photo-slide { opacity:0; transform:translateX(-24px); transition:opacity .7s ease, transform .7s ease; }
+        .ph01ab-photo-slide.ph01ab-vis { opacity:1; transform:translateX(0); }
 
-        /* Left decorative panel */
-        .ph01ab-deco {
-          background: ${BROWN}; border-radius: 12px;
-          aspect-ratio: 1/1; max-width: 440px; width: 100%;
-          display: flex; align-items: center; justify-content: center;
-          position: relative; overflow: hidden;
-          opacity: 0; transform: translateX(-30px);
-          transition: opacity 0.7s ease, transform 0.7s ease;
-        }
-        .ph01ab-deco.ph01ab-vis { opacity: 1; transform: translateX(0); }
+        .ph01ab-text { opacity:0; transform:translateX(24px); transition:opacity .7s ease .12s, transform .7s ease .12s; }
+        .ph01ab-text.ph01ab-vis { opacity:1; transform:translateX(0); }
+        .ph01ab-eyebrow { font-family:${FONT}; font-size:13px; font-weight:700; color:${RED}; text-transform:uppercase; letter-spacing:0.14em; margin:0 0 14px; }
+        .ph01ab-h2 { color:${BROWN}; font-size:clamp(26px,3.2vw,42px); font-weight:800; margin:0 0 22px; line-height:1.15; font-family:${FONT}; }
+        .ph01ab-body { color:#7a5e52; font-size:clamp(15px,1.5vw,17px); font-weight:500; line-height:1.7; margin:0 0 32px; }
+        .ph01ab-cta { display:inline-flex; align-items:center; gap:8px; padding:15px 36px; background:${RED}; color:#fff; font-family:${FONT}; font-size:16px; font-weight:700; text-decoration:none; border-radius:50px; box-shadow:0 6px 20px rgba(214,18,61,0.3); transition:background .25s ease,transform .32s cubic-bezier(.34,1.56,.64,1),box-shadow .25s ease; }
+        .ph01ab-cta:hover { background:#b80d32; transform:translateY(-3px); box-shadow:0 10px 28px rgba(214,18,61,0.42); }
+        .ph01ab-cta svg { transition:transform .25s ease; }
+        .ph01ab-cta:hover svg { transform:translateX(3px); }
 
-        /* Corner paw decorations */
-        .ph01ab-deco-paw {
-          position: absolute; opacity: 0.12;
-        }
-        .ph01ab-deco-paw-tl { top: 16px; left: 16px; }
-        .ph01ab-deco-paw-br { bottom: 16px; right: 16px; transform: rotate(180deg); }
-
-        /* Right text */
-        .ph01ab-text {
-          opacity: 0; transform: translateX(30px);
-          transition: opacity 0.7s ease 0.15s, transform 0.7s ease 0.15s;
-        }
-        .ph01ab-text.ph01ab-vis { opacity: 1; transform: translateX(0); }
-        .ph01ab-label { font-size: 12px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: ${RED}; margin: 0 0 16px; display: flex; align-items: center; gap: 10px; }
-        .ph01ab-h2 { color: ${BROWN}; font-size: clamp(28px,3.5vw,46px); font-weight: 800; margin: 0 0 24px; line-height: 1.15; font-family: ${FONT}; }
-        .ph01ab-body { color: #7a4530; font-size: clamp(15px,1.6vw,18px); font-weight: 500; line-height: 1.7; margin: 0 0 36px; }
-        .ph01ab-cta {
-          display: inline-block; padding: 15px 40px; background: ${RED}; color: #fff;
-          font-family: ${FONT}; font-size: 16px; font-weight: 700;
-          text-decoration: none; border-radius: 4px; border: 2px solid ${RED};
-          transition: background 0.25s, border-color 0.25s, transform 0.2s;
-        }
-        .ph01ab-cta:hover { background: #b80d32; border-color: #b80d32; transform: translateY(-2px); }
-
-        /* Stats strip */
-        .ph01ab-stats {
-          display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
-          background: ${BEIGE}; margin-top: 80px; border-radius: 0;
-        }
-        @media(max-width:600px){ .ph01ab-stats { grid-template-columns: repeat(2,1fr); } }
-        .ph01ab-stat {
-          text-align: center; padding: 48px 24px;
-          border-right: 1px solid rgba(113,36,25,0.12);
-        }
-        .ph01ab-stat:last-child { border-right: none; }
-        .ph01ab-stat-val { display: block; font-size: clamp(28px,3.5vw,46px); font-weight: 800; color: ${RED}; font-family: ${FONT}; line-height: 1; margin-bottom: 10px; }
-        .ph01ab-stat-lbl { display: block; font-size: 14px; font-weight: 600; color: ${BROWN}; text-transform: uppercase; letter-spacing: 0.08em; }
+        .ph01ab-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:0; background:${BEIGE}; margin-top:80px; }
+        @media(max-width:600px){ .ph01ab-stats { grid-template-columns:repeat(2,1fr); } }
+        .ph01ab-stat { text-align:center; padding:48px 24px; border-right:1px solid rgba(113,36,25,0.12); transition:background .3s ease; }
+        .ph01ab-stat:last-child { border-right:none; }
+        .ph01ab-stat:hover { background:rgba(113,36,25,0.04); }
+        .ph01ab-stat-val { display:block; font-size:clamp(28px,3.5vw,44px); font-weight:800; color:${RED}; font-family:${FONT}; line-height:1; margin-bottom:10px; }
+        .ph01ab-stat-lbl { display:block; font-size:14px; font-weight:600; color:${BROWN}; text-transform:uppercase; letter-spacing:0.08em; }
       `}</style>
 
       <section id={id} className="ph01ab" data-template="pethotel-01-about" ref={ref}>
         <div className="ph01ab-inner">
-
           <div className="ph01ab-cols">
-            {/* Left: decorative dark panel with big paw */}
-            <div className={`ph01ab-deco${visible ? " ph01ab-vis" : ""}`}>
-              <div className="ph01ab-deco-paw ph01ab-deco-paw-tl"><BigPawSvg /></div>
-              <div className="ph01ab-deco-paw ph01ab-deco-paw-br"><BigPawSvg /></div>
-              <BigPawSvg />
+            {/* Left — photo */}
+            <div className={`ph01ab-photo ph01ab-photo-slide${visible ? " ph01ab-vis" : ""}`}>
+              <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt="O nás">
+                <img loading="lazy" src={imageUrl} alt="O nás" />
+              </GenericEditableImage>
+              <div className="ph01ab-photo-badge">
+                <svg width="16" height="16" viewBox="0 0 60 60" fill={BROWN} aria-hidden="true">
+                  <circle cx="18" cy="14" r="6"/><circle cx="30" cy="9" r="6"/><circle cx="42" cy="14" r="6"/>
+                  <ellipse cx="30" cy="34" rx="13" ry="11"/><circle cx="23" cy="44" r="5"/><circle cx="37" cy="44" r="5"/>
+                </svg>
+                <GenericEditableText sectionId={sectionId} field="badgeText" value={String(content.badgeText ?? "S láskou od 2009")} tag="span" />
+              </div>
             </div>
 
-            {/* Right: text */}
+            {/* Right — text */}
             <div className={`ph01ab-text${visible ? " ph01ab-vis" : ""}`}>
-              <p className="ph01ab-label">
-                <SmallPawSvg />
-                O nás
-              </p>
-              <h2 className="ph01ab-h2">
-                <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-              </h2>
+              {showHeader && (
+                <>
+                  {eyebrow.trim() && (
+                    <p className="ph01ab-eyebrow">
+                      <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                    </p>
+                  )}
+                  {heading.trim() && (
+                    <h2 className="ph01ab-h2">
+                      <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+                    </h2>
+                  )}
+                </>
+              )}
               <p className="ph01ab-body">
                 <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
               </p>
-              <a
-                href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)}
-                data-btn="primary"
-                className="ph01ab-cta"
-              >
+              <a href={resolveDemoHref(ctaHref, tenantSlug, isAdmin)} className="ph01ab-cta">
                 <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </a>
             </div>
           </div>
@@ -9632,7 +9921,6 @@ function AboutPethotel01({
               ))}
             </div>
           )}
-
         </div>
       </section>
     </>
@@ -9650,14 +9938,18 @@ function AboutUcetni02({ content, sectionId, tenantSlug, isAdmin }: { content: R
   const FONT_H = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
   const FONT_B = "'Open Sans', Arial, sans-serif";
 
-  const title      = String(content.title      ?? "Již více než 10 let");
-  const subtitle   = String(content.subtitle   ?? "Váš spolehlivý partner v oblasti daní a účetnictví");
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitle = subtitleRaw === undefined ? "Váš spolehlivý partner v oblasti daní a účetnictví" : String(subtitleRaw);
+  const title    = titleRaw    === undefined ? "Již více než 15 let po vašem boku" : String(titleRaw);
+  const showHeader = !!(subtitle.trim() || title.trim());
+
   const lead       = String(content.lead       ?? "Jsme tým zkušených daňových poradců a účetních, kteří pomáhají podnikatelům a firmám po celé České republice.");
   const body       = String(content.body       ?? "Rozšiřujeme neustále portfolio služeb o poradenství v oblasti daní, účetnictví, práva, auditu a pojištění.");
   const ctaText    = String(content.ctaText    ?? "Více o nás");
   const ctaHref    = String(content.ctaHref    ?? "/o-nas");
   const imageUrl   = String(content.imageUrl   ?? "");
-  const badgeValue = String(content.badgeValue ?? "10+");
+  const badgeValue = String(content.badgeValue ?? "15+");
   const badgeLabel = String(content.badgeLabel ?? "let zkušeností");
   const checks     = (content.checks as string[]) ?? [
     "Daňové poradenství a optimalizace",
@@ -9671,54 +9963,75 @@ function AboutUcetni02({ content, sectionId, tenantSlug, isAdmin }: { content: R
     <>
       <style>{`
         .ucn02about-section {
-          background: #f4f7f5;
-          padding: 88px 24px;
+          background: linear-gradient(180deg, #f4f7f5 0%, #eef3f0 100%);
+          padding: 100px 24px;
           font-family: ${FONT_B};
+          overflow: hidden;
         }
         .ucn02about-inner {
           max-width: 1200px;
           margin: 0 auto;
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 72px;
+          gap: 84px;
           align-items: center;
         }
         /* Photo side */
+        .ucn02about-media {
+          position: relative;
+          animation: ucn02Up 0.8s cubic-bezier(.22,.61,.36,1) both;
+        }
+        /* offset gold outline frame behind photo */
+        .ucn02about-media::before {
+          content: "";
+          position: absolute;
+          top: 20px; left: -20px;
+          width: 100%; height: 100%;
+          border: 2px solid ${GOLD};
+          border-radius: 12px;
+          z-index: 0;
+          pointer-events: none;
+        }
         .ucn02about-img-wrap {
           position: relative;
+          z-index: 1;
           border-radius: 12px;
           overflow: hidden;
           aspect-ratio: 4/3;
           background: #d8e8e3;
-          flex-shrink: 0;
+          box-shadow: 0 24px 54px rgba(0,32,24,0.2);
         }
         .ucn02about-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
           display: block;
+          transition: transform 0.7s cubic-bezier(.22,.61,.36,1);
         }
+        .ucn02about-media:hover .ucn02about-img { transform: scale(1.05); }
         .ucn02about-badge {
           position: absolute;
           bottom: 24px;
           right: 24px;
+          z-index: 2;
           background: ${GREEN};
           color: #fff;
           font-family: ${FONT_H};
-          font-size: 0.82rem;
+          font-size: 0.78rem;
           font-weight: 600;
-          padding: 12px 18px;
+          padding: 16px 22px;
           border-radius: 8px;
+          border-left: 3px solid ${GOLD};
           display: flex;
           flex-direction: column;
           align-items: center;
-          gap: 2px;
+          gap: 3px;
           text-align: center;
-          box-shadow: 0 8px 24px rgba(0,72,53,0.3);
+          box-shadow: 0 16px 34px rgba(0,72,53,0.34);
         }
         .ucn02about-badge-num {
-          font-size: 1.5rem;
-          font-weight: 700;
+          font-size: 1.7rem;
+          font-weight: 800;
           color: ${GOLD};
           line-height: 1;
         }
@@ -9762,68 +10075,89 @@ function AboutUcetni02({ content, sectionId, tenantSlug, isAdmin }: { content: R
           line-height: 1.8;
           margin: 0 0 36px 0;
         }
+        .ucn02about-text { animation: ucn02Up 0.8s cubic-bezier(.22,.61,.36,1) 0.12s both; }
         .ucn02about-cta {
+          position: relative;
           display: inline-flex;
           align-items: center;
-          gap: 10px;
-          padding: 14px 28px;
+          gap: 11px;
+          padding: 15px 30px;
           background: ${GOLD};
           color: #fff;
           font-family: ${FONT_H};
           font-size: 0.875rem;
-          font-weight: 600;
+          font-weight: 700;
           letter-spacing: 0.5px;
           text-decoration: none;
-          border-radius: 4px;
+          border-radius: 3px;
           text-transform: uppercase;
-          transition: background 0.2s, transform 0.15s;
+          overflow: hidden;
+          box-shadow: 0 10px 26px rgba(188,161,96,0.3);
+          transition: background 0.3s ease, transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease;
         }
-        .ucn02about-cta:hover { background: #a9904d; transform: translateY(-1px); }
+        .ucn02about-cta::before {
+          content: "";
+          position: absolute;
+          top: 0; left: -120%;
+          width: 55%; height: 100%;
+          background: linear-gradient(100deg, transparent, rgba(255,255,255,0.5), transparent);
+          transition: left 0.65s ease;
+        }
+        .ucn02about-cta svg { transition: transform 0.3s ease; }
+        .ucn02about-cta:hover { background: #a9904d; transform: translateY(-2px); box-shadow: 0 16px 34px rgba(188,161,96,0.42); }
+        .ucn02about-cta:hover::before { left: 130%; }
+        .ucn02about-cta:hover svg { transform: translateX(4px); }
         /* Checkmarks */
         .ucn02about-checks {
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: 12px;
           margin-bottom: 36px;
         }
         .ucn02about-check {
           display: flex;
           align-items: flex-start;
-          gap: 10px;
-          font-size: 0.92rem;
+          gap: 12px;
+          font-size: 0.94rem;
+          font-weight: 500;
           color: #2d3d38;
           line-height: 1.5;
         }
         .ucn02about-check-icon {
-          width: 18px;
-          height: 18px;
+          width: 20px;
+          height: 20px;
           border-radius: 50%;
           background: ${GREEN};
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          margin-top: 2px;
+          margin-top: 1px;
+          transition: background 0.25s ease, transform 0.25s ease;
         }
+        .ucn02about-check:hover .ucn02about-check-icon { background: ${GOLD}; transform: scale(1.12); }
         @media (max-width: 900px) {
-          .ucn02about-inner { grid-template-columns: 1fr; gap: 40px; }
-          .ucn02about-section { padding: 56px 20px; }
+          .ucn02about-inner { grid-template-columns: 1fr; gap: 52px; }
+          .ucn02about-section { padding: 64px 20px; }
+          .ucn02about-media::before { top: 14px; left: -12px; }
         }
       `}</style>
 
       <section className="ucn02about-section" data-template="ucetni-02-about">
         <div className="ucn02about-inner">
           {/* Left: photo */}
-          <div className="ucn02about-img-wrap">
-            {imageUrl ? (
-              <img src={imageUrl} alt="" className="ucn02about-img" loading="lazy" />
-            ) : (
-              <div style={{ width: "100%", height: "100%", background: "#d8e8e3", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="1.5" aria-hidden="true">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                </svg>
-              </div>
-            )}
+          <div className="ucn02about-media">
+            <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt="" className="ucn02about-img-wrap">
+              {imageUrl ? (
+                <img src={imageUrl} alt="" className="ucn02about-img" loading="lazy" />
+              ) : (
+                <div style={{ width: "100%", height: "100%", background: "#d8e8e3", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="1.5" aria-hidden="true">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                  </svg>
+                </div>
+              )}
+            </GenericEditableImage>
             <div className="ucn02about-badge">
               <span className="ucn02about-badge-num">
                 <GenericEditableText sectionId={sectionId} field="badgeValue" value={badgeValue} tag="span" />
@@ -9835,14 +10169,22 @@ function AboutUcetni02({ content, sectionId, tenantSlug, isAdmin }: { content: R
           </div>
 
           {/* Right: text */}
-          <div>
-            <div className="ucn02about-kicker">
-              <span className="ucn02about-kicker-bar" aria-hidden />
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </div>
-            <h2 className="ucn02about-h2">
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
+          <div className="ucn02about-text">
+            {showHeader && (
+              <>
+                {subtitle.trim() && (
+                  <div className="ucn02about-kicker">
+                    <span className="ucn02about-kicker-bar" aria-hidden />
+                    <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+                  </div>
+                )}
+                {title.trim() && (
+                  <h2 className="ucn02about-h2">
+                    <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                  </h2>
+                )}
+              </>
+            )}
             <p className="ucn02about-lead">
               <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
             </p>
@@ -9885,23 +10227,42 @@ function AboutUcetni03({ content, sectionId, tenantSlug, isAdmin }: { content: R
   const FONT_H = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
   const FONT_B = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
 
-  const title    = String(content.title    ?? "Jsme tým sehraných profesionálů");
-  const subtitle = String(content.subtitle ?? "Rádi vám poradíme zdarma");
-  const lead     = String(content.lead     ?? "Demo Hypoteční Poradce je největší hypoteční zprostředkovatel v České republice s více než 20 lety zkušeností na trhu.");
-  const body     = String(content.body     ?? "Naši poradci vám bezplatně pomohou vybrat nejvýhodnější hypotéku, připravit všechnu potřebnou dokumentaci a vyjednat nejlepší podmínky s bankami.");
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "" : String(eyebrowRaw);
+  const subtitle = subtitleRaw === undefined ? "Rádi vám poradíme zdarma" : String(subtitleRaw);
+  const title    = titleRaw    === undefined ? "Jsme tým sehraných profesionálů" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || subtitle.trim() || title.trim());
+
+  const lead     = String(content.lead     ?? "FinHypotéky je nezávislý hypoteční zprostředkovatel s více než 15 lety zkušeností. Spolupracujeme s 22 bankami a stavebními spořitelnami v ČR.");
+  const body     = String(content.body     ?? "Každý klient je pro nás jedinečný. Proto připravujeme řešení přesně na míru — ať jde o první hypotéku, refinancování nebo investiční nemovitost.");
   const ctaText  = String(content.ctaText  ?? "Více o nás");
   const ctaHref  = String(content.ctaHref  ?? "/o-nas");
   const imageUrl = String(content.imageUrl ?? "");
+  const badgeText = String(content.badgeText ?? "15+ let na trhu");
 
   const resolvedHref = resolveDemoHref(ctaHref, tenantSlug, isAdmin);
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect(); } }, { threshold: 0.15 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <>
       <style>{`
         .ucn03about-section {
-          background: #ffffff;
-          padding: 88px 40px;
+          position: relative;
+          background: linear-gradient(180deg, #ffffff 0%, #f9faf9 100%);
+          padding: 96px 40px;
           font-family: ${FONT_B};
+          overflow: hidden;
         }
         .ucn03about-inner {
           max-width: 1200px;
@@ -9911,14 +10272,32 @@ function AboutUcetni03({ content, sectionId, tenantSlug, isAdmin }: { content: R
           gap: 72px;
           align-items: center;
         }
+        .ucn03about-text {
+          opacity: 0;
+          transform: translateY(24px);
+          transition: opacity 0.6s ease, transform 0.6s cubic-bezier(.22,.68,0,1);
+        }
+        .ucn03about-section.vis .ucn03about-text {
+          opacity: 1;
+          transform: none;
+        }
         .ucn03about-kicker {
-          display: inline-block;
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          font-family: ${FONT_H};
           font-size: 0.78rem;
           font-weight: 700;
-          letter-spacing: 1.5px;
+          letter-spacing: 2.5px;
           text-transform: uppercase;
           color: ${GREEN};
-          margin-bottom: 12px;
+          margin-bottom: 14px;
+        }
+        .ucn03about-kicker::before {
+          content: '';
+          width: 28px; height: 1.5px;
+          background: ${GREEN};
+          opacity: 0.5;
         }
         .ucn03about-h2 {
           font-family: ${FONT_H};
@@ -9927,12 +10306,13 @@ function AboutUcetni03({ content, sectionId, tenantSlug, isAdmin }: { content: R
           color: ${DARK};
           line-height: 1.15;
           margin: 0 0 24px 0;
+          letter-spacing: -0.3px;
         }
         .ucn03about-lead {
           font-size: 1.05rem;
           font-weight: 600;
           color: #3c3d3d;
-          line-height: 1.65;
+          line-height: 1.7;
           margin: 0 0 16px 0;
         }
         .ucn03about-body {
@@ -9942,6 +10322,9 @@ function AboutUcetni03({ content, sectionId, tenantSlug, isAdmin }: { content: R
           margin: 0 0 36px 0;
         }
         .ucn03about-cta {
+          position: relative;
+          overflow: hidden;
+          isolation: isolate;
           display: inline-flex;
           align-items: center;
           gap: 8px;
@@ -9953,12 +10336,35 @@ function AboutUcetni03({ content, sectionId, tenantSlug, isAdmin }: { content: R
           font-weight: 700;
           text-decoration: none;
           border-radius: 6px;
-          transition: background 0.2s, transform 0.15s;
+          transition: transform 0.35s cubic-bezier(.22,.68,0,1), box-shadow 0.35s ease, background 0.2s;
         }
-        .ucn03about-cta:hover { background: #9dd44a; transform: translateY(-1px); }
+        .ucn03about-cta > * { position: relative; z-index: 2; }
+        .ucn03about-cta::before {
+          content: '';
+          position: absolute; top: 0; left: -130%;
+          width: 55%; height: 100%; z-index: 1;
+          background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent);
+          transform: skewX(-18deg);
+          transition: left 0.6s cubic-bezier(.22,.68,0,1);
+          pointer-events: none;
+        }
+        .ucn03about-cta:hover::before { left: 135%; }
+        .ucn03about-cta:hover { background: #9dd44a; transform: translateY(-2px); box-shadow: 0 12px 28px -8px rgba(142,198,63,0.6); }
+        .ucn03about-cta svg { transition: transform 0.3s cubic-bezier(.22,.68,0,1); }
+        .ucn03about-cta:hover svg { transform: translateX(4px); }
+        .ucn03about-media {
+          position: relative;
+          opacity: 0;
+          transform: translateY(24px);
+          transition: opacity 0.6s ease 0.12s, transform 0.6s cubic-bezier(.22,.68,0,1) 0.12s;
+        }
+        .ucn03about-section.vis .ucn03about-media {
+          opacity: 1;
+          transform: none;
+        }
         .ucn03about-img-wrap {
           position: relative;
-          border-radius: 12px;
+          border-radius: 14px;
           overflow: hidden;
           aspect-ratio: 4/3;
           background: #f0f7e6;
@@ -9968,21 +10374,34 @@ function AboutUcetni03({ content, sectionId, tenantSlug, isAdmin }: { content: R
           height: 100%;
           object-fit: cover;
           display: block;
+          transition: transform 0.6s cubic-bezier(.22,.68,0,1), filter 0.4s ease;
+        }
+        .ucn03about-img-wrap:hover .ucn03about-img {
+          transform: scale(1.04);
+          filter: brightness(1.05);
         }
         .ucn03about-img-badge {
           position: absolute;
-          bottom: 24px;
-          left: 24px;
-          background: ${DARK};
+          bottom: 20px;
+          left: 20px;
+          background: rgba(0,32,0,0.88);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
           color: #fff;
           font-family: ${FONT_H};
           font-size: 0.82rem;
           font-weight: 600;
-          padding: 10px 16px;
-          border-radius: 8px;
+          padding: 10px 18px;
+          border-radius: 10px;
           display: flex;
           align-items: center;
           gap: 8px;
+          border: 1px solid rgba(142,198,63,0.25);
+          transition: transform 0.35s cubic-bezier(.22,.68,0,1), box-shadow 0.3s ease;
+        }
+        .ucn03about-img-wrap:hover .ucn03about-img-badge {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.25);
         }
         .ucn03about-img-badge-dot {
           width: 8px;
@@ -9990,23 +10409,43 @@ function AboutUcetni03({ content, sectionId, tenantSlug, isAdmin }: { content: R
           border-radius: 50%;
           background: ${GREEN};
           flex-shrink: 0;
+          animation: ucn03aboutPulse 2s ease-in-out infinite;
         }
+        @keyframes ucn03aboutPulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.6; transform: scale(1.3); }
+        }
+        /* decorative corner accent */
+        .ucn03about-img-wrap::after {
+          content: '';
+          position: absolute;
+          top: -1px; right: -1px;
+          width: 80px; height: 80px;
+          background: linear-gradient(225deg, ${GREEN} 0%, transparent 60%);
+          opacity: 0.3;
+          pointer-events: none;
+          transition: opacity 0.3s ease;
+        }
+        .ucn03about-img-wrap:hover::after { opacity: 0.5; }
         @media (max-width: 900px) {
           .ucn03about-inner { grid-template-columns: 1fr; gap: 40px; }
           .ucn03about-section { padding: 64px 20px; }
         }
       `}</style>
 
-      <section className="ucn03about-section" data-template="ucetni-03-about">
+      <section className={`ucn03about-section${vis ? " vis" : ""}`} data-template="ucetni-03-about" id="about" ref={sectionRef}>
         <div className="ucn03about-inner">
-          {/* Left: text */}
-          <div>
-            <span className="ucn03about-kicker">
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-            </span>
-            <h2 className="ucn03about-h2">
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
+          <div className="ucn03about-text">
+            {showHeader && subtitle.trim() && (
+              <div className="ucn03about-kicker">
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </div>
+            )}
+            {showHeader && title.trim() && (
+              <h2 className="ucn03about-h2">
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
             <p className="ucn03about-lead">
               <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
             </p>
@@ -10019,18 +10458,19 @@ function AboutUcetni03({ content, sectionId, tenantSlug, isAdmin }: { content: R
             </a>
           </div>
 
-          {/* Right: photo */}
-          <div className="ucn03about-img-wrap">
-            {imageUrl ? (
-              <img src={imageUrl} alt="" className="ucn03about-img" loading="lazy" />
-            ) : (
-              <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg, #e8f4d4 0%, #c8e89a 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="1.5" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <div className="ucn03about-media">
+            <div className="ucn03about-img-wrap">
+              <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={title} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} className="ucn03about-img">
+                {!imageUrl && (
+                  <div style={{ width: "100%", height: "100%", background: "linear-gradient(135deg, #e8f4d4 0%, #c8e89a 100%)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="1.5" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  </div>
+                )}
+              </GenericEditableImage>
+              <div className="ucn03about-img-badge">
+                <span className="ucn03about-img-badge-dot" aria-hidden="true" />
+                <GenericEditableText sectionId={sectionId} field="badgeText" value={badgeText} tag="span" />
               </div>
-            )}
-            <div className="ucn03about-img-badge">
-              <span className="ucn03about-img-badge-dot" aria-hidden="true" />
-              20+ let na trhu
             </div>
           </div>
         </div>
@@ -10206,6 +10646,7 @@ function AboutUcetni01({ content, sectionId, tenantSlug, isAdmin }: { content: R
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutArch01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const heading    = String(content.heading    ?? "ARCHITEKTA | ateliér");
+  const tagline    = String(content.tagline    ?? "");
   const body       = String(content.body       ?? "");
   const ctaText    = String(content.ctaText    ?? "Objevte více");
   const ctaHref    = String(content.ctaHref    ?? "/atelier");
@@ -10215,6 +10656,19 @@ function AboutArch01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
   const WHITE = "#ffffff";
 
   const resolvedCta = resolveDemoHref(ctaHref, tenantSlug, isAdmin);
+
+  // Scroll-reveal — obsah nabíhá zdola když sekce vstoupí do viewportu
+  const secRef = useRef<HTMLElement | null>(null);
+  const [revealed, setRevealed] = useState(false);
+  useEffect(() => {
+    const el = secRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { setRevealed(true); io.disconnect(); } });
+    }, { threshold: 0.28 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const styles = `
     .a01ab {
@@ -10255,12 +10709,36 @@ function AboutArch01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
       .a01ab-inner { width: 92%; }
       .a01ab-bg { background-attachment: scroll; }
     }
+    /* Scroll-reveal — jemný stagger obsahu */
+    .a01ab-inner > * {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1), transform 0.9s cubic-bezier(0.16,1,0.3,1);
+    }
+    .a01ab.a01ab-in .a01ab-inner > * { opacity: 1; transform: none; }
+    .a01ab.a01ab-in .a01ab-inner > *:nth-child(2) { transition-delay: 0.1s; }
+    .a01ab.a01ab-in .a01ab-inner > *:nth-child(3) { transition-delay: 0.2s; }
+    .a01ab.a01ab-in .a01ab-inner > *:nth-child(4) { transition-delay: 0.3s; }
+    .a01ab.a01ab-in .a01ab-inner > *:nth-child(5) { transition-delay: 0.4s; }
+    @media (prefers-reduced-motion: reduce) {
+      .a01ab-inner > * { opacity: 1; transform: none; transition: none; }
+    }
+    .a01ab-eyebrow {
+      display: block;
+      font-family: ${FONT};
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.72);
+      margin: 0 0 22px;
+    }
     .a01ab-heading {
       font-family: ${FONT};
       font-size: clamp(22px, 3vw, 42px);
       font-weight: 400;
       color: ${WHITE};
-      margin: 0 0 28px;
+      margin: 0 0 26px;
       letter-spacing: 0.04em;
       line-height: 1.2;
     }
@@ -10269,6 +10747,15 @@ function AboutArch01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
       position: relative;
       top: -1px;
     }
+    /* Decorative hairline — architektonický detail, rozšíří se při revealu */
+    .a01ab-rule {
+      width: 0;
+      height: 1px;
+      background: rgba(255,255,255,0.55);
+      margin: 0 auto 28px;
+      transition: width 1.1s cubic-bezier(0.16,1,0.3,1) 0.35s;
+    }
+    .a01ab.a01ab-in .a01ab-rule { width: 56px; }
     .a01ab-body {
       font-family: ${FONT};
       font-size: clamp(14px, 1.5vw, 17px);
@@ -10278,7 +10765,9 @@ function AboutArch01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
       margin: 0 0 36px;
     }
     .a01ab-cta {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
       padding: 12px 40px;
       border: 1px solid rgba(255,255,255,0.7);
       color: ${WHITE};
@@ -10288,15 +10777,26 @@ function AboutArch01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
       letter-spacing: 0.2em;
       text-transform: uppercase;
       text-decoration: none;
-      transition: background 0.2s, border-color 0.2s;
+      transition: background 0.35s cubic-bezier(0.4,0,0.2,1), border-color 0.35s, letter-spacing 0.5s cubic-bezier(0.16,1,0.3,1);
     }
-    .a01ab-cta:hover { background: rgba(255,255,255,0.12); border-color: ${WHITE}; }
+    .a01ab-cta .a01ab-cta-arrow {
+      display: inline-block;
+      transform: translateX(-4px);
+      opacity: 0.75;
+      transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s;
+    }
+    .a01ab-cta:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: ${WHITE};
+      letter-spacing: 0.24em;
+    }
+    .a01ab-cta:hover .a01ab-cta-arrow { transform: translateX(2px); opacity: 1; }
   `;
 
   return (
     <>
       <style>{styles}</style>
-      <section className="a01ab" data-template="arch-01-about">
+      <section ref={secRef} className={`a01ab${revealed ? " a01ab-in" : ""}`} data-template="arch-01-about">
         <GenericEditableImage
           sectionId={sectionId}
           field="imageUrl"
@@ -10314,9 +10814,13 @@ function AboutArch01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
         <div className="a01ab-grad" aria-hidden="true" />
 
         <div className="a01ab-inner">
+          {tagline && (
+            <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" className="a01ab-eyebrow" />
+          )}
           <h2 className="a01ab-heading">
             <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
           </h2>
+          <div className="a01ab-rule" aria-hidden="true" />
           {body && (
             <p className="a01ab-body">
               <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
@@ -10324,6 +10828,7 @@ function AboutArch01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
           )}
           <a href={resolvedCta} className="a01ab-cta">
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <span className="a01ab-cta-arrow" aria-hidden="true">→</span>
           </a>
         </div>
       </section>
@@ -10332,12 +10837,10 @@ function AboutArch01({ content, sectionId, tenantSlug, isAdmin }: { content: Rec
 }
 
 // ── ucetni-04-about ───────────────────────────────────────────────────────────
-// 1:1 bcas.cz photoText:
-// - full-width foto (min-height 30em, object-fit cover)
-// - absolutně pozicovaný bílý content-card vpravo: padding clamp(32px,4vw,40px),
-//   max-width 30.75em, flex col, gap 1.5rem
-// - eyebrow (navy uppercase), H2 (dark bold), 2x body text (muted), CTA btn (navy)
-// - slide-in zleva + fade animace při vstupu do viewportu
+// „Prosperita Finance" — about 2-col editorial LUXE.
+//   Vlevo: foto v offset gold-outline rámu + floating „nezávislost" badge, hover zoom.
+//   Vpravo: gold eyebrow, navy H2, lead body1 + body2, values checklist (gold checks), CTA shimmer.
+//   navy #1B3A6B + gold #C8923A + Inter. Conditional header · resolveNavHref + siteMode.
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutUcetni04({ content, sectionId, tenantSlug, isAdmin }: {
   content: Record<string, unknown>;
@@ -10345,18 +10848,32 @@ function AboutUcetni04({ content, sectionId, tenantSlug, isAdmin }: {
   tenantSlug?: string;
   isAdmin: boolean;
 }) {
-  const NAVY  = "#003366";
-  const DARK  = "#171F22";
-  const MUTED = "#486A72";
-  const FONT  = "'Plus Jakarta Sans', Arial, 'Helvetica Neue', sans-serif";
+  const NAVY  = "#1B3A6B";
+  const GOLD  = "#C8923A";
+  const DARK  = "#1a2332";
+  const MUTED = "#5b6472";
+  const FONT  = "'Inter', 'Helvetica Neue', Arial, sans-serif";
+  const siteMode = String((content as Record<string, unknown>).siteMode ?? "multipage");
 
-  const kicker  = String(content.kicker  ?? "O nás");
-  const heading = String(content.heading ?? "Když finance a reality tvoří jeden celek");
-  const body1   = String(content.body1   ?? "V životě všechno souvisí – nové bydlení, zajištění rodiny, spoření na penzi. Naši konzultanti vás provázejí všemi životními etapami a hledají řešení na míru vašim potřebám a možnostem.");
-  const body2   = String(content.body2   ?? "Nejsme vázáni jedním poskytovatelem. Naším cílem není prodat konkrétní produkt, ale porozumět vašim potřebám a najít to nejlepší řešení z celého trhu.");
-  const ctaText = String(content.ctaText ?? "Zjistit více o nás");
+  const kickerRaw  = (content as Record<string, unknown>).kicker;
+  const headingRaw = (content as Record<string, unknown>).heading;
+  const kicker  = kickerRaw  === undefined ? "O nás" : String(kickerRaw);
+  const heading = headingRaw === undefined ? "Nezávislost, která se vyplácí" : String(headingRaw);
+  const showHeader = !!(kicker.trim() || heading.trim());
+  const body1   = String(content.body1   ?? "Prosperita Finance vznikla s jedním cílem: dávat lidem přístup ke kvalitnímu finančnímu poradenství bez střetu zájmů. Nejsme svázáni žádnou bankou ani pojišťovnou – porovnáváme celý trh a doporučujeme to, co je nejlepší pro vás.");
+  const body2   = String(content.body2   ?? "Náš tým tvoří zkušení poradci s licencí ČNB, kteří jsou k dispozici osobně i online. Věříme, že dobrý poradce se pozná podle toho, jak moc mu záleží na výsledku klienta – ne na výši provize.");
+  const ctaText = String(content.ctaText ?? "Poznejte náš tým");
   const ctaHref = String(content.ctaHref ?? "/o-nas");
   const imageUrl = String(content.imageUrl ?? "/templates/ucetni-04/about.webp");
+  const imageAlt = String(content.imageAlt ?? "Tým finančních poradců Prosperita Finance");
+  const badgeValue = String(content.badgeValue ?? "100%");
+  const badgeLabel = String(content.badgeLabel ?? "nezávislé poradenství");
+  const rawValues = Array.isArray(content.values) ? content.values as string[] : [];
+  const values = rawValues.length > 0 ? rawValues : [
+    "Srovnání nabídek z celého trhu",
+    "Bez skrytých provizí a poplatků",
+    "Osobní poradce po celou dobu",
+  ];
 
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
@@ -10368,137 +10885,121 @@ function AboutUcetni04({ content, sectionId, tenantSlug, isAdmin }: {
     return () => obs.disconnect();
   }, []);
 
-  const resolve = (href: string) => {
-    if (!href.startsWith("#") && tenantSlug) {
-      return isAdmin ? `/demo/${tenantSlug}${href}/admin` : `/demo/${tenantSlug}${href}`;
-    }
-    return href;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const IconCheck = () => (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+  );
 
   return (
     <>
       <style>{`
-        .ucn04about {
-          position: relative;
-          padding: 8px 0;
-          font-family: ${FONT};
-          overflow: hidden;
+        .ucn04about { position: relative; background: #fff; font-family: ${FONT}; overflow: hidden; }
+        .ucn04about-inner {
+          max-width: 1200px; margin: 0 auto; padding: clamp(64px,8vw,104px) 24px;
+          display: grid; grid-template-columns: 0.92fr 1.08fr; gap: clamp(44px,6vw,84px); align-items: center;
         }
-        .ucn04about-img {
-          width: 100%;
-          min-height: 30em;
-          height: clamp(420px, 55vw, 680px);
-          object-fit: cover;
-          display: block;
-          filter: saturate(85%);
+        /* Media */
+        .ucn04about-media { position: relative; opacity: 0; transform: translateX(-32px); transition: opacity .8s cubic-bezier(.22,.68,0,1), transform .8s cubic-bezier(.22,.68,0,1); }
+        .ucn04about-media.vis { opacity: 1; transform: translateX(0); }
+        .ucn04about-frame { position: relative; border-radius: 20px; overflow: hidden; aspect-ratio: 4/5;
+          box-shadow: 0 34px 70px -28px rgba(20,41,77,0.42); z-index: 2; }
+        .ucn04about-frame img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.2s cubic-bezier(.22,.68,0,1); }
+        .ucn04about-media:hover .ucn04about-frame img { transform: scale(1.05); }
+        .ucn04about-outline { position: absolute; top: 22px; left: 22px; right: -22px; bottom: -22px; border-radius: 20px;
+          border: 1.5px solid rgba(200,146,58,0.5); z-index: 1; pointer-events: none; }
+        .ucn04about-badge {
+          position: absolute; right: -18px; bottom: 34px; z-index: 3;
+          background: linear-gradient(140deg, ${NAVY}, #14294d); color: #fff; border-radius: 16px; padding: 18px 22px;
+          box-shadow: 0 22px 44px -14px rgba(0,0,0,0.5); border-left: 3px solid ${GOLD};
+          animation: ucn04AbFloat 5.5s ease-in-out infinite;
         }
-        .ucn04about-overlay {
-          position: absolute;
-          inset: 8px 0 8px 0;
-          display: flex;
-          justify-content: flex-end;
-          align-items: center;
-          padding: clamp(24px, 4vw, 48px);
-        }
-        .ucn04about-card {
-          background: white;
-          padding: clamp(28px, 4vw, 40px);
-          max-width: 30.75em;
-          width: 100%;
-          display: flex;
-          flex-direction: column;
-          gap: 1.25rem;
-          opacity: 0;
-          transform: translateX(40px);
-          transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .ucn04about-card.ucn04about-vis {
-          opacity: 1;
-          transform: translateX(0);
-        }
-        .ucn04about-kicker {
-          font-size: 12px;
-          font-weight: 600;
-          color: ${NAVY};
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          margin: 0;
-        }
-        .ucn04about-h2 {
-          font-size: clamp(20px, 2.2vw, 28px);
-          font-weight: 700;
-          color: ${DARK};
-          letter-spacing: -0.02em;
-          line-height: 1.25;
-          margin: 0;
-        }
-        .ucn04about-body {
-          font-size: 15px;
-          color: ${MUTED};
-          line-height: 1.65;
-          margin: 0;
-          display: flex;
-          flex-direction: column;
-          gap: 0.75em;
-        }
+        .ucn04about-badge-val { font-size: 30px; font-weight: 800; color: ${GOLD}; line-height: 1; letter-spacing: -0.02em; }
+        .ucn04about-badge-lbl { font-size: 12px; color: rgba(255,255,255,0.78); margin-top: 5px; max-width: 12em; line-height: 1.3; }
+        @keyframes ucn04AbFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        /* Content */
+        .ucn04about-cont { max-width: 40em; }
+        .ucn04about-kicker { display: inline-flex; align-items: center; gap: 9px; font-size: 12.5px; font-weight: 700;
+          letter-spacing: .16em; text-transform: uppercase; color: ${GOLD}; margin: 0 0 16px; }
+        .ucn04about-kicker::before { content: ""; width: 26px; height: 1px; background: rgba(200,146,58,0.55); }
+        .ucn04about-h2 { font-family: ${FONT}; font-size: clamp(26px,3.2vw,42px); font-weight: 800; color: ${NAVY}; letter-spacing: -0.03em; line-height: 1.14; margin: 0 0 22px; }
+        .ucn04about-body { font-size: clamp(15px,1.5vw,16.5px); color: ${MUTED}; line-height: 1.72; margin: 0; display: flex; flex-direction: column; gap: 1em; }
+        .ucn04about-body .lead { color: ${DARK}; font-weight: 500; font-size: clamp(16px,1.6vw,18px); }
+        .ucn04about-values { list-style: none; margin: 26px 0 32px; padding: 0; display: grid; gap: 13px; }
+        .ucn04about-value { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 600; color: ${DARK}; }
+        .ucn04about-value-ic { width: 24px; height: 24px; border-radius: 7px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
+          background: rgba(200,146,58,0.14); color: ${GOLD}; }
         .ucn04about-cta {
-          display: inline-flex;
-          align-items: center;
-          padding: 12px 24px;
-          background: ${NAVY};
-          color: white;
-          font-size: 14px;
-          font-weight: 600;
-          font-family: ${FONT};
-          border-radius: 2px;
-          text-decoration: none;
-          align-self: flex-start;
-          transition: background 0.15s;
+          position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 9px; align-self: flex-start;
+          padding: 15px 30px; background: ${GOLD}; color: #fff; font-size: 15px; font-weight: 700; border-radius: 999px;
+          text-decoration: none; box-shadow: 0 10px 26px rgba(200,146,58,0.3);
+          transition: transform .3s cubic-bezier(.34,1.4,.5,1), box-shadow .3s;
         }
-        .ucn04about-cta:hover { background: #002244; }
-        @media (max-width: 768px) {
-          .ucn04about-overlay {
-            position: static;
-            padding: 24px 16px;
-            justify-content: stretch;
-          }
-          .ucn04about-card {
-            max-width: 100%;
-            opacity: 1;
-            transform: none;
-          }
+        .ucn04about-cta::before { content: ""; position: absolute; top: 0; left: -120%; width: 70%; height: 100%;
+          background: linear-gradient(100deg, transparent, rgba(255,255,255,0.5), transparent); transform: skewX(-18deg); }
+        .ucn04about-cta:hover { transform: translateY(-3px); box-shadow: 0 16px 34px rgba(200,146,58,0.44); }
+        .ucn04about-cta:hover::before { left: 130%; transition: left .7s ease; }
+        .ucn04about-cta svg { transition: transform .3s; }
+        .ucn04about-cta:hover svg { transform: translateX(4px); }
+        @media (max-width: 900px) {
+          .ucn04about-inner { grid-template-columns: 1fr; gap: 52px; }
+          .ucn04about-media { max-width: 440px; margin: 0 auto; width: 100%; opacity: 1; transform: none; }
+          .ucn04about-outline { right: 0; }
+          .ucn04about-badge { right: 12px; }
         }
       `}</style>
-      <section ref={sectionRef} className="ucn04about" data-template="ucetni-04-about">
-        <GenericEditableImage
-          sectionId={sectionId}
-          field="imageUrl"
-          src={imageUrl}
-          alt=""
-          className="ucn04about-img-wrap"
-          style={{ display: "block", position: "relative" }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img loading="lazy" src={imageUrl} alt="" className="ucn04about-img" />
-        </GenericEditableImage>
-        <div className="ucn04about-overlay">
-          <div className={`ucn04about-card${visible ? " ucn04about-vis" : ""}`}>
-            <p className="ucn04about-kicker">
-              <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
-            </p>
-            <h2 className="ucn04about-h2">
-              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-            </h2>
+      <section ref={sectionRef} className="ucn04about" data-template="ucetni-04-about" id="o-nas">
+        <div className="ucn04about-inner">
+          {/* Media */}
+          <div className={`ucn04about-media${visible ? " vis" : ""}`}>
+            <div className="ucn04about-outline" aria-hidden="true" />
+            <div className="ucn04about-frame">
+              <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={imageAlt} style={{ display: "block", width: "100%", height: "100%" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img loading="lazy" src={imageUrl} alt={imageAlt} />
+              </GenericEditableImage>
+            </div>
+            <div className="ucn04about-badge">
+              <div className="ucn04about-badge-val"><GenericEditableText sectionId={sectionId} field="badgeValue" value={badgeValue} tag="span" /></div>
+              <div className="ucn04about-badge-lbl"><GenericEditableText sectionId={sectionId} field="badgeLabel" value={badgeLabel} tag="span" /></div>
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className="ucn04about-cont">
+            {showHeader && (
+              <>
+                {kicker.trim() && (
+                  <p className="ucn04about-kicker">
+                    <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
+                  </p>
+                )}
+                {heading.trim() && (
+                  <h2 className="ucn04about-h2">
+                    <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+                  </h2>
+                )}
+              </>
+            )}
             <div className="ucn04about-body">
-              <span>
+              <span className="lead">
                 <GenericEditableText sectionId={sectionId} field="body1" value={body1} tag="span" />
               </span>
               <span>
                 <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
               </span>
             </div>
+            <ul className="ucn04about-values">
+              {values.map((v, i) => (
+                <li className="ucn04about-value" key={i}>
+                  <span className="ucn04about-value-ic"><IconCheck /></span>
+                  <GenericEditableText sectionId={sectionId} field={`values.${i}`} value={String(v)} tag="span" />
+                </li>
+              ))}
+            </ul>
             <a href={resolve(ctaHref)} data-btn="primary" className="ucn04about-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </a>
           </div>
         </div>
@@ -10730,32 +11231,56 @@ function AboutInstala02({ content, sectionId, tenantSlug, isAdmin }: { content: 
 // vpravo bílý text panel — nadpis, perex, body text, zelené CTA tlačítko.
 // Na mobile single-col (foto nahoře, text dole).
 // ─────────────────────────────────────────────────────────────────────────────
-function AboutClean01({ content, sectionId, tenantSlug: _ts, isAdmin: _ia }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
+function AboutClean01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
   const GREEN = "#69be28";
   const DARK  = "#0d1a20";
   const FONT  = "Arial, Helvetica, sans-serif";
 
-  const title    = String(content.title    ?? "Co děláme");
-  const subtitle = String(content.subtitle ?? "Jsme významným dodavatelem komplexních úklidových a dalších doplňkových služeb pro průmyslové provozy, kanceláře, správní budovy, školy, nemocnice, banky, hotely a další instituce.");
-  const body     = String(content.body     ?? "Kromě kompletního úklidu se zabýváme také celou řadou dalších činností. Od komplexní správy budov (facility management) až po bezpečnostní služby.");
-  const ctaText  = String(content.ctaText  ?? "Zjistit více");
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Náš příběh" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Kdo jsme a co nás pohání" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Jsme významným dodavatelem komplexních úklidových a dalších doplňkových služeb pro průmyslové provozy, kanceláře, správní budovy, školy, nemocnice, banky, hotely a další instituce." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const body     = String(content.body     ?? "Naší silou je vlastní tým proškolených pracovníků, moderní technika a systém řízení kvality. Každé pracoviště dostane přiděleného koordinátora, který dohlíží na plnění dohodnutých standardů.");
+  const ctaText  = String(content.ctaText  ?? "Jak pracujeme");
   const ctaHref  = String(content.ctaHref  ?? "#sluzby");
-  const image    = String(content.image    ?? "/clones/cleancat/img/static-bg-services-info.webp");
+  const image    = String(content.image    ?? "/assets/clean-01/about-clean.webp");
+  const statValue = String(content.statValue ?? "20+");
+  const statLabel = String(content.statLabel ?? "let zkušeností v oboru");
+  const siteMode  = String(content.siteMode ?? "multipage");
+  const resolve   = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  type Hl = { text?: string };
+  const highlights = (content.highlights as Hl[] | undefined) ?? [
+    { text: "Vlastní proškolený a prověřený tým" },
+    { text: "Individuální harmonogram na míru provozu" },
+    { text: "Certifikovaná kontrola kvality a ekologie" },
+  ];
 
   const styles = `
     .c01ab-wrap {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 520px;
+      grid-template-columns: 1fr 1.05fr;
+      align-items: stretch;
+      background: ${DARK};
       font-family: ${FONT};
     }
-    @media (max-width: 47.99rem) {
-      .c01ab-wrap { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 60rem) { .c01ab-wrap { grid-template-columns: 1fr; } }
     .c01ab-img {
       position: relative;
-      min-height: 320px;
+      min-height: 460px;
       overflow: hidden;
+    }
+    @media (max-width: 60rem) { .c01ab-img { min-height: 340px; } }
+    .c01ab-img::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(13,26,32,0) 55%, rgba(13,26,32,0.55) 100%);
+      pointer-events: none;
     }
     .c01ab-img img {
       position: absolute;
@@ -10763,75 +11288,166 @@ function AboutClean01({ content, sectionId, tenantSlug: _ts, isAdmin: _ia }: { c
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 1.2s cubic-bezier(.2,.7,.2,1);
     }
+    .c01ab-wrap:hover .c01ab-img img { transform: scale(1.06); }
+    .c01ab-stat {
+      position: absolute;
+      left: 1.6rem;
+      bottom: 1.6rem;
+      z-index: 2;
+      background: rgba(13,26,32,0.82);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(105,190,40,0.4);
+      border-radius: 12px;
+      padding: 1.1rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      box-shadow: 0 20px 40px -22px rgba(0,0,0,0.9);
+    }
+    .c01ab-stat-val { font-size: 2.1rem; font-weight: 700; color: ${GREEN}; line-height: 1; }
+    .c01ab-stat-lbl { font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.7); }
     .c01ab-text {
-      background: ${DARK};
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 4rem 3.5rem;
+      padding: 5rem clamp(1.6rem, 5vw, 4.5rem);
     }
-    @media (max-width: 63.99rem) {
-      .c01ab-text { padding: 3rem 2rem; }
+    .c01ab-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: ${GREEN};
+      margin-bottom: 1.1rem;
     }
+    .c01ab-eyebrow::before { content: ""; width: 2rem; height: 2px; background: ${GREEN}; }
     .c01ab-title {
-      font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+      font-family: ${FONT};
+      font-size: clamp(1.8rem, 3.2vw, 2.7rem);
       font-weight: 700;
       color: #ffffff;
-      margin: 0 0 1.2rem;
-      line-height: 1.2;
+      margin: 0 0 1.3rem;
+      line-height: 1.18;
+      letter-spacing: 0.005em;
     }
-    .c01ab-title span { color: ${GREEN}; }
+    .c01ab-title em { color: ${GREEN}; font-style: normal; }
     .c01ab-subtitle {
-      font-size: 0.97rem;
-      color: rgba(255,255,255,0.75);
-      line-height: 1.7;
+      font-size: 1.02rem;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.75;
       margin: 0 0 1rem;
     }
     .c01ab-body {
-      font-size: 0.92rem;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.7;
-      margin: 0 0 2rem;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.56);
+      line-height: 1.75;
+      margin: 0 0 1.8rem;
+    }
+    .c01ab-hl { list-style: none; margin: 0 0 2.2rem; padding: 0; display: flex; flex-direction: column; gap: 0.85rem; }
+    .c01ab-hl li { display: flex; align-items: flex-start; gap: 0.8rem; font-size: 0.94rem; color: rgba(255,255,255,0.82); line-height: 1.5; }
+    .c01ab-hl-ic {
+      flex-shrink: 0;
+      width: 1.5rem; height: 1.5rem;
+      border-radius: 50%;
+      background: rgba(105,190,40,0.14);
+      color: ${GREEN};
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 0.05rem;
     }
     .c01ab-cta {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
       background: ${GREEN};
       color: #ffffff;
       text-decoration: none;
       font-weight: 700;
       font-size: 0.92rem;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 0.8rem 2.2rem;
-      border-radius: 4px;
+      letter-spacing: 0.05em;
+      padding: 0.95rem 2rem;
+      border-radius: 9999px;
       align-self: flex-start;
-      transition: background 0.18s;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 14px 30px -16px rgba(105,190,40,0.9);
+      transition: transform 0.35s cubic-bezier(.2,.7,.2,1), box-shadow 0.35s ease;
     }
-    .c01ab-cta:hover { background: #5aa020; }
+    .c01ab-cta > span, .c01ab-cta > svg { position: relative; z-index: 1; }
+    .c01ab-cta::before {
+      content: ""; position: absolute; inset: 0; background: #5aa020;
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.4s cubic-bezier(.2,.7,.2,1);
+    }
+    .c01ab-cta:hover { transform: translateY(-2px); box-shadow: 0 20px 36px -16px rgba(105,190,40,1); }
+    .c01ab-cta:hover::before { transform: scaleX(1); }
+    .c01ab-cta svg { transition: transform 0.35s ease; }
+    .c01ab-cta:hover svg { transform: translateX(3px); }
   `;
 
   return (
-    <section id="onas" className="c01ab-wrap">
+    <section id="onas" className="c01ab-wrap" data-template="clean-01">
       <style>{styles}</style>
       <div className="c01ab-img">
         <GenericEditableImage sectionId={sectionId} field="image" src={image} alt={title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img loading="lazy" src={image} alt={title} />
         </GenericEditableImage>
+        <div className="c01ab-stat">
+          <span className="c01ab-stat-val">
+            <GenericEditableText sectionId={sectionId} field="statValue" value={statValue} tag="span" />
+          </span>
+          <span className="c01ab-stat-lbl">
+            <GenericEditableText sectionId={sectionId} field="statLabel" value={statLabel} tag="span" />
+          </span>
+        </div>
       </div>
       <div className="c01ab-text">
-        <h2 className="c01ab-title">
-          <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-        </h2>
-        <p className="c01ab-subtitle">
-          <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
-        </p>
+        {showHeader && (
+          <>
+            {!!eyebrow.trim() && (
+              <span className="c01ab-eyebrow">
+                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+              </span>
+            )}
+            {!!title.trim() && (
+              <h2 className="c01ab-title">
+                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+              </h2>
+            )}
+            {!!subtitle.trim() && (
+              <p className="c01ab-subtitle">
+                <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="span" />
+              </p>
+            )}
+          </>
+        )}
         <p className="c01ab-body">
           <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
         </p>
-        <a href={ctaHref} data-btn="primary" className="c01ab-cta">
-          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+        <ul className="c01ab-hl">
+          {highlights.map((h, i) => (
+            <li key={i}>
+              <span className="c01ab-hl-ic" aria-hidden="true">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+              </span>
+              <GenericEditableText sectionId={sectionId} field={`highlights.${i}.text`} value={String(h.text ?? "")} tag="span" />
+            </li>
+          ))}
+        </ul>
+        <a href={resolve(ctaHref)} data-btn="primary" className="c01ab-cta">
+          <span><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></span>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M5 12h14" /><path d="m13 6 6 6-6 6" />
+          </svg>
         </a>
       </div>
     </section>
@@ -11256,25 +11872,28 @@ function AboutMalir01({ content, sectionId }: { content: Record<string, unknown>
 }
 
 // ── garden-01-about ──────────────────────────────────────────────────────────
+// VYLEPŠENO (luxe zahradní ateliér): tmavý bg #202714, 4 USP karty s gold ikonami,
+// leaf ornament, hover lift + left-border glow, conditional header, fade-up
+// ─────────────────────────────────────────────────────────────────────────────
 const GARDEN01_ICONS: Record<string, React.ReactNode> = {
   clock: (
-    <svg viewBox="0 0 448 512" fill="currentColor" width="28" height="28" aria-hidden="true">
-      <path d="M272 0C289.7 0 304 14.33 304 32C304 49.67 289.7 64 272 64H256V98.45C293.5 104.2 327.7 120 355.7 143L377.4 121.4C389.9 108.9 410.1 108.9 422.6 121.4C435.1 133.9 435.1 154.1 422.6 166.6L398.5 190.8C419.7 223.3 432 262.2 432 304C432 418.9 338.9 512 224 512C109.1 512 16 418.9 16 304C16 200 92.32 113.8 192 98.45V64H176C158.3 64 144 49.67 144 32C144 14.33 158.3 0 176 0L272 0zM248 192C248 178.7 237.3 168 224 168C210.7 168 200 178.7 200 192V320C200 333.3 210.7 344 224 344C237.3 344 248 333.3 248 320V192z"/>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="28" height="28" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
     </svg>
   ),
   home: (
-    <svg viewBox="0 0 576 512" fill="currentColor" width="28" height="28" aria-hidden="true">
-      <path d="M575.8 255.5C575.8 273.5 560.8 287.6 543.8 287.6H511.8L512.5 447.7C512.5 450.5 512.3 453.1 512 455.8V472C512 494.1 494.1 512 472 512H456C454.9 512 453.8 511.1 452.7 511.9C451.3 511.1 449.9 512 448.5 512H392C369.9 512 352 494.1 352 472V384C352 366.3 337.7 352 320 352H256C238.3 352 224 366.3 224 384V472C224 494.1 206.1 512 184 512H128.1C126.6 512 125.1 511.9 123.6 511.8C122.4 511.9 121.2 512 120 512H104C81.91 512 64 494.1 64 472V360C64 359.1 64.03 358.1 64.09 357.2V287.6H32.05C14.02 287.6 0 273.5 0 255.5C0 246.5 3.004 238.5 10.01 231.5L266.4 8.016C273.4 1.002 281.4 0 288.4 0C295.4 0 303.4 2.004 309.5 7.014L564.8 231.5C572.8 238.5 576.9 246.5 575.8 255.5z"/>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="28" height="28" aria-hidden="true">
+      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
     </svg>
   ),
   edit: (
-    <svg viewBox="0 0 512 512" fill="currentColor" width="28" height="28" aria-hidden="true">
-      <path d="M490.3 40.4C512.2 62.27 512.2 97.73 490.3 119.6L460.3 149.7L362.3 51.72L392.4 21.66C414.3-.2135 449.7-.2135 471.6 21.66L490.3 40.4zM172.4 241.7L339.7 74.34L437.7 172.3L270.3 339.6C264.2 345.8 256.7 350.4 248.4 353.2L159.6 382.8C150.1 385.8 141.5 383.4 135.1 376.1C128.6 370.5 126.2 361 129.2 352.4L158.8 263.6C161.6 255.3 166.2 247.8 172.4 241.7V241.7zM192 63.1C209.7 63.1 224 78.33 224 95.1C224 113.7 209.7 127.1 192 127.1H96C78.33 127.1 64 142.3 64 159.1V416C64 433.7 78.33 448 96 448H352C369.7 448 384 433.7 384 416V319.1C384 302.3 398.3 287.1 416 287.1C433.7 287.1 448 302.3 448 319.1V416C448 469 405 512 352 512H96C42.98 512 0 469 0 416V159.1C0 106.1 42.98 63.1 96 63.1H192z"/>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="28" height="28" aria-hidden="true">
+      <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
     </svg>
   ),
   check: (
-    <svg viewBox="0 0 512 512" fill="currentColor" width="28" height="28" aria-hidden="true">
-      <path d="M243.8 339.8C232.9 350.7 215.1 350.7 204.2 339.8L140.2 275.8C129.3 264.9 129.3 247.1 140.2 236.2C151.1 225.3 168.9 225.3 179.8 236.2L224 280.4L332.2 172.2C343.1 161.3 360.9 161.3 371.8 172.2C382.7 183.1 382.7 200.9 371.8 211.8L243.8 339.8zM512 256C512 397.4 397.4 512 256 512C114.6 512 0 397.4 0 256C0 114.6 114.6 0 256 0C397.4 0 512 114.6 512 256zM256 48C141.1 48 48 141.1 48 256C48 370.9 141.1 464 256 464C370.9 464 464 370.9 464 256C464 141.1 370.9 48 256 48z"/>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" width="28" height="28" aria-hidden="true">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
     </svg>
   ),
 };
@@ -11290,157 +11909,203 @@ function AboutGarden01({
   tenantSlug?: string;
   isAdmin: boolean;
 }) {
-  const title    = String(content.title    ?? "Proč si vybrat právě nás");
-  const subtitle = String(content.subtitle ?? "Máme za sebou roky práce v terénu.");
+  const eyebrowRaw  = (content as Record<string,unknown>).eyebrow;
+  const titleRaw    = (content as Record<string,unknown>).title;
+  const subtitleRaw = (content as Record<string,unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Proč právě my" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Péče, kterou vaše zahrada pozná" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Více než dekáda zkušeností s tvorbou zahrad, které rostou spolu se svými majiteli." : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
   const items = Array.isArray(content.items)
     ? (content.items as Array<{ icon?: string; title?: string; description?: string }>)
-    : [];
+    : [
+        { icon: "clock", title: "Reakce do 24 hodin", description: "Každou poptávku řešíme bez prodlení — ozveme se vám ještě tentýž den." },
+        { icon: "home", title: "Konzultace u vás zdarma", description: "Přijedeme, prohlédneme pozemek a navrhneme řešení přímo na místě." },
+        { icon: "edit", title: "Transparentní rozpočet", description: "Dostanete jasnou kalkulaci bez skrytých položek — co schválíte, to platíte." },
+        { icon: "check", title: "Termín je slib", description: "Každý projekt má pevný harmonogram a my ho dodržujeme do posledního dne." },
+      ];
+
+  const DARK   = "#202714";
+  const GREEN  = "#6a961f";
+  const GOLD   = "#bcba63";
+  const WHITE  = "#ffffff";
+  const FONT_H = "'Cardo', Georgia, serif";
+  const FONT_B = "'Inter', Arial, sans-serif";
 
   return (
     <>
       <style>{`
         .g01a-section {
-          background: #ffffff;
-          padding: 80px 48px;
-          box-sizing: border-box;
+          background: ${DARK};
+          padding: 6rem 2.5rem;
+          position: relative;
+          overflow: hidden;
         }
-        .g01a-header {
-          max-width: 860px;
-          margin: 0 auto 48px auto;
-          text-align: left;
+        .g01a-section::before {
+          content: ""; position: absolute;
+          top: -60px; right: -60px;
+          width: 320px; height: 320px;
+          background: radial-gradient(circle, ${GREEN}12 0%, transparent 70%);
+          pointer-events: none;
         }
-        .g01a-title {
-          font-family: 'Cardo', Georgia, serif;
-          font-size: 38px;
-          font-weight: 700;
-          color: #202714;
-          margin: 0 0 12px 0;
-          line-height: 1.2;
-        }
-        .g01a-hr {
-          border: none;
-          border-top: 2px solid #6a961f;
-          width: 60px;
-          margin: 0 0 16px 0;
-        }
-        .g01a-subtitle {
-          font-family: 'Inter', Arial, sans-serif;
-          font-size: 16px;
-          color: #5a5a5a;
-          margin: 0;
-          line-height: 1.6;
-        }
-        .g01a-grid {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: nowrap;
-          gap: 34px;
+        .g01a-container {
           max-width: 1200px;
           margin: 0 auto;
-          align-items: stretch;
+        }
+        .g01a-header {
+          max-width: 640px;
+          margin: 0 0 3.5rem 0;
+        }
+        .g01a-eyebrow {
+          display: inline-flex; align-items: center; gap: 0.6rem;
+          font-family: ${FONT_B};
+          font-size: 0.78rem; font-weight: 600;
+          letter-spacing: 0.2em; text-transform: uppercase;
+          color: ${GOLD};
+          margin-bottom: 1rem;
+        }
+        .g01a-eyebrow-line { width: 32px; height: 1.5px; background: ${GOLD}; }
+        .g01a-title {
+          font-family: ${FONT_H};
+          font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+          font-weight: 400;
+          color: ${WHITE};
+          margin: 0 0 1rem 0;
+          line-height: 1.2;
+        }
+        .g01a-subtitle {
+          font-family: ${FONT_B};
+          font-size: 1.05rem;
+          color: rgba(255,255,255,0.6);
+          margin: 0;
+          line-height: 1.7;
+        }
+        .g01a-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 1.5rem;
         }
         .g01a-card {
-          flex: 1;
-          border: 2px solid #f2f2f2;
-          border-radius: 16px;
-          padding: 30px 20px;
-          box-sizing: border-box;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 12px;
+          padding: 2rem 1.5rem;
           display: flex;
           flex-direction: column;
-          align-items: flex-start;
-          gap: 14px;
-          transition: box-shadow 0.25s ease;
+          gap: 1rem;
+          position: relative;
+          overflow: hidden;
+          transition: transform 0.35s cubic-bezier(.22,.68,0,1.1), box-shadow 0.35s ease, border-color 0.35s ease;
+        }
+        .g01a-card::before {
+          content: ""; position: absolute;
+          top: 0; left: 0; width: 3px; height: 100%;
+          background: ${GREEN};
+          transform: scaleY(0); transform-origin: top;
+          transition: transform 0.4s cubic-bezier(.22,.68,0,1.1);
         }
         .g01a-card:hover {
-          box-shadow: 0 8px 10px 0 #abb8c3;
+          transform: translateY(-6px);
+          box-shadow: 0 16px 40px rgba(0,0,0,0.3);
+          border-color: rgba(106,150,31,0.25);
         }
+        .g01a-card:hover::before { transform: scaleY(1); }
         .g01a-icon {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          background: #f2f2f2;
-          color: #6a961f;
+          width: 52px; height: 52px;
+          border-radius: 10px;
+          background: rgba(106,150,31,0.12);
+          color: ${GOLD};
           flex-shrink: 0;
+          transition: background 0.3s ease, color 0.3s ease;
+        }
+        .g01a-card:hover .g01a-icon {
+          background: ${GREEN};
+          color: ${WHITE};
         }
         .g01a-card-title {
-          font-family: 'Cardo', Georgia, serif;
-          font-size: 18px;
+          font-family: ${FONT_H};
+          font-size: 1.15rem;
           font-weight: 700;
-          color: #202714;
+          color: ${WHITE};
           margin: 0;
           line-height: 1.3;
         }
         .g01a-card-desc {
-          font-family: 'Inter', Arial, sans-serif;
-          font-size: 15px;
-          color: #5a5a5a;
+          font-family: ${FONT_B};
+          font-size: 0.9rem;
+          color: rgba(255,255,255,0.55);
           margin: 0;
-          line-height: 1.6;
+          line-height: 1.65;
         }
 
         @media (max-width: 1023px) {
-          .g01a-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 26px;
-          }
-          .g01a-card { padding: 24px; }
+          .g01a-grid { grid-template-columns: repeat(2, 1fr); }
         }
-        @media (max-width: 767px) {
-          .g01a-section { padding: 60px 20px; }
-          .g01a-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-          }
-          .g01a-title { font-size: 28px; }
+        @media (max-width: 639px) {
+          .g01a-section { padding: 4rem 1.25rem; }
+          .g01a-grid { grid-template-columns: 1fr; gap: 1rem; }
+          .g01a-card { padding: 1.5rem 1.25rem; }
         }
       `}</style>
 
-      <section id="onas" className="g01a-section">
-        <div className="g01a-header">
-          <GenericEditableText
-            tag="h2"
-            className="g01a-title"
-            value={title}
-            sectionId={sectionId}
-            field="title"
-          />
-          <hr className="g01a-hr" />
-          <GenericEditableText
-            tag="p"
-            className="g01a-subtitle"
-            value={subtitle}
-            sectionId={sectionId}
-            field="subtitle"
-          />
-        </div>
-
-        <div className="g01a-grid">
-          {items.map((item, i) => (
-            <div key={i} className="g01a-card">
-              <div className="g01a-icon">
-                {GARDEN01_ICONS[item.icon ?? ""] ?? GARDEN01_ICONS.check}
-              </div>
-              <GenericEditableText
-                tag="h3"
-                className="g01a-card-title"
-                value={item.title ?? ""}
-                sectionId={sectionId}
-                field={`items[${i}].title`}
-              />
-              <GenericEditableText
-                tag="p"
-                className="g01a-card-desc"
-                value={item.description ?? ""}
-                sectionId={sectionId}
-                field={`items[${i}].description`}
-              />
+      <section id="onas" className="g01a-section" data-template="garden-01">
+        <div className="g01a-container">
+          {showHeader && (
+            <div className="g01a-header">
+              {eyebrow.trim() && (
+                <div className="g01a-eyebrow">
+                  <span className="g01a-eyebrow-line" aria-hidden="true" />
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </div>
+              )}
+              {title.trim() && (
+                <GenericEditableText
+                  tag="h2"
+                  className="g01a-title"
+                  value={title}
+                  sectionId={sectionId}
+                  field="title"
+                />
+              )}
+              {subtitle.trim() && (
+                <GenericEditableText
+                  tag="p"
+                  className="g01a-subtitle"
+                  value={subtitle}
+                  sectionId={sectionId}
+                  field="subtitle"
+                />
+              )}
             </div>
-          ))}
+          )}
+
+          <div className="g01a-grid">
+            {items.map((item, i) => (
+              <div key={i} className="g01a-card">
+                <div className="g01a-icon">
+                  {GARDEN01_ICONS[item.icon ?? ""] ?? GARDEN01_ICONS.check}
+                </div>
+                <GenericEditableText
+                  tag="h3"
+                  className="g01a-card-title"
+                  value={item.title ?? ""}
+                  sectionId={sectionId}
+                  field={`items[${i}].title`}
+                />
+                <GenericEditableText
+                  tag="p"
+                  className="g01a-card-desc"
+                  value={item.description ?? ""}
+                  sectionId={sectionId}
+                  field={`items[${i}].description`}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </>
@@ -11921,155 +12586,83 @@ function AboutArbo01({ content, sectionId }: { content: Record<string, unknown>;
 // - CTA: #0c93eb bg, bílý text, border-radius 25px, uppercase, Figtree
 // ─────────────────────────────────────────────────────────────────────────────
 function AboutDdd01({ content, sectionId, tenantSlug, isAdmin }: Omit<Props, "variant">) {
-  const PRIMARY  = "#0c93eb";
-  const DARK     = "#015ba3";
-  const FONT     = "'Figtree', system-ui, sans-serif";
+  const eyebrowRaw  = (content as Record<string,unknown>).eyebrow;
+  const titleRaw    = (content as Record<string,unknown>).title;
+  const subtitleRaw = (content as Record<string,unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Spolehlivý partner pro čisté prostředí" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Zkušenosti, které se počítají" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
 
-  const eyebrow  = String(content.eyebrow  ?? "DDD služby se zárukou kvality");
-  const title    = String(content.title    ?? "Profesionální deratizace a dezinsekce");
-  const body     = String(content.body     ?? "Služby, které naše společnost poskytuje, se opírají o zásadu dlouhodobé spokojenosti zákazníků a jsou založeny na bohatých odborných znalostech a mnohaleté praxi našich techniků, kteří mají zákonné oprávnění vykonávat práce v oblasti DDD.");
-  const body2    = String(content.body2    ?? "Cílem je poskytovat efektivní a kvalitní řešení, která přinášejí nejen ekonomický užitek našim zákazníkům.");
-  const ctaText  = String(content.ctaText  ?? "Naše služby");
-  const ctaHref  = String(content.ctaHref  ?? "#sluzby");
+  const body     = String(content.body     ?? "Více než 15 let chráníme domácnosti, restaurace, hotely i průmyslové objekty. Naši certifikovaní technici používají výhradně registrované biocidní přípravky a postupy šetrné k lidem i zvířatům.");
+  const body2    = String(content.body2    ?? "Každý zásah zakončujeme podrobným protokolem a nabízíme záruku spokojenosti. Spolupracujeme s hygienickými stanicemi a zajišťujeme pravidelný monitoring objektů.");
+  const ctaText  = String(content.ctaText  ?? "Prohlédnout služby");
+  const ctaHref  = String(content.ctaHref  ?? "/sluzby");
+  const statYears = String(content.statYears ?? "15+");
+  const statYearsLabel = String(content.statYearsLabel ?? "let praxe");
+  const statClients = String(content.statClients ?? "3 200+");
+  const statClientsLabel = String(content.statClientsLabel ?? "spokojených klientů");
   const images   = (content.images as Array<{ url: string; alt?: string }>) ?? [];
-  const img1     = images[0] ?? { url: "/clones/deratizace/storage/promo/large/f7b3d8c58916308fb8b6e9f3d0cd5b1e.webp", alt: "Dezinsekce štěnic" };
-  const img2     = images[1] ?? { url: "/clones/deratizace/storage/promo/large/767450d489c79107d2bcb36ec2d63609.webp", alt: "Deratizace hlodavců" };
+  const img1     = images[0] ?? { url: "/templates/ddd-01/about-1.webp", alt: "Profesionální zásah" };
+  const img2     = images[1] ?? { url: "/templates/ddd-01/about-2.webp", alt: "Chráněné prostory" };
 
   const resolve  = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
 
   return (
-    <>
-      <style>{`
-        .ddd01a-wrap {
-          font-family: ${FONT};
-          background: #ffffff;
-          padding: 4.5rem 1.5rem;
-        }
-        .ddd01a-inner {
-          max-width: 80rem;
-          margin: 0 auto;
-        }
-        .ddd01a-grid {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: clamp(2rem, 5vw, 5rem);
-        }
-        /* LEFT — koláž */
-        .ddd01a-collage {
-          flex: 0 0 clamp(260px, 38%, 440px);
-          max-width: 27.5rem;
-          display: flex;
-          flex-direction: column;
-          gap: 0;
-        }
-        .ddd01a-collage-img {
-          display: block;
-          width: 70%;
-          height: auto;
-          box-shadow: 4px 4px 17px rgba(0,0,0,0.21);
-          margin-left: 30%;
-        }
-        .ddd01a-collage-img:first-child {
-          margin-left: 0;
-          margin-bottom: -2rem;
-          position: relative;
-          z-index: 1;
-        }
-        /* RIGHT — text */
-        .ddd01a-text {
-          flex: 1;
-          text-align: left;
-        }
-        .ddd01a-eyebrow {
-          display: inline-block;
-          color: ${PRIMARY};
-          font-size: clamp(0.84rem, 0.32vw + 0.77rem, 1.06rem);
-          font-weight: 400;
-          letter-spacing: 0.375rem;
-          text-transform: uppercase;
-          margin-bottom: 0.75rem;
-          line-height: 1.4;
-        }
-        .ddd01a-h2 {
-          color: ${DARK};
-          font-size: clamp(1.625rem, 0.89vw + 1.45rem, 2.25rem);
-          font-weight: 700;
-          line-height: 1.33;
-          margin: 0 0 1.25rem;
-          text-transform: uppercase;
-          word-spacing: 0.125em;
-        }
-        .ddd01a-body {
-          color: #3a3a3a;
-          font-size: 1rem;
-          line-height: 1.7;
-          margin: 0 0 1rem;
-        }
-        .ddd01a-cta {
-          display: inline-block;
-          background: ${PRIMARY};
-          color: #ffffff;
-          text-decoration: none;
-          font-size: 0.9375rem;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.04em;
-          padding: 0.85em 1.5em 0.7em;
-          border-radius: 25px;
-          border: 1px solid ${PRIMARY};
-          margin-top: 1.5rem;
-          transition: background 0.15s, border-color 0.15s;
-        }
-        .ddd01a-cta:hover { background: ${DARK}; border-color: ${DARK}; }
-
-        @media (max-width: 768px) {
-          .ddd01a-grid { flex-direction: column; }
-          .ddd01a-collage { max-width: 100%; width: 100%; }
-          .ddd01a-collage-img { width: 65%; }
-          .ddd01a-collage-img:first-child { margin-bottom: -1.5rem; }
-        }
-      `}</style>
-
-      <section className="ddd01a-wrap" id="about" data-template="ddd-01-about">
-        <div className="ddd01a-inner">
-          <div className="ddd01a-grid">
-
-            {/* LEFT: koláž 2 fotek */}
-            <div className="ddd01a-collage">
-              <GenericEditableImage sectionId={sectionId} field="images.0.url" src={img1.url} alt={img1.alt ?? ""} style={{}}>
-                <img className="ddd01a-collage-img" src={img1.url} alt={img1.alt ?? ""} loading="lazy" decoding="async" />
-              </GenericEditableImage>
-              <GenericEditableImage sectionId={sectionId} field="images.1.url" src={img2.url} alt={img2.alt ?? ""} style={{}}>
-                <img className="ddd01a-collage-img" src={img2.url} alt={img2.alt ?? ""} loading="lazy" decoding="async" />
-              </GenericEditableImage>
-            </div>
-
-            {/* RIGHT: text */}
-            <div className="ddd01a-text">
-              <span className="ddd01a-eyebrow">
-                <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+    <section className="ddd01a-wrap" id="about" data-template="ddd-01">
+      <div className="ddd01a-inner">
+        <div className="ddd01a-grid">
+          <div className="ddd01a-collage">
+            <GenericEditableImage sectionId={sectionId} field="images.0.url" src={img1.url} alt={img1.alt ?? ""} style={{}}>
+              <img className="ddd01a-collage-img ddd01a-collage-img--main" src={img1.url} alt={img1.alt ?? ""} loading="lazy" decoding="async" />
+            </GenericEditableImage>
+            <GenericEditableImage sectionId={sectionId} field="images.1.url" src={img2.url} alt={img2.alt ?? ""} style={{}}>
+              <img className="ddd01a-collage-img ddd01a-collage-img--offset" src={img2.url} alt={img2.alt ?? ""} loading="lazy" decoding="async" />
+            </GenericEditableImage>
+            <div className="ddd01a-stat-badge">
+              <span className="ddd01a-stat-value">
+                <GenericEditableText sectionId={sectionId} field="statYears" value={statYears} tag="span" />
               </span>
-              <h2 className="ddd01a-h2">
-                <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-              </h2>
-              <p className="ddd01a-body">
-                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-              </p>
-              {body2 && (
-                <p className="ddd01a-body">
-                  <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
-                </p>
-              )}
-              <a href={resolve(ctaHref)} data-btn="primary" className="ddd01a-cta">
-                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-              </a>
+              <span className="ddd01a-stat-label">
+                <GenericEditableText sectionId={sectionId} field="statYearsLabel" value={statYearsLabel} tag="span" />
+              </span>
             </div>
+          </div>
 
+          <div className="ddd01a-text">
+            {showHeader && (
+              <div className="ddd01a-header">
+                <span className="ddd01a-eyebrow">
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </span>
+                <h2 className="ddd01a-h2">
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+              </div>
+            )}
+            <p className="ddd01a-body">
+              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+            </p>
+            <p className="ddd01a-body">
+              <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
+            </p>
+            <div className="ddd01a-stats-row">
+              <div className="ddd01a-stat-inline">
+                <span className="ddd01a-stat-inline-val">
+                  <GenericEditableText sectionId={sectionId} field="statClients" value={statClients} tag="span" />
+                </span>
+                <span className="ddd01a-stat-inline-lbl">
+                  <GenericEditableText sectionId={sectionId} field="statClientsLabel" value={statClientsLabel} tag="span" />
+                </span>
+              </div>
+            </div>
+            <a href={resolve(ctaHref)} className="ddd01a-cta">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </a>
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
@@ -12737,175 +13330,150 @@ function AboutHotel02({ content, sectionId, isAdmin }: { content: Record<string,
 // ── chalet-01-about ───────────────────────────────────────────────────────────
 function AboutChalet01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
   const c = (content ?? {}) as Record<string, any>;
-  const kicker  = String(c.kicker  ?? "Vítejte u nás v Krkonoších");
-  const title   = String(c.title   ?? "Horský chalet pro 19 hostů na prahu přírody, hor a lesů");
-  const body    = String(c.body    ?? "");
-  const note    = String(c.note    ?? "");
-  const ctaText = String(c.ctaText ?? "Zjistit více");
-  const ctaHref = String(c.ctaHref ?? "#galerie");
-  const image   = String(c.image   ?? "/clones/chaletmilada/templates/yootheme/cache/9c/ADR_Milada_Mala_Upa_BoysPlayNice_01-9ca458d5.jpeg");
+  const siteMode = String(c.siteMode ?? "multipage");
+  const kicker   = String(c.kicker   ?? "Náš příběh");
+  const title    = String(c.title    ?? "Místo, kde se zastavíte a nadechnete");
+  const body     = String(c.body     ?? "Bouda Na Vrchu stojí v tichém údolí pod krkonošskými hřebeny od roku 1927. Původní dřevěná chata prošla citlivou rekonstrukcí — zachovali jsme ducha hor a přidali moderní pohodlí pro každého hosta.");
+  const body2    = String(c.body2    ?? "Kapacita devatenácti lůžek, společná obývací hala s krbem, sauna a terasa s panoramatickým výhledem. Ideální zázemí pro rodiny, skupiny přátel i firemní pobyty v každém ročním období.");
+  const ctaText  = String(c.ctaText  ?? "Prohlédnout pokoje");
+  const ctaHref  = String(c.ctaHref  ?? "/ubytovani");
+  const image    = String(c.image    ?? "/images/chalet-01/about-01.webp");
+  const image2   = String(c.image2   ?? "/images/chalet-01/about-02.webp");
 
   const BEIGE  = "#c0bbad";
   const DARK   = "#1e2329";
   const SURF   = "#f5f3f0";
+  const ACCENT = "#8a7e6e";
   const FONT_H = "'Josefin Sans', system-ui, sans-serif";
   const FONT_B = "'Plus Jakarta Sans', system-ui, sans-serif";
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   return (
     <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" />
-      <style>{`        .ch01ab {
+      <style>{`
+        .ch01ab {
           background: ${SURF};
-          padding: clamp(4rem, 8vw, 7rem) 1.5rem;
+          padding: clamp(5rem, 10vw, 9rem) 1.5rem;
         }
         .ch01ab-inner {
           max-width: 1200px;
           margin: 0 auto;
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: clamp(2.5rem, 6vw, 6rem);
+          grid-template-columns: 1fr 1.1fr;
+          gap: clamp(3rem, 7vw, 7rem);
           align-items: center;
         }
-        /* ── left text ── */
-        .ch01ab-text {}
         .ch01ab-kicker {
           display: block;
-          font-family: ${FONT_H};
-          font-size: 0.68rem;
-          font-weight: 400;
-          letter-spacing: 0.28em;
-          text-transform: uppercase;
-          color: ${BEIGE};
-          margin-bottom: 1rem;
+          font-family: ${FONT_B};
+          font-size: 0.65rem; font-weight: 500;
+          letter-spacing: 0.3em; text-transform: uppercase;
+          color: ${ACCENT}; margin-bottom: 1.2rem;
+        }
+        .ch01ab-rule {
+          width: 48px; height: 1px;
+          background: ${BEIGE}; margin-bottom: 1.6rem;
         }
         .ch01ab-title {
           font-family: ${FONT_H};
-          font-size: clamp(1.5rem, 3vw, 2.2rem);
-          font-weight: 300;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
-          color: ${DARK};
-          line-height: 1.3;
-          margin: 0 0 1.5rem;
-        }
-        .ch01ab-divider {
-          width: 40px;
-          height: 1px;
-          background: ${BEIGE};
-          margin-bottom: 1.5rem;
+          font-size: clamp(1.6rem, 3.2vw, 2.5rem);
+          font-weight: 300; letter-spacing: 0.08em;
+          text-transform: uppercase; color: ${DARK};
+          line-height: 1.25; margin: 0 0 1.8rem;
         }
         .ch01ab-body {
           font-family: ${FONT_B};
-          font-size: 0.95rem;
-          line-height: 1.8;
-          color: #555;
-          margin: 0 0 1.25rem;
+          font-size: 0.92rem; line-height: 1.85;
+          color: #5a5a5a; margin: 0 0 1rem;
         }
-        .ch01ab-note {
-          font-family: ${FONT_B};
-          font-size: 0.85rem;
-          line-height: 1.7;
-          color: #888;
-          font-style: italic;
-          margin: 0 0 2rem;
-          padding-left: 1rem;
-          border-left: 2px solid ${BEIGE};
-        }
+        .ch01ab-body + .ch01ab-body { margin-bottom: 2.4rem; }
         .ch01ab-cta {
-          display: inline-block;
-          padding: 0.72rem 2rem;
-          border: 1.5px solid ${DARK};
-          color: ${DARK};
-          font-family: ${FONT_H};
-          font-size: 0.7rem;
-          font-weight: 600;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          text-decoration: none;
-          transition: background 0.22s, color 0.22s;
+          display: inline-flex; align-items: center; gap: 0.7rem;
+          padding: 0.78rem 2.2rem;
+          border: 1.5px solid ${DARK}; color: ${DARK};
+          font-family: ${FONT_H}; font-size: 0.68rem; font-weight: 600;
+          letter-spacing: 0.2em; text-transform: uppercase;
+          text-decoration: none; position: relative; overflow: hidden;
+          transition: color 0.35s;
         }
-        .ch01ab-cta:hover {
-          background: ${DARK};
-          color: #fff;
+        .ch01ab-cta::before {
+          content: ''; position: absolute; inset: 0;
+          background: ${DARK}; transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.45s cubic-bezier(0.4,0,0.2,1);
         }
-        /* ── right image ── */
-        .ch01ab-img-wrap {
+        .ch01ab-cta:hover::before { transform: scaleX(1); }
+        .ch01ab-cta:hover { color: #fff; }
+        .ch01ab-cta span { position: relative; z-index: 1; }
+        .ch01ab-cta-arrow {
+          position: relative; z-index: 1;
+          width: 18px; height: 1px; background: currentColor;
+          transition: width 0.3s;
+        }
+        .ch01ab-cta:hover .ch01ab-cta-arrow { width: 26px; }
+        .ch01ab-photos {
           position: relative;
-          aspect-ratio: 4/5;
-          overflow: hidden;
         }
-        .ch01ab-img-wrap img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          display: block;
-          transition: transform 0.6s ease;
+        .ch01ab-img {
+          position: relative; overflow: hidden;
+          aspect-ratio: 3/4;
         }
-        .ch01ab-img-wrap:hover img { transform: scale(1.03); }
-        /* decorative corner accent */
-        .ch01ab-img-wrap::after {
-          content: '';
-          position: absolute;
-          bottom: -12px;
-          right: -12px;
-          width: 60px;
-          height: 60px;
-          border-bottom: 2px solid ${BEIGE};
-          border-right: 2px solid ${BEIGE};
+        .ch01ab-img img {
+          width: 100%; height: 100%;
+          object-fit: cover; display: block;
+          transition: transform 0.7s ease;
+        }
+        .ch01ab-img:hover img { transform: scale(1.04); }
+        .ch01ab-corner {
+          position: absolute; bottom: -10px; right: -10px;
+          width: 56px; height: 56px;
+          border-bottom: 1.5px solid ${BEIGE};
+          border-right: 1.5px solid ${BEIGE};
           pointer-events: none;
         }
-        @media (max-width: 768px) {
-          .ch01ab-inner {
-            grid-template-columns: 1fr;
-          }
-          .ch01ab-img-wrap {
-            aspect-ratio: 16/9;
-            order: -1;
-          }
-          .ch01ab-img-wrap::after { display: none; }
+        @media (max-width: 860px) {
+          .ch01ab-inner { grid-template-columns: 1fr; }
+          .ch01ab-photos { order: -1; }
+          .ch01ab-corner { display: none; }
+        }
+        @media (max-width: 520px) {
+          .ch01ab-img { aspect-ratio: 16/10; }
         }
       `}</style>
 
-      <section className="ch01ab" id="ubytovani" data-template="chalet-01-about">
+      <section className="ch01ab" id="o-nas" data-template="chalet-01-about">
         <div className="ch01ab-inner">
-          <div className="ch01ab-text">
+          <div>
             <span className="ch01ab-kicker">
               <GenericEditableText sectionId={sectionId} field="kicker" value={kicker} tag="span" />
             </span>
+            <div className="ch01ab-rule" />
             <h2 className="ch01ab-title">
               <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
             </h2>
-            <div className="ch01ab-divider" />
-            {body && (
-              <p className="ch01ab-body">
-                <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
-              </p>
-            )}
-            {note && (
-              <p className="ch01ab-note">
-                <GenericEditableText sectionId={sectionId} field="note" value={note} tag="span" />
-              </p>
-            )}
-            <a href={resolve(ctaHref)} data-btn="primary" className="ch01ab-cta">
+            <p className="ch01ab-body">
+              <GenericEditableText sectionId={sectionId} field="body" value={body} tag="span" />
+            </p>
+            <p className="ch01ab-body">
+              <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="span" />
+            </p>
+            <a href={resolve(ctaHref)} className="ch01ab-cta">
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <span className="ch01ab-cta-arrow" aria-hidden="true" />
             </a>
           </div>
 
-          <div className="ch01ab-img-wrap">
-            <GenericEditableImage
-              sectionId={sectionId}
-              field="image"
-              src={image}
-              alt={title}
-              className="relative overflow-hidden w-full h-full"
-              style={{}}
-            >
-              <img src={image} alt={title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            </GenericEditableImage>
+          <div className="ch01ab-photos">
+            <div className="ch01ab-img">
+              <GenericEditableImage
+                sectionId={sectionId} field="image" src={image} alt={title}
+                style={{ position: "relative", width: "100%", height: "100%" }}
+              >
+                <img src={image} alt={title} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              </GenericEditableImage>
+            </div>
+            <span className="ch01ab-corner" aria-hidden="true" />
           </div>
         </div>
       </section>
@@ -13000,126 +13568,188 @@ function AboutMalir02({ content, sectionId, isAdmin }: { content: Record<string,
 // ── photo-01-about ────────────────────────────────────────────────────────────
 // 1:1 zbiralova.cz: cream bg, 2-col (portrait foto vlevo, bio text vpravo)
 function AboutPhoto01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin?: boolean }) {
-  const eyebrow  = String(content.eyebrow  ?? "O mně");
-  const title    = String(content.title    ?? "");
-  const subtitle = String(content.subtitle ?? "");
+  const eyebrowRaw  = content.eyebrow;
+  const titleRaw    = content.title;
+  const subtitleRaw = content.subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "O mně" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Markéta Sýkorová" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "Fotografka z Brna se srdcem pro přirozené světlo" : String(subtitleRaw);
   const body     = String(content.body     ?? "");
   const body2    = String(content.body2    ?? "");
+  const signature     = String(content.signature ?? "Markéta");
+  const signatureRole = String(content.signatureRole ?? "Fotografka & zakladatelka ateliéru");
   const imageUrl = String(content.imageUrl ?? "");
   const imageAlt = String(content.imageAlt ?? title);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Inter:wght@300;400;500&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&family=Sacramento&display=swap" />
       <style>{`        .ph01ab {
           background: #f5f0eb;
-          padding: 80px 0;
+          padding: clamp(64px, 8vw, 118px) 0;
+          overflow: hidden;
         }
         .ph01ab-inner {
-          max-width: 90%;
+          max-width: 1180px;
           margin: 0 auto;
+          padding: 0 clamp(20px, 4vw, 40px);
           display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 64px;
+          grid-template-columns: 0.92fr 1.08fr;
+          gap: clamp(40px, 6vw, 88px);
           align-items: center;
         }
         .ph01ab-img-wrap {
           position: relative;
-          overflow: hidden;
         }
-        .ph01ab-img-wrap img {
+        .ph01ab-img-frame {
+          position: relative;
+          overflow: hidden;
+          aspect-ratio: 4 / 5;
+        }
+        .ph01ab-img-frame img {
           width: 100%;
-          height: auto;
+          height: 100%;
           display: block;
           object-fit: cover;
+          transition: transform 1s cubic-bezier(.22,.61,.36,1);
         }
+        .ph01ab-img-wrap:hover .ph01ab-img-frame img { transform: scale(1.045); }
+        .ph01ab-img-wrap::before {
+          content: '';
+          position: absolute;
+          top: 20px; left: 20px; right: -20px; bottom: -20px;
+          border: 1px solid #c0bbad;
+          z-index: -1;
+          transition: transform 0.6s cubic-bezier(.32,.72,0,1);
+        }
+        .ph01ab-img-wrap:hover::before { transform: translate(-8px, -8px); }
         .ph01ab-text {
           display: flex;
           flex-direction: column;
-          gap: 1.25rem;
+          gap: 1.4rem;
         }
         .ph01ab-eyebrow {
-          font-family: 'Inter', sans-serif;
-          font-size: 0.75rem;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.8em;
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 0.72rem;
           font-weight: 500;
-          letter-spacing: 0.18em;
+          letter-spacing: 0.24em;
           text-transform: uppercase;
           color: #8b7355;
           margin: 0;
         }
+        .ph01ab-eyebrow::before {
+          content: '';
+          width: 30px; height: 1px;
+          background: #c0bbad;
+          display: inline-block;
+        }
         .ph01ab-title {
-          font-family: 'Cinzel', Georgia, serif;
-          font-size: 2rem;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: clamp(30px, 4vw, 46px);
           font-weight: 400;
-          letter-spacing: 0.06em;
-          text-transform: uppercase;
+          letter-spacing: -0.01em;
           color: #1a1a1a;
           margin: 0;
-          line-height: 1.25;
+          line-height: 1.14;
+        }
+        .ph01ab-subtitle {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-style: italic;
+          font-size: clamp(16px, 1.8vw, 20px);
+          color: #8b7355;
+          margin: -0.4rem 0 0;
+          line-height: 1.4;
         }
         .ph01ab-divider {
-          width: 40px;
+          width: 44px;
           height: 1px;
           background: #8b7355;
           border: none;
-          margin: 0;
+          margin: 0.2rem 0;
         }
         .ph01ab-body {
-          font-family: 'Inter', sans-serif;
-          font-size: 1rem;
-          line-height: 1.8;
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: clamp(15px, 1.5vw, 16.5px);
+          line-height: 1.85;
           color: #4a4a4a;
+          margin: 0;
+        }
+        .ph01ab-sign {
+          margin-top: 0.6rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.15rem;
+        }
+        .ph01ab-sign-name {
+          font-family: 'Sacramento', cursive;
+          font-size: clamp(34px, 4vw, 46px);
+          line-height: 0.9;
+          color: #1a1a1a;
+          margin: 0;
+        }
+        .ph01ab-sign-role {
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 0.74rem;
+          font-weight: 500;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: #8b7355;
           margin: 0;
         }
         @media (max-width: 860px) {
           .ph01ab-inner {
             grid-template-columns: 1fr;
-            gap: 40px;
-            max-width: 92%;
+            gap: 52px;
           }
-          .ph01ab { padding: 56px 0; }
-          .ph01ab-title { font-size: 1.5rem; }
+          .ph01ab-img-wrap::before { right: 16px; top: 16px; left: 16px; bottom: -16px; }
         }
       `}</style>
 
       <section className="ph01ab" id="o-mne" data-template="photo-01-about">
         <div className="ph01ab-inner">
-          {/* Portrait photo */}
+          {/* Portrait photo with offset taupe frame */}
           <div className="ph01ab-img-wrap">
-            <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={imageAlt}>
-              <img src={imageUrl} alt={imageAlt} loading="lazy" />
-            </GenericEditableImage>
+            <div className="ph01ab-img-frame">
+              <GenericEditableImage sectionId={sectionId} field="imageUrl" src={imageUrl} alt={imageAlt}>
+                <img src={imageUrl} alt={imageAlt} loading="lazy" />
+              </GenericEditableImage>
+            </div>
           </div>
 
           {/* Bio text */}
           <div className="ph01ab-text">
-            <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p">
-              <p className="ph01ab-eyebrow">{eyebrow}</p>
-            </GenericEditableText>
-
-            <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2">
-              <h2 className="ph01ab-title">{title}</h2>
-            </GenericEditableText>
-
-            {subtitle && (
-              <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p">
-                <p className="ph01ab-body" style={{ fontStyle: "italic", color: "#8b7355", marginTop: "-0.5rem" }}>{subtitle}</p>
-              </GenericEditableText>
+            {showHeader && (
+              <>
+                {eyebrow.trim() && (
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="p" className="ph01ab-eyebrow" />
+                )}
+                {title.trim() && (
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" className="ph01ab-title" />
+                )}
+                {subtitle.trim() && (
+                  <GenericEditableText sectionId={sectionId} field="subtitle" value={subtitle} tag="p" className="ph01ab-subtitle" />
+                )}
+              </>
             )}
 
             <hr className="ph01ab-divider" />
 
-            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="p">
-              <p className="ph01ab-body">{body}</p>
-            </GenericEditableText>
+            <GenericEditableText sectionId={sectionId} field="body" value={body} tag="p" className="ph01ab-body" />
 
             {body2 && (
-              <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="p">
-                <p className="ph01ab-body">{body2}</p>
-              </GenericEditableText>
+              <GenericEditableText sectionId={sectionId} field="body2" value={body2} tag="p" className="ph01ab-body" />
             )}
+
+            <div className="ph01ab-sign">
+              <GenericEditableText sectionId={sectionId} field="signature" value={signature} tag="p" className="ph01ab-sign-name" />
+              <GenericEditableText sectionId={sectionId} field="signatureRole" value={signatureRole} tag="p" className="ph01ab-sign-role" />
+            </div>
           </div>
         </div>
       </section>
@@ -13936,6 +14566,125 @@ function AboutVideo01({ content, sectionId, tenantSlug, isAdmin }: {
           <a href={ctaHref} data-btn="primary" className="vd01ab-cta">
             {isAdmin ? <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /> : <span>{ctaText}</span>}
             <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── rekonstrukce-01-about ─────────────────────────────────────────────────────
+// "Proč si vybrat právě nás" — split foto (warm frame + amber accent) + text
+// se 4 checkmark body. Conditional header (showHeader), hover na fotu i CTA.
+// ──────────────────────────────────────────────────────────────────────────────
+function AboutRekonstrukce01({ content, sectionId, tenantSlug, isAdmin }: { content: Record<string, unknown>; sectionId: number; tenantSlug?: string; isAdmin: boolean }) {
+  const AMBER  = "#C2622B";
+  const AMBER2 = "#A24E1F";
+  const DARK   = "#1F1B17";
+  const MUTED  = "#7A7066";
+  const CREAM  = "#F2ECE3";
+  const FONT   = "'Inter', sans-serif";
+
+  const c = content;
+  const eyebrowRaw = c.eyebrow, titleRaw = c.title, leadRaw = c.lead;
+  const eyebrow = eyebrowRaw === undefined ? "Proč si vybrat právě nás" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Řemeslo, na které se můžete spolehnout" : String(titleRaw);
+  const lead    = leadRaw    === undefined ? "Jsme tým zkušených profesionálů se specializací na rekonstrukce bytů a bytových jader. Každý projekt bereme osobně a dbáme na kvalitu provedení do posledního detailu." : String(leadRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || leadRaw !== undefined);
+  const image   = String(c.image ?? "https://images.unsplash.com/photo-1581858726788-75bc76f1a2a2?w=1000&h=1200&fit=crop&q=85");
+  const values  = (c.values as string[]) ?? [
+    "Rychlá a precizní realizace",
+    "Transparentní ceny bez skrytých poplatků",
+    "Osobní přístup ke každému klientovi",
+    "Zkušený tým řemeslníků s praxí",
+  ];
+  const ctaText = String(c.ctaText ?? "Nezávazná poptávka");
+  const ctaHref = String(c.ctaHref ?? "/kontakt");
+  const badgeNum = String(c.badgeNumber ?? "500+");
+  const badgeLabel = String(c.badgeLabel ?? "dokončených projektů");
+  const siteMode = String(c.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  void isAdmin;
+
+  return (
+    <section id="proc-nas" style={{ backgroundColor: "#fff", fontFamily: FONT, padding: "clamp(64px,9vw,112px) 0", opacity: 1 }} data-template="rekonstrukce-01">
+      <style>{`
+        .rk01ab-wrap{max-width:1200px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:0.9fr 1.1fr;gap:clamp(36px,6vw,80px);align-items:center;}
+        .rk01ab-figure{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(60,40,20,.16);}
+        .rk01ab-figure img{transition:transform .7s cubic-bezier(.2,.7,.2,1);}
+        .rk01ab-figure:hover img{transform:scale(1.05);}
+        .rk01ab-frame{position:absolute;inset:0;border:1px solid rgba(255,255,255,.28);border-radius:20px;pointer-events:none;}
+        .rk01ab-badge{position:absolute;left:-18px;bottom:26px;background:linear-gradient(140deg,${AMBER},${AMBER2});color:#fff;border-radius:16px;padding:18px 22px;box-shadow:0 16px 36px rgba(194,98,43,.4);}
+        .rk01ab-check{display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-bottom:1px solid ${CREAM};}
+        .rk01ab-check:last-child{border-bottom:none;}
+        .rk01ab-checkic{flex-shrink:0;width:30px;height:30px;border-radius:9px;background:linear-gradient(140deg,rgba(194,98,43,.14),rgba(162,78,31,.1));color:${AMBER2};display:inline-flex;align-items:center;justify-content:center;transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .25s ease,color .25s ease;}
+        .rk01ab-check:hover .rk01ab-checkic{transform:scale(1.12);background:linear-gradient(140deg,${AMBER},${AMBER2});color:#fff;}
+        .rk01ab-cta2{display:inline-flex;align-items:center;gap:9px;margin-top:26px;background:linear-gradient(140deg,${AMBER},${AMBER2});color:#fff;font-weight:700;font-size:.96rem;padding:15px 32px;border-radius:999px;text-decoration:none;box-shadow:0 8px 22px rgba(194,98,43,.34);transition:transform .22s ease,box-shadow .25s ease;}
+        .rk01ab-cta2:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(194,98,43,.48);}
+        .rk01ab-cta2 svg{transition:transform .25s ease;}
+        .rk01ab-cta2:hover svg{transform:translateX(4px);}
+        @media(max-width:900px){.rk01ab-wrap{grid-template-columns:1fr;gap:40px;}.rk01ab-badge{left:20px;}}
+      `}</style>
+      <div className="rk01ab-wrap">
+        {/* Figure */}
+        <div style={{ position: "relative" }}>
+          <div className="rk01ab-figure" style={{ aspectRatio: "4/5" }}>
+            <GenericEditableImage sectionId={sectionId} field="image" src={image} alt="Náš tým při rekonstrukci" className="relative overflow-hidden w-full h-full" style={{ height: "100%" }}>
+              <Image src={image} alt="Náš tým při rekonstrukci" fill className="object-cover" sizes="(max-width:900px) 100vw, 40vw" unoptimized={shouldSkipNextImageOptimization(image)} />
+            </GenericEditableImage>
+            <span className="rk01ab-frame" />
+          </div>
+          <div className="rk01ab-badge">
+            <div style={{ fontSize: 30, fontWeight: 800, lineHeight: 1, letterSpacing: "-0.02em" }}>
+              <GenericEditableText sectionId={sectionId} field="badgeNumber" value={badgeNum} tag="span" />
+            </div>
+            <div style={{ fontSize: 11.5, fontWeight: 600, marginTop: 5, textTransform: "uppercase", letterSpacing: "0.08em", opacity: 0.92, maxWidth: 120, lineHeight: 1.3 }}>
+              <GenericEditableText sectionId={sectionId} field="badgeLabel" value={badgeLabel} tag="span" />
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div>
+          {showHeader && (
+            <>
+              {eyebrow.trim() && (
+                <div style={{ display: "inline-flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+                  <span style={{ display: "block", width: 30, height: 2, background: AMBER, borderRadius: 2 }} />
+                  <span style={{ color: AMBER2, fontSize: "0.78rem", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase" }}>
+                    <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                  </span>
+                </div>
+              )}
+              {title.trim() && (
+                <h2 style={{ color: DARK, fontSize: "clamp(26px,3.4vw,42px)", fontWeight: 800, lineHeight: 1.14, letterSpacing: "-0.02em", margin: "0 0 16px" }}>
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+              )}
+              {lead.trim() && (
+                <p style={{ color: MUTED, fontSize: "1.05rem", lineHeight: 1.7, margin: "0 0 26px", maxWidth: 560 }}>
+                  <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
+                </p>
+              )}
+            </>
+          )}
+
+          <div>
+            {values.map((v, i) => (
+              <div key={i} className="rk01ab-check">
+                <span className="rk01ab-checkic">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                </span>
+                <span style={{ color: DARK, fontSize: "1rem", fontWeight: 500, lineHeight: 1.5, paddingTop: 3 }}>
+                  <GenericEditableText sectionId={sectionId} field={`values.${i}`} value={v} tag="span" />
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <a href={resolve(ctaHref)} data-btn="primary" className="rk01ab-cta2">
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
       </div>

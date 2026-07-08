@@ -21,6 +21,7 @@ export function StatsSection({ content, variant, sectionId, isAdmin }: Props) {
 
   if (variant === "florist-01-stats") return <StatsFlorist01 content={content} sectionId={sectionId} />;
   if (variant === "sweet-01-usp") return <StatsSweet01 content={content} sectionId={sectionId} />;
+  if (variant === "rekonstrukce-01-usp") return <StatsRekonstrukce01Usp content={content} sectionId={sectionId} />;
 
   if (variant === "barber-stats-counter-4col") {
     const showHeader = (content as Record<string, unknown>).showHeader !== false;
@@ -750,18 +751,19 @@ function StatsStavba03({ content, sectionId }: { content: Record<string, unknown
   };
 
   return (
-    <section style={{ backgroundColor: "#fff", fontFamily: FONT }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "64px 32px" }}>
-        <div className="stavba03-usps-grid" style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(usps.length, 3)}, 1fr)`, gap: 32 }}>
+    <section style={{ backgroundColor: "#fff", fontFamily: FONT }} data-template="stavba-03">
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "72px 32px" }}>
+        <div className="stavba03-usps-grid" style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(usps.length, 3)}, 1fr)`, gap: 28 }}>
           {usps.map((usp, i) => (
-            <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 14, padding: "32px 28px", backgroundColor: "#f9f9f9", borderTop: `3px solid ${ORANGE}` }}>
-              <div style={{ color: ORANGE, display: "flex" }}>
+            <div key={i} className="st03-usp-card" style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: 16, padding: "40px 30px 34px", backgroundColor: "#fff", border: "1px solid #ededed", overflow: "hidden" }}>
+              <span className="st03-usp-bar" aria-hidden="true" style={{ position: "absolute", top: 0, left: 0, height: 3, width: "100%", background: ORANGE, transform: "scaleX(1)", transformOrigin: "left center" }} />
+              <span className="st03-usp-badge" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 62, height: 62, borderRadius: "50%", backgroundColor: "rgba(250,125,25,0.10)", color: ORANGE }}>
                 {icons[usp.icon] ?? icons.check}
-              </div>
-              <div style={{ fontFamily: FONT, fontSize: "1.05rem", fontWeight: 700, color: DARK, lineHeight: 1.3 }}>
+              </span>
+              <div style={{ fontFamily: FONT, fontSize: "1.1rem", fontWeight: 700, color: DARK, lineHeight: 1.3, letterSpacing: "-0.01em" }}>
                 <GenericEditableText sectionId={sectionId} field={`usps.${i}.title`} value={usp.title} tag="span" />
               </div>
-              <div style={{ fontFamily: FONT, fontSize: "0.9rem", color: GRAY, lineHeight: 1.65 }}>
+              <div style={{ fontFamily: FONT, fontSize: "0.92rem", color: GRAY, lineHeight: 1.68 }}>
                 <GenericEditableText sectionId={sectionId} field={`usps.${i}.description`} value={usp.description} tag="span" />
               </div>
             </div>
@@ -1046,123 +1048,172 @@ function StatsFlorist01({ content, sectionId }: { content: Record<string, unknow
 }
 
 // ── sweet-01-usp ──────────────────────────────────────────────────────────────
-// Ref: ovocnysvetozor.cz — 3-col feature-top strip
-// White #fefefe bg; red SVG icons 64px; dark H3; gray #9a9a9a body
+// Parisian Pâtisserie Boutique — 3-col trust strip
+// Cocoa #2b1810 bg, gold #c8a568 line SVG icons, Fraunces italic titles, Inter body
+// Cherry red accent dot, scalloped gold dividers between columns
 // ─────────────────────────────────────────────────────────────────────────────
 function StatsSweet01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const items = ((content.items as Array<{ icon?: string; title?: string; body?: string }>) ?? []).slice(0, 3);
 
-  const BG   = "#fefefe";
-  const RED  = "#E2001A";
-  const DARK = "#0a0a0a";
-  const GRAY = "#9a9a9a";
-  const FONT = "'Roboto', 'Helvetica Neue', Arial, sans-serif";
+  const COCOA  = "#2b1810";
+  const CREAM  = "#fdf6ee";
+  const GOLD   = "#c8a568";
+  const RED    = "#E2001A";
+  const FONT_D = "'Fraunces', 'Playfair Display', Georgia, serif";
+  const FONT_B = "'Inter', 'Helvetica Neue', Arial, sans-serif";
 
   const icons: Record<string, JSX.Element> = {
     bake: (
-      <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M32 8C24 8 14 16 14 26c0 6 3 11 8 14v8h20v-8c5-3 8-8 8-14C50 16 40 8 32 8Z" stroke={RED} strokeWidth="2.5" strokeLinejoin="round"/>
-        <path d="M22 48h20M24 54h16" stroke={RED} strokeWidth="2.5" strokeLinecap="round"/>
-        <circle cx="32" cy="26" r="5" fill={RED} opacity="0.2"/>
-        <circle cx="32" cy="26" r="2.5" fill={RED}/>
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="22" stroke={GOLD} strokeWidth="1" strokeDasharray="2 3" opacity="0.5"/>
+        <path d="M16 32c0-2 2-6 8-6s8 4 8 6" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M16 32h16v3a2 2 0 01-2 2H18a2 2 0 01-2-2v-3z" stroke={GOLD} strokeWidth="1.5"/>
+        <path d="M20 26v-4M24 26v-6M28 26v-4" stroke={GOLD} strokeWidth="1.2" strokeLinecap="round"/>
+        <path d="M18 16c2-3 4-5 6-5s4 2 6 5" stroke={GOLD} strokeWidth="1.2" strokeLinecap="round" opacity="0.6"/>
+        <circle cx="24" cy="14" r="1.5" fill={RED}/>
       </svg>
     ),
     fresh: (
-      <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M32 56C32 56 12 40 12 26a20 20 0 0140 0C52 40 32 56 32 56Z" stroke={RED} strokeWidth="2.5" strokeLinejoin="round"/>
-        <path d="M32 56V30" stroke={RED} strokeWidth="2.5" strokeLinecap="round"/>
-        <path d="M32 38l-8-8M32 44l8-8" stroke={RED} strokeWidth="2" strokeLinecap="round"/>
-        <circle cx="32" cy="26" r="4" fill={RED} opacity="0.15"/>
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="22" stroke={GOLD} strokeWidth="1" strokeDasharray="2 3" opacity="0.5"/>
+        <path d="M24 38V22" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round"/>
+        <path d="M24 22c-3-4-8-6-12-4 2 8 8 14 12 16" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M24 22c3-4 8-6 12-4-2 8-8 14-12 16" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <circle cx="24" cy="15" r="1.5" fill={RED}/>
       </svg>
     ),
     clock: (
-      <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="32" cy="32" r="22" stroke={RED} strokeWidth="2.5"/>
-        <path d="M32 18v14l8 6" stroke={RED} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <circle cx="32" cy="32" r="2.5" fill={RED}/>
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <circle cx="24" cy="24" r="22" stroke={GOLD} strokeWidth="1" strokeDasharray="2 3" opacity="0.5"/>
+        <circle cx="24" cy="24" r="14" stroke={GOLD} strokeWidth="1.5"/>
+        <path d="M24 16v8l5.5 4" stroke={GOLD} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <circle cx="24" cy="24" r="2" fill={RED}/>
       </svg>
     ),
   };
 
   const defaultItems = [
-    { icon: "bake",  title: "Pečeme si sami",         body: "Od roku 2010 máme vlastní pekárnu. Připravujeme v ní všechny naše korpusy klasickým domácím způsobem." },
-    { icon: "fresh", title: "Jen čerstvé suroviny",   body: "U všech produktů dbáme na čerstvost i původ surovin. Žádné náhražky u nás nemají místo." },
-    { icon: "clock", title: "Otevřeno 7 dní v týdnu", body: "Po celé Praze máme pobočky otevřené od pondělí do neděle. Chuť na sladké nepočká." },
+    { icon: "bake",  title: "Vlastní výroba denně",   body: "Každé ráno pečeme čerstvě od základu. Žádné polotovary, žádné kompromisy." },
+    { icon: "fresh", title: "Lokální ingredience",    body: "Spolupracujeme s farmáři z okolí. Máslo, vejce i ovoce pocházejí od prověřených dodavatelů." },
+    { icon: "clock", title: "Otevřeno každý den",     body: "Sedm dní v týdnu, od rána do večera. Protože chuť na dobrý zákusek nepočká." },
   ];
 
   const rows = items.length > 0 ? items : defaultItems;
 
   return (
-    <section id={String(sectionId)} style={{ backgroundColor: BG, fontFamily: FONT, padding: "48px 0", borderBottom: "1px solid #e8e8e8" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 clamp(20px, 4vw, 60px)", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0 }}>
+    <section data-template="sweet-01" style={{ backgroundColor: COCOA, fontFamily: FONT_B, padding: "64px 0", position: "relative", overflow: "hidden" }}>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Inter:wght@400;500&display=swap" />
+      <style>{`
+        .sw01-usp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; max-width: 1200px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 60px); }
+        .sw01-usp-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 28px 36px; position: relative; }
+        .sw01-usp-card:not(:last-child)::after {
+          content: ""; position: absolute; right: 0; top: 20%; height: 60%;
+          width: 1px; background: repeating-linear-gradient(to bottom, ${GOLD}44, ${GOLD}44 4px, transparent 4px, transparent 8px);
+        }
+        .sw01-usp-icon { margin-bottom: 20px; transition: transform 0.5s cubic-bezier(.4,0,.2,1); }
+        .sw01-usp-card:hover .sw01-usp-icon { transform: scale(1.12) rotate(-4deg); }
+        .sw01-usp-title { font-family: ${FONT_D}; font-style: italic; font-weight: 500; font-size: 20px; color: ${CREAM}; margin: 0 0 12px; letter-spacing: -0.01em; line-height: 1.25; }
+        .sw01-usp-body { font-family: ${FONT_B}; font-weight: 400; font-size: 14px; line-height: 1.7; color: rgba(253,246,238,0.62); margin: 0; }
+        @media(max-width: 700px) {
+          .sw01-usp-grid { grid-template-columns: 1fr; max-width: 420px; }
+          .sw01-usp-card:not(:last-child)::after { display: none; }
+          .sw01-usp-card:not(:last-child) { border-bottom: 1px dashed ${GOLD}33; }
+          .sw01-usp-card { padding: 28px 20px; }
+        }
+      `}</style>
+
+      {/* Scalloped top edge */}
+      <svg aria-hidden viewBox="0 0 1320 8" preserveAspectRatio="none" style={{ position: "absolute", top: -1, left: 0, right: 0, width: "100%", height: 8, pointerEvents: "none" }}>
+        <path d="M0 8 Q 12.5 0 25 8 T 50 8 T 75 8 T 100 8 T 125 8 T 150 8 T 175 8 T 200 8 T 225 8 T 250 8 T 275 8 T 300 8 T 325 8 T 350 8 T 375 8 T 400 8 T 425 8 T 450 8 T 475 8 T 500 8 T 525 8 T 550 8 T 575 8 T 600 8 T 625 8 T 650 8 T 675 8 T 700 8 T 725 8 T 750 8 T 775 8 T 800 8 T 825 8 T 850 8 T 875 8 T 900 8 T 925 8 T 950 8 T 975 8 T 1000 8 T 1025 8 T 1050 8 T 1075 8 T 1100 8 T 1125 8 T 1150 8 T 1175 8 T 1200 8 T 1225 8 T 1250 8 T 1275 8 T 1300 8 T 1320 8" fill={COCOA} stroke="none" />
+      </svg>
+
+      <div className="sw01-usp-grid">
         {rows.map((item, i) => (
-          <div
-            key={i}
-            style={{
-              display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16,
-              padding: "24px 32px",
-              borderRight: i < rows.length - 1 ? "1px solid #e8e8e8" : "none",
-            }}
-          >
-            <div style={{ flexShrink: 0 }}>
+          <div key={i} className="sw01-usp-card">
+            <div className="sw01-usp-icon">
               {icons[item.icon ?? ""] ?? icons.bake}
             </div>
-            <div>
-              <h3 style={{ margin: "0 0 8px 0", fontFamily: FONT, fontSize: "1.15rem", fontWeight: 700, color: DARK, lineHeight: 1.3 }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title ?? ""} tag="span" />
-              </h3>
-              <p style={{ margin: 0, fontFamily: FONT, fontSize: "0.9rem", color: GRAY, lineHeight: 1.6 }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.body`} value={item.body ?? ""} tag="span" />
-              </p>
-            </div>
+            <h3 className="sw01-usp-title">
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={item.title ?? ""} tag="span" />
+            </h3>
+            <p className="sw01-usp-body">
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.body`} value={item.body ?? ""} tag="span" />
+            </p>
           </div>
         ))}
       </div>
-      <style>{`
-        @media (max-width: 700px) {
-          #${sectionId} > div { grid-template-columns: 1fr !important; }
-          #${sectionId} > div > div { border-right: none !important; border-bottom: 1px solid #e8e8e8; }
-          #${sectionId} > div > div:last-child { border-bottom: none; }
-        }
-      `}</style>
+
+      {/* Scalloped bottom edge */}
+      <svg aria-hidden viewBox="0 0 1320 8" preserveAspectRatio="none" style={{ position: "absolute", bottom: -1, left: 0, right: 0, width: "100%", height: 8, pointerEvents: "none" }}>
+        <path d="M0 0 Q 12.5 8 25 0 T 50 0 T 75 0 T 100 0 T 125 0 T 150 0 T 175 0 T 200 0 T 225 0 T 250 0 T 275 0 T 300 0 T 325 0 T 350 0 T 375 0 T 400 0 T 425 0 T 450 0 T 475 0 T 500 0 T 525 0 T 550 0 T 575 0 T 600 0 T 625 0 T 650 0 T 675 0 T 700 0 T 725 0 T 750 0 T 775 0 T 800 0 T 825 0 T 850 0 T 875 0 T 900 0 T 925 0 T 950 0 T 975 0 T 1000 0 T 1025 0 T 1050 0 T 1075 0 T 1100 0 T 1125 0 T 1150 0 T 1175 0 T 1200 0 T 1225 0 T 1250 0 T 1275 0 T 1300 0 T 1320 0" fill={COCOA} stroke="none" />
+      </svg>
     </section>
   );
 }
 
-// ─── autoskola-01 Stats — mřížka poboček na oranžovém pozadí ─────────────────
+// ─── autoskola-01 Stats — Road Editorial Motion pobočky grid ─────────────────
+// Midnight ink bg, 4×2 grid s location pin badges, dashed road-lane separators,
+// JBM Mono city names, yellow pin pulse dot, orange dashed eyebrow
+// ─────────────────────────────────────────────────────────────────────────────
 function StatsAutoskola01({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const heading = String(content.heading ?? "Kde nás najdete");
-  const subheading = String(content.subheading ?? "Působíme ve 14 městech po celé České republice.");
+  const heading = String(content.heading ?? "Naše pobočky");
+  const subheading = String(content.subheading ?? "Jsme blízko vám — působíme v 8 moravských a středočeských městech.");
   const items = ((content.items as { value?: string; label?: string }[]) ?? []);
 
+  const INK    = "#0f172a";
+  const BONE   = "#fafaf7";
   const ORANGE = "#f16823";
-  const FONT = "'Roboto', sans-serif";
+  const YELLOW = "#ffce00";
+  const SLATE  = "#94a3b8";
+  const FONT_D = "'Space Grotesk', 'Inter', sans-serif";
+  const FONT_B = "'Inter Tight', 'Inter', sans-serif";
 
   return (
-    <section id={String(sectionId)} style={{ backgroundColor: ORANGE, padding: "72px clamp(24px, 6vw, 80px)" }}>
-      <div style={{ maxWidth: 960, margin: "0 auto", textAlign: "center" }}>
-        <h2 style={{ fontFamily: FONT, fontWeight: 700, fontSize: "clamp(1.5rem, 3vw, 2.2rem)", color: "#fff", margin: "0 0 10px", letterSpacing: "0.02em" }}>
-          <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-        </h2>
-        <p style={{ fontFamily: FONT, fontWeight: 400, fontSize: "clamp(0.95rem, 1.5vw, 1.05rem)", color: "rgba(255,255,255,0.85)", margin: "0 0 52px" }}>
-          <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "2px" }}>
+    <section data-template="autoskola-01" id={String(sectionId)} style={{ backgroundColor: INK, padding: "80px clamp(24px, 6vw, 80px)", position: "relative" }}>
+      {/* Dashed road-lane top border */}
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, borderTop: `2px dashed ${ORANGE}40` }} aria-hidden="true" />
+
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        {/* Header */}
+        <div style={{ textAlign: "center", marginBottom: 56 }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 16 }}>
+            <span style={{ width: 32, height: 0, borderTop: `2px dashed ${ORANGE}` }} aria-hidden="true" />
+            <span style={{ fontFamily: FONT_B, fontSize: 11, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", color: ORANGE }}>Lokality</span>
+            <span style={{ width: 32, height: 0, borderTop: `2px dashed ${ORANGE}` }} aria-hidden="true" />
+          </div>
+          <h2 style={{ fontFamily: FONT_D, fontWeight: 700, fontSize: "clamp(1.6rem, 3vw, 2.4rem)", color: BONE, margin: "0 0 10px", letterSpacing: "-0.01em" }}>
+            <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+          </h2>
+          <p style={{ fontFamily: FONT_B, fontWeight: 400, fontSize: "clamp(0.95rem, 1.5vw, 1.05rem)", color: SLATE, margin: 0 }}>
+            <GenericEditableText sectionId={sectionId} field="subheading" value={subheading} tag="span" />
+          </p>
+        </div>
+
+        {/* 4-col grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 16 }}>
           {items.map((item, i) => (
-            <div key={i} style={{ backgroundColor: "rgba(255,255,255,0.12)", padding: "28px 16px", display: "flex", flexDirection: "column", alignItems: "center", gap: 6, transition: "background 0.2s" }}
-              onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.backgroundColor = "rgba(255,255,255,0.22)"; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.backgroundColor = "rgba(255,255,255,0.12)"; }}
-            >
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                <circle cx="12" cy="9" r="2.5"/>
+            <div key={i} className="as01-stat-card"
+              style={{ position: "relative", backgroundColor: `${BONE}08`, border: `1px solid ${SLATE}15`, padding: "28px 20px", display: "flex", alignItems: "center", gap: 16, transition: "background-color 0.25s, border-color 0.25s, transform 0.25s" }}>
+              {/* Pin icon with pulse */}
+              <div style={{ position: "relative", flexShrink: 0 }}>
+                <div className="as01-pin-pulse" style={{ position: "absolute", inset: -4, borderRadius: "50%", border: `2px solid ${ORANGE}30` }} />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={ORANGE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                  <circle cx="12" cy="9" r="2.5"/>
+                </svg>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                <span style={{ fontFamily: FONT_D, fontWeight: 700, fontSize: "clamp(1rem, 1.6vw, 1.15rem)", color: BONE, letterSpacing: "0.02em" }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={String(item.value ?? "")} tag="span" />
+                </span>
+                <span style={{ fontFamily: FONT_B, fontWeight: 400, fontSize: 12, color: SLATE, letterSpacing: "0.04em" }}>
+                  <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={String(item.label ?? "")} tag="span" />
+                </span>
+              </div>
+              {/* Yellow corner bracket — top right */}
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" style={{ position: "absolute", top: 8, right: 8, opacity: 0.3 }}>
+                <path d="M16 0 H10 M16 0 V6" stroke={YELLOW} strokeWidth="1.5"/>
               </svg>
-              <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: "clamp(1rem, 1.8vw, 1.15rem)", color: "#fff", letterSpacing: "0.02em" }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={String(item.value ?? "")} tag="span" />
-              </span>
-              <span style={{ fontFamily: FONT, fontWeight: 400, fontSize: 12, color: "rgba(255,255,255,0.72)", letterSpacing: "0.04em" }}>
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={String(item.label ?? "")} tag="span" />
-              </span>
             </div>
           ))}
         </div>
@@ -1305,13 +1356,25 @@ function StatsEdu01({ content, sectionId }: { content: Record<string, unknown>; 
   const BLUE = "#0059df";
   const FONT = "'Libre Franklin', Arial, sans-serif";
 
-  const heading = String(content.heading ?? "Demo Akademie v číslech");
+  const eyebrow       = String(content.eyebrow       ?? "Čísla, která mluví");
+  const heading       = String(content.heading       ?? "Naše výsledky");
+  const headingAccent = String(content.headingAccent ?? "v číslech");
   const items   = (content.items as Array<{ value: string; label: string }>) ?? [
-    { value: "34 000+", label: "spokojených studentů" },
-    { value: "1 300+",  label: "aktivních lektorů" },
-    { value: "96 %",    label: "úspěšnost u zkoušek" },
-    { value: "10+",     label: "let zkušeností" },
+    { value: "12 000+", label: "spokojených studentů" },
+    { value: "850+",    label: "prověřených lektorů" },
+    { value: "94 %",    label: "úspěšnost u přijímaček" },
+    { value: "12",      label: "let zkušeností" },
   ];
+
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect(); } }, { threshold: 0.2 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <>
@@ -1319,15 +1382,23 @@ function StatsEdu01({ content, sectionId }: { content: Record<string, unknown>; 
         .edu01st{position:relative;background:linear-gradient(135deg,${NAVY} 0%,#0d1b2e 100%);padding:88px 40px;font-family:${FONT};overflow:hidden;}
         .edu01st::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;border-radius:50%;border:70px solid rgba(0,89,223,0.08);pointer-events:none;}
         .edu01st::after{content:'';position:absolute;bottom:-80px;left:-80px;width:300px;height:300px;border-radius:50%;border:50px solid rgba(0,89,223,0.06);pointer-events:none;}
+        .edu01st-mesh{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:52px 52px;mask-image:radial-gradient(ellipse 60% 70% at 50% 40%,#000,transparent 78%);pointer-events:none;}
         .edu01st-inner{position:relative;z-index:1;max-width:1280px;margin:0 auto;}
         .edu01st-head{text-align:center;margin-bottom:56px;}
+        .edu01st-eyebrow{display:inline-flex;align-items:center;gap:10px;color:${BLUE};font-size:12px;font-weight:700;letter-spacing:2.6px;text-transform:uppercase;margin-bottom:14px;}
+        .edu01st-eyebrow::before,.edu01st-eyebrow::after{content:'';width:24px;height:1.5px;background:${BLUE};opacity:.55;}
         .edu01st-head h2{font-family:${FONT};font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;color:#fff;margin:0;letter-spacing:-0.04em;}
-        .edu01st-head h2 span{color:${BLUE};}
+        .edu01st-accent{color:${BLUE};}
         .edu01st-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
-        .edu01st-item{padding:40px 24px;text-align:center;position:relative;}
+        .edu01st-item{padding:40px 24px;text-align:center;position:relative;opacity:0;transform:translateY(24px) scale(.96);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1);}
+        .edu01st-item.in{opacity:1;transform:translateY(0) scale(1);}
         .edu01st-item:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:rgba(255,255,255,0.1);}
-        .edu01st-val{font-family:${FONT};font-size:clamp(2.4rem,5vw,3.8rem);font-weight:800;color:#fff;line-height:1;margin-bottom:10px;letter-spacing:-0.04em;}
+        .edu01st-val{font-family:${FONT};font-size:clamp(2.4rem,5vw,3.8rem);font-weight:800;color:#fff;line-height:1;margin-bottom:12px;letter-spacing:-0.04em;transition:color .3s ease,transform .3s ease;}
         .edu01st-val span{color:${BLUE};}
+        .edu01st-item:hover .edu01st-val{color:${BLUE};transform:translateY(-3px);}
+        .edu01st-bar{width:0;height:3px;border-radius:3px;background:${BLUE};margin:0 auto 12px;transition:width .5s cubic-bezier(.2,.7,.2,1);}
+        .edu01st-item.in .edu01st-bar{width:34px;}
+        .edu01st-item:hover .edu01st-bar{width:52px;}
         .edu01st-lbl{font-size:clamp(13px,1.2vw,15px);color:rgba(255,255,255,0.55);font-weight:500;line-height:1.4;}
         @media(max-width:768px){
           .edu01st-grid{grid-template-columns:1fr 1fr;gap:0;}
@@ -1336,21 +1407,28 @@ function StatsEdu01({ content, sectionId }: { content: Record<string, unknown>; 
           .edu01st-item{padding:32px 16px;}
           .edu01st{padding:64px 24px;}
         }
+        @media(prefers-reduced-motion:reduce){.edu01st-item{opacity:1!important;transform:none!important;}}
       `}</style>
 
       <section id={String(sectionId)} className="edu01st" data-template="edu-01-stats">
+        <span className="edu01st-mesh" aria-hidden="true" />
         <div className="edu01st-inner">
           <div className="edu01st-head">
+            <span className="edu01st-eyebrow">
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+            </span>
             <h2>
               <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+              {" "}<span className="edu01st-accent"><GenericEditableText sectionId={sectionId} field="headingAccent" value={headingAccent} tag="span" /></span>
             </h2>
           </div>
-          <div className="edu01st-grid">
+          <div className="edu01st-grid" ref={gridRef}>
             {items.map((item, i) => (
-              <div key={i} className="edu01st-item">
+              <div key={i} className={`edu01st-item${vis ? " in" : ""}`} style={{ transitionDelay: `${i * 0.1}s` }}>
                 <div className="edu01st-val">
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={item.value} tag="span" />
                 </div>
+                <div className="edu01st-bar" aria-hidden="true" />
                 <div className="edu01st-lbl">
                   <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={item.label} tag="span" />
                 </div>
@@ -1515,21 +1593,19 @@ function StatsKids01({ content, sectionId }: { content: Record<string, unknown>;
 // - Small overline pretext, large green animated number, Montserrat 500 50px
 // - Small label below; count-up animation on intersection
 // ─────────────────────────────────────────────────────────────────────────────
-const STATS_UCN02_PRETEXTS = ["přidejte se k", "let", "zkušených"];
-
 function StatsUcetni02CountItem({ item, idx, sectionId }: {
-  item: { value?: string; label?: string };
+  item: { value?: string; label?: string; pretext?: string };
   idx: number;
   sectionId: number;
 }) {
   const GREEN  = "#004835";
+  const GOLD   = "#bca160";
   const FONT_H = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
 
   const raw = String(item.value ?? "");
   const numStr = raw.replace(/[^0-9]/g, "");
   const target  = parseInt(numStr, 10) || 0;
   const suffix  = raw.replace(/[0-9\s]/g, "");
-  const pretext = STATS_UCN02_PRETEXTS[idx] ?? "";
 
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
@@ -1542,7 +1618,7 @@ function StatsUcetni02CountItem({ item, idx, sectionId }: {
       if (!e.isIntersecting || started) return;
       started = true;
       io.disconnect();
-      const dur = 1400;
+      const dur = 1600;
       const t0 = performance.now();
       const tick = (t: number) => {
         const k = Math.min(1, (t - t0) / dur);
@@ -1561,37 +1637,12 @@ function StatsUcetni02CountItem({ item, idx, sectionId }: {
     : raw;
 
   return (
-    <div ref={ref} style={{ textAlign: "center", padding: "0 40px" }}>
-      {pretext && (
-        <div style={{
-          fontFamily: FONT_H,
-          fontSize: "12px",
-          fontWeight: 500,
-          letterSpacing: "1px",
-          color: "#7a9590",
-          textTransform: "uppercase",
-          marginBottom: "8px",
-        }}>
-          {pretext}
-        </div>
-      )}
-      <div style={{
-        fontFamily: FONT_H,
-        fontSize: "clamp(38px, 4vw, 50px)",
-        fontWeight: 500,
-        color: GREEN,
-        lineHeight: 1,
-        marginBottom: "14px",
-      }}>
-        {formatted}{suffix}
+    <div ref={ref} className="ucn02stats-item" style={{ animationDelay: `${idx * 0.12}s` }}>
+      <span className="ucn02stats-mark" aria-hidden="true" />
+      <div className="ucn02stats-num" style={{ fontFamily: FONT_H, color: GREEN }}>
+        {formatted}<span style={{ color: GOLD }}>{suffix}</span>
       </div>
-      <div style={{
-        fontFamily: FONT_H,
-        fontSize: "15px",
-        fontWeight: 500,
-        color: "#2d4a42",
-        lineHeight: 1.4,
-      }}>
+      <div className="ucn02stats-label" style={{ fontFamily: FONT_H }}>
         <GenericEditableText sectionId={sectionId} field={`items.${idx}.label`} value={String(item.label ?? "")} tag="span" />
       </div>
     </div>
@@ -1599,28 +1650,69 @@ function StatsUcetni02CountItem({ item, idx, sectionId }: {
 }
 
 function StatsUcetni02({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const GOLD = "#bca160";
+  const GREEN  = "#004835";
+  const GOLD   = "#bca160";
+  const FONT_H = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
 
   const rawItems = (content.items as Array<{ value?: string; label?: string }>) ?? [];
   const items = rawItems.length > 0 ? rawItems : [
-    { value: "1 600+", label: "spokojených klientů" },
-    { value: "10+",    label: "let na trhu" },
-    { value: "80+",    label: "zkušených specialistů" },
+    { value: "2 200+", label: "spokojených klientů" },
+    { value: "15+",    label: "let na trhu" },
+    { value: "120+",   label: "zkušených specialistů" },
   ];
+
+  // conditional header (hidden on subpages via empty-string overrides)
+  const eyebrowRaw = (content as Record<string, unknown>).eyebrow;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const eyebrow = eyebrowRaw === undefined ? "GreenTax v číslech" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Výsledky, které mluví za nás" : String(titleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim());
 
   return (
     <>
       <style>{`
         .ucn02stats-wrap {
-          background: #f4f7f5;
-          padding: 72px 24px;
+          background: linear-gradient(180deg, #f7faf8 0%, #eef3f0 100%);
+          padding: 84px 24px;
+          position: relative;
+        }
+        .ucn02stats-wrap::before {
+          content: "";
+          position: absolute;
+          top: 0; left: 50%;
+          transform: translateX(-50%);
+          width: 64px; height: 3px;
+          background: ${GOLD};
+        }
+        .ucn02stats-head {
+          max-width: 760px;
+          margin: 0 auto 52px;
+          text-align: center;
+        }
+        .ucn02stats-eyebrow {
+          font-family: ${FONT_H};
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          color: ${GOLD};
+          display: block;
+          margin-bottom: 14px;
+        }
+        .ucn02stats-title {
+          font-family: ${FONT_H};
+          font-size: clamp(26px, 3vw, 36px);
+          font-weight: 700;
+          color: ${GREEN};
+          margin: 0;
+          letter-spacing: -0.4px;
         }
         .ucn02stats-grid {
-          max-width: 1100px;
+          max-width: 1080px;
           margin: 0 auto;
           display: grid;
           grid-template-columns: repeat(3, 1fr);
-          align-items: center;
+          align-items: stretch;
         }
         .ucn02stats-col { position: relative; }
         .ucn02stats-divider {
@@ -1628,21 +1720,58 @@ function StatsUcetni02({ content, sectionId }: { content: Record<string, unknown
           left: 0;
           top: 50%;
           transform: translateY(-50%);
-          height: 80px;
+          height: 96px;
           width: 1px;
+          background: linear-gradient(180deg, transparent, ${GOLD}, transparent);
+          opacity: 0.55;
+        }
+        .ucn02stats-item {
+          text-align: center;
+          padding: 8px 40px;
+          animation: ucn02Up 0.7s cubic-bezier(.22,.61,.36,1) both;
+          transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+        }
+        .ucn02stats-item:hover { transform: translateY(-6px); }
+        .ucn02stats-mark {
+          display: block;
+          width: 26px; height: 2px;
           background: ${GOLD};
-          opacity: 0.5;
+          margin: 0 auto 20px;
+          transition: width 0.35s ease;
+        }
+        .ucn02stats-item:hover .ucn02stats-mark { width: 46px; }
+        .ucn02stats-num {
+          font-size: clamp(42px, 4.4vw, 58px);
+          font-weight: 800;
+          line-height: 1;
+          margin-bottom: 14px;
+          letter-spacing: -1px;
+        }
+        .ucn02stats-label {
+          font-size: 15px;
+          font-weight: 600;
+          color: #2d4a42;
+          line-height: 1.4;
+          letter-spacing: 0.2px;
         }
         @media (max-width: 700px) {
-          .ucn02stats-wrap { padding: 48px 20px; }
-          .ucn02stats-grid { grid-template-columns: 1fr; gap: 32px; }
+          .ucn02stats-wrap { padding: 56px 20px; }
+          .ucn02stats-head { margin-bottom: 36px; }
+          .ucn02stats-grid { grid-template-columns: 1fr; gap: 36px; }
           .ucn02stats-divider { display: none; }
-        }
-        @media (max-width: 960px) and (min-width: 701px) {
-          .ucn02stats-grid { grid-template-columns: repeat(3, 1fr); }
         }
       `}</style>
       <section className="ucn02stats-wrap" data-template="ucetni-02-stats">
+        {showHeader && (
+          <div className="ucn02stats-head">
+            {eyebrow.trim() && (
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" className="ucn02stats-eyebrow" />
+            )}
+            {title.trim() && (
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" className="ucn02stats-title" />
+            )}
+          </div>
+        )}
         <div className="ucn02stats-grid">
           {items.map((item, i) => (
             <div key={i} className="ucn02stats-col">
@@ -1656,25 +1785,76 @@ function StatsUcetni02({ content, sectionId }: { content: Record<string, unknown
   );
 }
 
-function StatsUcetni03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const DARK  = "#002000";
-  const GREEN = "#8ec63f";
+function StatsUcetni03CountItem({ item, idx, sectionId, triggered }: {
+  item: { value?: string; label?: string };
+  idx: number;
+  sectionId: number;
+  triggered: boolean;
+}) {
+  const DARK   = "#002000";
+  const GREEN  = "#8ec63f";
   const FONT_H = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+
+  const raw    = String(item.value ?? "");
+  const numStr = raw.replace(/[^0-9]/g, "");
+  const target = parseInt(numStr, 10) || 0;
+  const suffix = raw.replace(/[0-9\s]/g, "").trim();
+
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!triggered || target <= 0) return;
+    const dur = 1800;
+    const t0 = performance.now();
+    const tick = (t: number) => {
+      const k = Math.min(1, (t - t0) / dur);
+      const eased = 1 - Math.pow(1 - k, 3);
+      setCount(Math.round(target * eased));
+      if (k < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  }, [triggered, target]);
+
+  const formatted = target > 0 ? count.toLocaleString("cs-CZ").replace(/ /g, " ") : raw;
+
+  return (
+    <div className="ucn03stats-item" style={{ transitionDelay: `${idx * 0.14}s`, animationDelay: `${idx * 0.14}s` }}>
+      <div className="ucn03stats-accent" aria-hidden="true" />
+      <div className="ucn03stats-value" style={{ fontFamily: FONT_H, color: DARK }}>
+        {formatted}{suffix && <span style={{ color: GREEN }}>{suffix}</span>}
+      </div>
+      <div className="ucn03stats-label">
+        <GenericEditableText sectionId={sectionId} field={`items.${idx}.label`} value={String(item.label ?? "")} tag="span" />
+      </div>
+    </div>
+  );
+}
+
+function StatsUcetni03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const GREEN  = "#8ec63f";
   const FONT_B = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
 
   const rawItems = (content.items as Array<{ value?: string; label?: string }>) ?? [];
   const items = rawItems.length > 0 ? rawItems : [
-    { value: "1 800",   label: "hypotečních poradců" },
-    { value: "161 mld", label: "Kč sjednaných hypoték" },
-    { value: "20+",     label: "let zkušeností" },
+    { value: "2 400",   label: "certifikovaných poradců" },
+    { value: "84 mld",  label: "Kč sjednaných hypoték ročně" },
+    { value: "15+",     label: "let na hypotečním trhu" },
   ];
 
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const titleRaw    = (content as Record<string, unknown>).title;
+  const subtitleRaw = (content as Record<string, unknown>).subtitle;
+  const eyebrow  = eyebrowRaw  === undefined ? "Klíčová čísla" : String(eyebrowRaw);
+  const title    = titleRaw    === undefined ? "Výsledky, které mluví za nás" : String(titleRaw);
+  const subtitle = subtitleRaw === undefined ? "" : String(subtitleRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || subtitle.trim());
+
+  const ref = useRef<HTMLElement>(null);
+  const [triggered, setTriggered] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } }, { threshold: 0.3 });
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setTriggered(true); obs.disconnect(); } }, { threshold: 0.25 });
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
@@ -1683,62 +1863,116 @@ function StatsUcetni03({ content, sectionId }: { content: Record<string, unknown
     <>
       <style>{`
         .ucn03stats-section {
-          background: #f8f8f8;
-          padding: 64px 40px;
+          position: relative;
+          background: linear-gradient(180deg, #f9faf9 0%, #f1f4f1 100%);
+          padding: 80px 40px;
           font-family: ${FONT_B};
+          overflow: hidden;
+        }
+        .ucn03stats-section::before {
+          content: '';
+          position: absolute;
+          bottom: -1px; left: 0; right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, transparent, ${GREEN}, transparent);
+          opacity: 0.35;
+        }
+        .ucn03stats-head {
+          max-width: 700px;
+          margin: 0 auto 52px;
+          text-align: center;
+        }
+        .ucn03stats-eyebrow {
+          display: block;
+          font-family: 'Montserrat', sans-serif;
+          font-size: 12px;
+          font-weight: 700;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          color: ${GREEN};
+          margin-bottom: 14px;
+        }
+        .ucn03stats-title {
+          font-family: 'Montserrat', sans-serif;
+          font-size: clamp(24px, 3vw, 34px);
+          font-weight: 700;
+          color: #002000;
+          margin: 0;
+          letter-spacing: -0.3px;
         }
         .ucn03stats-inner {
           max-width: 1100px;
           margin: 0 auto;
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 40px;
+          grid-template-columns: repeat(${items.length}, 1fr);
+          gap: 0;
         }
         .ucn03stats-item {
-          border-top: 3px solid ${GREEN};
-          padding-top: 28px;
-          text-align: left;
+          position: relative;
+          text-align: center;
+          padding: 32px 24px 24px;
           opacity: 0;
-          transform: translateY(16px);
-          transition: opacity 0.5s ease, transform 0.5s ease;
+          transform: translateY(18px);
+          transition: opacity 0.55s ease, transform 0.55s cubic-bezier(.22,.68,0,1);
         }
-        .ucn03stats-item.visible {
+        .ucn03stats-section.triggered .ucn03stats-item {
           opacity: 1;
           transform: none;
         }
-        .ucn03stats-item:nth-child(2) { transition-delay: 0.12s; }
-        .ucn03stats-item:nth-child(3) { transition-delay: 0.24s; }
+        .ucn03stats-item::after {
+          content: '';
+          position: absolute;
+          right: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          height: 60px;
+          width: 1px;
+          background: linear-gradient(180deg, transparent, rgba(142,198,63,0.5), transparent);
+        }
+        .ucn03stats-item:last-child::after { display: none; }
+        .ucn03stats-accent {
+          width: 32px; height: 3px;
+          background: ${GREEN};
+          margin: 0 auto 20px;
+          border-radius: 2px;
+          transition: width 0.4s cubic-bezier(.22,.68,0,1);
+        }
+        .ucn03stats-item:hover .ucn03stats-accent { width: 56px; }
+        .ucn03stats-item:hover { transform: translateY(-4px); }
         .ucn03stats-value {
-          font-family: ${FONT_H};
           font-size: clamp(2.4rem, 4vw, 3.5rem);
           font-weight: 800;
-          color: ${DARK};
           line-height: 1;
           margin-bottom: 10px;
+          letter-spacing: -1px;
         }
         .ucn03stats-label {
-          font-size: 1rem;
+          font-size: 0.95rem;
           color: #737b79;
-          line-height: 1.4;
+          line-height: 1.45;
         }
         @media (max-width: 700px) {
-          .ucn03stats-section { padding: 48px 20px; }
-          .ucn03stats-inner { grid-template-columns: 1fr; gap: 28px; }
-          .ucn03stats-item { text-align: center; }
+          .ucn03stats-section { padding: 56px 20px; }
+          .ucn03stats-head { margin-bottom: 36px; }
+          .ucn03stats-inner { grid-template-columns: 1fr; gap: 8px; }
+          .ucn03stats-item::after { display: none; }
         }
       `}</style>
 
-      <section className="ucn03stats-section" data-template="ucetni-03-stats" ref={ref}>
+      <section className={`ucn03stats-section${triggered ? " triggered" : ""}`} data-template="ucetni-03-stats" ref={ref}>
+        {showHeader && (
+          <div className="ucn03stats-head">
+            {eyebrow.trim() && (
+              <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" className="ucn03stats-eyebrow" />
+            )}
+            {title.trim() && (
+              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="h2" className="ucn03stats-title" />
+            )}
+          </div>
+        )}
         <div className="ucn03stats-inner">
           {items.map((item, i) => (
-            <div key={i} className={`ucn03stats-item${visible ? " visible" : ""}`}>
-              <div className="ucn03stats-value">
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={String(item.value ?? "")} tag="span" />
-              </div>
-              <div className="ucn03stats-label">
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={String(item.label ?? "")} tag="span" />
-              </div>
-            </div>
+            <StatsUcetni03CountItem key={i} item={item} idx={i} sectionId={sectionId} triggered={triggered} />
           ))}
         </div>
       </section>
@@ -2080,22 +2314,26 @@ function StatsSolar01({ content, sectionId }: { content: Record<string, unknown>
 }
 
 // ── ucetni-04-stats ──────────────────────────────────────────────────────────
-// 1:1 bcas.cz why section + count-up animace + fade/slide-up stagger
-// bg: #FBF6EE (cream), value 30px #171F22, label 0.875em #486A72
+// „Prosperita Finance" — stats pás LUXE. Světlý surface band, velká navy count-up
+// čísla se zlatým accentem, gold hairline dividery, hover lift + accent grow.
+// navy #1B3A6B + gold #C8923A + Inter. Count-up (1600ms) + IntersectionObserver.
 // ─────────────────────────────────────────────────────────────────────────────
 function StatsUcetni04({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
-  const NAVY  = "#003366";
-  const MUTED = "#486A72";
-  const BG    = "#FBF6EE";
-  const DARK  = "#171F22";
-  const FONT  = "'Plus Jakarta Sans', Arial, 'Helvetica Neue', sans-serif";
+  const NAVY  = "#1B3A6B";
+  const GOLD  = "#C8923A";
+  const MUTED = "#6b7280";
+  const FONT  = "'Inter', 'Helvetica Neue', Arial, sans-serif";
 
-  const heading  = String(content.heading ?? "Naše zkušenosti pracují pro vás");
+  const eyebrowRaw  = (content as Record<string, unknown>).eyebrow;
+  const headingRaw  = (content as Record<string, unknown>).heading;
+  const eyebrow = eyebrowRaw === undefined ? "V číslech" : String(eyebrowRaw);
+  const heading = headingRaw === undefined ? "Čísla, která hovoří za nás" : String(headingRaw);
+  const showHeader = !!(eyebrow.trim() || heading.trim());
   const rawItems = Array.isArray(content.items) ? content.items as Array<{ value?: string; label?: string }> : [];
   const items    = rawItems.length > 0 ? rawItems : [
-    { value: "30 000+", label: "klientů ročně" },
-    { value: "790+",    label: "poradců po celé ČR" },
-    { value: "20",      label: "let na trhu" },
+    { value: "12 400+", label: "spokojených klientů" },
+    { value: "340+",    label: "certifikovaných poradců" },
+    { value: "15",      label: "let zkušeností" },
   ];
 
   const sectionRef = useRef<HTMLElement>(null);
@@ -2152,71 +2390,58 @@ function StatsUcetni04({ content, sectionId }: { content: Record<string, unknown
   return (
     <>
       <style>{`
-        .ucn04stats { background: ${BG}; font-family: ${FONT}; }
-        .ucn04stats-inner {
-          max-width: 1296px;
-          margin: 0 auto;
-          padding: 0 24px clamp(56px,4vw,64px);
-        }
-        .ucn04stats-heading {
-          font-size: clamp(13px,1.1vw,15px);
-          font-weight: 600;
-          color: ${NAVY};
-          text-transform: uppercase;
-          letter-spacing: 0.08em;
-          text-align: center;
-          padding-top: clamp(40px,4vw,56px);
-          padding-bottom: clamp(24px,3vw,36px);
-          margin: 0;
-        }
+        .ucn04stats { position: relative; background: linear-gradient(180deg, #ffffff, #F5F7FB); font-family: ${FONT}; overflow: hidden; }
+        .ucn04stats::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(200,146,58,0.4), transparent); }
+        .ucn04stats-inner { max-width: 1200px; margin: 0 auto; padding: clamp(56px,7vw,88px) 24px clamp(56px,7vw,88px); }
+        .ucn04stats-head { text-align: center; margin-bottom: clamp(40px,5vw,56px); }
+        .ucn04stats-eyebrow { display: inline-flex; align-items: center; gap: 9px; font-size: 12.5px; font-weight: 700;
+          letter-spacing: .16em; text-transform: uppercase; color: ${GOLD}; margin-bottom: 14px; }
+        .ucn04stats-eyebrow::before, .ucn04stats-eyebrow::after { content: ""; width: 24px; height: 1px; background: rgba(200,146,58,0.5); }
+        .ucn04stats-title { font-family: ${FONT}; font-size: clamp(24px,3vw,38px); font-weight: 800; color: ${NAVY}; letter-spacing: -0.025em; line-height: 1.15; margin: 0; }
         .ucn04stats-list {
-          list-style: none;
-          margin: 0;
-          padding: 0;
-          display: flex;
-          flex-flow: row wrap;
-          justify-content: space-evenly;
-          gap: 2rem 1em;
+          list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr);
+          border: 1px solid #e6eaf1; border-radius: 20px; background: #fff; overflow: hidden;
+          box-shadow: 0 24px 60px -30px rgba(20,41,77,0.28);
         }
         .ucn04stats-item {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          max-width: 14.5em;
-          gap: 8px;
-          opacity: 0;
-          transform: translateY(20px);
-          transition: opacity 0.5s ease, transform 0.5s ease;
+          position: relative; display: flex; flex-direction: column; align-items: center; text-align: center;
+          padding: clamp(38px,4.5vw,54px) 28px; gap: 12px;
+          opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s ease, background .35s;
         }
-        .ucn04stats-item.ucn04stats-visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        .ucn04stats-item:not(:last-child)::after { content: ""; position: absolute; top: 26%; bottom: 26%; right: 0; width: 1px;
+          background: linear-gradient(180deg, transparent, #e6eaf1 30%, #e6eaf1 70%, transparent); }
+        .ucn04stats-item.ucn04stats-visible { opacity: 1; transform: translateY(0); }
+        .ucn04stats-item:hover { background: linear-gradient(180deg, #fff, #FAF7F1); }
+        .ucn04stats-mark { width: 46px; height: 3px; border-radius: 3px; background: ${GOLD}; margin-bottom: 4px;
+          transition: width .4s cubic-bezier(.34,1.4,.5,1); }
+        .ucn04stats-item:hover .ucn04stats-mark { width: 68px; }
         .ucn04stats-value {
-          font-size: 30px;
-          font-weight: 600;
-          color: ${DARK};
-          letter-spacing: -0.025em;
-          line-height: 1.2;
-          font-variant-numeric: tabular-nums;
+          font-size: clamp(38px,4.6vw,56px); font-weight: 800; color: ${NAVY};
+          letter-spacing: -0.03em; line-height: 1; font-variant-numeric: tabular-nums;
         }
-        .ucn04stats-label {
-          font-size: 0.875em;
-          color: ${MUTED};
-          line-height: 1.35;
-        }
-        @media (max-width: 600px) {
-          .ucn04stats-list { justify-content: center; }
-          .ucn04stats-value { font-size: 26px; }
+        .ucn04stats-label { font-size: 15px; color: ${MUTED}; line-height: 1.4; font-weight: 500; }
+        @media (max-width: 720px) {
+          .ucn04stats-list { grid-template-columns: 1fr; }
+          .ucn04stats-item:not(:last-child)::after { top: auto; bottom: 0; left: 22%; right: 22%; width: auto; height: 1px;
+            background: linear-gradient(90deg, transparent, #e6eaf1 30%, #e6eaf1 70%, transparent); }
         }
       `}</style>
-      <section ref={sectionRef} className="ucn04stats" data-template="ucetni-04-stats">
+      <section ref={sectionRef} className="ucn04stats" data-template="ucetni-04-stats" id="cisla">
         <div className="ucn04stats-inner">
-          {heading && (
-            <p className="ucn04stats-heading">
-              <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
-            </p>
+          {showHeader && (
+            <div className="ucn04stats-head">
+              {eyebrow.trim() && (
+                <span className="ucn04stats-eyebrow">
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </span>
+              )}
+              {heading.trim() && (
+                <h2 className="ucn04stats-title">
+                  <GenericEditableText sectionId={sectionId} field="heading" value={heading} tag="span" />
+                </h2>
+              )}
+            </div>
           )}
           <ul className="ucn04stats-list">
             {items.map((item, i) => {
@@ -2226,8 +2451,9 @@ function StatsUcetni04({ content, sectionId }: { content: Record<string, unknown
                 <li
                   key={i}
                   className={`ucn04stats-item${visible ? " ucn04stats-visible" : ""}`}
-                  style={{ transitionDelay: `${i * 120}ms` }}
+                  style={{ transitionDelay: `${i * 130}ms` }}
                 >
+                  <span className="ucn04stats-mark" aria-hidden="true" />
                   <strong className="ucn04stats-value">{disp}</strong>
                   <span className="ucn04stats-label">
                     <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={String(item.label ?? "")} tag="span" />
@@ -2708,35 +2934,72 @@ function Ev01StatCounter({ target, suffix }: { target: number; suffix: string })
   return <span ref={ref}>{count}{suffix}</span>;
 }
 
+// Count-up value pro autoservis-03 — parsuje "15+", "3 000+", "4.8★", "24h"
+function A03StatValue({ value }: { value: string }) {
+  const m = value.match(/^(\D*)([\d][\d\s.,]*)(\D*)$/);
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const [display, setDisplay] = useState(m ? m[1] + "0" + m[3] : value);
+
+  useEffect(() => {
+    if (!m) { setDisplay(value); return; }
+    const prefix = m[1];
+    const suffix = m[3];
+    const numStr = m[2].trim();
+    const hasSpace = /\s/.test(numStr);
+    const clean = numStr.replace(/\s/g, "").replace(",", ".");
+    const decimals = clean.includes(".") ? clean.split(".")[1].length : 0;
+    const target = parseFloat(clean);
+    const fmt = (n: number) => {
+      let s = decimals ? n.toFixed(decimals) : String(Math.round(n));
+      if (hasSpace) s = s.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+      return prefix + s + suffix;
+    };
+    const el = ref.current;
+    if (!el) return;
+    let done = false;
+    const io = new IntersectionObserver((entries) => {
+      if (!entries[0].isIntersecting || done) return;
+      done = true;
+      const dur = 1500, steps = 48, iv = dur / steps;
+      let step = 0;
+      const t = setInterval(() => {
+        step++;
+        const p = step / steps;
+        const ease = 1 - Math.pow(1 - p, 3);
+        setDisplay(fmt(target * ease));
+        if (step >= steps) { clearInterval(t); setDisplay(fmt(target)); }
+      }, iv);
+    }, { threshold: 0.5 });
+    io.observe(el);
+    return () => io.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  return <span ref={ref} style={{ fontVariantNumeric: "tabular-nums" }}>{display}</span>;
+}
+
 function StatsAutoservis03({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
   const items = (content.items as Array<{ value: string; label: string }>) ?? [];
   return (
-    <>
-      <style>{`
-        .as03stat { padding: 56px 40px; background: #111827; border-top: 1px solid rgba(249,115,22,.15); border-bottom: 1px solid rgba(249,115,22,.15); }
-        .as03stat-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
-        .as03stat-item { text-align: center; padding: 0 24px; border-right: 1px solid rgba(249,115,22,.2); }
-        .as03stat-item:last-child { border-right: none; }
-        .as03stat-num { font-family: 'Inter', sans-serif; font-size: clamp(36px, 4vw, 52px); font-weight: 800; color: #f97316; line-height: 1; letter-spacing: -1px; }
-        .as03stat-lbl { font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: #9ca3af; margin-top: 8px; }
-        @media (max-width: 768px) { .as03stat { padding: 40px 24px; } .as03stat-inner { grid-template-columns: repeat(2,1fr); gap: 32px; } .as03stat-item { border-right: none; padding: 0; } }
-        @media (max-width: 400px) { .as03stat-inner { grid-template-columns: 1fr; } }
-      `}</style>
-      <section className="as03stat" data-template="autoservis-03-stats">
-        <div className="as03stat-inner">
-          {items.map((item, i) => (
-            <div key={i} className="as03stat-item">
-              <div className="as03stat-num">
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={item.value} tag="span" />
-              </div>
-              <div className="as03stat-lbl">
-                <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={item.label} tag="span" />
-              </div>
+    <section id="statistiky" className="as03stat" data-template="autoservis-03">
+      {/* orange radial glow */}
+      <div aria-hidden="true" className="as03stat-glow" />
+      <div className="as03stat-inner">
+        {items.map((item, i) => (
+          <div key={i} className="as03stat-item">
+            <span aria-hidden="true" className="as03stat-tick" />
+            <div className="as03stat-num">
+              <A03StatValue value={String(item.value)} />
+              {/* skrytý editovatelný zdroj hodnoty */}
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.value`} value={item.value} tag="span" style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)", whiteSpace: "nowrap" }} />
             </div>
-          ))}
-        </div>
-      </section>
-    </>
+            <div className="as03stat-lbl">
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.label`} value={item.label} tag="span" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -2924,5 +3187,61 @@ function StatsEvents01({ content, sectionId }: { content: Record<string, unknown
         </div>
       </section>
     </>
+  );
+}
+
+// ── rekonstrukce-01-usp ───────────────────────────────────────────────────────
+// 3-pilíř USP pás pod hero: ambrová icon dlaždice + title + text, hover lift.
+// ──────────────────────────────────────────────────────────────────────────────
+function StatsRekonstrukce01Usp({ content, sectionId }: { content: Record<string, unknown>; sectionId: number }) {
+  const AMBER = "#C2622B";
+  const AMBER2 = "#A24E1F";
+  const DARK  = "#1F1B17";
+  const MUTED = "#7A7066";
+  const BG    = "#FAF7F2";
+  const CREAM = "#F2ECE3";
+  const FONT  = "'Inter', sans-serif";
+
+  type UspItem = { icon?: string; title?: string; text?: string };
+  const items: UspItem[] = (content.items as UspItem[]) ?? [
+    { icon: "award",  title: "Dlouholeté zkušenosti", text: "Více než 25 let praxe v oblasti rekonstrukcí bytů a bytových jader." },
+    { icon: "shield", title: "Profesionální servis",   text: "Garantujeme vysoký standard práce a dodržení dohodnutých termínů." },
+    { icon: "layers", title: "Ověřené materiály",      text: "Používáme pouze prověřené materiály od spolehlivých dodavatelů." },
+  ];
+
+  const Icon = ({ name }: { name: string }) => {
+    const p = { width: 26, height: 26, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true };
+    if (name === "award") return (<svg {...p}><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>);
+    if (name === "shield") return (<svg {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>);
+    if (name === "layers") return (<svg {...p}><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="m6.08 9.5-3.48 1.6a1 1 0 0 0 0 1.81l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.48-1.59"/></svg>);
+    return (<svg {...p}><circle cx="12" cy="12" r="9"/></svg>);
+  };
+
+  return (
+    <section style={{ backgroundColor: BG, fontFamily: FONT, padding: "clamp(56px,8vw,88px) 0", position: "relative", opacity: 1 }} data-template="rekonstrukce-01">
+      <style>{`
+        .rk01usp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1180px;margin:0 auto;padding:0 32px;}
+        .rk01usp-card{position:relative;background:#fff;border:1px solid ${CREAM};border-radius:18px;padding:34px 30px;box-shadow:0 2px 14px rgba(60,40,20,.05);transition:transform .28s cubic-bezier(.2,.7,.2,1),box-shadow .28s ease,border-color .28s ease;overflow:hidden;}
+        .rk01usp-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,${AMBER},${AMBER2});transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.4,0,.2,1);}
+        .rk01usp-card:hover{transform:translateY(-6px);box-shadow:0 22px 50px rgba(60,40,20,.12);border-color:rgba(194,98,43,.28);}
+        .rk01usp-card:hover::before{transform:scaleX(1);}
+        .rk01usp-ic{display:inline-flex;align-items:center;justify-content:center;width:56px;height:56px;border-radius:14px;background:linear-gradient(140deg,rgba(194,98,43,.14),rgba(162,78,31,.1));color:${AMBER2};margin-bottom:20px;transition:transform .35s cubic-bezier(.34,1.56,.64,1),background .3s ease,color .3s ease;}
+        .rk01usp-card:hover .rk01usp-ic{transform:scale(1.08) rotate(-5deg);background:linear-gradient(140deg,${AMBER},${AMBER2});color:#fff;}
+        @media(max-width:860px){.rk01usp-grid{grid-template-columns:1fr;gap:16px;}}
+      `}</style>
+      <div className="rk01usp-grid">
+        {items.map((it, i) => (
+          <div key={i} className="rk01usp-card">
+            <span className="rk01usp-ic"><Icon name={String(it.icon ?? "layers")} /></span>
+            <h3 style={{ color: DARK, fontSize: "1.18rem", fontWeight: 700, margin: "0 0 10px", letterSpacing: "-0.01em" }}>
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.title`} value={String(it.title ?? "")} tag="span" />
+            </h3>
+            <p style={{ color: MUTED, fontSize: "0.94rem", lineHeight: 1.65, margin: 0 }}>
+              <GenericEditableText sectionId={sectionId} field={`items.${i}.text`} value={String(it.text ?? "")} tag="span" />
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }

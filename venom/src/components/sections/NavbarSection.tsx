@@ -3298,6 +3298,7 @@ export function NavbarSection(props: Props) {
   if (props.variant === "ortho-02-navbar") return <NavbarOrtho02 {...props} />;
   if (props.variant === "legal-02-navbar")  return <NavbarLegal02 {...props} />;
   if (props.variant === "lawyer-01-navbar") return <NavbarLawyer01 {...props} />;
+  if (props.variant === "rekonstrukce-01-navbar") return <NavbarRekonstrukce01 {...props} />;
   if (props.variant === "stavba-01-navbar") return <NavbarStavba01 {...props} />;
   if (props.variant === "stavba-02-navbar") return <NavbarStavba02 {...props} />;
   if (props.variant === "stavba-03-navbar") return <NavbarStavba03 {...props} />;
@@ -6843,24 +6844,27 @@ function escapeSvg(value: string) {
 // ─────────────────────────────────────────────────────────────────────────────
 function NavbarFyzio01({ content, isAdmin, tenantSlug, sectionId }: Props) {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const siteName = String(content.siteName ?? "Demo Fyzio Centrum");
   const logoUrl  = String(content.logoUrl  ?? "");
   const logoSrc  = logoUrl || demoLogoDataUrl(siteName);
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
   const ctaText  = String(content.ctaText ?? "Kontakt");
-  const ctaHref  = String(content.ctaHref ?? "#kontakt");
+  const ctaHref  = String(content.ctaHref ?? "/kontakt");
   const phone    = String(content.phone ?? "704 123 456");
   const email    = String(content.email ?? "info@demo.cz");
+  const phoneLabel = String(content.phoneCalloutLabel ?? "Objednací linka");
+  const siteMode = String(content.siteMode ?? "multipage");
 
   const WHITE = "#ffffff";
   const NAVY  = "#1f2d69";
-  const TEAL  = "#6bbea1";
   const TEXT  = "#333333";
   const SANS  = "'Open Sans', sans-serif";
   const MONT  = "'Montserrat', sans-serif";
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve    = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const navResolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   useEffect(() => {
     if (!open) return;
@@ -6869,16 +6873,27 @@ function NavbarFyzio01({ content, isAdmin, tenantSlug, sectionId }: Props) {
     return () => document.removeEventListener("keydown", h);
   }, [open]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <>
       {/* ── Sticky navbar ── */}
       <header
-        className="sticky top-0 z-50 w-full"
-        style={{ backgroundColor: WHITE, borderBottom: `1px solid #e8edf5`, boxShadow: "0 2px 12px rgba(31,45,105,0.08)", fontFamily: SANS }}
+        className="sticky top-0 z-50 w-full fyzio01-nav"
+        data-scrolled={scrolled ? "true" : "false"}
+        style={{ backgroundColor: "rgba(255,255,255,0.86)", fontFamily: SANS }}
         data-template="fyzio-01"
       >
+        {/* jemný pulse-line accent nad navbarem */}
+        <div className="fyzio01-nav-pulse" aria-hidden="true" />
         <div
-          style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", height: 76, display: "flex", alignItems: "center", justifyContent: "space-between" }}
+          className="fyzio01-nav-inner"
+          style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "center", justifyContent: "space-between" }}
         >
           {/* Logo */}
           <a
@@ -6891,26 +6906,25 @@ function NavbarFyzio01({ content, isAdmin, tenantSlug, sectionId }: Props) {
               field="logoUrl"
               src={logoSrc}
               alt={siteName}
-              className="relative overflow-hidden shrink-0"
-              style={{ width: 207, height: 55 }}
+              className="relative overflow-hidden shrink-0 fyzio01-nav-logo"
+              style={{ width: 200, height: 52 }}
             >
               <OptimizedPicture
                 src={logoSrc}
                 alt={siteName}
-                imgStyle={{ width: 207, height: 55, objectFit: "contain" }}
+                imgStyle={{ width: 200, height: 52, objectFit: "contain" }}
               />
             </GenericEditableImage>
           </a>
 
           {/* Desktop nav linky — absolutně centrované */}
-          <nav className="hidden md:flex items-center" style={{ gap: 36, position: "absolute", left: "50%", transform: "translateX(-50%)" }}>
+          <nav className="hidden md:flex items-center" style={{ gap: 8, position: "absolute", left: "50%", transform: "translateX(-50%)" }}>
             {links.map((l, i) => (
               <a
                 key={`fn-nav-${i}`}
-                href={resolve(l.href)}
-                style={{ fontFamily: MONT, fontSize: 14, fontWeight: 500, color: TEXT, textDecoration: "none", letterSpacing: "0.02em", transition: "color 0.2s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = NAVY)}
-                onMouseLeave={e => (e.currentTarget.style.color = TEXT)}
+                href={navResolve(l.href)}
+                className="fyzio01-nav-link"
+                style={{ fontFamily: MONT, fontSize: 14, fontWeight: 500, color: TEXT, textDecoration: "none", letterSpacing: "0.01em" }}
               >
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
               </a>
@@ -6918,35 +6932,42 @@ function NavbarFyzio01({ content, isAdmin, tenantSlug, sectionId }: Props) {
           </nav>
 
           {/* CTA + hamburger */}
-          <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
-            {/* CTA — desktop — navy s phone ikonou */}
+          <div style={{ display: "flex", alignItems: "center", gap: 16, flexShrink: 0 }}>
+            {/* Phone callout — desktop only na širokých */}
             <a
-              href={resolve(ctaHref)}
+              href={`tel:${phone.replace(/\s/g, "")}`}
+              className="fyzio01-nav-phone"
+              style={{ textDecoration: "none", fontFamily: SANS, flexDirection: "column", alignItems: "flex-end", lineHeight: 1.2 }}
+            >
+              <GenericEditableText sectionId={sectionId} field="phoneCalloutLabel" value={phoneLabel} tag="span"
+                style={{ fontSize: 10, fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8b93a8" }} />
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span"
+                style={{ fontFamily: MONT, fontSize: 15, fontWeight: 700, color: NAVY }} />
+            </a>
+            {/* CTA — desktop — navy pill s green pulse dot */}
+            <a
+              href={navResolve(ctaHref)}
               data-btn="primary"
-              className="hidden md:inline-flex items-center"
+              className="hidden md:inline-flex items-center fyzio01-nav-cta"
               style={{
                 backgroundColor: NAVY,
                 color: WHITE,
                 fontFamily: MONT,
                 fontSize: 14,
                 fontWeight: 600,
-                letterSpacing: "0.03em",
-                padding: "10px 24px",
-                borderRadius: 4,
+                letterSpacing: "0.02em",
+                padding: "12px 24px",
+                borderRadius: 999,
                 textDecoration: "none",
                 whiteSpace: "nowrap",
-                gap: 8,
-                display: "inline-flex",
-                alignItems: "center",
-                transition: "background 0.2s",
+                gap: 10,
               }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = "#162057")}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = NAVY)}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.75a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/>
-              </svg>
+              <span className="fyzio01-nav-cta-dot" aria-hidden="true" />
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg className="fyzio01-nav-cta-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+              </svg>
             </a>
             {/* Hamburger */}
             <button
@@ -6988,20 +7009,20 @@ function NavbarFyzio01({ content, isAdmin, tenantSlug, sectionId }: Props) {
             {links.map((l, i) => (
               <a
                 key={`fn-mob-${i}`}
-                href={resolve(l.href)}
+                href={navResolve(l.href)}
                 onClick={() => setOpen(false)}
                 style={{ display: "block", padding: "14px 0", fontFamily: MONT, fontSize: 16, fontWeight: 600, color: TEXT, textDecoration: "none", borderBottom: `1px solid #e8edf5`, letterSpacing: "0.02em" }}
               >
-                {l.label}
+                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
               </a>
             ))}
           </nav>
           <div style={{ marginTop: 32 }}>
             <a
-              href={resolve(ctaHref)}
+              href={navResolve(ctaHref)}
               data-btn="primary"
               onClick={() => setOpen(false)}
-              style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: NAVY, color: WHITE, fontFamily: MONT, fontSize: 15, fontWeight: 600, padding: "14px 24px", borderRadius: 4, textDecoration: "none", letterSpacing: "0.03em" }}
+              style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: NAVY, color: WHITE, fontFamily: MONT, fontSize: 15, fontWeight: 600, padding: "14px 24px", borderRadius: 999, textDecoration: "none", letterSpacing: "0.03em" }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.75a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/>
@@ -7011,11 +7032,11 @@ function NavbarFyzio01({ content, isAdmin, tenantSlug, sectionId }: Props) {
             <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 8 }}>
               <a href={`tel:${phone.replace(/\s/g,"")}`} style={{ color: NAVY, fontSize: 13, fontFamily: SANS, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.75a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.03z"/></svg>
-                +420 {phone}
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
               </a>
               <a href={`mailto:${email}`} style={{ color: NAVY, fontSize: 13, fontFamily: SANS, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>
                 <svg width="13" height="11" viewBox="0 0 24 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                {email}
+                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
               </a>
             </div>
           </div>
@@ -8812,33 +8833,24 @@ function NavbarCafe04(props: Props) {
 }
 
 // ── reality-02-navbar ─────────────────────────────────────────────────────────
-// Ref: fermakleri.cz (Realitní matchmaker portál)
-// Sticky bílý navbar #ffffff, výška 70px
-// Layout: [logo + claim vlevo] | [uppercase nav linky uprostřed/vpravo] | [CTA tlačítko vpravo]
-// Nav linky: Montserrat 700 uppercase, hover underline zelený #3DCE78
-// CTA: zelené #3DCE78 pill tlačítko "Najít makléře"
-// Mobile: hamburger → pravý sidebar, tmavý overlay
-// ─────────────────────────────────────────────────────────────────────────────
 function NavbarReality02({ content, isAdmin, tenantSlug, sectionId }: Props) {
-  const siteName = String(content.siteName ?? "Demo FER Makléři");
+  const siteName = String(content.siteName ?? "Realitní Průvodce");
   const logoUrl  = String(content.logoUrl  ?? "/templates/reality-02/logo.svg");
-  const claim    = String(content.claim    ?? "Nezávislý srovnávač makléřů");
-  const ctaText  = String(content.ctaText  ?? "Najít makléře");
-  const ctaHref  = String(content.ctaHref  ?? "#prodej");
+  const claim    = String(content.claim    ?? "Váš partner pro prodej nemovitostí");
+  const ctaText  = String(content.ctaText  ?? "Nezávazná konzultace");
+  const ctaHref  = String(content.ctaHref  ?? "/kontakt");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
-  const phone    = String(content.phone ?? "704 123 456");
-  const email    = String(content.email ?? "email@demo.cz");
+  const phone    = String(content.phone ?? "+420 222 888 111");
+  const email    = String(content.email ?? "info@demo.cz");
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  const WHITE   = "#ffffff";
-  const DARK    = "#05303a";
-  const GREEN   = "#3DCE78";
-  const MUTED   = "#6f898e";
-  const BORDER  = "#d9e0e2";
-  const FONT    = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
+  const DARK  = "#05303a";
+  const GREEN = "#3DCE78";
+  const FONT  = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
 
   const [open, setOpen] = useState(false);
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   useEffect(() => {
     if (!open) return;
@@ -8855,38 +8867,39 @@ function NavbarReality02({ content, isAdmin, tenantSlug, sectionId }: Props) {
   return (
     <>
       <header
-        className="sticky top-0 z-50 w-full"
-        style={{ backgroundColor: "#ffffff", fontFamily: FONT }}
+        className="r02-header sticky top-0 z-50 w-full"
+        style={{ fontFamily: FONT }}
         data-template="reality-02"
       >
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(16px, 4vw, 48px)", height: 120, display: "flex", alignItems: "center", gap: 16 }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(16px, 4vw, 48px)", height: 80, display: "flex", alignItems: "center", gap: 20 }}>
 
-          {/* Logo + brand name + separator + claim */}
-          <a href={resolve("/")} style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
+          <a href={resolve("/")} className="r02-logo-link" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
             <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "flex", alignItems: "center" }}>
-              <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 46, display: "block" }} />
+              <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 40, display: "block" }} />
             </GenericEditableImage>
-            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" style={{ fontSize: 22, fontWeight: 700, color: DARK, letterSpacing: "-0.02em", whiteSpace: "nowrap" }} />
-            <span aria-hidden style={{ width: 1, height: 30, backgroundColor: DARK, opacity: 0.25, flexShrink: 0, display: "block" }} />
-            <GenericEditableText sectionId={sectionId} field="claim" value={claim} tag="span" className="r02-claim" style={{ fontSize: 16, fontWeight: 400, color: DARK, opacity: 0.7, letterSpacing: "0.01em", whiteSpace: "nowrap" }} />
+            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" style={{ fontSize: 20, fontWeight: 700, color: DARK, letterSpacing: "-0.02em", whiteSpace: "nowrap" }} />
+            <span aria-hidden style={{ width: 1, height: 24, backgroundColor: DARK, opacity: 0.18, flexShrink: 0, display: "block" }} />
+            <GenericEditableText sectionId={sectionId} field="claim" value={claim} tag="span" className="r02-claim" style={{ fontSize: 13, fontWeight: 400, color: DARK, opacity: 0.55, letterSpacing: "0.01em", whiteSpace: "nowrap" }} />
           </a>
 
-          {/* Desktop nav linky */}
-          <nav className="r02-nav-links" style={{ display: "flex", alignItems: "center", gap: 28, marginLeft: "auto" }}>
+          <nav className="r02-nav-links" style={{ display: "flex", alignItems: "center", gap: 32, marginLeft: "auto" }}>
             {links.map((l, i) => (
               <a
                 key={`r02-nav-${i}`}
                 href={resolve(l.href)}
-                style={{ fontSize: 16, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: DARK, textDecoration: "none", paddingBottom: 2, borderBottom: "2px solid transparent", transition: "border-color 0.2s, color 0.2s" }}
-                onMouseEnter={e => { e.currentTarget.style.borderBottomColor = GREEN; e.currentTarget.style.color = GREEN; }}
-                onMouseLeave={e => { e.currentTarget.style.borderBottomColor = "transparent"; e.currentTarget.style.color = DARK; }}
+                className="r02-nav-item"
+                style={{ fontSize: 13, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: DARK, textDecoration: "none", position: "relative", paddingBottom: 4 }}
               >
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
               </a>
             ))}
           </nav>
 
-          {/* Hamburger — mobile */}
+          <a href={resolve(ctaHref)} className="r02-nav-cta" style={{ marginLeft: 8, display: "inline-flex", alignItems: "center", gap: 8, padding: "10px 24px", backgroundColor: GREEN, color: "#fff", fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", textDecoration: "none", borderRadius: 28, flexShrink: 0 }}>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+          </a>
+
           <button
             className="r02-hamburger"
             onClick={() => setOpen(true)}
@@ -8894,66 +8907,71 @@ function NavbarReality02({ content, isAdmin, tenantSlug, sectionId }: Props) {
             aria-expanded={open}
             style={{ background: "none", border: "none", cursor: "pointer", padding: "6px 0", display: "flex", flexDirection: "column", gap: 5, marginLeft: "auto" }}
           >
-            <span style={{ display: "block", width: 22, height: 2, backgroundColor: DARK }} />
-            <span style={{ display: "block", width: 22, height: 2, backgroundColor: DARK }} />
-            <span style={{ display: "block", width: 22, height: 2, backgroundColor: DARK }} />
+            <span style={{ display: "block", width: 24, height: 2, backgroundColor: DARK, borderRadius: 1 }} />
+            <span style={{ display: "block", width: 18, height: 2, backgroundColor: DARK, borderRadius: 1 }} />
+            <span style={{ display: "block", width: 24, height: 2, backgroundColor: DARK, borderRadius: 1 }} />
           </button>
         </div>
       </header>
 
-      {/* Mobile overlay */}
       <div
         onClick={() => setOpen(false)}
-        style={{ position: "fixed", inset: 0, zIndex: 200, backgroundColor: "rgba(0,0,0,0.45)", opacity: open ? 1 : 0, pointerEvents: open ? "auto" : "none", transition: "opacity 0.3s ease" }}
+        style={{ position: "fixed", inset: 0, zIndex: 200, backgroundColor: "rgba(5,48,58,0.35)", backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)", opacity: open ? 1 : 0, pointerEvents: open ? "auto" : "none", transition: "opacity 0.3s ease" }}
         aria-hidden
       />
 
-      {/* Mobile sidebar */}
-      <div style={{ position: "fixed", top: 0, right: 0, bottom: 0, zIndex: 201, width: "clamp(260px, 75vw, 320px)", backgroundColor: "#ffffff", transform: open ? "translateX(0)" : "translateX(100%)", transition: "transform 0.32s cubic-bezier(0.4,0,0.2,1)", display: "flex", flexDirection: "column", overflowY: "auto", boxShadow: open ? "-4px 0 24px rgba(0,0,0,0.12)" : "none" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 24px", borderBottom: `1px solid rgba(5,48,58,0.12)` }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 34, display: "block" }} />
-            <span style={{ fontFamily: FONT, fontSize: 15, fontWeight: 700, color: DARK, letterSpacing: "-0.02em" }}>{siteName}</span>
+      <div className="r02-sidebar" style={{ position: "fixed", top: 0, right: 0, bottom: 0, zIndex: 201, width: "clamp(280px, 78vw, 340px)", backgroundColor: "#ffffff", transform: open ? "translateX(0)" : "translateX(100%)", transition: "transform 0.32s cubic-bezier(0.4,0,0.2,1)", display: "flex", flexDirection: "column", overflowY: "auto", boxShadow: open ? "-8px 0 40px rgba(5,48,58,0.15)" : "none" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 24px", borderBottom: "1px solid rgba(5,48,58,0.08)" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 32, display: "block" }} />
+            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" style={{ fontFamily: FONT, fontSize: 15, fontWeight: 700, color: DARK, letterSpacing: "-0.02em" }} />
           </div>
-          <button onClick={() => setOpen(false)} aria-label="Zavřít menu" style={{ background: "none", border: "none", cursor: "pointer", color: DARK, padding: 4 }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
-              <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
+          <button onClick={() => setOpen(false)} aria-label="Zavřít menu" style={{ background: "none", border: "none", cursor: "pointer", color: DARK, padding: 4, borderRadius: 8 }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           </button>
         </div>
-        <nav style={{ flex: 1, padding: "8px 0" }}>
+        <nav style={{ flex: 1, padding: "12px 0" }}>
           <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
             {links.map((l, i) => (
               <li key={`r02-mob-${i}`}>
                 <a
                   href={resolve(l.href)}
                   onClick={() => setOpen(false)}
-                  style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: DARK, textDecoration: "none", display: "block", padding: "14px 24px", borderBottom: `1px solid ${BORDER}`, transition: "background 0.15s, color 0.15s" }}
-                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#f0faf3"; e.currentTarget.style.color = GREEN; }}
-                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = "transparent"; e.currentTarget.style.color = DARK; }}
+                  className="r02-mob-link"
+                  style={{ fontFamily: FONT, fontSize: 13, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: DARK, textDecoration: "none", display: "flex", alignItems: "center", gap: 10, padding: "16px 24px", borderBottom: "1px solid rgba(5,48,58,0.06)", transition: "background 0.15s, color 0.15s" }}
                 >
-                  {l.label}
+                  <span style={{ width: 4, height: 4, borderRadius: "50%", backgroundColor: GREEN, opacity: 0.5, flexShrink: 0 }} />
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                 </a>
               </li>
             ))}
           </ul>
         </nav>
-        <div style={{ padding: "20px 24px 32px" }}>
+        <div style={{ padding: "8px 24px 12px" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 6, marginBottom: 16 }}>
+            <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ fontFamily: FONT, fontSize: 13, color: DARK, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="2" strokeLinecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.79 19.79 0 012.12 4.18 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.574 2.81.7A2 2 0 0122 16.92z"/></svg>
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+            <a href={`mailto:${email}`} style={{ fontFamily: FONT, fontSize: 13, color: DARK, textDecoration: "none", opacity: 0.7, display: "flex", alignItems: "center", gap: 8 }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="2" strokeLinecap="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 7l-10 7L2 7"/></svg>
+              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+            </a>
+          </div>
+        </div>
+        <div style={{ padding: "0 24px 28px" }}>
           <a
             href={resolve(ctaHref)}
             data-btn="primary"
             onClick={() => setOpen(false)}
-            style={{ display: "block", padding: "12px 20px", backgroundColor: GREEN, color: WHITE, fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", textDecoration: "none", borderRadius: 24, textAlign: "center", transition: "background 0.2s" }}
+            className="r02-mob-cta"
+            style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "14px 20px", backgroundColor: GREEN, color: "#fff", fontSize: 13, fontWeight: 700, letterSpacing: "0.06em", textTransform: "uppercase", textDecoration: "none", borderRadius: 28, textAlign: "center", transition: "background 0.2s, transform 0.2s" }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
           </a>
         </div>
       </div>
-
-      <style>{`
-        @media (min-width: 768px) { .r02-hamburger { display: none !important; } }
-        @media (max-width: 767px) { .r02-nav-links, .r02-nav-cta, .r02-claim { display: none !important; } }
-      `}</style>
     </>
   );
 }
@@ -9933,7 +9951,8 @@ function NavbarAutoservis01({ content, isAdmin, tenantSlug, sectionId }: Props) 
   const [open, setOpen] = useState(false);
   const [annVisible, setAnnVisible] = useState(false);
   const [annClosing, setAnnClosing] = useState(false);
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   // Načti stav z localStorage — jen pokud je announcement nastaven
   useEffect(() => {
@@ -10019,13 +10038,16 @@ function NavbarAutoservis01({ content, isAdmin, tenantSlug, sectionId }: Props) 
         )}
 
         <header
-          style={{ backgroundColor: WHITE, borderBottom: `1px solid ${BORDER}`, boxShadow: "0 1px 8px rgba(0,0,0,0.06)" }}
+          className="a01-header"
+          style={{ backgroundColor: WHITE, borderBottom: `1px solid ${BORDER}`, boxShadow: "0 1px 10px rgba(17,17,17,0.05)", position: "relative" }}
           data-template="autoservis-01"
         >
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(16px, 3vw, 40px)", height: 72, display: "flex", alignItems: "center", gap: 8 }}>
+        {/* Orange keyline — signature technical accent under header */}
+        <span aria-hidden="true" style={{ position: "absolute", left: 0, right: 0, bottom: -1, height: 2, background: `linear-gradient(90deg, ${ORANGE} 0%, ${ORANGE} 32%, rgba(255,165,0,0) 62%)` }} />
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(16px, 3vw, 40px)", height: 74, display: "flex", alignItems: "center", gap: 8 }}>
 
           {/* Logo */}
-          <a href={resolve("/")} aria-label={siteName} style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0, marginRight: 32 }}>
+          <a href={resolve("/")} aria-label={siteName} className="a01-logo" style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0, marginRight: 32 }}>
             {logoUrl ? (
               <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block" }}>
                 <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 44, width: "auto", display: "block" }} />
@@ -10033,13 +10055,13 @@ function NavbarAutoservis01({ content, isAdmin, tenantSlug, sectionId }: Props) 
             ) : (
               <span style={{ display: "inline-flex", alignItems: "center", gap: 12 }}>
                 {/* Orange circle badge with A */}
-                <span style={{ width: 44, height: 44, borderRadius: "50%", backgroundColor: ORANGE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <span className="a01-logo-badge" style={{ width: 44, height: 44, borderRadius: "50%", backgroundColor: ORANGE, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, boxShadow: "0 4px 14px rgba(255,165,0,0.32)" }}>
                   <span style={{ fontFamily: SANS, fontSize: 22, fontWeight: 900, color: "#fff", lineHeight: 1 }}>A</span>
                 </span>
                 {/* APEX wordmark */}
                 <span style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
                   <span style={{ fontFamily: SANS, fontSize: 22, fontWeight: 900, color: DARK, letterSpacing: "-0.5px" }}>APEX</span>
-                  <span style={{ display: "block", height: 2.5, backgroundColor: ORANGE, borderRadius: 1, margin: "4px 0" }} />
+                  <span className="a01-logo-rule" style={{ display: "block", height: 2.5, backgroundColor: ORANGE, borderRadius: 1, margin: "4px 0" }} />
                   <span style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, color: "#888", letterSpacing: "3.5px" }}>AUTOSERVIS</span>
                 </span>
               </span>
@@ -10052,9 +10074,8 @@ function NavbarAutoservis01({ content, isAdmin, tenantSlug, sectionId }: Props) 
               <a
                 key={`a01-nav-${i}`}
                 href={resolve(l.href)}
-                style={{ fontFamily: SANS, fontSize: 15, fontWeight: 500, color: DARK, textDecoration: "none", padding: "0 14px", lineHeight: "72px", whiteSpace: "nowrap", transition: "color 0.18s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = ORANGE)}
-                onMouseLeave={e => (e.currentTarget.style.color = DARK)}
+                className="a01-navlink"
+                style={{ fontFamily: SANS, fontSize: 15, fontWeight: 500, color: DARK, textDecoration: "none", padding: "0 15px", height: 74, display: "inline-flex", alignItems: "center", position: "relative", whiteSpace: "nowrap" }}
               >
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
               </a>
@@ -10062,24 +10083,25 @@ function NavbarAutoservis01({ content, isAdmin, tenantSlug, sectionId }: Props) 
           </nav>
 
           {/* Phone — desktop */}
-          <a href={`tel:${phone.replace(/\s/g, "")}`} className="a01-nav-links"
-            style={{ display: "inline-flex", alignItems: "center", gap: 6, marginLeft: "auto", fontFamily: SANS, fontSize: 14, fontWeight: 600, color: DARK, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}
-            onMouseEnter={e => (e.currentTarget.style.color = ORANGE)}
-            onMouseLeave={e => (e.currentTarget.style.color = DARK)}
+          <a href={`tel:${phone.replace(/\s/g, "")}`} className="a01-nav-links a01-phone"
+            style={{ display: "inline-flex", alignItems: "center", gap: 7, marginLeft: "auto", fontFamily: SANS, fontSize: 14, fontWeight: 600, color: DARK, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}
           >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-            </svg>
+            <span className="a01-phone-ic" style={{ display: "inline-flex" }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </span>
             <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
           </a>
 
           {/* CTA button — desktop */}
-          <a href={resolve(ctaHref)} data-btn="primary" className="a01-nav-links"
-            style={{ display: "inline-flex", alignItems: "center", marginLeft: 12, padding: "10px 22px", backgroundColor: ORANGE, color: DARK, fontFamily: SANS, fontSize: 14, fontWeight: 700, textDecoration: "none", borderRadius: 6, whiteSpace: "nowrap", flexShrink: 0, transition: "opacity 0.18s" }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+          <a href={resolve(ctaHref)} data-btn="primary" className="a01-nav-links a01-cta"
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginLeft: 14, padding: "11px 24px", backgroundColor: ORANGE, color: DARK, fontFamily: SANS, fontSize: 14, fontWeight: 700, textDecoration: "none", borderRadius: 6, whiteSpace: "nowrap", flexShrink: 0, boxShadow: "0 4px 14px rgba(255,165,0,0.28)" }}
           >
             <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <svg className="a01-cta-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
           </a>
 
           {/* Hamburger — mobile */}
@@ -10110,18 +10132,18 @@ function NavbarAutoservis01({ content, isAdmin, tenantSlug, sectionId }: Props) 
               </svg>
             </button>
           </div>
-          <nav style={{ flex: 1 }}>
+          <nav style={{ flex: 1 }} data-template="autoservis-01">
             <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
               {links.map((l, i) => (
-                <li key={`a01-mob-${i}`}>
+                <li key={`a01-mob-${i}`} className="a01-mob-item" style={{ animationDelay: `${0.05 + i * 0.05}s` }}>
                   <a
                     href={resolve(l.href)}
                     onClick={() => setOpen(false)}
-                    style={{ fontFamily: SANS, fontSize: 17, fontWeight: 500, color: DARK, textDecoration: "none", display: "block", padding: "16px 24px", borderBottom: `1px solid ${BORDER}`, transition: "color 0.15s" }}
-                    onMouseEnter={e => (e.currentTarget.style.color = ORANGE)}
-                    onMouseLeave={e => (e.currentTarget.style.color = DARK)}
+                    className="a01-mob-link"
+                    style={{ fontFamily: SANS, fontSize: 18, fontWeight: 600, color: DARK, textDecoration: "none", display: "flex", alignItems: "center", gap: 14, padding: "17px 24px", borderBottom: `1px solid ${BORDER}` }}
                   >
-                    {l.label}
+                    <span className="a01-mob-bar" aria-hidden="true" style={{ width: 3, height: 20, background: ORANGE, borderRadius: 2 }} />
+                    <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                   </a>
                 </li>
               ))}
@@ -10134,7 +10156,7 @@ function NavbarAutoservis01({ content, isAdmin, tenantSlug, sectionId }: Props) 
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={ORANGE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
-              {phone}
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
             </a>
           </div>
           <div style={{ padding: "0 24px 32px" }}>
@@ -10166,6 +10188,7 @@ function NavbarAutoservis03({ content, isAdmin, tenantSlug, sectionId }: Props) 
   const ctaText  = String(content.ctaText  ?? "REZERVACE");
   const ctaHref  = String(content.ctaHref  ?? "#kontakt");
   const phone    = String((content.phone as string | undefined) ?? "704 123 456");
+  const phoneLabel = String((content.phoneLabel as string | undefined) ?? "Rezervace & dotazy");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
 
   const BLACK  = "#000000";
@@ -10175,8 +10198,17 @@ function NavbarAutoservis03({ content, isAdmin, tenantSlug, sectionId }: Props) 
   const BORDER = "rgba(249,115,22,0.2)";
   const SANS   = "'Inter','Helvetica Neue',Helvetica,Arial,sans-serif";
 
+  const siteMode = String(content.siteMode ?? "multipage");
   const [open, setOpen] = useState(false);
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const [scrolled, setScrolled] = useState(false);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -10192,58 +10224,86 @@ function NavbarAutoservis03({ content, isAdmin, tenantSlug, sectionId }: Props) 
 
   return (
     <>
-      {/* fixed — navbar překrývá hero (žádný sticky push) */}
+      {/* fixed — navbar překrývá hero (žádný sticky push); scroll-aware */}
       <header
-        className="fixed top-0 z-50 w-full"
+        className="a03-nav-header fixed top-0 z-50 w-full"
+        data-scrolled={scrolled ? "true" : "false"}
         style={{
-          backgroundColor: "rgba(0,0,0,0.85)",
-          backdropFilter: "blur(8px)",
+          backgroundColor: scrolled ? "rgba(0,0,0,0.94)" : "rgba(0,0,0,0.28)",
+          backdropFilter: scrolled ? "blur(14px) saturate(1.2)" : "blur(6px)",
+          borderBottom: `1px solid ${scrolled ? BORDER : "rgba(249,115,22,0)"}`,
+          boxShadow: scrolled ? "0 14px 40px rgba(0,0,0,0.55)" : "none",
+          transition: "background-color .4s ease, backdrop-filter .4s ease, border-color .4s ease, box-shadow .4s ease",
         }}
         data-template="autoservis-03"
       >
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(16px,3vw,40px)", height: 64, display: "flex", alignItems: "center", gap: 8 }}>
+        <div className="a03-nav-inner" style={{ maxWidth: 1300, margin: "0 auto", padding: "0 clamp(16px,3vw,44px)", height: scrolled ? 66 : 78, display: "flex", alignItems: "center", gap: 8, transition: "height .4s ease" }}>
 
-          {/* Logo — pouze text, bez ikony */}
-          <a href={resolve("/")} aria-label={siteName} style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0, marginRight: 32 }}>
+          {/* Logo — wordmark s orange gauge mark */}
+          <a href={resolve("/")} aria-label={siteName} className="a03-logo" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 11, flexShrink: 0, marginRight: 34 }}>
             {logoUrl ? (
               <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block" }}>
-                <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 36, width: "auto", display: "block" }} />
+                <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 38, width: "auto", display: "block" }} />
               </GenericEditableImage>
             ) : (
-              <span style={{ fontFamily: SANS, fontSize: 18, fontWeight: 700, color: WHITE, letterSpacing: "-0.3px" }}>
-                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-              </span>
+              <>
+                <span className="a03-logo-mark" aria-hidden="true" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, borderRadius: 9, background: "linear-gradient(135deg,#f97316,#c2410c)", flexShrink: 0, boxShadow: "0 4px 14px rgba(249,115,22,0.4)" }}>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#000" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1" />
+                    <circle cx="12" cy="12" r="3.4" />
+                  </svg>
+                </span>
+                <span style={{ fontFamily: SANS, fontSize: 18.5, fontWeight: 800, color: WHITE, letterSpacing: "-0.4px", lineHeight: 1 }}>
+                  <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+                </span>
+              </>
             )}
           </a>
 
-          {/* Desktop nav links */}
+          {/* Desktop nav links — animated orange underline */}
           <nav className="a03-nav-links" style={{ display: "flex", alignItems: "center", flex: 1 }}>
             {links.map((l, i) => (
               <a
                 key={`a03-nav-${i}`}
                 href={resolve(l.href)}
-                style={{ fontFamily: SANS, fontSize: 15.4, fontWeight: 500, color: WHITE, textDecoration: "none", padding: "0 12px", lineHeight: "64px", whiteSpace: "nowrap", transition: "color 0.18s" }}
-                onMouseEnter={e => (e.currentTarget.style.color = ORANGE)}
-                onMouseLeave={e => (e.currentTarget.style.color = WHITE)}
+                className="a03-navlink"
+                style={{ position: "relative", fontFamily: SANS, fontSize: 14.6, fontWeight: 500, color: WHITE, textDecoration: "none", padding: "10px 14px", whiteSpace: "nowrap" }}
               >
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
               </a>
             ))}
           </nav>
 
-          {/* CTA rounded-full orange gradient — REZERVACE */}
-          <a href={resolve(ctaHref)} data-btn="primary" className="a03-nav-links"
-            style={{
-              display: "inline-flex", alignItems: "center", marginLeft: 12, padding: "8px 22px",
-              background: "linear-gradient(to right, #f97316, #ea6c08)",
-              color: WHITE, fontFamily: SANS, fontSize: 14.3, fontWeight: 700, textDecoration: "none",
-              borderRadius: 999, whiteSpace: "nowrap", flexShrink: 0, transition: "opacity 0.18s",
-              letterSpacing: "0.5px",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
-            onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
+          {/* Phone cluster — desktop */}
+          <a href={`tel:${phone.replace(/\s/g, "")}`} className="a03-nav-phone a03-nav-links"
+            style={{ display: "inline-flex", alignItems: "center", gap: 10, textDecoration: "none", marginRight: 6, paddingRight: 18, borderRight: "1px solid rgba(255,255,255,0.12)" }}
           >
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <span className="a03-phone-ic" aria-hidden="true" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, borderRadius: 999, border: `1px solid ${BORDER}`, flexShrink: 0, transition: "background-color .25s, border-color .25s" }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke={ORANGE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </span>
+            <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.25 }}>
+              <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.14em", textTransform: "uppercase", color: MUTED }} />
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" style={{ fontFamily: SANS, fontSize: 15, fontWeight: 700, color: WHITE, letterSpacing: "0.2px" }} />
+            </span>
+          </a>
+
+          {/* CTA rounded-full orange gradient — REZERVACE */}
+          <a href={resolve(ctaHref)} data-btn="primary" className="a03-nav-cta a03-nav-links"
+            style={{
+              display: "inline-flex", alignItems: "center", gap: 8, marginLeft: 10, padding: "11px 24px",
+              background: "linear-gradient(to right, #f97316, #ea6c08)",
+              color: WHITE, fontFamily: SANS, fontSize: 13.6, fontWeight: 800, textDecoration: "none",
+              borderRadius: 999, whiteSpace: "nowrap", flexShrink: 0,
+              letterSpacing: "0.6px", overflow: "hidden", position: "relative",
+              boxShadow: "0 6px 20px rgba(249,115,22,0.32)",
+            }}
+          >
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" style={{ position: "relative", zIndex: 1 }} />
+            <svg className="a03-cta-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ position: "relative", zIndex: 1 }}>
+              <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
           </a>
 
           {/* Hamburger — mobile */}
@@ -10253,7 +10313,7 @@ function NavbarAutoservis03({ content, isAdmin, tenantSlug, sectionId }: Props) 
             aria-label="Otevřít menu"
             style={{ display: "none", background: "none", border: "none", cursor: "pointer", padding: 8, marginLeft: "auto" }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2" strokeLinecap="round" aria-hidden="true">
               <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
             </svg>
           </button>
@@ -10307,11 +10367,6 @@ function NavbarAutoservis03({ content, isAdmin, tenantSlug, sectionId }: Props) 
           </div>
         </div>
       )}
-
-      <style>{`
-        @media (min-width: 860px) { .a03-hamburger { display: none !important; } }
-        @media (max-width: 859px) { .a03-nav-links { display: none !important; } .a03-hamburger { display: flex !important; } }
-      `}</style>
     </>
   );
 }
@@ -10328,20 +10383,25 @@ function NavbarAutoservis02({ content, isAdmin, tenantSlug, sectionId }: Props) 
   const phone    = String((content.phone as string | undefined) ?? "704 123 456");
   const email    = String((content.email as string | undefined) ?? "email@demo.cz");
   const hours    = String((content.hours as string | undefined) ?? "Po–Pá 8–17, So 8–14");
+  const logoSub  = String((content.logoSub as string | undefined) ?? "autoservis");
+  const hoursLabel = String((content.hoursLabel as string | undefined) ?? "Otevřeno");
+  const ctaText  = String((content.ctaText as string | undefined) ?? "Objednat servis");
+  const ctaHref  = String((content.ctaHref as string | undefined) ?? "/kontakt");
   const links    = (content.links as A02NavLink[]) ?? [];
+  const siteMode = String(content.siteMode ?? "multipage");
 
   const WHITE  = "#ffffff";
   const DARK   = "#1a1a1a";
   const RED    = "#d82a2a";
-  const GRAY   = "#f5f5f5";
   const BORDER = "#e0e0e0";
-  const MUTED  = "#6b7280";
   const SANS   = "'Open Sans', Arial, sans-serif";
-  const NAV_H  = 80;
 
   const [open, setOpen]             = useState(false);
   const [mobileOpen, setMobileOpen] = useState<number | null>(null);
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const [scrolled, setScrolled]     = useState(false);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const NAV_H = scrolled ? 64 : 82;
 
   useEffect(() => {
     if (!open) return;
@@ -10355,79 +10415,103 @@ function NavbarAutoservis02({ content, isAdmin, tenantSlug, sectionId }: Props) 
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Piston / gear monogram — industry mark
+  const LogoMark = (
+    <span className="a02-logo-badge" aria-hidden="true" style={{
+      width: 42, height: 42, flexShrink: 0, borderRadius: 9,
+      background: `linear-gradient(145deg, ${RED} 0%, #b21f1f 100%)`,
+      display: "inline-flex", alignItems: "center", justifyContent: "center",
+      boxShadow: "0 6px 16px rgba(216,42,42,0.28)",
+    }}>
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.3 2.3-2.7-.7-.7-2.7 2.4-2.2z"/>
+      </svg>
+    </span>
+  );
+
   return (
     <>
-      {/* Top info bar */}
-      <div style={{ backgroundColor: GRAY, borderBottom: `1px solid ${BORDER}` }}>
-        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 clamp(16px,3vw,40px)", height: 36, display: "flex", alignItems: "center", gap: 20 }}>
-          <a href={`tel:${phone.replace(/\s/g, "")}`}
-            style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: SANS, fontSize: 12, fontWeight: 600, color: DARK, textDecoration: "none" }}
-            onMouseEnter={e => (e.currentTarget.style.color = RED)}
-            onMouseLeave={e => (e.currentTarget.style.color = DARK)}
+      {/* Top info bar — dark strip, collapses smoothly on scroll */}
+      <div className="a02-topbar-wrap" style={{
+        backgroundColor: DARK, overflow: "hidden",
+        maxHeight: scrolled ? 0 : 40,
+        transition: "max-height .4s cubic-bezier(.4,0,.2,1)",
+      }} data-template="autoservis-02">
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 clamp(16px,3vw,40px)", height: 40, display: "flex", alignItems: "center", gap: 22 }}>
+          <a href={`tel:${phone.replace(/\s/g, "")}`} className="a02-topbar a02-topbar-link"
+            style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: SANS, fontSize: 12.5, fontWeight: 700, color: "#fff", textDecoration: "none" }}
           >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={RED} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={RED} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
             </svg>
-            <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" className="a02-topbar" />
+            <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
           </a>
-          <a href={`mailto:${email}`}
-            style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: SANS, fontSize: 12, fontWeight: 400, color: MUTED, textDecoration: "none" }}
-            onMouseEnter={e => (e.currentTarget.style.color = RED)}
-            onMouseLeave={e => (e.currentTarget.style.color = MUTED)}
+          <a href={`mailto:${email}`} className="a02-topbar a02-topbar-link"
+            style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: SANS, fontSize: 12.5, fontWeight: 400, color: "#c9c9c9", textDecoration: "none" }}
           >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={RED} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={RED} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/>
             </svg>
-            <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" className="a02-topbar" />
+            <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
           </a>
-          <span className="a02-topbar" style={{ display: "inline-flex", alignItems: "center", gap: 5, fontFamily: SANS, fontSize: 12, color: MUTED, marginLeft: "auto" }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke={RED} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <span className="a02-topbar" style={{ display: "inline-flex", alignItems: "center", gap: 6, fontFamily: SANS, fontSize: 12.5, color: "#c9c9c9", marginLeft: "auto" }}>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={RED} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
             </svg>
+            <GenericEditableText sectionId={sectionId} field="hoursLabel" value={hoursLabel} tag="span" style={{ color: RED, fontWeight: 700, letterSpacing: ".3px" }} />
             <GenericEditableText sectionId={sectionId} field="hours" value={hours} tag="span" />
           </span>
         </div>
       </div>
 
-      {/* Main navbar — 80px (o 25% vyšší než původní 64px) */}
+      {/* Main navbar — scroll-aware height + shadow */}
       <header
         className="sticky top-0 z-50 w-full"
-        style={{ backgroundColor: WHITE, borderBottom: `1px solid ${BORDER}`, boxShadow: "0 2px 10px rgba(0,0,0,0.07)" }}
+        style={{ backgroundColor: WHITE, borderBottom: `1px solid ${scrolled ? "#ececec" : BORDER}`, boxShadow: scrolled ? "0 6px 24px rgba(0,0,0,0.09)" : "0 1px 0 rgba(0,0,0,0.04)", transition: "box-shadow .35s ease, border-color .35s ease" }}
         data-template="autoservis-02"
       >
-        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 clamp(16px,3vw,40px)", height: NAV_H, display: "flex", alignItems: "center", gap: 8 }}>
+        <div style={{ maxWidth: 1440, margin: "0 auto", padding: "0 clamp(16px,3vw,40px)", height: NAV_H, display: "flex", alignItems: "center", gap: 8, transition: "height .35s cubic-bezier(.4,0,.2,1)" }}>
 
-          {/* Logo — Audi Servis wordmark: GARANT bold / AUTOSERVIS red */}
-          <a href={resolve("/")} aria-label={siteName}
-            style={{ textDecoration: "none", display: "flex", alignItems: "center", flexShrink: 0, marginRight: 32 }}
+          {/* Logo — piston mark + wordmark GARANT / autoservis */}
+          <a href={resolve("/")} aria-label={siteName} className="a02-logo"
+            style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 12, flexShrink: 0, marginRight: 28 }}
           >
             {logoUrl ? (
               <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block" }}>
                 <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 46, width: "auto", display: "block" }} />
               </GenericEditableImage>
             ) : (
-              <span style={{ display: "flex", flexDirection: "column", lineHeight: 1, gap: 3 }}>
-                <span style={{ fontFamily: SANS, fontSize: 22, fontWeight: 900, color: DARK, letterSpacing: "0.5px", textTransform: "uppercase" }}>
-                  <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+              <>
+                {LogoMark}
+                <span style={{ display: "flex", flexDirection: "column", lineHeight: 1, gap: 4 }}>
+                  <span style={{ fontFamily: SANS, fontSize: 21, fontWeight: 900, color: DARK, letterSpacing: "0.4px", textTransform: "uppercase" }}>
+                    <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+                  </span>
+                  <GenericEditableText sectionId={sectionId} field="logoSub" value={logoSub} tag="span" style={{ fontFamily: SANS, fontSize: 9, fontWeight: 700, color: RED, letterSpacing: "4px", textTransform: "uppercase" }} />
                 </span>
-                <span style={{ fontFamily: SANS, fontSize: 9, fontWeight: 700, color: RED, letterSpacing: "4px", textTransform: "uppercase" }}>autoservis</span>
-              </span>
+              </>
             )}
           </a>
 
-          {/* Desktop nav — dropdown on hover via CSS .a02-item:hover .a02-dropdown */}
+          {/* Desktop nav — animated dropdown via CSS .a02-item:hover .a02-dropdown */}
           <nav className="a02-nav" style={{ display: "flex", alignItems: "center", flex: 1, height: NAV_H }}>
             {links.map((l, i) => (
               <div key={`a02-item-${i}`} className="a02-item" style={{ position: "relative", height: NAV_H, display: "flex", alignItems: "center" }}>
                 <a
                   href={resolve(l.href)}
-                  style={{ fontFamily: SANS, fontSize: 13, fontWeight: 600, color: DARK, textDecoration: "none", padding: "0 11px", height: NAV_H, display: "inline-flex", alignItems: "center", gap: 4, whiteSpace: "nowrap", transition: "color 0.15s" }}
-                  onMouseEnter={e => (e.currentTarget.style.color = RED)}
-                  onMouseLeave={e => (e.currentTarget.style.color = DARK)}
+                  className="a02-navlink"
+                  style={{ fontFamily: SANS, fontSize: 13, fontWeight: 600, color: DARK, textDecoration: "none", padding: "0 11px", height: NAV_H, display: "inline-flex", alignItems: "center", gap: 4, whiteSpace: "nowrap", position: "relative" }}
                 >
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                   {l.children && l.children.length > 0 && (
-                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true" style={{ flexShrink: 0, marginTop: 1 }}>
+                    <svg className="a02-caret" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true" style={{ flexShrink: 0, marginTop: 1 }}>
                       <polyline points="6 9 12 15 18 9"/>
                     </svg>
                   )}
@@ -10436,18 +10520,17 @@ function NavbarAutoservis02({ content, isAdmin, tenantSlug, sectionId }: Props) 
                   <div className="a02-dropdown" style={{
                     position: "absolute", top: NAV_H, left: 0,
                     backgroundColor: WHITE, border: `1px solid ${BORDER}`,
-                    boxShadow: "0 8px 24px rgba(0,0,0,0.10)",
-                    minWidth: 260, maxWidth: 300,
+                    boxShadow: "0 16px 40px rgba(0,0,0,0.14)",
+                    minWidth: 264, maxWidth: 300,
                     borderTop: `3px solid ${RED}`,
-                    zIndex: 100, display: "none", flexDirection: "column",
+                    zIndex: 100, flexDirection: "column",
                     maxHeight: "calc(100vh - 160px)", overflowY: "auto",
                   }}>
                     {l.children.map((ch, ci) => (
                       <a key={`a02-ch-${i}-${ci}`}
                         href={resolve(ch.href)}
-                        style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 400, color: DARK, textDecoration: "none", padding: "9px 16px", borderBottom: `1px solid #f0f0f0`, display: "block", transition: "background 0.12s, color 0.12s" }}
-                        onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#fff5f5"; e.currentTarget.style.color = RED; }}
-                        onMouseLeave={e => { e.currentTarget.style.backgroundColor = ""; e.currentTarget.style.color = DARK; }}
+                        className="a02-drop-link"
+                        style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 400, color: DARK, textDecoration: "none", padding: "9px 16px 9px 18px", borderBottom: `1px solid #f2f2f2`, display: "block", position: "relative" }}
                       >
                         {ch.label}
                       </a>
@@ -10458,6 +10541,16 @@ function NavbarAutoservis02({ content, isAdmin, tenantSlug, sectionId }: Props) 
             ))}
           </nav>
 
+          {/* Red CTA — Objednat servis */}
+          <a href={resolve(ctaHref)} className="a02-cta"
+            style={{ display: "none", alignItems: "center", gap: 8, flexShrink: 0, fontFamily: SANS, fontSize: 13.5, fontWeight: 800, color: "#fff", background: RED, textDecoration: "none", padding: "12px 22px", borderRadius: 8, letterSpacing: ".2px", boxShadow: "0 8px 20px rgba(216,42,42,0.28)" }}
+          >
+            <svg className="a02-cta-ic" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+
           {/* Hamburger — mobile */}
           <button
             className="a02-hamburger"
@@ -10465,7 +10558,7 @@ function NavbarAutoservis02({ content, isAdmin, tenantSlug, sectionId }: Props) 
             aria-label="Otevřít menu"
             style={{ display: "none", background: "none", border: "none", cursor: "pointer", padding: 8, marginLeft: "auto" }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={DARK} strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={DARK} strokeWidth="2" strokeLinecap="round" aria-hidden="true">
               <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
             </svg>
           </button>
@@ -10483,12 +10576,15 @@ function NavbarAutoservis02({ content, isAdmin, tenantSlug, sectionId }: Props) 
               </svg>
             </button>
           </div>
-          <div style={{ backgroundColor: GRAY, padding: "10px 20px", borderBottom: `1px solid ${BORDER}`, display: "flex", gap: 8, flexWrap: "wrap" }}>
-            <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ fontFamily: SANS, fontSize: 13, fontWeight: 600, color: DARK, textDecoration: "none", display: "flex", alignItems: "center", gap: 5 }}>
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke={RED} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <div style={{ backgroundColor: "#1a1a1a", padding: "12px 20px", display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+            <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 700, color: "#fff", textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={RED} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6.29 6.29l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
               {phone}
+            </a>
+            <a href={resolve(ctaHref)} onClick={() => setOpen(false)} style={{ marginLeft: "auto", fontFamily: SANS, fontSize: 12.5, fontWeight: 800, color: "#fff", background: RED, textDecoration: "none", padding: "8px 16px", borderRadius: 7 }}>
+              {ctaText}
             </a>
           </div>
           <nav style={{ flex: 1 }}>
@@ -10539,10 +10635,9 @@ function NavbarAutoservis02({ content, isAdmin, tenantSlug, sectionId }: Props) 
       )}
 
       <style>{`
-        @media (min-width: 860px) { .a02-hamburger { display: none !important; } }
-        @media (max-width: 859px) { .a02-nav { display: none !important; } .a02-hamburger { display: flex !important; } }
-        @media (max-width: 600px) { .a02-topbar { display: none !important; } }
-        .a02-item:hover .a02-dropdown { display: flex !important; }
+        @media (min-width: 980px) { .a02-hamburger { display: none !important; } .a02-cta { display: inline-flex !important; } }
+        @media (max-width: 979px) { .a02-nav { display: none !important; } .a02-hamburger { display: flex !important; } .a02-cta { display: none !important; } }
+        @media (max-width: 600px) { .a02-topbar-link { display: none !important; } }
       `}</style>
     </>
   );
@@ -11661,6 +11756,201 @@ function NavbarLawyer01({ content, isAdmin, tenantSlug, sectionId }: Props) {
   );
 }
 
+// ── rekonstrukce-01-navbar ────────────────────────────────────────────────────
+// Solid světlý sticky navbar (warm professional trade), backdrop-blur po scrollu.
+// Logo: ambrová dlaždice s layered-house glyphem + wordmark "JÁDRO" / "rekonstrukce".
+// Nav linky s animovaným warm underline + active state. Phone pill + amber CTA fill.
+// Mobile: hamburger → fullscreen bílý overlay se staggered linky.
+// ──────────────────────────────────────────────────────────────────────────────
+function NavbarRekonstrukce01(props: Props) {
+  const { content, tenantSlug, isAdmin, sectionId } = props;
+  const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [path, setPath] = useState("");
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => { setPath(window.location.pathname); }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", handler); document.body.style.overflow = ""; };
+  }, [open]);
+
+  const AMBER  = "#C2622B";
+  const AMBER2 = "#A24E1F";
+  const DARK   = "#1F1B17";
+  const MUTED  = "#7A7066";
+  const WHITE  = "#ffffff";
+  const CREAM  = "#F2ECE3";
+  const FONT   = "'Inter', sans-serif";
+
+  const siteName   = String(content.siteName ?? "JÁDRO");
+  const siteSuffix = String(content.siteNameSuffix ?? "rekonstrukce");
+  const phone      = String(content.phone ?? "705 123 456");
+  const ctaText    = String(content.ctaText ?? "Nezávazná poptávka");
+  const ctaHref    = String(content.ctaHref ?? "/kontakt");
+  const links      = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode   = String(content.siteMode ?? "multipage");
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const telHref = `tel:+420${phone.replace(/\D/g, "")}`;
+
+  const isActive = (href: string) => {
+    if (!path) return false;
+    const clean = (s: string) => s.replace(/#.*$/, "").replace(/\/+$/, "");
+    const t = clean(resolve(href)), p = clean(path);
+    if (href === "/") return p === t;
+    return t.length > 0 && (p === t || p.startsWith(t + "/"));
+  };
+
+  // Layered-house / jádro glyph — rekonstrukce signature
+  const Mark = () => (
+    <span className="rk01nav-mark" aria-hidden="true">
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="none">
+        <path d="M12 3 21 8.6v0L12 14 3 8.6 12 3Z" fill={WHITE} />
+        <path d="M5 11.4v3.9c0 1 3.1 2.4 7 2.4s7-1.4 7-2.4v-3.9" stroke={WHITE} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M12 17.7V21" stroke={WHITE} strokeWidth="1.6" strokeLinecap="round" />
+      </svg>
+    </span>
+  );
+
+  const LogoMark = () => (
+    <span className="rk01nav-logo">
+      <Mark />
+      <span className="rk01nav-word">
+        <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+        {siteSuffix && (
+          <GenericEditableText sectionId={sectionId} field="siteNameSuffix" value={siteSuffix} tag="span" style={{ display: "block" }} />
+        )}
+      </span>
+    </span>
+  );
+
+  const PhoneIcon = () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12.25 19.79 19.79 0 0 1 1.17 3.63 2 2 0 0 1 3.15 1.45h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/>
+    </svg>
+  );
+  const BurgerIcon = () => (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={DARK} strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  );
+  const CloseIcon = () => (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={DARK} strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  );
+
+  return (
+    <>
+      <style>{`
+        .rk01nav{position:sticky;top:0;z-index:100;background:${WHITE};font-family:${FONT};transition:box-shadow .3s ease,background .3s ease,backdrop-filter .3s ease;border-bottom:1px solid ${CREAM};}
+        .rk01nav::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,${AMBER} 0%,${AMBER2} 40%,rgba(194,98,43,0) 92%);z-index:1;}
+        .rk01nav.scrolled{background:rgba(255,255,255,.86);backdrop-filter:blur(12px) saturate(1.25);-webkit-backdrop-filter:blur(12px) saturate(1.25);box-shadow:0 12px 40px rgba(60,40,20,.10);border-bottom-color:rgba(231,223,211,.7);}
+        .rk01nav-inner{max-width:1240px;margin:0 auto;padding:0 32px;height:78px;display:flex;align-items:center;justify-content:space-between;gap:18px;transition:height .3s ease;}
+        .rk01nav.scrolled .rk01nav-inner{height:66px;}
+        .rk01nav-logolink{display:inline-flex;text-decoration:none;flex-shrink:0;}
+        .rk01nav-logo{display:inline-flex;align-items:center;gap:11px;}
+        .rk01nav-mark{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:12px;background:linear-gradient(140deg,${AMBER} 0%,${AMBER2} 100%);box-shadow:0 6px 16px rgba(194,98,43,.34);flex-shrink:0;transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease;}
+        .rk01nav-logolink:hover .rk01nav-mark{transform:rotate(-6deg) scale(1.06);box-shadow:0 9px 22px rgba(194,98,43,.5);}
+        .rk01nav-word span:first-child{font-family:${FONT};font-weight:800;font-size:20px;letter-spacing:.14em;color:${DARK};line-height:1;}
+        .rk01nav-word span:last-child{font-family:${FONT};font-weight:500;font-size:10.5px;letter-spacing:.36em;text-transform:uppercase;color:${AMBER};margin-top:3px;}
+        .rk01nav-menu{display:flex;gap:2px;align-items:center;flex:1;justify-content:center;flex-wrap:nowrap;}
+        .rk01nav-menu a{position:relative;white-space:nowrap;color:${MUTED};text-decoration:none;font-size:14.5px;font-weight:500;padding:9px 14px;border-radius:8px;transition:color .2s ease,background .2s ease;}
+        .rk01nav-menu a::after{content:"";position:absolute;left:14px;right:14px;bottom:5px;height:2px;border-radius:2px;background:${AMBER};transform:scaleX(0);transform-origin:left;transition:transform .3s cubic-bezier(.4,0,.2,1);}
+        .rk01nav-menu a:hover{color:${DARK};background:rgba(194,98,43,.06);}
+        .rk01nav-menu a:hover::after{transform:scaleX(1);}
+        .rk01nav-menu a.active{color:${DARK};}
+        .rk01nav-menu a.active::after{transform:scaleX(1);}
+        .rk01nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+        .rk01nav-phone{display:flex;align-items:center;gap:9px;background:${CREAM};color:${DARK};font-weight:600;font-size:14px;padding:9px 18px;border-radius:999px;text-decoration:none;white-space:nowrap;transition:transform .22s ease,background .2s ease,box-shadow .25s ease,color .2s ease;}
+        .rk01nav-phone svg{color:${AMBER};transition:transform .3s ease;}
+        .rk01nav-phone:hover{background:${WHITE};color:${AMBER2};transform:translateY(-2px);box-shadow:0 10px 24px rgba(60,40,20,.14);}
+        .rk01nav-phone:hover svg{transform:rotate(-12deg) scale(1.1);}
+        .rk01nav-cta{position:relative;display:inline-flex;align-items:center;padding:11px 24px;background:linear-gradient(140deg,${AMBER} 0%,${AMBER2} 100%);color:${WHITE}!important;border-radius:999px;font-weight:600;font-size:14.5px;text-decoration:none;white-space:nowrap;overflow:hidden;box-shadow:0 6px 18px rgba(194,98,43,.32);transition:transform .22s ease,box-shadow .25s ease;}
+        .rk01nav-cta::before{content:"";position:absolute;inset:0;background:linear-gradient(140deg,${AMBER2} 0%,#8a3f16 100%);opacity:0;transition:opacity .28s ease;z-index:0;}
+        .rk01nav-cta span{position:relative;z-index:1;}
+        .rk01nav-cta:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(194,98,43,.46);}
+        .rk01nav-cta:hover::before{opacity:1;}
+        .rk01nav-burger{display:none;background:none;border:none;cursor:pointer;padding:4px;}
+        .rk01nav-overlay{display:none;position:fixed;inset:0;background:${WHITE};z-index:200;flex-direction:column;padding:22px 28px 32px;overflow-y:auto;}
+        .rk01nav-overlay.open{display:flex;}
+        .rk01nav-overlay-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;padding-bottom:16px;border-bottom:2px solid ${CREAM};}
+        .rk01nav-overlay-links{display:flex;flex-direction:column;gap:0;flex:1;}
+        .rk01nav-overlay-links a{position:relative;font-size:20px;font-weight:600;color:${DARK};text-decoration:none;padding:16px 8px;border-bottom:1px solid ${CREAM};transition:color .2s ease,padding-left .25s ease,background .2s ease;}
+        .rk01nav-overlay.open .rk01nav-overlay-links a{opacity:0;animation:rk01slide .5s cubic-bezier(.4,0,.2,1) forwards;}
+        .rk01nav-overlay-links a:hover,.rk01nav-overlay-links a.active{color:${AMBER2};padding-left:18px;background:linear-gradient(90deg,rgba(194,98,43,.06),transparent);}
+        .rk01nav-overlay-links a.active::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:22px;border-radius:2px;background:${AMBER};}
+        @keyframes rk01slide{from{opacity:0;transform:translateX(-14px);}to{opacity:1;transform:translateX(0);}}
+        .rk01nav-overlay-phone{display:flex;align-items:center;gap:12px;background:${CREAM};color:${DARK};font-weight:600;font-size:16px;padding:14px 24px;border-radius:999px;text-decoration:none;margin-top:22px;}
+        .rk01nav-overlay-phone svg{color:${AMBER};}
+        .rk01nav-overlay-cta{margin-top:12px;display:block;padding:15px 24px;background:linear-gradient(140deg,${AMBER} 0%,${AMBER2} 100%);color:${WHITE};text-decoration:none;border-radius:999px;font-weight:700;font-size:16px;text-align:center;box-shadow:0 8px 20px rgba(194,98,43,.32);}
+        @media(max-width:1024px){.rk01nav-menu{display:none;}.rk01nav-phone{display:none;}.rk01nav-cta{display:none;}.rk01nav-burger{display:block;}.rk01nav-inner{padding:0 20px;height:66px;}}
+      `}</style>
+
+      <nav className={`rk01nav${scrolled ? " scrolled" : ""}`} data-template="rekonstrukce-01">
+        <div className="rk01nav-inner">
+          <a href={resolve("/")} className="rk01nav-logolink" aria-label={siteName}>
+            <LogoMark />
+          </a>
+          <div className="rk01nav-menu">
+            {links.map((link, i) => (
+              <a key={i} href={resolve(link.href)} className={isActive(link.href) ? "active" : ""} aria-current={isActive(link.href) ? "page" : undefined}>
+                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
+              </a>
+            ))}
+          </div>
+          <div className="rk01nav-right">
+            <a href={telHref} className="rk01nav-phone">
+              <PhoneIcon />
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+            <a href={resolve(ctaHref)} data-btn="primary" className="rk01nav-cta">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            </a>
+            <button className="rk01nav-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu">
+              <BurgerIcon />
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <div className={`rk01nav-overlay${open ? " open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigační menu">
+        <div className="rk01nav-overlay-top">
+          <LogoMark />
+          <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }} aria-label="Zavřít menu">
+            <CloseIcon />
+          </button>
+        </div>
+        <div className="rk01nav-overlay-links">
+          {links.map((link, i) => (
+            <a key={i} href={resolve(link.href)} className={isActive(link.href) ? "active" : ""} style={{ animationDelay: `${0.05 + i * 0.05}s` }} onClick={() => setOpen(false)}>
+              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
+            </a>
+          ))}
+        </div>
+        <a href={telHref} className="rk01nav-overlay-phone" onClick={() => setOpen(false)}>
+          <PhoneIcon />
+          <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+        </a>
+        <a href={resolve(ctaHref)} data-btn="primary" className="rk01nav-overlay-cta" onClick={() => setOpen(false)}>
+          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+        </a>
+      </div>
+    </>
+  );
+}
+
 // ── stavba-01-navbar ──────────────────────────────────────────────────────────
 function NavbarStavba01(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
@@ -11849,76 +12139,114 @@ function NavbarStavba01(props: Props) {
 }
 
 // ── stavba-02-navbar ──────────────────────────────────────────────────────────
-// Sticky opaque navbar (always cream bg), warm-brown color scheme
-// Layout: logo left | nav links center (desktop) | phone + CTA right
-// Mobile: phone + hamburger → full-width dropdown
+// Luxe redesign — warm cream/brown reconstruction craft. Sticky opaque navbar
+// that shrinks on scroll; trowel monogram + wordmark + micro-tagline logo;
+// uppercase centered nav with brown underline slide-in; phone block (micro label
+// + number) + brown CTA with arrow nudge. resolveNavHref → one-page/multipage.
 function NavbarStavba02(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open]);
 
   const BROWN = "#674832";
   const DARK  = "#3D2516";
   const CREAM = "#F8F5F0";
+  const MUTED = "#7A6454";
   const FONT  = "'Roboto', sans-serif";
 
-  const siteName = String(content.siteName ?? "Demo Byty Jádra");
-  const logoUrl  = String(content.logoUrl  ?? "");
-  const phone    = String(content.phone    ?? "+420 704 123 456");
-  const ctaText  = String(content.ctaText  ?? "Nezávazná poptávka");
-  const ctaHref  = String(content.ctaHref  ?? "#kontakt");
-  const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteName    = String(content.siteName    ?? "Mistr Rekonstrukcí");
+  const logoUrl     = String(content.logoUrl     ?? "");
+  const logoTagline = String(content.logoTagline ?? "Rekonstrukce na klíč");
+  const phone       = String(content.phone       ?? "+420 775 321 900");
+  const phoneLabel  = String(content.phoneLabel  ?? "Zavolejte nám");
+  const ctaText     = String(content.ctaText     ?? "Nezávazná poptávka");
+  const ctaHref     = String(content.ctaHref     ?? "/poptavka");
+  const links       = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode    = String(content.siteMode ?? "multipage");
 
-  const resolve = (href: string) => {
-    if (!href || href.startsWith("http") || href.startsWith("#")) return href;
-    if (tenantSlug) {
-      const base = isAdmin ? `/demo/${tenantSlug}/admin` : `/demo/${tenantSlug}`;
-      return base + (href.startsWith("/") ? href : "/" + href);
-    }
-    return href;
-  };
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const PhoneIcon = () => (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+  const PhoneIcon = ({ size = 15 }: { size?: number }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12.25 19.79 19.79 0 0 1 1.17 3.63 2 2 0 0 1 3.15 1.45h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/>
     </svg>
   );
 
-  const LogoMark = () => (
-    <span style={{ display: "inline-flex", alignItems: "baseline", lineHeight: 1, userSelect: "none" }} aria-label={siteName}>
-      <span style={{ fontFamily: "'Roboto', Arial, sans-serif", fontWeight: 700, fontSize: 22, color: DARK, letterSpacing: "-0.3px" }}>
-        <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-      </span>
-    </span>
+  // Trowel / rekonstrukce mark
+  const TrowelMark = ({ size = 20 }: { size?: number }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M3 3l7.5 7.5" />
+      <path d="M14.5 6.5 21 13l-8.2 6.3a1.4 1.4 0 0 1-1.9-.2L6 13.6a1.4 1.4 0 0 1 .2-2z" />
+    </svg>
   );
+
+  const LogoMark = () => {
+    if (logoUrl) {
+      return <img loading="eager" src={logoUrl} alt={siteName} style={{ height: scrolled ? 38 : 44, width: "auto", objectFit: "contain", transition: "height .3s cubic-bezier(.4,0,.2,1)" }} />;
+    }
+    return (
+      <span style={{ display: "inline-flex", alignItems: "center", gap: 11, lineHeight: 1, userSelect: "none" }} aria-label={siteName}>
+        <span className="s02-logo-badge" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: scrolled ? 34 : 38, height: scrolled ? 34 : 38, borderRadius: 9, backgroundColor: BROWN, color: CREAM, flexShrink: 0, transition: "all .3s cubic-bezier(.4,0,.2,1)", boxShadow: "0 4px 12px rgba(103,72,50,0.28)" }}>
+          <TrowelMark size={scrolled ? 18 : 20} />
+        </span>
+        <span style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: scrolled ? 17 : 18.5, color: DARK, letterSpacing: "-0.2px", transition: "font-size .3s cubic-bezier(.4,0,.2,1)" }}>
+            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+          </span>
+          <span style={{ fontFamily: FONT, fontWeight: 500, fontSize: 9.5, letterSpacing: "0.22em", textTransform: "uppercase", color: MUTED }}>
+            <GenericEditableText sectionId={sectionId} field="logoTagline" value={logoTagline} tag="span" />
+          </span>
+        </span>
+      </span>
+    );
+  };
 
   return (
     <>
       <header
+        className="s02-navbar"
+        data-scrolled={scrolled ? "true" : "false"}
         style={{
           position: "sticky", top: 0, left: 0, right: 0, zIndex: 100,
           fontFamily: FONT,
-          backgroundColor: CREAM,
+          backgroundColor: scrolled ? "rgba(248,245,240,0.96)" : CREAM,
+          backdropFilter: scrolled ? "saturate(1.1) blur(8px)" : "none",
+          WebkitBackdropFilter: scrolled ? "saturate(1.1) blur(8px)" : "none",
           borderBottom: "1px solid rgba(103,72,50,0.12)",
-          boxShadow: "0 2px 20px rgba(61,37,22,0.06)",
+          boxShadow: scrolled ? "0 6px 28px rgba(61,37,22,0.10)" : "0 1px 0 rgba(61,37,22,0.03)",
+          transition: "background-color .3s, box-shadow .3s",
         }}
         data-template="stavba-02"
       >
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 32px", height: 65, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ maxWidth: 1220, margin: "0 auto", padding: "0 clamp(16px,4vw,36px)", height: scrolled ? 66 : 82, display: "flex", alignItems: "center", justifyContent: "space-between", transition: "height .3s cubic-bezier(.4,0,.2,1)" }}>
 
           {/* Logo */}
-          <a href={resolve("/")} aria-label={siteName} style={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
+          <a href={resolve("/")} aria-label={siteName} style={{ display: "flex", alignItems: "center", flexShrink: 0, textDecoration: "none" }}>
             <LogoMark />
           </a>
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex" style={{ alignItems: "center", gap: 4 }}>
+          <nav className="hidden lg:flex" style={{ alignItems: "center", gap: 6 }}>
             {links.map((l, i) => (
               <a
                 key={`${l.href}-${i}`}
                 href={resolve(l.href)}
-                style={{ fontFamily: FONT, fontSize: "0.81rem", fontWeight: 500, color: DARK, textDecoration: "none", padding: "5px 12px", borderRadius: 6, transition: "color 0.2s, background-color 0.2s" }}
-                onMouseEnter={e => { e.currentTarget.style.color = BROWN; e.currentTarget.style.backgroundColor = "rgba(103,72,50,0.07)"; }}
-                onMouseLeave={e => { e.currentTarget.style.color = DARK; e.currentTarget.style.backgroundColor = "transparent"; }}
+                className="s02-nav-link"
+                style={{ position: "relative", fontFamily: FONT, fontSize: "0.74rem", fontWeight: 600, letterSpacing: "0.09em", textTransform: "uppercase", color: DARK, textDecoration: "none", padding: "8px 14px" }}
               >
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
               </a>
@@ -11926,48 +12254,51 @@ function NavbarStavba02(props: Props) {
           </nav>
 
           {/* Desktop right: phone + CTA */}
-          <div className="hidden lg:flex" style={{ alignItems: "center", gap: 16 }}>
+          <div className="hidden lg:flex" style={{ alignItems: "center", gap: 22 }}>
             <a
               href={`tel:${phone.replace(/\s/g, "")}`}
-              style={{ display: "flex", alignItems: "center", gap: 6, color: DARK, fontFamily: FONT, fontSize: "0.79rem", fontWeight: 500, textDecoration: "none", transition: "color 0.2s" }}
-              onMouseEnter={e => { e.currentTarget.style.color = BROWN; }}
-              onMouseLeave={e => { e.currentTarget.style.color = DARK; }}
+              className="s02-phone"
+              style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}
             >
-              <span style={{ color: BROWN }}><PhoneIcon /></span>
-              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+              <span className="s02-phone-badge" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 34, height: 34, borderRadius: "50%", border: "1px solid rgba(103,72,50,0.22)", color: BROWN, flexShrink: 0 }}>
+                <PhoneIcon />
+              </span>
+              <span style={{ display: "flex", flexDirection: "column", gap: 1, lineHeight: 1.15 }}>
+                <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" style={{ fontFamily: FONT, fontSize: "0.62rem", fontWeight: 500, letterSpacing: "0.14em", textTransform: "uppercase", color: MUTED }} />
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" style={{ fontFamily: FONT, fontSize: "0.9rem", fontWeight: 700, color: DARK }} />
+              </span>
             </a>
             <a
               href={resolve(ctaHref)}
               data-btn="primary"
-              style={{ display: "inline-flex", alignItems: "center", backgroundColor: BROWN, color: "#fff", fontFamily: FONT, fontSize: "0.79rem", fontWeight: 600, padding: "9px 20px", borderRadius: 6, textDecoration: "none", transition: "opacity 0.18s, transform 0.18s" }}
-              onMouseEnter={e => { e.currentTarget.style.opacity = "0.88"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-              onMouseLeave={e => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
+              className="s02-nav-cta"
+              style={{ display: "inline-flex", alignItems: "center", gap: 8, backgroundColor: BROWN, color: "#fff", fontFamily: FONT, fontSize: "0.78rem", fontWeight: 600, letterSpacing: "0.02em", padding: "11px 22px", borderRadius: 8, textDecoration: "none", boxShadow: "0 6px 18px rgba(103,72,50,0.24)" }}
             >
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg className="s02-nav-cta-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
           </div>
 
           {/* Mobile right: phone + hamburger */}
-          <div className="flex lg:hidden" style={{ alignItems: "center", gap: 8 }}>
+          <div className="flex lg:hidden" style={{ alignItems: "center", gap: 10 }}>
             <a
               href={`tel:${phone.replace(/\s/g, "")}`}
-              style={{ display: "flex", alignItems: "center", gap: 5, color: DARK, fontFamily: FONT, fontSize: "0.8rem", fontWeight: 500, textDecoration: "none" }}
+              style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: "50%", border: "1px solid rgba(103,72,50,0.22)", color: BROWN, textDecoration: "none" }}
               aria-label={`Zavolat na ${phone}`}
             >
-              <span style={{ color: BROWN }}><PhoneIcon /></span>
-              <span className="hidden sm:block">{phone}</span>
+              <PhoneIcon size={17} />
             </a>
             <button
               onClick={() => setOpen(o => !o)}
               aria-label="Menu"
-              style={{ padding: "6px", background: "none", border: "none", cursor: "pointer", color: DARK }}
+              style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 40, height: 40, borderRadius: 9, background: open ? BROWN : "transparent", border: "1px solid rgba(103,72,50,0.22)", cursor: "pointer", color: open ? CREAM : DARK, transition: "background .2s, color .2s" }}
             >
               {open ? (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
                   <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
                 </svg>
               ) : (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
                   <line x1="3" y1="6" x2="21" y2="6"/>
                   <line x1="3" y1="12" x2="21" y2="12"/>
                   <line x1="3" y1="18" x2="21" y2="18"/>
@@ -11979,16 +12310,15 @@ function NavbarStavba02(props: Props) {
 
         {/* Mobile dropdown */}
         {open && (
-          <div className="lg:hidden" style={{ backgroundColor: CREAM, borderTop: "1px solid rgba(103,72,50,0.10)", padding: "16px 24px 24px" }}>
-            <nav style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <div className="lg:hidden" style={{ backgroundColor: CREAM, borderTop: "1px solid rgba(103,72,50,0.10)", padding: "12px 20px 24px" }}>
+            <nav style={{ display: "flex", flexDirection: "column", gap: 2 }}>
               {links.map((l, i) => (
                 <a
                   key={`mob-${l.href}-${i}`}
                   href={resolve(l.href)}
                   onClick={() => setOpen(false)}
-                  style={{ fontFamily: FONT, fontSize: "1rem", fontWeight: 500, color: DARK, textDecoration: "none", padding: "11px 12px", borderRadius: 6, transition: "color 0.2s, background-color 0.2s" }}
-                  onMouseEnter={e => { e.currentTarget.style.color = BROWN; e.currentTarget.style.backgroundColor = "rgba(103,72,50,0.07)"; }}
-                  onMouseLeave={e => { e.currentTarget.style.color = DARK; e.currentTarget.style.backgroundColor = "transparent"; }}
+                  className="s02-mob-link"
+                  style={{ fontFamily: FONT, fontSize: "0.95rem", fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase", color: DARK, textDecoration: "none", padding: "13px 12px", borderBottom: "1px solid rgba(103,72,50,0.08)" }}
                 >
                   <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                 </a>
@@ -11997,9 +12327,10 @@ function NavbarStavba02(props: Props) {
                 href={resolve(ctaHref)}
                 data-btn="primary"
                 onClick={() => setOpen(false)}
-                style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", backgroundColor: BROWN, color: "#fff", fontFamily: FONT, fontSize: "0.95rem", fontWeight: 600, padding: "12px 24px", borderRadius: 6, textDecoration: "none", marginTop: 12 }}
+                style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, backgroundColor: BROWN, color: "#fff", fontFamily: FONT, fontSize: "0.95rem", fontWeight: 600, padding: "14px 24px", borderRadius: 8, textDecoration: "none", marginTop: 14, boxShadow: "0 6px 18px rgba(103,72,50,0.24)" }}
               >
                 <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </a>
             </nav>
           </div>
@@ -12039,8 +12370,12 @@ function NavbarStavba03(props: Props) {
   const ctaText  = String(content.ctaText  ?? "Nezávazná poptávka");
   const ctaHref  = String(content.ctaHref  ?? "#kontakt");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const hours    = String(content.topHours     ?? "Po–Pá 7:30–17:00");
+  const fbUrl    = String(content.facebookUrl  ?? "https://facebook.com");
+  const igUrl    = String(content.instagramUrl ?? "https://instagram.com");
+  const siteMode = String(content.siteMode     ?? "multipage");
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const PhoneIcon = () => (
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -12065,8 +12400,62 @@ function NavbarStavba03(props: Props) {
     );
   };
 
+  const ClockIcon = () => (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </svg>
+  );
+  const FbIcon = () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/>
+    </svg>
+  );
+  const IgIcon = () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+    </svg>
+  );
+
   return (
     <>
+      {/* Topbar — thin white utility strip: contacts left, hours + social right */}
+      <div
+        className="st03-topbar hidden lg:block"
+        data-template="stavba-03"
+        style={{
+          height: 42,
+          backgroundColor: WHITE,
+          borderBottom: "1px solid #eaeaea",
+          fontFamily: FONT,
+          fontSize: 12.5,
+          color: GRAY,
+        }}
+      >
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 29px", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 26 }}>
+            <a href={`tel:+420${phone.replace(/\s/g, "")}`} className="st03-top-contact" style={{ display: "inline-flex", alignItems: "center", gap: 7, color: GRAY, textDecoration: "none", letterSpacing: "0.2px" }}>
+              <span style={{ color: ORANGE, display: "inline-flex" }}><PhoneIcon /></span>
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+            <a href={`mailto:${email}`} className="st03-top-contact" style={{ display: "inline-flex", alignItems: "center", gap: 7, color: GRAY, textDecoration: "none", letterSpacing: "0.2px" }}>
+              <span style={{ color: ORANGE, display: "inline-flex" }}><MailIcon /></span>
+              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+            </a>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
+            <span style={{ display: "inline-flex", alignItems: "center", gap: 7, letterSpacing: "0.2px" }}>
+              <span style={{ color: ORANGE, display: "inline-flex" }}><ClockIcon /></span>
+              <GenericEditableText sectionId={sectionId} field="topHours" value={hours} tag="span" />
+            </span>
+            <span style={{ width: 1, height: 16, background: "#e2e2e2" }} aria-hidden="true" />
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <a href={fbUrl} target="_blank" rel="noopener" aria-label="Facebook" className="st03-social" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 27, height: 27, color: DARK, textDecoration: "none" }}><FbIcon /></a>
+              <a href={igUrl} target="_blank" rel="noopener" aria-label="Instagram" className="st03-social" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 27, height: 27, color: DARK, textDecoration: "none" }}><IgIcon /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Main navbar — sticky, 81px (-10%), white */}
       <header
         style={{
@@ -12095,7 +12484,10 @@ function NavbarStavba03(props: Props) {
               <a
                 key={`${l.href}-${i}`}
                 href={resolve(l.href)}
+                className="st03-nav-link"
+                data-active={i === 0 ? "true" : undefined}
                 style={{
+                  position: "relative",
                   display: "inline-block",
                   height: 81,
                   lineHeight: "81px",
@@ -12141,7 +12533,7 @@ function NavbarStavba03(props: Props) {
         {/* Desktop CTA — full-height 81px block, no border-radius */}
         <a
           href={resolve(ctaHref)}
-          className="hidden lg:flex"
+          className="hidden lg:flex st03-nav-cta"
           style={{
             alignItems: "center",
             justifyContent: "center",
@@ -12159,13 +12551,12 @@ function NavbarStavba03(props: Props) {
             textDecoration: "none",
             borderRadius: 0,
             flexShrink: 0,
+            overflow: "hidden",
             transition: "background-color 0.2s",
           }}
-          onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#e86f0e"; }}
-          onMouseLeave={e => { e.currentTarget.style.backgroundColor = ORANGE; }}
         >
           <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <svg className="st03-nav-cta-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
           </svg>
         </a>
@@ -12238,11 +12629,18 @@ function NavbarElektro01(props: Props) {
   const [activeHref, setActiveHref] = useState("/");
 
   useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open]);
+
+  useEffect(() => {
     const sectionMap: Record<string, string> = {
       uvod:      "/",
-      sluzby:    "#sluzby",
-      reference: "#reference",
-      kontakt:   "#kontakt",
+      sluzby:    "/sluzby",
+      reference: "/reference",
+      kontakt:   "/kontakt",
     };
 
     const onScroll = () => {
@@ -12276,10 +12674,19 @@ function NavbarElektro01(props: Props) {
 
   const siteName = String(content.siteName ?? "Váš elektrikář");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
-  const resolve  = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const phone    = String((content as Record<string, unknown>).phone ?? "704 123 456");
+  const ctaText  = String((content as Record<string, unknown>).ctaText ?? "Nezávazná poptávka");
+  const ctaHref  = String((content as Record<string, unknown>).ctaHref ?? "/kontakt");
+  const siteMode = String((content as Record<string, unknown>).siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const linkBase  = scrolled ? GRAY  : "rgba(255,255,255,0.88)";
-  const linkHover = scrolled ? DARK  : WHITE;
+  const linkBase  = scrolled ? GRAY  : "rgba(255,255,255,0.82)";
+
+  const PhoneIcon = ({ color = "currentColor", size = 15 }: { color?: string; size?: number }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+    </svg>
+  );
 
   const MenuIcon = () => (
     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={scrolled ? DARK : WHITE} strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -12292,19 +12699,16 @@ function NavbarElektro01(props: Props) {
     </svg>
   );
 
-  /* Logo: červený kruh + zástrčka (plug) + "VÁŠ ELEKTRIKÁŘ" 1 řádek — čisté, profesionální */
   const LogoMark = ({ onDark = true }: { onDark?: boolean }) => {
     const c = onDark ? WHITE : DARK;
     return (
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 252 52" fill="none"
-        style={{ width: 244, height: 51 }} aria-label={siteName}>
+        style={{ width: 220, height: 46 }} aria-label={siteName}>
         <circle cx="26" cy="26" r="26" fill={RED}/>
-        {/* Electrical plug icon */}
         <rect x="19" y="9"  width="4" height="11" rx="1.5" fill={WHITE}/>
         <rect x="29" y="9"  width="4" height="11" rx="1.5" fill={WHITE}/>
         <rect x="15" y="20" width="22" height="14" rx="3"   fill={WHITE}/>
         <rect x="23" y="34" width="6"  height="9"  rx="1.5" fill={WHITE}/>
-        {/* Wordmark */}
         <text fontFamily="'Montserrat',Arial,sans-serif" fontWeight="800" fontSize="17.5" fill={c} letterSpacing="0.4">
           <tspan x="62" y="31">{siteName.toUpperCase()}</tspan>
         </text>
@@ -12315,93 +12719,146 @@ function NavbarElektro01(props: Props) {
   return (
     <>
       <header
+        className="e01-navbar"
         style={{
           position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
           fontFamily: FONT,
           backgroundColor: scrolled ? WHITE : "transparent",
-          boxShadow: scrolled ? "0 2px 20px rgba(0,0,0,0.13)" : "none",
-          borderBottom: scrolled ? "1px solid #e8e8e8" : "none",
-          transition: "background-color 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease",
+          boxShadow: scrolled ? "0 2px 24px rgba(0,0,0,0.10)" : "none",
+          borderBottom: scrolled ? `2px solid ${RED}` : "2px solid transparent",
+          transition: "background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease",
         }}
         data-template="elektro-01"
       >
-        {/* 86px výška, logo i nav vertikálně centrované */}
         <div style={{
           maxWidth: 1280, margin: "0 auto", padding: "0 32px",
-          height: 86, display: "flex", alignItems: "center",
+          height: 82, display: "flex", alignItems: "center",
           justifyContent: "space-between",
         }}>
 
-          {/* Logo vlevo */}
           <a href={resolve("/")} aria-label={siteName}
+            className="e01-nav-logo"
             style={{ display: "flex", alignItems: "center", flexShrink: 0, textDecoration: "none" }}>
             <LogoMark onDark={!scrolled} />
           </a>
 
-          {/* Desktop nav — vpravo, aktivní + hover podtržítko */}
-          <nav className="hidden lg:flex" style={{ alignItems: "center", gap: 0 }}>
-            {links.map((l, i) => {
-              const isActive = activeHref === l.href;
-              return (
-                <a
-                  key={`${l.href}-${i}`}
-                  href={resolve(l.href)}
-                  onClick={() => setActiveHref(l.href)}
-                  style={{
-                    display: "inline-block",
-                    fontFamily: FONT, fontSize: "0.80rem", fontWeight: 700,
-                    color: isActive ? (scrolled ? DARK : WHITE) : linkBase,
-                    textDecoration: "none",
-                    padding: "8px 18px",
-                    letterSpacing: "0.12em", textTransform: "uppercase",
-                    borderBottom: isActive ? `2px solid ${RED}` : "2px solid transparent",
-                    transition: "color 0.18s, border-color 0.18s",
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.color = linkHover;
-                    e.currentTarget.style.borderBottomColor = RED;
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.color = isActive ? (scrolled ? DARK : WHITE) : linkBase;
-                    e.currentTarget.style.borderBottomColor = isActive ? RED : "transparent";
-                  }}
-                >
-                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-                </a>
-              );
-            })}
-          </nav>
+          <div className="hidden lg:flex" style={{ alignItems: "center", gap: 0 }}>
+            <nav style={{ display: "flex", alignItems: "center", gap: 0 }}>
+              {links.map((l, i) => {
+                const isActive = activeHref === l.href;
+                return (
+                  <a
+                    key={`${l.href}-${i}`}
+                    href={resolve(l.href)}
+                    className="e01-nav-link"
+                    onClick={() => setActiveHref(l.href)}
+                    data-active={isActive ? "true" : undefined}
+                    style={{
+                      display: "inline-flex", alignItems: "center",
+                      fontFamily: FONT, fontSize: "0.78rem", fontWeight: 700,
+                      color: isActive ? (scrolled ? DARK : WHITE) : linkBase,
+                      textDecoration: "none",
+                      padding: "6px 16px",
+                      letterSpacing: "0.10em", textTransform: "uppercase",
+                      position: "relative",
+                      transition: "color 0.22s ease",
+                    }}
+                  >
+                    <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                  </a>
+                );
+              })}
+            </nav>
 
-          {/* Mobile hamburger */}
+            <div style={{ width: 1, height: 28, background: scrolled ? "#e0e0e0" : "rgba(255,255,255,0.2)", margin: "0 12px", flexShrink: 0, transition: "background 0.3s ease" }} />
+
+            <a href={`tel:${phone.replace(/\s/g, "")}`}
+              className="e01-nav-phone"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 7,
+                fontFamily: FONT, fontSize: "0.82rem", fontWeight: 700,
+                color: scrolled ? DARK : WHITE,
+                textDecoration: "none",
+                letterSpacing: "0.03em",
+                padding: "6px 10px",
+                transition: "color 0.22s ease",
+              }}>
+              <PhoneIcon color={RED} size={15} />
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+
+            <a href={resolve(ctaHref)}
+              className="e01-nav-cta"
+              style={{
+                display: "inline-flex", alignItems: "center", gap: 6,
+                fontFamily: FONT, fontSize: "0.74rem", fontWeight: 800,
+                color: WHITE,
+                background: RED,
+                textDecoration: "none",
+                padding: "10px 22px",
+                letterSpacing: "0.08em", textTransform: "uppercase",
+                marginLeft: 8,
+                transition: "background 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease",
+              }}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0 }}>
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+
           <button
             className="flex lg:hidden"
             aria-label={open ? "Zavřít menu" : "Otevřít menu"}
             onClick={() => setOpen(!open)}
-            style={{ background: "none", border: "none", cursor: "pointer", padding: "6px 6px 18px" }}
+            style={{ background: "none", border: "none", cursor: "pointer", padding: 6 }}
           >
             {open ? <XIcon /> : <MenuIcon />}
           </button>
         </div>
       </header>
 
-      {/* Mobile overlay */}
       {open && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 99, backgroundColor: WHITE }}
+        <div style={{ position: "fixed", inset: 0, zIndex: 101, backgroundColor: WHITE, overflowY: "auto" }}
           role="dialog" aria-modal="true">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 24px", height: 86, borderBottom: "1px solid #f0f0f0" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 24px", height: 82, borderBottom: `2px solid ${RED}` }}>
             <LogoMark onDark={false} />
-            <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", padding: 6 }}>
+            <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", padding: 6 }} aria-label="Zavřít menu">
               <XIcon />
             </button>
           </div>
-          <nav style={{ padding: "8px 28px 32px" }}>
+          <nav style={{ padding: "12px 28px 24px" }}>
             {links.map((l, i) => (
               <a key={`mob-${i}`} href={resolve(l.href)} onClick={() => setOpen(false)}
-                style={{ display: "block", padding: "16px 0", fontFamily: FONT, fontSize: "1rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: DARK, textDecoration: "none", borderBottom: "1px solid #f0f0f0" }}>
+                className="e01-mob-link"
+                style={{ display: "block", padding: "16px 0", fontFamily: FONT, fontSize: "1rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.09em", color: DARK, textDecoration: "none", borderBottom: "1px solid #f0f0f0", transition: "color 0.2s ease, padding-left 0.2s ease" }}>
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
               </a>
             ))}
           </nav>
+
+          <div style={{ padding: "8px 28px 32px", display: "flex", flexDirection: "column", gap: 14 }}>
+            <a href={`tel:${phone.replace(/\s/g, "")}`}
+              style={{ display: "inline-flex", alignItems: "center", gap: 10, fontFamily: FONT, fontSize: "1rem", fontWeight: 700, color: DARK, textDecoration: "none" }}>
+              <PhoneIcon color={RED} size={18} />
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+
+            <a href={resolve(ctaHref)} onClick={() => setOpen(false)}
+              style={{
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                fontFamily: FONT, fontSize: "0.85rem", fontWeight: 800,
+                color: WHITE, background: RED,
+                textDecoration: "none",
+                padding: "14px 24px",
+                letterSpacing: "0.08em", textTransform: "uppercase",
+              }}>
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
         </div>
       )}
     </>
@@ -12612,11 +13069,23 @@ function NavbarInstala01(props: Props) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80);
+    const onScroll = () => setScrolled(window.scrollY > 60);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", h);
+    return () => document.removeEventListener("keydown", h);
+  }, [open]);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
 
   const YELLOW = "#FFC527";
   const DARK   = "#1e293b";
@@ -12630,9 +13099,12 @@ function NavbarInstala01(props: Props) {
   const address  = String(content.address  ?? "Ukázková 123, 110 00 Praha 1");
   const ctaText  = String(content.ctaText  ?? "Zavolejte nám");
   const ctaHref  = String(content.ctaHref  ?? "tel:+420704123456");
+  const availabilityLabel = String(content.availabilityLabel ?? "Nonstop havarijní servis 24/7");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const telHref = `tel:${phone.replace(/[^\d+]/g, "")}`;
 
   const PhoneIcon = () => (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -12685,6 +13157,12 @@ function NavbarInstala01(props: Props) {
     );
   };
 
+  const ClockIcon = () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </svg>
+  );
+
   return (
     <>
       {/* Fixed transparent wrapper — overlays hero, no separator */}
@@ -12696,87 +13174,82 @@ function NavbarInstala01(props: Props) {
           right: 0,
           zIndex: 100,
           fontFamily: FONT,
-          backgroundColor: scrolled ? "rgba(30,41,59,0.96)" : "transparent",
-          transition: "background-color 0.3s ease",
+          backgroundColor: scrolled ? "rgba(30,41,59,0.97)" : "transparent",
+          boxShadow: scrolled ? "0 6px 30px rgba(15,23,42,0.28)" : "none",
+          backdropFilter: scrolled ? "blur(8px)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(8px)" : "none",
+          transition: "background-color 0.35s ease, box-shadow 0.35s ease",
         }}
         data-template="instala-01-navbar"
       >
+        {/* ── Yellow utility topbar — contacts + 24/7 availability ── */}
+        <div
+          className="i01-topbar"
+          style={{
+            background: "linear-gradient(90deg, #FFC527 0%, #ffce4a 100%)",
+            color: DARK,
+            maxHeight: scrolled ? 0 : 46,
+            opacity: scrolled ? 0 : 1,
+            borderBottom: scrolled ? "none" : "1px solid rgba(30,41,59,0.10)",
+          }}
+        >
+          <div style={{
+            maxWidth: 1280, margin: "0 auto", padding: "0 32px", height: 46,
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            fontSize: "0.82rem", letterSpacing: "0.01em",
+          }}>
+            {/* Left — 24/7 availability */}
+            <div className="hidden md:flex" style={{ alignItems: "center", gap: 9, fontWeight: 600 }}>
+              <span className="i01-pulse-dot" aria-hidden="true" />
+              <GenericEditableText sectionId={sectionId} field="availabilityLabel" value={availabilityLabel} tag="span" />
+            </div>
+            {/* Right — contacts */}
+            <div style={{ display: "flex", alignItems: "center", gap: 26, marginLeft: "auto" }}>
+              <span className="i01-top-link hidden xl:inline-flex" aria-hidden="true">
+                <MapPinIcon />
+                <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+              </span>
+              <a className="i01-top-link" href={telHref}>
+                <PhoneIcon />
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+              </a>
+              <a className="i01-top-link hidden sm:inline-flex" href={`mailto:${email}`}>
+                <MailIcon />
+                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+              </a>
+            </div>
+          </div>
+        </div>
+
         {/* ── Main nav — transparent, white links ── */}
         <div style={{
           maxWidth: 1280,
           margin: "0 auto",
           padding: "0 32px",
-          height: 86,
+          height: scrolled ? 72 : 86,
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          transition: "height 0.35s cubic-bezier(.22,.61,.36,1)",
         }}>
           {/* Logo */}
-          <a href={resolve("/")} aria-label={siteName}
+          <a className="i01-logo" href={resolve("/")} aria-label={siteName}
             style={{ display: "flex", alignItems: "center", flexShrink: 0, textDecoration: "none" }}>
             <LogoMark />
           </a>
 
-          {/* Desktop nav */}
-          <nav className="hidden lg:flex" style={{ alignItems: "center", gap: 2 }}>
+          {/* Desktop nav — animated yellow underline */}
+          <nav className="hidden lg:flex" style={{ alignItems: "center" }}>
             {links.map((l, i) => (
-              <a
-                key={`${l.href}-${i}`}
-                href={resolve(l.href)}
-                style={{
-                  fontSize: "18px",
-                  fontWeight: 500,
-                  color: WHITE,
-                  textDecoration: "none",
-                  padding: "15px 25px",
-                  borderRadius: 6,
-                  transition: "color 0.18s, background-color 0.18s",
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.color = YELLOW;
-                  e.currentTarget.style.backgroundColor = "rgba(255,255,255,0.08)";
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.color = WHITE;
-                  e.currentTarget.style.backgroundColor = "transparent";
-                }}
-              >
+              <a key={`${l.href}-${i}`} className="i01-nav-link" href={resolve(l.href)}>
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
               </a>
             ))}
           </nav>
 
-          {/* Desktop CTA — outline pill: white border + white text, hover → fill white */}
+          {/* Desktop CTA — outline pill, hover → yellow fill */}
           <div className="hidden lg:flex" style={{ alignItems: "center", gap: 10 }}>
-            <a
-              href={resolve(ctaHref)}
-              data-btn="inverse"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 7,
-                backgroundColor: "transparent",
-                color: WHITE,
-                border: "1px solid rgba(255,255,255,0.85)",
-                fontSize: "0.9rem",
-                fontWeight: 600,
-                padding: "10px 24px",
-                borderRadius: 50,
-                textDecoration: "none",
-                whiteSpace: "nowrap",
-                transition: "background-color 0.2s, color 0.2s, border-color 0.2s",
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.backgroundColor = WHITE;
-                e.currentTarget.style.color = DARK;
-                e.currentTarget.style.borderColor = WHITE;
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.color = WHITE;
-                e.currentTarget.style.borderColor = "rgba(255,255,255,0.85)";
-              }}
-            >
+            <a className="i01-cta" href={resolve(ctaHref)} data-btn="inverse">
               <PhoneIcon />
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
@@ -12794,54 +13267,85 @@ function NavbarInstala01(props: Props) {
         </div>
       </div>
 
-      {/* Mobile overlay */}
+      {/* Mobile overlay — dark fullscreen */}
       {open && (
         <div
-          style={{ position: "fixed", inset: 0, zIndex: 101, backgroundColor: WHITE }}
+          style={{ position: "fixed", inset: 0, zIndex: 101, backgroundColor: DARK, overflowY: "auto" }}
           role="dialog"
           aria-modal="true"
+          data-template="instala-01-navbar"
         >
+          {/* Header bar */}
           <div style={{
             display: "flex", alignItems: "center", justifyContent: "space-between",
-            padding: "0 24px", height: 72, borderBottom: `3px solid ${YELLOW}`,
+            padding: "0 24px", height: 72, borderBottom: `2px solid ${YELLOW}`,
           }}>
-            <LogoMark />
+            <a href={resolve("/")} style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 10 }}>
+              <div style={{ width: 36, height: 36, borderRadius: "50%", backgroundColor: YELLOW, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                <svg width="18" height="18" viewBox="0 0 48 48" fill="none"><path d="M32 12c-3.31 0-6 2.69-6 6 0 .78.15 1.52.42 2.2L14 32.62 15.38 34 27.8 21.58c.68.27 1.42.42 2.2.42 3.31 0 6-2.69 6-6 0-.56-.08-1.1-.22-1.62l-3.16 3.16-2.12-2.12 3.16-3.16C33.1 12.08 32.56 12 32 12z" fill={DARK}/></svg>
+              </div>
+              <span style={{ fontSize: "18px", fontWeight: 700, color: WHITE, letterSpacing: "-0.01em" }}>{siteName.split(" ")[0] || "Instalatérské"}</span>
+            </a>
             <button onClick={() => setOpen(false)}
               style={{ background: "none", border: "none", cursor: "pointer", padding: 6 }}>
-              <XIcon />
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={WHITE} strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
             </button>
           </div>
-          <nav style={{ padding: "12px 24px 32px" }}>
+
+          {/* Nav links */}
+          <nav style={{ padding: "16px 24px 0", fontFamily: FONT }}>
             {links.map((l, i) => (
               <a
                 key={`mob-${i}`}
                 href={resolve(l.href)}
                 onClick={() => setOpen(false)}
                 style={{
-                  display: "block", padding: "15px 0",
-                  fontFamily: FONT, fontSize: "1rem", fontWeight: 500,
-                  color: DARK, textDecoration: "none",
-                  borderBottom: "1px solid #f0f0f0",
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  padding: "18px 0", color: WHITE, textDecoration: "none",
+                  fontSize: "1.2rem", fontWeight: 600, borderBottom: "1px solid rgba(255,255,255,0.08)",
+                  transition: "color 0.2s ease",
                 }}
               >
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={YELLOW} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
               </a>
             ))}
+          </nav>
+
+          {/* CTA button */}
+          <div style={{ padding: "28px 24px 0" }}>
             <a
               href={resolve(ctaHref)}
-              data-btn="primary"
               onClick={() => setOpen(false)}
               style={{
-                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
-                marginTop: 28, backgroundColor: YELLOW, color: DARK,
-                fontFamily: FONT, fontSize: "0.95rem", fontWeight: 700,
-                padding: "14px 0", borderRadius: 50, textAlign: "center", textDecoration: "none",
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+                backgroundColor: YELLOW, color: DARK,
+                fontFamily: FONT, fontSize: "1rem", fontWeight: 700,
+                padding: "16px 0", borderRadius: 50, textDecoration: "none",
               }}
             >
               <PhoneIcon />
               <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
             </a>
-          </nav>
+          </div>
+
+          {/* Contact info */}
+          <div style={{ padding: "28px 24px 40px", display: "flex", flexDirection: "column", gap: 16 }}>
+            <a href={telHref} style={{ display: "flex", alignItems: "center", gap: 12, color: WHITE, textDecoration: "none", fontSize: "15px", fontWeight: 600 }}>
+              <span style={{ color: YELLOW }}><PhoneIcon /></span>
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+            <a href={`mailto:${email}`} style={{ display: "flex", alignItems: "center", gap: 12, color: "rgba(255,255,255,0.7)", textDecoration: "none", fontSize: "15px", fontWeight: 500 }}>
+              <span style={{ color: YELLOW }}><MailIcon /></span>
+              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+            </a>
+            <span style={{ display: "flex", alignItems: "center", gap: 12, color: "rgba(255,255,255,0.5)", fontSize: "14px" }}>
+              <span style={{ color: YELLOW }}><MapPinIcon /></span>
+              <GenericEditableText sectionId={sectionId} field="address" value={address} tag="span" />
+            </span>
+          </div>
         </div>
       )}
     </>
@@ -12901,6 +13405,9 @@ function NavbarSweet01({ content, isAdmin, tenantSlug, sectionId }: Props) {
 
   return (
     <>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap" />
       <style>{`
         .sw01-nav-link { position: relative; }
         .sw01-nav-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 1.5px; background: ${RED}; transform: scaleX(0); transform-origin: center; transition: transform 0.35s cubic-bezier(.4,0,.2,1); }
@@ -13099,122 +13606,128 @@ function NavbarSweet01({ content, isAdmin, tenantSlug, sectionId }: Props) {
 }
 
 // ── autoskola-01-navbar ───────────────────────────────────────────────────────
-// 1:1 nobe.cz:
-// - Bílý topbar 44px: telefon vlevo, YT/FB/IG social ikony + rating badge vpravo
-// - Sticky bílá navbar 80px: SVG auto+wordmark logo vlevo, nav linky střed, oranžový (#f16823) filled CTA vpravo
-// - Shadow po scrollu; font Roboto
+// Road Editorial Motion — Urban Mobility Academy
+// Two-tier: utility strip (phone · rating · social) midnight ink dashed road-lane
+// Main bar: midnight ink #0f172a sticky, Space Grotesk wordmark + speedometer SVG,
+// Inter Tight nav links bone white, yellow #ffce00 square CTA
+// Animated hamburger→X, midnight overlay with road-lane dashes
 // ─────────────────────────────────────────────────────────────────────────────
 function NavbarAutoskola01(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const siteMode = String(content.siteMode ?? "multipage");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const ORANGE = "#f16823";
-  const DARK   = "#484848";
-  const WHITE  = "#ffffff";
-  const FONT   = "'Roboto', sans-serif";
+  useEffect(() => {
+    if (!open) return;
+    const h = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", h);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", h); document.body.style.overflow = ""; };
+  }, [open]);
 
-  const siteName    = String(content.siteName    ?? "Autoškola DRIVE CZ");
+  const INK    = "#0f172a";
+  const BONE   = "#fafaf7";
+  const ORANGE = "#f16823";
+  const YELLOW = "#ffce00";
+  const SLATE  = "#94a3b8";
+  const FONT_D = "'Space Grotesk', 'Inter', sans-serif";
+  const FONT_B = "'Inter Tight', 'Inter', sans-serif";
+
+  const siteName    = String(content.siteName    ?? "Demo Autoškola DRIVE");
   const logoUrl     = String(content.logoUrl     ?? "");
-  const phone       = String(content.phone       ?? "704 123 456");
-  const rating      = String(content.rating      ?? "4,9");
-  const ratingCount = String(content.ratingCount ?? "2 847 hodnocení");
-  const ctaText     = String(content.ctaText     ?? "Přihlásit se");
-  const ctaHref     = String(content.ctaHref     ?? "/prihlaseni");
+  const phone       = String(content.phone       ?? "777 888 999");
+  const rating      = String(content.rating      ?? "4,8");
+  const ratingCount = String(content.ratingCount ?? "1 924 hodnocení");
+  const ctaText     = String(content.ctaText     ?? "Zapsat se");
+  const ctaHref     = String(content.ctaHref     ?? "/zapis");
   const facebook    = String(content.facebook    ?? "https://facebook.com/demo");
   const instagram   = String(content.instagram   ?? "https://instagram.com/demo");
   const youtube     = String(content.youtube     ?? "https://youtube.com/demo");
   const links       = (content.links as Array<{ label: string; href: string }>) ?? [];
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const PhIcon = () => (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12.25 19.79 19.79 0 0 1 1.17 3.63 2 2 0 0 1 3.15 1.45h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/>
-    </svg>
-  );
-  const BurgerIcon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={DARK} strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
-    </svg>
-  );
-  const CloseIcon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={DARK} strokeWidth="2" strokeLinecap="round" aria-hidden="true">
-      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+  const SpeedometerMark = () => (
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+      <circle cx="18" cy="18" r="16" stroke={ORANGE} strokeWidth="2.5" />
+      <path d="M8 26 A14 14 0 0 1 28 26" stroke={YELLOW} strokeWidth="2" strokeLinecap="round" fill="none" />
+      <line x1="18" y1="18" x2="24" y2="10" stroke={BONE} strokeWidth="2" strokeLinecap="round" />
+      <circle cx="18" cy="18" r="2.5" fill={ORANGE} />
     </svg>
   );
 
-  const LogoSVG = ({ dark = true }: { dark?: boolean }) => {
-    if (logoUrl) return <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 42, width: "auto", objectFit: "contain" }} />;
-    const tc = dark ? DARK : WHITE;
+  const LogoMark = () => {
+    if (logoUrl) return <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 40, width: "auto", objectFit: "contain" }} />;
+    const displayName = siteName.replace(/^(demo\s*)?autoškola\s*/i, "").toUpperCase() || "DRIVE";
     return (
-      <div style={{ display: "flex", flexDirection: "column", lineHeight: 1, userSelect: "none" }} aria-label={siteName}>
-        <span style={{ fontFamily: "'Roboto', Arial, sans-serif", fontWeight: 400, fontSize: 14, letterSpacing: "0.28em", textTransform: "uppercase", color: ORANGE }}>AUTOŠKOLA</span>
-        <span style={{ fontFamily: "'Roboto', Arial, sans-serif", fontWeight: 800, fontSize: 14, letterSpacing: "0.22em", textTransform: "uppercase", color: tc, marginTop: 2 }}>{siteName.replace(/^autoškola\s*/i, "").toUpperCase() || "DRIVE CZ"}</span>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, userSelect: "none" }} aria-label={siteName}>
+        <SpeedometerMark />
+        <div style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
+          <span style={{ fontFamily: FONT_D, fontWeight: 300, fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: SLATE }}>AUTOŠKOLA</span>
+          <span style={{ fontFamily: FONT_D, fontWeight: 700, fontSize: 18, letterSpacing: "0.08em", textTransform: "uppercase", color: BONE, marginTop: 1 }}>{displayName}</span>
+        </div>
       </div>
     );
   };
 
-  const socialLinks = [
-    { href: youtube, icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill={DARK} aria-hidden="true">
-        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
-        <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill={WHITE}/>
-      </svg>
-    )},
-    { href: facebook, icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill={DARK} aria-hidden="true">
-        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-      </svg>
-    )},
-    { href: instagram, icon: (
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={DARK} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-      </svg>
-    )},
+  const PhoneIcon = () => (
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.5 12.25 19.79 19.79 0 0 1 1.17 3.63 2 2 0 0 1 3.15 1.45h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21 16.92z"/>
+    </svg>
+  );
+
+  const socialItems = [
+    { href: youtube, label: "YouTube", path: "M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z" },
+    { href: facebook, label: "Facebook", path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
+    { href: instagram, label: "Instagram", path: "" },
   ];
 
   return (
     <>
       <div
-        style={{ position: "sticky", top: 0, left: 0, right: 0, zIndex: 100, fontFamily: FONT, backgroundColor: WHITE, boxShadow: scrolled ? "0 2px 12px rgba(0,0,0,0.10)" : "none", transition: "box-shadow 0.3s ease" }}
-        data-template="autoskola-01-navbar"
+        style={{ position: "sticky", top: 0, left: 0, right: 0, zIndex: 100, fontFamily: FONT_B }}
+        data-template="autoskola-01"
       >
-        {/* Topbar */}
-        <div style={{ borderBottom: "1px solid #eeeeee", height: 44 }}>
-          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <a href={`tel:+420${phone.replace(/\s/g, "")}`}
-              style={{ display: "flex", alignItems: "center", gap: 6, color: DARK, textDecoration: "none", fontSize: "13px", fontWeight: 500 }}>
-              <span style={{ color: ORANGE }}><PhIcon /></span>
+        {/* ── Utility strip — road-lane dashed midnight ── */}
+        <div className="as01-utility" style={{ backgroundColor: INK, borderBottom: `1px dashed ${SLATE}40` }}>
+          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", height: 38, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <a href={`tel:+420${phone.replace(/\s/g, "")}`} className="as01-util-phone"
+              style={{ display: "flex", alignItems: "center", gap: 6, color: SLATE, textDecoration: "none", fontSize: 12, fontFamily: FONT_B, fontWeight: 500, letterSpacing: "0.02em", transition: "color 0.2s" }}>
+              <span style={{ color: ORANGE }}><PhoneIcon /></span>
               <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
             </a>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <div className="hidden md:flex" style={{ alignItems: "center", gap: 10 }}>
-                {socialLinks.map(({ href, icon }, i) => (
-                  <a key={i} href={href} target="_blank" rel="noopener noreferrer"
-                    style={{ opacity: 0.65, display: "flex", alignItems: "center", transition: "opacity 0.18s" }}
-                    onMouseEnter={e => { e.currentTarget.style.opacity = "1"; }}
-                    onMouseLeave={e => { e.currentTarget.style.opacity = "0.65"; }}>
-                    {icon}
+            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <div className="as01-util-social" style={{ alignItems: "center", gap: 8 }}>
+                {socialItems.map((s, i) => (
+                  <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} className="as01-social-link"
+                    style={{ display: "flex", alignItems: "center", opacity: 0.5, transition: "opacity 0.2s" }}>
+                    {s.label === "Instagram" ? (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={BONE} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                      </svg>
+                    ) : (
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill={BONE} aria-hidden="true"><path d={s.path}/></svg>
+                    )}
                   </a>
                 ))}
               </div>
-              <div className="hidden md:block" style={{ width: 1, height: 20, backgroundColor: "#e0e0e0" }} />
-              <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: "12px" }}>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill={ORANGE} stroke="none" aria-hidden="true">
+              <div className="as01-util-divider" style={{ width: 1, height: 16, backgroundColor: `${SLATE}30` }} />
+              <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, fontFamily: "'JetBrains Mono', 'SF Mono', monospace" }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill={YELLOW} stroke="none" aria-hidden="true">
                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                 </svg>
-                <span style={{ fontWeight: 700, color: DARK }}>
+                <span style={{ fontWeight: 700, color: BONE }}>
                   <GenericEditableText sectionId={sectionId} field="rating" value={rating} tag="span" />
                 </span>
-                <span style={{ color: "#969696" }} className="hidden sm:inline">
+                <span style={{ color: SLATE, fontWeight: 400 }} className="as01-util-rating-count">
                   <GenericEditableText sectionId={sectionId} field="ratingCount" value={ratingCount} tag="span" />
                 </span>
               </div>
@@ -13222,61 +13735,92 @@ function NavbarAutoskola01(props: Props) {
           </div>
         </div>
 
-        {/* Main nav */}
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", height: 80, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <a href={resolve("/")} aria-label={siteName} style={{ display: "flex", alignItems: "center", flexShrink: 0, textDecoration: "none" }}>
-            <LogoSVG />
-          </a>
-          <nav className="hidden lg:flex" style={{ alignItems: "center", gap: 2 }}>
-            {links.map((l, i) => (
-              <a key={`${l.href}-${i}`} href={resolve(l.href)}
-                style={{ fontSize: "15px", fontWeight: 500, color: DARK, textDecoration: "none", padding: "10px 16px", borderRadius: 4, transition: "color 0.18s" }}
-                onMouseEnter={e => { e.currentTarget.style.color = ORANGE; }}
-                onMouseLeave={e => { e.currentTarget.style.color = DARK; }}>
-                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-              </a>
-            ))}
-          </nav>
-          <div className="hidden lg:flex">
-            <a href={resolve(ctaHref)} data-btn="primary"
-              style={{ display: "inline-flex", alignItems: "center", backgroundColor: ORANGE, color: WHITE, fontSize: "0.9rem", fontWeight: 700, padding: "11px 26px", borderRadius: 50, textDecoration: "none", whiteSpace: "nowrap", transition: "background-color 0.2s, transform 0.15s" }}
-              onMouseEnter={e => { e.currentTarget.style.backgroundColor = "#d95d18"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-              onMouseLeave={e => { e.currentTarget.style.backgroundColor = ORANGE; e.currentTarget.style.transform = "translateY(0)"; }}>
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+        {/* ── Main navbar — midnight ink ── */}
+        <div style={{
+          backgroundColor: scrolled ? `${INK}f5` : INK,
+          backdropFilter: scrolled ? "blur(12px)" : "none",
+          borderBottom: `2px solid ${ORANGE}`,
+          transition: "background-color 0.3s, backdrop-filter 0.3s",
+        }}>
+          <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", height: 72, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <a href={resolve("/")} aria-label={siteName} style={{ display: "flex", alignItems: "center", flexShrink: 0, textDecoration: "none" }}>
+              <LogoMark />
             </a>
+
+            <nav className="as01-desktop-nav" style={{ alignItems: "center", gap: 0 }}>
+              {links.map((l, i) => (
+                <a key={`${l.href}-${i}`} href={resolve(l.href)} className="as01-nav-link"
+                  style={{ fontSize: 13, fontWeight: 500, color: BONE, textDecoration: "none", padding: "8px 18px", letterSpacing: "0.04em", textTransform: "uppercase", fontFamily: FONT_B, position: "relative", transition: "color 0.2s" }}>
+                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                </a>
+              ))}
+            </nav>
+
+            <div className="as01-desktop-cta" style={{ alignItems: "center", gap: 12 }}>
+              <a href={resolve(ctaHref)} data-btn="primary" className="as01-cta-btn"
+                style={{ display: "inline-flex", alignItems: "center", gap: 8, backgroundColor: YELLOW, color: INK, fontSize: 13, fontWeight: 700, fontFamily: FONT_D, padding: "10px 24px", textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.06em", whiteSpace: "nowrap", transition: "background-color 0.2s, transform 0.15s, box-shadow 0.2s" }}>
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+
+            {/* Hamburger — animated 3-line → X */}
+            <button className="as01-burger-btn" aria-label={open ? "Zavřít menu" : "Otevřít menu"} onClick={() => setOpen(!open)}
+              style={{ background: "none", border: "none", cursor: "pointer", padding: 8, position: "relative", width: 40, height: 40, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span className={`as01-burger ${open ? "as01-burger-open" : ""}`} />
+            </button>
           </div>
-          <button className="flex lg:hidden" aria-label={open ? "Zavřít menu" : "Otevřít menu"} onClick={() => setOpen(!open)}
-            style={{ background: "none", border: "none", cursor: "pointer", padding: 6 }}>
-            {open ? <CloseIcon /> : <BurgerIcon />}
-          </button>
         </div>
       </div>
 
-      {/* Mobile overlay */}
-      {open && (
-        <div style={{ position: "fixed", inset: 0, zIndex: 101, backgroundColor: WHITE, overflowY: "auto" }} role="dialog" aria-modal="true">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 24px", height: 80, borderBottom: `3px solid ${ORANGE}` }}>
-            <LogoSVG />
-            <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", padding: 6 }}><CloseIcon /></button>
+      {/* ── Mobile overlay — midnight ink with road-lane dashes ── */}
+      <div className={`as01-mobile-overlay ${open ? "as01-mobile-open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigační menu">
+        <div style={{ padding: "0 24px", height: 72, borderBottom: `2px solid ${ORANGE}`, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+          <div style={{ flexShrink: 0 }}><LogoMark /></div>
+          <div
+            onClick={() => setOpen(false)}
+            role="button"
+            tabIndex={0}
+            aria-label="Zavřít menu"
+            style={{
+              flexShrink: 0,
+              width: 40,
+              height: 40,
+              backgroundColor: `${SLATE}20`,
+              border: `1px solid ${SLATE}50`,
+              borderRadius: 4,
+              cursor: "pointer",
+              display: "grid",
+              placeItems: "center",
+            }}
+          >
+            <span style={{ color: BONE, fontSize: 22, lineHeight: 1, fontFamily: "Arial, sans-serif", fontWeight: 300 }}>{"✕"}</span>
           </div>
-          <div style={{ padding: "16px 24px", borderBottom: "1px solid #f0f0f0", display: "flex", alignItems: "center", gap: 8 }}>
-            <span style={{ color: ORANGE }}><PhIcon /></span>
-            <a href={`tel:+420${phone.replace(/\s/g, "")}`} style={{ color: DARK, textDecoration: "none", fontWeight: 600, fontSize: "15px" }}>{phone}</a>
-          </div>
-          <nav style={{ padding: "8px 24px 32px" }}>
-            {links.map((l, i) => (
-              <a key={`mob-${i}`} href={resolve(l.href)} onClick={() => setOpen(false)}
-                style={{ display: "block", padding: "15px 0", fontFamily: FONT, fontSize: "1.05rem", fontWeight: 500, color: DARK, textDecoration: "none", borderBottom: "1px solid #f0f0f0" }}>
-                <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-              </a>
-            ))}
-            <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setOpen(false)}
-              style={{ display: "flex", alignItems: "center", justifyContent: "center", marginTop: 28, backgroundColor: ORANGE, color: WHITE, fontFamily: FONT, fontSize: "0.95rem", fontWeight: 700, padding: "14px 0", borderRadius: 50, textAlign: "center", textDecoration: "none" }}>
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-            </a>
-          </nav>
         </div>
-      )}
+        <div style={{ padding: "20px 24px", borderBottom: `1px dashed ${SLATE}30`, display: "flex", alignItems: "center", gap: 8 }}>
+          <span style={{ color: ORANGE }}><PhoneIcon /></span>
+          <a href={`tel:+420${phone.replace(/\s/g, "")}`} style={{ color: BONE, textDecoration: "none", fontWeight: 600, fontSize: 15, fontFamily: FONT_B }}>{phone}</a>
+        </div>
+        <nav style={{ padding: "12px 24px 0" }}>
+          {links.map((l, i) => (
+            <a key={`mob-${i}`} href={resolve(l.href)} onClick={() => setOpen(false)}
+              style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 0", fontFamily: FONT_B, fontSize: "1.05rem", fontWeight: 500, color: BONE, textDecoration: "none", borderBottom: `1px dashed ${SLATE}20`, letterSpacing: "0.03em", textTransform: "uppercase" }}>
+              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={SLATE} strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+            </a>
+          ))}
+        </nav>
+        <div style={{ margin: "24px 24px 32px" }}>
+          <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setOpen(false)}
+            style={{ display: "block", backgroundColor: YELLOW, color: INK, fontFamily: FONT_D, fontSize: "0.95rem", fontWeight: 700, padding: 15, textAlign: "center", textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          </a>
+        </div>
+      </div>
     </>
   );
 }
@@ -13551,13 +14095,24 @@ function NavbarEdu01(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [path, setPath] = useState("");
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => { setPath(window.location.pathname); }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", handler); document.body.style.overflow = ""; };
+  }, [open]);
 
   const NAVY      = "#132339";
   const BLUE      = "#0059df";
@@ -13573,12 +14128,37 @@ function NavbarEdu01(props: Props) {
   const phone    = String(content.phone    ?? "");
   const siteName = String(content.siteName ?? "DOUČOVÁNÍ");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode = String(content.siteMode ?? "multipage");
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  const isActive = (href: string) => {
+    if (!path) return false;
+    const target = resolve(href);
+    const clean = (s: string) => s.replace(/#.*$/, "").replace(/\/$/, "");
+    const t = clean(target), p = clean(path);
+    if (href === "/") return p === t;
+    return p === t || p.startsWith(t + "/");
+  };
+
+  // Akademický mortarboard mark v modré dlaždici — decentní edu signature
+  const CapMark = () => (
+    <span className="edu01nav-mark" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="M12 3 22 8l-10 5L2 8l10-5Z" fill={WHITE} />
+        <path d="M6 10.5V15c0 1.4 2.7 2.8 6 2.8s6-1.4 6-2.8v-4.5" stroke={WHITE} strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        <path d="M22 8v4.2" stroke={WHITE} strokeWidth="1.6" strokeLinecap="round" />
+        <circle cx="22" cy="13.4" r="1.15" fill={WHITE} />
+      </svg>
+    </span>
+  );
 
   const LogoMark = ({ white = true }: { white?: boolean }) => (
-    <span style={{ fontFamily: FONT, fontWeight: 800, fontSize: 22, color: white ? WHITE : NAVY, letterSpacing: "-0.4px", userSelect: "none" as const }}>
-      <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+    <span className="edu01nav-logo" style={{ userSelect: "none" as const }}>
+      <CapMark />
+      <span style={{ fontFamily: FONT, fontWeight: 800, fontSize: 22, color: white ? WHITE : NAVY, letterSpacing: "-0.4px", lineHeight: 1 }}>
+        <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+      </span>
     </span>
   );
 
@@ -13596,39 +14176,56 @@ function NavbarEdu01(props: Props) {
   return (
     <>
       <style>{`
-        .edu01nav{position:sticky;top:0;z-index:50;background:${NAVY};font-family:${FONT};transition:box-shadow 0.25s;}
-        .edu01nav.scrolled{box-shadow:0 3px 20px rgba(0,0,0,0.30);}
-        .edu01nav-inner{max-width:1280px;margin:0 auto;padding:0 40px;height:72px;display:flex;justify-content:space-between;align-items:center;gap:24px;}
-        .edu01nav-menu{display:flex;gap:4px;align-items:center;flex:1;justify-content:center;}
-        .edu01nav-menu a{color:${WHITE};text-decoration:none;font-size:15px;font-weight:500;padding:6px 14px;border-radius:4px;transition:color 0.18s,background 0.18s;}
-        .edu01nav-menu a:hover{color:${LIGHT};background:rgba(255,255,255,0.06);}
-        .edu01nav-phone{display:flex;align-items:center;gap:16px;background:${MINT};color:${NAVY};font-weight:600;font-size:15px;padding:12px 40px 12px 20px;border-radius:62px;text-decoration:none;white-space:nowrap;transition:background 0.15s,color 0.15s;}
-        .edu01nav-phone:hover{background:${WHITE};color:${NAVY};}
+        .edu01nav{position:sticky;top:0;z-index:50;background:${NAVY};font-family:${FONT};transition:box-shadow .3s ease,background .3s ease,backdrop-filter .3s ease;border-bottom:1px solid rgba(255,255,255,0);}
+        .edu01nav::before{content:"";position:absolute;inset:0 0 auto 0;height:2px;background:linear-gradient(90deg,${BLUE} 0%,${LIGHT} 45%,rgba(145,186,228,0) 100%);opacity:.9;z-index:1;}
+        .edu01nav.scrolled{background:rgba(19,35,57,.86);backdrop-filter:blur(12px) saturate(1.2);-webkit-backdrop-filter:blur(12px) saturate(1.2);box-shadow:0 8px 30px rgba(4,12,26,.34);border-bottom:1px solid rgba(145,186,228,.16);}
+        .edu01nav-inner{max-width:1320px;margin:0 auto;padding:0 32px;height:76px;display:flex;justify-content:space-between;align-items:center;gap:18px;transition:height .3s ease;}
+        .edu01nav.scrolled .edu01nav-inner{height:66px;}
+        .edu01nav-logo{display:inline-flex;align-items:center;gap:11px;transition:transform .25s ease;}
+        .edu01nav-logolink:hover .edu01nav-logo{transform:translateY(-1px);}
+        .edu01nav-mark{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:11px;background:linear-gradient(140deg,${BLUE} 0%,#0042a8 100%);box-shadow:0 4px 14px rgba(0,89,223,.4);flex-shrink:0;transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease;}
+        .edu01nav-logolink:hover .edu01nav-mark{transform:rotate(-6deg) scale(1.05);box-shadow:0 6px 20px rgba(0,89,223,.55);}
+        .edu01nav-menu{display:flex;gap:1px;align-items:center;flex:1;justify-content:center;flex-wrap:nowrap;}
+        .edu01nav-menu a{position:relative;white-space:nowrap;color:rgba(255,255,255,.86);text-decoration:none;font-size:14.5px;font-weight:500;padding:9px 12px;border-radius:6px;transition:color .2s ease,background .2s ease;}
+        .edu01nav-menu a::after{content:"";position:absolute;left:12px;right:12px;bottom:4px;height:2px;border-radius:2px;background:${LIGHT};transform:scaleX(0);transform-origin:left;transition:transform .28s cubic-bezier(.4,0,.2,1);}
+        .edu01nav-menu a:hover{color:${WHITE};background:rgba(255,255,255,.06);}
+        .edu01nav-menu a:hover::after{transform:scaleX(1);}
+        .edu01nav-menu a.active{color:${WHITE};}
+        .edu01nav-menu a.active::after{transform:scaleX(1);background:${BLUE};box-shadow:0 0 10px rgba(0,89,223,.7);}
+        .edu01nav-phone{display:flex;align-items:center;gap:12px;background:${MINT};color:${NAVY};font-weight:600;font-size:14.5px;padding:10px 22px 10px 15px;border-radius:62px;text-decoration:none;white-space:nowrap;transition:transform .22s ease,background .2s ease,box-shadow .25s ease;}
+        .edu01nav-phone:hover{background:${WHITE};transform:translateY(-2px);box-shadow:0 8px 22px rgba(4,12,26,.28);}
         .edu01nav-phone-dot{width:20px;height:20px;border-radius:50%;background:${DOT_BG};border:4px solid ${DOT_RING};flex-shrink:0;animation:edu01pulse 1.8s ease-in-out infinite 0.3s;}
         @keyframes edu01pulse{0%,100%{transform:scale(1) translateZ(0);opacity:1;}50%{transform:scale(1.3) translateZ(0);opacity:0.7;}}
-        .edu01nav-cta{display:inline-block;padding:12px 40px;background:transparent;color:${WHITE}!important;border:1px solid ${WHITE};border-radius:62px;font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap;transition:background 0.15s,color 0.15s;}
-        .edu01nav-cta:hover{background:${WHITE};color:${BLUE}!important;}
+        .edu01nav-cta{position:relative;display:inline-block;padding:10px 24px;background:transparent;color:${WHITE}!important;border:1px solid rgba(255,255,255,.55);border-radius:62px;font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap;overflow:hidden;transition:color .25s ease,border-color .25s ease,transform .22s ease;}
+        .edu01nav-cta::before{content:"";position:absolute;inset:0;background:${WHITE};transform:scaleX(0);transform-origin:right;transition:transform .32s cubic-bezier(.4,0,.2,1);z-index:0;}
+        .edu01nav-cta span{position:relative;z-index:1;transition:color .25s ease;}
+        .edu01nav-cta:hover{color:${BLUE}!important;border-color:${WHITE};transform:translateY(-2px);}
+        .edu01nav-cta:hover::before{transform:scaleX(1);transform-origin:left;}
         .edu01nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
         .edu01nav-burger{display:none;background:none;border:none;cursor:pointer;padding:4px;}
         .edu01nav-overlay{display:none;position:fixed;inset:0;background:${WHITE};z-index:200;flex-direction:column;padding:24px 28px;overflow-y:auto;}
         .edu01nav-overlay.open{display:flex;}
         .edu01nav-overlay-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:16px;border-bottom:2px solid ${BLUE};}
         .edu01nav-overlay-links{display:flex;flex-direction:column;gap:0;flex:1;}
-        .edu01nav-overlay-links a{font-size:20px;font-weight:600;color:${NAVY};text-decoration:none;padding:14px 0;border-bottom:1px solid #e5e7eb;}
-        .edu01nav-overlay-links a:hover{color:${BLUE};}
+        .edu01nav-overlay-links a{position:relative;font-size:20px;font-weight:600;color:${NAVY};text-decoration:none;padding:15px 8px;border-bottom:1px solid #e5e7eb;transition:color .2s ease,padding-left .25s ease,background .2s ease;}
+        .edu01nav-overlay.open .edu01nav-overlay-links a{opacity:0;animation:edu01slide .5s cubic-bezier(.4,0,.2,1) forwards;}
+        .edu01nav-overlay-links a:hover{color:${BLUE};padding-left:18px;background:linear-gradient(90deg,rgba(0,89,223,.05),transparent);}
+        .edu01nav-overlay-links a.active{color:${BLUE};}
+        .edu01nav-overlay-links a.active::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:22px;border-radius:2px;background:${BLUE};}
+        @keyframes edu01slide{from{opacity:0;transform:translateX(-14px);}to{opacity:1;transform:translateX(0);}}
         .edu01nav-overlay-phone{display:flex;align-items:center;gap:16px;background:${MINT};color:${NAVY};font-weight:600;font-size:17px;padding:14px 28px;border-radius:62px;text-decoration:none;margin-top:20px;}
-        .edu01nav-overlay-cta{margin-top:12px;display:block;padding:15px 28px;background:${BLUE};color:${WHITE};text-decoration:none;border-radius:62px;font-weight:700;font-size:17px;text-align:center;}
-        @media(max-width:960px){.edu01nav-menu{display:none;}.edu01nav-phone{display:none;}.edu01nav-cta{display:none;}.edu01nav-burger{display:block;}.edu01nav-inner{padding:0 20px;}}
+        .edu01nav-overlay-cta{margin-top:12px;display:block;padding:15px 28px;background:${BLUE};color:${WHITE};text-decoration:none;border-radius:62px;font-weight:700;font-size:17px;text-align:center;box-shadow:0 6px 18px rgba(0,89,223,.3);}
+        @media(max-width:1080px){.edu01nav-menu{display:none;}.edu01nav-phone{display:none;}.edu01nav-cta{display:none;}.edu01nav-burger{display:block;}.edu01nav-inner{padding:0 20px;height:66px;}}
       `}</style>
 
       <nav className={`edu01nav${scrolled ? " scrolled" : ""}`} data-template="edu-01-navbar">
         <div className="edu01nav-inner">
-          <a href={resolve("/")} style={{ textDecoration: "none", flexShrink: 0 }}>
+          <a href={resolve("/")} className="edu01nav-logolink" style={{ textDecoration: "none", flexShrink: 0 }}>
             <LogoMark white />
           </a>
           <div className="edu01nav-menu">
             {links.map((link, i) => (
-              <a key={i} href={resolve(link.href)}>
+              <a key={i} href={resolve(link.href)} className={isActive(link.href) ? "active" : ""} aria-current={isActive(link.href) ? "page" : undefined}>
                 <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
               </a>
             ))}
@@ -13659,7 +14256,7 @@ function NavbarEdu01(props: Props) {
         </div>
         <div className="edu01nav-overlay-links">
           {links.map((link, i) => (
-            <a key={i} href={resolve(link.href)} onClick={() => setOpen(false)}>
+            <a key={i} href={resolve(link.href)} className={isActive(link.href) ? "active" : ""} style={{ animationDelay: `${0.05 + i * 0.05}s` }} onClick={() => setOpen(false)}>
               <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
             </a>
           ))}
@@ -13843,8 +14440,24 @@ function NavbarGrooming01(props: Props) {
 function NavbarPethotel01(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  const PRIMARY = "#712419";
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  const PRIMARY = "#712419";  // warm brown
+  const CTA     = "#D6123D";  // red
+  const CTA_DK  = "#b30d31";
+  const ACCENT  = "#F9C93D";  // yellow
   const CREAM   = "#fff5ee";
   const BORDER  = "#BA9972";
   const FONT    = "'Quicksand', Arial, sans-serif";
@@ -13852,26 +14465,31 @@ function NavbarPethotel01(props: Props) {
   const siteName = String(content.siteName ?? "Demo Hotel pro psy");
   const logoUrl  = String(content.logoUrl  ?? "");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode = String(content.siteMode ?? "multipage");
+  const ctaText  = String(content.ctaText ?? "Rezervace");
+  const ctaHref  = String(content.ctaHref ?? "/kontakt");
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const PawLogo = () => {
+  const PawLogo = ({ big = false }: { big?: boolean }) => {
     if (logoUrl) return (
       <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName}>
         <img loading="eager" src={logoUrl} alt={siteName} style={{ height: 44, width: "auto", objectFit: "contain" }} />
       </GenericEditableImage>
     );
     return (
-      <div style={{ display: "flex", alignItems: "center", gap: 10, userSelect: "none" }}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 60 60" aria-hidden="true">
-          <circle cx="18" cy="14" r="6" fill={PRIMARY}/>
-          <circle cx="30" cy="9"  r="6" fill={PRIMARY}/>
-          <circle cx="42" cy="14" r="6" fill={PRIMARY}/>
-          <ellipse cx="30" cy="34" rx="13" ry="11" fill={PRIMARY}/>
-          <circle cx="23" cy="44" r="5"  fill={PRIMARY}/>
-          <circle cx="37" cy="44" r="5"  fill={PRIMARY}/>
-        </svg>
-        <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 20, color: PRIMARY, lineHeight: 1 }}>
+      <div className="ph01nav-brand" style={{ display: "flex", alignItems: "center", gap: 11, userSelect: "none" }}>
+        <span className="ph01nav-mark" style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: 42, height: 42, borderRadius: "50%", background: ACCENT, flexShrink: 0 }}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 60 60" aria-hidden="true">
+            <circle cx="18" cy="14" r="6" fill={PRIMARY}/>
+            <circle cx="30" cy="9"  r="6" fill={PRIMARY}/>
+            <circle cx="42" cy="14" r="6" fill={PRIMARY}/>
+            <ellipse cx="30" cy="34" rx="13" ry="11" fill={PRIMARY}/>
+            <circle cx="23" cy="44" r="5"  fill={PRIMARY}/>
+            <circle cx="37" cy="44" r="5"  fill={PRIMARY}/>
+          </svg>
+        </span>
+        <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: big ? 22 : 21, color: PRIMARY, lineHeight: 1, letterSpacing: "-0.01em" }}>
           <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
         </span>
       </div>
@@ -13881,42 +14499,66 @@ function NavbarPethotel01(props: Props) {
   return (
     <>
       <style>{`
-        .ph01nav{position:fixed;top:0;left:0;right:0;z-index:333;background:linear-gradient(to right,${CREAM} 0%,#fcfae8 100%);border-bottom:1px solid ${BORDER};font-family:${FONT};}
-        .ph01nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;height:72px;display:flex;align-items:center;justify-content:space-between;}
-        .ph01nav-logo{text-decoration:none;}
+        .ph01nav{position:fixed;top:0;left:0;right:0;z-index:333;background:linear-gradient(to right,${CREAM} 0%,#fcfae8 100%);border-bottom:1px solid transparent;font-family:${FONT};transition:box-shadow .35s ease,border-color .35s ease,background .35s ease;}
+        .ph01nav.scrolled{border-bottom-color:${BORDER};box-shadow:0 6px 26px rgba(113,36,25,0.09);background:linear-gradient(to right,#fff8f1 0%,#fdfbee 100%);}
+        .ph01nav-inner{max-width:1200px;margin:0 auto;padding:0 32px;height:80px;display:flex;align-items:center;justify-content:space-between;transition:height .35s ease;}
+        .ph01nav.scrolled .ph01nav-inner{height:64px;}
+        .ph01nav-logo{text-decoration:none;display:inline-block;}
+        .ph01nav-mark{transition:transform .4s cubic-bezier(.34,1.56,.64,1);}
+        .ph01nav-logo:hover .ph01nav-mark{transform:rotate(-12deg) scale(1.08);}
+        .ph01nav-right{display:flex;align-items:center;gap:20px;}
         .ph01nav-links{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0;}
-        .ph01nav-links a{font-family:${FONT};font-size:16px;font-weight:600;color:${PRIMARY};text-decoration:none;padding:8px 14px;display:block;transition:color 0.18s;position:relative;}
-        .ph01nav-links a::after{content:'';position:absolute;bottom:2px;left:14px;right:14px;height:2px;background:${PRIMARY};transform:scaleX(0);transition:transform .2s ease;}
-        .ph01nav-links a:hover::after{transform:scaleX(1);}
+        .ph01nav-links a{font-family:${FONT};font-size:15.5px;font-weight:600;color:${PRIMARY};text-decoration:none;padding:9px 13px;display:block;transition:color .2s ease;position:relative;border-radius:8px;}
+        .ph01nav-links a::after{content:'';position:absolute;bottom:4px;left:50%;width:6px;height:6px;border-radius:50%;background:${CTA};transform:translateX(-50%) scale(0);transition:transform .28s cubic-bezier(.34,1.56,.64,1);}
+        .ph01nav-links a:hover{color:${CTA};}
+        .ph01nav-links a:hover::after{transform:translateX(-50%) scale(1);}
+        .ph01nav-cta{font-family:${FONT};font-size:15px;font-weight:700;color:#fff;background:${CTA};text-decoration:none;padding:11px 24px;border-radius:50px;display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden;box-shadow:0 8px 20px rgba(214,18,61,0.26);transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease,background .3s ease;}
+        .ph01nav-cta:hover{background:${CTA_DK};transform:translateY(-2px);box-shadow:0 12px 26px rgba(214,18,61,0.36);}
+        .ph01nav-cta svg{transition:transform .3s ease;}
+        .ph01nav-cta:hover svg{transform:translateX(3px) rotate(-8deg);}
         .ph01nav-burger{display:none;background:none;border:none;cursor:pointer;padding:6px;flex-direction:column;gap:5px;}
-        @media(max-width:768px){
-          .ph01nav-links{display:none;}
+        @media(max-width:900px){
+          .ph01nav-links,.ph01nav-cta{display:none;}
           .ph01nav-burger{display:flex;}
-          .ph01nav-inner{padding:0 20px;height:64px;}
+          .ph01nav-inner{padding:0 20px;height:66px;}
+          .ph01nav.scrolled .ph01nav-inner{height:60px;}
         }
-        .ph01nav-overlay{display:none;position:fixed;inset:0;background:linear-gradient(to right,${CREAM} 0%,#fcfae8 100%);z-index:400;flex-direction:column;}
+        .ph01nav-overlay{display:none;position:fixed;inset:0;background:linear-gradient(160deg,${CREAM} 0%,#fcfae8 60%,#fbeede 100%);z-index:400;flex-direction:column;}
         .ph01nav-overlay.open{display:flex;}
         .ph01nav-overlay-head{padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid ${BORDER};}
-        .ph01nav-overlay-body{flex:1;padding:8px 24px;overflow-y:auto;}
-        .ph01nav-overlay-body a{display:block;font-family:${FONT};font-size:18px;font-weight:600;color:${PRIMARY};text-decoration:none;padding:14px 0;border-bottom:1px solid #e8ddd5;}
-        .ph01nav-overlay-body a:hover{text-decoration:underline;}
+        .ph01nav-overlay-body{flex:1;padding:22px 26px;overflow-y:auto;display:flex;flex-direction:column;}
+        .ph01nav-overlay-body a{display:flex;align-items:center;gap:12px;font-family:${FONT};font-size:20px;font-weight:600;color:${PRIMARY};text-decoration:none;padding:16px 0;border-bottom:1px solid #ecdfd4;opacity:0;transform:translateX(-14px);animation:ph01navIn .4s cubic-bezier(.22,.68,0,1.1) forwards;}
+        .ph01nav-overlay-body a::before{content:'';width:9px;height:9px;border-radius:50%;background:${ACCENT};flex-shrink:0;transition:background .2s,transform .2s;}
+        .ph01nav-overlay-body a:active::before{background:${CTA};transform:scale(1.3);}
+        @keyframes ph01navIn{to{opacity:1;transform:translateX(0);}}
+        .ph01nav-overlay-cta{margin-top:26px;justify-content:center;font-family:${FONT};font-weight:700;font-size:18px;color:#fff!important;background:${CTA};text-decoration:none;padding:16px 28px;border-radius:50px;text-align:center;box-shadow:0 10px 24px rgba(214,18,61,0.28);border-bottom:none!important;}
+        .ph01nav-overlay-cta::before{display:none;}
       `}</style>
 
-      <nav className="ph01nav" data-template="pethotel-01-navbar">
+      <nav className={`ph01nav${scrolled ? " scrolled" : ""}`} data-template="pethotel-01-navbar">
         <div className="ph01nav-inner">
           <a href={resolve("/")} className="ph01nav-logo" aria-label={siteName}>
             <PawLogo />
           </a>
 
-          <ul className="ph01nav-links">
-            {links.map((l, i) => (
-              <li key={i}>
-                <a href={resolve(l.href)}>
-                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-                </a>
-              </li>
-            ))}
-          </ul>
+          <div className="ph01nav-right">
+            <ul className="ph01nav-links">
+              {links.map((l, i) => (
+                <li key={i}>
+                  <a href={resolve(l.href)}>
+                    <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <a href={resolve(ctaHref)} className="ph01nav-cta">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+            </a>
+          </div>
 
           <button className="ph01nav-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu">
             <svg width="24" height="18" viewBox="0 0 24 18" fill="none" aria-hidden="true">
@@ -13931,19 +14573,22 @@ function NavbarPethotel01(props: Props) {
       {/* Mobile overlay */}
       <div className={`ph01nav-overlay${open ? " open" : ""}`} role="dialog" aria-label="Navigace">
         <div className="ph01nav-overlay-head">
-          <PawLogo />
+          <PawLogo big />
           <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }} aria-label="Zavřít menu">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={PRIMARY} strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke={PRIMARY} strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
           </button>
         </div>
         <div className="ph01nav-overlay-body">
           {links.map((l, i) => (
-            <a key={i} href={resolve(l.href)} onClick={() => setOpen(false)}>
+            <a key={i} href={resolve(l.href)} onClick={() => setOpen(false)} style={{ animationDelay: `${0.05 + i * 0.05}s` }}>
               {l.label}
             </a>
           ))}
+          <a href={resolve(ctaHref)} className="ph01nav-overlay-cta" onClick={() => setOpen(false)}>
+            {ctaText}
+          </a>
         </div>
       </div>
     </>
@@ -14119,11 +14764,16 @@ function NavbarUcetni02(props: Props) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
 
   const GREEN  = "#004835";
   const GOLD   = "#bca160";
@@ -14131,152 +14781,338 @@ function NavbarUcetni02(props: Props) {
   const TEXT   = "#3c3c3c";
   const FONT   = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
 
-  const siteName = String(content.siteName ?? "Demo Daňový Poradce");
-  const logoUrl  = String(content.logoUrl  ?? "");
-  const ctaText  = String(content.ctaText  ?? "Kontaktujte nás");
-  const ctaHref  = String(content.ctaHref  ?? "#kontakt");
-  const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteName  = String(content.siteName ?? "Demo Daňový Poradce");
+  const logoUrl   = String(content.logoUrl  ?? "");
+  const ctaText   = String(content.ctaText  ?? "Kontaktujte nás");
+  const ctaHref   = String(content.ctaHref  ?? "#kontakt");
+  const phone     = String(content.phone ?? "+420 515 222 333");
+  const email     = String(content.email ?? "info@greentax-demo.cz");
+  const links     = (content.links as Array<{ label: string; href: string }>) ?? [];
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const siteMode  = String(content.siteMode ?? "multipage");
+  const resolve   = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const telHref   = `tel:${phone.replace(/\s/g, "")}`;
+  const mailHref  = `mailto:${email}`;
 
-  const LogoMark = () => (
-    <svg viewBox="0 0 200 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ height: 51, width: "auto" }}>
-      <circle cx="24" cy="24" r="20" fill={GREEN}/>
-      <text x="24" y="29.5" textAnchor="middle" fontFamily="Montserrat, Arial, sans-serif" fontSize="15" fontWeight="700" fill={WHITE}>G</text>
-      <line x1="19" y1="33" x2="29" y2="33" stroke={GOLD} strokeWidth="2.5" strokeLinecap="round"/>
-      <text x="52" y="21" fontFamily="Montserrat, Arial, sans-serif" fontSize="13" fontWeight="700" fill={GREEN} letterSpacing="0.5">DAŇOVÝ</text>
-      <text x="52" y="36" fontFamily="Montserrat, Arial, sans-serif" fontSize="9.5" fontWeight="500" fill={GOLD} letterSpacing="2">PORADCE</text>
-    </svg>
-  );
+  const LogoMark = ({ light = false }: { light?: boolean }) => {
+    const ring   = light ? WHITE : GREEN;
+    const inner  = light ? GREEN : WHITE;
+    const word   = light ? WHITE : GREEN;
+    return (
+      <svg viewBox="0 0 210 48" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ height: 46, width: "auto", display: "block" }} aria-hidden="true">
+        <circle cx="23" cy="24" r="21" fill="none" stroke={ring} strokeWidth="1.4" opacity="0.4"/>
+        <circle cx="23" cy="24" r="17.5" fill={ring}/>
+        <text x="23" y="29.5" textAnchor="middle" fontFamily="Montserrat, Arial, sans-serif" fontSize="16" fontWeight="700" fill={inner} letterSpacing="0.5">G</text>
+        <line x1="17" y1="34.5" x2="29" y2="34.5" stroke={GOLD} strokeWidth="2" strokeLinecap="round"/>
+        <text x="54" y="21.5" fontFamily="Montserrat, Arial, sans-serif" fontSize="14.5" fontWeight="700" fill={word} letterSpacing="1.2">GREENTAX</text>
+        <text x="54.5" y="37" fontFamily="'Open Sans', Arial, sans-serif" fontSize="8.5" fontWeight="600" fill={GOLD} letterSpacing="3.4">PORADENSTVÍ</text>
+      </svg>
+    );
+  };
 
   const styles = `
-    .ucn02-nav {
+    .ucn02-shell {
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: ${WHITE};
-      transition: box-shadow 0.25s ease;
       font-family: ${FONT};
     }
-    .ucn02-nav.scrolled {
-      box-shadow: 0 2px 16px rgba(0,72,53,0.12);
+    /* utility topbar */
+    .ucn02-top {
+      background: ${GREEN};
+      color: rgba(255,255,255,0.85);
+      overflow: hidden;
+      max-height: 44px;
+      transition: max-height 0.4s cubic-bezier(.4,0,.2,1), opacity 0.3s ease;
     }
-    .ucn02-nav-inner {
+    .ucn02-shell.scrolled .ucn02-top { max-height: 0; opacity: 0; }
+    .ucn02-top-inner {
       max-width: 1280px;
       margin: 0 auto;
       padding: 0 32px;
-      height: 80px;
+      height: 44px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 24px;
+      font-size: 13px;
+      letter-spacing: 0.2px;
     }
+    .ucn02-top-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: rgba(255,255,255,0.72);
+    }
+    .ucn02-top-tag .ucn02-dot { width: 6px; height: 6px; border-radius: 50%; background: ${GOLD}; flex-shrink: 0; }
+    .ucn02-top-contacts { display: flex; align-items: center; gap: 26px; }
+    .ucn02-top-contacts a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.88);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    .ucn02-top-contacts a svg { color: ${GOLD}; transition: transform 0.3s ease; }
+    .ucn02-top-contacts a:hover { color: ${WHITE}; }
+    .ucn02-top-contacts a:hover svg { transform: translateY(-1px) scale(1.08); }
+    .ucn02-top-sep { width: 1px; height: 15px; background: rgba(255,255,255,0.18); }
+
+    /* main nav */
+    .ucn02-nav {
+      background: ${WHITE};
+      border-bottom: 1px solid #eef1f0;
+      transition: box-shadow 0.3s ease;
+    }
+    .ucn02-shell.scrolled .ucn02-nav { box-shadow: 0 6px 28px rgba(0,72,53,0.10); }
+    .ucn02-nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 82px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      transition: height 0.35s cubic-bezier(.4,0,.2,1);
+    }
+    .ucn02-shell.scrolled .ucn02-nav-inner { height: 66px; }
     .ucn02-logo {
       text-decoration: none;
       display: flex;
       align-items: center;
       flex-shrink: 0;
+      transition: opacity 0.2s ease;
     }
+    .ucn02-logo:hover { opacity: 0.82; }
     .ucn02-links {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 2px;
       list-style: none;
       margin: 0 0 0 auto;
       padding: 0;
     }
     .ucn02-links a {
+      position: relative;
       display: block;
-      padding: 8px 14px;
-      font-size: 15px;
-      font-weight: 400;
+      padding: 10px 15px;
+      font-size: 14.5px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
       color: ${TEXT};
       text-decoration: none;
-      border-bottom: 2px solid transparent;
-      transition: color 0.2s, border-color 0.2s;
+      transition: color 0.25s ease;
     }
-    .ucn02-links a:hover {
-      color: ${GREEN};
-      border-bottom-color: ${GREEN};
+    .ucn02-links a::after {
+      content: "";
+      position: absolute;
+      left: 15px;
+      right: 15px;
+      bottom: 4px;
+      height: 2px;
+      background: ${GOLD};
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.32s cubic-bezier(.4,0,.2,1);
     }
+    .ucn02-links a:hover { color: ${GREEN}; }
+    .ucn02-links a:hover::after { transform: scaleX(1); }
+    .ucn02-cta {
+      margin-left: 20px;
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 24px;
+      background: ${GOLD};
+      color: ${WHITE};
+      font-family: ${FONT};
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-decoration: none;
+      border-radius: 2px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(188,161,96,0.28);
+      transition: transform 0.3s cubic-bezier(.4,0,.2,1), box-shadow 0.3s ease, background 0.3s ease;
+    }
+    .ucn02-cta::before {
+      content: "";
+      position: absolute;
+      top: 0; left: -120%;
+      width: 60%; height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent);
+      transition: left 0.6s ease;
+    }
+    .ucn02-cta svg { transition: transform 0.3s ease; }
+    .ucn02-cta:hover {
+      transform: translateY(-2px);
+      background: #a98f52;
+      box-shadow: 0 12px 26px rgba(188,161,96,0.4);
+    }
+    .ucn02-cta:hover::before { left: 130%; }
+    .ucn02-cta:hover svg { transform: translateX(3px); }
+
     .ucn02-burger {
       display: none;
+      margin-left: auto;
       background: none;
       border: none;
       cursor: pointer;
-      padding: 4px;
+      padding: 6px;
     }
+
+    /* mobile overlay */
     .ucn02-overlay {
-      display: none;
       position: fixed;
       inset: 0;
       z-index: 2000;
       background: ${GREEN};
       flex-direction: column;
-      padding: 24px 32px;
+      padding: 22px 30px 40px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-12px);
+      transition: opacity 0.35s ease, transform 0.35s ease, visibility 0s linear 0.35s;
+      display: flex;
     }
-    .ucn02-overlay.open { display: flex; }
+    .ucn02-overlay.open { opacity: 1; visibility: visible; transform: translateY(0); transition: opacity 0.35s ease, transform 0.35s ease; }
     .ucn02-overlay-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      margin-bottom: 30px;
     }
-    .ucn02-overlay-body {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+    .ucn02-overlay-body { display: flex; flex-direction: column; gap: 2px; }
     .ucn02-overlay-body a {
       font-family: ${FONT};
-      font-size: 22px;
+      font-size: 21px;
       font-weight: 700;
       color: ${WHITE};
       text-decoration: none;
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
+      padding: 15px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.10);
+      transition: color 0.2s ease, padding-left 0.25s ease;
     }
-    .ucn02-overlay-body a:hover { color: ${GOLD}; }
+    .ucn02-overlay-body a:hover { color: ${GOLD}; padding-left: 8px; }
+    .ucn02-overlay-cta {
+      margin-top: 30px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 16px 22px;
+      background: ${GOLD};
+      color: ${WHITE};
+      font-family: ${FONT};
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-decoration: none;
+      border-radius: 2px;
+    }
+    .ucn02-overlay-contact { margin-top: 26px; display: flex; flex-direction: column; gap: 12px; }
+    .ucn02-overlay-contact a {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: rgba(255,255,255,0.82);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .ucn02-overlay-contact a svg { color: ${GOLD}; }
+
     @media (max-width: 900px) {
-      .ucn02-links { display: none; }
+      .ucn02-links, .ucn02-cta { display: none; }
+      .ucn02-top-tag { display: none; }
+      .ucn02-top-inner { justify-content: center; }
       .ucn02-burger { display: block; }
+      .ucn02-nav-inner { height: 68px; }
+    }
+    @media (max-width: 560px) {
+      .ucn02-top-contacts { gap: 16px; font-size: 12px; }
+      .ucn02-top-inner, .ucn02-nav-inner { padding: 0 20px; }
     }
   `;
+
+  const PhoneIcon = () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+  );
+  const MailIcon = () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+  );
+  const ArrowIcon = () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  );
 
   return (
     <>
       <style>{styles}</style>
-      <nav className={`ucn02-nav${scrolled ? " scrolled" : ""}`} data-template="ucetni-02-navbar">
-        <div className="ucn02-nav-inner">
-          <a href={resolve("/")} className="ucn02-logo" aria-label={siteName}>
-            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block" }}>
-              <LogoMark />
-            </GenericEditableImage>
-          </a>
-
-          <ul className="ucn02-links">
-            {links.map((link, i) => (
-              <li key={i}>
-                <a href={resolve(link.href)}>
-                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          <button className="ucn02-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu">
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke={TEXT} strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-              <line x1="3" y1="7" x2="23" y2="7"/><line x1="3" y1="13" x2="23" y2="13"/><line x1="3" y1="19" x2="23" y2="19"/>
-            </svg>
-          </button>
+      <div className={`ucn02-shell${scrolled ? " scrolled" : ""}`} data-template="ucetni-02-navbar">
+        {/* utility topbar */}
+        <div className="ucn02-top">
+          <div className="ucn02-top-inner">
+            <span className="ucn02-top-tag">
+              <span className="ucn02-dot" />
+              <GenericEditableText sectionId={sectionId} field="topbarTagline" value={String(content.topbarTagline ?? "Certifikovaní daňoví poradci · Po–Pá 8:00–17:00")} tag="span" />
+            </span>
+            <div className="ucn02-top-contacts">
+              <a href={telHref}>
+                <PhoneIcon />
+                <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+              </a>
+              <span className="ucn02-top-sep" />
+              <a href={mailHref}>
+                <MailIcon />
+                <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+              </a>
+            </div>
+          </div>
         </div>
-      </nav>
+
+        {/* main nav */}
+        <nav className="ucn02-nav" aria-label="Hlavní navigace">
+          <div className="ucn02-nav-inner">
+            <a href={resolve("/")} className="ucn02-logo" aria-label={siteName}>
+              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block" }}>
+                <LogoMark />
+              </GenericEditableImage>
+            </a>
+
+            <ul className="ucn02-links">
+              {links.map((link, i) => (
+                <li key={i}>
+                  <a href={resolve(link.href)}>
+                    <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <a href={resolve(ctaHref)} className="ucn02-cta">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <ArrowIcon />
+            </a>
+
+            <button className="ucn02-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu">
+              <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke={GREEN} strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
+                <line x1="3" y1="7" x2="23" y2="7"/><line x1="3" y1="13" x2="23" y2="13"/><line x1="3" y1="19" x2="23" y2="19"/>
+              </svg>
+            </button>
+          </div>
+        </nav>
+      </div>
 
       <div className={`ucn02-overlay${open ? " open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigační menu">
         <div className="ucn02-overlay-head">
-          <LogoMark />
+          <LogoMark light />
           <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }} aria-label="Zavřít menu">
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke={WHITE} strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke={WHITE} strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
               <line x1="6" y1="6" x2="20" y2="20"/><line x1="20" y1="6" x2="6" y2="20"/>
             </svg>
           </button>
@@ -14287,6 +15123,14 @@ function NavbarUcetni02(props: Props) {
               <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
             </a>
           ))}
+        </div>
+        <a href={resolve(ctaHref)} className="ucn02-overlay-cta" onClick={() => setOpen(false)}>
+          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+          <ArrowIcon />
+        </a>
+        <div className="ucn02-overlay-contact">
+          <a href={telHref}><PhoneIcon /><span>{phone}</span></a>
+          <a href={mailHref}><MailIcon /><span>{email}</span></a>
         </div>
       </div>
     </>
@@ -14315,6 +15159,18 @@ function NavbarUcetni03(props: Props) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open]);
+
   const DARK    = "#002000";
   const GREEN   = "#8ec63f";
   const WHITE   = "#ffffff";
@@ -14330,9 +15186,11 @@ function NavbarUcetni03(props: Props) {
   const cta2Href   = String(content.ctaSecondaryHref ?? "#kontakt");
   const phone      = String(content.phone      ?? "704 123 456");
   const topBarText = String(content.topBarText ?? "Nevíte si rady? Zavolejte nám:");
+  const overlayCtaLabel = String(content.overlayCtaLabel ?? ctaText);
   const links      = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode   = String(content.siteMode ?? "multipage");
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const LogoMark = () => (
     <svg viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ height: 72, width: "auto" }}>
@@ -14399,13 +15257,18 @@ function NavbarUcetni03(props: Props) {
       border-bottom: 1px solid #f0f0f0;
     }
     .ucn03-toprow a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       color: ${DARK};
       font-weight: 700;
       font-size: 13.5px;
       text-decoration: none;
       transition: color 0.2s;
     }
+    .ucn03-toprow-ico { transition: transform 0.3s cubic-bezier(.22,.68,0,1); }
     .ucn03-toprow a:hover { color: ${GREEN}; }
+    .ucn03-toprow a:hover .ucn03-toprow-ico { transform: rotate(-12deg) scale(1.1); }
     /* Row 2: links + CTAs */
     .ucn03-bottomrow {
       display: flex;
@@ -14455,36 +15318,55 @@ function NavbarUcetni03(props: Props) {
       flex-shrink: 0;
       padding: 10px 0;
     }
-    .ucn03-cta-dark {
+    .ucn03-cta-dark, .ucn03-cta-green {
+      position: relative;
+      overflow: hidden;
       display: inline-flex;
       align-items: center;
+      font-family: ${FONT};
+      font-size: 13.5px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 13px 22px;
+      white-space: nowrap;
+      letter-spacing: 0.2px;
+      isolation: isolate;
+      transition: transform 0.35s cubic-bezier(.22,.68,0,1), box-shadow 0.35s ease, background 0.3s ease;
+    }
+    .ucn03-cta-dark > span, .ucn03-cta-green > span,
+    .ucn03-cta-dark > svg, .ucn03-cta-green > svg { position: relative; z-index: 2; }
+    /* shimmer sweep */
+    .ucn03-cta-dark::before, .ucn03-cta-green::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -130%;
+      width: 55%; height: 100%;
+      z-index: 1;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.28), transparent);
+      transform: skewX(-18deg);
+      transition: left 0.6s cubic-bezier(.22,.68,0,1);
+      pointer-events: none;
+    }
+    .ucn03-cta-dark:hover::before, .ucn03-cta-green:hover::before { left: 135%; }
+    .ucn03-cta-dark svg, .ucn03-cta-green svg { transition: transform 0.3s cubic-bezier(.22,.68,0,1); }
+    .ucn03-cta-dark:hover svg, .ucn03-cta-green:hover svg { transform: translateX(4px); }
+    .ucn03-cta-dark {
       background: ${DARK};
       color: ${WHITE};
-      font-family: ${FONT};
-      font-size: 13.5px;
-      font-weight: 600;
-      text-decoration: none;
-      padding: 13px 20px;
-      white-space: nowrap;
-      letter-spacing: 0.2px;
-      transition: opacity 0.2s;
     }
-    .ucn03-cta-dark:hover { opacity: 0.82; }
+    .ucn03-cta-dark:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px -8px rgba(0,32,0,0.5);
+    }
     .ucn03-cta-green {
-      display: inline-flex;
-      align-items: center;
       background: ${GREEN};
-      color: ${TEXT};
-      font-family: ${FONT};
-      font-size: 13.5px;
-      font-weight: 600;
-      text-decoration: none;
-      padding: 13px 20px;
-      white-space: nowrap;
-      letter-spacing: 0.2px;
-      transition: filter 0.2s;
+      color: ${DARK};
+      font-weight: 700;
     }
-    .ucn03-cta-green:hover { filter: brightness(0.9); }
+    .ucn03-cta-green:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 26px -8px rgba(142,198,63,0.6);
+    }
     .ucn03-burger {
       display: none;
       background: none;
@@ -14550,11 +15432,36 @@ function NavbarUcetni03(props: Props) {
       align-self: flex-start;
     }
     @media (max-width: 1024px) {
-      .ucn03-links, .ucn03-ctas { display: none; }
-      .ucn03-burger { display: block; }
-      .ucn03-toprow { display: none; }
-      .ucn03-bottomrow { padding-left: 0; }
-      .ucn03-nav-inner { padding-bottom: 16px; }
+      .ucn03-nav-inner {
+        padding: 0 16px;
+        align-items: center;
+        min-height: 60px;
+      }
+      .ucn03-logo { padding: 10px 0; }
+      .ucn03-logo svg, .ucn03-logo img { height: 44px !important; }
+      .ucn03-right {
+        flex: 0 0 auto;
+        padding-left: 0;
+        flex-direction: row;
+        align-items: center;
+      }
+      .ucn03-toprow {
+        border-bottom: none;
+        padding: 0;
+      }
+      .ucn03-toprow > span, .ucn03-toprow > a { display: none; }
+      .ucn03-bottomrow, .ucn03-links, .ucn03-ctas { display: none; }
+      .ucn03-burger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: rgba(0,32,0,0.05);
+        transition: background 0.2s;
+      }
+      .ucn03-burger:active { background: rgba(0,32,0,0.12); }
     }
   `;
 
@@ -14582,6 +15489,9 @@ function NavbarUcetni03(props: Props) {
             <div className="ucn03-toprow">
               <span><GenericEditableText sectionId={sectionId} field="topBarText" value={topBarText} tag="span" /></span>
               <a href={`tel:${phone.replace(/\s/g, "")}`}>
+                <svg className="ucn03-toprow-ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={GREEN} strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
                 <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
               </a>
               {/* Mobile burger */}
@@ -14607,11 +15517,11 @@ function NavbarUcetni03(props: Props) {
               <div className="ucn03-ctas">
                 <a href={resolve(cta2Href)} className="ucn03-cta-dark">
                   <GenericEditableText sectionId={sectionId} field="ctaSecondaryText" value={cta2Text} tag="span" />
-                  <ArrowRight color={TEXT} />
+                  <ArrowRight color={WHITE} />
                 </a>
                 <a href={resolve(ctaHref)} data-btn="primary" className="ucn03-cta-green">
                   <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-                  <ArrowRight color={TEXT} />
+                  <ArrowRight color={DARK} />
                 </a>
               </div>
             </div>
@@ -14637,11 +15547,13 @@ function NavbarUcetni03(props: Props) {
           ))}
         </div>
         <div className="ucn03-overlay-phone">
-          {topBarText}
-          <a href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a>
+          <GenericEditableText sectionId={sectionId} field="topBarText" value={topBarText} tag="span" />
+          <a href={`tel:${phone.replace(/\s/g, "")}`}>
+            <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+          </a>
         </div>
         <a href={resolve(ctaHref)} data-btn="primary" className="ucn03-overlay-cta" onClick={() => setOpen(false)}>
-          {ctaText} <ArrowRight color={TEXT} />
+          <GenericEditableText sectionId={sectionId} field="overlayCtaLabel" value={overlayCtaLabel} tag="span" /> <ArrowRight color={DARK} />
         </a>
       </div>
     </>
@@ -14912,22 +15824,43 @@ function NavbarSolar01(props: Props) {
 function NavbarArch01(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const BLACK = "#000000";
   const WHITE = "#ffffff";
   const FONT  = "'Helvetica Neue', Helvetica, Arial, sans-serif";
 
-  const siteName = String(content.siteName ?? "ARCHITEKTA");
-  const logoUrl  = String(content.logoUrl ?? "");
-  const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
-  const phone    = String(content.phone ?? "+420 704 123 456");
-  const socials  = (content.socials as Array<{ icon?: string; href?: string }>) ?? [];
+  const siteName  = String(content.siteName ?? "ARCHITEKTA");
+  const logoUrl   = String(content.logoUrl ?? "");
+  const links     = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const phone     = String(content.phone ?? "+420 704 123 456");
+  const socials   = (content.socials as Array<{ icon?: string; href?: string }>) ?? [];
+  const menuLabel = String(content.menuLabel ?? "Menu");
+  const siteMode  = String(content.siteMode ?? "multipage");
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+
+  // Scroll-aware navbar: transparent nad hero → invert na bílou nad světlými sekcemi
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // ESC zavře overlay + body scroll-lock když je otevřené
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", onKey); document.body.style.overflow = prev; };
+  }, [open]);
 
   const LogoMark = () => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 32" width="265" height="34" aria-hidden="true">
-      <text x="0" y="23" fontFamily="'Helvetica Neue',Helvetica,Arial,sans-serif" fontSize="17" fontWeight="700" letterSpacing="5" fill={WHITE}>{siteName}</text>
+      <text x="0" y="23" fontFamily="'Helvetica Neue',Helvetica,Arial,sans-serif" fontSize="17" fontWeight="700" letterSpacing="5" fill="currentColor">{siteName}</text>
     </svg>
   );
 
@@ -14947,9 +15880,23 @@ function NavbarArch01(props: Props) {
       top: 0; left: 0; right: 0;
       z-index: 100;
       background: transparent;
-      height: 72px;
+      color: ${WHITE};
+      height: 88px;
       display: flex;
       align-items: center;
+      transition: height 0.4s cubic-bezier(0.4,0,0.2,1),
+                  background 0.4s cubic-bezier(0.4,0,0.2,1),
+                  color 0.4s cubic-bezier(0.4,0,0.2,1),
+                  box-shadow 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    /* invert na bílou při scrollu — bílé logo/menu jinak zmizí nad světlými sekcemi */
+    .arch01-nav.scrolled {
+      height: 68px;
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: saturate(1.4) blur(10px);
+      -webkit-backdrop-filter: saturate(1.4) blur(10px);
+      color: ${BLACK};
+      box-shadow: 0 1px 0 rgba(0,0,0,0.08);
     }
     .arch01-inner {
       max-width: 1440px;
@@ -14960,27 +15907,57 @@ function NavbarArch01(props: Props) {
       align-items: center;
       justify-content: space-between;
     }
-    .arch01-logo { display: flex; align-items: center; text-decoration: none; }
+    .arch01-logo { display: flex; align-items: center; text-decoration: none; color: inherit; }
+    .arch01-logo svg { transition: opacity 0.3s; }
+    .arch01-logo:hover svg { opacity: 0.55; }
     .arch01-right {
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 18px;
     }
+    .arch01-menu-label {
+      font-family: ${FONT};
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: inherit;
+      opacity: 0.9;
+      transition: opacity 0.25s;
+    }
+    @media (max-width: 560px) { .arch01-menu-label { display: none; } }
     .arch01-burger {
       background: none;
       border: none;
       cursor: pointer;
-      padding: 8px 4px;
+      padding: 10px 2px;
       display: flex;
       flex-direction: column;
       gap: 5px;
-      align-items: center;
+      align-items: flex-end;
+      color: inherit;
     }
     .arch01-burger-line {
       display: block;
-      width: 24px;
+      width: 26px;
       height: 1.5px;
-      background: ${WHITE};
+      background: currentColor;
+      transition: width 0.3s cubic-bezier(0.4,0,0.2,1), transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .arch01-burger-line:nth-child(2) { width: 18px; }
+    .arch01-burger:hover .arch01-menu-label,
+    .arch01-menu-trigger:hover .arch01-menu-label { opacity: 0.5; }
+    .arch01-menu-trigger:hover .arch01-burger-line { width: 26px; }
+    .arch01-menu-trigger:hover .arch01-burger-line:nth-child(2) { width: 26px; }
+    .arch01-menu-trigger {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px 0;
+      color: inherit;
     }
     .arch01-overlay {
       position: fixed;
@@ -15023,17 +16000,50 @@ function NavbarArch01(props: Props) {
       color: ${WHITE};
       text-decoration: none;
       font-family: ${FONT};
-      font-size: clamp(24px, 3.5vw, 44px);
+      font-size: clamp(26px, 4vw, 52px);
       font-weight: 300;
-      letter-spacing: 0.03em;
-      opacity: 0.88;
-      padding: 10px 0;
-      transition: opacity 0.15s;
-      display: block;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      letter-spacing: 0.01em;
+      padding: 12px 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      opacity: 0;
+      transform: translateY(18px);
     }
     .arch01-ov-body a:last-child { border-bottom: none; }
-    .arch01-ov-body a:hover { opacity: 0.4; }
+    .arch01-overlay.open .arch01-ov-body a {
+      animation: arch01OvIn 0.6s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .arch01-ov-body a .arch01-ov-label {
+      color: rgba(255,255,255,0.62);
+      transition: color 0.35s cubic-bezier(0.4,0,0.2,1),
+                  transform 0.45s cubic-bezier(0.16,1,0.3,1),
+                  letter-spacing 0.45s cubic-bezier(0.16,1,0.3,1);
+    }
+    .arch01-ov-body a .arch01-ov-arrow {
+      color: ${WHITE};
+      opacity: 0;
+      transform: translateX(-14px);
+      transition: opacity 0.35s cubic-bezier(0.4,0,0.2,1),
+                  transform 0.45s cubic-bezier(0.16,1,0.3,1);
+      font-weight: 300;
+    }
+    .arch01-ov-body a:hover .arch01-ov-label,
+    .arch01-ov-body a:focus-visible .arch01-ov-label {
+      color: ${WHITE};
+      transform: translateX(6px);
+      letter-spacing: 0.04em;
+    }
+    .arch01-ov-body a:hover .arch01-ov-arrow,
+    .arch01-ov-body a:focus-visible .arch01-ov-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    @keyframes arch01OvIn {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
     .arch01-ov-foot {
       padding: 20px 48px;
       border-top: 1px solid rgba(255,255,255,0.1);
@@ -15074,7 +16084,7 @@ function NavbarArch01(props: Props) {
     <>
       <style>{styles}</style>
 
-      <nav className="arch01-nav" data-template="arch-01-navbar" aria-label="Hlavní navigace">
+      <nav className={`arch01-nav${scrolled ? " scrolled" : ""}`} data-template="arch-01-navbar" aria-label="Hlavní navigace">
         <div className="arch01-inner">
           <a href={resolve("/")} className="arch01-logo" aria-label={siteName}>
             <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block" }}>
@@ -15083,10 +16093,13 @@ function NavbarArch01(props: Props) {
           </a>
 
           <div className="arch01-right">
-            <button className="arch01-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
-              <span className="arch01-burger-line" />
-              <span className="arch01-burger-line" />
-              <span className="arch01-burger-line" />
+            <button className="arch01-menu-trigger" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
+              <GenericEditableText sectionId={sectionId} field="menuLabel" value={menuLabel} tag="span" className="arch01-menu-label" />
+              <span className="arch01-burger" aria-hidden="true">
+                <span className="arch01-burger-line" />
+                <span className="arch01-burger-line" />
+                <span className="arch01-burger-line" />
+              </span>
             </button>
           </div>
         </div>
@@ -15104,8 +16117,9 @@ function NavbarArch01(props: Props) {
 
         <div className="arch01-ov-body">
           {links.map((link, i) => (
-            <a key={i} href={resolve(link.href)} onClick={() => setOpen(false)}>
-              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
+            <a key={i} href={resolve(link.href)} onClick={() => setOpen(false)} style={{ animationDelay: `${0.14 + i * 0.06}s` }}>
+              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" className="arch01-ov-label" />
+              <span className="arch01-ov-arrow" aria-hidden="true">→</span>
             </a>
           ))}
         </div>
@@ -15130,13 +16144,11 @@ function NavbarArch01(props: Props) {
 }
 
 // ── ucetni-04-navbar ──────────────────────────────────────────────────────────
-// 1:1 bcas.cz (Broker Consulting):
-// - sticky bílý (#ffffff) header s border-bottom #e8e8e8
-// - vlevo: čistý textový wordmark "Finanční Konzultace" bez ikony (#003366 bold)
-// - střed/vpravo: horizontální nav linky (#333, hover #003366 underline #d4a96e)
-// - úplně vpravo: "Přihlásit se" outline button (#003366)
-// - 8 položek: Úvod / Služby / Konzultanti / O společnosti / Franšízing / Kariéra / Pro média / Kontakty
-// - mobile hamburger → fullscreen navy (#003366) overlay
+// „Prosperita Finance" — nezávislé finanční poradenství (brokerconsulting.cz DNA)
+// LUXE: navy #1B3A6B + gold #C8923A + Inter. Dvouúrovňový sticky navbar:
+//   - navy utility topbar (tel/email + ČNB trust badge) — collapse na scroll
+//   - bílý main bar: growth-mark logo, gold underline slide nav, gold CTA pill se shimmerem
+//   - resolveNavHref + siteMode (one-page/multi-page), refined mobile overlay
 // ─────────────────────────────────────────────────────────────────────────────
 function NavbarUcetni04(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
@@ -15144,251 +16156,267 @@ function NavbarUcetni04(props: Props) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const NAVY  = "#003366";
-  const GOLD  = "#d4a96e";
-  const WHITE = "#ffffff";
-  const TEXT  = "#333333";
-  const BORDER = "#e8e8e8";
-  const FONT  = "Arial, 'Helvetica Neue', sans-serif";
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
 
-  const siteName = String(content.siteName ?? "Finanční Konzultace");
-  const logoUrl  = String(content.logoUrl  ?? "");
-  const ctaText  = String(content.ctaText  ?? "Přihlásit se");
-  const ctaHref  = String(content.ctaHref  ?? "#kontakt");
-  const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const NAVY   = "#1B3A6B";
+  const NAVYDK = "#14294d";
+  const GOLD   = "#C8923A";
+  const WHITE  = "#ffffff";
+  const TEXT   = "#2a3547";
+  const BORDER = "#e8ebf0";
+  const FONT   = "'Inter', 'Helvetica Neue', Arial, sans-serif";
 
-  const resolve = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const siteName  = String(content.siteName ?? "Prosperita Finance");
+  const logoUrl   = String(content.logoUrl  ?? "");
+  const ctaText   = String(content.ctaText  ?? "Sjednat schůzku");
+  const ctaHref   = String(content.ctaHref  ?? "/kontakt");
+  const topPhone  = String((content as Record<string, unknown>).topPhone ?? "777 234 567");
+  const topEmail  = String((content as Record<string, unknown>).topEmail ?? "info@prosperita-finance.cz");
+  const topBadge  = String((content as Record<string, unknown>).topBadge ?? "Poradci s licencí ČNB");
+  const logoSub   = String((content as Record<string, unknown>).logoSub ?? "Finanční poradenství");
+  const links     = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode  = String((content as Record<string, unknown>).siteMode ?? "multipage");
+
+  const resolve = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
+  const homeHref = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/";
+
+  const Mark = () => (
+    <span className="ucn04-mark" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 17l5.5-5.5 3.5 3.5L21 6" />
+        <path d="M15 6h6v6" />
+      </svg>
+    </span>
+  );
 
   const styles = `
+    .ucn04-wrap { position: sticky; top: 0; z-index: 1000; font-family: ${FONT}; }
+    /* ── Utility topbar ── */
+    .ucn04-top {
+      background: ${NAVY};
+      color: rgba(255,255,255,0.86);
+      overflow: hidden;
+      height: 40px;
+      transition: height .38s cubic-bezier(.4,0,.2,1), opacity .3s;
+    }
+    .ucn04-wrap.scrolled .ucn04-top { height: 0; opacity: 0; }
+    .ucn04-top-inner {
+      max-width: 1280px; margin: 0 auto; padding: 0 24px; height: 40px;
+      display: flex; align-items: center; justify-content: space-between; gap: 20px;
+      font-size: 13px; letter-spacing: .01em;
+    }
+    .ucn04-top-left { display: flex; align-items: center; gap: 26px; }
+    .ucn04-top-item { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.82); text-decoration: none; transition: color .2s; }
+    .ucn04-top-item svg { color: ${GOLD}; flex-shrink: 0; }
+    .ucn04-top-item:hover { color: #fff; }
+    .ucn04-top-badge { display: inline-flex; align-items: center; gap: 8px; color: rgba(255,255,255,0.9); font-weight: 500; }
+    .ucn04-top-badge svg { color: ${GOLD}; }
+    /* ── Main bar ── */
     .ucn04-header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
       background: ${WHITE};
       border-bottom: 1px solid ${BORDER};
-      font-family: ${FONT};
-      transition: box-shadow 0.2s;
+      transition: box-shadow .3s, border-color .3s;
     }
-    .ucn04-header.scrolled {
-      box-shadow: 0 2px 8px rgba(0,51,102,0.10);
-    }
+    .ucn04-wrap.scrolled .ucn04-header { box-shadow: 0 6px 28px rgba(20,41,77,0.10); }
     .ucn04-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 24px;
-      height: 76px;
-      display: flex;
-      align-items: center;
-      gap: 0;
+      max-width: 1280px; margin: 0 auto; padding: 0 24px;
+      height: 82px; display: flex; align-items: center; gap: 0;
+      transition: height .32s cubic-bezier(.4,0,.2,1);
     }
+    .ucn04-wrap.scrolled .ucn04-inner { height: 68px; }
     /* Logo */
-    .ucn04-logo {
-      text-decoration: none;
-      flex-shrink: 0;
-      margin-right: 32px;
+    .ucn04-logo { text-decoration: none; flex-shrink: 0; margin-right: 40px; display: flex; align-items: center; gap: 12px; }
+    .ucn04-mark {
+      width: 40px; height: 40px; border-radius: 11px; flex-shrink: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: #fff; background: linear-gradient(140deg, ${NAVY}, ${NAVYDK});
+      box-shadow: 0 6px 16px rgba(20,41,77,0.22); position: relative; overflow: hidden;
+      transition: transform .4s cubic-bezier(.34,1.4,.5,1), box-shadow .4s;
     }
-    .ucn04-logo-text {
-      font-size: 19px;
-      font-weight: 700;
-      color: ${NAVY};
-      letter-spacing: -0.3px;
-      line-height: 1;
-      white-space: nowrap;
+    .ucn04-mark::after {
+      content: ""; position: absolute; inset: 0; border-radius: 11px;
+      box-shadow: inset 0 0 0 1.5px rgba(200,146,58,0.5); opacity: 0; transition: opacity .4s;
     }
+    .ucn04-logo:hover .ucn04-mark { transform: translateY(-2px) rotate(-4deg); box-shadow: 0 10px 22px rgba(20,41,77,0.3); }
+    .ucn04-logo:hover .ucn04-mark::after { opacity: 1; }
+    .ucn04-logo-text { display: flex; flex-direction: column; line-height: 1.05; }
+    .ucn04-logo-name { font-size: 19px; font-weight: 800; color: ${NAVY}; letter-spacing: -0.4px; white-space: nowrap; }
+    .ucn04-logo-sub { font-size: 10px; font-weight: 600; letter-spacing: 2.4px; text-transform: uppercase; color: ${TEXT}; opacity: .62; margin-top: 3px; }
     /* Nav */
-    .ucn04-nav {
-      display: flex;
-      align-items: stretch;
-      justify-content: center;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      flex: 1;
-      height: 100%;
-    }
-    .ucn04-nav li {
-      display: flex;
-      align-items: stretch;
-    }
+    .ucn04-nav { display: flex; align-items: center; justify-content: center; list-style: none; margin: 0; padding: 0; flex: 1; gap: 2px; }
     .ucn04-nav a {
-      display: flex;
-      align-items: center;
-      padding: 0 13px;
-      font-size: 14px;
-      font-weight: 400;
-      color: ${TEXT};
-      text-decoration: none;
-      border-bottom: 2px solid transparent;
-      white-space: nowrap;
-      transition: color 0.15s, border-color 0.15s;
+      position: relative; display: flex; align-items: center; padding: 10px 15px;
+      font-size: 14.5px; font-weight: 500; color: ${TEXT}; text-decoration: none; white-space: nowrap;
+      transition: color .22s;
     }
-    .ucn04-nav a:hover,
-    .ucn04-nav a.active {
-      color: ${NAVY};
-      border-bottom-color: ${GOLD};
+    .ucn04-nav a::after {
+      content: ""; position: absolute; left: 15px; right: 15px; bottom: 4px; height: 2px;
+      background: ${GOLD}; transform: scaleX(0); transform-origin: left; border-radius: 2px;
+      transition: transform .34s cubic-bezier(.22,.68,0,1);
     }
-    /* Login button */
-    .ucn04-login {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 18px;
-      background: transparent;
-      border: 1px solid ${NAVY};
-      border-radius: 3px;
-      color: ${NAVY};
-      font-size: 14px;
-      font-weight: 600;
-      font-family: ${FONT};
-      cursor: pointer;
-      text-decoration: none;
-      white-space: nowrap;
-      flex-shrink: 0;
-      margin-left: 16px;
-      transition: background 0.15s, color 0.15s;
+    .ucn04-nav a:hover, .ucn04-nav a.active { color: ${NAVY}; }
+    .ucn04-nav a:hover::after, .ucn04-nav a.active::after { transform: scaleX(1); }
+    /* CTA pill */
+    .ucn04-cta {
+      position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 22px; margin-left: 20px; flex-shrink: 0;
+      background: ${GOLD}; color: #fff; border-radius: 999px;
+      font-size: 14px; font-weight: 700; letter-spacing: .01em; text-decoration: none; white-space: nowrap;
+      box-shadow: 0 6px 18px rgba(200,146,58,0.28);
+      transition: transform .3s cubic-bezier(.34,1.4,.5,1), box-shadow .3s;
     }
-    .ucn04-login:hover {
-      background: ${NAVY};
-      color: ${WHITE};
+    .ucn04-cta::before {
+      content: ""; position: absolute; top: 0; left: -120%; width: 70%; height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.5), transparent);
+      transform: skewX(-18deg); transition: none;
     }
+    .ucn04-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(200,146,58,0.4); }
+    .ucn04-cta:hover::before { left: 130%; transition: left .7s ease; }
+    .ucn04-cta svg { transition: transform .3s; }
+    .ucn04-cta:hover svg { transform: translateX(3px); }
     /* Burger */
-    .ucn04-burger {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
-      margin-left: auto;
-    }
+    .ucn04-burger { display: none; background: none; border: none; cursor: pointer; padding: 6px; margin-left: auto; color: ${NAVY}; }
     /* Mobile overlay */
     .ucn04-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      background: ${NAVY};
-      flex-direction: column;
-      padding: 24px 28px;
-      overflow-y: auto;
+      display: none; position: fixed; inset: 0; z-index: 2000;
+      background: linear-gradient(160deg, ${NAVY}, ${NAVYDK});
+      flex-direction: column; padding: 24px 28px 40px; overflow-y: auto;
     }
-    .ucn04-overlay.open { display: flex; }
-    .ucn04-overlay-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 32px;
+    .ucn04-overlay.open { display: flex; animation: ucn04FadeIn .3s ease; }
+    @keyframes ucn04FadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .ucn04-ov-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 36px; }
+    .ucn04-ov-logo { display: flex; align-items: center; gap: 11px; color: #fff; font-size: 18px; font-weight: 800; letter-spacing: -0.3px; }
+    .ucn04-ov-logo .ucn04-mark { background: rgba(255,255,255,0.12); box-shadow: none; }
+    .ucn04-ov-links { display: flex; flex-direction: column; }
+    .ucn04-ov-links a {
+      font-size: 19px; font-weight: 600; color: #fff; text-decoration: none; padding: 15px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between;
+      transition: color .2s, padding-left .25s;
     }
-    .ucn04-overlay-logo {
-      font-size: 18px;
-      font-weight: 700;
-      color: ${WHITE};
-      text-decoration: none;
+    .ucn04-ov-links a:hover { color: ${GOLD}; padding-left: 8px; }
+    .ucn04-ov-links a svg { color: ${GOLD}; opacity: 0; transition: opacity .2s; }
+    .ucn04-ov-links a:hover svg { opacity: 1; }
+    .ucn04-ov-contact { margin-top: 30px; display: flex; flex-direction: column; gap: 14px; }
+    .ucn04-ov-contact a { color: rgba(255,255,255,0.82); text-decoration: none; display: inline-flex; align-items: center; gap: 10px; font-size: 15px; }
+    .ucn04-ov-contact a svg { color: ${GOLD}; }
+    .ucn04-ov-btn {
+      margin-top: 30px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 15px 26px; background: ${GOLD}; border-radius: 999px; color: #fff; font-size: 16px; font-weight: 700;
+      text-decoration: none; box-shadow: 0 8px 22px rgba(200,146,58,0.34);
     }
-    .ucn04-overlay-links {
-      display: flex;
-      flex-direction: column;
-    }
-    .ucn04-overlay-links a {
-      font-family: ${FONT};
-      font-size: 18px;
-      font-weight: 600;
-      color: ${WHITE};
-      text-decoration: none;
-      padding: 14px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.12);
-      transition: color 0.15s;
-    }
-    .ucn04-overlay-links a:hover { color: ${GOLD}; }
-    .ucn04-overlay-btn {
-      margin-top: 28px;
-      display: inline-block;
-      padding: 13px 24px;
-      border: 2px solid ${WHITE};
-      border-radius: 3px;
-      color: ${WHITE};
-      font-size: 15px;
-      font-weight: 700;
-      text-align: center;
-      text-decoration: none;
-    }
-    @media (max-width: 1024px) {
-      .ucn04-nav { display: none; }
-      .ucn04-login { display: none; }
+    @media (max-width: 1080px) {
+      .ucn04-nav, .ucn04-cta { display: none; }
       .ucn04-burger { display: block; }
+      .ucn04-top-left { gap: 18px; }
+      .ucn04-top-badge { display: none; }
     }
-    @media (max-width: 1024px) {
-      .ucn04-logo { margin-right: 0; }
+    @media (max-width: 560px) {
+      .ucn04-logo-sub { display: none; }
+      .ucn04-inner { height: 66px; }
     }
   `;
 
   return (
     <>
       <style>{styles}</style>
-      <header className={`ucn04-header${scrolled ? " scrolled" : ""}`} data-template="ucetni-04-navbar">
-        <div className="ucn04-inner">
-          {/* Logo — čistý text, bez ikony */}
-          <a href={resolve("/")} className="ucn04-logo" aria-label={siteName}>
-            <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "block" }}>
-              <span className="ucn04-logo-text">
-                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-              </span>
-            </GenericEditableImage>
-          </a>
-
-          {/* Nav links */}
-          <ul className="ucn04-nav">
-            {links.map((link, i) => (
-              <li key={i}>
-                <a href={resolve(link.href)} className={i === 0 ? "active" : ""}>
-                  <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          {/* Přihlásit se */}
-          <a href={resolve(ctaHref)} data-btn="primary" className="ucn04-login">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-              <circle cx="12" cy="7" r="4"/>
-            </svg>
-            <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
-          </a>
-
-          {/* Mobile burger */}
-          <button className="ucn04-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu">
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke={TEXT} strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-              <line x1="3" y1="7" x2="23" y2="7"/><line x1="3" y1="13" x2="23" y2="13"/><line x1="3" y1="19" x2="23" y2="19"/>
-            </svg>
-          </button>
+      <div className={`ucn04-wrap${scrolled ? " scrolled" : ""}`} data-template="ucetni-04-navbar">
+        {/* Utility topbar */}
+        <div className="ucn04-top">
+          <div className="ucn04-top-inner">
+            <div className="ucn04-top-left">
+              <a href={`tel:${topPhone.replace(/\s/g, "")}`} className="ucn04-top-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                <GenericEditableText sectionId={sectionId} field="topPhone" value={topPhone} tag="span" />
+              </a>
+              <a href={`mailto:${topEmail}`} className="ucn04-top-item">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+                <GenericEditableText sectionId={sectionId} field="topEmail" value={topEmail} tag="span" />
+              </a>
+            </div>
+            <div className="ucn04-top-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              <GenericEditableText sectionId={sectionId} field="topBadge" value={topBadge} tag="span" />
+            </div>
+          </div>
         </div>
-      </header>
+
+        {/* Main bar */}
+        <header className="ucn04-header">
+          <div className="ucn04-inner">
+            <a href={homeHref} className="ucn04-logo" aria-label={siteName}>
+              <GenericEditableImage sectionId={sectionId} field="logoUrl" src={logoUrl} alt={siteName} style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+                <Mark />
+                <span className="ucn04-logo-text">
+                  <span className="ucn04-logo-name"><GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" /></span>
+                  <GenericEditableText sectionId={sectionId} field="logoSub" value={logoSub} tag="span" className="ucn04-logo-sub" />
+                </span>
+              </GenericEditableImage>
+            </a>
+
+            <ul className="ucn04-nav">
+              {links.map((link, i) => (
+                <li key={i}>
+                  <a href={resolve(link.href)} className={i === 0 ? "active" : ""}>
+                    <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            <a href={resolve(ctaHref)} data-btn="primary" className="ucn04-cta">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+
+            <button className="ucn04-burger" onClick={() => setOpen(true)} aria-label="Otevřít menu">
+              <svg width="28" height="28" viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
+                <line x1="3" y1="7" x2="23" y2="7"/><line x1="3" y1="13" x2="23" y2="13"/><line x1="3" y1="19" x2="23" y2="19"/>
+              </svg>
+            </button>
+          </div>
+        </header>
+      </div>
 
       {/* Mobile overlay */}
       <div className={`ucn04-overlay${open ? " open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigační menu">
-        <div className="ucn04-overlay-head">
-          <span className="ucn04-overlay-logo">{siteName}</span>
-          <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }} aria-label="Zavřít menu">
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke={WHITE} strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
+        <div className="ucn04-ov-head">
+          <span className="ucn04-ov-logo"><Mark />{siteName}</span>
+          <button onClick={() => setOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, color: "#fff" }} aria-label="Zavřít menu">
+            <svg width="28" height="28" viewBox="0 0 26 26" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" aria-hidden="true">
               <line x1="6" y1="6" x2="20" y2="20"/><line x1="20" y1="6" x2="6" y2="20"/>
             </svg>
           </button>
         </div>
-        <div className="ucn04-overlay-links">
+        <div className="ucn04-ov-links">
           {links.map((link, i) => (
             <a key={i} href={resolve(link.href)} onClick={() => setOpen(false)}>
               <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={link.label} tag="span" />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </a>
           ))}
         </div>
-        <a href={resolve(ctaHref)} data-btn="primary" className="ucn04-overlay-btn" onClick={() => setOpen(false)}>
+        <div className="ucn04-ov-contact">
+          <a href={`tel:${topPhone.replace(/\s/g, "")}`}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            {topPhone}
+          </a>
+          <a href={`mailto:${topEmail}`}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+            {topEmail}
+          </a>
+        </div>
+        <a href={resolve(ctaHref)} data-btn="primary" className="ucn04-ov-btn" onClick={() => setOpen(false)}>
           {ctaText}
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
       </div>
     </>
@@ -15406,46 +16434,53 @@ function NavbarUcetni04(props: Props) {
 function NavbarClean01(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const GREEN = "#69be28";
   const DARK  = "#0d1a20";
   const WHITE = "#ffffff";
   const FONT  = "Arial, Helvetica, sans-serif";
 
-  const siteName = String(content.siteName ?? "Clean Service");
-  const tagline  = String(content.tagline  ?? "Partner pro čistotu");
-  const phone    = String(content.phone    ?? "+420 704 123 456");
-  const email    = String(content.email    ?? "info@demo.cz");
-  const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
-  const resolve  = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const siteName   = String(content.siteName ?? "Clean Service");
+  const tagline    = String(content.tagline  ?? "Partner pro čistotu");
+  const phone      = String(content.phone    ?? "+420 704 123 456");
+  const email      = String(content.email    ?? "info@demo.cz");
+  const emailLabel = String(content.emailLabel ?? "Napište nám");
+  const phoneLabel = String(content.phoneLabel ?? "Zavolejte");
+  const ctaText    = String(content.ctaText  ?? "Nezávazná poptávka");
+  const ctaHref    = String(content.ctaHref  ?? "/kontakt");
+  const fbHref     = String(content.facebook ?? "https://facebook.com/");
+  const links      = (content.links as Array<{ label: string; href: string }>) ?? [];
+  const siteMode   = String(content.siteMode ?? "multipage");
+  const resolve    = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
   const FacebookIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.5 23.339" width="12" height="22" fill={WHITE} aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.5 23.339" width="12" height="20" fill="currentColor" aria-hidden="true">
       <path d="m11.681 13.128.648-4.228H8.277V6.163a2.112 2.112 0 0 1 2.381-2.282H12.5V.285A22.469 22.469 0 0 0 9.23 0C5.891 0 3.71 2.023 3.71 5.685V8.9H0v4.224h3.71v10.215h4.567V13.128Z"/>
     </svg>
   );
 
-  const SearchIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20.5 20.505" width="18" height="18" fill={WHITE} aria-hidden="true">
-      <path d="m20.26 19.021-5.7-5.755a8.125 8.125 0 1 0-1.233 1.249l5.664 5.718a.877.877 0 0 0 1.239.032.883.883 0 0 0 .03-1.244ZM8.173 14.585a6.416 6.416 0 1 1 4.538-1.878 6.376 6.376 0 0 1-4.538 1.878Z"/>
-    </svg>
-  );
-
-  const GlobeIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22.799 22.9" width="18" height="18" fill={WHITE} aria-hidden="true">
-      <path fillRule="evenodd" d="M11.3 22.9A11.342 11.342 0 0 1 0 11.4 11.255 11.255 0 0 1 11.3 0a11.45 11.45 0 1 1 0 22.9Zm.688-12.19h4.675a23.3 23.3 0 0 0-.63-3.955 18.65 18.65 0 0 1-4.045.568Zm4.675 1.377h-4.677v3.388a18.589 18.589 0 0 1 4.045.568 16.807 16.807 0 0 0 .63-3.956Zm2.75 5.319a10.117 10.117 0 0 0 1.959-5.319h-3.34a18.477 18.477 0 0 1-.665 4.374 12.465 12.465 0 0 1 2.044.945Zm-2.914-1.117a17.318 17.318 0 0 0-3.607-.5v4.574c1.457-.371 2.743-1.914 3.601-4.074Zm-4.984 4.074v-4.574a17.328 17.328 0 0 0-3.607.5c1.382 2.16 2.138 3.703 3.601 4.074Zm-4.95-3.656a14.454 14.454 0 0 0 2.044-.944c.112-1.329-.612-2.8-.665-4.374H1.226A10.1 10.1 0 0 0 3.184 17.4Zm-1.958-6.69h3.337c.053-1.574.777-3.044.665-4.373a14.322 14.322 0 0 0-2.044-.945 10.765 10.765 0 0 0-1.958 5.318Zm2.862-6.381a11.338 11.338 0 0 0 1.571.7C6.093 4 6.636 3.8 7.275 2.113a10.079 10.079 0 0 0-3.187 2.216Zm6.521-2.957C9.146 1.743 8.39 3.286 7 5.447a34.211 34.211 0 0 1 3.607.913Zm0 5.951a21.009 21.009 0 0 1-4.045-.568 23.3 23.3 0 0 0-.63 3.955h4.675Zm-4.675 4.764a16.807 16.807 0 0 0 .63 3.956 20.931 20.931 0 0 1 4.045-.568v-3.388Zm6.052-10.715V6.36a34.273 34.273 0 0 1 3.607-.913c-.857-2.161-2.144-3.704-3.607-4.075Zm3.334.741C15.959 3.8 16.5 4 16.936 5.029a11.285 11.285 0 0 0 1.571-.7 10.063 10.063 0 0 0-3.187-2.216Zm4.091 3.279a12.549 12.549 0 0 1-2.044.945 18.46 18.46 0 0 1 .665 4.373h3.338a10.433 10.433 0 0 0-1.959-5.318Z"/>
-    </svg>
-  );
-
   const HambIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27 18" width="22" height="14" fill={WHITE} aria-hidden="true">
-      <path d="M0 18h27v-3H0Zm0-7.5h27v-3H0ZM0 0v3h27V0Z"/>
-    </svg>
+    <span className="c01-hamb" aria-hidden="true"><i /><i /><i /></span>
   );
 
   const styles = `
@@ -15455,36 +16490,86 @@ function NavbarClean01(props: Props) {
       z-index: 100;
       background: ${DARK};
       font-family: ${FONT};
+      transition: box-shadow 0.4s ease, background 0.4s ease;
     }
+    .c01-header::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, ${GREEN} 20%, ${GREEN} 80%, transparent);
+      transform: scaleX(0);
+      transform-origin: center;
+      opacity: 0;
+      transition: transform 0.5s cubic-bezier(.2,.7,.2,1), opacity 0.4s ease;
+    }
+    .c01-header.c01-scrolled {
+      background: rgba(10,20,26,0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 10px 34px -18px rgba(0,0,0,0.9);
+    }
+    .c01-header.c01-scrolled::after { transform: scaleX(1); opacity: 1; }
     .c01-holder {
       display: flex;
       align-items: stretch;
       position: relative;
-      min-height: 5rem;
+      min-height: 5.25rem;
+      transition: min-height 0.4s ease;
     }
-    /* Logo — čistý text, bez pozadí */
+    .c01-header.c01-scrolled .c01-holder { min-height: 4.5rem; }
+    /* Logo */
     .c01-logo-wrap {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 0.7rem 1.8rem 0.7rem 1.2rem;
+      align-items: center;
+      gap: 0.85rem;
+      padding: 0.7rem 1.8rem 0.7rem 1.4rem;
       text-decoration: none;
       color: ${WHITE};
     }
+    .c01-logo-mark {
+      position: relative;
+      width: 2.35rem;
+      height: 2.35rem;
+      flex-shrink: 0;
+      border-radius: 7px;
+      background: ${GREEN};
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: transform 0.45s cubic-bezier(.2,.7,.2,1), box-shadow 0.45s ease;
+      box-shadow: 0 6px 18px -8px rgba(105,190,40,0.9);
+    }
+    .c01-logo-mark svg { position: relative; z-index: 1; }
+    .c01-logo-mark::after {
+      content: "";
+      position: absolute;
+      top: -120%;
+      left: -30%;
+      width: 60%;
+      height: 340%;
+      background: rgba(255,255,255,0.35);
+      transform: rotate(20deg);
+      transition: left 0.6s cubic-bezier(.2,.7,.2,1);
+    }
+    .c01-logo-wrap:hover .c01-logo-mark { transform: rotate(-6deg) scale(1.05); }
+    .c01-logo-wrap:hover .c01-logo-mark::after { left: 130%; }
+    .c01-logo-txt { display: flex; flex-direction: column; }
     .c01-logo-name {
-      font-size: 1.35rem;
+      font-size: 1.32rem;
       font-weight: 700;
       color: ${WHITE};
-      letter-spacing: 0.04em;
-      line-height: 1.2;
+      letter-spacing: 0.03em;
+      line-height: 1.15;
     }
     .c01-logo-text {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       text-transform: uppercase;
-      font-weight: 300;
-      color: rgba(255,255,255,0.55);
-      margin-top: 0.2rem;
-      letter-spacing: 0.06em;
+      font-weight: 400;
+      color: rgba(255,255,255,0.5);
+      margin-top: 0.22rem;
+      letter-spacing: 0.14em;
       line-height: 1.3;
     }
     /* Right frame */
@@ -15493,136 +16578,233 @@ function NavbarClean01(props: Props) {
       align-items: center;
       justify-content: flex-end;
       flex: 1;
-      padding: 0 1.2rem 0 2rem;
-      gap: 1.2rem;
+      padding: 0 1.4rem 0 2rem;
+      gap: 1.5rem;
     }
     /* Contact boxes */
     .c01-boxes {
       display: none;
-      flex-direction: column;
-      justify-content: center;
-      gap: 0.15rem;
-      margin-right: 0.8rem;
+      align-items: center;
+      gap: 1.6rem;
     }
-    @media (min-width: 48rem) {
-      .c01-boxes { display: flex; }
-    }
-    @media (min-width: 90rem) {
-      .c01-boxes { flex-direction: row; gap: 2rem; align-items: center; }
-    }
+    @media (min-width: 62rem) { .c01-boxes { display: flex; } }
     .c01-box {
       display: flex;
       align-items: center;
-      gap: 0.3rem;
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-    .c01-box-label {
-      font-weight: 700;
-      color: ${WHITE};
-    }
-    .c01-box a {
-      color: ${WHITE};
+      gap: 0.65rem;
       text-decoration: none;
-      transition: color 0.15s;
+      transition: transform 0.3s ease;
     }
-    .c01-box a:hover { color: ${GREEN}; }
-    .c01-box--secondary { font-weight: 400; }
-    /* Buttons */
-    .c01-buttons {
+    .c01-box:hover { transform: translateY(-1px); }
+    .c01-box-ic {
+      width: 2.35rem;
+      height: 2.35rem;
+      flex-shrink: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.16);
       display: flex;
       align-items: center;
-      gap: 0.35rem;
+      justify-content: center;
+      color: ${GREEN};
+      transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
     }
-    .c01-btn {
+    .c01-box:hover .c01-box-ic { border-color: ${GREEN}; background: rgba(105,190,40,0.12); }
+    .c01-box-txt { display: flex; flex-direction: column; line-height: 1.25; }
+    .c01-box-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.45);
+    }
+    .c01-box-val {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: ${WHITE};
+      transition: color 0.3s ease;
+    }
+    .c01-box:hover .c01-box-val { color: ${GREEN}; }
+    .c01-divider { width: 1px; height: 2.2rem; background: rgba(255,255,255,0.12); display: none; }
+    @media (min-width: 62rem) { .c01-divider { display: block; } }
+    /* Buttons */
+    .c01-buttons { display: flex; align-items: center; gap: 0.55rem; }
+    .c01-social {
+      width: 2.6rem;
+      height: 2.6rem;
+      border-radius: 50%;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+    }
+    .c01-social:hover { color: ${WHITE}; background: ${GREEN}; border-color: ${GREEN}; transform: translateY(-2px); }
+    @media (max-width: 30rem) { .c01-social { display: none; } }
+    .c01-cta {
+      display: none;
+      align-items: center;
+      gap: 0.55rem;
+      height: 2.85rem;
+      padding: 0 1.35rem;
+      border-radius: 9999px;
       background: ${GREEN};
       color: ${WHITE};
-      border: none;
-      cursor: pointer;
       font-family: ${FONT};
-      font-weight: 600;
-      font-size: 0.85rem;
+      font-weight: 700;
+      font-size: 0.82rem;
       text-transform: uppercase;
+      letter-spacing: 0.03em;
       text-decoration: none;
-      transition: opacity 0.15s;
-      padding: 0;
-    }
-    .c01-btn:hover { opacity: 0.82; }
-    .c01-btn-icon {
-      width: 2.75rem;
-      height: 2.75rem;
-      border-radius: 50%;
-    }
-    @media (min-width: 48rem) {
-      .c01-btn-icon { width: 2.38rem; height: 2.38rem; }
-    }
-    .c01-btn-pill {
-      height: 2.75rem;
-      border-radius: calc(2.75rem / 2);
-      padding: 0 0.9rem;
-      gap: 0.4rem;
       white-space: nowrap;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 24px -12px rgba(105,190,40,0.9);
+      transition: transform 0.35s cubic-bezier(.2,.7,.2,1), box-shadow 0.35s ease;
     }
-    @media (min-width: 48rem) {
-      .c01-btn-pill { height: 2.38rem; border-radius: calc(2.38rem / 2); }
+    @media (min-width: 48rem) { .c01-cta { display: inline-flex; } }
+    .c01-cta > span { position: relative; z-index: 1; }
+    .c01-cta::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: #5aa020;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(.2,.7,.2,1);
     }
+    .c01-cta:hover { transform: translateY(-2px); box-shadow: 0 16px 30px -12px rgba(105,190,40,0.95); }
+    .c01-cta:hover::before { transform: scaleX(1); }
+    .c01-cta svg { transition: transform 0.35s ease; position: relative; z-index: 1; }
+    .c01-cta:hover svg { transform: translateX(3px); }
+    /* Menu trigger */
+    .c01-menu {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      height: 2.85rem;
+      padding: 0 1.15rem 0 1.25rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: transparent;
+      color: ${WHITE};
+      font-family: ${FONT};
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      cursor: pointer;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+    .c01-menu:hover { border-color: ${GREEN}; background: rgba(105,190,40,0.1); }
+    .c01-menu .c01-menu-label { display: none; }
+    @media (min-width: 30rem) { .c01-menu .c01-menu-label { display: inline; } }
+    .c01-hamb { display: inline-flex; flex-direction: column; justify-content: center; gap: 4px; width: 20px; }
+    .c01-hamb i { display: block; height: 2px; background: ${WHITE}; border-radius: 2px; transition: background 0.3s ease, width 0.3s ease; }
+    .c01-hamb i:nth-child(1) { width: 20px; }
+    .c01-hamb i:nth-child(2) { width: 14px; }
+    .c01-hamb i:nth-child(3) { width: 20px; }
+    .c01-menu:hover .c01-hamb i { background: ${GREEN}; }
+    .c01-menu:hover .c01-hamb i:nth-child(2) { width: 20px; }
     /* Overlay nav */
     .c01-overlay {
       position: fixed;
       inset: 0;
       z-index: 200;
-      background: ${DARK};
+      background:
+        radial-gradient(1100px 620px at 82% -10%, rgba(105,190,40,0.16), transparent 60%),
+        ${DARK};
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
-      gap: 1.5rem;
+      padding: 6rem clamp(1.5rem, 7vw, 8rem) 3rem;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.25s ease;
+      transition: opacity 0.4s ease;
     }
     .c01-overlay.c01-open { opacity: 1; pointer-events: auto; }
-    .c01-overlay a {
+    .c01-ov-eyebrow {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      color: ${GREEN};
+      margin-bottom: 1.4rem;
+      opacity: 0;
+    }
+    .c01-open .c01-ov-eyebrow { animation: c01OvUp 0.5s cubic-bezier(.2,.7,.2,1) 0.1s forwards; }
+    .c01-ov-links { display: flex; flex-direction: column; gap: 0.35rem; }
+    .c01-ov-link {
+      position: relative;
+      display: inline-flex;
+      align-items: baseline;
+      gap: 1rem;
+      width: fit-content;
       color: ${WHITE};
       text-decoration: none;
-      font-size: 1.5rem;
-      font-weight: 600;
-      font-family: ${FONT};
-      transition: color 0.15s;
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      padding: 0.15rem 0;
+      opacity: 0;
+      transition: color 0.3s ease, transform 0.35s cubic-bezier(.2,.7,.2,1);
     }
-    .c01-overlay a:hover { color: ${GREEN}; }
+    .c01-open .c01-ov-link { animation: c01OvUp 0.5s cubic-bezier(.2,.7,.2,1) forwards; }
+    .c01-ov-link::after {
+      content: "";
+      position: absolute;
+      left: 0; bottom: 0.05rem;
+      width: 100%;
+      height: 2px;
+      background: ${GREEN};
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(.2,.7,.2,1);
+    }
+    .c01-ov-link:hover { color: ${GREEN}; transform: translateX(10px); }
+    .c01-ov-link:hover::after { transform: scaleX(1); }
+    .c01-ov-foot {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 2.4rem;
+      margin-top: 3rem;
+      padding-top: 1.6rem;
+      border-top: 1px solid rgba(255,255,255,0.12);
+      opacity: 0;
+    }
+    .c01-open .c01-ov-foot { animation: c01OvUp 0.5s cubic-bezier(.2,.7,.2,1) 0.45s forwards; }
+    .c01-ov-foot a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.25s ease;
+    }
+    .c01-ov-foot a:hover { color: ${GREEN}; }
     .c01-ov-close {
       position: absolute;
-      top: 1rem;
-      right: 1.5rem;
-      background: none;
-      border: none;
+      top: 1.6rem;
+      right: clamp(1.5rem, 7vw, 8rem);
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
       cursor: pointer;
       color: ${WHITE};
-      font-size: 2rem;
-      line-height: 1;
-      padding: 4px;
-      font-family: ${FONT};
-      transition: color 0.15s;
+      transition: border-color 0.3s ease, transform 0.4s ease, background 0.3s ease;
     }
-    .c01-ov-close:hover { color: ${GREEN}; }
-    .c01-ov-contact {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.4rem;
-      margin-top: 1rem;
-      padding-top: 1.2rem;
-      border-top: 1px solid rgba(255,255,255,0.15);
-      width: 80%;
+    .c01-ov-close:hover { border-color: ${GREEN}; background: rgba(105,190,40,0.12); transform: rotate(90deg); }
+    @keyframes c01OvUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-    .c01-ov-contact a {
-      font-size: 0.95rem !important;
-      font-weight: 400 !important;
-      color: rgba(255,255,255,0.6) !important;
+    @media (prefers-reduced-motion: reduce) {
+      .c01-open .c01-ov-eyebrow,
+      .c01-open .c01-ov-link,
+      .c01-open .c01-ov-foot { animation: none; opacity: 1; }
     }
   `;
 
@@ -15630,56 +16812,71 @@ function NavbarClean01(props: Props) {
     <>
       <style>{styles}</style>
 
-      <header className="c01-header" data-template="clean-01-navbar">
+      <header className={`c01-header${scrolled ? " c01-scrolled" : ""}`} data-template="clean-01">
         <div className="c01-holder">
-          {/* Logo — čistý text */}
+          {/* Logo */}
           <a href={resolve("/")} className="c01-logo-wrap" aria-label={siteName}>
-            <span className="c01-logo-name">
-              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+            <span className="c01-logo-mark" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 4 9 15" />
+                <path d="M5 11 3 18a1 1 0 0 0 1.2 1.2L11 17" />
+                <path d="m14 7 3 3" />
+                <path d="M6.5 12.5 11 17" />
+              </svg>
             </span>
-            <p className="c01-logo-text">
-              <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
-            </p>
+            <span className="c01-logo-txt">
+              <span className="c01-logo-name">
+                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
+              </span>
+              <span className="c01-logo-text">
+                <GenericEditableText sectionId={sectionId} field="tagline" value={tagline} tag="span" />
+              </span>
+            </span>
           </a>
 
           {/* Frame — contacts + buttons */}
           <div className="c01-frame">
             {/* Contact boxes */}
             <div className="c01-boxes">
-              <div className="c01-box">
-                <span className="c01-box-label">Email:</span>
-                <a href={`mailto:${email}`}>
-                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
-                </a>
-              </div>
-              <div className="c01-box">
-                <span className="c01-box-label">Tel:</span>
-                <a href={`tel:${phone.replace(/\s/g, "")}`}>
-                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-                </a>
-              </div>
+              <a className="c01-box" href={`mailto:${email}`}>
+                <span className="c01-box-ic" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3 7 9 6 9-6" />
+                  </svg>
+                </span>
+                <span className="c01-box-txt">
+                  <GenericEditableText sectionId={sectionId} field="emailLabel" value={emailLabel} tag="span" className="c01-box-label" />
+                  <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" className="c01-box-val" />
+                </span>
+              </a>
+              <span className="c01-divider" aria-hidden="true" />
+              <a className="c01-box" href={`tel:${phone.replace(/\s/g, "")}`}>
+                <span className="c01-box-ic" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.4-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2Z" />
+                  </svg>
+                </span>
+                <span className="c01-box-txt">
+                  <GenericEditableText sectionId={sectionId} field="phoneLabel" value={phoneLabel} tag="span" className="c01-box-label" />
+                  <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" className="c01-box-val" />
+                </span>
+              </a>
             </div>
 
             {/* Action buttons */}
             <div className="c01-buttons">
-              {/* Facebook */}
-              <a href="https://facebook.com/demo" className="c01-btn c01-btn-icon" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+              <a href={fbHref} className="c01-social" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
                 <FacebookIcon />
               </a>
-              {/* Search */}
-              <button className="c01-btn c01-btn-icon" aria-label="Hledat" onClick={() => {}}>
-                <SearchIcon />
-              </button>
-              {/* Language */}
-              <button className="c01-btn c01-btn-pill" aria-label="Jazyk">
-                <GlobeIcon />
-                <span>cs</span>
-                <svg width="8" height="6" viewBox="0 0 10 8" fill={WHITE} aria-hidden="true"><path d="M5 8 0 0h10Z"/></svg>
-              </button>
-              {/* MENU hamburger */}
-              <button className="c01-btn c01-btn-pill" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
+              <a href={resolve(ctaHref)} className="c01-cta">
+                <span><GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" /></span>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12h14" /><path d="m13 6 6 6-6 6" />
+                </svg>
+              </a>
+              <button className="c01-menu" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
                 <HambIcon />
-                <span>Menu</span>
+                <span className="c01-menu-label">Menu</span>
               </button>
             </div>
           </div>
@@ -15688,21 +16885,36 @@ function NavbarClean01(props: Props) {
 
       {/* Nav overlay */}
       <div className={`c01-overlay${open ? " c01-open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigační menu">
-        <button className="c01-ov-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
-        <a href={resolve("/")} style={{ marginBottom: 8, fontSize: "1.5rem", fontWeight: 700, color: "#ffffff", textDecoration: "none" }} onClick={() => setOpen(false)}>
-          <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-        </a>
-        {links.map((l, i) => (
-          <a key={`mob-${i}`} href={resolve(l.href)} onClick={() => setOpen(false)}>
-            <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
-          </a>
-        ))}
-        <div className="c01-ov-contact">
+        <button className="c01-ov-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" aria-hidden="true">
+            <path d="M18 6 6 18" /><path d="m6 6 12 12" />
+          </svg>
+        </button>
+        <span className="c01-ov-eyebrow">
+          <GenericEditableText sectionId={sectionId} field="menuEyebrow" value={String(content.menuEyebrow ?? "Navigace")} tag="span" />
+        </span>
+        <nav className="c01-ov-links">
+          {links.map((l, i) => (
+            <a
+              key={`mob-${i}`}
+              className="c01-ov-link"
+              href={resolve(l.href)}
+              onClick={() => setOpen(false)}
+              style={{ animationDelay: `${0.12 + i * 0.06}s` }}
+            >
+              <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
+            </a>
+          ))}
+        </nav>
+        <div className="c01-ov-foot">
           <a href={`mailto:${email}`}>
             <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
           </a>
           <a href={`tel:${phone.replace(/\s/g, "")}`}>
             <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+          </a>
+          <a href={fbHref} target="_blank" rel="noopener noreferrer">
+            <GenericEditableText sectionId={sectionId} field="facebookLabel" value={String(content.facebookLabel ?? "Facebook")} tag="span" />
           </a>
         </div>
       </div>
@@ -17111,13 +18323,13 @@ function NavbarMalir01({ content, isAdmin, tenantSlug, sectionId }: Props) {
 }
 
 // ── garden-01-navbar ──────────────────────────────────────────────────────────
-// 1:1 gerberra.cz:
-// - Fixed TRANSPARENT navbar přes hero, na scrollu → tmavý #202714
-// - Logo vlevo: SVG květ + Cardo uppercase "ZAHRADA" + zlatý tagline
-// - Bílé nav linky (hover zlaté #bcba63) vpravo
-// - CTA: zelená #6a961f, padding 16px 32px, border-radius 24px, 14px 700 Lato
-// - Navbar height 85px, vnitřní obsah centrovaný
-// - Mobile: hamburger → fullscreen tmavý overlay
+// VYLEPŠENO (luxe zahradní ateliér, gerberra.cz DNA zachována):
+// - Fixed TRANSPARENT přes hero → tmavý #202714 + backdrop-blur + gold hairline on-scroll
+// - Botanické logo: gold ring + list/výhonek mark + Cardo uppercase name + gold micro-tagline
+// - Nav linky Inter 500, gold underline slide-in zleva na hover
+// - CTA: zelená pill s list ikonou, hover → tmavší zeleň + lift + soft glow
+// - resolveNavHref (one-page/multi-page ready) + siteMode
+// - Mobile: hamburger → fullscreen tmavý overlay se staggered reveal + botanická dekorace
 // ─────────────────────────────────────────────────────────────────────────────
 function NavbarGarden01(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
@@ -17136,29 +18348,45 @@ function NavbarGarden01(props: Props) {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => { if (e.key === "Escape") setOpen(false); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open]);
+
   const DARK   = "#202714";
   const GREEN  = "#6a961f";
   const GOLD   = "#bcba63";
   const WHITE  = "#ffffff";
   const FONT_H = "'Cardo', Georgia, serif";
-  const FONT_B = "'Inter', 'Lato', Arial, sans-serif";
+  const FONT_B = "'Inter', Arial, sans-serif";
 
-  const siteName = String(content.siteName ?? "ZAHRADA");
-  const tagline  = String(content.tagline  ?? "Zahradnické služby");
-  const ctaText  = String(content.ctaText  ?? "Nezávazná poptávka");
-  const ctaHref  = String(content.ctaHref  ?? "#kontakt");
+  const siteName = String(content.siteName ?? "VERDÉ");
+  const tagline  = String(content.tagline  ?? "Zahradní ateliér");
+  const ctaText  = String(content.ctaText  ?? "Poptat zahradu");
+  const ctaHref  = String(content.ctaHref  ?? "/kontakt");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
-  const resolve  = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
 
-  const navBg     = scrolled ? DARK      : "transparent";
-  const navShadow = scrolled ? "0 2px 16px rgba(0,0,0,0.45)" : "none";
+  const navBg     = scrolled ? "rgba(32,39,20,0.94)" : "transparent";
+  const navShadow = scrolled ? "0 8px 30px rgba(0,0,0,0.28)" : "none";
+  const navBorder = scrolled ? `1px solid ${GOLD}55` : "1px solid transparent";
 
   const LogoIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
-      <circle cx="20" cy="20" r="19" stroke={GOLD} strokeWidth="1.5"/>
-      <path d="M20 32C20 32 12 26 12 18.5C12 14 16 12 20 15C24 12 28 14 28 18.5C28 26 20 32 20 32Z" fill={GREEN} opacity="0.9"/>
-      <circle cx="20" cy="16" r="3.5" fill={GOLD}/>
-      <path d="M20 19.5L20 32" stroke={GREEN} strokeWidth="1.5" strokeLinecap="round"/>
+    <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 44 44" fill="none" aria-hidden="true" className="g01-logo-mark">
+      <circle cx="22" cy="22" r="20.5" stroke={GOLD} strokeWidth="1.25"/>
+      <path d="M22 34C22 34 22 26 22 21C22 16 22 12 22 12" stroke={GREEN} strokeWidth="1.6" strokeLinecap="round"/>
+      <path d="M22 24C22 24 14 24 12.5 17.5C18.5 16 22 19 22 24Z" fill={GREEN} opacity="0.92"/>
+      <path d="M22 20C22 20 30 20.5 31.5 14C25.5 12.5 22 15 22 20Z" fill={GOLD} opacity="0.9"/>
+      <path d="M22 14C22 14 26 12 25.5 8C21.5 8.5 21 11 22 14Z" fill={GREEN} opacity="0.8"/>
+    </svg>
+  );
+  const LeafGlyph = () => (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+      <path d="M4 20C4 12 10 5 20 4C19 14 12 20 4 20Z" fill="currentColor"/>
+      <path d="M4 20C8 16 12 12 18 8" stroke={DARK} strokeWidth="1.3" strokeLinecap="round" opacity="0.55"/>
     </svg>
   );
 
@@ -17166,112 +18394,152 @@ function NavbarGarden01(props: Props) {
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cardo:wght@400;700&family=Inter:wght@400;500;600&family=Lato:wght@400;700&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&display=swap" />
       <style>{`        .g01-header {
           position: fixed;
           top: 0; left: 0; right: 0;
           z-index: 100;
           font-family: ${FONT_B};
-          transition: background-color 0.3s ease, box-shadow 0.3s ease;
+          -webkit-backdrop-filter: saturate(140%) blur(0px);
+          backdrop-filter: saturate(140%) blur(0px);
+          transition: background-color 0.4s ease, box-shadow 0.4s ease, backdrop-filter 0.4s ease, border-color 0.4s ease;
+        }
+        .g01-header.g01-scrolled {
+          -webkit-backdrop-filter: saturate(140%) blur(12px);
+          backdrop-filter: saturate(140%) blur(12px);
         }
         .g01-inner {
-          max-width: 1240px;
+          max-width: 1280px;
           margin: 0 auto;
           padding: 0 2rem;
           display: flex;
           align-items: center;
-          height: 85px;
+          height: 88px;
           gap: 2rem;
+          transition: height 0.35s ease;
         }
+        .g01-header.g01-scrolled .g01-inner { height: 74px; }
         .g01-logo {
           display: flex; align-items: center; gap: 0.85rem;
           text-decoration: none; flex-shrink: 0;
         }
+        .g01-logo-mark { transition: transform 0.5s cubic-bezier(.22,.68,0,1.1); transform-origin: 50% 60%; }
+        .g01-logo:hover .g01-logo-mark { transform: rotate(-8deg) scale(1.06); }
         .g01-logo-texts { display: flex; flex-direction: column; }
         .g01-logo-name {
           font-family: ${FONT_H};
-          font-size: 1.35rem; font-weight: 700;
-          color: ${WHITE}; line-height: 1.15;
-          letter-spacing: 0.08em; text-transform: uppercase;
+          font-size: 1.42rem; font-weight: 700;
+          color: ${WHITE}; line-height: 1.12;
+          letter-spacing: 0.14em; text-transform: uppercase;
         }
         .g01-logo-tag {
-          font-family: ${FONT_B}; font-size: 0.6rem; font-weight: 400;
+          font-family: ${FONT_B}; font-size: 0.58rem; font-weight: 500;
           color: ${GOLD}; text-transform: uppercase;
-          letter-spacing: 0.14em; margin-top: 0.15rem;
+          letter-spacing: 0.26em; margin-top: 0.22rem;
         }
         .g01-nav {
           display: none; list-style: none; margin: 0; padding: 0;
-          gap: 0; flex: 1; justify-content: flex-end;
+          gap: 0.35rem; flex: 1; justify-content: flex-end; align-items: center;
         }
         @media (min-width: 64rem) { .g01-nav { display: flex; } }
         .g01-nav a {
-          display: flex; align-items: center; height: 85px;
-          padding: 0 0.85rem;
-          color: rgba(255,255,255,0.92);
-          text-decoration: none; font-size: 0.92rem; font-weight: 500;
-          font-family: ${FONT_B};
-          transition: color 0.15s; white-space: nowrap;
+          position: relative;
+          display: flex; align-items: center;
+          padding: 0.55rem 0.95rem;
+          color: rgba(255,255,255,0.9);
+          text-decoration: none; font-size: 0.9rem; font-weight: 500;
+          font-family: ${FONT_B}; letter-spacing: 0.01em;
+          transition: color 0.25s ease; white-space: nowrap;
+        }
+        .g01-nav a::after {
+          content: ""; position: absolute;
+          left: 0.95rem; right: 0.95rem; bottom: 0.28rem; height: 1.5px;
+          background: ${GOLD}; transform: scaleX(0); transform-origin: left center;
+          transition: transform 0.35s cubic-bezier(.22,.68,0,1.1);
         }
         .g01-nav a:hover { color: ${GOLD}; }
-        .g01-cta { display: none; flex-shrink: 0; margin-left: 0.5rem; }
+        .g01-nav a:hover::after { transform: scaleX(1); }
+        .g01-cta { display: none; flex-shrink: 0; margin-left: 0.65rem; }
         @media (min-width: 64rem) { .g01-cta { display: flex; } }
         .g01-cta a {
-          display: inline-block;
+          display: inline-flex; align-items: center; gap: 0.5rem;
           background: ${GREEN};
           color: ${WHITE};
-          font-family: 'Lato', ${FONT_B};
-          font-size: 14px; font-weight: 700;
+          font-family: ${FONT_B};
+          font-size: 0.86rem; font-weight: 600;
           text-decoration: none;
-          text-transform: capitalize;
-          letter-spacing: 0.4px;
-          padding: 16px 32px;
-          border-radius: 24px;
+          letter-spacing: 0.02em;
+          padding: 0.78rem 1.6rem;
+          border-radius: 9999px;
           white-space: nowrap;
-          line-height: 1em;
-          transition: opacity 0.15s;
+          box-shadow: 0 6px 18px rgba(106,150,31,0.28);
+          transition: background 0.3s ease, transform 0.3s cubic-bezier(.22,.68,0,1.1), box-shadow 0.3s ease;
         }
-        .g01-cta a:hover { opacity: 0.85; }
+        .g01-cta a:hover {
+          background: #5a7e18;
+          transform: translateY(-2px);
+          box-shadow: 0 10px 26px rgba(106,150,31,0.42);
+        }
+        .g01-cta a svg { transition: transform 0.4s cubic-bezier(.22,.68,0,1.1); }
+        .g01-cta a:hover svg { transform: rotate(-14deg) scale(1.12); }
         .g01-hamburger {
           display: flex; align-items: center; justify-content: center;
           background: none; border: none; cursor: pointer;
-          padding: 0.5rem; margin-left: auto;
+          padding: 0.5rem; margin-left: auto; color: ${WHITE};
+          transition: color 0.2s ease;
         }
+        .g01-hamburger:hover { color: ${GOLD}; }
         @media (min-width: 64rem) { .g01-hamburger { display: none; } }
         .g01-overlay {
           position: fixed; inset: 0; z-index: 200;
-          background: ${DARK};
+          background: linear-gradient(160deg, #202714 0%, #171d0e 100%);
           display: flex; flex-direction: column;
-          align-items: center; justify-content: center; gap: 1.5rem;
+          align-items: center; justify-content: center; gap: 1.4rem;
           opacity: 0; pointer-events: none;
-          transition: opacity 0.25s ease;
+          transition: opacity 0.3s ease;
+          overflow: hidden;
         }
         .g01-overlay.g01-open { opacity: 1; pointer-events: auto; }
-        .g01-overlay a {
-          color: ${WHITE}; font-family: ${FONT_B};
-          font-size: 1.4rem; font-weight: 500;
-          text-decoration: none; transition: color 0.15s;
+        .g01-ov-deco {
+          position: absolute; pointer-events: none; opacity: 0.14;
         }
-        .g01-overlay a:hover { color: ${GOLD}; }
+        .g01-ov-deco.tl { top: -30px; left: -30px; }
+        .g01-ov-deco.br { bottom: -30px; right: -30px; transform: rotate(180deg); }
+        .g01-overlay a.g01-ov-link {
+          color: ${WHITE}; font-family: ${FONT_H};
+          font-size: 1.7rem; font-weight: 400; letter-spacing: 0.02em;
+          text-decoration: none; transition: color 0.2s ease, letter-spacing 0.3s ease;
+          opacity: 0; transform: translateY(14px);
+        }
+        .g01-overlay.g01-open a.g01-ov-link {
+          animation: g01OvIn 0.5s cubic-bezier(.22,.68,0,1.1) forwards;
+        }
+        .g01-overlay a.g01-ov-link:hover { color: ${GOLD}; letter-spacing: 0.06em; }
+        @keyframes g01OvIn { to { opacity: 1; transform: translateY(0); } }
         .g01-ov-close {
-          position: absolute; top: 1.2rem; right: 1.5rem;
-          background: none; border: none; cursor: pointer;
-          color: ${WHITE}; font-size: 2rem; line-height: 1; padding: 4px;
-          font-family: ${FONT_B}; transition: color 0.15s;
+          position: absolute; top: 1.4rem; right: 1.6rem;
+          background: none; border: 1px solid ${GOLD}66; border-radius: 9999px;
+          width: 42px; height: 42px; cursor: pointer;
+          color: ${WHITE}; font-size: 1.5rem; line-height: 1;
+          display: flex; align-items: center; justify-content: center;
+          font-family: ${FONT_B}; transition: color 0.2s ease, border-color 0.2s ease, transform 0.3s ease;
         }
-        .g01-ov-close:hover { color: ${GOLD}; }
-        .g01-ov-cta { margin-top: 0.75rem; }
+        .g01-ov-close:hover { color: ${GOLD}; border-color: ${GOLD}; transform: rotate(90deg); }
+        .g01-ov-cta { margin-top: 1rem; opacity: 0; transform: translateY(14px); }
+        .g01-overlay.g01-open .g01-ov-cta { animation: g01OvIn 0.5s cubic-bezier(.22,.68,0,1.1) 0.35s forwards; }
         .g01-ov-cta a {
-          background: ${GREEN} !important; color: ${WHITE} !important;
-          font-size: 1rem !important; font-weight: 700 !important;
-          padding: 14px 28px; border-radius: 24px;
-          text-transform: capitalize; letter-spacing: 0.4px;
+          display: inline-flex; align-items: center; gap: 0.5rem;
+          background: ${GREEN}; color: ${WHITE};
+          font-family: ${FONT_B}; font-size: 0.95rem; font-weight: 600;
+          padding: 0.85rem 1.9rem; border-radius: 9999px; text-decoration: none;
+          letter-spacing: 0.02em;
         }
       `}</style>
 
       <header
-        className="g01-header"
-        data-template="garden-01-navbar"
-        style={{ backgroundColor: navBg, boxShadow: navShadow }}
+        className={`g01-header${scrolled ? " g01-scrolled" : ""}`}
+        data-template="garden-01"
+        style={{ backgroundColor: navBg, boxShadow: navShadow, borderBottom: navBorder }}
       >
         <div className="g01-inner">
           <a href={resolve("/")} className="g01-logo" aria-label={siteName}>
@@ -17293,28 +18561,39 @@ function NavbarGarden01(props: Props) {
           </ul>
 
           <div className="g01-cta">
-            <a href={resolve(ctaHref)} data-btn="primary">
-              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+            <a href={resolve(ctaHref)} data-btn="primary" style={{ color: GOLD }}>
+              <LeafGlyph />
+              <span style={{ color: WHITE }}>
+                <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              </span>
             </a>
           </div>
 
           <button className="g01-hamburger" onClick={() => setOpen(true)} aria-label="Otevřít menu" aria-expanded={open}>
             <svg width="24" height="20" viewBox="0 0 24 20" fill="none" aria-hidden="true">
-              <rect y="0"   width="24" height="2.5" rx="1.25" fill={WHITE}/>
-              <rect y="8.5" width="24" height="2.5" rx="1.25" fill={WHITE}/>
-              <rect y="17"  width="24" height="2.5" rx="1.25" fill={WHITE}/>
+              <rect y="0"   width="24" height="2.5" rx="1.25" fill="currentColor"/>
+              <rect y="8.5" width="24" height="2.5" rx="1.25" fill="currentColor"/>
+              <rect y="17"  width="24" height="2.5" rx="1.25" fill="currentColor"/>
             </svg>
           </button>
         </div>
       </header>
 
       <div className={`g01-overlay${open ? " g01-open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigace">
+        <svg className="g01-ov-deco tl" width="220" height="220" viewBox="0 0 220 220" fill="none" aria-hidden="true">
+          <path d="M10 210C10 100 90 20 210 10C200 130 120 210 10 210Z" fill={GOLD}/>
+          <path d="M10 210C70 150 130 90 200 40" stroke={DARK} strokeWidth="2" strokeLinecap="round"/>
+        </svg>
+        <svg className="g01-ov-deco br" width="220" height="220" viewBox="0 0 220 220" fill="none" aria-hidden="true">
+          <path d="M10 210C10 100 90 20 210 10C200 130 120 210 10 210Z" fill={GREEN}/>
+          <path d="M10 210C70 150 130 90 200 40" stroke={DARK} strokeWidth="2" strokeLinecap="round"/>
+        </svg>
         <button className="g01-ov-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
         {links.map((link, i) => (
-          <a key={i} href={resolve(link.href)} onClick={() => setOpen(false)}>{link.label}</a>
+          <a key={i} className="g01-ov-link" href={resolve(link.href)} onClick={() => setOpen(false)} style={{ animationDelay: `${0.08 + i * 0.07}s` }}>{link.label}</a>
         ))}
         <div className="g01-ov-cta">
-          <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setOpen(false)}>{ctaText}</a>
+          <a href={resolve(ctaHref)} data-btn="primary" onClick={() => setOpen(false)}><LeafGlyph />{ctaText}</a>
         </div>
       </div>
     </>
@@ -17924,226 +19203,60 @@ function NavbarClean02({ content, isAdmin, tenantSlug, sectionId }: Props) {
 
 
 // ── ddd-01-navbar ─────────────────────────────────────────────────────────────
-// 1:1 deratizacepraha.com:
-// - Modrý (#0c93eb) announcement bar nahoře (normální flow), telefon POUZE zde
-// - Header position:absolute přes hero — tmavý #064e86 bg (hero prosvítá), bílý text
-// - Logo: 72px bug ikona SVG + bílý wordmark "Demo\nDeratizace" vedle sebe
-// - Nav linky: uppercase, bílé, bez telefonu v navbaru
-// - Hamburger: "Menu" label + tři čárky, mobile overlay tmavý #064e86
-// ─────────────────────────────────────────────────────────────────────────────
 function NavbarDdd01(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  const PRIMARY  = "#0c93eb";
-  const DARK     = "#064e86";
-  const WHITE    = "#ffffff";
-  const FONT     = "'Figtree', system-ui, sans-serif";
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 48);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  const siteName = String(content.siteName ?? "Demo Deratizace");
-  const phone    = String(content.phone    ?? "+420 704 123 456");
-  const announcementText = String(content.announcementText ?? "Pro bezplatnou konzultaci nebo objednávku volejte");
+  const siteName = String(content.siteName ?? "ProDez Praha");
+  const phone    = String(content.phone    ?? "+420 608 742 319");
+  const email    = String(content.email    ?? "poptavka@prodez.cz");
+  const announcementText = String(content.announcementText ?? "Nonstop pohotovost — volejte kdykoliv");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
   const logoUrl  = String(content.logoUrl ?? "");
-  const resolve  = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
   const homeHref = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/";
+  const logoSrc  = logoUrl || `/templates/ddd-01/logo.svg`;
 
-  const logoSrc = logoUrl || `/templates/ddd-01/logo.svg`;
-
-  // Bug ikona — bílá verze (pro tmavý header)
-  const BugIconWhite = () => (
-    <svg viewBox="0 0 72 72" width="64" height="64" fill="none" aria-hidden="true">
-      <ellipse cx="36" cy="44" rx="14" ry="18" fill={WHITE} fillOpacity="0.95"/>
-      <ellipse cx="36" cy="27" rx="9" ry="8.5" fill={WHITE} fillOpacity="0.95"/>
-      {/* Antennae */}
-      <line x1="29" y1="20" x2="21" y2="11" stroke={WHITE} strokeWidth="2.5" strokeLinecap="round"/>
-      <line x1="43" y1="20" x2="51" y2="11" stroke={WHITE} strokeWidth="2.5" strokeLinecap="round"/>
-      {/* Legs left */}
-      <line x1="22" y1="37" x2="10" y2="30" stroke={WHITE} strokeWidth="2.2" strokeLinecap="round"/>
-      <line x1="22" y1="44" x2="9"  y2="43" stroke={WHITE} strokeWidth="2.2" strokeLinecap="round"/>
-      <line x1="22" y1="51" x2="10" y2="58" stroke={WHITE} strokeWidth="2.2" strokeLinecap="round"/>
-      {/* Legs right */}
-      <line x1="50" y1="37" x2="62" y2="30" stroke={WHITE} strokeWidth="2.2" strokeLinecap="round"/>
-      <line x1="50" y1="44" x2="63" y2="43" stroke={WHITE} strokeWidth="2.2" strokeLinecap="round"/>
-      <line x1="50" y1="51" x2="62" y2="58" stroke={WHITE} strokeWidth="2.2" strokeLinecap="round"/>
+  const ShieldIcon = () => (
+    <svg viewBox="0 0 48 48" width="40" height="40" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+      <path d="M24 4L6 12v12c0 11.1 7.7 21.5 18 24 10.3-2.5 18-12.9 18-24V12L24 4z" fill="#0c93eb" fillOpacity="0.15" stroke="#0c93eb" strokeWidth="2" strokeLinejoin="round"/>
+      <path d="M16 24l5 5 11-11" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   );
 
   return (
     <>
-      <style>{`
-        /* ---- announcement bar ---- */
-        .ddd01-bar {
-          background: ${PRIMARY};
-          color: ${WHITE};
-          font-family: ${FONT};
-          font-size: 0.875rem;
-          text-align: center;
-          padding: 0.55rem 1rem;
-          line-height: 1.4;
-        }
-        .ddd01-bar a {
-          color: ${WHITE};
-          font-weight: 700;
-          text-decoration: none;
-        }
-        .ddd01-bar a:hover { text-decoration: underline; }
-
-        /* ---- header overlay přes hero ---- */
-        .ddd01-header {
-          background: ${DARK};
-          color: ${WHITE};
-          font-family: ${FONT};
-          position: relative;
-          z-index: 50;
-        }
-        .ddd01-header-inner {
-          max-width: 1240px;
-          margin: 0 auto;
-          padding: 0.9rem 1.5rem;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 1.5rem;
-        }
-
-        /* ---- logo ---- */
-        .ddd01-logo {
-          display: inline-grid;
-          grid-template-columns: 64px auto;
-          gap: 0.75em;
-          align-items: center;
-          text-decoration: none;
-          color: ${WHITE};
-          flex-shrink: 0;
-        }
-        .ddd01-logo-img { width: 100%; height: 100%; }
-        .ddd01-logo-text {
-          font-size: clamp(0.9rem, 1.3vw, 1.1rem);
-          font-weight: 700;
-          color: ${WHITE};
-          line-height: 1.2;
-          letter-spacing: 0.01em;
-        }
-
-        /* ---- nav links ---- */
-        .ddd01-nav-list {
-          display: flex;
-          align-items: center;
-          list-style: none;
-          padding: 0;
-          margin: 0;
-          gap: 0;
-        }
-        .ddd01-nav-list a {
-          color: ${WHITE};
-          text-decoration: none;
-          text-transform: uppercase;
-          font-size: 0.875rem;
-          font-weight: 500;
-          letter-spacing: 0.06em;
-          padding: 0.4rem 0.9rem;
-          display: inline-block;
-          transition: opacity 125ms;
-        }
-        .ddd01-nav-list a:hover { opacity: 0.75; }
-
-        /* ---- hamburger ---- */
-        .ddd01-toggler {
-          display: none;
-          flex-direction: column;
-          align-items: center;
-          gap: 0.3rem;
-          background: transparent;
-          border: 0;
-          cursor: pointer;
-          color: ${WHITE};
-          padding: 0.4rem;
-        }
-        .ddd01-toggler-bars {
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-          width: 28px;
-        }
-        .ddd01-toggler-bars span {
-          display: block;
-          height: 2px;
-          background: ${WHITE};
-          border-radius: 2px;
-          width: 100%;
-        }
-        .ddd01-toggler-label {
-          font-size: 0.65rem;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          color: ${WHITE};
-          line-height: 1;
-        }
-
-        /* ---- mobile overlay ---- */
-        .ddd01-overlay {
-          display: none;
-          position: fixed;
-          inset: 0;
-          z-index: 200;
-          background: ${DARK};
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 1.5rem;
-        }
-        .ddd01-overlay.is-open { display: flex; }
-        .ddd01-overlay-close {
-          position: absolute;
-          top: 1.25rem;
-          right: 1.25rem;
-          background: transparent;
-          border: 0;
-          font-size: 1.75rem;
-          color: ${WHITE};
-          cursor: pointer;
-          line-height: 1;
-        }
-        .ddd01-overlay a {
-          font-size: 1.1rem;
-          font-weight: 500;
-          color: ${WHITE};
-          text-decoration: none;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          padding: 0.4rem 0;
-          border-bottom: 1px solid rgba(255,255,255,0.15);
-          width: 220px;
-          text-align: center;
-          transition: opacity 125ms;
-        }
-        .ddd01-overlay a:hover { opacity: 0.7; }
-
-        @media (max-width: 992px) {
-          .ddd01-nav-list { display: none; }
-          .ddd01-toggler  { display: flex; }
-        }
-      `}</style>
-
-      {/* Announcement bar — telefon POUZE zde */}
-      <div className="ddd01-bar">
-        <GenericEditableText sectionId={sectionId} field="announcementText" value={announcementText} tag="span" />
-        {" "}<a href={`tel:${phone.replace(/\s/g, "")}`}>
-          <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
-        </a>.
+      {/* Announcement bar */}
+      <div className="ddd01-bar" style={{ background: scrolled ? "#064e86" : "#0c93eb" }}>
+        <div className="ddd01-bar-inner">
+          <GenericEditableText sectionId={sectionId} field="announcementText" value={announcementText} tag="span" />
+          {" "}
+          <a href={`tel:${phone.replace(/\s/g, "")}`} className="ddd01-bar-phone">
+            <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+          </a>
+        </div>
       </div>
 
-      {/* Header — tmavý overlay přes hero */}
-      <header className="ddd01-header" data-template="ddd-01-navbar">
+      {/* Sticky header */}
+      <header
+        className={`ddd01-header${scrolled ? " ddd01-header--scrolled" : ""}`}
+        data-template="ddd-01"
+      >
         <div className="ddd01-header-inner">
-
-          {/* Logo: ikona + text */}
           <a href={homeHref} className="ddd01-logo" title={siteName}>
             <GenericEditableImage
               sectionId={sectionId}
@@ -18151,21 +19264,18 @@ function NavbarDdd01(props: Props) {
               src={logoSrc}
               alt={siteName}
               className="relative overflow-hidden shrink-0"
-              style={{ width: 64, height: 64 }}
+              style={{ width: 40, height: 40 }}
             >
-              <BugIconWhite />
+              <ShieldIcon />
             </GenericEditableImage>
-            <span className="ddd01-logo-text">
-              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-            </span>
+            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" className="ddd01-logo-text" />
           </a>
 
-          {/* Desktop nav */}
           <nav aria-label="Hlavní navigace">
             <ul className="ddd01-nav-list">
               {links.map((l, i) => (
                 <li key={i}>
-                  <a href={resolve(l.href)}>
+                  <a href={resolve(l.href)} className="ddd01-nav-link">
                     <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
                   </a>
                 </li>
@@ -18173,25 +19283,42 @@ function NavbarDdd01(props: Props) {
             </ul>
           </nav>
 
-          {/* Hamburger */}
+          <div className="ddd01-header-cta">
+            <a href={`mailto:${email.replace(/\s/g, "")}`} className="ddd01-header-email">
+              <GenericEditableText sectionId={sectionId} field="email" value={email} tag="span" />
+            </a>
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="ddd01-header-phone-btn">
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
+                <path d="M2 3.5C2 2.67 2.67 2 3.5 2h3.09c.37 0 .69.27.74.63l.65 4.56a.75.75 0 01-.36.77l-2.06 1.24a11.04 11.04 0 005.18 5.18l1.24-2.06a.75.75 0 01.77-.36l4.56.65c.36.05.63.37.63.74v3.09c0 .83-.67 1.5-1.5 1.5A15.5 15.5 0 012 3.5z" fill="currentColor"/>
+              </svg>
+              <GenericEditableText sectionId={sectionId} field="phone" value={phone} tag="span" />
+            </a>
+          </div>
+
           <button className="ddd01-toggler" onClick={() => setOpen(true)} aria-label="Zobrazit hlavní menu" aria-expanded={open} aria-haspopup="true">
             <div className="ddd01-toggler-bars">
               <span/><span/><span/>
             </div>
-            <span className="ddd01-toggler-label">Menu</span>
           </button>
-
         </div>
       </header>
 
       {/* Mobile overlay */}
       <div className={`ddd01-overlay${open ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigace">
         <button className="ddd01-overlay-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">✕</button>
+        <div className="ddd01-overlay-brand">
+          <ShieldIcon />
+          <span className="ddd01-overlay-brand-name">{siteName}</span>
+        </div>
         {links.map((l, i) => (
-          <a key={i} href={resolve(l.href)} onClick={() => setOpen(false)}>
-            {l.label}
+          <a key={i} href={resolve(l.href)} onClick={() => setOpen(false)} className="ddd01-overlay-link">
+            <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
           </a>
         ))}
+        <div className="ddd01-overlay-contact">
+          <a href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a>
+          <a href={`mailto:${email.replace(/\s/g, "")}`}>{email}</a>
+        </div>
       </div>
     </>
   );
@@ -18223,112 +19350,155 @@ function NavbarChalet01(props: Props) {
   const FONT_H = "'Josefin Sans', 'Plus Jakarta Sans', system-ui, sans-serif";
 
   const siteName  = String(content.siteName  ?? "Demo Chalet");
+  const logoSub   = String(content.logoSub   ?? "chalet");
   const phone     = String(content.phone     ?? "+420 704 123 456");
   const email     = String(content.email     ?? "email@demo.cz");
-  const location  = String(content.location  ?? "Malá Úpa, Krkonoše");
   const instagram = String(content.instagram ?? "https://instagram.com/demo");
   const facebook  = String(content.facebook  ?? "https://facebook.com/demo");
   const youtube   = String(content.youtube   ?? "https://youtube.com/@demo");
+  const ctaText   = String(content.ctaText   ?? "Rezervace");
+  const ctaHref   = String(content.ctaHref   ?? "/rezervace");
   const links     = (content.links as Array<{ label: string; href: string }>) ?? [];
   const logoUrl   = String(content.logoUrl   ?? "");
-  const resolve   = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const siteMode  = String(content.siteMode  ?? "multipage");
+  const resolve   = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
   const homeHref  = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/";
   const logoSrc   = logoUrl || `/templates/chalet-01/logo.svg`;
-
-  const navBg     = scrolled ? `rgba(30,35,45,0.97)` : "transparent";
-  const navShadow = scrolled ? "0 2px 24px rgba(0,0,0,0.45)" : "0 4px 32px rgba(0,0,0,0.18)";
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" />
-      <style>{`        .ch01-nav {
+      <style>{`
+        .ch01-nav {
           position: fixed;
           top: 0; left: 0; right: 0;
           z-index: 100;
           font-family: ${FONT_H};
-          transition: background 0.35s ease, box-shadow 0.35s ease;
+          background: transparent;
+          transition: background 0.5s ease, box-shadow 0.5s ease, backdrop-filter 0.5s ease, border-color 0.5s ease;
+          border-bottom: 1px solid transparent;
+        }
+        .ch01-nav.scrolled {
+          background: rgba(30,35,45,0.9);
+          backdrop-filter: blur(14px) saturate(1.4);
+          -webkit-backdrop-filter: blur(14px) saturate(1.4);
+          box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+          border-bottom-color: rgba(192,187,173,0.18);
         }
         .ch01-inner {
           max-width: 1440px;
           margin: 0 auto;
-          padding: 0 1.5rem;
-          height: 80px;
+          padding: 0 2rem;
+          height: 92px;
           display: flex;
           align-items: center;
           gap: 0;
+          transition: height 0.5s cubic-bezier(.22,.68,0,1.1);
         }
+        .ch01-nav.scrolled .ch01-inner { height: 72px; }
         /* ── Logo ── */
         .ch01-logo {
           display: flex;
           align-items: center;
-          gap: 0.75rem;
+          gap: 0.85rem;
           text-decoration: none;
           flex-shrink: 0;
           margin-right: auto;
         }
         .ch01-logo-circle {
-          width: 52px;
-          height: 52px;
+          width: 54px;
+          height: 54px;
           border-radius: 50%;
-          border: 1.5px solid rgba(255,255,255,0.65);
+          border: 1.5px solid rgba(255,255,255,0.55);
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          transition: border-color 0.2s;
+          position: relative;
+          transition: border-color 0.4s ease, transform 0.4s cubic-bezier(.22,.68,0,1.1), width 0.5s ease, height 0.5s ease;
         }
-        .ch01-logo:hover .ch01-logo-circle { border-color: ${WHITE}; }
+        .ch01-logo-circle::after {
+          content: "";
+          position: absolute;
+          inset: -4px;
+          border-radius: 50%;
+          border: 1px solid rgba(192,187,173,0.35);
+          opacity: 0;
+          transform: scale(0.9);
+          transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .ch01-nav.scrolled .ch01-logo-circle { width: 46px; height: 46px; }
+        .ch01-logo:hover .ch01-logo-circle { border-color: ${BEIGE}; transform: rotate(-4deg); }
+        .ch01-logo:hover .ch01-logo-circle::after { opacity: 1; transform: scale(1); }
         .ch01-logo-wordmark {
           display: flex;
           flex-direction: column;
-          line-height: 1.15;
+          line-height: 1.2;
         }
         .ch01-logo-name {
-          font-size: 1rem;
-          font-weight: 700;
-          letter-spacing: 0.16em;
+          font-size: 1.05rem;
+          font-weight: 600;
+          letter-spacing: 0.2em;
           text-transform: uppercase;
           color: ${WHITE};
         }
         .ch01-logo-sub {
-          font-size: 0.58rem;
+          font-size: 0.56rem;
           font-weight: 300;
-          letter-spacing: 0.3em;
+          letter-spacing: 0.42em;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.7);
+          color: rgba(192,187,173,0.9);
+          margin-top: 2px;
         }
         /* ── Center nav links ── */
         .ch01-links {
           display: flex;
           align-items: center;
           list-style: none;
-          margin: 0;
+          margin: 0 auto;
           padding: 0;
-          gap: 0;
+          gap: 0.15rem;
         }
         .ch01-links a {
+          position: relative;
           display: block;
-          padding: 0.25rem 0.7rem;
-          font-size: 0.68rem;
+          padding: 0.4rem 0.85rem;
+          font-size: 0.7rem;
           font-weight: 400;
-          letter-spacing: 0.08em;
+          letter-spacing: 0.14em;
           text-transform: uppercase;
-          color: ${WHITE};
+          color: rgba(255,255,255,0.82);
           text-decoration: none;
-          opacity: 0.85;
           white-space: nowrap;
-          transition: opacity 0.18s;
+          transition: color 0.3s ease;
         }
-        .ch01-links a:hover { opacity: 1; }
-        /* ── Right icon buttons ── */
+        .ch01-links a::after {
+          content: "";
+          position: absolute;
+          left: 0.85rem; right: 0.85rem;
+          bottom: 0.12rem;
+          height: 1px;
+          background: ${BEIGE};
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.4s cubic-bezier(.22,.68,0,1.1);
+        }
+        .ch01-links a:hover { color: ${WHITE}; }
+        .ch01-links a:hover::after { transform: scaleX(1); }
+        /* ── Right cluster ── */
+        .ch01-right {
+          display: flex;
+          align-items: center;
+          gap: 0.9rem;
+          flex-shrink: 0;
+          margin-left: auto;
+        }
         .ch01-icons {
           display: flex;
           align-items: center;
-          gap: 0.45rem;
-          flex-shrink: 0;
-          margin-left: auto;
+          gap: 0.4rem;
         }
         .ch01-icon-btn {
           display: flex;
@@ -18337,28 +19507,66 @@ function NavbarChalet01(props: Props) {
           width: 34px;
           height: 34px;
           border-radius: 50%;
-          border: 1px solid rgba(255,255,255,0.45);
-          color: ${WHITE};
+          border: 1px solid rgba(255,255,255,0.32);
+          color: rgba(255,255,255,0.85);
           text-decoration: none;
-          transition: border-color 0.18s, background 0.18s;
+          transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, transform 0.3s ease;
           flex-shrink: 0;
         }
         .ch01-icon-btn:hover {
-          border-color: ${WHITE};
-          background: rgba(255,255,255,0.12);
+          border-color: ${BEIGE};
+          background: rgba(192,187,173,0.14);
+          color: ${WHITE};
+          transform: translateY(-2px);
         }
+        .ch01-icon-soft { display: flex; align-items: center; gap: 0.4rem; }
+        /* ── CTA pill ── */
+        .ch01-cta {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.65rem 1.4rem;
+          font-family: ${FONT_H};
+          font-size: 0.68rem;
+          font-weight: 600;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: ${DARK};
+          background: ${BEIGE};
+          border: 1px solid ${BEIGE};
+          border-radius: 999px;
+          text-decoration: none;
+          overflow: hidden;
+          white-space: nowrap;
+          transition: color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(.22,.68,0,1.1);
+        }
+        .ch01-cta::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: ${WHITE};
+          transform: translateX(-101%);
+          transition: transform 0.45s cubic-bezier(.22,.68,0,1.1);
+          z-index: 0;
+        }
+        .ch01-cta > * { position: relative; z-index: 1; }
+        .ch01-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(192,187,173,0.35); }
+        .ch01-cta:hover::before { transform: translateX(0); }
+        .ch01-cta svg { transition: transform 0.4s ease; }
+        .ch01-cta:hover svg { transform: translateX(3px); }
         /* ── Hamburger ── */
         .ch01-hamburger {
           display: none;
           flex-direction: column;
           justify-content: space-between;
-          width: 26px;
-          height: 18px;
+          width: 28px;
+          height: 16px;
           background: none;
           border: 0;
           cursor: pointer;
           padding: 0;
-          margin-left: 1rem;
+          margin-left: 1.25rem;
         }
         .ch01-hamburger span {
           display: block;
@@ -18366,14 +19574,16 @@ function NavbarChalet01(props: Props) {
           width: 100%;
           background: ${WHITE};
           border-radius: 1px;
+          transition: transform 0.3s ease, width 0.3s ease;
         }
+        .ch01-hamburger:hover span:nth-child(2) { width: 70%; }
         /* ── Mobile overlay ── */
         .ch01-overlay {
           display: none;
           position: fixed;
           inset: 0;
           z-index: 200;
-          background: ${DARK};
+          background: linear-gradient(160deg,#1e2329 0%,#161a1f 100%);
           flex-direction: column;
           align-items: center;
           justify-content: center;
@@ -18382,29 +19592,29 @@ function NavbarChalet01(props: Props) {
         .ch01-overlay.is-open { display: flex; }
         .ch01-overlay-close {
           position: absolute;
-          top: 1.25rem;
-          right: 1.5rem;
+          top: 1.5rem;
+          right: 1.75rem;
           background: none;
           border: 0;
           color: ${WHITE};
-          font-size: 2rem;
+          font-size: 2.2rem;
           cursor: pointer;
           line-height: 1;
-          opacity: 0.65;
-          transition: opacity 0.18s;
+          opacity: 0.6;
+          transition: opacity 0.25s ease, transform 0.25s ease;
         }
-        .ch01-overlay-close:hover { opacity: 1; }
+        .ch01-overlay-close:hover { opacity: 1; transform: rotate(90deg); }
         .ch01-ov-brand {
           position: absolute;
-          top: 1.4rem;
+          top: 1.75rem;
           left: 2rem;
           font-family: ${FONT_H};
         }
         .ch01-ov-brand-name {
           display: block;
           font-size: 0.95rem;
-          font-weight: 700;
-          letter-spacing: 0.16em;
+          font-weight: 600;
+          letter-spacing: 0.2em;
           text-transform: uppercase;
           color: ${WHITE};
         }
@@ -18412,61 +19622,90 @@ function NavbarChalet01(props: Props) {
           display: block;
           font-size: 0.55rem;
           font-weight: 300;
-          letter-spacing: 0.3em;
+          letter-spacing: 0.42em;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.6);
+          color: rgba(192,187,173,0.8);
+          margin-top: 2px;
+        }
+        .ch01-overlay.is-open .ch01-ov-link,
+        .ch01-overlay.is-open .ch01-ov-cta,
+        .ch01-overlay.is-open .ch01-ov-icon-btn {
+          animation: ch01OverlayLink 0.5s cubic-bezier(.22,.68,0,1.1) both;
         }
         .ch01-ov-link {
+          position: relative;
           font-family: ${FONT_H};
-          font-size: 0.95rem;
+          font-size: 1rem;
           font-weight: 300;
-          letter-spacing: 0.18em;
+          letter-spacing: 0.22em;
           text-transform: uppercase;
-          color: ${WHITE};
+          color: rgba(255,255,255,0.9);
           text-decoration: none;
-          padding: 0.7rem 0;
-          border-bottom: 1px solid rgba(192,187,173,0.15);
-          width: 260px;
+          padding: 0.85rem 0;
+          border-bottom: 1px solid rgba(192,187,173,0.12);
+          width: 280px;
           text-align: center;
-          transition: color 0.18s;
+          transition: color 0.3s ease, letter-spacing 0.3s ease;
         }
-        .ch01-ov-link:hover { color: ${BEIGE}; }
+        .ch01-ov-link:hover { color: ${BEIGE}; letter-spacing: 0.3em; }
+        .ch01-ov-cta {
+          margin-top: 1.75rem;
+          padding: 0.85rem 2.4rem;
+          font-family: ${FONT_H};
+          font-size: 0.72rem;
+          font-weight: 600;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: ${DARK};
+          background: ${BEIGE};
+          border-radius: 999px;
+          text-decoration: none;
+          transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .ch01-ov-cta:hover { background: ${WHITE}; transform: translateY(-2px); }
         .ch01-ov-icons {
           display: flex;
           align-items: center;
-          gap: 0.6rem;
-          margin-top: 2rem;
+          gap: 0.7rem;
+          margin-top: 1.75rem;
         }
         .ch01-ov-icon-btn {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 38px;
-          height: 38px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
-          border: 1px solid rgba(255,255,255,0.35);
-          color: ${WHITE};
+          border: 1px solid rgba(255,255,255,0.28);
+          color: rgba(255,255,255,0.85);
           text-decoration: none;
-          transition: border-color 0.18s, background 0.18s;
+          transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
         }
         .ch01-ov-icon-btn:hover {
           border-color: ${BEIGE};
-          background: rgba(192,187,173,0.12);
+          background: rgba(192,187,173,0.14);
+          transform: translateY(-2px);
         }
-        @media (max-width: 1100px) {
+        @media (max-width: 1240px) {
+          .ch01-icon-soft { display: none; }
+        }
+        @media (max-width: 1080px) {
           .ch01-links { display: none; }
           .ch01-icons { display: none; }
           .ch01-hamburger { display: flex; }
           .ch01-logo { margin-right: 0; }
         }
-        @media (max-width: 480px) {
+        @media (max-width: 560px) {
+          .ch01-cta { display: none; }
+          .ch01-inner { padding: 0 1.25rem; }
+        }
+        @media (max-width: 420px) {
           .ch01-logo-wordmark { display: none; }
         }
       `}</style>
 
       <nav
-        className="ch01-nav"
-        style={{ background: navBg, boxShadow: navShadow }}
+        className={`ch01-nav${scrolled ? " scrolled" : ""}`}
         data-template="chalet-01-navbar"
       >
         <div className="ch01-inner">
@@ -18479,16 +19718,14 @@ function NavbarChalet01(props: Props) {
                 src={logoSrc}
                 alt={siteName}
                 className="relative overflow-hidden"
-                style={{ width: 36, height: 36 }}
+                style={{ width: 40, height: 40 }}
               >
-                <img loading="eager" src={logoSrc} alt={siteName} style={{ width: 36, height: 36, objectFit: "contain" }} />
+                <img loading="eager" src={logoSrc} alt={siteName} style={{ width: 40, height: 40, objectFit: "contain" }} />
               </GenericEditableImage>
             </div>
             <span className="ch01-logo-wordmark">
-              <span className="ch01-logo-name">
-                <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-              </span>
-              <span className="ch01-logo-sub">chalet</span>
+              <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" className="ch01-logo-name" />
+              <GenericEditableText sectionId={sectionId} field="logoSub" value={logoSub} tag="span" className="ch01-logo-sub" />
             </span>
           </a>
 
@@ -18503,37 +19740,40 @@ function NavbarChalet01(props: Props) {
             ))}
           </ul>
 
-          {/* Right icon buttons */}
-          <div className="ch01-icons">
-            <a href={`tel:${phone.replace(/\s/g, "")}`} className="ch01-icon-btn" aria-label="Telefon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1.02-.24 11.4 11.4 0 0 0 3.58.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.03Z"/>
-              </svg>
-            </a>
-            <a href={`mailto:${email}`} className="ch01-icon-btn" aria-label="E-mail">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-              </svg>
-            </a>
-            <a href={`https://maps.google.com/?q=${encodeURIComponent(location)}`} target="_blank" rel="noopener noreferrer" className="ch01-icon-btn" aria-label="Poloha">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
-              </svg>
-            </a>
-            <a href={instagram} target="_blank" rel="noopener noreferrer" className="ch01-icon-btn" aria-label="Instagram">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
-              </svg>
-            </a>
-            <a href={facebook} target="_blank" rel="noopener noreferrer" className="ch01-icon-btn" aria-label="Facebook">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-              </svg>
-            </a>
-            <a href={youtube} target="_blank" rel="noopener noreferrer" className="ch01-icon-btn" aria-label="YouTube">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
-              </svg>
+          {/* Right cluster: icons + CTA */}
+          <div className="ch01-right">
+            <div className="ch01-icons">
+              <a href={`tel:${phone.replace(/\s/g, "")}`} className="ch01-icon-btn" aria-label="Telefon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1.02-.24 11.4 11.4 0 0 0 3.58.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.03Z"/>
+                </svg>
+              </a>
+              <a href={`mailto:${email}`} className="ch01-icon-btn" aria-label="E-mail">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+              </a>
+              <span className="ch01-icon-soft">
+                <a href={instagram} target="_blank" rel="noopener noreferrer" className="ch01-icon-btn" aria-label="Instagram">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                  </svg>
+                </a>
+                <a href={facebook} target="_blank" rel="noopener noreferrer" className="ch01-icon-btn" aria-label="Facebook">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                  </svg>
+                </a>
+                <a href={youtube} target="_blank" rel="noopener noreferrer" className="ch01-icon-btn" aria-label="YouTube">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
+                  </svg>
+                </a>
+              </span>
+            </div>
+            <a href={resolve(ctaHref)} className="ch01-cta">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
           </div>
 
@@ -18546,39 +19786,40 @@ function NavbarChalet01(props: Props) {
       {/* Mobile overlay */}
       <div className={`ch01-overlay${open ? " is-open" : ""}`} role="dialog" aria-modal="true" aria-label="Navigace">
         <span className="ch01-ov-brand">
-          <span className="ch01-ov-brand-name">
-            <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" />
-          </span>
-          <span className="ch01-ov-brand-sub">chalet</span>
+          <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span" className="ch01-ov-brand-name" />
+          <GenericEditableText sectionId={sectionId} field="logoSub" value={logoSub} tag="span" className="ch01-ov-brand-sub" />
         </span>
         <button className="ch01-overlay-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
         {links.map((l, i) => (
-          <a key={i} href={resolve(l.href)} className="ch01-ov-link" onClick={() => setOpen(false)}>
+          <a key={i} href={resolve(l.href)} className="ch01-ov-link" style={{ animationDelay: `${0.05 + i * 0.05}s` }} onClick={() => setOpen(false)}>
             <GenericEditableText sectionId={sectionId} field={`links.${i}.label`} value={l.label} tag="span" />
           </a>
         ))}
+        <a href={resolve(ctaHref)} className="ch01-ov-cta" style={{ animationDelay: `${0.1 + links.length * 0.05}s` }} onClick={() => setOpen(false)}>
+          <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span" />
+        </a>
         <div className="ch01-ov-icons">
-          <a href={`tel:${phone.replace(/\s/g,"")}`} className="ch01-ov-icon-btn" aria-label="Telefon">
+          <a href={`tel:${phone.replace(/\s/g,"")}`} className="ch01-ov-icon-btn" style={{ animationDelay: `${0.15 + links.length * 0.05}s` }} aria-label="Telefon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1.02-.24 11.4 11.4 0 0 0 3.58.58 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1.03Z"/>
             </svg>
           </a>
-          <a href={`mailto:${email}`} className="ch01-ov-icon-btn" aria-label="E-mail">
+          <a href={`mailto:${email}`} className="ch01-ov-icon-btn" style={{ animationDelay: `${0.18 + links.length * 0.05}s` }} aria-label="E-mail">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
             </svg>
           </a>
-          <a href={instagram} target="_blank" rel="noopener noreferrer" className="ch01-ov-icon-btn" aria-label="Instagram">
+          <a href={instagram} target="_blank" rel="noopener noreferrer" className="ch01-ov-icon-btn" style={{ animationDelay: `${0.21 + links.length * 0.05}s` }} aria-label="Instagram">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
             </svg>
           </a>
-          <a href={facebook} target="_blank" rel="noopener noreferrer" className="ch01-ov-icon-btn" aria-label="Facebook">
+          <a href={facebook} target="_blank" rel="noopener noreferrer" className="ch01-ov-icon-btn" style={{ animationDelay: `${0.24 + links.length * 0.05}s` }} aria-label="Facebook">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
             </svg>
           </a>
-          <a href={youtube} target="_blank" rel="noopener noreferrer" className="ch01-ov-icon-btn" aria-label="YouTube">
+          <a href={youtube} target="_blank" rel="noopener noreferrer" className="ch01-ov-icon-btn" style={{ animationDelay: `${0.27 + links.length * 0.05}s` }} aria-label="YouTube">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/>
             </svg>
@@ -20004,80 +21245,166 @@ function NavbarEvents01(props: Props) {
 function NavbarPhoto01(props: Props) {
   const { content, tenantSlug, isAdmin, sectionId } = props;
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const DARK   = "#1a1a1a";
   const WHITE  = "#ffffff";
+  const TAUPE  = "#8b7355";
+  const MUTED  = "#6b6b6b";
   const BORDER = "#e8e3dd";
 
   const siteName = String(content.siteName ?? "DEMO FOTOGRAFKA");
   const links    = (content.links as Array<{ label: string; href: string }>) ?? [];
-  const resolve  = (href: string) => resolveDemoHref(href, tenantSlug, isAdmin);
+  const ctaText  = String(content.ctaText ?? "Rezervovat focení");
+  const ctaHref  = String(content.ctaHref ?? "/kontakt");
+  const phone    = String(content.phone ?? "");
+  const siteMode = String(content.siteMode ?? "multipage");
+  const resolve  = (href: string) => resolveNavHref(href, siteMode, tenantSlug, isAdmin);
   const homeHref = tenantSlug ? `/demo/${tenantSlug}${isAdmin ? "/admin" : ""}` : "/";
 
   return (
     <>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500&family=Inter:wght@300;400&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" />
       <style>{`        .ph01-nav {
           position: sticky;
           top: 0;
           left: 0;
           right: 0;
           z-index: 100;
-          background: ${WHITE};
-          border-bottom: 1px solid ${BORDER};
+          background: rgba(255,255,255,0.86);
+          backdrop-filter: blur(14px) saturate(1.05);
+          -webkit-backdrop-filter: blur(14px) saturate(1.05);
+          border-bottom: 1px solid transparent;
+          transition: border-color 0.5s cubic-bezier(.32,.72,0,1), box-shadow 0.5s cubic-bezier(.32,.72,0,1), background 0.5s cubic-bezier(.32,.72,0,1);
+        }
+        .ph01-nav[data-scrolled="true"] {
+          background: rgba(255,255,255,0.94);
+          border-bottom-color: ${BORDER};
+          box-shadow: 0 12px 40px -28px rgba(26,26,26,0.4);
         }
         .ph01-inner {
-          max-width: 90%;
+          max-width: 1280px;
           margin: 0 auto;
-          height: 100px;
-          display: flex;
+          height: 104px;
+          padding: 0 clamp(20px, 4vw, 48px);
+          display: grid;
+          grid-template-columns: auto 1fr auto;
+          gap: clamp(24px, 5vw, 72px);
           align-items: center;
-          justify-content: space-between;
+          transition: height 0.5s cubic-bezier(.32,.72,0,1);
         }
+        .ph01-nav[data-scrolled="true"] .ph01-inner { height: 78px; }
         .ph01-logo {
-          display: block;
+          display: inline-flex;
+          align-items: baseline;
+          gap: 0.42em;
           text-decoration: none;
-          flex-shrink: 0;
+          justify-self: start;
         }
         .ph01-logo-wordmark {
-          font-family: 'Cinzel', Georgia, serif;
-          font-size: 16px;
-          font-weight: 400;
-          letter-spacing: 0.2em;
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 23px;
+          font-weight: 500;
+          letter-spacing: 0.16em;
           color: ${DARK};
           text-transform: uppercase;
           white-space: nowrap;
+          transition: font-size 0.5s cubic-bezier(.32,.72,0,1), color 0.35s ease;
         }
+        .ph01-nav[data-scrolled="true"] .ph01-logo-wordmark { font-size: 20px; }
+        .ph01-logo:hover .ph01-logo-wordmark { color: ${TAUPE}; }
+        .ph01-logo-dot {
+          width: 5px; height: 5px; border-radius: 50%;
+          background: ${TAUPE};
+          display: inline-block;
+          transform: translateY(-0.15em);
+          transition: transform 0.4s cubic-bezier(.34,1.56,.64,1);
+        }
+        .ph01-logo:hover .ph01-logo-dot { transform: translateY(-0.15em) scale(1.5); }
         .ph01-links {
           display: flex;
           align-items: center;
           list-style: none;
           margin: 0;
           padding: 0;
-          gap: 0;
+          gap: clamp(0.4rem, 1.4vw, 1.1rem);
+          justify-self: center;
         }
         .ph01-links a {
+          position: relative;
           display: block;
-          padding: 0.25rem 1rem;
-          font-family: 'Inter', sans-serif;
-          font-size: 16px;
+          padding: 0.55rem 0.15rem;
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 12.5px;
           font-weight: 400;
-          letter-spacing: 0.05em;
+          letter-spacing: 0.17em;
           text-transform: uppercase;
           color: ${DARK};
           text-decoration: none;
           white-space: nowrap;
-          transition: text-decoration 0.18s;
+          transition: color 0.3s ease;
         }
-        .ph01-links a:hover { text-decoration: underline; }
-        .ph01-links li:first-child a { text-decoration: underline; }
+        .ph01-links a::after {
+          content: '';
+          position: absolute;
+          left: 0.15rem; right: 0.15rem;
+          bottom: 0.35rem;
+          height: 1px;
+          background: ${TAUPE};
+          transform: scaleX(0);
+          transform-origin: center;
+          transition: transform 0.4s cubic-bezier(.32,.72,0,1);
+        }
+        .ph01-links a:hover { color: ${TAUPE}; }
+        .ph01-links a:hover::after { transform: scaleX(1); }
+        .ph01-right {
+          display: flex;
+          align-items: center;
+          gap: 1.1rem;
+          justify-self: end;
+        }
+        .ph01-cta {
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 11.5px;
+          font-weight: 500;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: ${DARK};
+          text-decoration: none;
+          padding: 0.72rem 1.35rem;
+          border: 1px solid ${DARK};
+          border-radius: 2px;
+          position: relative;
+          overflow: hidden;
+          white-space: nowrap;
+          transition: color 0.45s cubic-bezier(.32,.72,0,1), border-color 0.45s ease;
+        }
+        .ph01-cta::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: ${TAUPE};
+          transform: translateY(101%);
+          transition: transform 0.5s cubic-bezier(.32,.72,0,1);
+          z-index: -1;
+        }
+        .ph01-cta:hover { color: ${WHITE}; border-color: ${TAUPE}; }
+        .ph01-cta:hover::before { transform: translateY(0); }
+        .ph01-cta > span { position: relative; z-index: 1; }
         .ph01-hamburger {
           display: none;
           flex-direction: column;
@@ -20085,19 +21412,21 @@ function NavbarPhoto01(props: Props) {
           background: none;
           border: none;
           cursor: pointer;
-          padding: 4px;
+          padding: 6px;
         }
         .ph01-hamburger span {
           display: block;
-          width: 22px;
+          width: 24px;
           height: 1.5px;
           background: ${DARK};
           border-radius: 2px;
+          transition: background 0.3s;
         }
-        @media (max-width: 900px) {
-          .ph01-inner { max-width: 92%; height: 70px; }
-          .ph01-links { display: none; }
-          .ph01-hamburger { display: flex; }
+        @media (max-width: 1000px) {
+          .ph01-inner { grid-template-columns: 1fr auto; height: 74px; }
+          .ph01-nav[data-scrolled="true"] .ph01-inner { height: 66px; }
+          .ph01-links, .ph01-cta { display: none; }
+          .ph01-hamburger { display: flex; justify-self: end; }
         }
         .ph01-overlay {
           position: fixed;
@@ -20108,39 +21437,79 @@ function NavbarPhoto01(props: Props) {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          gap: 2rem;
+          gap: 1.75rem;
+          padding: 2rem;
         }
         .ph01-overlay-close {
           position: absolute;
-          top: 1.25rem;
-          right: 1.5rem;
+          top: 1.4rem;
+          right: 1.6rem;
           background: none;
           border: none;
-          font-size: 1.75rem;
+          font-size: 2rem;
           cursor: pointer;
           color: ${DARK};
           line-height: 1;
         }
-        .ph01-overlay-nav a {
-          font-family: 'Cinzel', Georgia, serif;
-          font-size: 1.25rem;
-          font-weight: 400;
-          letter-spacing: 0.15em;
+        .ph01-overlay-brand {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 15px;
+          letter-spacing: 0.2em;
           color: ${DARK};
           text-decoration: none;
           text-transform: uppercase;
-          transition: opacity 0.18s;
+          margin-bottom: 0.5rem;
         }
-        .ph01-overlay-nav a:hover { opacity: 0.6; }
+        .ph01-overlay-nav {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 1.4rem;
+        }
+        .ph01-overlay-nav a {
+          font-family: 'Playfair Display', Georgia, serif;
+          font-size: 1.55rem;
+          font-weight: 400;
+          letter-spacing: 0.04em;
+          color: ${DARK};
+          text-decoration: none;
+          opacity: 0;
+          transform: translateY(12px);
+          animation: ph01FadeUp 0.5s cubic-bezier(.32,.72,0,1) forwards;
+          transition: color 0.3s ease;
+        }
+        .ph01-overlay-nav a:hover { color: ${TAUPE}; }
+        @keyframes ph01FadeUp { to { opacity: 1; transform: translateY(0); } }
+        .ph01-overlay-cta {
+          margin-top: 0.75rem;
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 12px;
+          font-weight: 500;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: ${WHITE};
+          background: ${TAUPE};
+          text-decoration: none;
+          padding: 0.85rem 1.8rem;
+          border-radius: 2px;
+        }
+        .ph01-overlay-phone {
+          font-family: 'Inter', system-ui, sans-serif;
+          font-size: 13px;
+          letter-spacing: 0.05em;
+          color: ${MUTED};
+          text-decoration: none;
+        }
       `}</style>
 
-      <nav className="ph01-nav" data-template="photo-01">
+      <nav className="ph01-nav" data-template="photo-01" data-scrolled={scrolled}>
         <div className="ph01-inner">
-          {/* Text-only wordmark — no icon, mirrors zbiralova.cz */}
+          {/* Text-only wordmark with subtle taupe dot */}
           <a href={homeHref} className="ph01-logo" title={siteName} aria-label={siteName}>
             <GenericEditableText sectionId={sectionId} field="siteName" value={siteName} tag="span">
               <span className="ph01-logo-wordmark">{siteName}</span>
             </GenericEditableText>
+            <span className="ph01-logo-dot" aria-hidden="true" />
           </a>
 
           {/* Desktop nav links */}
@@ -20154,10 +21523,15 @@ function NavbarPhoto01(props: Props) {
             ))}
           </ul>
 
-          {/* Hamburger */}
-          <button className="ph01-hamburger" onClick={() => setOpen(true)} aria-label="Otevřít menu">
-            <span /><span /><span />
-          </button>
+          <div className="ph01-right">
+            <a href={resolve(ctaHref)} className="ph01-cta">
+              <GenericEditableText sectionId={sectionId} field="ctaText" value={ctaText} tag="span">{ctaText}</GenericEditableText>
+            </a>
+            {/* Hamburger */}
+            <button className="ph01-hamburger" onClick={() => setOpen(true)} aria-label="Otevřít menu">
+              <span /><span /><span />
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -20165,12 +21539,16 @@ function NavbarPhoto01(props: Props) {
       {open && (
         <div className="ph01-overlay" role="dialog" aria-modal="true" aria-label="Navigace">
           <button className="ph01-overlay-close" onClick={() => setOpen(false)} aria-label="Zavřít menu">×</button>
-          <a href={homeHref} style={{ fontFamily: "'Cinzel', Georgia, serif", fontSize: 14, letterSpacing: "0.2em", color: DARK, textDecoration: "none", textTransform: "uppercase" as const, marginBottom: "1rem" }}>{siteName}</a>
-          <nav className="ph01-overlay-nav" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem" }}>
+          <a href={homeHref} className="ph01-overlay-brand" onClick={() => setOpen(false)}>{siteName}</a>
+          <nav className="ph01-overlay-nav">
             {links.map((l, i) => (
-              <a key={i} href={resolve(l.href)} onClick={() => setOpen(false)}>{l.label}</a>
+              <a key={i} href={resolve(l.href)} onClick={() => setOpen(false)} style={{ animationDelay: `${0.08 + i * 0.06}s` }}>{l.label}</a>
             ))}
           </nav>
+          <a href={resolve(ctaHref)} className="ph01-overlay-cta" onClick={() => setOpen(false)}>{ctaText}</a>
+          {phone && (
+            <a href={`tel:${phone.replace(/\s/g, "")}`} className="ph01-overlay-phone" onClick={() => setOpen(false)}>{phone}</a>
+          )}
         </div>
       )}
     </>

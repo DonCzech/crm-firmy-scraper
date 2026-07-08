@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { GenericEditableText } from "@/components/tenant/GenericEditableText";
 
 interface FaqItem {
@@ -436,36 +436,69 @@ function FaqUcetni03({ content, sectionId }: { content: Record<string, unknown>;
   const FONT_H = "'Montserrat', 'Helvetica Neue', Arial, sans-serif";
   const FONT_B = "'Open Sans', 'Helvetica Neue', Arial, sans-serif";
 
-  const title = String(content.title ?? "Poradna");
-  const lead  = String(content.lead  ?? "Naši poradnu využily již stovky lidí, protože dobrá rada zdarma je nad zlato.");
+  const eyebrowRaw = (content as Record<string, unknown>).eyebrow;
+  const titleRaw   = (content as Record<string, unknown>).title;
+  const leadRaw    = (content as Record<string, unknown>).lead;
+  const eyebrow = eyebrowRaw === undefined ? "Časté dotazy" : String(eyebrowRaw);
+  const title   = titleRaw   === undefined ? "Poradna" : String(titleRaw);
+  const lead    = leadRaw    === undefined ? "Odpovídáme na nejčastější otázky klientů. Nenašli jste odpověď? Zavolejte nám nebo napište." : String(leadRaw);
+  const showHeader = !!(eyebrow.trim() || title.trim() || lead.trim());
 
   const rawItems = (content.items as Array<{ question?: string; answer?: string }>) ?? [];
   const items = rawItems.length > 0 ? rawItems : [
-    { question: "Jako OSVČ — mohu získat hypotéku?", answer: "Ano, OSVČ mohou hypotéku získat. Banky vyžadují zpravidla 2 roky daňových přiznání a stabilní příjem." },
-    { question: "Je možné vzít si hypotéku na družstevní byt?", answer: "Standardně banky tuto hypotéku neposkytují. Existují ale alternativy — například převod bytu do osobního vlastnictví." },
-    { question: "Co dělat, když mi banka zamítla hypotéku?", answer: "Zamítnutí jednou bankou neznamená konec. Každá banka má jiné podmínky a náš poradce vám pomůže najít tu pravou." },
+    { question: "Mohu jako OSVČ vůbec hypotéku získat?", answer: "Ano, OSVČ mohou hypotéku získat. Klíčové jsou doložitelné příjmy — zpravidla poslední 2 daňová přiznání a výpis z podnikatelského účtu. Náš poradce vám pomůže vybrat banku, která vaši situaci ocení nejlépe." },
+    { question: "O kolik mohu požádat a jak rychle hypotéku dostanu?", answer: "Výše hypotéky závisí na příjmech, hodnotě nemovitosti a aktuálním LTV. Schválení trvá obvykle 5–14 pracovních dní. V urgentních případech umíme celý proces zrychlit." },
+    { question: "Co dělat, pokud mi banka hypotéku zamítla?", answer: "Zamítnutí jednou institucí neznamená konec. Každá banka hodnotí žadatele odlišně. Naši poradci znají podmínky všech partnerských bank a najdou alternativu, která vám vyhovuje." },
   ];
 
-  const [open, setOpen] = useState<number | null>(null);
+  const [openIdx, setOpenIdx] = useState<number | null>(null);
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const [vis, setVis] = useState(false);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setVis(true); obs.disconnect(); } }, { threshold: 0.15 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   return (
     <>
       <style>{`
         .ucn03faq-section {
-          background: #ffffff;
-          padding: 80px 40px;
+          position: relative;
+          background: linear-gradient(180deg, #f9faf9 0%, #ffffff 100%);
+          padding: 88px 40px;
           font-family: ${FONT_B};
+          overflow: hidden;
         }
-        .ucn03faq-inner { max-width: 860px; margin: 0 auto; }
-        .ucn03faq-header { text-align: center; margin-bottom: 56px; }
-        .ucn03faq-kicker {
-          display: inline-block;
+        .ucn03faq-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
+        .ucn03faq-header {
+          text-align: center;
+          margin-bottom: 56px;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: opacity 0.55s ease, transform 0.55s cubic-bezier(.22,.68,0,1);
+        }
+        .ucn03faq-section.vis .ucn03faq-header { opacity: 1; transform: none; }
+        .ucn03faq-eyebrow {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          font-family: ${FONT_H};
           font-size: 0.78rem;
           font-weight: 700;
-          letter-spacing: 1.5px;
+          letter-spacing: 2.5px;
           text-transform: uppercase;
           color: ${GREEN};
-          margin-bottom: 12px;
+          margin-bottom: 14px;
+        }
+        .ucn03faq-eyebrow::before, .ucn03faq-eyebrow::after {
+          content: '';
+          width: 28px; height: 1.5px;
+          background: ${GREEN};
+          opacity: 0.5;
         }
         .ucn03faq-h2 {
           font-family: ${FONT_H};
@@ -473,31 +506,43 @@ function FaqUcetni03({ content, sectionId }: { content: Record<string, unknown>;
           font-weight: 800;
           color: ${DARK};
           margin: 0 0 16px 0;
+          letter-spacing: -0.3px;
         }
         .ucn03faq-lead {
           font-size: 1.02rem;
           color: #737b79;
-          line-height: 1.65;
-          margin: 0;
-          max-width: 560px;
+          line-height: 1.7;
+          max-width: 580px;
           margin: 0 auto;
         }
-        .ucn03faq-item {
-          border-bottom: 1px solid #e4e4e4;
+        .ucn03faq-list {
+          border: 1px solid #e8ede8;
+          border-radius: 14px;
+          overflow: hidden;
+          opacity: 0;
+          transform: translateY(20px);
+          transition: opacity 0.55s ease 0.1s, transform 0.55s cubic-bezier(.22,.68,0,1) 0.1s;
         }
-        .ucn03faq-item:first-child { border-top: 1px solid #e4e4e4; }
+        .ucn03faq-section.vis .ucn03faq-list { opacity: 1; transform: none; }
+        .ucn03faq-item {
+          border-bottom: 1px solid #e8ede8;
+        }
+        .ucn03faq-item:last-child { border-bottom: none; }
         .ucn03faq-btn {
           width: 100%;
           display: flex;
           justify-content: space-between;
           align-items: center;
           gap: 16px;
-          padding: 22px 0;
+          padding: 22px 28px;
           background: none;
           border: none;
           cursor: pointer;
           text-align: left;
+          transition: background 0.2s ease;
         }
+        .ucn03faq-btn:hover { background: rgba(142,198,63,0.06); }
+        .ucn03faq-btn.active { background: rgba(142,198,63,0.08); }
         .ucn03faq-q {
           font-family: ${FONT_H};
           font-size: 1rem;
@@ -505,66 +550,85 @@ function FaqUcetni03({ content, sectionId }: { content: Record<string, unknown>;
           color: #3c3d3d;
           line-height: 1.4;
           flex: 1;
+          transition: color 0.2s ease;
         }
+        .ucn03faq-btn:hover .ucn03faq-q,
+        .ucn03faq-btn.active .ucn03faq-q { color: ${DARK}; }
         .ucn03faq-icon {
-          width: 28px;
-          height: 28px;
+          width: 30px;
+          height: 30px;
           border-radius: 50%;
           background: ${GREEN};
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          transition: transform 0.25s;
+          transition: transform 0.3s cubic-bezier(.22,.68,0,1), box-shadow 0.25s ease;
         }
-        .ucn03faq-icon.open { transform: rotate(45deg); }
+        .ucn03faq-icon.open {
+          transform: rotate(45deg);
+          box-shadow: 0 4px 12px rgba(142,198,63,0.4);
+        }
         .ucn03faq-body {
           overflow: hidden;
           max-height: 0;
-          transition: max-height 0.3s ease, padding 0.3s ease;
+          transition: max-height 0.35s cubic-bezier(.22,.68,0,1), padding 0.35s ease;
         }
         .ucn03faq-body.open {
           max-height: 400px;
-          padding-bottom: 20px;
+          padding-bottom: 22px;
         }
         .ucn03faq-a {
           font-size: 0.95rem;
           color: #737b79;
-          line-height: 1.75;
+          line-height: 1.8;
           margin: 0;
+          padding: 0 28px;
         }
         @media (max-width: 600px) {
           .ucn03faq-section { padding: 56px 20px; }
+          .ucn03faq-btn { padding: 18px 20px; }
+          .ucn03faq-a { padding: 0 20px; }
           .ucn03faq-q { font-size: 0.95rem; }
         }
       `}</style>
 
-      <section className="ucn03faq-section" data-template="ucetni-03-faq">
+      <section className={`ucn03faq-section${vis ? " vis" : ""}`} data-template="ucetni-03-faq" id="poradna" ref={sectionRef}>
         <div className="ucn03faq-inner">
-          <div className="ucn03faq-header">
-            <span className="ucn03faq-kicker">Časté dotazy</span>
-            <h2 className="ucn03faq-h2">
-              <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
-            </h2>
-            <p className="ucn03faq-lead">
-              <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
-            </p>
-          </div>
+          {showHeader && (
+            <div className="ucn03faq-header">
+              {eyebrow.trim() && (
+                <div className="ucn03faq-eyebrow">
+                  <GenericEditableText sectionId={sectionId} field="eyebrow" value={eyebrow} tag="span" />
+                </div>
+              )}
+              {title.trim() && (
+                <h2 className="ucn03faq-h2">
+                  <GenericEditableText sectionId={sectionId} field="title" value={title} tag="span" />
+                </h2>
+              )}
+              {lead.trim() && (
+                <p className="ucn03faq-lead">
+                  <GenericEditableText sectionId={sectionId} field="lead" value={lead} tag="span" />
+                </p>
+              )}
+            </div>
+          )}
 
-          <div>
+          <div className="ucn03faq-list">
             {items.map((item, i) => (
               <div key={i} className="ucn03faq-item">
-                <button className="ucn03faq-btn" onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i}>
+                <button className={`ucn03faq-btn${openIdx === i ? " active" : ""}`} onClick={() => setOpenIdx(openIdx === i ? null : i)} aria-expanded={openIdx === i}>
                   <span className="ucn03faq-q">
                     <GenericEditableText sectionId={sectionId} field={`items.${i}.question`} value={String(item.question ?? "")} tag="span" />
                   </span>
-                  <span className={`ucn03faq-icon${open === i ? " open" : ""}`} aria-hidden="true">
+                  <span className={`ucn03faq-icon${openIdx === i ? " open" : ""}`} aria-hidden="true">
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                      <path d="M7 2v10M2 7h10" stroke="#002000" strokeWidth="2" strokeLinecap="round"/>
+                      <path d="M7 2v10M2 7h10" stroke="${DARK}" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
                   </span>
                 </button>
-                <div className={`ucn03faq-body${open === i ? " open" : ""}`}>
+                <div className={`ucn03faq-body${openIdx === i ? " open" : ""}`}>
                   <p className="ucn03faq-a">
                     <GenericEditableText sectionId={sectionId} field={`items.${i}.answer`} value={String(item.answer ?? "")} tag="span" />
                   </p>
