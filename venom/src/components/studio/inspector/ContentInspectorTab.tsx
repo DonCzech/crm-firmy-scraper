@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Plus, ChevronDown, ChevronRight, Trash2, ArrowUp, ArrowDown, RotateCcw } from "@/components/studio/icons";
+import { Plus, ChevronDown, ChevronRight, Trash2, ArrowUp, ArrowDown, RotateCcw, Copy } from "@/components/studio/icons";
 import type { Section } from "@/lib/db";
 import type { StudioState } from "../TenantStudioView";
 
@@ -11,139 +11,6 @@ type SectionWithMeta = Section & {
   content_source?: string | null;
 };
 
-// Preferred array field name per section type — used when the key actually exists in content.
-// Multiple candidates can be listed (first match wins).
-const ARRAY_KEYS: Record<string, { keys: string[]; itemLabel: string }> = {
-  services:     { keys: ["services", "items", "cards"],                   itemLabel: "name" },
-  pricing:      { keys: ["plans", "packages", "items", "services"],       itemLabel: "name" },
-  testimonials: { keys: ["testimonials", "reviews", "items"],             itemLabel: "name" },
-  gallery:      { keys: ["images"],                                       itemLabel: "alt" },
-  faq:          { keys: ["faq", "items", "faqs"],                         itemLabel: "question" },
-  team:         { keys: ["members", "team", "items"],                     itemLabel: "name" },
-};
-
-// Variant-specific overrides — checked before section_type lookup
-const ARRAY_KEYS_BY_VARIANT: Record<string, { keys: string[]; itemLabel: string }> = {
-  "reality-03-navbar":         { keys: ["links"],   itemLabel: "label" },
-  "hero-reality-03-video":     { keys: ["stats"],   itemLabel: "number" },
-  "reality-03-services-4grid": { keys: ["items"],   itemLabel: "name" },
-  "reality-03-listings":       { keys: ["items"],   itemLabel: "title" },
-  "reality-03-testimonials":   { keys: ["items"],   itemLabel: "author" },
-  "reality-03-blog":           { keys: ["items"],   itemLabel: "title" },
-  "reality-03-footer":         { keys: ["agents"],  itemLabel: "name" },
-};
-
-// Auto-detect the first array-of-objects field in content (skip internal + gallery images).
-function autoDetectArrayField(
-  content: Record<string, unknown>,
-  sectionType: string
-): { key: string; itemLabel: string } | null {
-  // Skip gallery's images array — handled by GalleryInspectorPanel
-  const skipKeys = new Set(sectionType === "gallery" ? ["images"] : []);
-
-  for (const [k, v] of Object.entries(content)) {
-    if (k.startsWith("__") || skipKeys.has(k)) continue;
-    if (Array.isArray(v) && v.length > 0 && typeof v[0] === "object" && v[0] !== null && !Array.isArray(v[0])) {
-      const first = v[0] as Record<string, unknown>;
-      // Pick a human-readable label key
-      const labelKey = (["name", "title", "question", "label", "text", "author"] as const)
-        .find((lk) => typeof first[lk] === "string") ?? Object.keys(first)[0] ?? "0";
-      return { key: k, itemLabel: labelKey };
-    }
-  }
-  return null;
-}
-
-// Resolve the actual array definition: try registry first (matching key in content), then auto-detect.
-function resolveArrayDef(
-  content: Record<string, unknown>,
-  sectionType: string,
-  sectionVariant: string
-): { key: string; itemLabel: string } | null {
-  const registered = ARRAY_KEYS_BY_VARIANT[sectionVariant] ?? ARRAY_KEYS[sectionType];
-  if (registered) {
-    // Try each candidate key and return the first that actually exists in content
-    const match = registered.keys.find((k) => Array.isArray(content[k]) && (content[k] as unknown[]).length >= 0);
-    if (match) return { key: match, itemLabel: registered.itemLabel };
-  }
-  // Fall back to auto-detection for any section type
-  return autoDetectArrayField(content, sectionType);
-}
-
-const ITEM_FIELDS: Record<string, Array<{ key: string; label: string; type: "text" | "textarea" | "url" | "number" }>> = {
-  services: [
-    { key: "name", label: "Název", type: "text" },
-    { key: "description", label: "Popis", type: "textarea" },
-    { key: "price", label: "Cena", type: "text" },
-    { key: "duration", label: "Doba", type: "text" },
-  ],
-  pricing: [
-    { key: "name", label: "Název", type: "text" },
-    { key: "description", label: "Popis", type: "textarea" },
-    { key: "price", label: "Cena", type: "text" },
-    { key: "duration", label: "Doba", type: "text" },
-  ],
-  testimonials: [
-    { key: "name", label: "Jméno", type: "text" },
-    { key: "text", label: "Text", type: "textarea" },
-    { key: "rating", label: "Hodnocení", type: "number" },
-  ],
-  gallery: [
-    { key: "url", label: "URL", type: "url" },
-    { key: "alt", label: "Popis", type: "text" },
-  ],
-  faq: [
-    { key: "question", label: "Otázka", type: "text" },
-    { key: "answer", label: "Odpověď", type: "textarea" },
-  ],
-  team: [
-    { key: "name", label: "Jméno", type: "text" },
-    { key: "role", label: "Pozice", type: "text" },
-    { key: "bio", label: "Bio", type: "textarea" },
-    { key: "image", label: "Foto URL", type: "url" },
-  ],
-  // reality-03 variant fields
-  "reality-03-navbar": [
-    { key: "label", label: "Název odkazu", type: "text" },
-    { key: "href",  label: "Odkaz",        type: "url" },
-  ],
-  "hero-reality-03-video": [
-    { key: "number", label: "Číslo",  type: "text" },
-    { key: "label",  label: "Popis",  type: "text" },
-  ],
-  "reality-03-services-4grid": [
-    { key: "name",    label: "Záložka",     type: "text" },
-    { key: "title",   label: "Nadpis",      type: "text" },
-    { key: "body",    label: "Text",        type: "textarea" },
-    { key: "ctaText", label: "CTA – text",  type: "text" },
-    { key: "ctaHref", label: "CTA – odkaz", type: "url" },
-  ],
-  "reality-03-listings": [
-    { key: "title",    label: "Název",        type: "text" },
-    { key: "location", label: "Lokalita",     type: "text" },
-    { key: "price",    label: "Cena",         type: "text" },
-    { key: "type",     label: "Typ (prodej/pronajem)", type: "text" },
-    { key: "image",    label: "Foto URL",     type: "url" },
-  ],
-  "reality-03-testimonials": [
-    { key: "text",   label: "Text recenze", type: "textarea" },
-    { key: "author", label: "Autor",        type: "text" },
-    { key: "rating", label: "Hodnocení",    type: "number" },
-  ],
-  "reality-03-blog": [
-    { key: "title", label: "Nadpis článku", type: "text" },
-    { key: "href",  label: "Odkaz",         type: "url" },
-    { key: "image", label: "Foto URL",      type: "url" },
-  ],
-  "reality-03-footer": [
-    { key: "name",  label: "Jméno",     type: "text" },
-    { key: "role",  label: "Pozice",    type: "text" },
-    { key: "phone", label: "Telefon",   type: "text" },
-    { key: "email", label: "E-mail",    type: "text" },
-    { key: "image", label: "Foto URL",  type: "url" },
-  ],
-};
-
 const SCALAR_LABELS: Record<string, string> = {
   title: "Nadpis",
   subtitle: "Podnadpis",
@@ -151,6 +18,8 @@ const SCALAR_LABELS: Record<string, string> = {
   description: "Popis",
   body: "Text",
   text: "Text",
+  label: "Popisek",
+  href: "Odkaz",
   ctaLabel: "Tlačítko – text",
   ctaText: "CTA – text",
   ctaHref: "CTA – odkaz",
@@ -176,28 +45,113 @@ const SCALAR_LABELS: Record<string, string> = {
   linkedinUrl: "LinkedIn URL",
 };
 
+// Group labels for well-known nested container keys (megamenu apod.)
+const GROUP_LABELS: Record<string, string> = {
+  categories: "Kategorie",
+  children: "Podkategorie",
+  subchildren: "Pod-podkategorie",
+  items: "Položky",
+  links: "Odkazy",
+  slides: "Slidy",
+  bottomBanners: "Spodní bannery",
+  promos: "Promo bloky",
+  tips: "Tipy",
+  deals: "Nabídky",
+  quickLinks: "Rychlé odkazy",
+  groups: "Skupiny",
+  tiles: "Dlaždice",
+  aside: "Boční panel",
+  mega: "Mega menu",
+  mainNav: "Hlavní navigace",
+  catalog: "Katalog",
+  megaAside: "Mega menu – boční panel",
+  columns: "Sloupce",
+  socials: "Sociální sítě",
+  side: "Boční panel",
+  stats: "Statistiky",
+  badges: "Odznaky",
+  contact: "Kontakt",
+  footer: "Patička",
+};
+
 // Fields that are internal/structural and should not be shown in the inspector
-const HIDDEN_SCALAR_KEYS = new Set(["id", "logoUrl"]);
+const HIDDEN_KEYS = new Set(["id", "logoUrl", "siteMode"]);
+const MAX_DEPTH = 7;
+
+const LABEL_CANDIDATES = ["name", "title", "question", "label", "text", "author", "heading"] as const;
+
+function itemDisplayLabel(item: unknown, index: number): string {
+  if (item && typeof item === "object" && !Array.isArray(item)) {
+    const rec = item as Record<string, unknown>;
+    for (const k of LABEL_CANDIDATES) {
+      if (typeof rec[k] === "string" && (rec[k] as string).trim()) return rec[k] as string;
+    }
+  }
+  if (typeof item === "string" && item.trim()) return item;
+  return `Položka ${index + 1}`;
+}
+
+function fieldType(key: string, value: unknown): "text" | "textarea" | "url" | "number" {
+  if (typeof value === "number") return "number";
+  const k = key.toLowerCase();
+  if (k.includes("href") || k.includes("url") || k.includes("link")) return "url";
+  if (["description", "text", "body", "bio", "answer", "quote"].includes(key)) return "textarea";
+  if (typeof value === "string" && value.length > 80) return "textarea";
+  return "text";
+}
+
+/** Deep clone with all strings emptied — used as a blank template for new items. */
+function blankClone(value: unknown): unknown {
+  if (typeof value === "string") return "";
+  if (typeof value === "number" || typeof value === "boolean" || value == null) return value;
+  if (Array.isArray(value)) return value.length ? [blankClone(value[0])] : [];
+  if (typeof value === "object") {
+    return Object.fromEntries(Object.entries(value as Record<string, unknown>).map(([k, v]) => [k, blankClone(v)]));
+  }
+  return value;
+}
+
+function deepClone<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
+
+/** Immutable set of a nested value along path (keys + indexes). */
+function setAtPath(root: unknown, path: Array<string | number>, value: unknown): unknown {
+  if (!path.length) return value;
+  const [head, ...rest] = path;
+  if (typeof head === "number") {
+    const arr = Array.isArray(root) ? [...root] : [];
+    arr[head] = setAtPath(arr[head], rest, value);
+    return arr;
+  }
+  const obj = root && typeof root === "object" && !Array.isArray(root) ? { ...(root as Record<string, unknown>) } : {};
+  obj[head] = setAtPath(obj[head], rest, value);
+  return obj;
+}
 
 export function ContentInspectorTab({ section, state }: { section: Section; state: StudioState }) {
   const sec = section as SectionWithMeta;
   const content = (section.settings?.content ?? {}) as Record<string, unknown>;
-  const arrayDef = resolveArrayDef(content, section.section_type, section.section_variant);
-  const scalarEntries = Object.entries(content).filter(([k, v]) => (
-    !k.startsWith("__") &&
-    !HIDDEN_SCALAR_KEYS.has(k) &&
-    (typeof v === "string" || typeof v === "number") &&
-    (!arrayDef || k !== arrayDef.key)
-  )) as Array<[string, string | number]>;
   const modifiedPaths = new Set(sec._modifiedPaths ?? []);
   const isV2 = sec.content_source === "v2";
   const hasOverrides = modifiedPaths.size > 0;
 
-  function update(key: string, value: unknown) {
-    const nextContent = { ...content, [key]: value };
+  // Gallery images have a dedicated panel elsewhere.
+  const skipKeys = new Set(section.section_type === "gallery" ? ["images"] : []);
+  const entries = Object.entries(content).filter(
+    ([k]) => !k.startsWith("__") && !HIDDEN_KEYS.has(k) && !skipKeys.has(k)
+  );
+  const scalarEntries = entries.filter(([, v]) => typeof v === "string" || typeof v === "number");
+  const boolEntries = entries.filter(([, v]) => typeof v === "boolean");
+  const complexEntries = entries.filter(([, v]) => v !== null && typeof v === "object");
+
+  function commitContent(next: Record<string, unknown>) {
     void state.patchSection(section.id, {
-      settings: { ...(section.settings ?? {}), content: nextContent },
+      settings: { ...(section.settings ?? {}), content: next },
     });
+  }
+  function updatePath(path: Array<string | number>, value: unknown) {
+    commitContent(setAtPath(content, path, value) as Record<string, unknown>);
   }
 
   async function resetSection() {
@@ -231,7 +185,7 @@ export function ContentInspectorTab({ section, state }: { section: Section; stat
         </div>
       )}
 
-      {scalarEntries.length === 0 && !arrayDef && (
+      {scalarEntries.length === 0 && boolEntries.length === 0 && complexEntries.length === 0 && (
         <p className="px-1 text-[11px] text-[var(--vs-text-muted)]">
           Tento typ sekce upravuj klikáním přímo v náhledu.
         </p>
@@ -242,21 +196,283 @@ export function ContentInspectorTab({ section, state }: { section: Section; stat
           key={key}
           label={SCALAR_LABELS[key] ?? key}
           value={String(value ?? "")}
-          multiline={typeof value === "string" && value.length > 60}
-          onChange={(v) => update(key, v)}
+          multiline={fieldType(key, value) === "textarea"}
+          onChange={(v) => updatePath([key], typeof value === "number" ? Number(v) || 0 : v)}
           isModified={modifiedPaths.has(key)}
         />
       ))}
 
-      {arrayDef && (
-        <ArraySection
-          section={section}
-          state={state}
-          arrayKey={arrayDef.key}
-          itemLabelKey={arrayDef.itemLabel}
+      {boolEntries.map(([key, value]) => (
+        <label key={key} className="flex items-center gap-2 px-1 text-xs text-[var(--vs-text)]">
+          <input
+            type="checkbox"
+            checked={Boolean(value)}
+            onChange={(e) => updatePath([key], e.target.checked)}
+            className="h-3.5 w-3.5 rounded accent-[var(--vs-accent)]"
+          />
+          {SCALAR_LABELS[key] ?? key}
+        </label>
+      ))}
+
+      {complexEntries.map(([key, value]) => (
+        <NestedValue
+          key={key}
+          label={GROUP_LABELS[key] ?? SCALAR_LABELS[key] ?? key}
+          value={value}
+          path={[key]}
+          depth={0}
+          onUpdate={updatePath}
         />
+      ))}
+    </div>
+  );
+}
+
+/** Recursive editor for arrays and objects at any depth. */
+function NestedValue({
+  label, value, path, depth, onUpdate,
+}: {
+  label: string;
+  value: unknown;
+  path: Array<string | number>;
+  depth: number;
+  onUpdate: (path: Array<string | number>, value: unknown) => void;
+}) {
+  if (depth > MAX_DEPTH) return null;
+  if (Array.isArray(value)) {
+    return <ArrayEditor label={label} items={value} path={path} depth={depth} onUpdate={onUpdate} />;
+  }
+  if (value !== null && typeof value === "object") {
+    return <ObjectEditor label={label} obj={value as Record<string, unknown>} path={path} depth={depth} onUpdate={onUpdate} />;
+  }
+  return null;
+}
+
+function ObjectEditor({
+  label, obj, path, depth, onUpdate,
+}: {
+  label: string;
+  obj: Record<string, unknown>;
+  path: Array<string | number>;
+  depth: number;
+  onUpdate: (path: Array<string | number>, value: unknown) => void;
+}) {
+  const [open, setOpen] = useState(depth === 0);
+  const entries = Object.entries(obj).filter(([k]) => !k.startsWith("__") && !HIDDEN_KEYS.has(k));
+  if (!entries.length) return null;
+  return (
+    <div className="overflow-hidden rounded-md border border-[var(--vs-border)]">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center gap-1.5 bg-[var(--vs-bg-soft)] px-2 py-1.5 text-left text-[10.5px] font-medium uppercase tracking-wide text-[var(--vs-text-muted)] hover:bg-[var(--vs-surface)]"
+      >
+        {open ? <ChevronDown className="h-3.5 w-3.5" strokeWidth={1.75} /> : <ChevronRight className="h-3.5 w-3.5" strokeWidth={1.75} />}
+        <span className="flex-1 truncate">{label}</span>
+      </button>
+      {open && (
+        <div className="space-y-2 border-t border-[var(--vs-border)] p-2">
+          {entries.map(([k, v]) => {
+            if (typeof v === "string" || typeof v === "number") {
+              return (
+                <Field
+                  key={k}
+                  label={SCALAR_LABELS[k] ?? k}
+                  value={String(v ?? "")}
+                  multiline={fieldType(k, v) === "textarea"}
+                  onChange={(nv) => onUpdate([...path, k], typeof v === "number" ? Number(nv) || 0 : nv)}
+                />
+              );
+            }
+            if (typeof v === "boolean") {
+              return (
+                <label key={k} className="flex items-center gap-2 px-1 text-xs text-[var(--vs-text)]">
+                  <input type="checkbox" checked={v} onChange={(e) => onUpdate([...path, k], e.target.checked)}
+                    className="h-3.5 w-3.5 rounded accent-[var(--vs-accent)]" />
+                  {SCALAR_LABELS[k] ?? k}
+                </label>
+              );
+            }
+            return (
+              <NestedValue
+                key={k}
+                label={GROUP_LABELS[k] ?? SCALAR_LABELS[k] ?? k}
+                value={v}
+                path={[...path, k]}
+                depth={depth + 1}
+                onUpdate={onUpdate}
+              />
+            );
+          })}
+        </div>
       )}
     </div>
+  );
+}
+
+function ArrayEditor({
+  label, items, path, depth, onUpdate,
+}: {
+  label: string;
+  items: unknown[];
+  path: Array<string | number>;
+  depth: number;
+  onUpdate: (path: Array<string | number>, value: unknown) => void;
+}) {
+  const [expanded, setExpanded] = useState<number | null>(null);
+
+  const commit = (next: unknown[]) => onUpdate(path, next);
+
+  function addItem() {
+    const template = items.length
+      ? blankClone(items[items.length - 1])
+      : { title: "" };
+    commit([...items, template]);
+    setExpanded(items.length);
+  }
+
+  return (
+    <div>
+      <div className="mb-1.5 flex items-center justify-between px-0.5">
+        <span className="text-[10.5px] font-medium uppercase tracking-wide text-[var(--vs-text-muted)]">{label}</span>
+        <span className="text-[10.5px] text-[var(--vs-text-dim)]">{items.length}</span>
+      </div>
+      <div className="space-y-1.5">
+        {items.map((item, i) => {
+          const open = expanded === i;
+          const isScalarItem = typeof item === "string" || typeof item === "number";
+          return (
+            <div key={i} className="overflow-hidden rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
+              {isScalarItem ? (
+                <div className="flex items-center gap-1 p-1.5">
+                  <div className="flex-1">
+                    <Field
+                      label={`#${i + 1}`}
+                      value={String(item ?? "")}
+                      onChange={(v) => commit(items.map((it, idx) => (idx === i ? (typeof item === "number" ? Number(v) || 0 : v) : it)))}
+                    />
+                  </div>
+                  <ItemOps
+                    index={i}
+                    count={items.length}
+                    onMove={(dir) => {
+                      const next = [...items];
+                      [next[i], next[i + dir]] = [next[i + dir], next[i]];
+                      commit(next);
+                    }}
+                    onDuplicate={() => commit([...items.slice(0, i + 1), deepClone(item), ...items.slice(i + 1)])}
+                    onDelete={() => commit(items.filter((_, idx) => idx !== i))}
+                  />
+                </div>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setExpanded(open ? null : i)}
+                    className="flex w-full items-center gap-1.5 px-2 py-1.5 text-left text-xs text-[var(--vs-text)] hover:bg-[var(--vs-surface)]"
+                  >
+                    {open ? <ChevronDown className="h-3.5 w-3.5 text-[var(--vs-text-muted)]" strokeWidth={1.75} /> : <ChevronRight className="h-3.5 w-3.5 text-[var(--vs-text-muted)]" strokeWidth={1.75} />}
+                    <span className="flex-1 truncate">{itemDisplayLabel(item, i)}</span>
+                  </button>
+                  {open && (
+                    <div className="space-y-2 border-t border-[var(--vs-border)] p-2">
+                      {Object.entries(item as Record<string, unknown>)
+                        .filter(([k]) => !k.startsWith("__") && !HIDDEN_KEYS.has(k))
+                        .map(([k, v]) => {
+                          if (typeof v === "string" || typeof v === "number") {
+                            return (
+                              <Field
+                                key={k}
+                                label={SCALAR_LABELS[k] ?? k}
+                                value={String(v ?? "")}
+                                multiline={fieldType(k, v) === "textarea"}
+                                onChange={(nv) => onUpdate([...path, i, k], typeof v === "number" ? Number(nv) || 0 : nv)}
+                              />
+                            );
+                          }
+                          if (typeof v === "boolean") {
+                            return (
+                              <label key={k} className="flex items-center gap-2 px-1 text-xs text-[var(--vs-text)]">
+                                <input type="checkbox" checked={v} onChange={(e) => onUpdate([...path, i, k], e.target.checked)}
+                                  className="h-3.5 w-3.5 rounded accent-[var(--vs-accent)]" />
+                                {SCALAR_LABELS[k] ?? k}
+                              </label>
+                            );
+                          }
+                          return (
+                            <NestedValue
+                              key={k}
+                              label={GROUP_LABELS[k] ?? SCALAR_LABELS[k] ?? k}
+                              value={v}
+                              path={[...path, i, k]}
+                              depth={depth + 1}
+                              onUpdate={onUpdate}
+                            />
+                          );
+                        })}
+                      <div className="flex items-center justify-end gap-1 border-t border-[var(--vs-border)] pt-2">
+                        <ItemOps
+                          index={i}
+                          count={items.length}
+                          onMove={(dir) => {
+                            const next = [...items];
+                            [next[i], next[i + dir]] = [next[i + dir], next[i]];
+                            commit(next);
+                            setExpanded(i + dir);
+                          }}
+                          onDuplicate={() => {
+                            commit([...items.slice(0, i + 1), deepClone(item), ...items.slice(i + 1)]);
+                            setExpanded(i + 1);
+                          }}
+                          onDelete={() => {
+                            commit(items.filter((_, idx) => idx !== i));
+                            setExpanded(null);
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          );
+        })}
+      </div>
+      <button
+        type="button"
+        onClick={addItem}
+        className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-md border border-dashed border-[var(--vs-border-strong)] py-2 text-xs text-[var(--vs-text-muted)] hover:border-[var(--vs-accent-ring)] hover:text-[var(--vs-text)]"
+      >
+        <Plus className="h-3.5 w-3.5" strokeWidth={1.75} /> Přidat položku
+      </button>
+    </div>
+  );
+}
+
+function ItemOps({
+  index, count, onMove, onDuplicate, onDelete,
+}: {
+  index: number;
+  count: number;
+  onMove: (dir: -1 | 1) => void;
+  onDuplicate: () => void;
+  onDelete: () => void;
+}) {
+  return (
+    <>
+      <ItemBtn label="Nahoru" disabled={index === 0} onClick={() => onMove(-1)}>
+        <ArrowUp className="h-3.5 w-3.5" strokeWidth={1.75} />
+      </ItemBtn>
+      <ItemBtn label="Dolů" disabled={index === count - 1} onClick={() => onMove(1)}>
+        <ArrowDown className="h-3.5 w-3.5" strokeWidth={1.75} />
+      </ItemBtn>
+      <ItemBtn label="Duplikovat" onClick={onDuplicate}>
+        <Copy className="h-3.5 w-3.5" strokeWidth={1.75} />
+      </ItemBtn>
+      <ItemBtn label="Smazat" danger onClick={onDelete}>
+        <Trash2 className="h-3.5 w-3.5" strokeWidth={1.75} />
+      </ItemBtn>
+    </>
   );
 }
 
@@ -300,142 +516,6 @@ function Field({
         />
       )}
     </label>
-  );
-}
-
-function inferItemFields(
-  item: Record<string, unknown>
-): Array<{ key: string; label: string; type: "text" | "textarea" | "url" | "number" }> {
-  return Object.keys(item)
-    .filter((k) => !k.startsWith("__") && typeof item[k] !== "object")
-    .map((k) => ({
-      key: k,
-      label: SCALAR_LABELS[k] ?? k,
-      type: (
-        k.includes("Href") || k.includes("href") || k.includes("Url") || k.includes("url") || k.includes("link") || k.includes("Link")
-          ? "url"
-          : k === "description" || k === "text" || k === "body" || k === "bio" || k === "answer" || k === "quote"
-          ? "textarea"
-          : typeof item[k] === "number"
-          ? "number"
-          : "text"
-      ) as "text" | "textarea" | "url" | "number",
-    }));
-}
-
-function ArraySection({
-  section, state, arrayKey, itemLabelKey,
-}: {
-  section: Section;
-  state: StudioState;
-  arrayKey: string;
-  itemLabelKey: string;
-}) {
-  const content = (section.settings?.content ?? {}) as Record<string, unknown>;
-  const items = (content[arrayKey] ?? []) as Record<string, unknown>[];
-  // Use registered fields, or auto-infer from first item
-  const registeredFields = ITEM_FIELDS[section.section_variant] ?? ITEM_FIELDS[section.section_type];
-  const fields = registeredFields ?? (items[0] ? inferItemFields(items[0]) : []);
-  const [expanded, setExpanded] = useState<number | null>(null);
-
-  function commit(next: Record<string, unknown>[]) {
-    const nextContent = { ...content, [arrayKey]: next };
-    void state.patchSection(section.id, {
-      settings: { ...(section.settings ?? {}), content: nextContent },
-    });
-  }
-
-  return (
-    <div>
-      <div className="mb-2 flex items-center justify-between">
-        <span className="text-[10.5px] font-medium uppercase tracking-wide text-[var(--vs-text-muted)]">Položky</span>
-        <span className="text-[10.5px] text-[var(--vs-text-dim)]">{items.length}</span>
-      </div>
-      <div className="space-y-1.5">
-        {items.map((item, i) => {
-          const open = expanded === i;
-          const label = String(item[itemLabelKey] ?? `Položka ${i + 1}`);
-          return (
-            <div key={i} className="overflow-hidden rounded-md border border-[var(--vs-border)] bg-[var(--vs-bg-soft)]">
-              <button
-                type="button"
-                onClick={() => setExpanded(open ? null : i)}
-                className="flex w-full items-center gap-1.5 px-2 py-1.5 text-left text-xs text-[var(--vs-text)] hover:bg-[var(--vs-surface)]"
-              >
-                {open ? <ChevronDown className="h-3.5 w-3.5 text-[var(--vs-text-muted)]" strokeWidth={1.75} /> : <ChevronRight className="h-3.5 w-3.5 text-[var(--vs-text-muted)]" strokeWidth={1.75} />}
-                <span className="flex-1 truncate">{label}</span>
-              </button>
-              {open && (
-                <div className="space-y-2 border-t border-[var(--vs-border)] p-2">
-                  {fields.map((f) => (
-                    <Field
-                      key={f.key}
-                      label={f.label}
-                      value={String(item[f.key] ?? "")}
-                      multiline={f.type === "textarea"}
-                      onChange={(v) => {
-                        const next = items.map((it, idx) => idx === i ? { ...it, [f.key]: f.type === "number" ? Number(v) : v } : it);
-                        commit(next);
-                      }}
-                    />
-                  ))}
-                  <div className="flex items-center justify-end gap-1 border-t border-[var(--vs-border)] pt-2">
-                    <ItemBtn
-                      label="Nahoru"
-                      disabled={i === 0}
-                      onClick={() => {
-                        const next = [...items];
-                        [next[i - 1], next[i]] = [next[i], next[i - 1]];
-                        commit(next);
-                        setExpanded(i - 1);
-                      }}
-                    >
-                      <ArrowUp className="h-3.5 w-3.5" strokeWidth={1.75} />
-                    </ItemBtn>
-                    <ItemBtn
-                      label="Dolů"
-                      disabled={i === items.length - 1}
-                      onClick={() => {
-                        const next = [...items];
-                        [next[i], next[i + 1]] = [next[i + 1], next[i]];
-                        commit(next);
-                        setExpanded(i + 1);
-                      }}
-                    >
-                      <ArrowDown className="h-3.5 w-3.5" strokeWidth={1.75} />
-                    </ItemBtn>
-                    <ItemBtn
-                      label="Smazat"
-                      danger
-                      onClick={() => {
-                        commit(items.filter((_, idx) => idx !== i));
-                        setExpanded(null);
-                      }}
-                    >
-                      <Trash2 className="h-3.5 w-3.5" strokeWidth={1.75} />
-                    </ItemBtn>
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-      <button
-        type="button"
-        onClick={() => {
-          // Clone last item (preserves structure) or create blank from fields
-          const template = items.length > 0
-            ? Object.fromEntries(Object.entries(items[items.length - 1]).map(([k, v]) => [k, typeof v === "number" ? v : ""]))
-            : Object.fromEntries(fields.map(f => [f.key, f.type === "number" ? 5 : ""]));
-          commit([...items, template]);
-          setExpanded(items.length);
-        }}
-        className="mt-2 flex w-full items-center justify-center gap-1.5 rounded-md border border-dashed border-[var(--vs-border-strong)] py-2 text-xs text-[var(--vs-text-muted)] hover:border-[var(--vs-accent-ring)] hover:text-[var(--vs-text)]"
-      >
-        <Plus className="h-3.5 w-3.5" strokeWidth={1.75} /> Přidat položku
-      </button>
-    </div>
   );
 }
 
