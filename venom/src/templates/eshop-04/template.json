@@ -1,0 +1,211 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-04",
+  "name": "Pastelka",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "shoptet-samba",
+    "lifestyle"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Shoptet Samba DNA, povýšeno: pastelový lifestyle e-shop — Raleway, periwinkle #6883BA na tlačítkách, lososová #FDBCB4 hover akcent, radius 8px, centrované logo. Hero carousel s bočními bannery, benefit karty s fotkami, produktové sekce, promo banner, blog, newsletter. Produkty a kategorie vždy z commerce DB. Storefront listing/PDP na /obchod.",
+  "sectionOrderNote": "Navbar (tools vlevo / centrované logo / hledání+účet+košík vpravo + menu lišta s lososovým hover) → Hero carousel + 2 boční bannery → Benefit karty s fotkami → Doporučujeme → Promo banner → Novinky → Blog → Footer s newsletterem.",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-04-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-04-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-04-benefits",
+          "contentRef": "benefits"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-04-products",
+          "contentRef": "doporucujeme",
+          "anchorId": "doporucujeme"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-04-banner",
+          "contentRef": "banner"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-04-products",
+          "contentRef": "novinky",
+          "anchorId": "novinky"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-04-blog",
+          "contentRef": "blog",
+          "anchorId": "blog"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-04-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-04-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-04-page-hero",
+          "contentRef": "pages.onas.hero"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-04-banner",
+          "contentRef": "pages.onas.banner"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-04-benefits",
+          "contentRef": "benefits"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-04-products",
+          "contentRef": "doporucujeme"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-04-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-04-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-04-page-hero",
+          "contentRef": "pages.kontakt.hero"
+        },
+        {
+          "type": "contact",
+          "variant": "eshop-04-contact",
+          "contentRef": "pages.kontakt.contact"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-04-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "doprava-a-platba",
+      "title": "Doprava a platba",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-04-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-04-page-hero",
+          "contentRef": "pages.doprava.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-04-benefits",
+          "contentRef": "benefits"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-04-shipping",
+          "contentRef": "pages.doprava.shipping"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-04-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Kategorie řeší commerce sekce category-grid / mega menu v navbaru — předloha (Shoptet Samba) nemá statické services dlaždice."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Předloha (Shoptet Samba) nemá samostatný blok služeb — benefity/USP nese vlastní obsahová varianta."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Předloha (Shoptet Samba) nemá recenze na homepage."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Předloha (Shoptet Samba) nemá pobočkovou sekci na homepage — kontakty jsou v patičce."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha (Shoptet Samba) nemá FAQ na homepage."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Vlastní sekce dle DNA předlohy (Shoptet Samba) — commerce/vizuální blok šablony mimo základní skeleton."
+    },
+    {
+      "type": "product-grid",
+      "reason": "Vlastní sekce dle DNA předlohy (Shoptet Samba) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}

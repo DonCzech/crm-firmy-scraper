@@ -1,0 +1,219 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-05",
+  "name": "Hračkolandia",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "toys",
+    "premium",
+    "pompo-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.2.0",
+  "baseTemplate": null,
+  "description": "Pompo.cz DNA, povýšeno na Awwwards premium: hračkářský e-shop — Nunito Sans, červená #e61e3c CTA, tmavá modrošedá #25313c text, žlutý #f7b61b akcent, zelená #07bf5c dostupnost, bílý sticky header s mega menu + inline hledání + ikonami (srdce/user/košík). Hero full-width carousel + mini bannery, hot-offer Právě letí (vertikální karty), produktové carousely s bočním panelem, bannerová mozaika, blog, věrnostní klub box, značky grid, bohatý footer s newsletter pásem a logy dopravců.",
+  "sectionOrderNote": "Navbar (bílý sticky: burger(mob)|logo|prodejny|inline search+červený btn|telefon|ikony srdce/user/košík + nav lišta s mega menu, červená zvýrazněná Akce) → Hero carousel 1920×465 + 4 mini bannery → Hot-offer Právě letí (4 karty carousel) → Produktový carousel Jdou na dračku (banner panel vlevo + carousel vpravo) → Bannerová mozaika To děti zbožňují (1 large + 1 medium + 2 small) → Produktový carousel Brzy zmizí → II. jakost + Aktuální katalog bannery → Blog Žhavá témata (1 velký + 2 menší) → Věrnostní klub box (SVG + text + CTA) → Značky Trefa do černého (logo grid) → Footer (pre-footer kontakt+mapa | newsletter pás | 3 menu sloupce + dopravci loga + Heureka | copyright + social).",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-05-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-05-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-05-mini-banners",
+          "contentRef": "miniBanners"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-05-finder",
+          "contentRef": "finder"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-05-hot-offer",
+          "contentRef": "hotOffer"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-05-products",
+          "contentRef": "productCarousel1"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-05-bento",
+          "contentRef": "bentoProducts"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-05-products",
+          "contentRef": "productCarousel2"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-05-two-banners",
+          "contentRef": "twoBanners"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-05-blog",
+          "contentRef": "blog"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-05-club",
+          "contentRef": "clubBox"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-05-brands",
+          "contentRef": "brandsGrid"
+        },
+        {
+          "type": "contact",
+          "variant": "eshop-05-prefooter",
+          "contentRef": "preFooter"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-05-newsletter",
+          "contentRef": "newsletter"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-05-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-05-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-05-page-hero",
+          "contentRef": "pages.onas.hero"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-05-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-05-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-05-page-hero",
+          "contentRef": "pages.kontakt.hero"
+        },
+        {
+          "type": "contact",
+          "variant": "eshop-05-contact",
+          "contentRef": "pages.kontakt.contact"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-05-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "doprava-a-platba",
+      "title": "Doprava a platba",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-05-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-05-page-hero",
+          "contentRef": "pages.doprava.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-05-shipping",
+          "contentRef": "pages.doprava.shipping"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-05-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Kategorie řeší commerce sekce category-grid / mega menu v navbaru — předloha (Pompo.cz) nemá statické services dlaždice."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Předloha (Pompo.cz) nemá samostatný blok služeb — benefity/USP nese vlastní obsahová varianta."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Předloha (Pompo.cz) nemá recenze na homepage."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha (Pompo.cz) nemá FAQ na homepage."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Vlastní sekce dle DNA předlohy (Pompo.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    },
+    {
+      "type": "product-grid",
+      "reason": "Vlastní sekce dle DNA předlohy (Pompo.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}

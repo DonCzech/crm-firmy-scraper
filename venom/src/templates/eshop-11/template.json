@@ -1,0 +1,274 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-11",
+  "name": "HORAL",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "outdoor",
+    "hory",
+    "sport",
+    "premium",
+    "rockpoint-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Rockpoint.cz DNA s vlastní identitou HORAL / outdoor specialista: bílá hlavička, inkoustová čerň #131313, smrková zelená #0f7d4e (CTA, chipy, Výprodej), červená #d92b2b (Akce), Fira Sans, ostré rohy. Header: benefit lišta s line ikonami (doprava zdarma / prodejny / vrácení 90 dní / klub / telefon + Blog, Práce u nás, Kontakt) → logo (zelený čtverec s bílými štíty + HORAL 900) | search s 2px černým rámem a černým tlačítkem Hledat | Prodejny / Přihlásit / Košík s labely → tučná navigace (Oblečení, Boty, Batohy, Vybavení, Dle pohlaví, Aktivity s foto dlaždicemi, Značky, Novinky, Akce červeně, Výprodej zeleně) s mega menu (sloupce + featured foto). Pop-up košík: černý pruh PŘIDÁNO DO KOŠÍKU, progress dopravy zdarma, zelená CTA, doporučené produkty.",
+  "sectionOrderNote": "Navbar -> dalsi sekce postupne dle rockpoint DNA (hero promo grid + Rady a tipy, oblibene kategorie kruhy, oblibene aktivity, nejprodavanejsi karusel, vyprodej, brand banner, prodejny, loga znacek, vernostni program, clanky, benefit rada, footer).",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-11-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-11-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-11-fav-categories",
+          "contentRef": "favCategories"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-11-activities",
+          "contentRef": "activitiesSection"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-11-products",
+          "contentRef": "bestsellers"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-11-products",
+          "contentRef": "saleProducts"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-11-brand-banner",
+          "contentRef": "brandBanner"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-11-stores",
+          "contentRef": "stores"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-11-brands",
+          "contentRef": "brands"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-11-loyalty",
+          "contentRef": "loyalty"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-11-articles",
+          "contentRef": "articles"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-11-benefits",
+          "contentRef": "benefitsRow"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-11-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-11-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-11-text",
+          "contentRef": "pageAbout"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-11-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-11-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-11-contact",
+          "contentRef": "pageContact"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-11-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "doprava-a-platba",
+      "title": "Doprava a platba",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-11-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-11-text",
+          "contentRef": "pageShipping"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-11-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "klub",
+      "title": "Zákaznický klub",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-11-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-11-text",
+          "contentRef": "pageClub"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-11-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "obchodni-podminky",
+      "title": "Obchodní podmínky",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-11-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-11-text",
+          "contentRef": "pageTerms"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-11-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "poradna",
+      "title": "Poradna",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-11-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-11-text",
+          "contentRef": "pageAdvice"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-11-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Kategorie řeší commerce sekce category-grid / mega menu v navbaru — předloha (Rockpoint.cz) nemá statické services dlaždice."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Předloha (Rockpoint.cz) nemá samostatný blok služeb — benefity/USP nese vlastní obsahová varianta."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Předloha (Rockpoint.cz) nemá recenze na homepage."
+    },
+    {
+      "pos": 8,
+      "name": "CTA/Newsletter",
+      "reason": "Newsletter/CTA je v předloze (Rockpoint.cz) součástí patičky, ne samostatné sekce."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Předloha (Rockpoint.cz) nemá pobočkovou sekci na homepage — kontakty jsou v patičce."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha (Rockpoint.cz) nemá FAQ na homepage."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Vlastní sekce dle DNA předlohy (Rockpoint.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    },
+    {
+      "type": "product-grid",
+      "reason": "Vlastní sekce dle DNA předlohy (Rockpoint.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}

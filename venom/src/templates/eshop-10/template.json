@@ -1,0 +1,294 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-10",
+  "name": "BOTIQ",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "fashion",
+    "sneakers",
+    "streetwear",
+    "premium",
+    "footshop-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Footshop.cz DNA s vlastní identitou, povýšeno na Awwwards premium: e-shop s teniskami a streetwearem — černá hlavička #0a0a0b, acid volt #c8f53c (announcement, CTA, hover), violet #7a5cff sekundární akcent, Barlow Condensed uppercase + Barlow, ostré 2px rádiusy. Header: horní lišta (gender taby VŠE / MUŽI / ŽENY / DĚTI s volt podtržením | centrovaný logo sticker BOTIQ (volt parallelogram s violet vrstvou, italic condensed) | oblíbené / účet / košík s volt badge) → kategorická lišta (NOVINKY, BOTY, OBLEČENÍ, DOPLŇKY, ZNAČKY, VÝPRODEJ červeně; mega menu s obrázkovými dlaždicemi a volt spodní linkou; vpravo tmavý search s volt tlačítkem HLEDAT) → rotující volt announcement bar. Pop-up košík: černý potvrzovací pruh PŘIDÁNO DO KOŠÍKU, progress bar dopravy zdarma s ikonou náklaďáku, volt CTA, MOHLO BY SE TI HODIT s outline tlačítky.",
+  "sectionOrderNote": "Homepage kompletní: Navbar → Hero → Trio → Kategorie+brand pás → Slevy pro tebe → Kolekce → Novinky → Outfity → Club → Releases → Magazín → Trust → Footer.",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-10-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-10-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-trio",
+          "contentRef": "trio"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-categories",
+          "contentRef": "categories"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-10-products",
+          "contentRef": "productsSale"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-collections",
+          "contentRef": "collections"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-10-products",
+          "contentRef": "productsNew"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-outfits",
+          "contentRef": "outfits"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-club",
+          "contentRef": "club"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-releases",
+          "contentRef": "releases"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-articles",
+          "contentRef": "articles"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-trust",
+          "contentRef": "trust"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-10-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "isHomepage": false,
+      "title": "O nás",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-10-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-10-page-hero",
+          "contentRef": "pageAbout.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-text",
+          "contentRef": "pageAbout.text"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-club",
+          "contentRef": "club"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-trust",
+          "contentRef": "trust"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-10-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "isHomepage": false,
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-10-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-10-page-hero",
+          "contentRef": "pageContact.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-contact",
+          "contentRef": "pageContact.contact"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-10-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "doprava",
+      "isHomepage": false,
+      "title": "Doprava a platba",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-10-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-10-page-hero",
+          "contentRef": "pageShipping.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-text",
+          "contentRef": "pageShipping.text"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-10-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "magazin",
+      "isHomepage": false,
+      "title": "Magazín",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-10-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-10-page-hero",
+          "contentRef": "pageMagazin.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-articles",
+          "contentRef": "articles"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-outfits",
+          "contentRef": "outfits"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-10-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "obchodni-podminky",
+      "isHomepage": false,
+      "title": "Obchodní podmínky",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-10-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-10-page-hero",
+          "contentRef": "pageTerms.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-10-text",
+          "contentRef": "pageTerms.text"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-10-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Kategorie řeší commerce sekce category-grid / mega menu v navbaru — předloha (Footshop.cz) nemá statické services dlaždice."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Předloha (Footshop.cz) nemá samostatný blok služeb — benefity/USP nese vlastní obsahová varianta."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Předloha (Footshop.cz) nemá recenze na homepage."
+    },
+    {
+      "pos": 8,
+      "name": "CTA/Newsletter",
+      "reason": "Newsletter/CTA je v předloze (Footshop.cz) součástí patičky, ne samostatné sekce."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Předloha (Footshop.cz) nemá pobočkovou sekci na homepage — kontakty jsou v patičce."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha (Footshop.cz) nemá FAQ na homepage."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "product-grid",
+      "reason": "Vlastní sekce dle DNA předlohy (Footshop.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}

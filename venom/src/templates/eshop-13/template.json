@@ -1,0 +1,301 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-13",
+  "name": "LUNELA",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "jewelry",
+    "fashion",
+    "editorial",
+    "milagro-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "description": "Milagro.cz DNA s vlastní identitou LUNELA (šperkařský multibrand e-shop — prsteny, náušnice, náhrdelníky, přívěsky, gravírování) — povýšeno na premium editorial. Bílý vzdušný podklad, čerň #111 (text, CTA, wordmark), pudrová růžová #FFCAD4 (oznamovací lišta, badge Novinka, akcenty) a dlaždicová šedá #EBECE9 (produktové dlaždice, search). Playfair Display (prostrkaný serif wordmark LUNELA, nadpisy) + Hanken Grotesk (text). Ostré editorial tvary, jemné 1px linky. Header: růžová oznamovací lišta (doprava zdarma | sleva na první objednávku) → bílá lišta (serif wordmark | avatar + telefon s otevírací dobou | šedý zaoblený search | účet / oblíbené / košík s badge) → řádek kategorií (Přívěsky, Náramky, Prsteny, Náušnice, Náhrdelníky, Kolekce, Dárky, Gravírování | O nás, Prodejny & Kontakty) s elegantním mega menu. Pop-up košík: černý potvrzovací pruh PŘIDÁNO DO KOŠÍKU, progress dopravy zdarma, doporučení.",
+  "sectionOrderNote": "Homepage KOMPLET (11 sekcí) + 8 podstránek (legacy content_source) + storefront skiny.",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-13-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-13-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-13-products",
+          "contentRef": "newCollection"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-13-usp",
+          "contentRef": "usp"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-13-gift-grid",
+          "contentRef": "giftGrid"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-13-gift-grid",
+          "contentRef": "palmeraGrid"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-13-collection-banners",
+          "contentRef": "collectionBanners"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-13-gift-selector",
+          "contentRef": "giftSelector"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-13-editorial",
+          "contentRef": "editorial"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-13-instagram",
+          "contentRef": "instagram"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-13-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O LUNELE",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-13-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-13-text",
+          "contentRef": "pageAbout"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-13-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Prodejny & Kontakty",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-13-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-13-contact",
+          "contentRef": "pageContact"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-13-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "doprava",
+      "title": "Doprava a platba",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-13-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-13-text",
+          "contentRef": "pageShipping"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-13-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "faq",
+      "title": "Rady a tipy",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-13-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-13-text",
+          "contentRef": "pageFaq"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-13-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "vraceni",
+      "title": "Reklamace a vrácení",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-13-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-13-text",
+          "contentRef": "pageReturns"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-13-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "obchodni-podminky",
+      "title": "Obchodní podmínky",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-13-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-13-text",
+          "contentRef": "pageTerms"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-13-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "ochrana-osobnich-udaju",
+      "title": "Ochrana osobních údajů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-13-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-13-text",
+          "contentRef": "pagePrivacy"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-13-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "clanky",
+      "title": "Blog",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-13-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-13-text",
+          "contentRef": "pageBlog"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-13-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Kategorie řeší commerce sekce category-grid / mega menu v navbaru — předloha (Milagro.cz) nemá statické services dlaždice."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Předloha (Milagro.cz) nemá samostatný blok služeb — benefity/USP nese vlastní obsahová varianta."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Předloha (Milagro.cz) nemá recenze na homepage."
+    },
+    {
+      "pos": 8,
+      "name": "CTA/Newsletter",
+      "reason": "Newsletter/CTA je v předloze (Milagro.cz) součástí patičky, ne samostatné sekce."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Předloha (Milagro.cz) nemá pobočkovou sekci na homepage — kontakty jsou v patičce."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha (Milagro.cz) nemá FAQ na homepage."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Vlastní sekce dle DNA předlohy (Milagro.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}

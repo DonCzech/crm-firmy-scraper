@@ -1,0 +1,112 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-17",
+  "name": "Rozkvět",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "kvetiny",
+    "kvetinarstvi",
+    "rozvoz",
+    "florea-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "description": "Florea.cz sortimentní DNA (online květinářství s vlastním rozvozem: kytice růží, míchané kytice, řezané květiny, krabičky, doplňky, výprodej) s vlastní prémiovou identitou Rozkvět — bordeaux & champagne. Krémový podklad #fdfbf8, bordó #8f1d3d (primary, navigační pás, ceny), tmavé bordó #611028, šampaňské zlato #c9a24b (akcenty, kvítek logotypu), šalvějová zelená #3c7d46 jen pro skladovost a nákupní CTA (květinářská konvence). Fraunces (wordmark „Rozkvět“ se zlatým kvítkem, nadpisy) + Instrument Sans. Header: úzký topbar (servisní odkazy | bordó kurýrní odkaz s mapou) → bílý hlavní řádek: wordmark + tagline | pill search s bordó kruhovým tlačítkem | telefon s avatarkou floristky + otevírací doba | Přihlášení | košík s badge + mezisoučet → bordó navigační pás (kategorie vlevo, servisní odkazy vpravo), aktivní tab bílý; mega menu = bílý panel s foto dlaždicemi kategorií + tmavě bordó sloupec „Mohlo by vás před nákupem zajímat“ s poradenskými odkazy. Pop-up košík: bordó pruh PŘIDÁNO DO KOŠÍKU, progress do dopravy zdarma (zlato → zelená), bordó CTA.",
+  "sectionOrderNote": "Homepage se staví postupně (sekce po sekci dle florea DNA: hero banner + kurýrní panel, svátkový kalendář jmenin, Oblíbené květiny a kytice grid, Proč nakupovat benefity, druhý produktový grid, newsletter, footer). Zatím: Navbar, Hero (slider + kurýrní panel s mapou ČR), Kalendář jmenin (promo eshop-17-calendar), Oblíbené květiny a kytice (featured-products eshop-17-products), Proč nakupovat benefity (services eshop-17-benefits), Čerstvé růže grid (eshop-17-products/rosesProducts), Newsletter (cta eshop-17-newsletter), Footer (eshop-17-footer). HOMEPAGE KOMPLETNÍ.",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-17-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-17-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "promo",
+          "variant": "eshop-17-calendar",
+          "contentRef": "calendar"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-17-products",
+          "contentRef": "favProducts"
+        },
+        {
+          "type": "services",
+          "variant": "eshop-17-benefits",
+          "contentRef": "benefits"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-17-products",
+          "contentRef": "rosesProducts"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-17-newsletter",
+          "contentRef": "newsletter"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-17-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "skippedSections": [
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 5,
+      "name": "About",
+      "reason": "Předloha (Florea.cz) nemá klasickou about sekci na homepage — obsah nesou vlastní varianty."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Předloha (Florea.cz) nemá recenze na homepage."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Předloha (Florea.cz) nemá pobočkovou sekci na homepage — kontakty jsou v patičce."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha (Florea.cz) nemá FAQ na homepage."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Vlastní sekce dle DNA předlohy (Florea.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    },
+    {
+      "type": "promo",
+      "reason": "Vlastní sekce dle DNA předlohy (Florea.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}

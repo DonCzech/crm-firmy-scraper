@@ -1,0 +1,360 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-06",
+  "name": "Ořeškárna",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "food",
+    "healthy",
+    "premium",
+    "svetplodu-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Svetplodu.cz DNA, povýšeno na Awwwards premium: e-shop se zdravým mlsáním (ořechy, lyofilizované ovoce, sušené ovoce) — bílý editorial podklad, charcoal #1d1d1b Archivo uppercase headings, ručně psaný Caveat Brush logotyp, žlutý #f6c500 akcent (badge, ribbon), zelené #21a95c CTA, růžové slevové badge, pastelové USP kruhy. Header: bílý sticky s velkým script logem, šedý search pill, top-linky + dropdown, kruhová vlajka, srdce/účet/košík s cenou; uppercase kategorie s plnoformátovým mega menu (kategorie list + promo obrázek + mini-produkty Nejoblíbenější/Novinky/Zachraň mě + blog karta); světlá emoji quick-tag lišta; fixní zlatý ribbon Ověřeno zákazníky.",
+  "sectionOrderNote": "Navbar (main bar: script logo|search pill|Pro firmy/Velkoobchod/Blog/Vše o nákupu ⌄|vlajka|srdce|účet|košík s cenou → uppercase kategorie s mega menu → emoji quick-tag strip + fixní zlatý ribbon) → Hero (2 promo karty + wide slider) → Pro vás product carousel → Bestsellery product carousel → Blog 3 karty → Naše prodejny split → Tým split → Sledujte nás social row → USP pastelové kruhy → Footer (newsletter + sloupce + PSST sticker).",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-06-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-06-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-06-products",
+          "contentRef": "productsForYou"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-06-products",
+          "contentRef": "productsBestsellers"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-blog",
+          "contentRef": "blog"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-split",
+          "contentRef": "stores"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-split",
+          "contentRef": "team"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-social",
+          "contentRef": "social"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-usp",
+          "contentRef": "usp"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-06-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-06-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-06-page-hero",
+          "contentRef": "pages.onas.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-split",
+          "contentRef": "team"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-split",
+          "contentRef": "stores"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-usp",
+          "contentRef": "usp"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-06-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-06-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-06-page-hero",
+          "contentRef": "pages.kontakt.hero"
+        },
+        {
+          "type": "contact",
+          "variant": "eshop-06-contact",
+          "contentRef": "pages.kontakt.contact"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-06-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "doprava-a-platba",
+      "title": "Doprava a platba",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-06-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-06-page-hero",
+          "contentRef": "pages.doprava.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-shipping",
+          "contentRef": "pages.doprava.shipping"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-06-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "firemni-odbery",
+      "title": "Firemní odběry",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-06-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-06-page-hero",
+          "contentRef": "pages.firmy.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-split",
+          "contentRef": "pages.firmy.split"
+        },
+        {
+          "type": "contact",
+          "variant": "eshop-06-contact",
+          "contentRef": "pages.firmy.contact"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-06-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "recepty",
+      "title": "Recepty",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-06-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-06-page-hero",
+          "contentRef": "pages.recepty.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-blog",
+          "contentRef": "pages.recepty.sladke"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-blog",
+          "contentRef": "pages.recepty.slane"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-06-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "vraceni-zbozi",
+      "title": "Vrácení zboží",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-06-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-06-page-hero",
+          "contentRef": "pages.vraceni.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-richtext",
+          "contentRef": "pages.vraceni.text"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-06-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "caste-dotazy",
+      "title": "Časté dotazy",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-06-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-06-page-hero",
+          "contentRef": "pages.faq.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-faq",
+          "contentRef": "pages.faq.faq"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-06-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "obchodni-podminky",
+      "title": "Obchodní podmínky",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-06-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-06-page-hero",
+          "contentRef": "pages.podminky.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-06-richtext",
+          "contentRef": "pages.podminky.text"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-06-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Kategorie řeší commerce sekce category-grid / mega menu v navbaru — předloha (Svetplodu.cz) nemá statické services dlaždice."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Předloha (Svetplodu.cz) nemá samostatný blok služeb — benefity/USP nese vlastní obsahová varianta."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Předloha (Svetplodu.cz) nemá recenze na homepage."
+    },
+    {
+      "pos": 8,
+      "name": "CTA/Newsletter",
+      "reason": "Newsletter/CTA je v předloze (Svetplodu.cz) součástí patičky, ne samostatné sekce."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Předloha (Svetplodu.cz) nemá pobočkovou sekci na homepage — kontakty jsou v patičce."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha (Svetplodu.cz) nemá FAQ na homepage."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Vlastní sekce dle DNA předlohy (Svetplodu.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    },
+    {
+      "type": "product-grid",
+      "reason": "Vlastní sekce dle DNA předlohy (Svetplodu.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}

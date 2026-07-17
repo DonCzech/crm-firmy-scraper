@@ -1,0 +1,304 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-12",
+  "name": "PACKA",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "pets",
+    "petshop",
+    "friendly",
+    "petcenter-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "description": "Petcenter.cz DNA s vlastní přátelskou identitou PACKA (chovatelské potřeby, vše pro mazlíčky) — povýšeno na premium. Královská modrá #2f6fed (kategorický pás, hero, odkazy) + teplé mango #ff8a3d (CTA, ceny, akční prvky) na krémovém #fffbf6, sekundární navy #14224a, skladem zelená #16a06a, sleva coral #f5453b. Kulaté přátelské tvary (rádiusy 12–16 px, pill tlačítka), Baloo 2 (nadpisy) + Nunito (text). Header: horní utility lišta (rotující doprava-zdarma promo | prodejny / doprava a platba / poradna / blog | sledování zásilky / přihlášení) → hlavní bílá lišta (logo PACKA s tlapkou | velký zaoblený search s mango tlačítkem HLEDAT | telefonní chip | oblíbené / účet / košík s mango badge a mini součtem) → modrý kategorický pás s NÁDHERNÝMI tematickými SVG ikonami zvířat u každé kategorie (Léto, Psi–pes, Kočky–kočka, Hlodavci–křeček, Ptáci–pták, Akva-Tera–ryba, Akce–tlapka/procenta) a obrázkovými mega menu. Pop-up košík: mango potvrzovací pruh PŘIDÁNO DO KOŠÍKU, progress bar dopravy zdarma s ikonou, mango CTA, MOHLO BY SE HODIT doporučení.",
+  "sectionOrderNote": "Homepage KOMPLET (9 sekcí) + podstránky o-nas/kontakt/doprava/prodejny/blog/obchodni-podminky + storefront (listing/detail/košík).",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-12-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-12-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-12-products",
+          "contentRef": "productsPicked"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-12-fav",
+          "contentRef": "favCategories"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-12-products",
+          "contentRef": "productsSale"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-12-stores",
+          "contentRef": "stores"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-12-brands",
+          "contentRef": "brands"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-12-blog",
+          "contentRef": "blog"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-12-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "isHomepage": false,
+      "title": "O nás",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-12-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-12-page-hero",
+          "contentRef": "pageAbout.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-12-text",
+          "contentRef": "pageAbout.text"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-12-stores",
+          "contentRef": "stores"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-12-brands",
+          "contentRef": "brands"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-12-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "isHomepage": false,
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-12-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-12-page-hero",
+          "contentRef": "pageContact.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-12-contact",
+          "contentRef": "pageContact.form"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-12-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "doprava",
+      "isHomepage": false,
+      "title": "Doprava a platba",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-12-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-12-page-hero",
+          "contentRef": "pageShipping.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-12-text",
+          "contentRef": "pageShipping.text"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-12-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "prodejny",
+      "isHomepage": false,
+      "title": "Prodejny",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-12-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-12-page-hero",
+          "contentRef": "pageStores.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-12-stores",
+          "contentRef": "stores"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-12-text",
+          "contentRef": "pageStores.text"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-12-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "poradna",
+      "isHomepage": false,
+      "title": "Poradna a blog",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-12-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-12-page-hero",
+          "contentRef": "pageBlog.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-12-blog",
+          "contentRef": "blog"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-12-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "obchodni-podminky",
+      "isHomepage": false,
+      "title": "Obchodní podmínky",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-12-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-12-page-hero",
+          "contentRef": "pageTerms.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-12-text",
+          "contentRef": "pageTerms.text"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-12-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Kategorie řeší commerce sekce category-grid / mega menu v navbaru — předloha (Petcenter.cz) nemá statické services dlaždice."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Předloha (Petcenter.cz) nemá samostatný blok služeb — benefity/USP nese vlastní obsahová varianta."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Předloha (Petcenter.cz) nemá recenze na homepage."
+    },
+    {
+      "pos": 8,
+      "name": "CTA/Newsletter",
+      "reason": "Newsletter/CTA je v předloze (Petcenter.cz) součástí patičky, ne samostatné sekce."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Předloha (Petcenter.cz) nemá pobočkovou sekci na homepage — kontakty jsou v patičce."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha (Petcenter.cz) nemá FAQ na homepage."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Vlastní sekce dle DNA předlohy (Petcenter.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    },
+    {
+      "type": "product-grid",
+      "reason": "Vlastní sekce dle DNA předlohy (Petcenter.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}

@@ -1,0 +1,230 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-07",
+  "name": "Néroli parfumerie",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "beauty",
+    "perfume",
+    "premium",
+    "kosmetika-zdravi-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Kosmetika-zdravi.cz DNA, povýšeno na Awwwards premium: parfumerie & kosmetika — bílý čistý podklad, ink #16161d, tyrkysové #1fbfae CTA (košík, skladem), růžový #e84393 akcent slevových cen, mint slevové badge, tmavý ink footer s newsletterem. Header: bílý sticky s květinovým znakem + lowercase logotypem, velký šedý search pill se lupou vlevo, kruhová vlajka, účet/srdce/košík s cenou; uppercase letterspaced kategorie s plnoformátovým mega menu (Doporučujeme pill buttony + Sortiment linky + Pohlaví ikony + Dle ceny + Značky wordmarky + velká promo foto karta s CTA). Fixní žlutý ribbon Ověřeno zákazníky vpravo (skrytý default).",
+  "sectionOrderNote": "Navbar (main bar: květinový mark + lowercase logotyp | search pill lupa vlevo | vlajka | účet | srdce | košík s cenou → uppercase kategorie s mega menu Doporučujeme/Sortiment/Pohlaví/Dle ceny/Značky/promo karta) → Hero slider s tečkami → dlaždice kategorií 2×5 → USP 4 ikony → Novinky carousel → Právě zlevněno carousel → Vybrali jsme pro vás carousel → Oblíbené značky wordmark row + CTA → Recenze zákazníků 3 karty slider → USP repeat → Footer (ink, newsletter + sloupce + dopravci/platby + květinový mark).",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-07-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-07-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-07-categories",
+          "contentRef": "categoryTiles"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-07-usp",
+          "contentRef": "usp"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-07-products",
+          "contentRef": "productsNew"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-07-products",
+          "contentRef": "productsSale"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-07-products",
+          "contentRef": "productsPicked"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-07-brands",
+          "contentRef": "brandsRow"
+        },
+        {
+          "type": "testimonials",
+          "variant": "eshop-07-reviews",
+          "contentRef": "reviews"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-07-usp",
+          "contentRef": "usp"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-07-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "Náš příběh",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-07-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-07-page-hero",
+          "contentRef": "onasHero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-07-story",
+          "contentRef": "onasStory"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-07-brands",
+          "contentRef": "brandsRow"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-07-usp",
+          "contentRef": "usp"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-07-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-07-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-07-page-hero",
+          "contentRef": "kontaktHero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-07-contact",
+          "contentRef": "kontaktInfo"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-07-usp",
+          "contentRef": "usp"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-07-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "doprava-a-platba",
+      "title": "Doprava a platba",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-07-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-07-page-hero",
+          "contentRef": "dopravaHero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-07-shipping",
+          "contentRef": "dopravaInfo"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-07-usp",
+          "contentRef": "usp"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-07-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Kategorie řeší commerce sekce category-grid / mega menu v navbaru — předloha (Kosmetika-zdravi.cz) nemá statické services dlaždice."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Předloha (Kosmetika-zdravi.cz) nemá samostatný blok služeb — benefity/USP nese vlastní obsahová varianta."
+    },
+    {
+      "pos": 8,
+      "name": "CTA/Newsletter",
+      "reason": "Newsletter/CTA je v předloze (Kosmetika-zdravi.cz) součástí patičky, ne samostatné sekce."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Předloha (Kosmetika-zdravi.cz) nemá pobočkovou sekci na homepage — kontakty jsou v patičce."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha (Kosmetika-zdravi.cz) nemá FAQ na homepage."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Vlastní sekce dle DNA předlohy (Kosmetika-zdravi.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    },
+    {
+      "type": "product-grid",
+      "reason": "Vlastní sekce dle DNA předlohy (Kosmetika-zdravi.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}

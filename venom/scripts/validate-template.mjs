@@ -182,16 +182,19 @@ function lookup(obj, ref) {
 function checkContentShape(type, contentRef, value) {
   const schema = CONTENT_SCHEMA[type];
   if (!schema || !value || typeof value !== "object") return;
+  const hasOwn = (obj, k) => Object.prototype.hasOwnProperty.call(obj, k);
   for (const k of schema.required) {
-    if (!(k in value)) err(`[${type}@${contentRef}] chybí povinný klíč "${k}"`);
+    if (!hasOwn(value, k)) err(`[${type}@${contentRef}] chybí povinný klíč "${k}"`);
   }
   for (const k of schema.recommended) {
-    if (!(k in value)) warn(`[${type}@${contentRef}] chybí doporučený klíč "${k}" — sekce může být vizuálně prázdná`);
+    if (!hasOwn(value, k)) warn(`[${type}@${contentRef}] chybí doporučený klíč "${k}" — sekce může být vizuálně prázdná`);
   }
   for (const [arrKey, itemKeys] of Object.entries(schema.arrays)) {
-    if (arrKey in value) {
+    if (hasOwn(value, arrKey)) {
       const arr = value[arrKey];
       if (!Array.isArray(arr)) {
+        // "socials" smí být i objektová mapa { instagram: url, facebook: url, … } (eshop-07, eshop-13)
+        if (arrKey === "socials" && arr && typeof arr === "object") continue;
         err(`[${type}@${contentRef}] klíč "${arrKey}" má být pole, je ${typeof arr}`);
         continue;
       }

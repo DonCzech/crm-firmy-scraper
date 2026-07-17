@@ -1,0 +1,226 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-02",
+  "name": "Modrý Košík",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "shoptet-classic",
+    "conversion"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Shoptet Classic DNA, povýšeno: konverzní univerzální e-shop — světlé plátno, modrá kategorie-lišta s megamenu, velké hledání v hlavičce, benefit callouty (doprava zdarma, výdejní místa), Akční zboží + Novinky gridy, recenze. Produkty a kategorie vždy z commerce DB. Storefront listing/PDP na /obchod.",
+  "sectionOrderNote": "Navbar (top strip + logo/search/cart + modrá kategorie lišta) → Hero promo banner → Benefit callouty → Akční zboží (featured-products) → Kategorie (category-grid) → Novinky (product-grid) → About → Recenze → FAQ → CTA → Footer — sekce se přidávají postupně (sekce-po-sekci workflow).",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-02-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-02-products",
+          "contentRef": "akce",
+          "anchorId": "akce"
+        },
+        {
+          "type": "category-grid",
+          "variant": "eshop-02-categories",
+          "contentRef": "categories",
+          "anchorId": "kategorie"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-02-products",
+          "contentRef": "novinky",
+          "anchorId": "novinky"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-02-about",
+          "contentRef": "about",
+          "anchorId": "o-nas"
+        },
+        {
+          "type": "testimonials",
+          "variant": "eshop-02-testimonials",
+          "contentRef": "testimonials",
+          "anchorId": "recenze"
+        },
+        {
+          "type": "faq",
+          "variant": "eshop-02-faq",
+          "contentRef": "faq",
+          "anchorId": "faq"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-02-cta",
+          "contentRef": "cta",
+          "anchorId": "newsletter"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-02-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-02-page-hero",
+          "contentRef": "pages.onas.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-02-about",
+          "contentRef": "about",
+          "anchorId": "o-nas"
+        },
+        {
+          "type": "testimonials",
+          "variant": "eshop-02-testimonials",
+          "contentRef": "testimonials",
+          "anchorId": "recenze"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-02-cta",
+          "contentRef": "cta"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-02-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-02-page-hero",
+          "contentRef": "pages.kontakt.hero"
+        },
+        {
+          "type": "contact",
+          "variant": "eshop-02-contact",
+          "contentRef": "pages.kontakt.contact"
+        },
+        {
+          "type": "faq",
+          "variant": "eshop-02-faq",
+          "contentRef": "faq"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-02-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "doprava-a-platba",
+      "title": "Doprava a platba",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-02-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-02-page-hero",
+          "contentRef": "pages.doprava.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-02-shipping",
+          "contentRef": "pages.doprava.shipping"
+        },
+        {
+          "type": "faq",
+          "variant": "eshop-02-faq",
+          "contentRef": "faq"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-02-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Kategorie řeší commerce sekce category-grid / mega menu v navbaru — předloha (Shoptet Classic) nemá statické services dlaždice."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Předloha (Shoptet Classic) nemá samostatný blok služeb — benefity/USP nese vlastní obsahová varianta."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Předloha (Shoptet Classic) nemá pobočkovou sekci na homepage — kontakty jsou v patičce."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "category-grid",
+      "reason": "Vlastní sekce dle DNA předlohy (Shoptet Classic) — commerce/vizuální blok šablony mimo základní skeleton."
+    },
+    {
+      "type": "featured-products",
+      "reason": "Vlastní sekce dle DNA předlohy (Shoptet Classic) — commerce/vizuální blok šablony mimo základní skeleton."
+    },
+    {
+      "type": "product-grid",
+      "reason": "Vlastní sekce dle DNA předlohy (Shoptet Classic) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}

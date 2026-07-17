@@ -1,0 +1,241 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-09",
+  "name": "Mobil Expres",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "electronics",
+    "mobile",
+    "tech",
+    "premium",
+    "mp-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Mp.cz (Mobil Pohotovost) DNA s vlastní identitou, povýšeno na Awwwards premium: e-shop s mobily a elektronikou — deep navy header #1d2433, mint #3ce0a6 (logo mark, Hledat CTA), akcent #22c993, Archivo (kompaktní grotesk). Header: main bar (bolt mark v mint kruhu + bílý logotyp | velký pill search s mint orámováním a viditelným tlačítkem Hledat | utility ikony s popisky Prodejny / Kontakt / Přihlásit / Košík s badge) → tmavší kategorická lišta #151b28 (coral Limitované nabídky, cyan Výkup telefonů, kategorie s chevrony, horizontální scroll se šipkami a gradient fade, mega menu s obrázkovými dlaždicemi podkategorií a mint spodní linkou). Pop-up košík: navy potvrzovací pruh, červené ceny, mint CTA PŘEJÍT DO KOŠÍKU, Mohlo by vás zajímat s DO KOŠÍKU.",
+  "sectionOrderNote": "Navbar → Hero slider (mp tab strip) → Nejprodávanější telefony → Limitované nabídky → Pronájem duo-banner → Audio → Magazín (články) → Footer.",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-09-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-09-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-09-products",
+          "contentRef": "productsPhones"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-09-products",
+          "contentRef": "productsDeals"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-09-duo-banner",
+          "contentRef": "rentBanner"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-09-products",
+          "contentRef": "productsAudio"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-09-articles",
+          "contentRef": "articles"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-09-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "isHomepage": false,
+      "title": "O nás",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-09-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-09-page-hero",
+          "contentRef": "pages.onas.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-09-text",
+          "contentRef": "pages.onas.about"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-09-duo-banner",
+          "contentRef": "rentBanner"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-09-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "isHomepage": false,
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-09-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-09-page-hero",
+          "contentRef": "pages.kontakt.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-09-contact",
+          "contentRef": "pages.kontakt.contact"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-09-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "obchodni-podminky",
+      "isHomepage": false,
+      "title": "Obchodní podmínky",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-09-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-09-page-hero",
+          "contentRef": "pages.podminky.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-09-text",
+          "contentRef": "pages.podminky.text"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-09-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "magazin",
+      "isHomepage": false,
+      "title": "Magazín",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-09-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-09-page-hero",
+          "contentRef": "pages.magazin.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-09-articles",
+          "contentRef": "articles"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-09-articles",
+          "contentRef": "pages.magazin.articles2"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-09-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Kategorie řeší commerce sekce category-grid / mega menu v navbaru — předloha (Mobil Pohotovost) nemá statické services dlaždice."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Předloha (Mobil Pohotovost) nemá samostatný blok služeb — benefity/USP nese vlastní obsahová varianta."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Předloha (Mobil Pohotovost) nemá recenze na homepage."
+    },
+    {
+      "pos": 8,
+      "name": "CTA/Newsletter",
+      "reason": "Newsletter/CTA je v předloze (Mobil Pohotovost) součástí patičky, ne samostatné sekce."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Předloha (Mobil Pohotovost) nemá pobočkovou sekci na homepage — kontakty jsou v patičce."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha (Mobil Pohotovost) nemá FAQ na homepage."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Vlastní sekce dle DNA předlohy (Mobil Pohotovost) — commerce/vizuální blok šablony mimo základní skeleton."
+    },
+    {
+      "type": "product-grid",
+      "reason": "Vlastní sekce dle DNA předlohy (Mobil Pohotovost) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}

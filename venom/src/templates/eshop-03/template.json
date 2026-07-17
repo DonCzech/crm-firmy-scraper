@@ -1,0 +1,211 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-03",
+  "name": "Pohodář",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "shoptet-disco",
+    "conversion"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "description": "Shoptet Disco DNA, povýšeno: celobílý energický e-shop — Nunito, žlutá #FFC500 na tlačítkách, radius 0, menu s dropdowny a hover podtržením. Hero carousel, benefit callouty, Doporučujeme + Akční zboží + Novinky gridy, promo banner, žlutý newsletter pás. Produkty a kategorie vždy z commerce DB. Storefront listing/PDP na /obchod.",
+  "sectionOrderNote": "Navbar (logo / hledání / účet+košík + bílá navigace s dropdowny) → Hero carousel → Benefit callouty → Doporučujeme → Akční zboží → Promo banner → Novinky → Footer s newsletterem — sekce po sekci workflow.",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-03-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-03-benefits",
+          "contentRef": "benefits"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-03-products",
+          "contentRef": "doporucujeme",
+          "anchorId": "doporucujeme"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-03-products",
+          "contentRef": "akce",
+          "anchorId": "akce"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-03-banner",
+          "contentRef": "banner"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-03-products",
+          "contentRef": "novinky",
+          "anchorId": "novinky"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-03-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-03-page-hero",
+          "contentRef": "pages.onas.hero"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-03-banner",
+          "contentRef": "pages.onas.banner"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-03-benefits",
+          "contentRef": "benefits"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-03-products",
+          "contentRef": "doporucujeme"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-03-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-03-page-hero",
+          "contentRef": "pages.kontakt.hero"
+        },
+        {
+          "type": "contact",
+          "variant": "eshop-03-contact",
+          "contentRef": "pages.kontakt.contact"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-03-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "doprava-a-platba",
+      "title": "Doprava a platba",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-03-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-03-page-hero",
+          "contentRef": "pages.doprava.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-03-benefits",
+          "contentRef": "benefits"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-03-shipping",
+          "contentRef": "pages.doprava.shipping"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-03-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Kategorie řeší commerce sekce category-grid / mega menu v navbaru — předloha (Shoptet Disco) nemá statické services dlaždice."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Předloha (Shoptet Disco) nemá samostatný blok služeb — benefity/USP nese vlastní obsahová varianta."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Předloha (Shoptet Disco) nemá recenze na homepage."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Předloha (Shoptet Disco) nemá pobočkovou sekci na homepage — kontakty jsou v patičce."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha (Shoptet Disco) nemá FAQ na homepage."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Vlastní sekce dle DNA předlohy (Shoptet Disco) — commerce/vizuální blok šablony mimo základní skeleton."
+    },
+    {
+      "type": "product-grid",
+      "reason": "Vlastní sekce dle DNA předlohy (Shoptet Disco) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}

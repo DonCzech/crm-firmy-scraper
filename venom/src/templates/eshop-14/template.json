@@ -1,0 +1,289 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-14",
+  "name": "Zahradia",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "zahrada",
+    "hobby",
+    "bazeny",
+    "mountfield-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.1.0",
+  "baseTemplate": null,
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "description": "Mountfield.cz sortimentní DNA (zahradní technika, bazény a wellness, dům a dílna, elektrokola, chovatelské potřeby) s vlastní awwwards identitou Zahradia — botanical luxe. Krémový podklad #faf7f0, hluboká lesní zelená #14352a, terakota #d96f32 (CTA, akcenty), Fraunces italic (logotyp „Zahradia.“ s terakotovou tečkou, nadpisy) + Instrument Sans. Header: tmavě zelená oznamovací lišta s USP (doprava zdarma / prodejny / servis) → krémový řádek: serif wordmark | bílý pill search s terakotovým kruhovým tlačítkem | Prodejny / Účet / terakotový pill košík se zeleným badge → centrovaná lišta kategorií s pill hover (šalvějová #e9efe6). Mega menu: plovoucí centrovaný zaoblený panel (radius 22, měkký stín) s Fraunces hlavičkou, „Zobrazit vše →“ a gridem foto dlaždic 4:3 (radius 14, hover zoom). Pop-up košík: lesní pruh PŘIDÁNO DO KOŠÍKU, progress dopravy zdarma, terakotová CTA.",
+  "sectionOrderNote": "Header + menu = marimex.cz DNA ve smaragdové #1f7a4e (USP strip je součástí navbaru). Homepage dle mountfield struktury: hero slider, oblíbené kategorie, doporučujeme pro vás, aktuality, YouTube, footer.",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-14-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-14-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-14-fav-categories",
+          "contentRef": "favCategories"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-14-products",
+          "contentRef": "recommended"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-14-articles",
+          "contentRef": "articles"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-14-videos",
+          "contentRef": "videos"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-14-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "isHomepage": false,
+      "title": "O společnosti",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-14-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-14-text",
+          "contentRef": "pageAbout"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-14-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "isHomepage": false,
+      "title": "Prodejny a kontakty",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-14-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-14-text",
+          "contentRef": "pageContact"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-14-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "doprava-a-platba",
+      "isHomepage": false,
+      "title": "Doprava a platba",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-14-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-14-text",
+          "contentRef": "pageShipping"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-14-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "poradna",
+      "isHomepage": false,
+      "title": "Zahradní rádce",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-14-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-14-text",
+          "contentRef": "pageAdvice"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-14-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "sluzby",
+      "isHomepage": false,
+      "title": "Naše služby",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-14-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-14-text",
+          "contentRef": "pageServices"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-14-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "servis",
+      "isHomepage": false,
+      "title": "Servis a náhradní díly",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-14-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-14-text",
+          "contentRef": "pageServices"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-14-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "vernostni-program",
+      "isHomepage": false,
+      "title": "Věrnostní program",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-14-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-14-text",
+          "contentRef": "pageLoyalty"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-14-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "obchodni-podminky",
+      "isHomepage": false,
+      "title": "Obchodní podmínky",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-14-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-14-text",
+          "contentRef": "pageTerms"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-14-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Kategorie řeší commerce sekce category-grid / mega menu v navbaru — předloha (Mountfield.cz) nemá statické services dlaždice."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Předloha (Mountfield.cz) nemá samostatný blok služeb — benefity/USP nese vlastní obsahová varianta."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Předloha (Mountfield.cz) nemá recenze na homepage."
+    },
+    {
+      "pos": 8,
+      "name": "CTA/Newsletter",
+      "reason": "Newsletter/CTA je v předloze (Mountfield.cz) součástí patičky, ne samostatné sekce."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Předloha (Mountfield.cz) nemá pobočkovou sekci na homepage — kontakty jsou v patičce."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha (Mountfield.cz) nemá FAQ na homepage."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Vlastní sekce dle DNA předlohy (Mountfield.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}

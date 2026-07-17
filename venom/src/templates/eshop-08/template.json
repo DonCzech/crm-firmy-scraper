@@ -1,0 +1,283 @@
+{
+  "$schema": "../../schemas/template.schema.json",
+  "key": "eshop-08",
+  "name": "Domea",
+  "industry": "eshop",
+  "kind": "commerce",
+  "tags": [
+    "universal",
+    "home",
+    "living",
+    "furniture",
+    "premium",
+    "bonami-dna"
+  ],
+  "commerceCapabilities": [
+    "catalog",
+    "variants"
+  ],
+  "skeleton": "e-shop",
+  "version": "0.2.0",
+  "baseTemplate": null,
+  "description": "Bonami.cz DNA, povýšeno na Awwwards premium: e-shop s nábytkem a bydlením — bílý skandinávský podklad, charcoal #2b2b2b DM Sans, zelená #3d9a50 (CTA, announcement, skladem), červená #d64541 (Slevy & Outlet, sale badge), světle šedé pill prvky. Header: zelený announcement pruh → main bar (květinový mark + lowercase logotyp | šedý zaoblený search pill | zelený pill Dárek pro vás | REGISTRACE / PŘIHLÁŠENÍ | srdce | košík s badge) → nav lišta KATEGORIE ⌄ (mega menu se sloupci + promo foto) | MÍSTNOSTI ⌄ (dropdown pokojů) | Domea Extra | Inspirace | červené Slevy & Outlet | Návrh interiéru | Novinky | Premium značky. Pop-up košík dle Bonami: zelený potvrzovací pruh, položka s Celkem s DPH, zelené CTA PŘEJÍT DO KOŠÍKU, MOHLO BY VÁS TAKÉ ZAJÍMAT s DO KOŠÍKU řádky.",
+  "sectionOrderNote": "Navbar → Oblíbené kategorie (strip karet s fotkami) → Hero (velký banner + 2 menší vpravo) → Novinky (product carousel) → Akce a slevy (outlet banner trio) → Dnešní výhodné nabídky (product carousel) → Právě na Domea (3 edit. karty + béžový promo banner) → Místnosti (6 karet pokojů) → Oblíbené články (3 blog karty) → Služby a podpora (dlaždice odkazů) → Domea Home Studio (box s CTA) → Footer (brand statement + sloupce + socials + legal).",
+  "pages": [
+    {
+      "slug": "home",
+      "isHomepage": true,
+      "title": "Domů",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-08-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-08-fav-categories",
+          "contentRef": "favCategories"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-08-hero",
+          "contentRef": "hero"
+        },
+        {
+          "type": "featured-products",
+          "variant": "eshop-08-products",
+          "contentRef": "productsNew"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-08-outlet",
+          "contentRef": "outlet"
+        },
+        {
+          "type": "product-grid",
+          "variant": "eshop-08-products",
+          "contentRef": "productsDeals"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-08-editorial",
+          "contentRef": "editorial"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-08-rooms",
+          "contentRef": "roomsGrid"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-08-articles",
+          "contentRef": "articles"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-08-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-08-studio",
+          "contentRef": "studio"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-08-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "o-nas",
+      "title": "O nás",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-08-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-08-page-hero",
+          "contentRef": "pages.onas.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-08-text",
+          "contentRef": "pages.onas.about"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-08-studio",
+          "contentRef": "studio"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-08-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "kontakt",
+      "title": "Kontakt",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-08-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-08-page-hero",
+          "contentRef": "pages.kontakt.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-08-contact",
+          "contentRef": "pages.kontakt.contact"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-08-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "vse-o-nakupu",
+      "title": "Vše o nákupu",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-08-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-08-page-hero",
+          "contentRef": "pages.vseONakupu.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-08-text",
+          "contentRef": "pages.vseONakupu.shipping"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-08-services",
+          "contentRef": "services"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-08-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "inspirace",
+      "title": "Inspirace",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-08-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-08-page-hero",
+          "contentRef": "pages.blog.hero"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-08-articles",
+          "contentRef": "articlesPage"
+        },
+        {
+          "type": "about",
+          "variant": "eshop-08-editorial",
+          "contentRef": "editorial"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-08-footer",
+          "contentRef": "footer"
+        }
+      ]
+    },
+    {
+      "slug": "navrh-interieru",
+      "title": "Návrh interiéru",
+      "sections": [
+        {
+          "type": "navbar",
+          "variant": "eshop-08-navbar",
+          "contentRef": "navbar"
+        },
+        {
+          "type": "hero",
+          "variant": "eshop-08-page-hero",
+          "contentRef": "pages.onas.hero"
+        },
+        {
+          "type": "cta",
+          "variant": "eshop-08-studio",
+          "contentRef": "studio"
+        },
+        {
+          "type": "footer",
+          "variant": "eshop-08-footer",
+          "contentRef": "footer"
+        }
+      ]
+    }
+  ],
+  "content": {
+    "default": "./content/cs.json"
+  },
+  "skippedSections": [
+    {
+      "pos": 3,
+      "name": "Categories",
+      "reason": "Kategorie řeší commerce sekce category-grid / mega menu v navbaru — předloha (Bonami.cz) nemá statické services dlaždice."
+    },
+    {
+      "pos": 4,
+      "name": "Featured products",
+      "reason": "Doporučené produkty řeší commerce sekce featured-products/product-grid šablony, ne statická gallery."
+    },
+    {
+      "pos": 6,
+      "name": "Services",
+      "reason": "Předloha (Bonami.cz) nemá samostatný blok služeb — benefity/USP nese vlastní obsahová varianta."
+    },
+    {
+      "pos": 7,
+      "name": "Testimonials",
+      "reason": "Předloha (Bonami.cz) nemá recenze na homepage."
+    },
+    {
+      "pos": 9,
+      "name": "Locations",
+      "reason": "Předloha (Bonami.cz) nemá pobočkovou sekci na homepage — kontakty jsou v patičce."
+    },
+    {
+      "pos": 10,
+      "name": "FAQ",
+      "reason": "Předloha (Bonami.cz) nemá FAQ na homepage."
+    }
+  ],
+  "extraSections": [
+    {
+      "type": "featured-products",
+      "reason": "Vlastní sekce dle DNA předlohy (Bonami.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    },
+    {
+      "type": "product-grid",
+      "reason": "Vlastní sekce dle DNA předlohy (Bonami.cz) — commerce/vizuální blok šablony mimo základní skeleton."
+    }
+  ]
+}
