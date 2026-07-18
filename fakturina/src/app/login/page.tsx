@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Přihlášení",
+  robots: { index: false, follow: false },
+};
 import AuthForm from "@/components/AuthForm";
 import { Zap } from "lucide-react";
 
