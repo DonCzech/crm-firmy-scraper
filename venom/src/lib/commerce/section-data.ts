@@ -160,6 +160,102 @@ async function fetchCategoryCards(
   );
 }
 
+// ── Navbar ↔ commerce kategorie ──────────────────────────────────────────────
+
+export interface CommerceCategoryNode {
+  id: number;
+  slug: string;
+  name: string;
+  image_url: string | null;
+  product_count: number;
+  children: CommerceCategoryNode[];
+}
+
+/** Celý viditelný strom kategorií tenanta (řazený sort_order, libovolná hloubka). */
+export async function fetchCategoryTree(tenantId: number): Promise<CommerceCategoryNode[]> {
+  const rows = await query<{
+    id: number; slug: string; name: string; image_url: string | null;
+    parent_id: number | null; product_count: number;
+  }>(
+    `SELECT c.id, c.slug, c.name, c.image_url, c.parent_id,
+            (SELECT COUNT(*)::int FROM product_category_links l
+              JOIN products p ON p.id = l.product_id AND p.status = 'active'
+             WHERE l.category_id = c.id) AS product_count
+     FROM product_categories c
+     WHERE c.tenant_id = $1 AND c.is_visible = true
+     ORDER BY c.sort_order, c.name`,
+    [tenantId]
+  );
+  const byId = new Map<number, CommerceCategoryNode>();
+  for (const r of rows) byId.set(r.id, { ...r, children: [] });
+  const roots: CommerceCategoryNode[] = [];
+  for (const r of rows) {
+    const node = byId.get(r.id)!;
+    const parent = r.parent_id != null ? byId.get(r.parent_id) : undefined;
+    if (parent) parent.children.push(node);
+    else roots.push(node);
+  }
+  return roots;
+}
+
+/**
+ * Uzel pro navbar s aliasy klíčů — jednotlivé šablonové navbary čtou různé
+ * tvary (label/name/title, href/url, children/items/subchildren/links), proto
+ * uzel nese všechny. Renderer si vezme jen svůj klíč.
+ */
+function categoryNavNode(n: CommerceCategoryNode, storeBase: string): Record<string, unknown> {
+  const href = `${storeBase}?kategorie=${n.slug}`;
+  const children = n.children.map((c) => categoryNavNode(c, storeBase));
+  return {
+    label: n.name, name: n.name, title: n.name,
+    href, url: href,
+    slug: n.slug,
+    image: n.image_url ?? undefined,
+    count: n.product_count,
+    children, items: children, subchildren: children, links: children,
+  };
+}
+
+/**
+ * Opt-in synchronizace megamenu s commerce kategoriemi.
+ * Aktivace: content.categoriesSource === "commerce" (nastaví se ve Studiu /
+ * přes API). Přepíše kategorie-klíče contentu živým stromem; promo/aside
+ * a ostatní klíče šablony zůstávají nedotčené (hybridní režim).
+ */
+export function applyCommerceCategoriesToNavbar(
+  content: Record<string, unknown>,
+  tree: CommerceCategoryNode[],
+  storeBase: string
+): Record<string, unknown> {
+  const navNodes = tree.map((n) => categoryNavNode(n, storeBase));
+  const next: Record<string, unknown> = { ...content };
+  // Nejběžnější tvar: categories[] (eshop-03/04/05/15/19 aj.)
+  if (Array.isArray(next.categories) || next.categories === undefined) {
+    next.categories = navNodes;
+  }
+  // eshop-18: catalog.groups[]
+  const catalog = next.catalog;
+  if (catalog && typeof catalog === "object" && !Array.isArray(catalog)) {
+    next.catalog = { ...(catalog as Record<string, unknown>), groups: navNodes };
+  }
+  // eshop-17 aj.: mainNav[] — položkám s mega menu doplníme tiles ze stromu
+  if (Array.isArray(next.mainNav)) {
+    next.mainNav = (next.mainNav as unknown[]).map((item) => {
+      if (!item || typeof item !== "object") return item;
+      const rec = item as Record<string, unknown>;
+      const mega = rec.mega;
+      if (!mega || typeof mega !== "object") return item;
+      return { ...rec, mega: { ...(mega as Record<string, unknown>), tiles: navNodes } };
+    });
+  }
+  return next;
+}
+
+export function navbarWantsCommerceCategories(content: Record<string, unknown>): boolean {
+  const src = content.categoriesSource;
+  return src === "commerce" || src === "commerce-categories";
+}
+
 /**
  * Injects `__commerce` into content of commerce sections. Returns the same
  * array reference when no commerce section is present.
@@ -169,8 +265,13 @@ export async function hydrateCommerceSections<T extends Section>(
   tenantSlug: string,
   sections: T[]
 ): Promise<T[]> {
+  const navbarSections = sections.filter(
+    (s) =>
+      s.section_type === "navbar" &&
+      navbarWantsCommerceCategories(((s.settings as Record<string, unknown>)?.content ?? {}) as Record<string, unknown>)
+  );
   const commerceSections = sections.filter((s) => COMMERCE_SECTION_TYPES.has(s.section_type));
-  if (!commerceSections.length) return sections;
+  if (!commerceSections.length && !navbarSections.length) return sections;
 
   await initCommerceDb();
   const shop = await getShopByTenantId(tenantId);
@@ -246,14 +347,26 @@ export async function hydrateCommerceSections<T extends Section>(
     })
   );
 
+  // Megamenu sync: navbar s categoriesSource="commerce" dostane živý strom kategorií
+  const navbarContent = new Map<number, Record<string, unknown>>();
+  if (navbarSections.length) {
+    const tree = await fetchCategoryTree(tenantId);
+    for (const s of navbarSections) {
+      const settings = (s.settings ?? {}) as Record<string, unknown>;
+      const content = (settings.content ?? {}) as Record<string, unknown>;
+      navbarContent.set(s.id, applyCommerceCategoriesToNavbar(content, tree, storeBase));
+    }
+  }
+
   return sections.map((s) => {
     const data = hydrated.get(s.id);
-    if (!data) return s;
+    const nav = navbarContent.get(s.id);
+    if (!data && !nav) return s;
     const settings = (s.settings ?? {}) as Record<string, unknown>;
-    const content = (settings.content ?? {}) as Record<string, unknown>;
+    const content = nav ?? ((settings.content ?? {}) as Record<string, unknown>);
     return {
       ...s,
-      settings: { ...settings, content: { ...content, __commerce: data } },
+      settings: { ...settings, content: data ? { ...content, __commerce: data } : content },
     };
   });
 }
