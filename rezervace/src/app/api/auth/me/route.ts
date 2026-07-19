@@ -12,7 +12,8 @@ export async function GET() {
   try {
     const users = await sql`
       SELECT id, email, name, slug, avatar_color, avatar_url, bio, timezone, min_booking_hours, buffer_minutes,
-             payment_cash, payment_transfer, bank_iban, bank_owner, payment_note, created_at
+             payment_cash, payment_transfer, bank_iban, bank_owner, payment_note,
+             require_email, require_phone, created_at
       FROM rez_users WHERE id = ${user.userId} LIMIT 1
     `
 
@@ -59,7 +60,8 @@ export async function PATCH(request: NextRequest) {
 
     // Update profile
     const { name, email, slug, bio, avatar_color, avatar_url, timezone, min_booking_hours, buffer_minutes,
-            payment_cash, payment_transfer, bank_iban, bank_owner, payment_note } = body
+            payment_cash, payment_transfer, bank_iban, bank_owner, payment_note,
+            require_email, require_phone } = body
 
     await sql`
       UPDATE rez_users SET
@@ -76,7 +78,9 @@ export async function PATCH(request: NextRequest) {
         payment_transfer = COALESCE(${payment_transfer ?? null}, payment_transfer),
         bank_iban = COALESCE(${bank_iban ?? null}, bank_iban),
         bank_owner = COALESCE(${bank_owner ?? null}, bank_owner),
-        payment_note = COALESCE(${payment_note ?? null}, payment_note)
+        payment_note = COALESCE(${payment_note ?? null}, payment_note),
+        require_email = COALESCE(${require_email ?? null}, require_email),
+        require_phone = COALESCE(${require_phone ?? null}, require_phone)
       WHERE id = ${user.userId}
     `
 

@@ -12,6 +12,8 @@ interface PaymentOptions {
   bank_iban: string
   bank_owner: string
   payment_note: string
+  require_email: boolean
+  require_phone: boolean
 }
 
 interface Props {
@@ -57,6 +59,8 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
             bank_iban: u.bank_iban || '',
             bank_owner: u.bank_owner || '',
             payment_note: u.payment_note || '',
+            require_email: u.require_email ?? true,
+            require_phone: u.require_phone ?? false,
           }
           setPaymentOptions(opts)
           // Auto-select if only one method enabled
@@ -71,6 +75,10 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
     ? (paymentOptions.payment_cash ? 1 : 0) + (paymentOptions.payment_transfer ? 1 : 0) > 1
     : false
 
+  // Povinnost kontaktů řídí poskytovatel v adminu; server validuje totéž znovu.
+  const requireEmail = paymentOptions?.require_email !== false
+  const requirePhone = paymentOptions?.require_phone === true
+
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
@@ -80,6 +88,10 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
     e.preventDefault()
     if (multiplePaymentMethods && !paymentMethod) {
       setError('Vyberte způsob platby')
+      return
+    }
+    if (!form.clientEmail.trim() && !form.clientPhone.trim()) {
+      setError('Zadejte e-mail nebo telefon, abychom vás mohli kontaktovat')
       return
     }
     setError('')
@@ -99,65 +111,52 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
   const totalPrice = Number(service.price) + addons.reduce((s, a) => s + Number(a.price), 0)
 
   return (
-    <div className="card overflow-hidden">
-      {/* Header */}
-      <div className="p-6 border-b border-gray-100 flex items-center gap-4">
-        <button onClick={onBack} className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-700 transition-colors flex-shrink-0">
+    <div>
+      {/* Nadpis */}
+      <div className="mb-6 flex items-start gap-4">
+        <button
+          onClick={onBack}
+          className="w-11 h-11 mt-1 bg-cream border border-ink-900/15 hover:bg-ink-900 hover:text-cream rounded-full flex items-center justify-center text-ink-700 transition-all flex-shrink-0 shadow-soft"
+        >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
         <div>
-          <h2 className="font-semibold text-gray-900">Vaše údaje</h2>
-          <p className="text-sm text-gray-500">Vyplňte kontaktní informace</p>
+          <p className="text-[11px] uppercase tracking-[0.25em] text-accent-600 font-bold mb-1">Poslední krok</p>
+          <h2 className="font-display text-3xl lg:text-4xl text-ink-900 leading-tight">Vaše údaje</h2>
+          <p className="text-sm text-ink-400 mt-1.5">Vyplňte kontaktní informace</p>
         </div>
       </div>
 
-      <div className="p-6">
-        {/* Booking summary */}
-        <div
-          className="rounded-xl p-4 mb-6 border"
-          style={{
-            backgroundColor: service.color + '10',
-            borderColor: service.color + '30',
-          }}
-        >
-          <div className="flex items-start gap-3">
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5"
-              style={{ backgroundColor: service.color + '20' }}
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke={service.color} strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
+      <div className="card p-5 lg:p-7">
+        {/* Souhrn rezervace — mobilní (na desktopu je v levém panelu) */}
+        <div className="lg:hidden bg-ink-900 text-cream rounded-2xl p-5 mb-6 relative overflow-hidden">
+          <div className="absolute -top-12 -right-12 w-32 h-32 rounded-full bg-accent-500/20 blur-xl pointer-events-none" />
+          <p className="font-display text-lg leading-snug">{service.name}</p>
+          {addons.length > 0 && (
+            <div className="mt-1 space-y-0.5">
+              {addons.map((a) => (
+                <p key={a.id} className="text-xs text-cream/60">+ {a.name}</p>
+              ))}
             </div>
-            <div>
-              <p className="font-semibold text-gray-900 text-sm">{service.name}</p>
-              {addons.length > 0 && (
-                <div className="mt-0.5 space-y-0.5">
-                  {addons.map((a) => (
-                    <p key={a.id} className="text-xs text-blue-600">+ {a.name}</p>
-                  ))}
-                </div>
-              )}
-              {staffName && <p className="text-xs text-gray-500 mt-0.5">Pracovník: {staffName}</p>}
-              <p className="text-sm text-gray-600 capitalize mt-0.5">{formattedDate}</p>
-              <p className="text-sm text-gray-600">{time} – {endTime} ({totalDuration} min)</p>
-              {totalPrice > 0 && (
-                <p className="text-sm font-medium mt-0.5" style={{ color: service.color }}>
-                  {totalPrice.toLocaleString('cs-CZ')} {service.currency}
-                </p>
-              )}
-            </div>
-          </div>
+          )}
+          {staffName && <p className="text-xs text-cream/60 mt-1.5">s {staffName}</p>}
+          <p className="text-sm text-cream/80 capitalize mt-2">{formattedDate}</p>
+          <p className="text-sm text-cream/80">{time} – {endTime} ({totalDuration} min)</p>
+          {totalPrice > 0 && (
+            <p className="text-lg font-bold mt-2 text-accent-300">
+              {totalPrice.toLocaleString('cs-CZ')} {service.currency}
+            </p>
+          )}
         </div>
 
-        {/* Form */}
+        {/* Formulář */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Celé jméno <span className="text-red-500">*</span>
+              <label className="block text-sm font-semibold text-ink-700 mb-1.5">
+                Celé jméno <span className="text-accent-600">*</span>
               </label>
               <input
                 type="text"
@@ -171,8 +170,10 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                E-mailová adresa <span className="text-red-500">*</span>
+              <label className="block text-sm font-semibold text-ink-700 mb-1.5">
+                E-mailová adresa {requireEmail
+                  ? <span className="text-accent-600">*</span>
+                  : <span className="text-ink-400 font-normal text-xs">(nepovinné)</span>}
               </label>
               <input
                 type="email"
@@ -181,14 +182,16 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
                 onChange={handleChange}
                 className="input-field"
                 placeholder="jan@email.cz"
-                required
+                required={requireEmail}
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Telefonní číslo <span className="text-gray-400 font-normal text-xs">(nepovinné)</span>
+            <label className="block text-sm font-semibold text-ink-700 mb-1.5">
+              Telefonní číslo {requirePhone
+                ? <span className="text-accent-600">*</span>
+                : <span className="text-ink-400 font-normal text-xs">(nepovinné)</span>}
             </label>
             <input
               type="tel"
@@ -197,12 +200,13 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
               onChange={handleChange}
               className="input-field"
               placeholder="+420 777 123 456"
+              required={requirePhone}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Poznámky <span className="text-gray-400 font-normal text-xs">(nepovinné)</span>
+            <label className="block text-sm font-semibold text-ink-700 mb-1.5">
+              Poznámky <span className="text-ink-400 font-normal text-xs">(nepovinné)</span>
             </label>
             <textarea
               name="clientNotes"
@@ -214,33 +218,33 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
             />
           </div>
 
-          {/* Payment method selection */}
+          {/* Způsob platby */}
           {paymentOptions && multiplePaymentMethods && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Způsob platby <span className="text-red-500">*</span>
+              <label className="block text-sm font-semibold text-ink-700 mb-2">
+                Způsob platby <span className="text-accent-600">*</span>
               </label>
               <div className="grid grid-cols-2 gap-3">
                 {paymentOptions.payment_cash && (
                   <button
                     type="button"
                     onClick={() => setPaymentMethod('cash')}
-                    className={`flex items-center gap-3 p-3 rounded-xl border-2 transition-colors text-left ${
+                    className={`flex items-center gap-3 p-4 rounded-xl border transition-all text-left ${
                       paymentMethod === 'cash'
-                        ? 'border-green-500 bg-green-50'
-                        : 'border-gray-200 bg-gray-50 hover:border-gray-300'
+                        ? 'border-ink-900 bg-ink-900 text-cream shadow-soft'
+                        : 'border-ink-900/15 bg-cream hover:border-ink-900/40'
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                      paymentMethod === 'cash' ? 'bg-green-100' : 'bg-gray-100'
+                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                      paymentMethod === 'cash' ? 'bg-accent-500' : 'bg-ink-900/5'
                     }`}>
-                      <svg className={`w-4 h-4 ${paymentMethod === 'cash' ? 'text-green-600' : 'text-gray-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className={`w-4 h-4 ${paymentMethod === 'cash' ? 'text-cream' : 'text-ink-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                       </svg>
                     </div>
                     <div>
-                      <p className={`text-sm font-medium ${paymentMethod === 'cash' ? 'text-green-800' : 'text-gray-700'}`}>Hotově</p>
-                      <p className="text-xs text-gray-500">Na místě</p>
+                      <p className={`text-sm font-bold ${paymentMethod === 'cash' ? 'text-cream' : 'text-ink-800'}`}>Hotově</p>
+                      <p className={`text-xs ${paymentMethod === 'cash' ? 'text-cream/60' : 'text-ink-400'}`}>Na místě</p>
                     </div>
                   </button>
                 )}
@@ -248,22 +252,22 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
                   <button
                     type="button"
                     onClick={() => setPaymentMethod('transfer')}
-                    className={`flex items-center gap-3 p-3 rounded-xl border-2 transition-colors text-left ${
+                    className={`flex items-center gap-3 p-4 rounded-xl border transition-all text-left ${
                       paymentMethod === 'transfer'
-                        ? 'border-blue-500 bg-blue-50'
-                        : 'border-gray-200 bg-gray-50 hover:border-gray-300'
+                        ? 'border-ink-900 bg-ink-900 text-cream shadow-soft'
+                        : 'border-ink-900/15 bg-cream hover:border-ink-900/40'
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                      paymentMethod === 'transfer' ? 'bg-blue-100' : 'bg-gray-100'
+                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                      paymentMethod === 'transfer' ? 'bg-accent-500' : 'bg-ink-900/5'
                     }`}>
-                      <svg className={`w-4 h-4 ${paymentMethod === 'transfer' ? 'text-blue-600' : 'text-gray-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className={`w-4 h-4 ${paymentMethod === 'transfer' ? 'text-cream' : 'text-ink-500'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                       </svg>
                     </div>
                     <div>
-                      <p className={`text-sm font-medium ${paymentMethod === 'transfer' ? 'text-blue-800' : 'text-gray-700'}`}>Převodem</p>
-                      <p className="text-xs text-gray-500">QR kód v potvrzení</p>
+                      <p className={`text-sm font-bold ${paymentMethod === 'transfer' ? 'text-cream' : 'text-ink-800'}`}>Převodem</p>
+                      <p className={`text-xs ${paymentMethod === 'transfer' ? 'text-cream/60' : 'text-ink-400'}`}>QR kód v potvrzení</p>
                     </div>
                   </button>
                 )}
@@ -275,7 +279,7 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+              className="bg-accent-50 border border-accent-200 text-accent-700 px-4 py-3 rounded-xl text-sm font-medium"
             >
               {error}
             </motion.div>
@@ -294,11 +298,18 @@ export default function BookingForm({ service, addons = [], date, time, staffNam
                 </svg>
                 Rezervuji...
               </>
-            ) : 'Potvrdit rezervaci'}
+            ) : (
+              <>
+                Potvrdit rezervaci
+                {totalPrice > 0 && (
+                  <span className="text-cream/60 font-medium">· {totalPrice.toLocaleString('cs-CZ')} {service.currency}</span>
+                )}
+              </>
+            )}
           </button>
         </form>
 
-        <p className="text-xs text-gray-400 mt-4 text-center">
+        <p className="text-xs text-ink-400 mt-4 text-center">
           Po potvrzení obdržíte e-mail s detaily rezervace.
         </p>
       </div>

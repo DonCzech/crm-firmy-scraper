@@ -18,12 +18,12 @@ interface Props {
 const container = {
   hidden: {},
   show: {
-    transition: { staggerChildren: 0.04 },
+    transition: { staggerChildren: 0.035 },
   },
 }
 
 const slotItem = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 14 },
   show: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 350, damping: 28 } },
 }
 
@@ -58,44 +58,49 @@ export default function TimeSlots({ service, providerSlug, date, staffId, onTime
   const availableCount = slots.filter((s) => s.available).length
 
   return (
-    <div className="card overflow-hidden">
-      {/* Header */}
-      <div className="p-6 border-b border-gray-100 flex items-center gap-4">
-        <button onClick={onBack} className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center text-gray-700 transition-colors flex-shrink-0">
+    <div>
+      {/* Nadpis */}
+      <div className="mb-6 flex items-start gap-4">
+        <button
+          onClick={onBack}
+          className="w-11 h-11 mt-1 bg-cream border border-ink-900/15 hover:bg-ink-900 hover:text-cream rounded-full flex items-center justify-center text-ink-700 transition-all flex-shrink-0 shadow-soft"
+        >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
         <div>
-          <h2 className="font-semibold text-gray-900 capitalize">{formattedDate}</h2>
-          <p className="text-sm text-gray-500">
+          <p className="text-[11px] uppercase tracking-[0.25em] text-accent-600 font-bold mb-1">Krok 3</p>
+          <h2 className="font-display text-3xl lg:text-4xl text-ink-900 leading-tight capitalize">{formattedDate}</h2>
+          <p className="text-sm text-ink-400 mt-1.5">
             {service.name} · {service.duration_minutes} min
           </p>
         </div>
       </div>
 
-      <div className="p-6">
+      <div className="card p-5 lg:p-7">
         {loading ? (
           <div className="flex items-center justify-center py-16">
-            <svg className="animate-spin h-7 w-7 text-blue-600" fill="none" viewBox="0 0 24 24">
+            <svg className="animate-spin h-7 w-7 text-accent-600" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
           </div>
         ) : slots.length === 0 ? (
           <div className="py-16 text-center">
-            <div className="text-4xl mb-3">😔</div>
-            <p className="text-gray-600 font-medium">Žádné termíny</p>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="font-display text-2xl text-ink-900">Žádné termíny</p>
+            <p className="text-sm text-ink-400 mt-2">
               Pro tento den nejsou dostupné termíny. Zkuste jiný datum.
             </p>
-            <button onClick={onBack} className="mt-4 text-blue-600 hover:text-blue-700 text-sm font-medium">
+            <button onClick={onBack} className="mt-5 btn-secondary text-sm py-2.5 px-5">
               ← Vybrat jiný datum
             </button>
           </div>
         ) : (
           <>
-            <p className="text-sm text-gray-500 mb-4">{availableCount} volných termínů</p>
+            <p className="text-sm text-ink-400 mb-4">
+              <span className="font-bold text-ink-900">{availableCount}</span> volných termínů
+            </p>
             <AnimatePresence>
               <motion.div
                 variants={container}
@@ -113,18 +118,18 @@ export default function TimeSlots({ service, providerSlug, date, staffId, onTime
                     disabled={!slot.available}
                     title={!slot.available ? 'Obsazeno' : undefined}
                     className={`
-                      py-3 px-2 rounded-lg text-sm font-medium border-2 transition-colors
+                      py-3 px-2 rounded-xl text-sm font-bold border transition-colors
                       ${!slot.available
-                        ? 'bg-gray-50 border-gray-100 text-gray-300 cursor-not-allowed'
+                        ? 'bg-transparent border-ink-900/5 text-ink-200 cursor-not-allowed'
                         : selectedTime === slot.time
-                          ? 'bg-blue-600 border-blue-600 text-white'
-                          : 'bg-white border-gray-200 text-gray-800 hover:border-blue-400 hover:text-blue-700'
+                          ? 'bg-accent-500 border-accent-500 text-cream shadow-lift'
+                          : 'bg-cream border-ink-900/15 text-ink-800 hover:bg-ink-900 hover:border-ink-900 hover:text-cream'
                       }
                     `}
                   >
                     <span className={!slot.available ? 'line-through' : ''}>{slot.time}</span>
                     {!slot.available && (
-                      <span className="block text-[10px] text-gray-400 font-normal mt-0.5 no-underline">obsazeno</span>
+                      <span className="block text-[10px] text-ink-300 font-normal mt-0.5 no-underline">obsazeno</span>
                     )}
                   </motion.button>
                 ))}

@@ -77,28 +77,63 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 flex items-center justify-center p-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="w-full max-w-md"
-      >
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-600 rounded-xl mb-4">
-            <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div className="min-h-screen bg-paper lg:grid lg:grid-cols-2">
+      {/* Levý brand panel */}
+      <div className="hidden lg:flex relative bg-ink-900 text-cream flex-col justify-between p-12 overflow-hidden grain">
+        <div className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-accent-500/20 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-40 -left-24 w-80 h-80 rounded-full bg-sage-500/15 blur-3xl pointer-events-none" />
+
+        <div className="flex items-center gap-3 relative">
+          <div className="w-10 h-10 bg-accent-500 rounded-xl flex items-center justify-center">
+            <svg className="w-5 h-5 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Vytvořit účet</h1>
-          <p className="text-gray-500 mt-1 text-sm">Začněte přijímat rezervace ještě dnes</p>
+          <span className="font-display text-xl">Rezervace</span>
         </div>
 
-        <div className="card p-8">
+        <div className="relative">
+          <h2 className="font-display text-5xl xl:text-6xl leading-[1.05]">
+            Začněte přijímat<br />
+            <span className="text-accent-400 italic">rezervace dnes.</span>
+          </h2>
+          <p className="text-cream/50 mt-6 max-w-sm leading-relaxed">
+            Vlastní rezervační stránka během dvou minut. Žádné poplatky za start, žádná karta.
+          </p>
+        </div>
+
+        <p className="text-[11px] text-cream/30 tracking-[0.2em] uppercase relative">
+          Online rezervační systém pro profesionály
+        </p>
+      </div>
+
+      {/* Formulář */}
+      <div className="min-h-screen lg:min-h-0 flex items-center justify-center p-6 py-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="w-full max-w-md"
+        >
+          {/* Mobilní logo */}
+          <div className="lg:hidden flex items-center gap-2.5 justify-center mb-8">
+            <div className="w-9 h-9 bg-ink-900 rounded-xl flex items-center justify-center">
+              <svg className="w-5 h-5 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <span className="font-display text-lg text-ink-900">Rezervace</span>
+          </div>
+
+          <div className="mb-8">
+            <p className="text-[11px] uppercase tracking-[0.25em] text-accent-600 font-bold mb-2">Zdarma na start</p>
+            <h1 className="font-display text-4xl text-ink-900">Vytvořit účet</h1>
+            <p className="text-ink-400 mt-2 text-sm">Začněte přijímat rezervace ještě dnes</p>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Celé jméno</label>
+              <label className="block text-sm font-semibold text-ink-700 mb-1.5">Celé jméno</label>
               <input
                 type="text"
                 name="name"
@@ -112,7 +147,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">E-mailová adresa</label>
+              <label className="block text-sm font-semibold text-ink-700 mb-1.5">E-mailová adresa</label>
               <input
                 type="email"
                 name="email"
@@ -125,11 +160,11 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-semibold text-ink-700 mb-1.5">
                 URL adresa rezervační stránky
               </label>
-              <div className="flex rounded-lg border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
-                <span className="px-3 py-2.5 bg-gray-50 text-gray-400 text-sm border-r border-gray-200 whitespace-nowrap">
+              <div className="flex rounded-xl border border-ink-900/15 overflow-hidden focus-within:ring-2 focus-within:ring-ink-900 focus-within:border-transparent bg-cream">
+                <span className="px-3 py-3 bg-ink-900/5 text-ink-400 text-sm border-r border-ink-900/10 whitespace-nowrap">
                   /book/
                 </span>
                 <input
@@ -137,17 +172,17 @@ export default function RegisterPage() {
                   name="slug"
                   value={form.slug}
                   onChange={handleChange}
-                  className="flex-1 px-3 py-2.5 text-sm focus:outline-none bg-white"
+                  className="flex-1 px-3 py-3 text-sm focus:outline-none bg-cream"
                   placeholder="jan-novak"
                   required
                   pattern="[a-z0-9-]+"
                 />
               </div>
-              <p className="text-xs text-gray-400 mt-1">Pouze malá písmena, čísla a pomlčky</p>
+              <p className="text-xs text-ink-400 mt-1">Pouze malá písmena, čísla a pomlčky</p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Heslo</label>
+              <label className="block text-sm font-semibold text-ink-700 mb-1.5">Heslo</label>
               <input
                 type="password"
                 name="password"
@@ -161,7 +196,7 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Potvrdit heslo</label>
+              <label className="block text-sm font-semibold text-ink-700 mb-1.5">Potvrdit heslo</label>
               <input
                 type="password"
                 name="confirmPassword"
@@ -177,7 +212,7 @@ export default function RegisterPage() {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm"
+                className="bg-accent-50 border border-accent-200 text-accent-700 px-4 py-3 rounded-xl text-sm font-medium"
               >
                 {error}
               </motion.div>
@@ -199,15 +234,15 @@ export default function RegisterPage() {
               ) : 'Vytvořit účet'}
             </button>
           </form>
-        </div>
 
-        <p className="text-center text-sm text-gray-500 mt-6">
-          Již máte účet?{' '}
-          <Link href="/login" className="text-blue-600 hover:text-blue-700 font-medium">
-            Přihlaste se
-          </Link>
-        </p>
-      </motion.div>
+          <p className="text-center text-sm text-ink-400 mt-8">
+            Již máte účet?{' '}
+            <Link href="/login" className="text-ink-900 hover:text-accent-600 font-semibold underline underline-offset-4 decoration-accent-400 transition-colors">
+              Přihlaste se
+            </Link>
+          </p>
+        </motion.div>
+      </div>
     </div>
   )
 }

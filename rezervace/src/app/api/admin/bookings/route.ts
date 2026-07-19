@@ -12,8 +12,24 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { serviceId, clientName, clientEmail, clientPhone, clientNotes, bookingDate, startTime, staffId, paymentMethod } = body
 
-    if (!serviceId || !clientName || !clientEmail || !bookingDate || !startTime) {
+    if (!serviceId || !clientName || !bookingDate || !startTime) {
       return NextResponse.json({ error: 'Chybí povinné údaje' }, { status: 400 })
+    }
+
+    // Povinnost kontaktů dle nastavení poskytovatele (stejný kontrakt jako widget)
+    const settingsRows = await sql`
+      SELECT require_email, require_phone FROM rez_users WHERE id = ${user.userId} LIMIT 1
+    `
+    const requireEmail = settingsRows[0]?.require_email !== false
+    const requirePhone = settingsRows[0]?.require_phone === true
+    if (requireEmail && !clientEmail) {
+      return NextResponse.json({ error: 'E-mail je povinný' }, { status: 400 })
+    }
+    if (requirePhone && !clientPhone) {
+      return NextResponse.json({ error: 'Telefon je povinný' }, { status: 400 })
+    }
+    if (!clientEmail && !clientPhone) {
+      return NextResponse.json({ error: 'Zadejte e-mail nebo telefon' }, { status: 400 })
     }
 
     // Verify the service belongs to this admin
@@ -72,7 +88,7 @@ export async function POST(request: NextRequest) {
         price, currency, status, payment_method
       ) VALUES (
         ${serviceId}, ${user.userId}, ${resolvedStaffId}, ${resolvedStaffName},
-        ${clientName}, ${clientEmail.toLowerCase()}, ${clientPhone || ''}, ${clientNotes || ''},
+        ${clientName}, ${(clientEmail || '').toLowerCase()}, ${clientPhone || ''}, ${clientNotes || ''},
         ${bookingDate}, ${startTime}, ${service.duration_minutes},
         ${service.price}, ${service.currency}, 'confirmed', ${paymentMethod || ''}
       )

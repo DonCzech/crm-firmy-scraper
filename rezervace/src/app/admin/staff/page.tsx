@@ -116,7 +116,7 @@ function AvailabilityEditor({ staffId, onClose }: { staffId: string; onClose: ()
   if (loading) {
     return (
       <div className="flex items-center justify-center py-10">
-        <svg className="animate-spin h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24">
+        <svg className="animate-spin h-5 w-5 text-accent-600" fill="none" viewBox="0 0 24 24">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
         </svg>
@@ -135,16 +135,16 @@ function AvailabilityEditor({ staffId, onClose }: { staffId: string; onClose: ()
   return (
     <div>
       {/* Tabs */}
-      <div className="flex gap-1 bg-gray-100 p-1 rounded-lg mb-4">
+      <div className="flex gap-1 bg-ink-50 p-1 rounded-lg mb-4">
         <button
           onClick={() => setTab('schedule')}
-          className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors ${tab === 'schedule' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+          className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors ${tab === 'schedule' ? 'bg-cream text-ink-900 shadow-sm' : 'text-ink-400 hover:text-ink-700'}`}
         >
           Týdenní rozvrh
         </button>
         <button
           onClick={() => { setCalError(false); setTab('calendar') }}
-          className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors ${tab === 'calendar' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+          className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors ${tab === 'calendar' ? 'bg-cream text-ink-900 shadow-sm' : 'text-ink-400 hover:text-ink-700'}`}
         >
           Výjimky v kalendáři
         </button>
@@ -156,50 +156,50 @@ function AvailabilityEditor({ staffId, onClose }: { staffId: string; onClose: ()
             {schedule.map((day) => (
               <div
                 key={day.day_of_week}
-                className={`flex items-center gap-2 p-2.5 rounded-lg border transition-colors ${day.is_active ? 'border-blue-200 bg-blue-50' : 'border-gray-100 bg-gray-50'}`}
+                className={`flex items-center gap-2 p-2.5 rounded-lg border transition-colors ${day.is_active ? 'border-accent-200 bg-accent-50' : 'border-ink-900/10 bg-paper'}`}
               >
                 <button
                   onClick={() => setSchedule((prev) => prev.map((d) => d.day_of_week === day.day_of_week ? { ...d, is_active: !d.is_active } : d))}
-                  className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 border-2 transition-colors ${day.is_active ? 'bg-blue-600 border-blue-600' : 'border-gray-300 bg-white'}`}
+                  className={`w-5 h-5 rounded flex items-center justify-center flex-shrink-0 border-2 transition-colors ${day.is_active ? 'bg-ink-900 border-ink-900' : 'border-ink-200 bg-cream'}`}
                 >
                   {day.is_active && (
-                    <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-3 h-3 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                     </svg>
                   )}
                 </button>
-                <span className="w-7 text-xs font-semibold text-gray-600 flex-shrink-0">{DAY_SHORT[day.day_of_week]}</span>
-                <span className="text-xs text-gray-500 flex-1 hidden sm:block">{DAY_NAMES[day.day_of_week]}</span>
+                <span className="w-7 text-xs font-semibold text-ink-600 flex-shrink-0">{DAY_SHORT[day.day_of_week]}</span>
+                <span className="text-xs text-ink-400 flex-1 hidden sm:block">{DAY_NAMES[day.day_of_week]}</span>
                 {day.is_active ? (
                   <div className="flex items-center gap-1.5 flex-shrink-0">
                     <input
                       type="time"
                       value={day.start_time}
                       onChange={(e) => setSchedule((prev) => prev.map((d) => d.day_of_week === day.day_of_week ? { ...d, start_time: e.target.value } : d))}
-                      className="text-xs border border-gray-200 rounded-lg px-1.5 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 w-24"
+                      className="text-xs border border-ink-900/15 rounded-lg px-1.5 py-1 focus:outline-none focus:ring-2 focus:ring-ink-900 w-24"
                     />
-                    <span className="text-gray-400 text-xs">–</span>
+                    <span className="text-ink-300 text-xs">–</span>
                     <input
                       type="time"
                       value={day.end_time}
                       onChange={(e) => setSchedule((prev) => prev.map((d) => d.day_of_week === day.day_of_week ? { ...d, end_time: e.target.value } : d))}
-                      className="text-xs border border-gray-200 rounded-lg px-1.5 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 w-24"
+                      className="text-xs border border-ink-900/15 rounded-lg px-1.5 py-1 focus:outline-none focus:ring-2 focus:ring-ink-900 w-24"
                     />
                   </div>
                 ) : (
-                  <span className="text-xs text-gray-400 italic flex-shrink-0">Volno</span>
+                  <span className="text-xs text-ink-300 italic flex-shrink-0">Volno</span>
                 )}
               </div>
             ))}
           </div>
-          <div className="flex justify-end gap-2 mt-4 pt-4 border-t border-gray-100">
-            <button onClick={onClose} className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors">
+          <div className="flex justify-end gap-2 mt-4 pt-4 border-t border-ink-900/10">
+            <button onClick={onClose} className="px-4 py-2 text-sm text-ink-600 hover:text-ink-800 transition-colors">
               Zrušit
             </button>
             <button
               onClick={handleSaveSchedule}
               disabled={saving}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-60 transition-colors"
+              className="px-4 py-2 bg-ink-900 text-cream rounded-lg text-sm font-medium hover:bg-ink-800 disabled:opacity-60 transition-colors"
             >
               {saving ? 'Ukládám...' : 'Uložit rozvrh'}
             </button>
@@ -208,13 +208,13 @@ function AvailabilityEditor({ staffId, onClose }: { staffId: string; onClose: ()
       ) : calError ? (
         <div className="text-center py-8">
           <p className="text-sm text-red-500 mb-2">Nastala chyba při zobrazení kalendáře.</p>
-          <button onClick={() => setCalError(false)} className="text-xs text-blue-600 underline">Zkusit znovu</button>
+          <button onClick={() => setCalError(false)} className="text-xs text-accent-600 underline">Zkusit znovu</button>
         </div>
       ) : (
         <div>
-          <p className="text-xs text-gray-500 mb-2">
-            Kliknutím na den přidáte výjimku. <span className="text-blue-600">Modrá</span> = pracovní den,{' '}
-            <span className="text-gray-400">Šedá</span> = volno,{' '}
+          <p className="text-xs text-ink-400 mb-2">
+            Kliknutím na den přidáte výjimku. <span className="text-accent-600">Modrá</span> = pracovní den,{' '}
+            <span className="text-ink-300">Šedá</span> = volno,{' '}
             <span className="text-red-500">Červená</span> = výjimka volno,{' '}
             <span className="text-green-600">Zelená</span> = výjimka pracovní den
           </p>
@@ -247,20 +247,20 @@ function AvailabilityEditor({ staffId, onClose }: { staffId: string; onClose: ()
             <button
               onClick={() => setCalMonth((m) => subMonths(m, 1))}
               disabled={isBefore(endOfMonth(subMonths(calMonth, 1)), today)}
-              className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
+              className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-ink-50 disabled:opacity-30 disabled:cursor-not-allowed"
             >
-              <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-ink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
-            <span className="text-sm font-semibold text-gray-900 capitalize">
+            <span className="text-sm font-semibold text-ink-900 capitalize">
               {format(calMonth, 'LLLL yyyy', { locale: cs })}
             </span>
             <button
               onClick={() => setCalMonth((m) => addMonths(m, 1))}
-              className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-gray-100"
+              className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-ink-50"
             >
-              <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-ink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -269,7 +269,7 @@ function AvailabilityEditor({ staffId, onClose }: { staffId: string; onClose: ()
           {/* Day headers */}
           <div className="grid grid-cols-7 mb-1">
             {['Po', 'Út', 'St', 'Čt', 'Pá', 'So', 'Ne'].map((d) => (
-              <div key={d} className="text-center text-xs font-semibold text-gray-400 py-1">{d}</div>
+              <div key={d} className="text-center text-xs font-semibold text-ink-300 py-1">{d}</div>
             ))}
           </div>
 
@@ -296,9 +296,9 @@ function AvailabilityEditor({ staffId, onClose }: { staffId: string; onClose: ()
                   label = 'V'
                 }
               } else if (normallyWorking) {
-                cellClass = isPast ? 'bg-blue-50 border-blue-100 text-blue-300' : 'bg-blue-50 border-blue-200 text-blue-700'
+                cellClass = isPast ? 'bg-accent-50 border-accent-100 text-accent-300' : 'bg-accent-50 border-accent-200 text-accent-700'
               } else {
-                cellClass = 'bg-gray-50 border-gray-200 text-gray-300'
+                cellClass = 'bg-paper border-ink-900/15 text-ink-200'
               }
 
               return (
@@ -309,7 +309,7 @@ function AvailabilityEditor({ staffId, onClose }: { staffId: string; onClose: ()
                   className={`relative h-9 flex flex-col items-center justify-center rounded-lg border text-xs font-semibold transition-all
                     ${cellClass}
                     ${isPast ? 'opacity-40 cursor-default' : 'hover:opacity-80 cursor-pointer active:scale-95'}
-                    ${isToday ? 'ring-2 ring-offset-1 ring-blue-400' : ''}
+                    ${isToday ? 'ring-2 ring-offset-1 ring-ink-400' : ''}
                   `}
                 >
                   {isToggling ? (
@@ -329,10 +329,10 @@ function AvailabilityEditor({ staffId, onClose }: { staffId: string; onClose: ()
           </div>
 
           {/* Legend */}
-          <div className="mt-4 pt-3 border-t border-gray-100">
-            <p className="text-xs font-medium text-gray-500 mb-2">Výjimky tento měsíc:</p>
+          <div className="mt-4 pt-3 border-t border-ink-900/10">
+            <p className="text-xs font-medium text-ink-400 mb-2">Výjimky tento měsíc:</p>
             {overrides.filter((o) => o.date.startsWith(format(calMonth, 'yyyy-MM'))).length === 0 ? (
-              <p className="text-xs text-gray-400 italic">Žádné výjimky</p>
+              <p className="text-xs text-ink-300 italic">Žádné výjimky</p>
             ) : (
               <div className="space-y-1">
                 {overrides
@@ -348,7 +348,7 @@ function AvailabilityEditor({ staffId, onClose }: { staffId: string; onClose: ()
                           await fetch(`/api/staff/${staffId}/overrides?date=${o.date}`, { method: 'DELETE' })
                           setOverrides((prev) => prev.filter((x) => x.date !== o.date))
                         }}
-                        className="ml-auto text-gray-400 hover:text-red-500"
+                        className="ml-auto text-ink-300 hover:text-red-500"
                       >
                         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -360,8 +360,8 @@ function AvailabilityEditor({ staffId, onClose }: { staffId: string; onClose: ()
             )}
           </div>
 
-          <div className="flex justify-end mt-4 pt-3 border-t border-gray-100">
-            <button onClick={onClose} className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors">
+          <div className="flex justify-end mt-4 pt-3 border-t border-ink-900/10">
+            <button onClick={onClose} className="px-4 py-2 text-sm text-ink-600 hover:text-ink-800 transition-colors">
               Zavřít
             </button>
           </div>
@@ -433,16 +433,16 @@ function StaffForm({ initial, onSave, onClose }: { initial?: Staff | null; onSav
       <div className="flex items-center gap-4">
         <div className="relative flex-shrink-0">
           {avatarPreview ? (
-            <img src={avatarPreview} alt="Avatar" className="w-16 h-16 rounded-full object-cover border-2 border-gray-200" />
+            <img src={avatarPreview} alt="Avatar" className="w-16 h-16 rounded-full object-cover border-2 border-ink-900/15" />
           ) : (
-            <div className="w-16 h-16 rounded-full flex items-center justify-center text-white text-xl font-bold border-2 border-gray-200" style={{ backgroundColor: color }}>
+            <div className="w-16 h-16 rounded-full flex items-center justify-center text-cream text-xl font-bold border-2 border-ink-900/15" style={{ backgroundColor: color }}>
               {name ? name.split(' ').map((n) => n[0]).join('').toUpperCase().substring(0, 2) : '?'}
             </div>
           )}
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="absolute -bottom-1 -right-1 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white hover:bg-blue-700 transition-colors shadow"
+            className="absolute -bottom-1 -right-1 w-6 h-6 bg-ink-900 rounded-full flex items-center justify-center text-cream hover:bg-ink-800 transition-colors shadow"
           >
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
@@ -451,8 +451,8 @@ function StaffForm({ initial, onSave, onClose }: { initial?: Staff | null; onSav
           </button>
         </div>
         <div className="flex-1">
-          <p className="text-sm font-medium text-gray-700">Fotografie</p>
-          <p className="text-xs text-gray-400 mt-0.5">Klikněte na ikonu fotoaparátu (max 2 MB)</p>
+          <p className="text-sm font-medium text-ink-700">Fotografie</p>
+          <p className="text-xs text-ink-300 mt-0.5">Klikněte na ikonu fotoaparátu (max 2 MB)</p>
           {avatarPreview && (
             <button type="button" onClick={() => { setAvatarPreview(''); setAvatarUrl('') }} className="text-xs text-red-500 hover:text-red-700 mt-1">
               Odstranit foto
@@ -463,30 +463,30 @@ function StaffForm({ initial, onSave, onClose }: { initial?: Staff | null; onSav
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Jméno *</label>
+        <label className="block text-sm font-medium text-ink-700 mb-1">Jméno *</label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Např. Adam Novák"
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-ink-900/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink-900"
           required
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Bio / specializace</label>
+        <label className="block text-sm font-medium text-ink-700 mb-1">Bio / specializace</label>
         <input
           type="text"
           value={bio}
           onChange={(e) => setBio(e.target.value)}
           placeholder="Např. specialista na pánské střihy"
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full border border-ink-900/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink-900"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Barva profilu</label>
+        <label className="block text-sm font-medium text-ink-700 mb-2">Barva profilu</label>
         <div className="flex flex-wrap gap-2">
           {STAFF_COLORS.map((c) => (
             <button
@@ -503,13 +503,13 @@ function StaffForm({ initial, onSave, onClose }: { initial?: Staff | null; onSav
       {error && <p className="text-sm text-red-600">{error}</p>}
 
       <div className="flex justify-end gap-2 pt-2">
-        <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 transition-colors">
+        <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-ink-600 hover:text-ink-800 transition-colors">
           Zrušit
         </button>
         <button
           type="submit"
           disabled={saving}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-60 transition-colors"
+          className="px-4 py-2 bg-ink-900 text-cream rounded-lg text-sm font-medium hover:bg-ink-800 disabled:opacity-60 transition-colors"
         >
           {saving ? 'Ukládám...' : initial ? 'Uložit změny' : 'Přidat pracovníka'}
         </button>
@@ -558,14 +558,14 @@ export default function StaffPage() {
   return (
     <div className="flex flex-col h-full">
       {/* Sticky header */}
-      <div className="sticky top-0 z-10 bg-gray-50 border-b border-gray-200 px-4 sm:px-6 py-4 flex items-center justify-between">
+      <div className="sticky top-0 z-10 bg-paper border-b border-ink-900/15 px-4 sm:px-6 py-4 flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-bold text-gray-900">Pracovníci</h1>
-          <p className="text-xs text-gray-500 mt-0.5 hidden sm:block">Správa pracovníků, fotek a rozvrhů</p>
+          <h1 className="text-lg font-bold text-ink-900">Pracovníci</h1>
+          <p className="text-xs text-ink-400 mt-0.5 hidden sm:block">Správa pracovníků, fotek a rozvrhů</p>
         </div>
         <button
           onClick={() => setModal({ mode: 'add' })}
-          className="flex items-center gap-1.5 px-3 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex-shrink-0"
+          className="flex items-center gap-1.5 px-3 py-2 bg-ink-900 text-cream rounded-lg text-sm font-medium hover:bg-ink-800 transition-colors flex-shrink-0"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -579,23 +579,23 @@ export default function StaffPage() {
       <div className="flex-1 overflow-y-auto p-4 sm:p-6">
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <svg className="animate-spin h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24">
+            <svg className="animate-spin h-6 w-6 text-accent-600" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
           </div>
         ) : staff.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-2xl border border-gray-100">
-            <div className="w-14 h-14 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <svg className="w-7 h-7 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="text-center py-16 bg-cream rounded-2xl border border-ink-900/10">
+            <div className="w-14 h-14 bg-ink-50 rounded-full flex items-center justify-center mx-auto mb-3">
+              <svg className="w-7 h-7 text-ink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
               </svg>
             </div>
-            <p className="text-gray-500 text-sm font-medium">Zatím žádní pracovníci</p>
-            <p className="text-gray-400 text-xs mt-1">Přidejte pracovníka a nastavte mu rozvrh a fotku</p>
+            <p className="text-ink-400 text-sm font-medium">Zatím žádní pracovníci</p>
+            <p className="text-ink-300 text-xs mt-1">Přidejte pracovníka a nastavte mu rozvrh a fotku</p>
             <button
               onClick={() => setModal({ mode: 'add' })}
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+              className="mt-4 px-4 py-2 bg-ink-900 text-cream rounded-lg text-sm font-medium hover:bg-ink-800 transition-colors"
             >
               Přidat prvního pracovníka
             </button>
@@ -614,7 +614,7 @@ export default function StaffPage() {
                   layout
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-white rounded-xl border border-gray-100 p-3 sm:p-4"
+                  className="bg-cream rounded-xl border border-ink-900/10 p-3 sm:p-4"
                 >
                   <div className="flex items-center gap-3">
                     {/* Avatar */}
@@ -622,7 +622,7 @@ export default function StaffPage() {
                       <img src={member.avatar_url} alt={member.name} className="w-11 h-11 rounded-full object-cover flex-shrink-0" />
                     ) : (
                       <div
-                        className="w-11 h-11 rounded-full flex items-center justify-center text-white font-semibold text-sm flex-shrink-0"
+                        className="w-11 h-11 rounded-full flex items-center justify-center text-cream font-semibold text-sm flex-shrink-0"
                         style={{ backgroundColor: member.color }}
                       >
                         {member.name.split(' ').map((n) => n[0]).join('').toUpperCase().substring(0, 2)}
@@ -632,13 +632,13 @@ export default function StaffPage() {
                     {/* Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <p className="font-medium text-gray-900 text-sm truncate">{member.name}</p>
+                        <p className="font-medium text-ink-900 text-sm truncate">{member.name}</p>
                         {!member.is_active && (
-                          <span className="text-xs bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded-full">Neaktivní</span>
+                          <span className="text-xs bg-ink-50 text-ink-400 px-1.5 py-0.5 rounded-full">Neaktivní</span>
                         )}
                       </div>
-                      {member.bio && <p className="text-xs text-gray-500 truncate">{member.bio}</p>}
-                      <p className="text-xs text-gray-400 mt-0.5">
+                      {member.bio && <p className="text-xs text-ink-400 truncate">{member.bio}</p>}
+                      <p className="text-xs text-ink-300 mt-0.5">
                         {activeDays ? `Pracuje: ${activeDays}` : 'Rozvrh nenastavený'}
                       </p>
                     </div>
@@ -648,7 +648,7 @@ export default function StaffPage() {
                       <button
                         onClick={() => setModal({ mode: 'availability', staff: member })}
                         title="Nastavit rozvrh"
-                        className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                        className="p-2 text-ink-300 hover:text-accent-600 hover:bg-accent-50 rounded-lg transition-colors"
                       >
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -657,7 +657,7 @@ export default function StaffPage() {
                       <button
                         onClick={() => setModal({ mode: 'edit', staff: member })}
                         title="Upravit"
-                        className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+                        className="p-2 text-ink-300 hover:text-ink-700 hover:bg-ink-50 rounded-lg transition-colors"
                       >
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -666,7 +666,7 @@ export default function StaffPage() {
                       <button
                         onClick={() => handleToggle(member)}
                         title={member.is_active ? 'Deaktivovat' : 'Aktivovat'}
-                        className={`p-2 rounded-lg transition-colors ${member.is_active ? 'text-green-600 hover:bg-green-50' : 'text-gray-400 hover:bg-gray-100'}`}
+                        className={`p-2 rounded-lg transition-colors ${member.is_active ? 'text-green-600 hover:bg-green-50' : 'text-ink-300 hover:bg-ink-50'}`}
                       >
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={member.is_active ? 'M5 13l4 4L19 7' : 'M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636'} />
@@ -675,7 +675,7 @@ export default function StaffPage() {
                       <button
                         onClick={() => handleDelete(member)}
                         title="Smazat"
-                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        className="p-2 text-ink-300 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                       >
                         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -705,19 +705,19 @@ export default function StaffPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 40 }}
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              className="w-full sm:max-w-md bg-white rounded-t-2xl sm:rounded-2xl shadow-2xl z-50 flex flex-col max-h-[90vh]"
+              className="w-full sm:max-w-md bg-cream rounded-t-2xl sm:rounded-2xl shadow-2xl z-50 flex flex-col max-h-[90vh]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Modal header */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 flex-shrink-0">
-                <h2 className="font-semibold text-gray-900">
+              <div className="flex items-center justify-between px-5 py-4 border-b border-ink-900/10 flex-shrink-0">
+                <h2 className="font-semibold text-ink-900">
                   {modal.mode === 'add' && 'Přidat pracovníka'}
                   {modal.mode === 'edit' && 'Upravit pracovníka'}
                   {modal.mode === 'availability' && `Rozvrh – ${modal.staff?.name}`}
                 </h2>
                 {/* Drag handle on mobile */}
-                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-1 bg-gray-200 rounded-full sm:hidden" />
-                <button onClick={() => setModal(null)} className="text-gray-400 hover:text-gray-600 transition-colors p-1">
+                <div className="absolute top-2 left-1/2 -translate-x-1/2 w-10 h-1 bg-ink-100 rounded-full sm:hidden" />
+                <button onClick={() => setModal(null)} className="text-ink-300 hover:text-ink-600 transition-colors p-1">
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>

@@ -25,20 +25,18 @@ export default function AddOnSelector({ mainService, addons, selectedAddons, onT
   const grandTotal = Number(mainService.price) + totalExtra
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100">
-      {/* Header */}
-      <div className="p-5 border-b border-amber-100 bg-gradient-to-r from-amber-50 to-orange-50 rounded-t-2xl">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="text-lg">✨</span>
-          <h2 className="font-semibold text-gray-900">Přidat k rezervaci?</h2>
-        </div>
-        <p className="text-sm text-gray-500">
-          Zvolili jste <strong>{mainService.name}</strong>. Chcete přidat něco dalšího?
+    <div>
+      {/* Nadpis */}
+      <div className="mb-6">
+        <p className="text-[11px] uppercase tracking-[0.25em] text-accent-600 font-bold mb-2">Doplňky</p>
+        <h2 className="font-display text-3xl lg:text-4xl text-ink-900 leading-tight">Přidat něco navíc?</h2>
+        <p className="text-sm text-ink-400 mt-2">
+          Zvolili jste <strong className="text-ink-700">{mainService.name}</strong>.
         </p>
       </div>
 
-      {/* Addon cards — plain div+onClick for reliable mobile touch */}
-      <div className="p-4 space-y-3">
+      {/* Karty doplňků — div+onClick kvůli spolehlivému mobile touch */}
+      <div className="space-y-3">
         {addons.map((addon) => {
           const isSelected = selectedAddons.some((a) => a.id === addon.id)
           return (
@@ -48,33 +46,33 @@ export default function AddOnSelector({ mainService, addons, selectedAddons, onT
               tabIndex={0}
               onClick={() => onToggle(addon)}
               onKeyDown={(e) => e.key === 'Enter' && onToggle(addon)}
-              className={`w-full text-left flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer select-none transition-colors active:scale-[0.98] ${
+              className={`w-full text-left flex items-center gap-4 p-4 lg:p-5 rounded-2xl border cursor-pointer select-none transition-all duration-200 active:scale-[0.98] ${
                 isSelected
-                  ? 'border-blue-500 bg-blue-50'
-                  : 'border-gray-100 bg-gray-50 active:bg-gray-100'
+                  ? 'border-ink-900 bg-ink-900 text-cream shadow-ink-glow'
+                  : 'border-ink-900/10 bg-cream shadow-soft hover:shadow-lift hover:border-ink-900/30'
               }`}
               style={{ WebkitTapHighlightColor: 'transparent' }}
             >
               {/* Checkbox */}
               <div
-                className={`w-6 h-6 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                  isSelected ? 'bg-blue-600 border-blue-600' : 'border-gray-300 bg-white'
+                className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
+                  isSelected ? 'bg-accent-500 border-accent-500' : 'border-ink-900/25 bg-cream'
                 }`}
               >
                 {isSelected && (
-                  <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  <svg className="w-3.5 h-3.5 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3.5} d="M5 13l4 4L19 7" />
                   </svg>
                 )}
               </div>
 
-              {/* Service icon */}
+              {/* Ikona / obrázek */}
               <div className="w-12 h-12 rounded-xl flex-shrink-0 overflow-hidden">
                 {addon.image_url ? (
                   <img src={addon.image_url} alt={addon.name} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: addon.color + '20' }}>
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke={addon.color} strokeWidth={2}>
+                  <div className={`w-full h-full flex items-center justify-center ${isSelected ? 'bg-cream/10' : 'bg-ink-900/5'}`}>
+                    <svg className={`w-5 h-5 ${isSelected ? 'text-accent-300' : 'text-accent-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                     </svg>
                   </div>
@@ -83,55 +81,56 @@ export default function AddOnSelector({ mainService, addons, selectedAddons, onT
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <p className="font-semibold text-gray-900 text-sm leading-tight">{addon.name}</p>
+                <p className={`font-display text-base leading-tight ${isSelected ? 'text-cream' : 'text-ink-900'}`}>{addon.name}</p>
                 {addon.description && (
-                  <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{addon.description}</p>
+                  <p className={`text-xs mt-1 line-clamp-2 ${isSelected ? 'text-cream/50' : 'text-ink-400'}`}>{addon.description}</p>
                 )}
-                <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                  <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{formatDuration(addon.duration_minutes)}</span>
-                  {Number(addon.price) > 0 && (
-                    <span className="text-xs font-bold px-2 py-0.5 rounded-full text-white" style={{ backgroundColor: addon.color }}>
-                      +{Number(addon.price).toLocaleString('cs-CZ')} {addon.currency}
-                    </span>
-                  )}
-                </div>
+              </div>
+
+              <div className="text-right flex-shrink-0">
+                {Number(addon.price) > 0 && (
+                  <p className={`text-sm font-bold ${isSelected ? 'text-accent-300' : 'text-accent-600'}`}>
+                    +{Number(addon.price).toLocaleString('cs-CZ')} {addon.currency}
+                  </p>
+                )}
+                <p className={`text-[11px] mt-0.5 ${isSelected ? 'text-cream/50' : 'text-ink-400'}`}>{formatDuration(addon.duration_minutes)}</p>
               </div>
             </div>
           )
         })}
       </div>
 
-      {/* Summary */}
+      {/* Souhrn */}
       <AnimatePresence>
         {selectedAddons.length > 0 && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="px-4 overflow-hidden"
+            className="overflow-hidden"
           >
-            <div className="bg-green-50 border border-green-200 rounded-xl p-3 mb-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-green-800">Celkem za vše</span>
-                <span className="text-sm font-bold text-green-900">
-                  {grandTotal > 0 ? `${grandTotal.toLocaleString('cs-CZ')} ${mainService.currency}` : 'Zdarma'}
-                </span>
+            <div className="mt-4 bg-cream border border-ink-900/10 rounded-2xl px-5 py-4 shadow-soft flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-ink-500">Celkem za vše</p>
+                {totalDuration > 0 && (
+                  <p className="text-xs text-ink-400 mt-0.5">
+                    Délka: {formatDuration(mainService.duration_minutes + totalDuration)}
+                  </p>
+                )}
               </div>
-              {totalDuration > 0 && (
-                <p className="text-xs text-green-700 mt-0.5">
-                  Celková délka: {formatDuration(mainService.duration_minutes + totalDuration)}
-                </p>
-              )}
+              <span className="font-display text-xl text-ink-900">
+                {grandTotal > 0 ? `${grandTotal.toLocaleString('cs-CZ')} ${mainService.currency}` : 'Zdarma'}
+              </span>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Buttons */}
-      <div className="px-4 pb-5 space-y-2">
+      {/* Tlačítka */}
+      <div className="mt-5 space-y-2">
         <button
           onClick={onContinue}
-          className="w-full py-3.5 bg-blue-600 text-white rounded-xl font-semibold text-sm hover:bg-blue-700 active:bg-blue-800 transition-colors"
+          className="btn-primary w-full"
           style={{ WebkitTapHighlightColor: 'transparent' }}
         >
           {selectedAddons.length > 0
@@ -140,7 +139,7 @@ export default function AddOnSelector({ mainService, addons, selectedAddons, onT
         </button>
         <button
           onClick={onSkip}
-          className="w-full py-2.5 text-gray-400 text-sm hover:text-gray-600 transition-colors"
+          className="w-full py-2.5 text-ink-400 text-sm font-medium hover:text-ink-700 transition-colors"
           style={{ WebkitTapHighlightColor: 'transparent' }}
         >
           Přeskočit

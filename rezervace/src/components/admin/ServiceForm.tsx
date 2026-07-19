@@ -151,15 +151,15 @@ export default function ServiceForm({ service, onClose, onSaved }: Props) {
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.95, y: 20 }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="bg-white rounded-2xl shadow-xl w-full max-w-5xl max-h-[calc(100vh-1rem)] flex flex-col overflow-hidden"
+        className="bg-cream rounded-2xl shadow-xl w-full max-w-5xl max-h-[calc(100vh-1rem)] flex flex-col overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between gap-4">
-          <h3 className="font-semibold text-gray-900">
+        <div className="px-6 py-4 border-b border-ink-900/10 flex items-center justify-between gap-4">
+          <h3 className="font-semibold text-ink-900">
             {isEdit ? 'Upravit službu' : 'Přidat službu'}
           </h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 transition-colors">
+          <button onClick={onClose} className="text-ink-300 hover:text-ink-600 transition-colors">
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -171,10 +171,10 @@ export default function ServiceForm({ service, onClose, onSaved }: Props) {
             <div>
               <div>
                 <div className="mb-1.5 flex items-center justify-between gap-3">
-                  <label className="block text-sm font-medium text-gray-700">
+                  <label className="block text-sm font-medium text-ink-700">
                     Název <span className="text-red-500">*</span>
                   </label>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-ink-300">
                     Zbývá {NAME_MAX_LENGTH - form.name.length} znaků
                   </span>
                 </div>
@@ -189,19 +189,19 @@ export default function ServiceForm({ service, onClose, onSaved }: Props) {
                   required
                   autoFocus
                 />
-                <p className="mt-1 text-xs text-gray-400">Maximum {NAME_MAX_LENGTH} znaků.</p>
+                <p className="mt-1 text-xs text-ink-300">Maximum {NAME_MAX_LENGTH} znaků.</p>
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Obrázek</label>
+              <label className="block text-sm font-medium text-ink-700 mb-1.5">Obrázek</label>
               {imagePreview ? (
-                <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-gray-100">
+                <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-ink-50">
                   <img src={imagePreview} alt="Náhled" className="w-full h-full object-cover" />
                   <button
                     type="button"
                     onClick={removeImage}
-                    className="absolute top-2 right-2 w-6 h-6 bg-black/50 rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-colors"
+                    className="absolute top-2 right-2 w-6 h-6 bg-black/50 rounded-full flex items-center justify-center text-cream hover:bg-black/70 transition-colors"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -212,7 +212,7 @@ export default function ServiceForm({ service, onClose, onSaved }: Props) {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="aspect-square w-full border-2 border-dashed border-gray-200 rounded-xl flex flex-col items-center justify-center gap-1 text-gray-400 hover:border-blue-300 hover:text-blue-500 transition-colors"
+                  className="aspect-square w-full border-2 border-dashed border-ink-900/15 rounded-xl flex flex-col items-center justify-center gap-1 text-ink-300 hover:border-accent-300 hover:text-accent-600 transition-colors"
                 >
                   <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -231,8 +231,8 @@ export default function ServiceForm({ service, onClose, onSaved }: Props) {
 
             <div className="col-span-2">
               <div className="mb-1.5 flex items-center justify-between gap-3">
-                <label className="block text-sm font-medium text-gray-700">Popis</label>
-                <span className="text-xs text-gray-400">
+                <label className="block text-sm font-medium text-ink-700">Popis</label>
+                <span className="text-xs text-ink-300">
                   Zbývá {DESCRIPTION_MAX_LENGTH - form.description.length} znaků
                 </span>
               </div>
@@ -245,13 +245,13 @@ export default function ServiceForm({ service, onClose, onSaved }: Props) {
                 maxLength={DESCRIPTION_MAX_LENGTH}
                 placeholder="Krátký popis služby..."
               />
-              <p className="mt-1 text-xs text-gray-400">Maximum {DESCRIPTION_MAX_LENGTH} znaků.</p>
+              <p className="mt-1 text-xs text-ink-300">Maximum {DESCRIPTION_MAX_LENGTH} znaků.</p>
             </div>
           </div>
 
           <div className="lg:col-span-2 grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+              <label className="block text-sm font-medium text-ink-700 mb-1.5">
                 Délka (minuty) <span className="text-red-500">*</span>
               </label>
               <div className="relative">
@@ -266,13 +266,13 @@ export default function ServiceForm({ service, onClose, onSaved }: Props) {
                     <option key={min} value={min}>{min} min</option>
                   ))}
                 </select>
-                <svg className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Pořadí</label>
+              <label className="block text-sm font-medium text-ink-700 mb-1.5">Pořadí</label>
               <input
                 type="number"
                 name="sort_order"
@@ -282,11 +282,11 @@ export default function ServiceForm({ service, onClose, onSaved }: Props) {
                 min={1}
                 placeholder="Automaticky"
               />
-              <p className="mt-1 text-xs text-gray-400">Prázdné = podle času přidání.</p>
+              <p className="mt-1 text-xs text-ink-300">Prázdné = podle času přidání.</p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Cena</label>
+              <label className="block text-sm font-medium text-ink-700 mb-1.5">Cena</label>
               <input
                 type="number"
                 name="price"
@@ -298,7 +298,7 @@ export default function ServiceForm({ service, onClose, onSaved }: Props) {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Měna</label>
+              <label className="block text-sm font-medium text-ink-700 mb-1.5">Měna</label>
               <div className="relative">
                 <select
                   name="currency"
@@ -310,7 +310,7 @@ export default function ServiceForm({ service, onClose, onSaved }: Props) {
                   <option value="EUR">EUR</option>
                   <option value="USD">USD</option>
                 </select>
-                <svg className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
@@ -321,17 +321,17 @@ export default function ServiceForm({ service, onClose, onSaved }: Props) {
             <button
               type="button"
               onClick={() => setShowMoreOptions((prev) => !prev)}
-              className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3.5 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+              className="inline-flex items-center gap-2 rounded-lg border border-ink-900/15 bg-cream px-3.5 py-2 text-sm font-medium text-ink-700 transition-colors hover:bg-paper"
               aria-expanded={showMoreOptions}
             >
               Další služby
               {form.is_addon && (
-                <span className="rounded-full bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">
+                <span className="rounded-full bg-accent-50 px-2 py-0.5 text-xs font-medium text-accent-700">
                   Zapnuto
                 </span>
               )}
               <svg
-                className={`h-4 w-4 text-gray-400 transition-transform ${showMoreOptions ? 'rotate-180' : ''}`}
+                className={`h-4 w-4 text-ink-300 transition-transform ${showMoreOptions ? 'rotate-180' : ''}`}
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -341,18 +341,18 @@ export default function ServiceForm({ service, onClose, onSaved }: Props) {
             </button>
 
             {showMoreOptions && (
-              <div className="absolute left-0 top-full z-10 mt-2 w-full max-w-md rounded-xl border border-gray-200 bg-white p-3 shadow-lg">
-                <label className="flex cursor-pointer items-start gap-3 rounded-lg p-2 transition-colors hover:bg-gray-50">
+              <div className="absolute left-0 top-full z-10 mt-2 w-full max-w-md rounded-xl border border-ink-900/15 bg-cream p-3 shadow-lg">
+                <label className="flex cursor-pointer items-start gap-3 rounded-lg p-2 transition-colors hover:bg-paper">
                   <input
                     type="checkbox"
                     name="is_addon"
                     checked={form.is_addon}
                     onChange={handleChange}
-                    className="mt-0.5 h-4 w-4 accent-blue-600"
+                    className="mt-0.5 h-4 w-4 accent-accent-600"
                   />
                   <span>
-                    <span className="block text-sm font-medium text-gray-900">Nabízet jako doplňkovou službu</span>
-                    <span className="mt-0.5 block text-xs leading-5 text-gray-500">
+                    <span className="block text-sm font-medium text-ink-900">Nabízet jako doplňkovou službu</span>
+                    <span className="mt-0.5 block text-xs leading-5 text-ink-400">
                       Zákazník ji uvidí jako volitelnou nabídku po výběru hlavní služby.
                     </span>
                   </span>
@@ -379,7 +379,7 @@ export default function ServiceForm({ service, onClose, onSaved }: Props) {
                   aria-label={`Vybrat barvu ${color}`}
                 >
                   {form.color === color && (
-                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-4 h-4 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                     </svg>
                   )}

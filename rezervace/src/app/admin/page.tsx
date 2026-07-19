@@ -66,7 +66,7 @@ export default async function AdminDashboard() {
       label: 'Celkem rezervací',
       value: data.totalBookings,
       icon: '📅',
-      color: 'bg-blue-50 text-blue-600',
+      color: 'bg-accent-50 text-accent-600',
       change: null,
     },
     {
@@ -80,7 +80,7 @@ export default async function AdminDashboard() {
       label: 'Tento týden',
       value: data.weekBookings,
       icon: '📊',
-      color: 'bg-purple-50 text-purple-600',
+      color: 'bg-sage-50 text-sage-600',
       change: null,
     },
     {
@@ -94,7 +94,7 @@ export default async function AdminDashboard() {
       label: 'Celkem klientů',
       value: data.totalClients,
       icon: '👥',
-      color: 'bg-indigo-50 text-indigo-600',
+      color: 'bg-accent-50 text-accent-600',
       change: null,
     },
   ]
@@ -103,32 +103,32 @@ export default async function AdminDashboard() {
     <div className="p-6 lg:p-8">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-bold text-ink-900">
           Dobrý den, {user.name}! 👋
         </h1>
-        <p className="text-gray-500 mt-1">
+        <p className="text-ink-400 mt-1">
           {format(new Date(), "EEEE, d. MMMM yyyy", { locale: cs })}
         </p>
       </div>
 
       {/* Booking link banner */}
-      <div className="card p-4 mb-6 flex items-center justify-between bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-100">
+      <div className="card p-4 mb-6 flex items-center justify-between bg-gradient-to-r from-accent-50 to-paper border-accent-100">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-8 h-8 bg-ink-900 rounded-lg flex items-center justify-center">
+            <svg className="w-4 h-4 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
             </svg>
           </div>
           <div>
-            <p className="text-sm font-medium text-gray-800">Vaše rezervační stránka</p>
-            <p className="text-xs text-blue-600">/book/{user.slug}</p>
+            <p className="text-sm font-medium text-ink-800">Vaše rezervační stránka</p>
+            <p className="text-xs text-accent-600">/book/{user.slug}</p>
           </div>
         </div>
         <a
           href={`/book/${user.slug}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
+          className="text-sm font-medium text-accent-600 hover:text-accent-700 flex items-center gap-1"
         >
           Otevřít
           <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -144,17 +144,17 @@ export default async function AdminDashboard() {
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg mb-3 ${stat.color}`}>
               {stat.icon}
             </div>
-            <p className="text-2xl font-bold text-gray-900">{stat.value}</p>
-            <p className="text-xs text-gray-500 mt-1">{stat.label}</p>
+            <p className="text-2xl font-bold text-ink-900">{stat.value}</p>
+            <p className="text-xs text-ink-400 mt-1">{stat.label}</p>
           </div>
         ))}
       </div>
 
       {/* Recent bookings */}
       <div className="card">
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-          <h2 className="font-semibold text-gray-900">Poslední rezervace</h2>
-          <Link href="/admin/bookings" className="text-sm text-blue-600 hover:text-blue-700">
+        <div className="px-6 py-4 border-b border-ink-900/10 flex items-center justify-between">
+          <h2 className="font-semibold text-ink-900">Poslední rezervace</h2>
+          <Link href="/admin/bookings" className="text-sm text-accent-600 hover:text-accent-700">
             Zobrazit vše →
           </Link>
         </div>
@@ -162,28 +162,28 @@ export default async function AdminDashboard() {
         {data.recentBookings.length === 0 ? (
           <div className="px-6 py-12 text-center">
             <div className="text-4xl mb-3">📭</div>
-            <p className="text-gray-500">Zatím žádné rezervace</p>
-            <p className="text-sm text-gray-400 mt-1">
+            <p className="text-ink-400">Zatím žádné rezervace</p>
+            <p className="text-sm text-ink-300 mt-1">
               Sdílejte odkaz na vaši rezervační stránku a začněte přijímat rezervace.
             </p>
           </div>
         ) : (
           <div className="divide-y divide-gray-50">
             {data.recentBookings.map((booking: Record<string, unknown>) => (
-              <div key={booking.id as string} className="px-6 py-4 flex items-center gap-4 hover:bg-gray-50 transition-colors">
+              <div key={booking.id as string} className="px-6 py-4 flex items-center gap-4 hover:bg-paper transition-colors">
                 <div
                   className="w-2 h-10 rounded-full flex-shrink-0"
                   style={{ backgroundColor: (booking.service_color as string) || '#006bff' }}
                 />
                 <div className="flex-1 min-w-0">
-                  <p className="font-medium text-gray-900 text-sm">{booking.client_name as string}</p>
-                  <p className="text-xs text-gray-400">{booking.service_name as string}</p>
+                  <p className="font-medium text-ink-900 text-sm">{booking.client_name as string}</p>
+                  <p className="text-xs text-ink-300">{booking.service_name as string}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-ink-600">
                     {format(new Date(booking.booking_date as string), 'd. M. yyyy')}
                   </p>
-                  <p className="text-xs text-gray-400">{(booking.start_time as string).substring(0, 5)}</p>
+                  <p className="text-xs text-ink-300">{(booking.start_time as string).substring(0, 5)}</p>
                 </div>
                 <StatusBadge status={booking.status as string} />
               </div>

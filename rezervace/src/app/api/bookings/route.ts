@@ -51,14 +51,14 @@ export async function POST(request: NextRequest) {
       paymentMethod,
     } = body
 
-    if (!serviceId || !providerSlug || !clientName || !clientEmail || !bookingDate || !startTime) {
+    if (!serviceId || !providerSlug || !clientName || !bookingDate || !startTime) {
       return NextResponse.json({ error: 'Chybí povinné údaje' }, { status: 400 })
     }
 
     // Get service + provider
     const services = await sql`
       SELECT s.*, u.id as user_id, u.name as user_name, u.email as user_email, u.slug as user_slug,
-             u.min_booking_hours, u.buffer_minutes
+             u.min_booking_hours, u.buffer_minutes, u.require_email, u.require_phone
       FROM rez_services s
       JOIN rez_users u ON s.user_id = u.id
       WHERE s.id = ${serviceId} AND u.slug = ${providerSlug} AND s.is_active = true
@@ -70,6 +70,23 @@ export async function POST(request: NextRequest) {
     }
 
     const service = services[0]
+
+    // Povinnost kontaktů dle nastavení poskytovatele (klient se nesmí obejít)
+    const requireEmail = service.require_email !== false
+    const requirePhone = service.require_phone === true
+    if (requireEmail && !clientEmail) {
+      return NextResponse.json({ error: 'E-mail je povinný' }, { status: 400 })
+    }
+    if (requirePhone && !clientPhone) {
+      return NextResponse.json({ error: 'Telefon je povinný' }, { status: 400 })
+    }
+    if (clientEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(clientEmail).trim())) {
+      return NextResponse.json({ error: 'Neplatný formát e-mailu' }, { status: 400 })
+    }
+    // Rezervace bez jakéhokoli kontaktu je nedoručitelná
+    if (!clientEmail && !clientPhone) {
+      return NextResponse.json({ error: 'Zadejte e-mail nebo telefon' }, { status: 400 })
+    }
 
     // Validate minimum booking notice
     const minBookingHours = Number(service.min_booking_hours) || 0
@@ -135,7 +152,7 @@ export async function POST(request: NextRequest) {
         price, currency, status, payment_method
       ) VALUES (
         ${serviceId}, ${service.user_id}, ${resolvedStaffId}, ${resolvedStaffName},
-        ${clientName}, ${clientEmail.toLowerCase()}, ${clientPhone || ''}, ${clientNotes || ''},
+        ${clientName}, ${(clientEmail || '').toLowerCase()}, ${clientPhone || ''}, ${clientNotes || ''},
         ${bookingDate}, ${startTime}, ${service.duration_minutes},
         ${service.price}, ${service.currency}, 'confirmed', ${paymentMethod || ''}
       )
@@ -146,9 +163,9 @@ export async function POST(request: NextRequest) {
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://rezervace-kappa.vercel.app'
 
-    // Send emails (non-blocking)
+    // Send emails (non-blocking) — potvrzení klientovi jen když e-mail máme
     Promise.allSettled([
-      sendBookingConfirmationToClient({
+      clientEmail ? sendBookingConfirmationToClient({
         clientName,
         clientEmail,
         serviceName: service.name,
@@ -160,7 +177,7 @@ export async function POST(request: NextRequest) {
         currency: service.currency,
         confirmationToken: booking.confirmation_token,
         appUrl,
-      }),
+      }) : Promise.resolve(),
       sendBookingNotificationToProvider({
         providerEmail: service.user_email,
         providerName: service.user_name,

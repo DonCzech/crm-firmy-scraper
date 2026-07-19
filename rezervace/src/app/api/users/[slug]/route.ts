@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql, initDb } from '@/lib/db'
 
+// Widget i veřejná stránka musí vždy dostat aktuální data (nové služby, personál,
+// nastavení povinných kontaktů). Bez tohoto Next route staticky nacachuje.
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export async function GET(
   _request: NextRequest,
   { params }: { params: { slug: string } }
@@ -10,7 +15,8 @@ export async function GET(
     const slug = String(params.slug)
     const users = await sql`
       SELECT id, name, slug, avatar_color, avatar_url, bio, timezone,
-             payment_cash, payment_transfer, bank_iban, bank_owner, payment_note
+             payment_cash, payment_transfer, bank_iban, bank_owner, payment_note,
+             require_email, require_phone
       FROM rez_users
       WHERE slug = ${slug}
       LIMIT 1

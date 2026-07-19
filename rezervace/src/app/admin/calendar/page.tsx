@@ -287,8 +287,8 @@ export default function CalendarPage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Kalendář</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h1 className="text-2xl font-bold text-ink-900">Kalendář</h1>
+          <p className="text-sm text-ink-400 mt-1">
             {format(weekStart, 'd. MMMM', { locale: cs })} –{' '}
             {format(addDays(weekStart, 6), 'd. MMMM yyyy', { locale: cs })}
           </p>
@@ -296,23 +296,23 @@ export default function CalendarPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setWeekStart((w) => addDays(w, -7))}
-            className="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-lg border border-ink-900/15 hover:bg-paper transition-colors"
           >
-            <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 text-ink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
           <button
             onClick={() => setWeekStart(startOfWeek(new Date(), { weekStartsOn: 1 }))}
-            className="px-3 py-1.5 text-sm font-medium rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+            className="px-3 py-1.5 text-sm font-medium rounded-lg border border-ink-900/15 hover:bg-paper transition-colors"
           >
             Dnes
           </button>
           <button
             onClick={() => setWeekStart((w) => addDays(w, 7))}
-            className="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-lg border border-ink-900/15 hover:bg-paper transition-colors"
           >
-            <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 text-ink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -322,16 +322,16 @@ export default function CalendarPage() {
       {/* MOBILE views */}
       <div className="lg:hidden flex flex-col flex-1 overflow-auto">
         {/* View toggle */}
-        <div className="flex gap-1 bg-gray-100 p-1 rounded-lg mb-3 mx-0">
+        <div className="flex gap-1 bg-ink-50 p-1 rounded-lg mb-3 mx-0">
           <button
             onClick={() => setMobileView('month')}
-            className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors ${mobileView === 'month' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'}`}
+            className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors ${mobileView === 'month' ? 'bg-cream text-ink-900 shadow-sm' : 'text-ink-400'}`}
           >
             Měsíc
           </button>
           <button
             onClick={() => setMobileView('week')}
-            className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors ${mobileView === 'week' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'}`}
+            className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors ${mobileView === 'week' ? 'bg-cream text-ink-900 shadow-sm' : 'text-ink-400'}`}
           >
             Týden
           </button>
@@ -339,7 +339,7 @@ export default function CalendarPage() {
 
         {loading ? (
           <div className="py-16 text-center">
-            <svg className="animate-spin h-8 w-8 text-blue-600 mx-auto" fill="none" viewBox="0 0 24 24">
+            <svg className="animate-spin h-8 w-8 text-accent-600 mx-auto" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
@@ -349,16 +349,16 @@ export default function CalendarPage() {
           <div className="flex flex-col flex-1">
             {/* Month nav */}
             <div className="flex items-center justify-between mb-3">
-              <button onClick={() => setMobileMonth((m) => subMonths(m, 1))} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100">
-                <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <button onClick={() => setMobileMonth((m) => subMonths(m, 1))} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-ink-50">
+                <svg className="w-4 h-4 text-ink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
-              <span className="text-sm font-semibold text-gray-900 capitalize">
+              <span className="text-sm font-semibold text-ink-900 capitalize">
                 {format(mobileMonth, 'LLLL yyyy', { locale: cs })}
               </span>
-              <button onClick={() => setMobileMonth((m) => addMonths(m, 1))} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100">
-                <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <button onClick={() => setMobileMonth((m) => addMonths(m, 1))} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-ink-50">
+                <svg className="w-4 h-4 text-ink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
               </button>
@@ -367,7 +367,7 @@ export default function CalendarPage() {
             {/* Day headers */}
             <div className="grid grid-cols-7 mb-1">
               {['Po','Út','St','Čt','Pá','So','Ne'].map((d) => (
-                <div key={d} className="text-center text-xs font-semibold text-gray-500 py-1">{d}</div>
+                <div key={d} className="text-center text-xs font-semibold text-ink-400 py-1">{d}</div>
               ))}
             </div>
 
@@ -387,18 +387,18 @@ export default function CalendarPage() {
                     data-date={dateStr}
                     onClick={() => setMobileSelectedDay(isSelected ? null : date)}
                     className={`relative flex flex-col items-center rounded-lg py-1 px-0.5 cursor-pointer transition-colors min-h-[48px]
-                      ${isDragTarget ? 'bg-blue-100 ring-2 ring-blue-400' : isSelected ? 'bg-blue-50' : 'hover:bg-gray-50'}
+                      ${isDragTarget ? 'bg-accent-100 ring-2 ring-ink-400' : isSelected ? 'bg-accent-50' : 'hover:bg-paper'}
                       ${isPast ? 'opacity-60' : ''}`}
                   >
                     <span className={`text-xs font-medium w-6 h-6 flex items-center justify-center rounded-full
-                      ${isToday ? 'bg-blue-600 text-white' : isSelected ? 'text-blue-700' : 'text-gray-700'}`}>
+                      ${isToday ? 'bg-ink-900 text-cream' : isSelected ? 'text-accent-700' : 'text-ink-700'}`}>
                       {format(date, 'd')}
                     </span>
                     <div className="flex flex-wrap justify-center gap-0.5 mt-0.5">
                       {dayBs.slice(0, 3).map((b) => (
                         <span key={b.id} className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: bookingColor(b.service_color) }} />
                       ))}
-                      {dayBs.length > 3 && <span className="text-[9px] text-gray-400">+{dayBs.length - 3}</span>}
+                      {dayBs.length > 3 && <span className="text-[9px] text-ink-300">+{dayBs.length - 3}</span>}
                     </div>
                   </div>
                 )
@@ -407,14 +407,14 @@ export default function CalendarPage() {
 
             {/* Selected day bookings */}
             {mobileSelectedDay && (
-              <div className="mt-3 border-t border-gray-200 pt-3 flex-1 overflow-auto">
+              <div className="mt-3 border-t border-ink-900/15 pt-3 flex-1 overflow-auto">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide capitalize">
+                  <p className="text-xs font-semibold text-ink-400 uppercase tracking-wide capitalize">
                     {format(mobileSelectedDay, 'EEEE d. MMMM', { locale: cs })}
                   </p>
                   <button
                     onClick={() => openNewBooking(format(mobileSelectedDay, 'yyyy-MM-dd'), 9)}
-                    className="flex items-center gap-1 px-2.5 py-1 bg-blue-600 text-white rounded-lg text-xs font-medium"
+                    className="flex items-center gap-1 px-2.5 py-1 bg-ink-900 text-cream rounded-lg text-xs font-medium"
                   >
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -423,7 +423,7 @@ export default function CalendarPage() {
                   </button>
                 </div>
                 {bookingsForDay(mobileSelectedDay).length === 0 ? (
-                  <p className="text-sm text-gray-400 italic">Žádné rezervace</p>
+                  <p className="text-sm text-ink-300 italic">Žádné rezervace</p>
                 ) : (
                   bookingsForDay(mobileSelectedDay)
                     .sort((a, b) => a.start_time.localeCompare(b.start_time))
@@ -435,22 +435,22 @@ export default function CalendarPage() {
                         onTouchEnd={handleTouchEnd}
                         onClick={() => { setSelectedBooking(b); setRescheduling(false) }}
                         className={`flex items-center gap-3 p-3 rounded-xl border mb-2 cursor-pointer active:opacity-70 transition-opacity
-                          ${touchDraggingId === b.id ? 'opacity-40 border-blue-300 bg-blue-50' : 'border-gray-100 bg-white'}`}
+                          ${touchDraggingId === b.id ? 'opacity-40 border-accent-300 bg-accent-50' : 'border-ink-900/10 bg-cream'}`}
                         style={{ touchAction: 'none' }}
                       >
                         <div className="w-1 self-stretch rounded-full flex-shrink-0" style={{ backgroundColor: bookingColor(b.service_color) }} />
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium text-sm text-gray-900">{b.start_time.substring(0, 5)} – {b.client_name}</p>
-                          <p className="text-xs text-gray-500 truncate">{b.service_name} · {b.duration_minutes} min</p>
+                          <p className="font-medium text-sm text-ink-900">{b.start_time.substring(0, 5)} – {b.client_name}</p>
+                          <p className="text-xs text-ink-400 truncate">{b.service_name} · {b.duration_minutes} min</p>
                         </div>
-                        <svg className="w-3 h-3 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-3 h-3 text-ink-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </div>
                     ))
                 )}
                 {touchDraggingId && (
-                  <p className="text-xs text-blue-600 text-center mt-2 animate-pulse">Přetáhněte na jiný den v kalendáři</p>
+                  <p className="text-xs text-accent-600 text-center mt-2 animate-pulse">Přetáhněte na jiný den v kalendáři</p>
                 )}
               </div>
             )}
@@ -466,30 +466,30 @@ export default function CalendarPage() {
                 .sort((a, b) => a.start_time.localeCompare(b.start_time))
               return (
                 <div key={dateStr} className="mb-2">
-                  <div className={`px-4 py-2 flex items-center gap-2 ${isToday ? 'bg-blue-50' : 'bg-gray-50'} border-b border-gray-200`}>
-                    <span className={`text-xs font-semibold uppercase tracking-wide ${isToday ? 'text-blue-700' : 'text-gray-500'}`}>
+                  <div className={`px-4 py-2 flex items-center gap-2 ${isToday ? 'bg-accent-50' : 'bg-paper'} border-b border-ink-900/15`}>
+                    <span className={`text-xs font-semibold uppercase tracking-wide ${isToday ? 'text-accent-700' : 'text-ink-400'}`}>
                       {format(day, 'EEEE d. MMMM', { locale: cs })}
                     </span>
-                    {isToday && <span className="text-xs bg-blue-600 text-white rounded-full px-2 py-0.5">Dnes</span>}
+                    {isToday && <span className="text-xs bg-ink-900 text-cream rounded-full px-2 py-0.5">Dnes</span>}
                     {dayBookings.length > 0 && (
-                      <span className="ml-auto text-xs text-gray-400">{dayBookings.length} rezerv.</span>
+                      <span className="ml-auto text-xs text-ink-300">{dayBookings.length} rezerv.</span>
                     )}
                   </div>
                   {dayBookings.length === 0 ? (
-                    <div className="px-4 py-3 text-xs text-gray-300 italic">Žádné rezervace</div>
+                    <div className="px-4 py-3 text-xs text-ink-200 italic">Žádné rezervace</div>
                   ) : (
                     dayBookings.map((b) => (
                       <div
                         key={b.id}
                         onClick={() => { setSelectedBooking(b); setRescheduling(false) }}
-                        className="px-4 py-3 border-b border-gray-100 flex items-center gap-3 cursor-pointer hover:bg-gray-50 active:bg-gray-100"
+                        className="px-4 py-3 border-b border-ink-900/10 flex items-center gap-3 cursor-pointer hover:bg-paper active:bg-ink-50"
                       >
                         <div className="w-1 self-stretch rounded-full flex-shrink-0" style={{ backgroundColor: bookingColor(b.service_color) }} />
                         <div className="flex-1 min-w-0">
-                          <p className="font-medium text-sm text-gray-900">{b.start_time.substring(0, 5)} – {b.client_name}</p>
-                          <p className="text-xs text-gray-500 truncate">{b.service_name} · {b.duration_minutes} min</p>
+                          <p className="font-medium text-sm text-ink-900">{b.start_time.substring(0, 5)} – {b.client_name}</p>
+                          <p className="text-xs text-ink-400 truncate">{b.service_name} · {b.duration_minutes} min</p>
                         </div>
-                        <svg className="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-4 h-4 text-ink-200 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </div>
@@ -506,17 +506,17 @@ export default function CalendarPage() {
       <div className="hidden lg:flex flex-col flex-1 overflow-auto">
         <div className="min-w-[700px]">
           {/* Day headers */}
-          <div className="grid grid-cols-8 border-b border-gray-200 sticky top-0 bg-white z-10">
-            <div className="py-2 px-2 text-xs text-gray-400" />
+          <div className="grid grid-cols-8 border-b border-ink-900/15 sticky top-0 bg-cream z-10">
+            <div className="py-2 px-2 text-xs text-ink-300" />
             {days.map((day) => {
               const isToday = isSameDay(day, new Date())
               return (
                 <div key={day.toISOString()} className="py-2 px-2 text-center">
-                  <p className="text-xs text-gray-400 capitalize">
+                  <p className="text-xs text-ink-300 capitalize">
                     {format(day, 'EEE', { locale: cs })}
                   </p>
                   <p className={`text-sm font-semibold mt-0.5 w-7 h-7 rounded-full flex items-center justify-center mx-auto
-                    ${isToday ? 'bg-blue-600 text-white' : 'text-gray-900'}`}>
+                    ${isToday ? 'bg-ink-900 text-cream' : 'text-ink-900'}`}>
                     {format(day, 'd')}
                   </p>
                 </div>
@@ -527,15 +527,15 @@ export default function CalendarPage() {
           {/* Time rows */}
           {loading ? (
             <div className="py-16 text-center">
-              <svg className="animate-spin h-8 w-8 text-blue-600 mx-auto" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin h-8 w-8 text-accent-600 mx-auto" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
               </svg>
             </div>
           ) : (
             HOURS.map((hour) => (
-              <div key={hour} className="grid grid-cols-8 border-b border-gray-100 min-h-[60px]">
-                <div className="py-1 px-2 text-xs text-gray-400 text-right pt-2 border-r border-gray-100">
+              <div key={hour} className="grid grid-cols-8 border-b border-ink-900/10 min-h-[60px]">
+                <div className="py-1 px-2 text-xs text-ink-300 text-right pt-2 border-r border-ink-900/10">
                   {String(hour).padStart(2, '0')}:00
                 </div>
                 {days.map((day) => {
@@ -548,13 +548,13 @@ export default function CalendarPage() {
                       onDragOver={(e) => handleDragOver(e, dateStr, hour)}
                       onDrop={() => handleDrop(dateStr, hour)}
                       onClick={() => { if (slotBookings.length === 0) openNewBooking(dateStr, hour) }}
-                      className={`p-1 border-r border-gray-100 relative transition-colors group ${
-                        isDropTarget ? 'bg-blue-50' : 'hover:bg-gray-50 cursor-pointer'
+                      className={`p-1 border-r border-ink-900/10 relative transition-colors group ${
+                        isDropTarget ? 'bg-accent-50' : 'hover:bg-paper cursor-pointer'
                       }`}
                     >
                       {slotBookings.length === 0 && (
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                          <svg className="w-4 h-4 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg className="w-4 h-4 text-accent-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                           </svg>
                         </div>
@@ -566,7 +566,7 @@ export default function CalendarPage() {
                           onDragStart={() => handleDragStart(b)}
                           onDragEnd={handleDragEnd}
                           onClick={(e) => { e.stopPropagation(); setSelectedBooking(b) }}
-                          className={`text-white text-xs rounded px-1.5 py-1 mb-0.5 cursor-pointer select-none ${dragId === b.id ? 'opacity-40' : 'opacity-100'}`}
+                          className={`text-cream text-xs rounded px-1.5 py-1 mb-0.5 cursor-pointer select-none ${dragId === b.id ? 'opacity-40' : 'opacity-100'}`}
                           style={{ backgroundColor: bookingColor(b.service_color) }}
                           title={`${b.client_name} — ${b.service_name}\n${statusLabel[b.status] || b.status}`}
                         >
@@ -583,20 +583,20 @@ export default function CalendarPage() {
         </div>
       </div>
 
-      <p className="text-xs text-gray-400 mt-3 hidden lg:block">Přetáhněte rezervaci na jiný termín pro přesun. Kliknutím na prázdný slot vytvoříte rezervaci.</p>
-      <p className="text-xs text-gray-400 mt-3 lg:hidden">Klepnutím na rezervaci zobrazíte detail.</p>
+      <p className="text-xs text-ink-300 mt-3 hidden lg:block">Přetáhněte rezervaci na jiný termín pro přesun. Kliknutím na prázdný slot vytvoříte rezervaci.</p>
+      <p className="text-xs text-ink-300 mt-3 lg:hidden">Klepnutím na rezervaci zobrazíte detail.</p>
 
       {/* Booking detail modal */}
       {/* New booking modal */}
       {newBooking && (
         <div className="fixed inset-0 bg-black/50 flex items-end sm:items-center justify-center z-50 sm:p-4" onClick={() => setNewBooking(null)}>
-          <div className="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
-            <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+          <div className="bg-cream w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl shadow-2xl overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <div className="px-5 py-4 border-b border-ink-900/10 flex items-center justify-between">
               <div>
-                <h3 className="font-semibold text-gray-900">Nová rezervace</h3>
-                <p className="text-xs text-gray-500">{newBooking.date} v {newBooking.time}</p>
+                <h3 className="font-semibold text-ink-900">Nová rezervace</h3>
+                <p className="text-xs text-ink-400">{newBooking.date} v {newBooking.time}</p>
               </div>
-              <button onClick={() => setNewBooking(null)} className="text-gray-400 hover:text-gray-600 p-1">
+              <button onClick={() => setNewBooking(null)} className="text-ink-300 hover:text-ink-600 p-1">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -604,11 +604,11 @@ export default function CalendarPage() {
             </div>
             <form onSubmit={submitNewBooking} className="p-5 space-y-3 max-h-[80vh] overflow-y-auto">
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Služba <span className="text-red-500">*</span></label>
+                <label className="block text-xs font-medium text-ink-700 mb-1">Služba <span className="text-red-500">*</span></label>
                 <select
                   value={newBooking.serviceId}
                   onChange={(e) => setNewBooking((p) => p ? { ...p, serviceId: e.target.value, addonIds: [] } : null)}
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-ink-900/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink-900"
                   required
                 >
                   <option value="">— vyberte —</option>
@@ -620,23 +620,23 @@ export default function CalendarPage() {
               {/* Addon services */}
               {services.filter((s) => s.is_addon).length > 0 && (
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1.5">Doplňkové služby (cross-sell)</label>
+                  <label className="block text-xs font-medium text-ink-700 mb-1.5">Doplňkové služby (cross-sell)</label>
                   <div className="space-y-1.5">
                     {services.filter((s) => s.is_addon).map((addon) => {
                       const checked = newBooking.addonIds.includes(addon.id)
                       return (
-                        <label key={addon.id} className={`flex items-center gap-2.5 p-2.5 rounded-lg border cursor-pointer transition-colors ${checked ? 'border-amber-300 bg-amber-50' : 'border-gray-100 bg-gray-50 hover:border-gray-200'}`}>
+                        <label key={addon.id} className={`flex items-center gap-2.5 p-2.5 rounded-lg border cursor-pointer transition-colors ${checked ? 'border-amber-300 bg-amber-50' : 'border-ink-900/10 bg-paper hover:border-ink-900/15'}`}>
                           <div
-                            className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${checked ? 'bg-amber-500 border-amber-500' : 'border-gray-300 bg-white'}`}
+                            className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${checked ? 'bg-amber-500 border-amber-500' : 'border-ink-200 bg-cream'}`}
                             onClick={() => setNewBooking((p) => {
                               if (!p) return null
                               const ids = checked ? p.addonIds.filter((id) => id !== addon.id) : [...p.addonIds, addon.id]
                               return { ...p, addonIds: ids }
                             })}
                           >
-                            {checked && <svg className="w-2.5 h-2.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                            {checked && <svg className="w-2.5 h-2.5 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                           </div>
-                          <span className="text-xs text-gray-700 flex-1">{addon.name}</span>
+                          <span className="text-xs text-ink-700 flex-1">{addon.name}</span>
                           {Number(addon.price) > 0 && <span className="text-xs font-medium text-amber-700">+{Number(addon.price)} {addon.currency}</span>}
                         </label>
                       )
@@ -646,42 +646,42 @@ export default function CalendarPage() {
               )}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Datum</label>
+                  <label className="block text-xs font-medium text-ink-700 mb-1">Datum</label>
                   <input type="date" value={newBooking.date} onChange={(e) => setNewBooking((p) => p ? { ...p, date: e.target.value } : null)}
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                    className="w-full border border-ink-900/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink-900" required />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Čas</label>
+                  <label className="block text-xs font-medium text-ink-700 mb-1">Čas</label>
                   <input type="time" value={newBooking.time} onChange={(e) => setNewBooking((p) => p ? { ...p, time: e.target.value } : null)}
-                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                    className="w-full border border-ink-900/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink-900" required />
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Jméno klienta <span className="text-red-500">*</span></label>
+                <label className="block text-xs font-medium text-ink-700 mb-1">Jméno klienta <span className="text-red-500">*</span></label>
                 <input type="text" value={newBooking.clientName} onChange={(e) => setNewBooking((p) => p ? { ...p, clientName: e.target.value } : null)}
-                  placeholder="Jan Novák" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                  placeholder="Jan Novák" className="w-full border border-ink-900/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink-900" required />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">E-mail <span className="text-red-500">*</span></label>
+                <label className="block text-xs font-medium text-ink-700 mb-1">E-mail <span className="text-red-500">*</span></label>
                 <input type="email" value={newBooking.clientEmail} onChange={(e) => setNewBooking((p) => p ? { ...p, clientEmail: e.target.value } : null)}
-                  placeholder="jan@email.cz" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+                  placeholder="jan@email.cz" className="w-full border border-ink-900/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink-900" required />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Telefon <span className="text-gray-400 font-normal">(nepovinné)</span></label>
+                <label className="block text-xs font-medium text-ink-700 mb-1">Telefon <span className="text-ink-300 font-normal">(nepovinné)</span></label>
                 <input type="tel" value={newBooking.clientPhone} onChange={(e) => setNewBooking((p) => p ? { ...p, clientPhone: e.target.value } : null)}
-                  placeholder="+420 777 123 456" className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                  placeholder="+420 777 123 456" className="w-full border border-ink-900/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink-900" />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Poznámka <span className="text-gray-400 font-normal">(nepovinné)</span></label>
+                <label className="block text-xs font-medium text-ink-700 mb-1">Poznámka <span className="text-ink-300 font-normal">(nepovinné)</span></label>
                 <textarea value={newBooking.clientNotes} onChange={(e) => setNewBooking((p) => p ? { ...p, clientNotes: e.target.value } : null)}
-                  rows={2} className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" />
+                  rows={2} className="w-full border border-ink-900/15 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-ink-900 resize-none" />
               </div>
               {newBookingError && (
                 <div className="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm">{newBookingError}</div>
               )}
               <div className="flex gap-3 pt-1">
-                <button type="button" onClick={() => setNewBooking(null)} className="flex-1 py-2.5 border border-gray-200 rounded-lg text-sm text-gray-600 hover:bg-gray-50">Zrušit</button>
-                <button type="submit" disabled={newBookingSaving} className="flex-1 py-2.5 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 disabled:opacity-50">
+                <button type="button" onClick={() => setNewBooking(null)} className="flex-1 py-2.5 border border-ink-900/15 rounded-lg text-sm text-ink-600 hover:bg-paper">Zrušit</button>
+                <button type="submit" disabled={newBookingSaving} className="flex-1 py-2.5 bg-ink-900 text-cream rounded-lg text-sm font-medium hover:bg-ink-800 disabled:opacity-50">
                   {newBookingSaving ? 'Ukládám...' : 'Vytvořit rezervaci'}
                 </button>
               </div>
@@ -696,7 +696,7 @@ export default function CalendarPage() {
           onClick={() => setSelectedBooking(null)}
         >
           <div
-            className="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden"
+            className="bg-cream rounded-2xl shadow-xl w-full max-w-sm overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
@@ -705,12 +705,12 @@ export default function CalendarPage() {
               style={{ backgroundColor: bookingColor(selectedBooking.service_color) }}
             >
               <div>
-                <p className="text-white font-semibold">{selectedBooking.client_name}</p>
-                <p className="text-white/80 text-sm">{selectedBooking.service_name}</p>
+                <p className="text-cream font-semibold">{selectedBooking.client_name}</p>
+                <p className="text-cream/80 text-sm">{selectedBooking.service_name}</p>
               </div>
               <button
                 onClick={() => setSelectedBooking(null)}
-                className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+                className="w-8 h-8 rounded-full bg-cream/20 flex items-center justify-center text-cream hover:bg-cream/30 transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -722,39 +722,39 @@ export default function CalendarPage() {
             <div className="px-5 py-4 space-y-3">
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div>
-                  <p className="text-gray-400 text-xs mb-0.5">Datum</p>
-                  <p className="font-medium text-gray-900">
+                  <p className="text-ink-300 text-xs mb-0.5">Datum</p>
+                  <p className="font-medium text-ink-900">
                     {selectedBooking.booking_date.split('T')[0]}
                   </p>
                 </div>
                 <div>
-                  <p className="text-gray-400 text-xs mb-0.5">Čas</p>
-                  <p className="font-medium text-gray-900">
+                  <p className="text-ink-300 text-xs mb-0.5">Čas</p>
+                  <p className="font-medium text-ink-900">
                     {selectedBooking.start_time.substring(0, 5)}
                     {' '}({selectedBooking.duration_minutes} min)
                   </p>
                 </div>
                 {selectedBooking.client_email && (
                   <div className="col-span-2">
-                    <p className="text-gray-400 text-xs mb-0.5">E-mail</p>
-                    <p className="font-medium text-gray-900 truncate">{selectedBooking.client_email}</p>
+                    <p className="text-ink-300 text-xs mb-0.5">E-mail</p>
+                    <p className="font-medium text-ink-900 truncate">{selectedBooking.client_email}</p>
                   </div>
                 )}
                 {selectedBooking.client_phone && (
                   <div className="col-span-2">
-                    <p className="text-gray-400 text-xs mb-0.5">Telefon</p>
-                    <p className="font-medium text-gray-900">{selectedBooking.client_phone}</p>
+                    <p className="text-ink-300 text-xs mb-0.5">Telefon</p>
+                    <p className="font-medium text-ink-900">{selectedBooking.client_phone}</p>
                   </div>
                 )}
                 {selectedBooking.client_notes && (
                   <div className="col-span-2">
-                    <p className="text-gray-400 text-xs mb-0.5">Poznámka</p>
-                    <p className="text-gray-700 text-sm">{selectedBooking.client_notes}</p>
+                    <p className="text-ink-300 text-xs mb-0.5">Poznámka</p>
+                    <p className="text-ink-700 text-sm">{selectedBooking.client_notes}</p>
                   </div>
                 )}
                 <div>
-                  <p className="text-gray-400 text-xs mb-0.5">Cena</p>
-                  <p className="font-medium text-gray-900">
+                  <p className="text-ink-300 text-xs mb-0.5">Cena</p>
+                  <p className="font-medium text-ink-900">
                     {Number(selectedBooking.price) > 0
                       ? `${selectedBooking.price} ${selectedBooking.currency}`
                       : 'Zdarma'}
@@ -771,36 +771,36 @@ export default function CalendarPage() {
                       setRescheduleDate(selectedBooking.booking_date.split('T')[0])
                       setRescheduleTime(selectedBooking.start_time.substring(0, 5))
                     }}
-                    className="w-full py-2 rounded-lg text-xs font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
+                    className="w-full py-2 rounded-lg text-xs font-medium bg-accent-50 text-accent-600 hover:bg-accent-100 transition-colors"
                   >
                     Přesunout termín
                   </button>
                 ) : (
-                  <div className="bg-blue-50 rounded-xl p-3 space-y-2">
-                    <p className="text-xs font-semibold text-blue-700">Nový termín</p>
+                  <div className="bg-accent-50 rounded-xl p-3 space-y-2">
+                    <p className="text-xs font-semibold text-accent-700">Nový termín</p>
                     <input
                       type="date"
                       value={rescheduleDate}
                       onChange={(e) => setRescheduleDate(e.target.value)}
-                      className="w-full px-3 py-2 border border-blue-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="w-full px-3 py-2 border border-accent-200 rounded-lg text-sm bg-cream focus:outline-none focus:ring-2 focus:ring-ink-400"
                     />
                     <input
                       type="time"
                       value={rescheduleTime}
                       onChange={(e) => setRescheduleTime(e.target.value)}
-                      className="w-full px-3 py-2 border border-blue-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      className="w-full px-3 py-2 border border-accent-200 rounded-lg text-sm bg-cream focus:outline-none focus:ring-2 focus:ring-ink-400"
                     />
                     <div className="flex gap-2">
                       <button
                         onClick={() => setRescheduling(false)}
-                        className="flex-1 py-1.5 rounded-lg text-xs font-medium bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
+                        className="flex-1 py-1.5 rounded-lg text-xs font-medium bg-cream text-ink-600 border border-ink-900/15 hover:bg-paper"
                       >
                         Zrušit
                       </button>
                       <button
                         onClick={handleReschedule}
                         disabled={rescheduleLoading}
-                        className="flex-1 py-1.5 rounded-lg text-xs font-medium bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
+                        className="flex-1 py-1.5 rounded-lg text-xs font-medium bg-ink-900 text-cream hover:bg-ink-800 disabled:opacity-50"
                       >
                         {rescheduleLoading ? 'Ukládám...' : 'Uložit'}
                       </button>
@@ -811,7 +811,7 @@ export default function CalendarPage() {
 
               {/* Status change */}
               <div>
-                <p className="text-gray-400 text-xs mb-1.5">Stav rezervace</p>
+                <p className="text-ink-300 text-xs mb-1.5">Stav rezervace</p>
                 <div className="grid grid-cols-2 gap-2">
                   {(['confirmed', 'pending', 'completed', 'cancelled'] as const).map((s) => (
                     <button
@@ -820,8 +820,8 @@ export default function CalendarPage() {
                       onClick={() => handleStatusChange(selectedBooking.id, s)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         selectedBooking.status === s
-                          ? 'bg-gray-900 text-white'
-                          : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                          ? 'bg-ink-900 text-cream'
+                          : 'bg-ink-50 text-ink-600 hover:bg-ink-100'
                       } disabled:opacity-50`}
                     >
                       {statusLabel[s]}

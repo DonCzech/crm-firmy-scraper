@@ -58,8 +58,8 @@ export default function ServicesPage() {
     <div className="p-6 lg:p-8">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Služby</h1>
-          <p className="text-gray-500 mt-1 text-sm">Spravujte nabízené služby</p>
+          <h1 className="text-2xl font-bold text-ink-900">Služby</h1>
+          <p className="text-ink-400 mt-1 text-sm">Spravujte nabízené služby</p>
         </div>
         <button
           onClick={() => setShowForm(true)}
@@ -74,7 +74,7 @@ export default function ServicesPage() {
 
       {loading ? (
         <div className="py-16 text-center">
-          <svg className="animate-spin h-8 w-8 text-blue-600 mx-auto" fill="none" viewBox="0 0 24 24">
+          <svg className="animate-spin h-8 w-8 text-accent-600 mx-auto" fill="none" viewBox="0 0 24 24">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
           </svg>
@@ -82,7 +82,7 @@ export default function ServicesPage() {
       ) : services.length === 0 ? (
         <div className="card py-16 text-center">
           <div className="text-4xl mb-3">🛠</div>
-          <p className="text-gray-500 mb-4">Zatím žádné služby</p>
+          <p className="text-ink-400 mb-4">Zatím žádné služby</p>
           <button onClick={() => setShowForm(true)} className="btn-primary">
             Přidat první službu
           </button>
@@ -111,8 +111,8 @@ export default function ServicesPage() {
                       />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-gray-900 text-sm">{service.name}</h3>
-                      <span className={`text-xs ${service.is_active ? 'text-green-600' : 'text-gray-400'}`}>
+                      <h3 className="font-semibold text-ink-900 text-sm">{service.name}</h3>
+                      <span className={`text-xs ${service.is_active ? 'text-green-600' : 'text-ink-300'}`}>
                         {service.is_active ? 'Aktivní' : 'Neaktivní'}
                       </span>
                     </div>
@@ -121,7 +121,7 @@ export default function ServicesPage() {
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => handleEdit(service)}
-                      className="p-1.5 text-gray-400 hover:text-gray-600 transition-colors rounded-lg hover:bg-gray-100"
+                      className="p-1.5 text-ink-300 hover:text-ink-600 transition-colors rounded-lg hover:bg-ink-50"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
@@ -129,7 +129,7 @@ export default function ServicesPage() {
                     </button>
                     <button
                       onClick={() => handleDelete(service.id)}
-                      className="p-1.5 text-gray-400 hover:text-red-500 transition-colors rounded-lg hover:bg-red-50"
+                      className="p-1.5 text-ink-300 hover:text-red-500 transition-colors rounded-lg hover:bg-red-50"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -139,18 +139,18 @@ export default function ServicesPage() {
                 </div>
 
                 {service.description && (
-                  <p className="text-xs text-gray-500 mb-4 line-clamp-2">{service.description}</p>
+                  <p className="text-xs text-ink-400 mb-4 line-clamp-2">{service.description}</p>
                 )}
 
-                <div className="flex items-center justify-between border-t border-gray-100 pt-4">
+                <div className="flex items-center justify-between border-t border-ink-900/10 pt-4">
                   <div className="flex items-center gap-4">
                     <div>
-                      <p className="text-xs text-gray-400">Délka</p>
-                      <p className="text-sm font-medium text-gray-900">{service.duration_minutes} min</p>
+                      <p className="text-xs text-ink-300">Délka</p>
+                      <p className="text-sm font-medium text-ink-900">{service.duration_minutes} min</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-400">Cena</p>
-                      <p className="text-sm font-medium text-gray-900">
+                      <p className="text-xs text-ink-300">Cena</p>
+                      <p className="text-sm font-medium text-ink-900">
                         {Number(service.price) === 0 ? 'Zdarma' : `${Number(service.price).toLocaleString('cs-CZ')} ${service.currency}`}
                       </p>
                     </div>
@@ -159,11 +159,11 @@ export default function ServicesPage() {
                   <button
                     onClick={() => handleToggle(service)}
                     className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-                      service.is_active ? 'bg-blue-600' : 'bg-gray-200'
+                      service.is_active ? 'bg-ink-900' : 'bg-ink-100'
                     }`}
                   >
                     <span
-                      className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform ${
+                      className={`inline-block h-3.5 w-3.5 transform rounded-full bg-cream shadow transition-transform ${
                         service.is_active ? 'translate-x-4' : 'translate-x-1'
                       }`}
                     />

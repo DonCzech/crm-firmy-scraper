@@ -154,6 +154,13 @@ export async function initDb() {
   await s`ALTER TABLE rez_users ADD COLUMN IF NOT EXISTS bank_owner TEXT DEFAULT ''`
   await s`ALTER TABLE rez_users ADD COLUMN IF NOT EXISTS payment_note TEXT DEFAULT ''`
   await s`ALTER TABLE rez_bookings ADD COLUMN IF NOT EXISTS payment_method TEXT DEFAULT ''`
+  // Povinnost kontaktních polí — řídí admin, respektuje veřejný formulář i widget
+  await s`ALTER TABLE rez_users ADD COLUMN IF NOT EXISTS require_email BOOLEAN DEFAULT true`
+  await s`ALTER TABLE rez_users ADD COLUMN IF NOT EXISTS require_phone BOOLEAN DEFAULT false`
+  // Párovací klíč pro připojení webu (widget na cizí doméně). Slouží JEN k ověření
+  // vlastnictví účtu při propojení — do prohlížeče se nikdy neposílá.
+  await s`ALTER TABLE rez_users ADD COLUMN IF NOT EXISTS connection_key TEXT`
+  await s`CREATE UNIQUE INDEX IF NOT EXISTS idx_users_connection_key ON rez_users(connection_key) WHERE connection_key IS NOT NULL`
 
   // Indexes
   await s`CREATE INDEX IF NOT EXISTS idx_bookings_provider ON rez_bookings(provider_id)`

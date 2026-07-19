@@ -20,6 +20,8 @@ interface UserProfile {
   bank_iban: string
   bank_owner: string
   payment_note: string
+  require_email: boolean
+  require_phone: boolean
 }
 
 interface AvailabilityOverride {
@@ -57,9 +59,13 @@ export default function SettingsPage() {
     bank_iban: '',
     bank_owner: '',
     payment_note: '',
+    require_email: true,
+    require_phone: false,
   })
   const [paymentSaving, setPaymentSaving] = useState(false)
+  const [contactSaving, setContactSaving] = useState(false)
   const [paymentSuccess, setPaymentSuccess] = useState(false)
+  const [contactSuccess, setContactSuccess] = useState(false)
   const [pwCurrent, setPwCurrent] = useState('')
   const [pwNew, setPwNew] = useState('')
   const [pwConfirm, setPwConfirm] = useState('')
@@ -108,6 +114,8 @@ export default function SettingsPage() {
             bank_iban: meData.user.bank_iban || '',
             bank_owner: meData.user.bank_owner || '',
             payment_note: meData.user.payment_note || '',
+            require_email: meData.user.require_email ?? true,
+            require_phone: meData.user.require_phone ?? false,
           })
           setAvatarPreview(meData.user.avatar_url || '')
           if (meData.availability && meData.availability.length > 0) {
@@ -243,6 +251,25 @@ export default function SettingsPage() {
     }
   }
 
+  async function saveContactRules(e: React.FormEvent) {
+    e.preventDefault()
+    setContactSaving(true)
+    try {
+      await fetch('/api/auth/me', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          require_email: profile.require_email,
+          require_phone: profile.require_phone,
+        }),
+      })
+      setContactSuccess(true)
+      setTimeout(() => setContactSuccess(false), 3000)
+    } finally {
+      setContactSaving(false)
+    }
+  }
+
   async function changePassword(e: React.FormEvent) {
     e.preventDefault()
     setPwError('')
@@ -277,7 +304,7 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <div className="p-6 lg:p-8 flex items-center justify-center h-64">
-        <svg className="animate-spin h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24">
+        <svg className="animate-spin h-8 w-8 text-accent-600" fill="none" viewBox="0 0 24 24">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
         </svg>
@@ -288,24 +315,24 @@ export default function SettingsPage() {
   return (
     <div className="w-full max-w-3xl overflow-x-hidden px-4 py-5 sm:p-6 lg:p-8">
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900">Nastavení</h1>
-        <p className="text-gray-500 mt-1 text-sm">Spravujte svůj profil a dostupnost</p>
+        <h1 className="text-2xl font-bold text-ink-900">Nastavení</h1>
+        <p className="text-ink-400 mt-1 text-sm">Spravujte svůj profil a dostupnost</p>
       </div>
 
       {/* Profile */}
       <div className="card p-4 sm:p-6 mb-6 min-w-0">
-        <h2 className="text-lg font-semibold text-gray-900 mb-6">Profil</h2>
+        <h2 className="text-lg font-semibold text-ink-900 mb-6">Profil</h2>
         <form onSubmit={saveProfile} className="space-y-5">
           {/* Avatar image */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Profilová fotka</label>
+            <label className="block text-sm font-medium text-ink-700 mb-2">Profilová fotka</label>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
               <div className="relative w-16 h-16 flex-shrink-0">
                 {avatarPreview ? (
                   <img src={avatarPreview} alt="Avatar" className="w-16 h-16 rounded-full object-cover" />
                 ) : (
                   <div
-                    className="w-16 h-16 rounded-full flex items-center justify-center text-white text-xl font-bold"
+                    className="w-16 h-16 rounded-full flex items-center justify-center text-cream text-xl font-bold"
                     style={{ backgroundColor: profile.avatar_color }}
                   >
                     {profile.name.split(' ').map((n) => n[0]).join('').toUpperCase().substring(0, 2)}
@@ -328,12 +355,12 @@ export default function SettingsPage() {
               </div>
               <input ref={avatarFileRef} type="file" accept="image/*" onChange={handleAvatarFile} className="hidden" />
             </div>
-            <p className="text-xs text-gray-400 mt-1.5">Max 1,5 MB. Zobrazí se na vaší rezervační stránce.</p>
+            <p className="text-xs text-ink-300 mt-1.5">Max 1,5 MB. Zobrazí se na vaší rezervační stránce.</p>
           </div>
 
           {/* Avatar color */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Barva avatara <span className="text-gray-400 font-normal">(záloha bez fotky)</span></label>
+            <label className="block text-sm font-medium text-ink-700 mb-2">Barva avatara <span className="text-ink-300 font-normal">(záloha bez fotky)</span></label>
             <div className="flex flex-wrap gap-2">
               {COLORS.map((color) => (
                 <button
@@ -344,7 +371,7 @@ export default function SettingsPage() {
                   style={{ backgroundColor: color }}
                 >
                   {profile.avatar_color === color && (
-                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg className="w-4 h-4 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                     </svg>
                   )}
@@ -355,7 +382,7 @@ export default function SettingsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Jméno</label>
+              <label className="block text-sm font-medium text-ink-700 mb-1.5">Jméno</label>
               <input
                 type="text"
                 value={profile.name}
@@ -365,7 +392,7 @@ export default function SettingsPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">E-mail</label>
+              <label className="block text-sm font-medium text-ink-700 mb-1.5">E-mail</label>
               <input
                 type="email"
                 value={profile.email}
@@ -377,9 +404,9 @@ export default function SettingsPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">URL slug</label>
-            <div className="flex min-w-0 rounded-lg border border-gray-200 overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent">
-              <span className="shrink-0 px-3 py-2.5 bg-gray-50 text-gray-400 text-sm border-r border-gray-200">/book/</span>
+            <label className="block text-sm font-medium text-ink-700 mb-1.5">URL slug</label>
+            <div className="flex min-w-0 rounded-lg border border-ink-900/15 overflow-hidden focus-within:ring-2 focus-within:ring-ink-500 focus-within:border-transparent">
+              <span className="shrink-0 px-3 py-2.5 bg-paper text-ink-300 text-sm border-r border-ink-900/15">/book/</span>
               <input
                 type="text"
                 value={profile.slug}
@@ -391,7 +418,7 @@ export default function SettingsPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Bio / popis</label>
+            <label className="block text-sm font-medium text-ink-700 mb-1.5">Bio / popis</label>
             <textarea
               value={profile.bio}
               onChange={(e) => setProfile((p) => ({ ...p, bio: e.target.value }))}
@@ -426,26 +453,26 @@ export default function SettingsPage() {
 
       {/* Availability */}
       <div className="card p-4 sm:p-6 mb-6 min-w-0">
-        <h2 className="text-lg font-semibold text-gray-900 mb-1">Dostupnost</h2>
-        <p className="text-sm text-gray-500 mb-6">Výchozí pracovní hodiny pro každý den v týdnu</p>
+        <h2 className="text-lg font-semibold text-ink-900 mb-1">Dostupnost</h2>
+        <p className="text-sm text-ink-400 mb-6">Výchozí pracovní hodiny pro každý den v týdnu</p>
         <div className="space-y-3">
           {availability.map((day, idx) => (
-            <div key={idx} className={`flex flex-wrap items-center gap-3 p-3 rounded-lg sm:flex-nowrap sm:gap-4 ${day.is_active ? 'bg-blue-50' : 'bg-gray-50'}`}>
+            <div key={idx} className={`flex flex-wrap items-center gap-3 p-3 rounded-lg sm:flex-nowrap sm:gap-4 ${day.is_active ? 'bg-accent-50' : 'bg-paper'}`}>
               <button
                 type="button"
                 onClick={() => updateAvailability(idx, 'is_active', !day.is_active)}
                 className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors flex-shrink-0 ${
-                  day.is_active ? 'bg-blue-600' : 'bg-gray-300'
+                  day.is_active ? 'bg-ink-900' : 'bg-gray-300'
                 }`}
               >
                 <span
-                  className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white shadow transition-transform ${
+                  className={`inline-block h-3.5 w-3.5 transform rounded-full bg-cream shadow transition-transform ${
                     day.is_active ? 'translate-x-4' : 'translate-x-1'
                   }`}
                 />
               </button>
 
-              <span className={`text-sm w-20 flex-shrink-0 ${day.is_active ? 'font-medium text-gray-900' : 'text-gray-400'}`}>
+              <span className={`text-sm w-20 flex-shrink-0 ${day.is_active ? 'font-medium text-ink-900' : 'text-ink-300'}`}>
                 {DAYS[idx]}
               </span>
 
@@ -457,7 +484,7 @@ export default function SettingsPage() {
                     onChange={(e) => updateAvailability(idx, 'start_time', e.target.value)}
                     className="input-field min-w-0 py-1.5 text-sm"
                   />
-                  <span className="text-gray-400 text-sm">–</span>
+                  <span className="text-ink-300 text-sm">–</span>
                   <input
                     type="time"
                     value={day.end_time}
@@ -466,7 +493,7 @@ export default function SettingsPage() {
                   />
                 </div>
               ) : (
-                <span className="text-sm text-gray-400 flex-1">Nedostupný</span>
+                <span className="text-sm text-ink-300 flex-1">Nedostupný</span>
               )}
             </div>
           ))}
@@ -490,11 +517,11 @@ export default function SettingsPage() {
 
       {/* Booking settings */}
       <div className="card p-4 sm:p-6 mb-6 min-w-0">
-        <h2 className="text-lg font-semibold text-gray-900 mb-1">Nastavení rezervací</h2>
-        <p className="text-sm text-gray-500 mb-6">Pravidla pro přijímání nových rezervací</p>
+        <h2 className="text-lg font-semibold text-ink-900 mb-1">Nastavení rezervací</h2>
+        <p className="text-sm text-ink-400 mb-6">Pravidla pro přijímání nových rezervací</p>
         <div className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label className="block text-sm font-medium text-ink-700 mb-1.5">
               Minimální předstih rezervace
             </label>
             <div className="flex flex-wrap items-center gap-3">
@@ -506,12 +533,12 @@ export default function SettingsPage() {
                 onChange={(e) => setProfile((p) => ({ ...p, min_booking_hours: Number(e.target.value) }))}
                 className="input-field w-24 text-center"
               />
-              <span className="text-sm text-gray-500">hodin předem</span>
+              <span className="text-sm text-ink-400">hodin předem</span>
             </div>
-            <p className="text-xs text-gray-400 mt-1">Klient musí rezervovat alespoň X hodin předem. 0 = bez omezení.</p>
+            <p className="text-xs text-ink-300 mt-1">Klient musí rezervovat alespoň X hodin předem. 0 = bez omezení.</p>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label className="block text-sm font-medium text-ink-700 mb-1.5">
               Buffer čas mezi rezervacemi
             </label>
             <div className="flex flex-wrap items-center gap-3">
@@ -524,9 +551,9 @@ export default function SettingsPage() {
                 onChange={(e) => setProfile((p) => ({ ...p, buffer_minutes: Number(e.target.value) }))}
                 className="input-field w-24 text-center"
               />
-              <span className="text-sm text-gray-500">minut pauzy</span>
+              <span className="text-sm text-ink-400">minut pauzy</span>
             </div>
-            <p className="text-xs text-gray-400 mt-1">Automatická mezera mezi rezervacemi. 0 = bez pauzy.</p>
+            <p className="text-xs text-ink-300 mt-1">Automatická mezera mezi rezervacemi. 0 = bez pauzy.</p>
           </div>
         </div>
         <div className="flex flex-col gap-2 mt-6 sm:flex-row sm:items-center sm:gap-4">
@@ -547,17 +574,17 @@ export default function SettingsPage() {
 
       {/* Availability overrides */}
       <div className="card p-4 sm:p-6 mb-6 min-w-0">
-        <h2 className="text-lg font-semibold text-gray-900 mb-1">Výjimky dostupnosti</h2>
-        <p className="text-sm text-gray-500 mb-6">
+        <h2 className="text-lg font-semibold text-ink-900 mb-1">Výjimky dostupnosti</h2>
+        <p className="text-sm text-ink-400 mb-6">
           Zablokujte konkrétní dny nebo otevřete termíny jen pro vybrané dny. Výjimky mají přednost před týdenním rozvrhem.
         </p>
 
         {/* Add override form */}
-        <div className="bg-gray-50 rounded-xl p-3 sm:p-4 mb-5">
-          <p className="text-sm font-medium text-gray-700 mb-3">Přidat výjimku</p>
+        <div className="bg-paper rounded-xl p-3 sm:p-4 mb-5">
+          <p className="text-sm font-medium text-ink-700 mb-3">Přidat výjimku</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
             <div>
-              <label className="block text-xs text-gray-500 mb-1">Datum</label>
+              <label className="block text-xs text-ink-400 mb-1">Datum</label>
               <input
                 type="date"
                 value={newOverride.date}
@@ -566,7 +593,7 @@ export default function SettingsPage() {
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1">Typ</label>
+              <label className="block text-xs text-ink-400 mb-1">Typ</label>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
@@ -574,7 +601,7 @@ export default function SettingsPage() {
                   className={`flex-1 py-2 text-sm rounded-lg border-2 transition-colors font-medium ${
                     !newOverride.is_available
                       ? 'border-red-400 bg-red-50 text-red-700'
-                      : 'border-gray-200 text-gray-500 hover:border-gray-300'
+                      : 'border-ink-900/15 text-ink-400 hover:border-ink-200'
                   }`}
                 >
                   Zablokovat
@@ -585,7 +612,7 @@ export default function SettingsPage() {
                   className={`flex-1 py-2 text-sm rounded-lg border-2 transition-colors font-medium ${
                     newOverride.is_available
                       ? 'border-green-400 bg-green-50 text-green-700'
-                      : 'border-gray-200 text-gray-500 hover:border-gray-300'
+                      : 'border-ink-900/15 text-ink-400 hover:border-ink-200'
                   }`}
                 >
                   Otevřít
@@ -597,7 +624,7 @@ export default function SettingsPage() {
           {newOverride.is_available && (
             <div className="grid grid-cols-2 gap-3 mb-3">
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Od</label>
+                <label className="block text-xs text-ink-400 mb-1">Od</label>
                 <input
                   type="time"
                   value={newOverride.start_time}
@@ -606,7 +633,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Do</label>
+                <label className="block text-xs text-ink-400 mb-1">Do</label>
                 <input
                   type="time"
                   value={newOverride.end_time}
@@ -618,7 +645,7 @@ export default function SettingsPage() {
           )}
 
           <div className="mb-3">
-            <label className="block text-xs text-gray-500 mb-1">Poznámka (volitelné)</label>
+            <label className="block text-xs text-ink-400 mb-1">Poznámka (volitelné)</label>
             <input
               type="text"
               value={newOverride.note}
@@ -639,7 +666,7 @@ export default function SettingsPage() {
 
         {/* Overrides list */}
         {overrides.length === 0 ? (
-          <p className="text-sm text-gray-400 text-center py-4">Žádné výjimky</p>
+          <p className="text-sm text-ink-300 text-center py-4">Žádné výjimky</p>
         ) : (
           <div className="space-y-2">
             {overrides.map((ov) => (
@@ -652,19 +679,19 @@ export default function SettingsPage() {
                   {ov.is_available ? 'Otevřeno' : 'Zablokováno'}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-ink-900">
                     {format(new Date(ov.date + 'T00:00:00'), 'EEEE d. MMMM yyyy', { locale: cs })}
                   </p>
                   {ov.is_available && ov.start_time && (
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-ink-400">
                       {String(ov.start_time).substring(0, 5)} – {String(ov.end_time).substring(0, 5)}
                     </p>
                   )}
-                  {ov.note && <p className="text-xs text-gray-400">{ov.note}</p>}
+                  {ov.note && <p className="text-xs text-ink-300">{ov.note}</p>}
                 </div>
                 <button
                   onClick={() => deleteOverride(ov.id)}
-                  className="text-gray-400 hover:text-red-500 transition-colors flex-shrink-0"
+                  className="text-ink-300 hover:text-red-500 transition-colors flex-shrink-0"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -678,107 +705,107 @@ export default function SettingsPage() {
 
       {/* Payment settings */}
       <div className="card p-4 sm:p-6 mt-6 min-w-0">
-        <h2 className="text-lg font-semibold text-gray-900 mb-1">Způsoby platby</h2>
-        <p className="text-sm text-gray-500 mb-6">Nastavte, jak mohou klienti platit za rezervace</p>
+        <h2 className="text-lg font-semibold text-ink-900 mb-1">Způsoby platby</h2>
+        <p className="text-sm text-ink-400 mb-6">Nastavte, jak mohou klienti platit za rezervace</p>
         <form onSubmit={savePayment} className="space-y-5">
           {/* Cash */}
-          <label className="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors hover:bg-gray-50 border-gray-200">
+          <label className="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors hover:bg-paper border-ink-900/15">
             <div
               className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                profile.payment_cash ? 'bg-blue-600 border-blue-600' : 'border-gray-300 bg-white'
+                profile.payment_cash ? 'bg-ink-900 border-ink-900' : 'border-ink-200 bg-cream'
               }`}
               onClick={() => setProfile((p) => ({ ...p, payment_cash: !p.payment_cash }))}
             >
               {profile.payment_cash && (
-                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-3 h-3 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               )}
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4 text-ink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                <p className="text-sm font-medium text-gray-900">Hotově na místě</p>
+                <p className="text-sm font-medium text-ink-900">Hotově na místě</p>
               </div>
-              <p className="text-xs text-gray-500 mt-0.5">Klient zaplatí při návštěvě</p>
+              <p className="text-xs text-ink-400 mt-0.5">Klient zaplatí při návštěvě</p>
             </div>
           </label>
 
           {/* Bank transfer */}
-          <label className="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors hover:bg-gray-50 border-gray-200">
+          <label className="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors hover:bg-paper border-ink-900/15">
             <div
               className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                profile.payment_transfer ? 'bg-blue-600 border-blue-600' : 'border-gray-300 bg-white'
+                profile.payment_transfer ? 'bg-ink-900 border-ink-900' : 'border-ink-200 bg-cream'
               }`}
               onClick={() => setProfile((p) => ({ ...p, payment_transfer: !p.payment_transfer }))}
             >
               {profile.payment_transfer && (
-                <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-3 h-3 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
                 </svg>
               )}
             </div>
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-2">
-                <svg className="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4 text-ink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                 </svg>
-                <p className="text-sm font-medium text-gray-900">Bankovní převod (QR kód)</p>
+                <p className="text-sm font-medium text-ink-900">Bankovní převod (QR kód)</p>
               </div>
-              <p className="text-xs text-gray-500 mt-0.5">Klient dostane QR kód s částkou po rezervaci</p>
+              <p className="text-xs text-ink-400 mt-0.5">Klient dostane QR kód s částkou po rezervaci</p>
             </div>
           </label>
 
           {/* Bank details — show when transfer enabled */}
           {profile.payment_transfer && (
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-3">
-              <p className="text-sm font-medium text-blue-900">Bankovní údaje</p>
+            <div className="bg-accent-50 border border-accent-200 rounded-xl p-4 space-y-3">
+              <p className="text-sm font-medium text-ink-900">Bankovní údaje</p>
               <div>
-                <label className="block text-xs text-blue-700 mb-1">IBAN <span className="text-red-500">*</span></label>
+                <label className="block text-xs text-accent-700 mb-1">IBAN <span className="text-red-500">*</span></label>
                 <input
                   type="text"
                   value={profile.bank_iban}
                   onChange={(e) => setProfile((p) => ({ ...p, bank_iban: e.target.value.replace(/\s/g, '').toUpperCase() }))}
                   placeholder="CZ6508000000192000145399"
-                  className="w-full border border-blue-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400 font-mono"
+                  className="w-full border border-accent-200 rounded-lg px-3 py-2 text-sm bg-cream focus:outline-none focus:ring-2 focus:ring-ink-400 font-mono"
                   required={profile.payment_transfer}
                 />
-                <p className="text-xs text-blue-600 mt-1">IBAN najdete ve své bankovní aplikaci nebo na výpisu</p>
+                <p className="text-xs text-accent-600 mt-1">IBAN najdete ve své bankovní aplikaci nebo na výpisu</p>
               </div>
               <div>
-                <label className="block text-xs text-blue-700 mb-1">Jméno příjemce</label>
+                <label className="block text-xs text-accent-700 mb-1">Jméno příjemce</label>
                 <input
                   type="text"
                   value={profile.bank_owner}
                   onChange={(e) => setProfile((p) => ({ ...p, bank_owner: e.target.value }))}
                   placeholder="Jan Novák"
-                  className="w-full border border-blue-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full border border-accent-200 rounded-lg px-3 py-2 text-sm bg-cream focus:outline-none focus:ring-2 focus:ring-ink-400"
                 />
               </div>
               <div>
-                <label className="block text-xs text-blue-700 mb-1">Poznámka pro klienta (nepovinné)</label>
+                <label className="block text-xs text-accent-700 mb-1">Poznámka pro klienta (nepovinné)</label>
                 <input
                   type="text"
                   value={profile.payment_note}
                   onChange={(e) => setProfile((p) => ({ ...p, payment_note: e.target.value }))}
                   placeholder="Platbu proveďte do 24 hodin od rezervace"
-                  className="w-full border border-blue-200 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="w-full border border-accent-200 rounded-lg px-3 py-2 text-sm bg-cream focus:outline-none focus:ring-2 focus:ring-ink-400"
                 />
               </div>
 
               {/* QR preview */}
               {profile.bank_iban && (
-                <div className="flex flex-col gap-3 pt-2 border-t border-blue-200 sm:flex-row sm:items-center sm:gap-4">
+                <div className="flex flex-col gap-3 pt-2 border-t border-accent-200 sm:flex-row sm:items-center sm:gap-4">
                   <img
                     src={`https://api.qrserver.com/v1/create-qr-code/?size=80x80&ecc=M&data=${encodeURIComponent(`SPD*1.0*ACC:${profile.bank_iban}*AM:300.00*CC:CZK*MSG:Rezervace`)}`}
                     alt="QR náhled"
-                    className="w-20 h-20 rounded-lg border border-blue-200 bg-white p-1"
+                    className="w-20 h-20 rounded-lg border border-accent-200 bg-cream p-1"
                   />
                   <div>
-                    <p className="text-xs font-medium text-blue-700">Náhled QR kódu</p>
-                    <p className="text-xs text-blue-600 mt-0.5">Částka bude automaticky doplněna dle vybrané služby</p>
+                    <p className="text-xs font-medium text-accent-700">Náhled QR kódu</p>
+                    <p className="text-xs text-accent-600 mt-0.5">Částka bude automaticky doplněna dle vybrané služby</p>
                   </div>
                 </div>
               )}
@@ -802,13 +829,75 @@ export default function SettingsPage() {
         </form>
       </div>
 
+      {/* Contact requirements */}
+      <div className="card p-4 sm:p-6 mt-6 min-w-0">
+        <h2 className="text-lg font-semibold text-ink-900 mb-1">Kontaktní údaje klienta</h2>
+        <p className="text-sm text-ink-400 mb-6">
+          Určete, co musí klient vyplnit při rezervaci. Platí pro rezervační stránku
+          i pro widget na vašem webu.
+        </p>
+        <form onSubmit={saveContactRules} className="space-y-4">
+          {([
+            { key: 'require_email' as const, label: 'E-mail je povinný', hint: 'Bez e-mailu nelze poslat potvrzení rezervace' },
+            { key: 'require_phone' as const, label: 'Telefon je povinný', hint: 'Hodí se, když klienty potvrzujete telefonicky' },
+          ]).map(({ key, label, hint }) => (
+            <div
+              key={key}
+              role="button"
+              tabIndex={0}
+              onClick={() => setProfile((p) => ({ ...p, [key]: !p[key] }))}
+              onKeyDown={(e) => e.key === 'Enter' && setProfile((p) => ({ ...p, [key]: !p[key] }))}
+              className="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-colors hover:bg-paper border-ink-900/15"
+            >
+              <div
+                className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
+                  profile[key] ? 'bg-ink-900 border-ink-900' : 'border-ink-200 bg-cream'
+                }`}
+              >
+                {profile[key] && (
+                  <svg className="w-3 h-3 text-cream" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-medium text-ink-900">{label}</p>
+                <p className="text-xs text-ink-400 mt-0.5">{hint}</p>
+              </div>
+            </div>
+          ))}
+
+          {!profile.require_email && !profile.require_phone && (
+            <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+              Alespoň jeden kontakt (e-mail nebo telefon) bude vyžadován vždy — jinak
+              by rezervace byla nedoručitelná.
+            </p>
+          )}
+
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-4">
+            <button type="submit" disabled={contactSaving} className="btn-primary">
+              {contactSaving ? 'Ukládám...' : 'Uložit nastavení kontaktů'}
+            </button>
+            {contactSuccess && (
+              <motion.span
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="text-sm text-green-600"
+              >
+                ✓ Uloženo
+              </motion.span>
+            )}
+          </div>
+        </form>
+      </div>
+
       {/* Password change */}
       <div className="card p-4 sm:p-6 mt-6 min-w-0">
-        <h2 className="text-lg font-semibold text-gray-900 mb-1">Změna hesla</h2>
-        <p className="text-sm text-gray-500 mb-6">Nastavte nové přihlašovací heslo</p>
+        <h2 className="text-lg font-semibold text-ink-900 mb-1">Změna hesla</h2>
+        <p className="text-sm text-ink-400 mb-6">Nastavte nové přihlašovací heslo</p>
         <form onSubmit={changePassword} className="space-y-4 max-w-sm">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Současné heslo</label>
+            <label className="block text-sm font-medium text-ink-700 mb-1.5">Současné heslo</label>
             <input
               type="password"
               value={pwCurrent}
@@ -819,7 +908,7 @@ export default function SettingsPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Nové heslo</label>
+            <label className="block text-sm font-medium text-ink-700 mb-1.5">Nové heslo</label>
             <input
               type="password"
               value={pwNew}
@@ -831,7 +920,7 @@ export default function SettingsPage() {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Potvrdit nové heslo</label>
+            <label className="block text-sm font-medium text-ink-700 mb-1.5">Potvrdit nové heslo</label>
             <input
               type="password"
               value={pwConfirm}

@@ -92,13 +92,13 @@ export default function BookingsPage() {
     <div className="p-6 lg:p-8">
       <div className="mb-6 flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Rezervace</h1>
-          <p className="text-gray-500 mt-1 text-sm">Správa všech rezervací</p>
+          <h1 className="text-2xl font-bold text-ink-900">Rezervace</h1>
+          <p className="text-ink-400 mt-1 text-sm">Správa všech rezervací</p>
         </div>
         <a
           href="/api/bookings/export"
           download
-          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors flex-shrink-0"
+          className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-ink-700 bg-cream border border-ink-900/15 rounded-lg hover:bg-paper transition-colors flex-shrink-0"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -111,7 +111,7 @@ export default function BookingsPage() {
       <div className="card p-4 mb-6 flex flex-col sm:flex-row gap-3">
         <div className="flex-1">
           <div className="relative">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
@@ -123,15 +123,15 @@ export default function BookingsPage() {
             />
           </div>
         </div>
-        <div className="flex gap-1 bg-gray-100 p-1 rounded-lg overflow-x-auto flex-shrink-0">
+        <div className="flex gap-1 bg-ink-50 p-1 rounded-lg overflow-x-auto flex-shrink-0">
           {filterOptions.map((opt) => (
             <button
               key={opt.value}
               onClick={() => setFilter(opt.value)}
               className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap ${
                 filter === opt.value
-                  ? 'bg-white text-gray-900 shadow-sm'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? 'bg-cream text-ink-900 shadow-sm'
+                  : 'text-ink-400 hover:text-ink-700'
               }`}
             >
               {opt.label}
@@ -144,7 +144,7 @@ export default function BookingsPage() {
       <div className="lg:hidden card overflow-hidden">
         {loading ? (
           <div className="py-12 text-center">
-            <svg className="animate-spin h-8 w-8 text-blue-600 mx-auto" fill="none" viewBox="0 0 24 24">
+            <svg className="animate-spin h-8 w-8 text-accent-600 mx-auto" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
@@ -152,7 +152,7 @@ export default function BookingsPage() {
         ) : filtered.length === 0 ? (
           <div className="py-12 text-center">
             <div className="text-4xl mb-3">📭</div>
-            <p className="text-gray-500">Žádné rezervace</p>
+            <p className="text-ink-400">Žádné rezervace</p>
           </div>
         ) : (
           <div className="divide-y divide-gray-100">
@@ -160,21 +160,21 @@ export default function BookingsPage() {
               <div
                 key={booking.id}
                 onClick={() => setSelectedBooking(booking)}
-                className="p-4 cursor-pointer hover:bg-gray-50 active:bg-gray-100"
+                className="p-4 cursor-pointer hover:bg-paper active:bg-ink-50"
               >
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 text-sm">{booking.client_name}</p>
-                    <p className="text-xs text-gray-400 truncate">{booking.client_email}</p>
+                    <p className="font-medium text-ink-900 text-sm">{booking.client_name}</p>
+                    <p className="text-xs text-ink-300 truncate">{booking.client_email}</p>
                   </div>
                   <StatusBadge status={booking.status} />
                 </div>
-                <div className="flex items-center gap-3 text-xs text-gray-500">
+                <div className="flex items-center gap-3 text-xs text-ink-400">
                   <div className="flex items-center gap-1.5">
                     <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: booking.service_color || '#006bff' }} />
                     <span className="truncate max-w-[120px]">{booking.service_name}</span>
                   </div>
-                  <span className="text-gray-300">·</span>
+                  <span className="text-ink-200">·</span>
                   <span>{format(new Date(booking.booking_date), 'd. M. yyyy', { locale: cs })}</span>
                   <span>{booking.start_time.substring(0, 5)}</span>
                 </div>
@@ -188,7 +188,7 @@ export default function BookingsPage() {
       <div className="hidden lg:block card overflow-hidden">
         {loading ? (
           <div className="py-16 text-center">
-            <svg className="animate-spin h-8 w-8 text-blue-600 mx-auto" fill="none" viewBox="0 0 24 24">
+            <svg className="animate-spin h-8 w-8 text-accent-600 mx-auto" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
             </svg>
@@ -196,18 +196,18 @@ export default function BookingsPage() {
         ) : filtered.length === 0 ? (
           <div className="py-16 text-center">
             <div className="text-4xl mb-3">📭</div>
-            <p className="text-gray-500">Žádné rezervace</p>
+            <p className="text-ink-400">Žádné rezervace</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-gray-100 bg-gray-50">
-                  <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Klient</th>
-                  <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Služba</th>
-                  <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Datum a čas</th>
-                  <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Cena</th>
-                  <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Stav</th>
+                <tr className="border-b border-ink-900/10 bg-paper">
+                  <th className="text-left px-6 py-3 text-xs font-medium text-ink-400 uppercase tracking-wider">Klient</th>
+                  <th className="text-left px-6 py-3 text-xs font-medium text-ink-400 uppercase tracking-wider">Služba</th>
+                  <th className="text-left px-6 py-3 text-xs font-medium text-ink-400 uppercase tracking-wider">Datum a čas</th>
+                  <th className="text-left px-6 py-3 text-xs font-medium text-ink-400 uppercase tracking-wider">Cena</th>
+                  <th className="text-left px-6 py-3 text-xs font-medium text-ink-400 uppercase tracking-wider">Stav</th>
                   <th className="px-6 py-3" />
                 </tr>
               </thead>
@@ -219,12 +219,12 @@ export default function BookingsPage() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="hover:bg-gray-50 transition-colors cursor-pointer"
+                      className="hover:bg-paper transition-colors cursor-pointer"
                       onClick={() => setSelectedBooking(booking)}
                     >
                       <td className="px-6 py-4">
-                        <p className="font-medium text-gray-900 text-sm">{booking.client_name}</p>
-                        <p className="text-xs text-gray-400">{booking.client_email}</p>
+                        <p className="font-medium text-ink-900 text-sm">{booking.client_name}</p>
+                        <p className="text-xs text-ink-300">{booking.client_email}</p>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
@@ -232,18 +232,18 @@ export default function BookingsPage() {
                             className="w-2 h-2 rounded-full flex-shrink-0"
                             style={{ backgroundColor: booking.service_color || '#006bff' }}
                           />
-                          <span className="text-sm text-gray-700">{booking.service_name}</span>
+                          <span className="text-sm text-ink-700">{booking.service_name}</span>
                         </div>
-                        <p className="text-xs text-gray-400 ml-4">{booking.duration_minutes} min</p>
+                        <p className="text-xs text-ink-300 ml-4">{booking.duration_minutes} min</p>
                       </td>
                       <td className="px-6 py-4">
-                        <p className="text-sm text-gray-700">
+                        <p className="text-sm text-ink-700">
                           {format(new Date(booking.booking_date), 'd. M. yyyy', { locale: cs })}
                         </p>
-                        <p className="text-xs text-gray-400">{booking.start_time.substring(0, 5)}</p>
+                        <p className="text-xs text-ink-300">{booking.start_time.substring(0, 5)}</p>
                       </td>
                       <td className="px-6 py-4">
-                        <span className="text-sm font-medium text-gray-900">
+                        <span className="text-sm font-medium text-ink-900">
                           {booking.price === 0 ? 'Zdarma' : `${Number(booking.price).toLocaleString('cs-CZ')} ${booking.currency}`}
                         </span>
                       </td>
@@ -253,7 +253,7 @@ export default function BookingsPage() {
                       <td className="px-6 py-4 text-right">
                         <button
                           onClick={(e) => { e.stopPropagation(); setSelectedBooking(booking) }}
-                          className="text-gray-400 hover:text-gray-600 transition-colors"
+                          className="text-ink-300 hover:text-ink-600 transition-colors"
                         >
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />

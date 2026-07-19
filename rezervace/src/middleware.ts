@@ -5,10 +5,37 @@ const SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || 'fallback-secret-change-in-production'
 )
 
+// Public booking API — musí být volatelné cross-origin z venom šablon
+// (i po přepnutí šablony na custom doménu). Žádné cookies → wildcard je OK.
+const CORS_HEADERS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Max-Age': '86400',
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Protect /admin/* routes
+  // ── Veřejné booking API: CORS + preflight ──────────────────────────────
+  // Záměrně JEN čtení nabídky a vytvoření rezervace. Přihlašovací (/api/auth)
+  // a párovací (/api/connect) endpointy zůstávají bez CORS — volají se buď
+  // ze stejné domény, nebo ze serveru webu, takže cizí prohlížeč na ně nemá.
+  const isPublicBookingApi =
+    pathname.startsWith('/api/users/') || pathname.startsWith('/api/bookings')
+
+  if (isPublicBookingApi) {
+    if (request.method === 'OPTIONS') {
+      return new NextResponse(null, { status: 204, headers: CORS_HEADERS })
+    }
+    const response = NextResponse.next()
+    for (const [k, v] of Object.entries(CORS_HEADERS)) {
+      response.headers.set(k, v)
+    }
+    return response
+  }
+
+  // ── Ochrana /admin/* ───────────────────────────────────────────────────
   if (pathname.startsWith('/admin')) {
     const token = request.cookies.get('token')?.value
 
@@ -34,5 +61,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin/:path*', '/api/:path*'],
 }
