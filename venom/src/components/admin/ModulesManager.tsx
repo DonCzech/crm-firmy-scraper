@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { RezoraConnectPanel } from "./RezoraConnectPanel";
 
 const TIER_LABELS: Record<string, string> = {
   free: "Zdarma",
@@ -73,8 +74,8 @@ export function ModulesManager({ tenantSlug, modules, activeModules: initialActi
         const isActive = active.has(mod.key);
         const isSaving = saving === mod.key;
         return (
+          <div key={mod.key}>
           <div
-            key={mod.key}
             className="bg-white rounded-xl border border-gray-200 p-4 flex items-center justify-between gap-4"
           >
             <div className="flex-1 min-w-0">
@@ -105,6 +106,10 @@ export function ModulesManager({ tenantSlug, modules, activeModules: initialActi
                 }`}
               />
             </button>
+          </div>
+          {mod.key === "rezora" && isActive && (
+            <RezoraConnectPanel tenantSlug={tenantSlug} />
+          )}
           </div>
         );
       })}
